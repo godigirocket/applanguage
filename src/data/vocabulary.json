@@ -1,0 +1,38 @@
+{
+  "en": [
+    { "word": "Apple", "translation": "Maçã", "example": "I ate an apple." },
+    { "word": "House", "translation": "Casa", "example": "This is my house." },
+    { "word": "Water", "translation": "Água", "example": "I drink water." },
+    { "word": "Friend", "translation": "Amigo", "example": "He is my friend." },
+    { "word": "Time", "translation": "Tempo", "example": "What time is it?" },
+    { "word": "Car", "translation": "Carro", "example": "I drive a car." },
+    { "word": "Book", "translation": "Livro", "example": "I read a book." },
+    { "word": "Sun", "translation": "Sol", "example": "The sun is bright." },
+    { "word": "Moon", "translation": "Lua", "example": "The moon is beautiful." },
+    { "word": "Dog", "translation": "Cachorro", "example": "The dog is barking." }
+  ],
+  "es": [
+    { "word": "Manzana", "translation": "Maçã", "example": "Me comí una manzana." },
+    { "word": "Casa", "translation": "Casa", "example": "Esta es mi casa." },
+    { "word": "Agua", "translation": "Água", "example": "Bebo agua." },
+    { "word": "Amigo", "translation": "Amigo", "example": "Él es mi amigo." },
+    { "word": "Tiempo", "translation": "Tempo", "example": "¿Qué tiempo hace?" },
+    { "word": "Coche", "translation": "Carro", "example": "Conduzco un coche." },
+    { "word": "Libro", "translation": "Livro", "example": "Leo un libro." },
+    { "word": "Sol", "translation": "Sol", "example": "El sol brilla." },
+    { "word": "Luna", "translation": "Lua", "example": "La luna es hermosa." },
+    { "word": "Perro", "translation": "Cachorro", "example": "El perro ladra." }
+  ],
+  "fr": [
+    { "word": "Pomme", "translation": "Maçã", "example": "J'ai mangé une pomme." },
+    { "word": "Maison", "translation": "Casa", "example": "C'est ma maison." },
+    { "word": "Eau", "translation": "Água", "example": "Je bois de l'eau." },
+    { "word": "Ami", "translation": "Amigo", "example": "Il est mon ami." },
+    { "word": "Temps", "translation": "Tempo", "example": "Quel temps fait-il ?" },
+    { "word": "Voiture", "translation": "Carro", "example": "Je conduis une voiture." },
+    { "word": "Livre", "translation": "Livro", "example": "Je lis un livre." },
+    { "word": "Soleil", "translation": "Sol", "example": "Le soleil brille." },
+    { "word": "Lune", "translation": "Lua", "example": "La lune est belle." },
+    { "word": "Chien", "translation": "Cachorro", "example": "Le chien aboie." }
+  ]
+}

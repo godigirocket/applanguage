@@ -1,0 +1,14 @@
+{
+  "en": [
+    { "title": "At the coffee shop", "lines": ["A: Hi, can I get a large cappuccino?", "B: Sure, that will be $4.50.", "A: Here you go.", "B: Thanks, enjoy!"] },
+    { "title": "Asking for directions", "lines": ["A: Excuse me, where is the train station?", "B: Go straight and turn left at the corner.", "A: Thank you very much!"] }
+  ],
+  "es": [
+    { "title": "En la cafetería", "lines": ["A: Hola, ¿me da un capuchino grande?", "B: Claro, son 4,50 euros.", "A: Aquí tiene.", "B: ¡Gracias, disfrútelo!"] },
+    { "title": "Preguntando direcciones", "lines": ["A: Perdone, ¿dónde está la estación de tren?", "B: Siga recto y gire a la izquierda en la esquina.", "A: ¡Muchas gracias!"] }
+  ],
+  "fr": [
+    { "title": "Au café", "lines": ["A: Bonjour, je voudrais un grand cappuccino, s'il vous plaît.", "B: Bien sûr, ça fera 4,50 euros.", "A: Voilà.", "B: Merci, bonne journée !"] },
+    { "title": "Demander son chemin", "lines": ["A: Excusez-moi, où est la gare ?", "B: Allez tout droit et tournez à gauche au coin.", "A: Merci beaucoup !"] }
+  ]
+}

@@ -1,0 +1,128 @@
+import { Link } from "@tanstack/react-router";
+import { useAuth } from "@/lib/auth";
+import { LanguageToggle } from "./LanguageToggle";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useStore } from "@/hooks/useStore";
+
+const NavIcons = {
+  practice: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  ),
+  play: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" opacity="0.2"/>
+      <polyline points="5 3 19 12 5 21 5 3"/>
+    </svg>
+  ),
+  skills: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+  ),
+  progress: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+    </svg>
+  ),
+  lessons: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+    </svg>
+  ),
+  guide: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  ),
+  shop: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+  ),
+  user: (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  )
+};
+
+export function AppHeader() {
+  const { user } = useAuth();
+  const { interfaceLanguage } = useStore();
+  const [profile, setProfile] = useState<any>(null);
+
+  useEffect(() => {
+    if (user) {
+      supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle()
+        .then(({ data }) => setProfile(data));
+    }
+  }, [user]);
+
+  const firstName = profile?.full_name?.split(" ")[0] || "";
+
+  return (
+    <>
+      <header className="sticky top-0 z-30 border-b border-white/20 glass backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+          <Link to="/home" className="font-display text-2xl font-bold text-primary tracking-tight flex items-center gap-2">
+            <div style={{
+              width: '32px', height: '32px', borderRadius: '10px',
+              background: 'linear-gradient(135deg, #2D4A3E, #1B3A4B)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(45,74,62,0.3)'
+            }}>
+              <span style={{
+                fontFamily: 'Playfair Display', fontSize: '18px',
+                fontWeight: 800, color: 'white', lineHeight: 1
+              }}>L</span>
+            </div>
+            Lume
+          </Link>
+
+          <div className="hidden md:flex items-center gap-6">
+            <NavLink to="/home" icon="practice">{interfaceLanguage === 'pt' ? 'Praticar' : 'Practice'}</NavLink>
+            <NavLink to="/lessons" icon="lessons">{interfaceLanguage === 'pt' ? 'Lições' : 'Lessons'}</NavLink>
+            <NavLink to="/play" icon="play">{interfaceLanguage === 'pt' ? 'Jogar' : 'Play'}</NavLink>
+            <NavLink to="/skills" icon="skills">{interfaceLanguage === 'pt' ? 'Habilidades' : 'Skills'}</NavLink>
+            <NavLink to="/progress" icon="progress">{interfaceLanguage === 'pt' ? 'Progresso' : 'Progress'}</NavLink>
+            <NavLink to="/guide" icon="guide">{interfaceLanguage === 'pt' ? 'Como usar' : 'Guide'}</NavLink>
+            <NavLink to="/shop" icon="shop">{interfaceLanguage === 'pt' ? 'Loja' : 'Shop'}</NavLink>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <LanguageToggle />
+            {user && (
+              <Link to="/profile">
+                <div className="w-10 h-10 rounded-full bg-accent-sand flex items-center justify-center text-accent-green font-bold text-sm border border-border shadow-sm hover:shadow-md transition-shadow overflow-hidden group relative">
+                  {firstName ? firstName[0] : NavIcons.user}
+                  <div className="absolute inset-0 bg-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </Link>
+            )}
+          </div>
+        </div>
+      </header>
+    </>
+  );
+}
+
+function NavLink({ to, children, icon }: { to: string; children: React.ReactNode; icon: keyof typeof NavIcons }) {
+  return (
+    <Link 
+      to={to} 
+      className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-[#6B6B63] hover:text-[#2D4A3E] transition-all px-3 py-2 rounded-lg hover:bg-black/5 [&.active]:text-[#2D4A3E] [&.active]:bg-[#2D4A3E]/10"
+    >
+      {NavIcons[icon]}
+      {children}
+    </Link>
+  );
+}

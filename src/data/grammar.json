@@ -1,0 +1,12 @@
+{
+  "en": [
+    { "title": "Present Simple", "explanation": "Used for habits and general truths.", "examples": ["I play tennis.", "She likes coffee."], "quiz": { "question": "Which sentence is correct?", "options": ["I playing tennis.", "I play tennis.", "I plays tennis."], "answer": 1 } },
+    { "title": "Verb To Be", "explanation": "The fundamental verb expressing existence.", "examples": ["I am a doctor.", "They are here."], "quiz": { "question": "Complete: 'She ___ my friend.'", "options": ["am", "are", "is"], "answer": 2 } }
+  ],
+  "es": [
+    { "title": "Presente de Indicativo", "explanation": "Usado para rutinas y hechos.", "examples": ["Yo juego tenis.", "A ella le gusta el café."], "quiz": { "question": "Elige la correcta:", "options": ["Yo jugando tenis.", "Yo juego tenis.", "Yo juegas tenis."], "answer": 1 } }
+  ],
+  "fr": [
+    { "title": "Le Présent", "explanation": "Utilisé pour des habitudes et des vérités générales.", "examples": ["Je joue au tennis.", "Elle aime le café."], "quiz": { "question": "Choisissez la bonne phrase:", "options": ["Je jouant au tennis.", "Je joue au tennis.", "Je joues au tennis."], "answer": 1 } }
+  ]
+}
