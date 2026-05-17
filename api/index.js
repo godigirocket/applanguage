@@ -1,10 +1,7 @@
-import path from 'node:path';
-
 export default async function handler(req, res) {
   try {
-    // Resolve server.js path dynamically at runtime using process.cwd()
-    const serverPath = path.join(process.cwd(), 'dist', 'server', 'server.js');
-    const { default: server } = await import(serverPath);
+    // Use relative path literal so esbuild can trace and bundle this module at build time!
+    const { default: server } = await import('../dist/server/server.js');
 
     // Construct the absolute URL
     const protocol = req.headers['x-forwarded-proto'] || 'http';
