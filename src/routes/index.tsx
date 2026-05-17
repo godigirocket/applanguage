@@ -65,7 +65,7 @@ function Landing() {
             </div>
 
             <h1 style={{
-              fontFamily: 'Playfair Display',
+              fontFamily: Nunito,
               fontSize: 'clamp(42px, 5.5vw, 72px)',
               fontWeight: 800, lineHeight: 1.08,
               color: '#1C1C1A', letterSpacing: '-0.025em',
@@ -249,7 +249,7 @@ function Landing() {
               <div style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.12em', opacity: 0.6, marginBottom: '4px', textTransform: 'uppercase' }}>
                 Palavra do dia
               </div>
-              <div style={{ fontFamily: 'Playfair Display', fontSize: '22px', fontWeight: 700, marginBottom: '2px' }}>Serendipity</div>
+              <div style={{ fontFamily: Nunito, fontSize: '22px', fontWeight: 700, marginBottom: '2px' }}>Serendipity</div>
               <div style={{ fontSize: '13px', opacity: 0.7 }}>Encontrar algo bom sem procurar</div>
             </div>
           </div>
@@ -264,7 +264,7 @@ function Landing() {
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
                 IA Conversacional
               </h3>
               <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
@@ -278,7 +278,7 @@ function Landing() {
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
                 Sessões Culturais
               </h3>
               <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
@@ -292,7 +292,7 @@ function Landing() {
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
                 Progresso Emocional
               </h3>
               <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
@@ -305,7 +305,7 @@ function Landing() {
         {/* Footer */}
         <footer style={{ borderTop: '1px solid #E0DDD6', background: 'rgba(255,255,255,0.5)' }}>
           <div style={{ maxWidth: '1120px', margin: '0 auto', padding: '40px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
-            <span style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700, color: '#2D4A3E' }}>
+            <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#2D4A3E' }}>
               {t.footer1}
             </span>
             <div style={{ display: 'flex', gap: '20px', fontSize: '14px' }}>

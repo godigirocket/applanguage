@@ -89,7 +89,7 @@ function MemoryGamePage() {
       <AppHeader />
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px 24px', animation: 'pageEnter 0.5s ease' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h1 style={{ fontFamily: 'Playfair Display', fontSize: '32px', color: '#1C1C1A', fontWeight: 800 }}>Jogo da Memória</h1>
+          <h1 style={{ fontFamily: Nunito, fontSize: '32px', color: '#1C1C1A', fontWeight: 800 }}>Jogo da Memória</h1>
           <p style={{ color: '#6B6B63', fontSize: '16px' }}>Encontre os pares de tradução. Movimentos: {moves}</p>
         </div>
 

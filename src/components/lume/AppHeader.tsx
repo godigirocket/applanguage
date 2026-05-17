@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { LanguageToggle } from "./LanguageToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useStore } from "@/hooks/useStore";
@@ -62,7 +63,7 @@ export function AppHeader() {
 
   useEffect(() => {
     if (user) {
-      supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle()
+      supabase.from("profiles").select("full_name, onboarding_done").eq("id", user.id).maybeSingle()
         .then(({ data }) => setProfile(data));
     }
   }, [user]);
@@ -73,39 +74,61 @@ export function AppHeader() {
     <>
       <header className="sticky top-0 z-30 border-b border-white/20 glass backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <Link to="/home" className="font-display text-2xl font-bold text-primary tracking-tight flex items-center gap-2">
+          <Link to="/home" className="flex items-center gap-2.5 no-underline select-none" style={{ textDecoration: 'none' }}>
             <div style={{
-              width: '32px', height: '32px', borderRadius: '10px',
-              background: 'linear-gradient(135deg, #2D4A3E, #1B3A4B)',
+              width: '34px', height: '34px', borderRadius: '11px',
+              background: 'linear-gradient(135deg, #2D6A4F 0%, #1B3A4B 100%)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(45,74,62,0.3)'
+              boxShadow: '0 2px 10px rgba(45,106,79,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
+              flexShrink: 0
             }}>
-              <span style={{
-                fontFamily: 'Playfair Display', fontSize: '18px',
-                fontWeight: 800, color: 'white', lineHeight: 1
-              }}>L</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2C12 2 7 8 7 13a5 5 0 0 0 10 0c0-2-1-4-2-5.5C14 9 13.5 11 12 12c0 0 1-4-1-6" fill="white" opacity="0.9"/>
+                <path d="M12 16a2 2 0 0 0 2-2c0-1-1-2-2-2s-2 1-2 2a2 2 0 0 0 2 2" fill="white"/>
+              </svg>
             </div>
-            Lume
+            <span style={{
+              fontFamily: 'Nunito, sans-serif',
+              fontSize: '20px', fontWeight: 900,
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.03em', lineHeight: 1
+            }}>Lume</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-6">
-            <NavLink to="/home" icon="practice">{interfaceLanguage === 'pt' ? 'Praticar' : 'Practice'}</NavLink>
-            <NavLink to="/lessons" icon="lessons">{interfaceLanguage === 'pt' ? 'Lições' : 'Lessons'}</NavLink>
-            <NavLink to="/play" icon="play">{interfaceLanguage === 'pt' ? 'Jogar' : 'Play'}</NavLink>
-            <NavLink to="/skills" icon="skills">{interfaceLanguage === 'pt' ? 'Habilidades' : 'Skills'}</NavLink>
-            <NavLink to="/progress" icon="progress">{interfaceLanguage === 'pt' ? 'Progresso' : 'Progress'}</NavLink>
-            <NavLink to="/guide" icon="guide">{interfaceLanguage === 'pt' ? 'Como usar' : 'Guide'}</NavLink>
-            <NavLink to="/shop" icon="shop">{interfaceLanguage === 'pt' ? 'Loja' : 'Shop'}</NavLink>
-          </div>
+          {user && profile?.onboarding_done && (
+            <div className="hidden md:flex items-center gap-6">
+              <NavLink to="/home" icon="practice">{interfaceLanguage === 'pt' ? 'Praticar' : 'Practice'}</NavLink>
+              <NavLink to="/lessons" icon="lessons">{interfaceLanguage === 'pt' ? 'Lições' : 'Lessons'}</NavLink>
+              <NavLink to="/play" icon="play">{interfaceLanguage === 'pt' ? 'Jogar' : 'Play'}</NavLink>
+              <NavLink to="/skills" icon="skills">{interfaceLanguage === 'pt' ? 'Habilidades' : 'Skills'}</NavLink>
+              <NavLink to="/progress" icon="progress">{interfaceLanguage === 'pt' ? 'Progresso' : 'Progress'}</NavLink>
+              <NavLink to="/guide" icon="guide">{interfaceLanguage === 'pt' ? 'Como usar' : 'Guide'}</NavLink>
+              <NavLink to="/shop" icon="shop">{interfaceLanguage === 'pt' ? 'Loja' : 'Shop'}</NavLink>
+            </div>
+          )}
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
             <LanguageToggle />
-            {user && (
+            {user ? (
               <Link to="/profile">
                 <div className="w-10 h-10 rounded-full bg-accent-sand flex items-center justify-center text-accent-green font-bold text-sm border border-border shadow-sm hover:shadow-md transition-shadow overflow-hidden group relative">
                   {firstName ? firstName[0] : NavIcons.user}
                   <div className="absolute inset-0 bg-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
+              </Link>
+            ) : (
+              <Link 
+                to="/login" 
+                style={{
+                  padding: '8px 18px', borderRadius: '99px',
+                  background: 'rgba(45,74,62,0.08)', color: '#2D4A3E',
+                  textDecoration: 'none', fontSize: '13px', fontWeight: 700,
+                  transition: 'all 0.2s'
+                }}
+                className="hover:bg-primary hover:text-white"
+              >
+                {interfaceLanguage === 'pt' ? 'Entrar' : 'Sign In'}
               </Link>
             )}
           </div>
@@ -119,7 +142,9 @@ function NavLink({ to, children, icon }: { to: string; children: React.ReactNode
   return (
     <Link 
       to={to} 
-      className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] text-[#6B6B63] hover:text-[#2D4A3E] transition-all px-3 py-2 rounded-lg hover:bg-black/5 [&.active]:text-[#2D4A3E] [&.active]:bg-[#2D4A3E]/10"
+      className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-all px-3 py-2 rounded-lg"
+      style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
+      activeProps={{ style: { color: 'var(--accent-green)', background: 'rgba(45,106,79,0.08)' } }}
     >
       {NavIcons[icon]}
       {children}

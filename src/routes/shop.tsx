@@ -31,7 +31,7 @@ function ShopPage() {
       
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ marginBottom: '48px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: 'Playfair Display', fontSize: 'clamp(32px,4vw,48px)', marginBottom: '12px', fontWeight: 800, color: '#1C1C1A' }}>
+          <h1 style={{ fontFamily: Nunito, fontSize: 'clamp(32px,4vw,48px)', marginBottom: '12px', fontWeight: 800, color: '#1C1C1A' }}>
             Loja Virtual
           </h1>
           <p style={{ color: '#6B6B63', fontSize: '17px', lineHeight: 1.6, maxWidth: '600px', margin: '0 auto' }}>
@@ -47,7 +47,7 @@ function ShopPage() {
           {SHOP_ITEMS.map(item => (
             <div key={item.id} className="lume-card" style={{ background: 'white', borderRadius: '24px', padding: '24px', border: '1px solid #E0DDD650', display: 'flex', flexDirection: 'column' }}>
               <div style={{ width: '48px', height: '48px', marginBottom: '16px', margin: '0 auto' }} dangerouslySetInnerHTML={{ __html: item.icon }} />
-              <h3 style={{ fontFamily: 'Playfair Display', fontSize: '20px', fontWeight: 700, color: '#1C1C1A', marginBottom: '8px' }}>{item.title}</h3>
+              <h3 style={{ fontFamily: Nunito, fontSize: '20px', fontWeight: 700, color: '#1C1C1A', marginBottom: '8px' }}>{item.title}</h3>
               <p style={{ color: '#6B6B63', fontSize: '14px', lineHeight: 1.5, flex: 1, marginBottom: '20px' }}>{item.desc}</p>
               
               <button 

@@ -88,7 +88,7 @@ function ProgressPage() {
 
         {/* Header */}
         <div style={{ marginBottom: '48px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: '"Playfair Display", serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
             {language === 'pt' ? 'Sua Evolução' : 'Your Evolution'}
           </h1>
           <p style={{ color: '#6B6B63', fontSize: '18px', fontStyle: 'italic', maxWidth: '600px', margin: '0 auto' }}>
@@ -121,7 +121,7 @@ function ProgressPage() {
                   <DynamicIcon name={stat.icon} size={28} />
                 </div>
               </div>
-              <div style={{ fontSize: '36px', fontFamily: '"Playfair Display", serif', fontWeight: 700, color: '#1C1C1A', marginBottom: '4px' }}>
+              <div style={{ fontSize: '36px', fontFamily: 'Nunito, sans-serif', fontWeight: 700, color: '#1C1C1A', marginBottom: '4px' }}>
                 {stat.value}
               </div>
               <div style={{ fontSize: '12px', color: '#6B6B63', textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 700 }}>
@@ -139,7 +139,7 @@ function ProgressPage() {
                 <TrendingUp size={20} />
                 <span style={{ fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{language === 'pt' ? 'Metas de Fluência' : 'Fluency Tracking'}</span>
               </div>
-              <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '28px', fontWeight: 700, color: '#1C1C1A' }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', fontWeight: 700, color: '#1C1C1A' }}>
                 {language === 'pt' ? 'Confiança ao Falar' : 'Speaking Confidence'}
               </h2>
             </div>
@@ -183,7 +183,7 @@ function ProgressPage() {
               <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#1B3A4B10', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1B3A4B' }}>
                 <Calendar size={20} />
               </div>
-              <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700 }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700 }}>
                 {language === 'pt' ? 'Sessões Recentes' : 'Recent Sessions'}
               </h2>
             </div>
@@ -220,7 +220,7 @@ function ProgressPage() {
               <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#C9A84C10', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C9A84C' }}>
                 <Trophy size={20} />
               </div>
-              <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', fontWeight: 700 }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700 }}>
                 {language === 'pt' ? 'Conquistas' : 'Milestones'}
               </h2>
             </div>
@@ -234,7 +234,7 @@ function ProgressPage() {
             <div style={{ width: '48px', height: '48px', borderRadius: '16px', background: '#C4714A10', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#C4714A' }}>
               <BookOpen size={24} />
             </div>
-            <h2 style={{ fontFamily: '"Playfair Display", serif', fontSize: '28px', fontWeight: 700 }}>
+            <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', fontWeight: 700 }}>
               {language === 'pt' ? 'Expressões Salvas' : 'Saved Expressions'}
             </h2>
           </div>
@@ -272,7 +272,7 @@ function EmptyState({ icon, title, sub }: { icon: string; title: string; sub: st
       <div style={{ color: '#D4C5A9', marginBottom: '16px', display:'flex', justifyContent:'center' }}>
         <DynamicIcon name={icon} size={48} />
       </div>
-      <h3 style={{ fontFamily: '"Playfair Display", serif', fontSize: '20px', marginBottom: '8px', fontWeight: 700 }}>{title}</h3>
+      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '20px', marginBottom: '8px', fontWeight: 700 }}>{title}</h3>
       <p style={{ color: '#6B6B63', fontSize: '15px' }}>{sub}</p>
     </div>
   );

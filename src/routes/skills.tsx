@@ -36,7 +36,7 @@ function SkillsPage() {
             <Sparkles size={14} />
             <span>{language === 'pt' ? 'Sua Evolução' : 'Your Evolution'}</span>
           </div>
-          <h1 style={{ fontFamily: '"Playfair Display", serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
             {language === 'pt' ? 'Árvore de Habilidades' : 'Skill Tree'}
           </h1>
           <p style={{ color: '#6B6B63', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
@@ -142,7 +142,7 @@ function SkillNode({ skill }: { skill: typeof SKILLS[0] }) {
 
       <div style={{ textAlign: 'center', maxWidth: '160px' }}>
         <h3 style={{
-          fontFamily: '"Playfair Display", serif', fontSize: '18px',
+          fontFamily: 'Nunito, sans-serif', fontSize: '18px',
           color: skill.locked ? '#6B6B63' : '#1C1C1A', fontWeight: 700, marginBottom: '4px',
         }}>
           {skill.title}

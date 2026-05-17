@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Playfair Display", "Iowan Old Style", Georgia, serif;
-  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: "Nunito", "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Nunito", "Outfit", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -50,18 +50,18 @@
 }
 
 :root {
-  /* Exact production Hex palette */
-  --bg: #F7F4EF;
-  --surface: #EFEFEA;
+  /* Palette — clean Duolingo/Busuu style */
+  --bg: #F5F5F7;
+  --surface: #EEEEF0;
   --surface-raised: #FFFFFF;
-  --text-primary: #1C1C1A;
-  --text-secondary: #6B6B63;
-  --accent-green: #2D4A3E;
+  --text-primary: #1C1C1E;
+  --text-secondary: #6B6B6E;
+  --accent-green: #2D6A4F;
   --accent-teal: #1B3A4B;
-  --accent-terra: #C4714A;
+  --accent-terra: #E07B54;
   --accent-sand: #D4C5A9;
   --accent-gold: #C9A84C;
-  --border: #E0DDD6;
+  --border: #DDDDE0;
 
   /* Spec radii */
   --radius-sm: 10px;
@@ -90,14 +90,84 @@
 }
 
 .dark {
-  /* Dark mode is disabled for the editorial calm feel, but if needed we keep it subtle */
-  --bg: #141412;
-  --surface: #1C1C1A;
-  --surface-raised: #242422;
-  --text-primary: #F7F4EF;
-  --text-secondary: #9B9B93;
-  --border: rgba(255,255,255,0.1);
+  --bg: #111113;
+  --surface: #1B1B1E;
+  --surface-raised: #252528;
+  --text-primary: #F5F5F7;
+  --text-secondary: #8E8E93;
+  --accent-green: #40A878;
+  --accent-teal: #3A7CA5;
+  --accent-terra: #E07B54;
+  --accent-sand: #3A3A3C;
+  --accent-gold: #D4A940;
+  --border: rgba(255,255,255,0.09);
+
+  --background: var(--bg);
+  --foreground: var(--text-primary);
+  --muted: var(--surface);
+  --muted-foreground: var(--text-secondary);
+  --card: var(--surface-raised);
+  --card-foreground: var(--text-primary);
+  --primary: var(--accent-green);
+  --primary-foreground: var(--text-primary);
 }
+
+/* === DARK MODE: All surfaces fully opaque === */
+.dark body {
+  background: var(--bg) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .glass {
+  background: var(--surface-raised) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.dark .glass-dark {
+  background: #1A1A1C !important;
+  border-color: rgba(255,255,255,0.07) !important;
+}
+
+.dark .lume-card {
+  background: var(--surface-raised) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark .lume-card:hover {
+  background: #2E2E32 !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix hardcoded color tokens in dark mode */
+.dark .text-\[\#1C1C1A\], .dark .text-\[\#1C1C1E\] { color: var(--text-primary) !important; }
+.dark .text-\[\#6B6B63\], .dark .text-\[\#6B6B6E\] { color: var(--text-secondary) !important; }
+.dark .text-foreground { color: var(--text-primary) !important; }
+.dark .text-muted-foreground { color: var(--text-secondary) !important; }
+.dark .bg-white { background-color: var(--surface-raised) !important; }
+.dark .bg-white\/70 { background-color: var(--surface-raised) !important; }
+.dark .bg-\[\#F7F4EF\] { background-color: var(--surface) !important; }
+
+/* Dark inputs */
+.dark input, .dark textarea, .dark select {
+  background: var(--surface) !important;
+  border-color: rgba(255,255,255,0.09) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Dark modals / popups — fully opaque */
+.dark [role="dialog"],
+.dark [data-radix-popper-content-wrapper] {
+  background: var(--surface-raised) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Dark scrollbar */
+.dark ::-webkit-scrollbar-track { background: var(--surface); }
+.dark ::-webkit-scrollbar-thumb { background: #444448; border-radius: 99px; }
 
 @layer base {
   * { border-color: var(--border); }
@@ -128,7 +198,7 @@
     will-change: transform;
   }
 
-  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+  h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.02em; font-weight: 800; }
 
   /* Intentional motion rules */
   a, button, [data-card] { 
@@ -171,14 +241,143 @@
   }
 
   .glass-dark {
-    background: rgba(28, 28, 26, 0.82);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0px rgba(255, 255, 255, 0.1);
+    background: #1C1C1E;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0px rgba(255, 255, 255, 0.06);
     will-change: transform, opacity;
+  }
+
+  /* Dark header: solid, no bleed-through */
+  .dark header.glass {
+    background: var(--surface-raised) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Elite Form Control Styling */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.01), 0 2px 8px rgba(0, 0, 0, 0.01);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="search"]:focus,
+  textarea:focus,
+  select:focus {
+    background: var(--surface-raised);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 4px rgba(45, 74, 62, 0.08), 0 4px 12px rgba(45, 74, 62, 0.04);
+    transform: translateY(-1px);
+  }
+
+  .dark input[type="text"],
+  .dark input[type="email"],
+  .dark input[type="password"],
+  .dark input[type="search"],
+  .dark textarea,
+  .dark select {
+    background: var(--surface);
+    border-color: rgba(255, 255, 255, 0.09);
+    color: var(--text-primary);
+  }
+
+  .dark input[type="text"]:focus,
+  .dark input[type="email"]:focus,
+  .dark input[type="password"]:focus,
+  .dark input[type="search"]:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    background: var(--surface-raised);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 0 4px rgba(64, 168, 120, 0.15), 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Form Labels */
+  label, .form-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    padding-left: 4px;
+    transition: color 0.2s ease;
+  }
+
+  input:focus + label,
+  input:focus ~ label {
+    color: var(--accent-green);
+  }
+
+  /* Custom Premium Buttons */
+  .btn-premium {
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 18px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent-green), var(--accent-teal));
+    color: white;
+    box-shadow: 0 4px 14px rgba(45, 74, 62, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(45, 74, 62, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    opacity: 0.95;
+  }
+
+  .btn-premium:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(45, 74, 62, 0.2);
+  }
+
+  .btn-secondary-premium {
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .btn-secondary-premium:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-secondary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: #FFFFFF;
   }
 }
 

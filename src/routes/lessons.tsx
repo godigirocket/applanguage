@@ -143,14 +143,14 @@ function LessonsPage() {
             
             {currentStep.type === 'intro' && (
               <div>
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>{currentStep.title}</h2>
+                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>{currentStep.title}</h2>
                 <p style={{ fontSize: '17px', color: '#6B6B63', lineHeight: 1.7 }}>{currentStep.content}</p>
               </div>
             )}
 
             {currentStep.type === 'vocabulary' && (
               <div>
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: '24px', marginBottom: '20px', color: '#1C1C1A', fontWeight: 800 }}>Vocabulário</h2>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '20px', color: '#1C1C1A', fontWeight: 800 }}>Vocabulário</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {currentStep.words?.map((w, i) => (
                     <div key={i} style={{ padding: '18px 20px', borderRadius: '16px', border: '1px solid #E0DDD6' }}>
@@ -182,7 +182,7 @@ function LessonsPage() {
                   </button>
                 )}
 
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: '24px', marginBottom: '24px', color: '#1C1C1A', fontWeight: 750 }}>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '24px', color: '#1C1C1A', fontWeight: 750 }}>
                   {currentStep.question}
                 </h2>
 
@@ -216,7 +216,7 @@ function LessonsPage() {
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', borderRadius: '99px', background: `${lesson.color}12`, color: lesson.color, fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg> Treino de Pronúncia
                 </div>
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>
+                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>
                   Leia em voz alta:
                 </h2>
                 <div style={{ fontSize: '22px', color: lesson.color, fontWeight: 700, padding: '24px', background: '#F7F4EF', borderRadius: '16px', marginBottom: '32px' }}>
@@ -264,7 +264,7 @@ function LessonsPage() {
                 <div style={{ marginBottom: '16px', color: '#1C1C1A' }}>
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </div>
-                <h2 style={{ fontFamily: 'Playfair Display', fontSize: '24px', marginBottom: '8px', color: '#1C1C1A', fontWeight: 800 }}>Hora de praticar</h2>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '8px', color: '#1C1C1A', fontWeight: 800 }}>Hora de praticar</h2>
                 <p style={{ color: '#6B6B63', marginBottom: '24px', fontSize: '15px' }}>Continue no chat com a IA usando o que você aprendeu.</p>
                 <Link to={`/conversation/free-talk?prompt=${encodeURIComponent(currentStep.prompt || '')}`} style={{ display: 'block', padding: '20px', borderRadius: '16px', background: `linear-gradient(135deg, ${lesson.color}, ${lesson.color}CC)`, color: 'white', textDecoration: 'none', fontWeight: 700 }}>
                   Abrir conversa com a IA →
@@ -319,7 +319,7 @@ function LessonsPage() {
       
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ marginBottom: '36px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: 'Playfair Display', fontSize: 'clamp(28px,4vw,40px)', marginBottom: '6px', fontWeight: 800, color: '#1C1C1A' }}>
+          <h1 style={{ fontFamily: Nunito, fontSize: 'clamp(28px,4vw,40px)', marginBottom: '6px', fontWeight: 800, color: '#1C1C1A' }}>
             Catálogo de Lições ({targetLanguage.toUpperCase()})
           </h1>
           <p style={{ color: '#6B6B63', fontSize: '16px' }}>
@@ -347,7 +347,7 @@ function LessonsPage() {
                   <span style={{ padding: '3px 10px', borderRadius: '99px', background: '#F0EEE9', color: '#6B6B63', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {lesson.duration}</span>
                   <span style={{ padding: '3px 10px', borderRadius: '99px', background: 'rgba(201,168,76,0.1)', color: '#B8962A', fontSize: '11px', fontWeight: 800 }}>+{lesson.xp} XP</span>
                 </div>
-                <h3 style={{ fontFamily: 'Playfair Display', fontSize: '19px', fontWeight: 700, marginBottom: '8px', color: '#1C1C1A' }}>{lesson.title}</h3>
+                <h3 style={{ fontFamily: Nunito, fontSize: '19px', fontWeight: 700, marginBottom: '8px', color: '#1C1C1A' }}>{lesson.title}</h3>
                 <p style={{ fontSize: '13px', color: '#6B6B63', lineHeight: 1.55, marginBottom: '16px' }}>{lesson.description}</p>
               </div>
             </button>

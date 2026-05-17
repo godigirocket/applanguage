@@ -170,7 +170,7 @@ function QuizPage() {
         
         {/* Question text — large, beautiful */}
         <h1 style={{
-          fontFamily:'"Playfair Display", serif',
+          fontFamily:'Nunito, sans-serif',
           fontSize:'clamp(22px,3.5vw,32px)',
           color:'#1C1C1A',lineHeight:1.4,
           marginBottom:'36px',fontWeight:600
@@ -328,7 +328,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
       </div>
       
       <h1 style={{
-        fontFamily:'"Playfair Display", serif',fontSize:'36px',
+        fontFamily:'Nunito, sans-serif',fontSize:'36px',
         marginBottom:'8px',textAlign:'center',
         animation:'bounceIn 0.6s ease 0.1s both'
       }}>
@@ -355,14 +355,14 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
           <div style={{textAlign:'center',padding:'0 20px'}}>
             <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>Accuracy</div>
             <div style={{
-              fontFamily:'"Playfair Display", serif',fontSize:'40px',fontWeight:700,
+              fontFamily:'Nunito, sans-serif',fontSize:'40px',fontWeight:700,
               color: accuracy>=80?'#2D4A3E':accuracy>=60?'#C9A84C':'#C4714A'
             }}>{accuracy}%</div>
           </div>
           <div style={{background:'#E0DDD6'}}/>
           <div style={{textAlign:'center',padding:'0 20px'}}>
             <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>XP Gained</div>
-            <div style={{fontFamily:'"Playfair Display", serif',fontSize:'40px',fontWeight:700,color:'#C9A84C'}}>+{earnedXP}</div>
+            <div style={{fontFamily:'Nunito, sans-serif',fontSize:'40px',fontWeight:700,color:'#C9A84C'}}>+{earnedXP}</div>
           </div>
         </div>
         
@@ -455,7 +455,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
               textTransform:'uppercase',color:'#C9A84C',marginBottom:'8px'
             }}>Level Up!</div>
             <h2 style={{
-              fontFamily:'"Playfair Display", serif',fontSize:'32px',
+              fontFamily:'Nunito, sans-serif',fontSize:'32px',
               marginBottom:'12px',color:'#1C1C1A'
             }}>
               Welcome, Native Soul!

@@ -27,7 +27,6 @@ function Profile() {
   const [loaded, setLoaded] = useState(false);
 
   // Advanced customization state
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
 
   // 2FA TOTP state
@@ -104,7 +103,7 @@ function Profile() {
         }
         toast.dismiss();
         toast.success("Sua conta foi excluída com sucesso.");
-        nav({ to: "/signup" });
+        nav({ to: "/login" });
       }, 2000);
     } else {
       toast.error("Por favor, digite 'excluir conta' exatamente para confirmar.");
@@ -114,46 +113,46 @@ function Profile() {
   const initials = name.split(" ").map((s) => s[0]).filter(Boolean).slice(0, 2).join("").toUpperCase() || "L";
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F7F4EF', color: '#1C1C1A' }}>
+    <div className="min-h-screen bg-background dark:bg-[#0D0D0B] text-foreground transition-colors duration-300">
       <AppHeader />
-      <main style={{ maxWidth: '780px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease forwards' }}>
+      <main className="max-w-3xl mx-auto px-6 py-10 md:py-16 pb-32 page-enter">
         
-        <header style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px' }}>
-          <div style={{ width: '80px', height: '80px', borderRadius: '20px', background: 'linear-gradient(135deg, #2D4A3E, #1B3A4B)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Playfair Display', fontSize: '32px', fontWeight: 800, color: 'white', boxShadow: '0 4px 16px rgba(45,74,62,0.2)' }}>
+        <header className="flex items-center gap-6 mb-10">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-green to-sky-950 flex items-center justify-center font-display text-3xl font-extrabold text-white shadow-lg shrink-0">
             {initials}
           </div>
           <div>
-            <h1 style={{ fontFamily: 'Playfair Display', fontSize: '32px', fontWeight: 800, color: '#1C1C1A', margin: 0 }}>{name || "Seu perfil"}</h1>
-            <p style={{ color: '#6B6B63', margin: '4px 0 0', fontSize: '15px' }}>{user?.email}</p>
+            <h1 className="font-display text-3xl font-extrabold text-[#1C1C1A] dark:text-white m-0">{name || "Seu perfil"}</h1>
+            <p className="text-[#6B6B63] dark:text-gray-400 mt-1 text-sm md:text-base font-semibold">{user?.email}</p>
           </div>
         </header>
 
         {/* PROFILE PREFERENCES CARD */}
-        <div className="glass" style={{ background: 'white', borderRadius: '32px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', marginBottom: '32px' }}>
-          <h2 style={{ fontFamily: 'Playfair Display', fontSize: '22px', fontWeight: 700, color: '#1C1C1A', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
+          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-6 flex items-center gap-2.5">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             Preferências de Aprendizado
           </h2>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div className="flex flex-col gap-6">
             <Field label="Nome Completo">
               <input 
                 value={name} 
                 onChange={(e) => setName(e.target.value)} 
-                style={{ width: '100%', padding: '14px 20px', borderRadius: '12px', border: '1px solid #E0DDD6', background: '#F7F4EF', outline: 'none', fontWeight: 600, fontSize: '15px' }}
+                className="w-full px-5 py-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-750 bg-background dark:bg-zinc-950 text-foreground outline-none font-bold text-sm md:text-base transition-colors focus:border-accent-green"
                 placeholder="Como quer ser chamado?"
               />
             </Field>
 
             <Field label="Idioma de Estudo">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div className="grid grid-cols-2 gap-3.5">
                 <Pill active={language === "pt"} onClick={() => setLanguage("pt")}>Português</Pill>
                 <Pill active={language === "en"} onClick={() => setLanguage("en")}>English</Pill>
               </div>
             </Field>
 
             <Field label="Nível Atual de Conversação">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+              <div className="grid grid-cols-3 gap-3.5">
                 {(["beginner", "intermediate", "advanced"] as const).map((l) => (
                   <Pill key={l} active={level === l} onClick={() => setLevel(l)}>{l}</Pill>
                 ))}
@@ -161,43 +160,37 @@ function Profile() {
             </Field>
 
             <Field label="Modo de Correção da IA">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 {MOODS.map((m) => (
                   <Pill key={m.slug} active={mood === m.slug} onClick={() => setMood(m.slug)}>
-                    <span style={{ marginRight: '6px' }}>{m.icon}</span> {m.label}
+                    <span className="mr-2">{m.icon}</span> {m.label}
                   </Pill>
                 ))}
               </div>
             </Field>
           </div>
 
-          <div style={{ marginTop: '32px', display: 'flex', gap: '12px' }}>
-            <button onClick={save} disabled={saving} style={{ flex: 1, padding: '16px', borderRadius: '16px', border: 'none', background: 'linear-gradient(135deg,#2D4A3E,#1B3A4B)', color: 'white', fontWeight: 700, fontSize: '15px', cursor: 'pointer', boxShadow: '0 4px 16px rgba(45,74,62,0.2)' }}>
+          <div className="mt-8 flex gap-4 flex-wrap sm:flex-nowrap">
+            <button onClick={save} disabled={saving} className="flex-1 py-4 bg-accent-green dark:bg-accent-gold text-white dark:text-zinc-950 border-none rounded-2xl font-bold text-sm md:text-base cursor-pointer shadow-[0_4px_16px_rgba(45,74,62,0.2)] dark:shadow-none hover:brightness-105 active:scale-[0.98] transition-all">
               {saving ? "Salvando..." : "Salvar Alterações"}
             </button>
-            <button onClick={exportData} style={{ padding: '16px 24px', borderRadius: '16px', border: '1px solid #E0DDD6', background: 'white', fontWeight: 700, fontSize: '15px', cursor: 'pointer', color: '#6B6B63', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              Exportar Dados <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <button onClick={exportData} className="px-6 py-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-850 text-zinc-600 dark:text-zinc-300 font-bold text-sm md:text-base cursor-pointer flex items-center justify-center gap-2 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all">
+              <span>Exportar Dados</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </button>
           </div>
         </div>
 
         {/* CUSTOMIZATION CARD */}
-        <div className="glass" style={{ background: 'white', borderRadius: '32px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', marginBottom: '32px' }}>
-          <h2 style={{ fontFamily: 'Playfair Display', fontSize: '22px', fontWeight: 700, color: '#1C1C1A', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
+          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-6 flex items-center gap-2.5">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             Personalização de Aparência
           </h2>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <Field label="Tema de Fundo">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
-                <Pill active={theme === "light"} onClick={() => setTheme("light")}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Claro</Pill>
-                <Pill active={theme === "dark"} onClick={() => { setTheme("dark"); toast.info("Tema escuro será aplicado nas próximas interações."); }}><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg> Escuro</Pill>
-              </div>
-            </Field>
-
+          <div className="flex flex-col gap-6">
             <Field label="Tamanho da Fonte das Conversas">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+              <div className="grid grid-cols-3 gap-3.5">
                 <Pill active={fontSize === "small"} onClick={() => setFontSize("small")}>A- Pequeno</Pill>
                 <Pill active={fontSize === "medium"} onClick={() => setFontSize("medium")}>A Padrão</Pill>
                 <Pill active={fontSize === "large"} onClick={() => setFontSize("large")}>A+ Grande</Pill>
@@ -207,19 +200,19 @@ function Profile() {
         </div>
 
         {/* SECURITY & 2FA CARD */}
-        <div className="glass" style={{ background: 'white', borderRadius: '32px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', marginBottom: '32px' }}>
-          <h2 style={{ fontFamily: 'Playfair Display', fontSize: '22px', fontWeight: 700, color: '#1C1C1A', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
+          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-4 flex items-center gap-2.5">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
             Segurança & Verificação 2FA
           </h2>
-          <p style={{ color: '#6B6B63', fontSize: '14px', marginBottom: '24px', lineHeight: 1.5 }}>
+          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6 leading-relaxed font-semibold">
             Proteja sua conta adicionando uma camada extra de segurança. Ao ativar, você precisará de um código do seu aplicativo autenticador para fazer login.
           </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'between', justifyContentSpace: 'space-between', justifyContentItems: 'center', gap: '16px', padding: '16px 20px', borderRadius: '16px', background: '#F7F4EF', border: '1px solid #E0DDD6', marginBottom: '20px' }}>
+          <div className="flex items-center justify-between gap-4 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/60 dark:border-zinc-800/80 mb-6">
             <div>
-              <div style={{ fontWeight: 700, fontSize: '15px' }}>Autenticação em Duas Etapas (TOTP)</div>
-              <div style={{ fontSize: '12px', color: '#6B6B63', marginTop: '2px' }}>{enable2FA ? "Ativo e protegido" : "Desativado"}</div>
+              <div className="font-bold text-sm md:text-base text-[#1C1C1A] dark:text-white">Autenticação em Duas Etapas (TOTP)</div>
+              <div className="text-xs text-[#6B6B63] dark:text-gray-400 mt-0.5">{enable2FA ? "Ativo e protegido" : "Desativado"}</div>
             </div>
             <button 
               onClick={() => {
@@ -231,17 +224,16 @@ function Profile() {
                   setShow2FAConfig(true);
                 }
               }} 
-              style={{ padding: '8px 18px', borderRadius: '99px', border: 'none', background: enable2FA ? '#C4714A' : '#2D4A3E', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '13px' }}
+              className={`px-5 py-2.5 rounded-full border-none text-white font-extrabold text-xs tracking-wider uppercase cursor-pointer hover:brightness-105 transition-all ${enable2FA ? 'bg-accent-terra' : 'bg-accent-green'}`}
             >
               {enable2FA ? "Desativar" : "Configurar"}
             </button>
           </div>
 
           {show2FAConfig && (
-            <div style={{ padding: '20px', borderRadius: '16px', background: '#F7F4EF', border: '1px solid #C4714A30', marginTop: '16px', animation: 'pageEnter 0.3s ease' }}>
-              <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '20px' }}>
-                {/* Mock QR Code SVG */}
-                <div style={{ width: '120px', height: '120px', background: 'white', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E0DDD6' }}>
+            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-accent-terra/30 mt-4 page-enter">
+              <div className="flex gap-5 flex-wrap items-center mb-5">
+                <div className="w-28 h-28 bg-white dark:bg-white rounded-xl p-2.5 flex items-center justify-center border border-zinc-200">
                   <svg width="100" height="100" viewBox="0 0 100 100">
                     <rect x="5" y="5" width="20" height="20" fill="#1C1C1A" />
                     <rect x="10" y="10" width="10" height="10" fill="white" />
@@ -253,52 +245,52 @@ function Profile() {
                     <rect x="45" y="45" width="10" height="10" fill="white" />
                   </svg>
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontWeight: 800, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#C4714A' }}>Chave Secreta</div>
-                  <code style={{ fontSize: '14px', background: 'white', padding: '6px 10px', borderRadius: '6px', border: '1px solid #E0DDD6', display: 'inline-block', margin: '6px 0', fontFamily: 'monospace', fontWeight: 'bold' }}>{twoFactorSecret}</code>
-                  <p style={{ fontSize: '12px', color: '#6B6B63', margin: 0 }}>Escaneie o QR Code ou insira a chave no seu app (Google Authenticator ou Authy).</p>
+                <div className="flex-1">
+                  <div className="text-xs font-extrabold uppercase tracking-wider text-accent-terra">Chave Secreta</div>
+                  <code className="text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 inline-block my-2.5 font-mono font-bold">{twoFactorSecret}</code>
+                  <p className="text-xs text-[#6B6B63] dark:text-gray-400 margin-0">Escaneie o QR Code ou insira a chave no seu app (Google Authenticator ou Authy).</p>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div className="flex gap-3">
                 <input 
                   type="text" 
                   value={totpCode} 
                   onChange={e => setTotpCode(e.target.value)} 
                   placeholder="Código de 6 dígitos (digite 123456)" 
-                  style={{ flex: 1, padding: '12px 16px', borderRadius: '10px', border: '1px solid #E0DDD6', outline: 'none', fontSize: '14px', fontWeight: 600 }}
+                  className="flex-1 px-4 py-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-foreground outline-none font-bold text-sm"
                 />
-                <button onClick={handleVerify2FA} style={{ padding: '12px 24px', borderRadius: '10px', border: 'none', background: '#2D4A3E', color: 'white', fontWeight: 700, cursor: 'pointer' }}>Confirmar</button>
+                <button onClick={handleVerify2FA} className="px-5 py-3.5 rounded-xl border-none bg-accent-green hover:brightness-105 text-white font-extrabold text-sm cursor-pointer transition-all">Confirmar</button>
               </div>
             </div>
           )}
         </div>
 
         {/* SECURITY AUDIT LOG CARD */}
-        <div className="glass" style={{ background: 'white', borderRadius: '32px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', marginBottom: '32px' }}>
-          <h2 style={{ fontFamily: 'Playfair Display', fontSize: '22px', fontWeight: 700, color: '#1C1C1A', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
+          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-4 flex items-center gap-2.5">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
             Histórico de Ações de Segurança
           </h2>
-          <p style={{ color: '#6B6B63', fontSize: '14px', marginBottom: '24px' }}>Logs de auditoria dos eventos recentes da sua conta.</p>
+          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6">Logs de auditoria dos eventos recentes da sua conta.</p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div className="flex flex-col gap-3">
             {auditLogs.map((log, idx) => (
-              <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 16px', borderRadius: '12px', background: '#F7F4EF', border: '1px solid #E0DDD650', fontSize: '13px' }}>
-                <span style={{ fontWeight: 700, color: '#2D4A3E' }}>{log.action}</span>
-                <span style={{ color: '#6B6B63' }}>IP: {log.ip} · {log.timestamp}</span>
+              <div key={idx} className="flex flex-wrap sm:flex-nowrap justify-between gap-2 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/50 dark:border-zinc-800/50 text-xs md:text-sm font-semibold">
+                <span className="text-accent-green dark:text-accent-gold font-extrabold">{log.action}</span>
+                <span className="text-[#6B6B63] dark:text-gray-400">IP: {log.ip} · {log.timestamp}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* DELETE ACCOUNT ZONE */}
-        <div className="glass" style={{ background: 'rgba(196,113,74,0.05)', borderRadius: '32px', padding: '32px', border: '1px solid rgba(196,113,74,0.2)' }}>
-          <h3 style={{ fontFamily: 'Playfair Display', fontSize: '20px', fontWeight: 700, color: '#C4714A', marginBottom: '8px' }}>Zona Crítica</h3>
-          <p style={{ color: '#6B6B63', fontSize: '14px', marginBottom: '20px' }}>Ao excluir sua conta, todas as suas lições, expressões salvas e progresso de conversação serão deletados permanentemente.</p>
+        <div className="p-6 md:p-8 bg-accent-terra/5 dark:bg-accent-terra/10 rounded-[28px] border border-accent-terra/20 dark:border-accent-terra/30 mb-8">
+          <h3 className="font-display text-xl font-extrabold text-accent-terra mb-2">Zona Crítica</h3>
+          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6 font-semibold leading-relaxed">Ao excluir sua conta, todas as suas lições, expressões salvas e progresso de conversação serão deletados permanentemente.</p>
           <button 
             onClick={() => setShowDeleteModal(true)} 
-            style={{ padding: '12px 24px', borderRadius: '12px', border: 'none', background: '#C4714A', color: 'white', fontWeight: 700, cursor: 'pointer', fontSize: '14px' }}
+            className="px-6 py-3.5 rounded-xl border-none bg-accent-terra text-white font-extrabold text-sm tracking-wider uppercase cursor-pointer hover:brightness-105 transition-all"
           >
             Excluir Minha Conta
           </button>
@@ -306,10 +298,10 @@ function Profile() {
 
         {/* DELETE CONFIRMATION MODAL */}
         {showDeleteModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px' }}>
-            <div style={{ background: 'white', borderRadius: '24px', padding: '32px', maxWidth: '400px', width: '100%', textAlign: 'center', animation: 'bounceIn 0.4s ease' }}>
-              <h2 style={{ fontFamily: 'Playfair Display', fontSize: '24px', color: '#C4714A', marginBottom: '12px', fontWeight: 800 }}>Tem certeza absoluta?</h2>
-              <p style={{ fontSize: '14px', color: '#6B6B63', lineHeight: 1.5, marginBottom: '24px' }}>
+          <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md flex items-center justify-center p-6">
+            <div className="bg-white dark:bg-zinc-900 text-foreground rounded-3xl p-8 max-w-sm w-full text-center border border-zinc-200 dark:border-zinc-800 premium-shadow">
+              <h2 className="font-display text-2xl text-accent-terra mb-3.5 font-extrabold">Tem certeza absoluta?</h2>
+              <p className="text-sm text-[#6B6B63] dark:text-gray-400 leading-relaxed mb-6 font-semibold">
                 Esta ação é irreversível. Para confirmar, digite <strong>excluir conta</strong> no campo abaixo.
               </p>
               <input 
@@ -317,11 +309,11 @@ function Profile() {
                 value={deleteConfirmText} 
                 onChange={e => setDeleteConfirmText(e.target.value)} 
                 placeholder="excluir conta" 
-                style={{ width: '100%', padding: '12px 16px', borderRadius: '10px', border: '1px solid #C4714A30', outline: 'none', fontSize: '14px', marginBottom: '20px', textAlign: 'center', fontWeight: 'bold' }}
+                className="w-full px-4 py-3 border-2 border-accent-terra/30 dark:border-accent-terra/40 bg-zinc-50 dark:bg-zinc-950 text-foreground outline-none text-sm mb-6 text-center font-bold rounded-xl"
               />
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button onClick={() => setShowDeleteModal(false)} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: '1px solid #E0DDD6', background: 'white', fontWeight: 700, cursor: 'pointer' }}>Cancelar</button>
-                <button onClick={handleDeleteAccount} style={{ flex: 1, padding: '12px', borderRadius: '10px', border: 'none', background: '#C4714A', color: 'white', fontWeight: 700, cursor: 'pointer' }}>Confirmar Exclusão</button>
+              <div className="flex gap-3">
+                <button onClick={() => setShowDeleteModal(false)} className="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300 font-extrabold text-sm cursor-pointer transition-all hover:bg-zinc-50 dark:hover:bg-zinc-800">Cancelar</button>
+                <button onClick={handleDeleteAccount} className="flex-1 py-3 rounded-xl border-none bg-accent-terra text-white font-extrabold text-sm cursor-pointer transition-all hover:brightness-105">Confirmar Exclusão</button>
               </div>
             </div>
           </div>
@@ -370,8 +362,8 @@ function Profile() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-      <label style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#6B6B63' }}>{label}</label>
+    <div className="flex flex-col gap-2">
+      <label className="text-[10px] font-extrabold text-[#6B6B63] dark:text-gray-400 uppercase tracking-widest">{label}</label>
       {children}
     </div>
   );
@@ -382,8 +374,11 @@ function Pill({ active, children, onClick }: { active: boolean; children: React.
     <button 
       type="button" 
       onClick={onClick}
+      className="px-5 py-3.5 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200 outline-none flex items-center justify-center"
       style={{
-        padding: '14px 20px', borderRadius: '12px', border: active ? '2px solid #2D4A3E' : '1px solid #E0DDD6', background: active ? 'rgba(45,74,62,0.05)' : 'white', color: active ? '#2D4A3E' : '#6B6B63', fontSize: '14px', fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s', outline: 'none'
+        border: active ? '2.5px solid var(--accent-green)' : '1.5px solid var(--border)',
+        background: active ? 'rgba(45,74,62,0.1)' : 'var(--surface-raised)',
+        color: active ? 'var(--accent-green)' : 'var(--text-secondary)'
       }}
     >
       {children}

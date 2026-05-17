@@ -69,7 +69,7 @@ function PlayPage() {
             <Sparkles size={14} />
             <span>{language === 'pt' ? 'Arena de Treinamento' : 'Training Arena'}</span>
           </div>
-          <h1 style={{ fontFamily: '"Playfair Display", serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
             {language === 'pt' ? 'Treine suas habilidades' : 'Train your skills'}
           </h1>
           <p style={{ color: '#6B6B63', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
@@ -87,7 +87,7 @@ function PlayPage() {
           ].map((stat, i) => (
             <div key={i} className="glass premium-shadow" style={{ padding: '24px', borderRadius: '24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.4)' }}>
                <div style={{ display: 'flex', justifyContent: 'center', color: stat.color, marginBottom: '8px', opacity: 0.6 }}>{stat.icon}</div>
-               <div style={{ fontSize: '28px', fontFamily: '"Playfair Display", serif', fontWeight: 700, color: '#1C1C1A' }}>{stat.value}</div>
+               <div style={{ fontSize: '28px', fontFamily: 'Nunito, sans-serif', fontWeight: 700, color: '#1C1C1A' }}>{stat.value}</div>
                <div style={{ fontSize: '10px', color: '#6B6B63', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 800 }}>{stat.label}</div>
             </div>
           ))}
@@ -160,7 +160,7 @@ function GameModeCard({ mode, index }: { mode: typeof GAME_MODES[0]; index: numb
         </div>
 
         <div>
-          <h3 style={{ fontFamily: '"Playfair Display", serif', fontSize: '24px', color: '#1C1C1A', marginBottom: '8px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', color: '#1C1C1A', marginBottom: '8px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
             {mode.title}
             <ChevronRight size={20} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-10px)', transition: 'all 0.3s', color: mode.color }} />
           </h3>
