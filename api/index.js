@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   try {
-    // Use relative path literal so esbuild can trace and bundle this module at build time!
-    const { default: server } = await import('../dist/server/server.js');
+    // Import from the bypass server-build folder, which Vercel does not exclude!
+    const { default: server } = await import('../server-build/server.js');
 
     // Construct the absolute URL
     const protocol = req.headers['x-forwarded-proto'] || 'http';
