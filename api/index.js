@@ -1,44 +1,7 @@
-import fs from 'node:fs';
-import path from 'node:path';
-
-// Helper to recursively find a file in a directory
-function findFile(dir, fileName) {
-  try {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-      const fullPath = path.join(dir, file);
-      if (fs.statSync(fullPath).isDirectory()) {
-        // Skip node_modules to avoid infinite/long recursion
-        if (file !== 'node_modules') {
-          const found = findFile(fullPath, fileName);
-          if (found) return found;
-        }
-      } else if (file === fileName) {
-        return fullPath;
-      }
-    }
-  } catch (e) {
-    console.error(`Error reading directory ${dir}:`, e);
-  }
-  return null;
-}
-
 export default async function handler(req, res) {
   try {
-    // 1. Dynamically locate server.js at runtime!
-    const taskRoot = process.cwd();
-    console.log(`Task Root: ${taskRoot}`);
-    
-    // Find server.js recursively under taskRoot
-    const serverPath = findFile(taskRoot, 'server.js');
-    console.log(`Located server.js at: ${serverPath}`);
-
-    if (!serverPath) {
-      throw new Error(`Could not find server.js anywhere under ${taskRoot}`);
-    }
-
-    // Import the located server
-    const { default: server } = await import(serverPath);
+    // Static literal import guarantees Vercel's esbuild compiler traces and bundles all server dependencies (like h3-v2, vinxi, react, etc.)!
+    const { default: server } = await import('../server-build/server.js');
 
     // Construct the absolute URL
     const protocol = req.headers['x-forwarded-proto'] || 'http';
@@ -80,7 +43,41 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('SSR Bridge Error:', error);
     res.statusCode = 500;
-    res.setHeader('content-type', 'text/plain; charset=utf-8');
-    res.end(`Internal Server Error inside SSR Bridge: ${error.message}\nStack: ${error.stack}`);
+    res.setHeader('content-type', 'text/html; charset=utf-8');
+    
+    // Detailed error trace directly in browser for easy diagnostics
+    const errorDetails = error 
+      ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>` 
+      : '';
+
+    res.end(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>This page didn't load</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body { font: 15px/1.5 system-ui, -apple-system, sans-serif; background: #fafafa; color: #111; display: grid; place-items: center; min-height: 100vh; margin: 0; padding: 1.5rem; }
+      .card { max-width: 32rem; width: 100%; text-align: center; padding: 2rem; }
+      h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+      p { color: #4b5563; margin: 0 0 1.5rem; }
+      .actions { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+      a, button { padding: 0.5rem 1rem; border-radius: 0.375rem; font: inherit; cursor: pointer; text-decoration: none; border: 1px solid transparent; }
+      .primary { background: #111; color: #fff; }
+      .secondary { background: #fff; color: #111; border-color: #d1d5db; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>This page didn't load</h1>
+      <p>Something went wrong on our end. You can try refreshing or head back home.</p>
+      <div class="actions">
+        <button class="primary" onclick="location.reload()">Try again</button>
+        <a class="secondary" href="/">Go home</a>
+      </div>
+      ${errorDetails}
+    </div>
+  </body>
+</html>`);
   }
 }
