@@ -65,7 +65,7 @@ function Landing() {
             </div>
 
             <h1 style={{
-              fontFamily: Nunito,
+              fontFamily: 'Nunito, sans-serif',
               fontSize: 'clamp(42px, 5.5vw, 72px)',
               fontWeight: 800, lineHeight: 1.08,
               color: 'var(--text-primary)', letterSpacing: '-0.025em',
@@ -249,7 +249,7 @@ function Landing() {
               <div style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.12em', opacity: 0.6, marginBottom: '4px', textTransform: 'uppercase' }}>
                 Palavra do dia
               </div>
-              <div style={{ fontFamily: Nunito, fontSize: '22px', fontWeight: 700, marginBottom: '2px' }}>Serendipity</div>
+              <div style={{ fontFamily: 'Nunito, sans-serif', fontSize: '22px', fontWeight: 700, marginBottom: '2px' }}>Serendipity</div>
               <div style={{ fontSize: '13px', opacity: 0.7 }}>Encontrar algo bom sem procurar</div>
             </div>
           </div>

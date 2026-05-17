@@ -12,7 +12,7 @@ function GuidePage() {
       
       <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ marginBottom: '48px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: Nunito, fontSize: 'clamp(32px,4vw,48px)', marginBottom: '12px', fontWeight: 800, color: 'var(--text-primary)' }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px,4vw,48px)', marginBottom: '12px', fontWeight: 800, color: 'var(--text-primary)' }}>
             Como usar o Lume
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.6, maxWidth: '600px', margin: '0 auto' }}>
@@ -108,7 +108,7 @@ function GuidePage() {
                 {section.icon}
               </div>
               <div>
-                <h3 style={{ fontFamily: Nunito, fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
+                <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
                   {section.title}
                 </h3>
                 <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '12px' }}>
@@ -142,7 +142,7 @@ function GuidePage() {
               </svg>
             </div>
             <div>
-              <h3 style={{ fontFamily: Nunito, fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
                 📱 Como instalar no iPhone (Tela de Início)
               </h3>
               <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '16px' }}>
@@ -188,7 +188,7 @@ function GuidePage() {
           borderRadius: '24px', color: 'white',
           boxShadow: '0 8px 32px rgba(45,74,62,0.25)'
         }}>
-          <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '12px', fontWeight: 700 }}>
+          <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', marginBottom: '12px', fontWeight: 700 }}>
             Pronto para começar?
           </h2>
           <p style={{ opacity: 0.8, marginBottom: '24px', fontSize: '15px' }}>

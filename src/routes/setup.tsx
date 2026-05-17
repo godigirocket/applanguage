@@ -141,7 +141,7 @@ function SetupPage() {
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '60px 24px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔧</div>
-          <h1 style={{ fontFamily: Nunito, fontSize: '32px', marginBottom: '8px', fontWeight: 700, color: 'var(--text-primary)' }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '32px', marginBottom: '8px', fontWeight: 700, color: 'var(--text-primary)' }}>
             One-time setup needed
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.6 }}>

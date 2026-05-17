@@ -40,7 +40,7 @@ function GuestPage() {
               <polyline points="12 6 12 12 16 14"/>
             </svg>
           </div>
-          <h1 style={{ fontFamily: Nunito, fontSize: '36px', marginBottom: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '36px', marginBottom: '12px', fontWeight: 700, color: 'var(--text-primary)' }}>
             Experimente por 10 minutos
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.6, marginBottom: '40px' }}>
@@ -121,7 +121,7 @@ function GuestPage() {
             </div>
           </div>
           <div style={{
-            fontFamily: Nunito, fontSize: '18px', fontWeight: 700,
+            fontFamily: 'Nunito, sans-serif', fontSize: '18px', fontWeight: 700,
             color: timeLeft < 120 ? 'var(--accent-terra)' : 'var(--text-primary)', minWidth: '48px', textAlign: 'right'
           }}>
             {minutes}:{seconds.toString().padStart(2, '0')}
@@ -161,7 +161,7 @@ function GuestPage() {
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
               </div>
-              <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '10px', color: 'var(--text-primary)' }}>
+              <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', marginBottom: '10px', color: 'var(--text-primary)' }}>
                 Gostou do Lume?
               </h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '15px', lineHeight: 1.6, marginBottom: '28px' }}>
@@ -228,7 +228,7 @@ function GuestQuiz() {
   if (finished) {
     return (
       <div className="glass" style={{ padding: '40px', borderRadius: '24px', textAlign: 'center', background: 'var(--surface-raised)' }}>
-        <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '12px', color: 'var(--text-primary)' }}>Quiz Concluído!</h2>
+        <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', marginBottom: '12px', color: 'var(--text-primary)' }}>Quiz Concluído!</h2>
         <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '24px' }}>Você acertou {score} de 5 perguntas.</p>
         <a href="/signup" style={{ display: 'inline-block', padding: '14px 28px', background: 'var(--accent-green)', color: 'white', borderRadius: '99px', textDecoration: 'none', fontWeight: 700 }}>Cadastre-se para ganhar XP +{score * 10}!</a>
       </div>
@@ -243,7 +243,7 @@ function GuestQuiz() {
         <span>Pergunta {qIndex + 1} de {QUIZ_QUESTIONS.length}</span>
         <span>Pontuação: {score}</span>
       </div>
-      <h3 style={{ fontFamily: Nunito, fontSize: '22px', marginBottom: '24px', color: 'var(--text-primary)', lineHeight: 1.3 }}>{current.q}</h3>
+      <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '22px', marginBottom: '24px', color: 'var(--text-primary)', lineHeight: 1.3 }}>{current.q}</h3>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {current.options.map((opt, idx) => {
           const isSelected = selectedOpt === idx;
@@ -327,7 +327,7 @@ function GuestLesson() {
   return (
     <div className="glass" style={{ padding: '32px', borderRadius: '24px', background: 'var(--surface-raised)', textAlign: 'center' }}>
       <span style={{ fontSize: '11px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-terra)', background: '#C4714A15', padding: '4px 12px', borderRadius: '99px' }}>Expressão {idx + 1} de 5</span>
-      <h2 style={{ fontFamily: Nunito, fontSize: '32px', margin: '20px 0 10px', color: 'var(--text-primary)', fontWeight: 700 }}>{EXPRESSIONS[idx].phrase}</h2>
+      <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '32px', margin: '20px 0 10px', color: 'var(--text-primary)', fontWeight: 700 }}>{EXPRESSIONS[idx].phrase}</h2>
       <p style={{ fontSize: '16px', color: 'var(--text-secondary)', marginBottom: '24px', fontWeight: 500 }}>{EXPRESSIONS[idx].meaning}</p>
       <div style={{ background: 'var(--bg)', padding: '16px 20px', borderRadius: '12px', fontStyle: 'italic', marginBottom: '32px', borderLeft: '4px solid #C4714A', color: 'var(--text-primary)', textAlign: 'left', fontSize: '15px' }}>
         <strong>Exemplo:</strong> "{EXPRESSIONS[idx].example}"
