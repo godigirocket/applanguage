@@ -141,22 +141,22 @@ function SetupPage() {
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '60px 24px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔧</div>
-          <h1 style={{ fontFamily: Nunito, fontSize: '32px', marginBottom: '8px', fontWeight: 700, color: '#1C1C1A' }}>
+          <h1 style={{ fontFamily: Nunito, fontSize: '32px', marginBottom: '8px', fontWeight: 700, color: 'var(--text-primary)' }}>
             One-time setup needed
           </h1>
-          <p style={{ color: '#6B6B63', fontSize: '16px', lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px', lineHeight: 1.6 }}>
             Copy the SQL below and run it in your Supabase SQL editor. This creates all the tables Lume needs.
           </p>
         </div>
         
-        <div className="glass-dark" style={{ borderRadius: '16px', padding: '24px', marginBottom: '20px', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.08)', background: '#1C1C1A' }}>
+        <div className="glass-dark" style={{ borderRadius: '16px', padding: '24px', marginBottom: '20px', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 32px rgba(0,0,0,0.08)', background: 'var(--text-primary)' }}>
           <pre style={{ color: '#A8F0C8', fontSize: '12px', lineHeight: 1.6, overflow: 'auto', margin: 0, fontFamily: 'monospace', maxHeight: '300px' }}>
             {SQL}
           </pre>
           <button onClick={() => { navigator.clipboard.writeText(SQL); setCopied(true); setTimeout(() => setCopied(false), 2000) }} style={{
             position: 'absolute', top: '12px', right: '12px',
             padding: '6px 14px', borderRadius: '8px',
-            background: copied ? '#2D4A3E' : 'rgba(255,255,255,0.1)',
+            background: copied ? 'var(--accent-green)' : 'rgba(255,255,255,0.1)',
             color: 'white', border: 'none', cursor: 'pointer',
             fontSize: '12px', fontWeight: 700, transition: 'all 0.2s'
           }}>
@@ -165,7 +165,7 @@ function SetupPage() {
         </div>
         
         <div className="glass" style={{ borderRadius: '16px', padding: '20px 24px', marginBottom: '24px', border: '1px solid white' }}>
-          <h3 style={{ fontWeight: 700, marginBottom: '12px', fontSize: '15px', color: '#1C1C1A' }}>Steps:</h3>
+          <h3 style={{ fontWeight: 700, marginBottom: '12px', fontSize: '15px', color: 'var(--text-primary)' }}>Steps:</h3>
           {[
             'Go to supabase.com → your project',
             'Click "SQL Editor" in the left sidebar',
@@ -175,13 +175,13 @@ function SetupPage() {
             'Come back here and refresh',
           ].map((step, i) => (
             <div key={i} style={{ display: 'flex', gap: '12px', marginBottom: '8px', alignItems: 'flex-start' }}>
-              <span style={{ background: '#2D4A3E', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0 }}>{i+1}</span>
-              <span style={{ fontSize: '14px', color: '#1C1C1A', lineHeight: 1.5 }}>{step}</span>
+              <span style={{ background: 'var(--accent-green)', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 800, flexShrink: 0 }}>{i+1}</span>
+              <span style={{ fontSize: '14px', color: 'var(--text-primary)', lineHeight: 1.5 }}>{step}</span>
             </div>
           ))}
         </div>
         
-        <a href="/home" style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: '14px', background: '#2D4A3E', color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: '15px', boxShadow: '0 4px 15px rgba(45,74,62,0.2)', transition: 'transform 0.2s' }} className="hover:scale-[1.02] active:scale-[0.98]">
+        <a href="/home" style={{ display: 'block', textAlign: 'center', padding: '14px', borderRadius: '14px', background: 'var(--accent-green)', color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: '15px', boxShadow: '0 4px 15px rgba(45,74,62,0.2)', transition: 'transform 0.2s' }} className="hover:scale-[1.02] active:scale-[0.98]">
           I've run it — take me home →
         </a>
       </div>

@@ -85,12 +85,12 @@ function MemoryGamePage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F7F4EF' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       <AppHeader />
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px 24px', animation: 'pageEnter 0.5s ease' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h1 style={{ fontFamily: Nunito, fontSize: '32px', color: '#1C1C1A', fontWeight: 800 }}>Jogo da Memória</h1>
-          <p style={{ color: '#6B6B63', fontSize: '16px' }}>Encontre os pares de tradução. Movimentos: {moves}</p>
+          <h1 style={{ fontFamily: Nunito, fontSize: '32px', color: 'var(--text-primary)', fontWeight: 800 }}>Jogo da Memória</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px' }}>Encontre os pares de tradução. Movimentos: {moves}</p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
@@ -100,8 +100,8 @@ function MemoryGamePage() {
               onClick={() => handleCardClick(idx)}
               style={{
                 height: '100px',
-                background: card.isFlipped || card.isMatched ? 'white' : '#2D4A3E',
-                color: card.isFlipped || card.isMatched ? '#1C1C1A' : 'transparent',
+                background: card.isFlipped || card.isMatched ? 'white' : 'var(--accent-green)',
+                color: card.isFlipped || card.isMatched ? 'var(--text-primary)' : 'transparent',
                 borderRadius: '16px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: '16px', fontWeight: 700, cursor: 'pointer',
@@ -117,7 +117,7 @@ function MemoryGamePage() {
         </div>
 
         <div style={{ textAlign: 'center', marginTop: '32px' }}>
-          <button onClick={initializeGame} style={{ padding: '12px 24px', borderRadius: '12px', background: '#1C1C1A', color: 'white', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
+          <button onClick={initializeGame} style={{ padding: '12px 24px', borderRadius: '12px', background: 'var(--text-primary)', color: 'white', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
             Reiniciar Jogo
           </button>
         </div>

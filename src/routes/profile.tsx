@@ -235,13 +235,13 @@ function Profile() {
               <div className="flex gap-5 flex-wrap items-center mb-5">
                 <div className="w-28 h-28 bg-white dark:bg-white rounded-xl p-2.5 flex items-center justify-center border border-zinc-200">
                   <svg width="100" height="100" viewBox="0 0 100 100">
-                    <rect x="5" y="5" width="20" height="20" fill="#1C1C1A" />
+                    <rect x="5" y="5" width="20" height="20" fill="var(--text-primary)" />
                     <rect x="10" y="10" width="10" height="10" fill="white" />
-                    <rect x="75" y="5" width="20" height="20" fill="#1C1C1A" />
+                    <rect x="75" y="5" width="20" height="20" fill="var(--text-primary)" />
                     <rect x="80" y="10" width="10" height="10" fill="white" />
-                    <rect x="5" y="75" width="20" height="20" fill="#1C1C1A" />
+                    <rect x="5" y="75" width="20" height="20" fill="var(--text-primary)" />
                     <rect x="10" y="80" width="10" height="10" fill="white" />
-                    <rect x="35" y="35" width="30" height="30" fill="#1C1C1A" />
+                    <rect x="35" y="35" width="30" height="30" fill="var(--text-primary)" />
                     <rect x="45" y="45" width="10" height="10" fill="white" />
                   </svg>
                 </div>

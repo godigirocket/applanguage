@@ -21,7 +21,7 @@ export function XPBar() {
         particleCount: 150,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#2D4A3E", "#C4714A", "#D4C5A9"]
+        colors: ["var(--accent-green)", "var(--accent-terra)", "#D4C5A9"]
       });
       setPrevLevel(level);
     }

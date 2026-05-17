@@ -292,7 +292,7 @@ function ConversationPage() {
   const topicDescription = t?.description || "A relaxed space to talk about anything.";
 
   return (
-    <div style={{ background: '#F7F4EF', minHeight: '100vh' }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <div style={{
         display: 'grid',
         gridTemplateColumns: isMobile ? '1fr' : '260px 1fr 220px',
@@ -312,22 +312,22 @@ function ConversationPage() {
           <div style={{marginBottom:'24px'}}>
             <div style={{fontSize:'32px',marginBottom:'8px'}}>{topicEmoji}</div>
             <h2 style={{fontFamily:'Nunito, sans-serif',fontSize:'20px',marginBottom:'4px'}}>{topicTitle}</h2>
-            <p style={{fontSize:'13px',color:'#6B6B63',lineHeight:1.5}}>{topicDescription}</p>
+            <p style={{fontSize:'13px',color:'var(--text-secondary)',lineHeight:1.5}}>{topicDescription}</p>
           </div>
           
           {/* Mood selector */}
           <div style={{marginBottom:'24px'}}>
-            <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'#6B6B63',marginBottom:'10px'}}>Mood</p>
+            <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-secondary)',marginBottom:'10px'}}>Mood</p>
             <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'8px'}}>
               {MOODS.map(mood => (
                 <button key={mood.slug} onClick={() => setActiveMood(mood.slug)} style={{
                   padding:'10px 8px', borderRadius:'12px',
-                  background: activeMood === mood.slug ? (mood as any).color || '#2D4A3E' : 'white',
-                  color: activeMood === mood.slug ? 'white' : '#1C1C1A',
+                  background: activeMood === mood.slug ? (mood as any).color || 'var(--accent-green)' : 'white',
+                  color: activeMood === mood.slug ? 'white' : 'var(--text-primary)',
                   cursor:'pointer', textAlign:'center',
-                  boxShadow: activeMood === mood.slug ? `0 4px 16px ${ (mood as any).color || '#2D4A3E'}40` : '0 1px 4px rgba(0,0,0,0.06)',
+                  boxShadow: activeMood === mood.slug ? `0 4px 16px ${ (mood as any).color || 'var(--accent-green)'}40` : '0 1px 4px rgba(0,0,0,0.06)',
                   transition: 'all 0.2s',
-                  border: activeMood === mood.slug ? `2px solid ${ (mood as any).color || '#2D4A3E'}` : '2px solid #E0DDD6'
+                  border: activeMood === mood.slug ? `2px solid ${ (mood as any).color || 'var(--accent-green)'}` : '2px solid #E0DDD6'
                 }}>
                   <div style={{fontSize:'18px',marginBottom:'3px'}}>{mood.icon}</div>
                   <div style={{fontSize:'11px',fontWeight:700}}>{mood.label}</div>
@@ -339,11 +339,11 @@ function ConversationPage() {
           {/* Vocabulary */}
           {vocabulary.length > 0 && (
             <div style={{marginBottom:'24px'}}>
-              <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'#6B6B63',marginBottom:'10px'}}>Key Vocabulary</p>
+              <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-secondary)',marginBottom:'10px'}}>Key Vocabulary</p>
               {vocabulary.map((v,i) => (
-                <div key={i} style={{marginBottom:'8px',padding:'10px 12px',background:'white',borderRadius:'10px',border:'1px solid #E0DDD6'}}>
-                  <div style={{fontWeight:700,fontSize:'14px',color:'#1C1C1A'}}>{v.word}</div>
-                  <div style={{fontSize:'12px',color:'#6B6B63',fontStyle:'italic'}}>{v.translation}</div>
+                <div key={i} style={{marginBottom:'8px',padding:'10px 12px',background: 'var(--surface-raised)',borderRadius:'10px',border:'1px solid #E0DDD6'}}>
+                  <div style={{fontWeight:700,fontSize:'14px',color:'var(--text-primary)'}}>{v.word}</div>
+                  <div style={{fontSize:'12px',color:'var(--text-secondary)',fontStyle:'italic'}}>{v.translation}</div>
                 </div>
               ))}
             </div>
@@ -352,14 +352,14 @@ function ConversationPage() {
           {/* Cultural tip */}
           {culturalTip && (
             <div style={{padding:'12px',background:'rgba(196,113,74,0.08)',borderRadius:'12px',border:'1px solid rgba(196,113,74,0.2)'}}>
-              <div style={{fontSize:'12px',fontWeight:700,color:'#C4714A',marginBottom:'4px'}}>🌎 Cultural tip</div>
-              <div style={{fontSize:'12px',color:'#1C1C1A',lineHeight:1.5}}>{culturalTip}</div>
+              <div style={{fontSize:'12px',fontWeight:700,color:'var(--accent-terra)',marginBottom:'4px'}}>🌎 Cultural tip</div>
+              <div style={{fontSize:'12px',color:'var(--text-primary)',lineHeight:1.5}}>{culturalTip}</div>
             </div>
           )}
         </div>
 
         {/* CENTER — CHAT */}
-        <div style={{display:'flex',flexDirection:'column',overflow:'hidden', background: 'white'}}>
+        <div style={{display:'flex',flexDirection:'column',overflow:'hidden', background: 'var(--surface-raised)'}}>
           
           {/* Chat header */}
           <div style={{
@@ -367,18 +367,18 @@ function ConversationPage() {
             borderBottom:'1px solid #E0DDD6',
             display:'flex',alignItems:'center',
             justifyContent:'space-between',
-            background:'white'
+            background: 'var(--surface-raised)'
           }}>
             <div style={{display:'flex',alignItems:'center',gap:'12px'}}>
               <Link to="/home" style={{
                 width:'36px',height:'36px',borderRadius:'50%',
                 background:'#F0EEE9',border:'none',cursor:'pointer',
                 display:'flex',alignItems:'center',justifyContent:'center',
-                textDecoration:'none',color:'#1C1C1A',fontSize:'16px'
+                textDecoration:'none',color:'var(--text-primary)',fontSize:'16px'
               }}>←</Link>
               <div>
                 <div style={{fontWeight:700,fontSize:'15px'}}>{topicEmoji} {topicTitle}</div>
-                <div style={{fontSize:'12px',color:'#6B6B63'}}>
+                <div style={{fontSize:'12px',color:'var(--text-secondary)'}}>
                   {formatTime(sessionDuration)} · {messages.filter(m=>m.role==='user').length} messages
                 </div>
               </div>
@@ -389,8 +389,8 @@ function ConversationPage() {
                 style={{
                   padding: '8px 16px',
                   borderRadius: '99px',
-                  background: isVoiceMode ? '#C4714A' : '#F0EEE9',
-                  color: isVoiceMode ? 'white' : '#C4714A',
+                  background: isVoiceMode ? 'var(--accent-terra)' : '#F0EEE9',
+                  color: isVoiceMode ? 'white' : 'var(--accent-terra)',
                   border: 'none',
                   cursor: 'pointer',
                   fontSize: '12px',
@@ -412,7 +412,7 @@ function ConversationPage() {
               {messages.length >= 6 && (
                 <button onClick={endSession} style={{
                   padding:'8px 16px',borderRadius:'99px',
-                  background:'#2D4A3E',color:'white',
+                  background:'var(--accent-green)',color:'white',
                   border:'none',cursor:'pointer',fontSize:'12px',fontWeight:700
                 }}>End session</button>
               )}
@@ -585,8 +585,8 @@ function ConversationPage() {
                         padding:'14px 18px',
                         background: msg.role === 'user'
                           ? 'linear-gradient(135deg,#2D4A3E,#1B3A4B)'
-                          : '#F7F4EF',
-                        color: msg.role === 'user' ? 'white' : '#1C1C1A',
+                          : 'var(--bg)',
+                        color: msg.role === 'user' ? 'white' : 'var(--text-primary)',
                         borderRadius: msg.role === 'user' ? '20px 20px 4px 20px' : '4px 20px 20px 20px',
                         boxShadow: msg.role === 'user'
                           ? '0 4px 16px rgba(45,74,62,0.25)'
@@ -601,7 +601,7 @@ function ConversationPage() {
                           <button onClick={() => playTTS(msg.content)} style={{
                             padding:'3px 10px',borderRadius:'99px',
                             background:'rgba(45,74,62,0.08)',border:'none',cursor:'pointer',
-                            fontSize:'11px',fontWeight:700,color:'#2D4A3E'
+                            fontSize:'11px',fontWeight:700,color:'var(--accent-green)'
                           }}>🔊</button>
                           <button onClick={() => saveExpression(msg.content)} style={{
                             padding:'3px 10px',borderRadius:'99px',
@@ -618,12 +618,12 @@ function ConversationPage() {
                 {isTyping && (
                   <div style={{display:'flex',alignItems:'flex-end',gap:'10px'}}>
                     <div style={{width:'32px',height:'32px',borderRadius:'50%',background:'linear-gradient(135deg,#2D4A3E,#1B3A4B)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'14px'}}>✨</div>
-                    <div style={{padding:'14px 18px',background:'#F7F4EF',borderRadius:'4px 20px 20px 20px',boxShadow:'0 2px 12px rgba(0,0,0,0.07)',border:'1px solid rgba(224,221,214,0.5)'}}>
+                    <div style={{padding:'14px 18px',background:'var(--bg)',borderRadius:'4px 20px 20px 20px',boxShadow:'0 2px 12px rgba(0,0,0,0.07)',border:'1px solid rgba(224,221,214,0.5)'}}>
                       <div style={{display:'flex',gap:'4px',alignItems:'center'}}>
                         {[0,1,2].map(i => (
                           <div key={i} style={{
                             width: '6px', height: '6px', borderRadius: '50%',
-                            background: '#2D4A3E',
+                            background: 'var(--accent-green)',
                             animation: `typingDot 1.4s ease ${i * 0.2}s infinite`
                           }} />
                         ))}
@@ -636,7 +636,7 @@ function ConversationPage() {
 
               {/* Input area */}
               <div style={{
-                padding:'16px 20px',background:'white',
+                padding:'16px 20px',background: 'var(--surface-raised)',
                 borderTop:'1px solid #E0DDD6',
                 boxShadow:'0 -4px 24px rgba(0,0,0,0.06)'
               }}>
@@ -647,7 +647,7 @@ function ConversationPage() {
                     background: isListening
                       ? 'linear-gradient(135deg,#C4714A,#D4834A)'
                       : isLoading
-                      ? '#E0DDD6'
+                      ? 'var(--border)'
                       : 'linear-gradient(135deg,#2D4A3E,#1B3A4B)',
                     cursor: isLoading ? 'not-allowed' : 'pointer',
                     fontSize:'28px',
@@ -661,7 +661,7 @@ function ConversationPage() {
                   }}>
                     {isListening ? <Mic size={28} /> : isLoading ? <Clock size={28} /> : <Mic size={28} />}
                   </button>
-                  <span style={{fontSize:'11px',color:'#6B6B63',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em'}}>
+                  <span style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em'}}>
                     {isListening ? '● Recording' : isLoading ? 'Thinking...' : 'Tap to speak'}
                   </span>
                   
@@ -675,20 +675,20 @@ function ConversationPage() {
                       disabled={isLoading}
                       style={{
                         flex:1, padding:'12px 18px', borderRadius:'99px',
-                        border:'1.5px solid #E0DDD6', background:'#F7F4EF',
+                        border:'1.5px solid #E0DDD6', background:'var(--bg)',
                         fontSize:'15px', outline:'none',
                         fontFamily:'"DM Sans", sans-serif',
                         transition:'border-color 0.2s'
                       }}
-                      onFocus={e => e.target.style.borderColor='#2D4A3E'}
-                      onBlur={e => e.target.style.borderColor='#E0DDD6'}
+                      onFocus={e => e.target.style.borderColor='var(--accent-green)'}
+                      onBlur={e => e.target.style.borderColor='var(--border)'}
                     />
                     <button
                       onClick={() => sendMessage(input)}
                       disabled={!input.trim() || isLoading}
                       style={{
                         width:'44px',height:'44px',borderRadius:'50%',
-                        background: input.trim() ? '#2D4A3E' : '#E0DDD6',
+                        background: input.trim() ? 'var(--accent-green)' : 'var(--border)',
                         color:'white',border:'none',cursor: input.trim() ? 'pointer' : 'not-allowed',
                         fontSize:'18px',flexShrink:0,
                         transition:'background 0.2s',
@@ -710,17 +710,17 @@ function ConversationPage() {
           overflowY:'auto',
           display: isMobile ? 'none' : 'block'
         }}>
-          <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'#6B6B63',marginBottom:'16px'}}>This session</p>
+          <p style={{fontSize:'11px',fontWeight:800,letterSpacing:'0.08em',textTransform:'uppercase',color:'var(--text-secondary)',marginBottom:'16px'}}>This session</p>
           
           {/* Session timer */}
           <div style={{
-            padding:'14px',background:'white',borderRadius:'14px',
+            padding:'14px',background: 'var(--surface-raised)',borderRadius:'14px',
             border:'1px solid #E0DDD6',marginBottom:'16px',textAlign:'center'
           }}>
-            <div style={{fontSize:'28px',fontFamily:'Nunito, sans-serif',fontWeight:700,color:'#2D4A3E'}}>
+            <div style={{fontSize:'28px',fontFamily:'Nunito, sans-serif',fontWeight:700,color:'var(--accent-green)'}}>
               {formatTime(sessionDuration)}
             </div>
-            <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.05em'}}>Practice time</div>
+            <div style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.05em'}}>Practice time</div>
           </div>
           
           {/* XP this session */}
@@ -731,17 +731,17 @@ function ConversationPage() {
             <div style={{fontSize:'22px',fontFamily:'Nunito, sans-serif',fontWeight:700,color:'#C9A84C'}}>
               +{sessionXP} XP
             </div>
-            <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.05em'}}>Earned so far</div>
+            <div style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.05em'}}>Earned so far</div>
           </div>
           
           {/* Saved expressions this session */}
           <div style={{marginBottom:'16px'}}>
-            <p style={{fontSize:'11px',fontWeight:700,color:'#6B6B63',marginBottom:'8px'}}>💾 Saved ({sessionExpressions})</p>
+            <p style={{fontSize:'11px',fontWeight:700,color:'var(--text-secondary)',marginBottom:'8px'}}>💾 Saved ({sessionExpressions})</p>
             {sessionSavedList.length === 0 ? (
-              <p style={{fontSize:'12px',color:'#6B6B63',fontStyle:'italic',padding:'8px'}}>Tap "Save" on any AI message</p>
+              <p style={{fontSize:'12px',color:'var(--text-secondary)',fontStyle:'italic',padding:'8px'}}>Tap "Save" on any AI message</p>
             ) : (
               sessionSavedList.slice(-3).map((exp,i) => (
-                <div key={i} style={{padding:'8px 10px',background:'white',borderRadius:'8px',border:'1px solid #E0DDD6',marginBottom:'6px',fontSize:'12px',color:'#1C1C1A'}}>
+                <div key={i} style={{padding:'8px 10px',background: 'var(--surface-raised)',borderRadius:'8px',border:'1px solid #E0DDD6',marginBottom:'6px',fontSize:'12px',color:'var(--text-primary)'}}>
                   {exp.slice(0,60)}...
                 </div>
               ))
@@ -753,7 +753,7 @@ function ConversationPage() {
             padding:'12px',background:'rgba(45,74,62,0.06)',borderRadius:'14px',
             border:'1px solid rgba(45,74,62,0.1)'
           }}>
-            <p style={{fontSize:'13px',color:'#2D4A3E',fontStyle:'italic',lineHeight:1.6,textAlign:'center'}}>
+            <p style={{fontSize:'13px',color:'var(--accent-green)',fontStyle:'italic',lineHeight:1.6,textAlign:'center'}}>
               {ENCOURAGEMENTS[Math.floor(sessionDuration/60) % ENCOURAGEMENTS.length]}
             </p>
           </div>
@@ -773,7 +773,7 @@ function ConversationPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
               style={{
-                background:'white',borderRadius:'28px',
+                background: 'var(--surface-raised)',borderRadius:'28px',
                 padding:'40px 36px',textAlign:'center',
                 maxWidth:'400px',width:'100%',
                 boxShadow: '0 24px 48px rgba(0,0,0,0.3)'
@@ -785,7 +785,7 @@ function ConversationPage() {
               <h2 style={{fontFamily:'Nunito, sans-serif',fontSize:'28px',marginBottom:'8px'}}>
                 Great session!
               </h2>
-              <p style={{color:'#6B6B63',fontSize:'15px',marginBottom:'28px',fontStyle:'italic'}}>
+              <p style={{color:'var(--text-secondary)',fontSize:'15px',marginBottom:'28px',fontStyle:'italic'}}>
                 Every conversation makes you better.
               </p>
               
@@ -795,10 +795,10 @@ function ConversationPage() {
                   { emoji:'💬', value:sessionSummary.messages, label:'Messages' },
                   { emoji:'⭐', value:`+${sessionSummary.xp}`, label:'XP Earned' },
                 ].map((stat,i) => (
-                  <div key={i} style={{padding:'14px 8px',background:'#F7F4EF',borderRadius:'14px'}}>
+                  <div key={i} style={{padding:'14px 8px',background:'var(--bg)',borderRadius:'14px'}}>
                     <div style={{fontSize:'22px',marginBottom:'4px'}}>{stat.emoji}</div>
-                    <div style={{fontFamily:'Nunito, sans-serif',fontSize:'20px',fontWeight:700,color:'#1C1C1A'}}>{stat.value}</div>
-                    <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.04em'}}>{stat.label}</div>
+                    <div style={{fontFamily:'Nunito, sans-serif',fontSize:'20px',fontWeight:700,color:'var(--text-primary)'}}>{stat.value}</div>
+                    <div style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:600,textTransform:'uppercase',letterSpacing:'0.04em'}}>{stat.label}</div>
                   </div>
                 ))}
               </div>
@@ -823,7 +823,7 @@ function ConversationPage() {
                 }}>Back to Home 🏠</button>
                 <button onClick={() => { setShowEndModal(false); clearMessages(); generateFirstMessage() }} style={{
                   width:'100%',padding:'14px',borderRadius:'16px',
-                  background:'white',color:'#1C1C1A',
+                  background: 'var(--surface-raised)',color:'var(--text-primary)',
                   border:'2px solid #E0DDD6',cursor:'pointer',
                   fontSize:'15px',fontWeight:700
                 }}>Keep Practicing 🔄</button>

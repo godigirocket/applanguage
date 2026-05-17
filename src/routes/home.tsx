@@ -17,9 +17,9 @@ export const Route = createFileRoute("/home")({
 });
 
 const MODULES = [
-  { id: 'm1', title: 'Foundations', slug: 'basics', icon: 'Seedling', color: '#2D4A3E', progress: 100, xpRequired: 0, desc: 'Master the essential building blocks of native interaction.' },
+  { id: 'm1', title: 'Foundations', slug: 'basics', icon: 'Seedling', color: 'var(--accent-green)', progress: 100, xpRequired: 0, desc: 'Master the essential building blocks of native interaction.' },
   { id: 'm2', title: 'Social Life', slug: 'travel', icon: 'Coffee', color: '#1B3A4B', progress: 45, xpRequired: 100, desc: 'Navigate restaurants, travel, and casual street talk.' },
-  { id: 'm3', title: 'Work & Biz', slug: 'business', icon: 'Briefcase', color: '#C4714A', progress: 0, xpRequired: 300, desc: 'Professional etiquette and street-smart workplace communication.' },
+  { id: 'm3', title: 'Work & Biz', slug: 'business', icon: 'Briefcase', color: 'var(--accent-terra)', progress: 0, xpRequired: 300, desc: 'Professional etiquette and street-smart workplace communication.' },
   { id: 'm4', title: 'Culture & Slang', slug: 'history', icon: 'Palette', color: '#7850B4', progress: 0, xpRequired: 600, desc: 'Deep dive into cultural street slang, local idioms, and nuances.' },
 ];
 
@@ -287,7 +287,7 @@ function HomePage() {
                   <div key={c.id} className="flex gap-3 items-center pt-3 border-t border-zinc-200/50 dark:border-zinc-700/50 first:border-t-0 first:pt-0">
                     <div className="w-5 h-5 flex items-center justify-center shrink-0">
                       {c.completed ? (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D4A3E" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                       ) : (
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8A8A0" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                       )}

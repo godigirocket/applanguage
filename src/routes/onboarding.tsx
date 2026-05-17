@@ -180,107 +180,147 @@ function OnboardingPage() {
   const currentStepData = STEPS[step];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-[#0D0D0B] flex flex-col items-center justify-center p-6 overflow-hidden relative transition-colors duration-300">
+    <div className="min-h-screen bg-background dark:bg-[#111113] flex flex-col items-center justify-center p-4 md:p-6 overflow-x-hidden relative transition-colors duration-300">
       
       {/* Decorative Orbs */}
-      <div className="orb w-[500px] h-[500px] bg-accent-green/10 top-[-10%] right-[-10%]" />
-      <div className="orb w-[400px] h-[400px] bg-accent-terra/10 bottom-[-10%] left-[-10%]" />
+      <div className="orb w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-accent-green/10 top-[-5%] right-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
+      <div className="orb w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-accent-terra/10 bottom-[-5%] left-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
 
-      <main className="w-full max-w-lg relative z-10 p-4">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6 }}
-          className="flex justify-center mb-8"
-        >
-          <LumeIllustration className="w-24 h-24" />
-        </motion.div>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="text-center"
-          >
-            <div className="mb-8">
-              <div className="flex items-center justify-center gap-1.5 text-accent-green dark:text-accent-gold font-extrabold text-[11px] tracking-[0.2em] uppercase mb-3">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      <main className="w-full max-w-md relative z-10">
+        
+        {/* Onboarding Card */}
+        <div className="glass p-6 md:p-8 rounded-[28px] border border-border bg-white dark:bg-[#1B1B1E] shadow-lg relative overflow-hidden transition-all duration-300">
+          
+          {/* Header navigation (Back button + progress bar) */}
+          <div className="flex items-center justify-between gap-4 mb-6">
+            {step > 0 ? (
+              <button
+                onClick={() => setStep(step - 1)}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--text-secondary)',
+                  display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer',
+                  fontSize: '13px', fontWeight: 700, padding: '4px 8px', borderRadius: '8px'
+                }}
+                className="hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 transition-all"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="19" y1="12" x2="5" y2="12"/>
+                  <polyline points="12 19 5 12 12 5"/>
                 </svg>
-                <span>{isPT ? `Etapa ${step + 1} de ${STEPS.length}` : `Step ${step + 1} of ${STEPS.length}`}</span>
-              </div>
-              <h1 className="font-display text-3xl md:text-4xl text-[#1C1C1A] dark:text-white font-extrabold leading-tight">
-                {currentStepData.question}
-              </h1>
+                <span>{isPT ? "Voltar" : "Back"}</span>
+              </button>
+            ) : (
+              <div style={{ width: '60px' }} />
+            )}
+
+            <div className="flex-1 flex justify-center">
+              <span style={{ fontSize: '11px', fontWeight: 800, color: 'var(--accent-green)', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+                {isPT ? `Passo ${step + 1} de ${STEPS.length}` : `Step ${step + 1} of ${STEPS.length}`}
+              </span>
             </div>
 
-            {currentStepData.type === "text" || currentStepData.type === "number" ? (
-              <div className="space-y-4">
-                <input
-                  type={currentStepData.type}
-                  placeholder={currentStepData.placeholder}
-                  value={textVal}
-                  onChange={(e) => setTextVal(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleNextText()}
-                  autoFocus
-                  className="w-full text-center text-lg py-4 px-6 rounded-2xl border-1.5 border-border bg-white dark:bg-zinc-800/60 dark:border-zinc-700 dark:text-white focus:border-accent-green focus:ring-4 focus:ring-accent-green/10 outline-none transition-all duration-300 shadow-sm"
-                />
-                
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleNextText}
-                  className="w-full py-4 rounded-2xl bg-accent-green dark:bg-accent-gold text-white dark:text-zinc-900 font-bold text-base flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(45,74,62,0.15)] cursor-pointer"
-                >
-                  <span>{isPT ? "Avançar" : "Continue"}</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                    <line x1="5" y1="12" x2="19" y2="12"/>
-                    <polyline points="12 5 19 12 12 19"/>
-                  </svg>
-                </motion.button>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-3.5">
-                {currentStepData.options?.map((opt) => (
+            <div style={{ width: '60px' }} />
+          </div>
+
+          {/* Real progress bar */}
+          <div style={{ height: '6px', background: 'var(--surface)', borderRadius: '99px', overflow: 'hidden', marginBottom: '28px' }}>
+            <div 
+              style={{ 
+                height: '100%', 
+                background: 'linear-gradient(90deg, var(--accent-green), #40A878)',
+                width: `${((step + 1) / STEPS.length) * 100}%`,
+                transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)' 
+              }} 
+            />
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="text-center"
+            >
+              <h2 className="font-display text-2xl md:text-3xl text-var(--text-primary) font-extrabold leading-tight mb-6">
+                {currentStepData.question}
+              </h2>
+
+              {currentStepData.type === "text" || currentStepData.type === "number" ? (
+                <div className="space-y-4">
+                  <input
+                    type={currentStepData.type}
+                    placeholder={currentStepData.placeholder}
+                    value={textVal}
+                    onChange={(e) => setTextVal(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleNextText()}
+                    autoFocus
+                    style={{
+                      width: '100%', textAlign: 'center', fontSize: '18px', padding: '14px 18px',
+                      borderRadius: '16px', border: '1.5px solid var(--border)', background: 'var(--bg)',
+                      color: 'var(--text-primary)', outline: 'none'
+                    }}
+                    className="focus:border-accent-green"
+                  />
+                  
                   <motion.button
-                    key={opt.val}
-                    whileHover={{ scale: 1.015, x: 4 }}
-                    whileTap={{ scale: 0.985 }}
-                    onClick={() => handleSelect(opt.val)}
-                    disabled={isSaving}
-                    className="w-full py-4.5 px-6 rounded-2xl bg-white dark:bg-zinc-800/60 border border-border dark:border-zinc-700 hover:border-accent-green dark:hover:border-accent-gold text-base font-bold text-[#1C1C1A] dark:text-white flex items-center justify-between cursor-pointer shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-300"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleNextText}
+                    style={{
+                      width: '100%', padding: '14px', borderRadius: '16px',
+                      background: 'var(--accent-green)', color: 'white', border: 'none',
+                      fontWeight: 700, fontSize: '15px', display: 'flex', alignItems: 'center',
+                      justifyContent: 'center', gap: '8px', cursor: 'pointer',
+                      boxShadow: '0 4px 12px rgba(45,106,79,0.15)'
+                    }}
                   >
-                    <div className="flex items-center gap-4.5">
-                      <span className="text-2xl">{opt.icon}</span>
-                      <span>{opt.label}</span>
-                    </div>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="text-accent-green dark:text-accent-gold">
+                    <span>{isPT ? "Avançar" : "Continue"}</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                       <line x1="5" y1="12" x2="19" y2="12"/>
                       <polyline points="12 5 19 12 12 19"/>
                     </svg>
                   </motion.button>
-                ))}
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Progress Dots */}
-        <div className="mt-12 flex justify-center gap-2">
-          {STEPS.map((_, i) => (
-            <div
-              key={i}
-              className="h-1.5 rounded-full transition-all duration-500"
-              style={{
-                width: i === step ? '28px' : '6px',
-                background: i === step ? '#2D4A3E' : '#E0DDD6'
-              }}
-            />
-          ))}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2.5">
+                  {currentStepData.options?.map((opt) => (
+                    <motion.button
+                      key={opt.val}
+                      whileHover={{ scale: 1.015, x: 2 }}
+                      whileTap={{ scale: 0.985 }}
+                      onClick={() => handleSelect(opt.val)}
+                      disabled={isSaving}
+                      style={{
+                        width: '100%', padding: '14px 18px', borderRadius: '16px',
+                        background: 'var(--surface-raised)', border: '1px solid var(--border)',
+                        color: 'var(--text-primary)', fontWeight: 700, fontSize: '14px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        cursor: 'pointer', boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+                      }}
+                      className="hover:border-accent-green active:brightness-95 transition-colors duration-200"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span style={{ fontSize: '20px' }}>{opt.icon}</span>
+                        <span>{opt.label}</span>
+                      </div>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" style={{ color: 'var(--accent-green)' }}>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                      </svg>
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
         </div>
+
+        {/* Small brand note */}
+        <p style={{ textAlign: 'center', fontSize: '11px', color: 'var(--text-secondary)', marginTop: '24px', fontWeight: 600 }}>
+          Lume — Language & Mind Experience
+        </p>
       </main>
     </div>
   );

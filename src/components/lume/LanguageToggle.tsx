@@ -31,7 +31,7 @@ export function LanguageToggle() {
         position: 'relative',
         width: '84px', height: '38px',
         borderRadius: '99px',
-        background: isPT ? '#2D4A3E' : '#1B3A4B',
+        background: isPT ? 'var(--accent-green)' : '#1B3A4B',
         border: '1.5px solid rgba(255,255,255,0.15)', 
         cursor: 'pointer',
         display: 'flex', alignItems: 'center',
@@ -46,14 +46,14 @@ export function LanguageToggle() {
         position: 'absolute',
         width: '38px', height: '28px',
         borderRadius: '99px',
-        background: 'white',
+        background: 'var(--surface-raised)',
         top: '3.5px',
         left: isPT ? '3.5px' : '40.5px',
         transition: 'left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)',
         boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         fontSize: '11px', fontWeight: 900,
-        color: isPT ? '#2D4A3E' : '#1B3A4B'
+        color: isPT ? 'var(--accent-green)' : '#1B3A4B'
       }}>
         {isPT ? 'PT' : 'EN'}
       </div>

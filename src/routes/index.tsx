@@ -59,7 +59,7 @@ function Landing() {
               display: 'inline-block', padding: '5px 14px',
               borderRadius: '99px', background: 'rgba(45,74,62,0.08)',
               fontSize: '11px', fontWeight: 800, letterSpacing: '0.15em',
-              textTransform: 'uppercase', color: '#2D4A3E', marginBottom: '24px'
+              textTransform: 'uppercase', color: 'var(--accent-green)', marginBottom: '24px'
             }}>
               Um parceiro de conversação
             </div>
@@ -68,18 +68,18 @@ function Landing() {
               fontFamily: Nunito,
               fontSize: 'clamp(42px, 5.5vw, 72px)',
               fontWeight: 800, lineHeight: 1.08,
-              color: '#1C1C1A', letterSpacing: '-0.025em',
+              color: 'var(--text-primary)', letterSpacing: '-0.025em',
               marginBottom: '0'
             }}>
               Aprenda com{' '}
-              <span style={{ color: '#C4714A', fontStyle: 'italic', position: 'relative' }}>
+              <span style={{ color: 'var(--accent-terra)', fontStyle: 'italic', position: 'relative' }}>
                 conversas
                 <svg viewBox="0 0 300 14" style={{
                   position: 'absolute', bottom: '-8px', left: 0,
                   width: '100%', height: '14px', overflow: 'visible'
                 }} fill="none">
                   <path d="M4 10 C80 2, 180 14, 296 6"
-                    stroke="#C4714A" strokeWidth="3"
+                    stroke="var(--accent-terra)" strokeWidth="3"
                     strokeLinecap="round" opacity="0.5"/>
                 </svg>
               </span>
@@ -88,7 +88,7 @@ function Landing() {
             </h1>
 
             <p style={{
-              fontSize: '18px', color: '#6B6B63',
+              fontSize: '18px', color: 'var(--text-secondary)',
               lineHeight: 1.7, margin: '32px 0 40px',
               maxWidth: '520px'
             }}>
@@ -108,7 +108,7 @@ function Landing() {
               </Link>
               <Link to="/guest" style={{
                 padding: '16px 32px', borderRadius: '99px',
-                background: 'white', color: '#1C1C1A',
+                background: 'var(--surface-raised)', color: 'var(--text-primary)',
                 textDecoration: 'none', fontSize: '16px', fontWeight: 600,
                 border: '2px solid #E0DDD6',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.05)'
@@ -117,7 +117,7 @@ function Landing() {
               </Link>
             </div>
 
-            <p style={{ fontSize: '13px', color: '#6B6B63' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>
               ★★★★★ "Finalmente um jeito de praticar sem travar."
             </p>
           </div>
@@ -126,7 +126,7 @@ function Landing() {
           <div style={{ position: 'relative' }}>
             {/* Main card */}
             <div className="glass" style={{
-              background: 'white', borderRadius: '24px',
+              background: 'var(--surface-raised)', borderRadius: '24px',
               padding: '24px', boxShadow: '0 24px 64px rgba(0,0,0,0.08)',
               border: '1px solid rgba(224,221,214,0.5)', position: 'relative', zIndex: 2
             }}>
@@ -142,10 +142,10 @@ function Landing() {
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: '14px', color: '#1C1C1A' }}>Lume</div>
+                  <div style={{ fontWeight: 700, fontSize: '14px', color: 'var(--text-primary)' }}>Lume</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
                     <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#4CAF50', boxShadow: '0 0 6px #4CAF5060' }}/>
-                    <span style={{ fontSize: '11px', color: '#6B6B63' }}>Online agora</span>
+                    <span style={{ fontSize: '11px', color: 'var(--text-secondary)' }}>Online agora</span>
                   </div>
                 </div>
               </div>
@@ -154,8 +154,8 @@ function Landing() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
                 <div style={{
                   padding: '12px 16px', borderRadius: '4px 16px 16px 16px',
-                  background: '#F7F4EF', fontSize: '14px', lineHeight: 1.6,
-                  color: '#1C1C1A', maxWidth: '88%'
+                  background: 'var(--bg)', fontSize: '14px', lineHeight: 1.6,
+                  color: 'var(--text-primary)', maxWidth: '88%'
                 }}>
                   What did you do last weekend? Tell me — no pressure 😊
                 </div>
@@ -169,8 +169,8 @@ function Landing() {
                 </div>
                 <div style={{
                   padding: '12px 16px', borderRadius: '4px 16px 16px 16px',
-                  background: '#F7F4EF', fontSize: '14px', lineHeight: 1.6,
-                  color: '#1C1C1A', maxWidth: '88%'
+                  background: 'var(--bg)', fontSize: '14px', lineHeight: 1.6,
+                  color: 'var(--text-primary)', maxWidth: '88%'
                 }}>
                   Love it! 🎵 Small tip: "she <em>invited</em> me" — past tense. But your meaning was totally clear. What kind of music?
                 </div>
@@ -178,7 +178,7 @@ function Landing() {
 
               {/* Input */}
               <div style={{
-                padding: '10px 14px', background: '#F7F4EF',
+                padding: '10px 14px', background: 'var(--bg)',
                 borderRadius: '99px', display: 'flex',
                 alignItems: 'center', gap: '10px',
                 border: '1px solid #E0DDD6'
@@ -186,7 +186,7 @@ function Landing() {
                 <span style={{ fontSize: '13px', color: '#A8A8A0', flex: 1 }}>Fale ou escreva...</span>
                 <div style={{
                   width: '30px', height: '30px', borderRadius: '50%',
-                  background: '#C4714A', display: 'flex',
+                  background: 'var(--accent-terra)', display: 'flex',
                   alignItems: 'center', justifyContent: 'center'
                 }}>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round">
@@ -202,7 +202,7 @@ function Landing() {
             {/* Floating XP badge */}
             <div style={{
               position: 'absolute', top: '-14px', right: '-14px', zIndex: 3,
-              background: 'white', borderRadius: '14px',
+              background: 'var(--surface-raised)', borderRadius: '14px',
               padding: '10px 14px',
               boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
               border: '1px solid #E0DDD6',
@@ -219,8 +219,8 @@ function Landing() {
                 </svg>
               </div>
               <div>
-                <div style={{ fontSize: '12px', fontWeight: 800, color: '#2D4A3E' }}>+15 XP</div>
-                <div style={{ fontSize: '10px', color: '#6B6B63' }}>Boa sessão!</div>
+                <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--accent-green)' }}>+15 XP</div>
+                <div style={{ fontSize: '10px', color: 'var(--text-secondary)' }}>Boa sessão!</div>
               </div>
             </div>
 
@@ -258,44 +258,44 @@ function Landing() {
         {/* Features list */}
         <section style={{ maxWidth: '1120px', margin: '0 auto', padding: '40px 24px 120px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-            <div className="lume-card" style={{ background: 'white', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #2D4A3E' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: '#2D4A3E15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', marginBottom: '24px', color: '#2D4A3E' }}>
+            <div className="lume-card" style={{ background: 'var(--surface-raised)', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #2D4A3E' }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: '#2D4A3E15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', marginBottom: '24px', color: 'var(--accent-green)' }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
                 IA Conversacional
               </h3>
-              <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                 Fale livremente com um companheiro paciente que se adapta ao seu nível e humor sem julgar.
               </p>
             </div>
 
-            <div className="lume-card" style={{ background: 'white', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #C4714A' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: '#C4714A15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', marginBottom: '24px', color: '#C4714A' }}>
+            <div className="lume-card" style={{ background: 'var(--surface-raised)', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #C4714A' }}>
+              <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: '#C4714A15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', marginBottom: '24px', color: 'var(--accent-terra)' }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
                 Sessões Culturais
               </h3>
-              <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                 Pratique com contexto cultural real e conversas autênticas do dia a dia, e não decorebas.
               </p>
             </div>
 
-            <div className="lume-card" style={{ background: 'white', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #C9A84C' }}>
+            <div className="lume-card" style={{ background: 'var(--surface-raised)', borderRadius: '24px', padding: '40px 32px', border: '1px solid #E0DDD650', borderTop: '4px solid #C9A84C' }}>
               <div style={{ width: '64px', height: '64px', borderRadius: '20px', background: '#C9A84C15', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '32px', marginBottom: '24px', color: '#C9A84C' }}>
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
                 </svg>
               </div>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#1C1C1A', marginBottom: '12px' }}>
+              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '12px' }}>
                 Progresso Emocional
               </h3>
-              <p style={{ fontSize: '15px', color: '#6B6B63', lineHeight: 1.6 }}>
+              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
                 Acompanhe sua confiança, ritmo e fluência — as métricas que realmente trazem segurança ao falar.
               </p>
             </div>
@@ -305,15 +305,15 @@ function Landing() {
         {/* Footer */}
         <footer style={{ borderTop: '1px solid #E0DDD6', background: 'rgba(255,255,255,0.5)' }}>
           <div style={{ maxWidth: '1120px', margin: '0 auto', padding: '40px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '24px' }}>
-            <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: '#2D4A3E' }}>
+            <span style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', fontWeight: 700, color: 'var(--accent-green)' }}>
               {t.footer1}
             </span>
             <div style={{ display: 'flex', gap: '20px', fontSize: '14px' }}>
-              <Link to="/guide" style={{ color: '#6B6B63', textDecoration: 'none', fontWeight: 600 }}>Como usar</Link>
-              <Link to="/lessons" style={{ color: '#6B6B63', textDecoration: 'none', fontWeight: 600 }}>Lições</Link>
-              <Link to="/guest" style={{ color: '#6B6B63', textDecoration: 'none', fontWeight: 600 }}>Experimentar</Link>
+              <Link to="/guide" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 600 }}>Como usar</Link>
+              <Link to="/lessons" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 600 }}>Lições</Link>
+              <Link to="/guest" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: 600 }}>Experimentar</Link>
             </div>
-            <span style={{ fontSize: '14px', color: '#6B6B63', fontStyle: 'italic' }}>
+            <span style={{ fontSize: '14px', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
               {t.footer2}
             </span>
           </div>

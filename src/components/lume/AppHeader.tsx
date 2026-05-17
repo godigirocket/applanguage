@@ -87,12 +87,20 @@ export function AppHeader() {
                 <path d="M12 16a2 2 0 0 0 2-2c0-1-1-2-2-2s-2 1-2 2a2 2 0 0 0 2 2" fill="white"/>
               </svg>
             </div>
-            <span style={{
-              fontFamily: 'Nunito, sans-serif',
-              fontSize: '20px', fontWeight: 900,
-              color: 'var(--text-primary)',
-              letterSpacing: '-0.03em', lineHeight: 1
-            }}>Lume</span>
+            <div className="flex flex-col select-none">
+              <span style={{
+                fontFamily: 'Nunito, sans-serif',
+                fontSize: '21px', fontWeight: 900,
+                color: 'var(--text-primary)',
+                letterSpacing: '-0.03em', lineHeight: 1.05
+              }}>Lume</span>
+              <span style={{
+                fontSize: '7.5px', fontWeight: 800,
+                color: 'var(--text-secondary)',
+                letterSpacing: '0.08em', marginTop: '1.5px', textTransform: 'uppercase',
+                whiteSpace: 'nowrap', opacity: 0.95
+              }}>Language & Mind Experience</span>
+            </div>
           </Link>
 
           {user && profile?.onboarding_done && (
@@ -122,7 +130,7 @@ export function AppHeader() {
                 to="/login" 
                 style={{
                   padding: '8px 18px', borderRadius: '99px',
-                  background: 'rgba(45,74,62,0.08)', color: '#2D4A3E',
+                  background: 'rgba(45,74,62,0.08)', color: 'var(--accent-green)',
                   textDecoration: 'none', fontSize: '13px', fontWeight: 700,
                   transition: 'all 0.2s'
                 }}

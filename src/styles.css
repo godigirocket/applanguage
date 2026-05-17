@@ -50,6 +50,7 @@
 }
 
 :root {
+  color-scheme: light;
   /* Palette — clean Duolingo/Busuu style */
   --bg: #F5F5F7;
   --surface: #EEEEF0;
@@ -90,6 +91,7 @@
 }
 
 .dark {
+  color-scheme: dark;
   --bg: #111113;
   --surface: #1B1B1E;
   --surface-raised: #252528;

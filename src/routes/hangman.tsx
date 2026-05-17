@@ -64,15 +64,15 @@ function HangmanGamePage() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F7F4EF' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       <AppHeader />
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: '40px 24px', animation: 'pageEnter 0.5s ease' }}>
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <h1 style={{ fontFamily: Nunito, fontSize: '32px', color: '#1C1C1A', fontWeight: 800 }}>Forca do Vocabulário</h1>
-          <p style={{ color: '#6B6B63', fontSize: '16px' }}>Tradução: <strong>{translation}</strong></p>
+          <h1 style={{ fontFamily: Nunito, fontSize: '32px', color: 'var(--text-primary)', fontWeight: 800 }}>Forca do Vocabulário</h1>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px' }}>Tradução: <strong>{translation}</strong></p>
         </div>
 
-        <div style={{ textAlign: 'center', marginBottom: '40px', fontSize: '24px', fontWeight: 800, color: '#C4714A' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px', fontSize: '24px', fontWeight: 800, color: 'var(--accent-terra)' }}>
           Erros: {mistakes} / {maxMistakes}
         </div>
 
@@ -81,7 +81,7 @@ function HangmanGamePage() {
             <div key={idx} style={{
               width: '40px', height: '50px', borderBottom: letter === ' ' ? 'none' : '3px solid #1C1C1A',
               display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-              fontSize: '28px', fontWeight: 800, color: '#2D4A3E'
+              fontSize: '28px', fontWeight: 800, color: 'var(--accent-green)'
             }}>
               {(guessedLetters.has(letter) || isLoser) ? letter : ''}
             </div>
@@ -97,8 +97,8 @@ function HangmanGamePage() {
               style={{
                 width: '40px', height: '40px', borderRadius: '8px',
                 border: '1px solid #E0DDD6',
-                background: guessedLetters.has(letter) ? '#E0DDD6' : 'white',
-                color: guessedLetters.has(letter) ? '#A8A8A0' : '#1C1C1A',
+                background: guessedLetters.has(letter) ? 'var(--border)' : 'white',
+                color: guessedLetters.has(letter) ? '#A8A8A0' : 'var(--text-primary)',
                 fontWeight: 700, cursor: guessedLetters.has(letter) ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s'
               }}

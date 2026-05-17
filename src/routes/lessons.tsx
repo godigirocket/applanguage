@@ -110,7 +110,7 @@ function LessonsPage() {
     }
 
     return (
-      <div style={{ minHeight: '100vh', background: '#F7F4EF' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
         <AppHeader />
         
         <div style={{ maxWidth: '680px', margin: '0 auto', padding: '32px 24px 120px' }}>
@@ -120,14 +120,14 @@ function LessonsPage() {
               width: '36px', height: '36px', borderRadius: '50%',
               background: '#F0EEE9', border: 'none', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#1C1C1A'
+              color: 'var(--text-primary)'
             }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
             </button>
             <div style={{ flex: 1 }}>
-              <div style={{ height: '8px', background: '#E0DDD6', borderRadius: '99px', overflow: 'hidden' }}>
+              <div style={{ height: '8px', background: 'var(--border)', borderRadius: '99px', overflow: 'hidden' }}>
                 <div style={{
                   height: '100%', borderRadius: '99px',
                   background: `linear-gradient(90deg, ${lesson.color}, ${lesson.color}99)`,
@@ -139,24 +139,24 @@ function LessonsPage() {
           </div>
 
           {/* Step content */}
-          <div className="glass" style={{ background: 'white', borderRadius: '24px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', animation: 'pageEnter 0.3s ease both' }}>
+          <div className="glass" style={{ background: 'var(--surface-raised)', borderRadius: '24px', padding: '32px', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', animation: 'pageEnter 0.3s ease both' }}>
             
             {currentStep.type === 'intro' && (
               <div>
-                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>{currentStep.title}</h2>
-                <p style={{ fontSize: '17px', color: '#6B6B63', lineHeight: 1.7 }}>{currentStep.content}</p>
+                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: 'var(--text-primary)', fontWeight: 800 }}>{currentStep.title}</h2>
+                <p style={{ fontSize: '17px', color: 'var(--text-secondary)', lineHeight: 1.7 }}>{currentStep.content}</p>
               </div>
             )}
 
             {currentStep.type === 'vocabulary' && (
               <div>
-                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '20px', color: '#1C1C1A', fontWeight: 800 }}>Vocabulário</h2>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '20px', color: 'var(--text-primary)', fontWeight: 800 }}>Vocabulário</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {currentStep.words?.map((w, i) => (
                     <div key={i} style={{ padding: '18px 20px', borderRadius: '16px', border: '1px solid #E0DDD6' }}>
                       <div style={{ fontWeight: 800, fontSize: '16px', color: lesson.color, marginBottom: '4px' }}>{w.word}</div>
-                      <div style={{ fontSize: '14px', color: '#6B6B63', marginBottom: '8px' }}>{w.meaning}</div>
-                      <div style={{ fontSize: '13px', fontStyle: 'italic', padding: '8px 12px', background: '#F7F4EF', borderRadius: '8px', borderLeft: `3px solid ${lesson.color}` }}>{w.example}</div>
+                      <div style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>{w.meaning}</div>
+                      <div style={{ fontSize: '13px', fontStyle: 'italic', padding: '8px 12px', background: 'var(--bg)', borderRadius: '8px', borderLeft: `3px solid ${lesson.color}` }}>{w.example}</div>
                     </div>
                   ))}
                 </div>
@@ -182,7 +182,7 @@ function LessonsPage() {
                   </button>
                 )}
 
-                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '24px', color: '#1C1C1A', fontWeight: 750 }}>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '24px', color: 'var(--text-primary)', fontWeight: 750 }}>
                   {currentStep.question}
                 </h2>
 
@@ -198,12 +198,12 @@ function LessonsPage() {
                           padding: '16px 20px', borderRadius: '14px', textAlign: 'left', cursor: answered ? 'default' : 'pointer', fontSize: '15px', fontWeight: 600,
                           border: state === 'correct' ? '2px solid #4A7A5A' : state === 'wrong' ? '2px solid #C4714A' : '1px solid #E0DDD6',
                           background: state === 'correct' ? 'rgba(74,122,90,0.08)' : state === 'wrong' ? 'rgba(196,113,74,0.08)' : 'white',
-                          color: state === 'correct' ? '#2D4A3E' : state === 'wrong' ? '#C4714A' : '#1C1C1A',
+                          color: state === 'correct' ? 'var(--accent-green)' : state === 'wrong' ? 'var(--accent-terra)' : 'var(--text-primary)',
                           display: 'flex', justifyContent: 'space-between', alignItems: 'center', transition: 'all 0.2s',
                         }}>
                         {opt}
                         {state === 'correct' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A7A5A" strokeWidth="2.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>}
-                        {state === 'wrong' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C4714A" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
+                        {state === 'wrong' && <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-terra)" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>}
                       </button>
                     );
                   })}
@@ -216,10 +216,10 @@ function LessonsPage() {
                 <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', borderRadius: '99px', background: `${lesson.color}12`, color: lesson.color, fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '24px' }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg> Treino de Pronúncia
                 </div>
-                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: '#1C1C1A', fontWeight: 800 }}>
+                <h2 style={{ fontFamily: Nunito, fontSize: '28px', marginBottom: '16px', color: 'var(--text-primary)', fontWeight: 800 }}>
                   Leia em voz alta:
                 </h2>
-                <div style={{ fontSize: '22px', color: lesson.color, fontWeight: 700, padding: '24px', background: '#F7F4EF', borderRadius: '16px', marginBottom: '32px' }}>
+                <div style={{ fontSize: '22px', color: lesson.color, fontWeight: 700, padding: '24px', background: 'var(--bg)', borderRadius: '16px', marginBottom: '32px' }}>
                   "{currentStep.targetPhrase}"
                 </div>
                 
@@ -227,7 +227,7 @@ function LessonsPage() {
                   onClick={() => toggleRecording(currentStep.targetPhrase!, lesson.language)}
                   style={{
                     width: '80px', height: '80px', borderRadius: '50%', border: 'none',
-                    background: isRecording ? '#C4714A' : lesson.color, color: 'white',
+                    background: isRecording ? 'var(--accent-terra)' : lesson.color, color: 'white',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto',
                     cursor: 'pointer', boxShadow: `0 8px 24px ${isRecording ? '#C4714A60' : lesson.color + '60'}`,
                     transition: 'all 0.3s', transform: isRecording ? 'scale(1.1)' : 'scale(1)'
@@ -239,19 +239,19 @@ function LessonsPage() {
                     <line x1="12" y1="19" x2="12" y2="22"/>
                   </svg>
                 </button>
-                <p style={{ marginTop: '16px', fontSize: '14px', color: '#6B6B63', fontWeight: 600 }}>
+                <p style={{ marginTop: '16px', fontSize: '14px', color: 'var(--text-secondary)', fontWeight: 600 }}>
                   {isRecording ? 'Ouvindo...' : 'Clique no microfone para falar'}
                 </p>
 
                 {spokenText && (
                   <div style={{ marginTop: '32px', padding: '16px', borderRadius: '16px', border: '1px solid #E0DDD6', textAlign: 'left' }}>
-                    <div style={{ fontSize: '12px', fontWeight: 800, color: '#6B6B63', textTransform: 'uppercase', marginBottom: '8px' }}>O que ouvimos:</div>
-                    <div style={{ fontSize: '16px', color: '#1C1C1A', fontStyle: 'italic', marginBottom: '16px' }}>"{spokenText}"</div>
+                    <div style={{ fontSize: '12px', fontWeight: 800, color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px' }}>O que ouvimos:</div>
+                    <div style={{ fontSize: '16px', color: 'var(--text-primary)', fontStyle: 'italic', marginBottom: '16px' }}>"{spokenText}"</div>
                     
                     {speechScore !== null && (
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', background: speechScore > 70 ? 'rgba(74,122,90,0.1)' : 'rgba(196,113,74,0.1)', borderRadius: '12px' }}>
-                        <span style={{ fontWeight: 700, color: speechScore > 70 ? '#4A7A5A' : '#C4714A' }}>Pontuação</span>
-                        <span style={{ fontSize: '20px', fontWeight: 800, color: speechScore > 70 ? '#4A7A5A' : '#C4714A' }}>{speechScore}%</span>
+                        <span style={{ fontWeight: 700, color: speechScore > 70 ? '#4A7A5A' : 'var(--accent-terra)' }}>Pontuação</span>
+                        <span style={{ fontSize: '20px', fontWeight: 800, color: speechScore > 70 ? '#4A7A5A' : 'var(--accent-terra)' }}>{speechScore}%</span>
                       </div>
                     )}
                   </div>
@@ -261,11 +261,11 @@ function LessonsPage() {
 
             {currentStep.type === 'practice' && (
               <div style={{ textAlign: 'center' }}>
-                <div style={{ marginBottom: '16px', color: '#1C1C1A' }}>
+                <div style={{ marginBottom: '16px', color: 'var(--text-primary)' }}>
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 </div>
-                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '8px', color: '#1C1C1A', fontWeight: 800 }}>Hora de praticar</h2>
-                <p style={{ color: '#6B6B63', marginBottom: '24px', fontSize: '15px' }}>Continue no chat com a IA usando o que você aprendeu.</p>
+                <h2 style={{ fontFamily: Nunito, fontSize: '24px', marginBottom: '8px', color: 'var(--text-primary)', fontWeight: 800 }}>Hora de praticar</h2>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', fontSize: '15px' }}>Continue no chat com a IA usando o que você aprendeu.</p>
                 <Link to={`/conversation/free-talk?prompt=${encodeURIComponent(currentStep.prompt || '')}`} style={{ display: 'block', padding: '20px', borderRadius: '16px', background: `linear-gradient(135deg, ${lesson.color}, ${lesson.color}CC)`, color: 'white', textDecoration: 'none', fontWeight: 700 }}>
                   Abrir conversa com a IA →
                 </Link>
@@ -298,7 +298,7 @@ function LessonsPage() {
               disabled={!canContinue}
               style={{
                 width: '100%', padding: '16px', borderRadius: '16px',
-                background: !canContinue ? '#E0DDD6' : `linear-gradient(135deg, ${lesson.color}, ${lesson.color}CC)`,
+                background: !canContinue ? 'var(--border)' : `linear-gradient(135deg, ${lesson.color}, ${lesson.color}CC)`,
                 color: !canContinue ? '#A8A8A0' : 'white',
                 border: 'none', cursor: !canContinue ? 'not-allowed' : 'pointer',
                 fontSize: '16px', fontWeight: 700,
@@ -314,15 +314,15 @@ function LessonsPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F7F4EF' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
       <AppHeader />
       
       <div style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease-out both' }}>
         <div style={{ marginBottom: '36px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: Nunito, fontSize: 'clamp(28px,4vw,40px)', marginBottom: '6px', fontWeight: 800, color: '#1C1C1A' }}>
+          <h1 style={{ fontFamily: Nunito, fontSize: 'clamp(28px,4vw,40px)', marginBottom: '6px', fontWeight: 800, color: 'var(--text-primary)' }}>
             Catálogo de Lições ({targetLanguage.toUpperCase()})
           </h1>
-          <p style={{ color: '#6B6B63', fontSize: '16px' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '16px' }}>
             Milhares de lições geradas dinamicamente para o seu nível.
           </p>
         </div>
@@ -333,22 +333,22 @@ function LessonsPage() {
               onClick={() => { setActiveLesson(lesson.id); setStep(0); }}
               style={{ padding: '0', borderRadius: '20px', border: 'none', background: 'none', cursor: 'pointer', textAlign: 'left', width: '100%' }}>
               <div className="lume-card" style={{
-                background: 'white', borderRadius: '20px', borderTop: `3px solid ${lesson.color}`,
+                background: 'var(--surface-raised)', borderRadius: '20px', borderTop: `3px solid ${lesson.color}`,
                 padding: '24px', boxShadow: '0 2px 12px rgba(0,0,0,0.06)', border: `1px solid ${lesson.color}20`,
                 height: '100%', position: 'relative', overflow: 'hidden'
               }}>
                 {completed.includes(lesson.id) && (
-                  <div style={{ position: 'absolute', top: '12px', right: '12px', width: '24px', height: '24px', borderRadius: '50%', background: '#2D4A3E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ position: 'absolute', top: '12px', right: '12px', width: '24px', height: '24px', borderRadius: '50%', background: 'var(--accent-green)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
                   </div>
                 )}
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
                   <span style={{ padding: '3px 10px', borderRadius: '99px', background: `${lesson.color}12`, color: lesson.color, fontSize: '11px', fontWeight: 800, textTransform: 'uppercase' }}>{lesson.category}</span>
-                  <span style={{ padding: '3px 10px', borderRadius: '99px', background: '#F0EEE9', color: '#6B6B63', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {lesson.duration}</span>
+                  <span style={{ padding: '3px 10px', borderRadius: '99px', background: '#F0EEE9', color: 'var(--text-secondary)', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {lesson.duration}</span>
                   <span style={{ padding: '3px 10px', borderRadius: '99px', background: 'rgba(201,168,76,0.1)', color: '#B8962A', fontSize: '11px', fontWeight: 800 }}>+{lesson.xp} XP</span>
                 </div>
-                <h3 style={{ fontFamily: Nunito, fontSize: '19px', fontWeight: 700, marginBottom: '8px', color: '#1C1C1A' }}>{lesson.title}</h3>
-                <p style={{ fontSize: '13px', color: '#6B6B63', lineHeight: 1.55, marginBottom: '16px' }}>{lesson.description}</p>
+                <h3 style={{ fontFamily: Nunito, fontSize: '19px', fontWeight: 700, marginBottom: '8px', color: 'var(--text-primary)' }}>{lesson.title}</h3>
+                <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.55, marginBottom: '16px' }}>{lesson.description}</p>
               </div>
             </button>
           ))}

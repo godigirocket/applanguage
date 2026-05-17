@@ -93,14 +93,14 @@ function QuizPage() {
   return (
     <div style={{
       minHeight:'100vh',
-      background:'#F7F4EF',
+      background:'var(--bg)',
       display:'flex',flexDirection:'column'
     }}>
       {/* Top bar */}
       <div style={{
         padding:'16px 24px',
         display:'flex',alignItems:'center',gap:'16px',
-        background:'white',
+        background: 'var(--surface-raised)',
         borderBottom:'2px solid #E0DDD6'
       }}>
         <button onClick={exitQuiz} style={{
@@ -111,7 +111,7 @@ function QuizPage() {
         
         {/* Progress bar — thick, colorful */}
         <div style={{
-          flex:1,height:'16px',background:'#E0DDD6',
+          flex:1,height:'16px',background:'var(--border)',
           borderRadius:'99px',overflow:'hidden'
         }}>
           <div style={{
@@ -134,7 +134,7 @@ function QuizPage() {
           <span style={{fontSize:'16px'}}>🔥</span>
           <span style={{
             fontWeight:800,fontSize:'15px',
-            color: qStreak >= 3 ? '#FF6B35' : '#6B6B63'
+            color: qStreak >= 3 ? '#FF6B35' : 'var(--text-secondary)'
           }}>{qStreak}</span>
         </div>
         
@@ -152,13 +152,13 @@ function QuizPage() {
         <div style={{display:'flex',gap:'8px',marginBottom:'20px',flexWrap:'wrap'}}>
           <span style={{
             padding:'5px 12px',borderRadius:'99px',
-            background:'rgba(45,74,62,0.1)',color:'#2D4A3E',
+            background:'rgba(45,74,62,0.1)',color:'var(--accent-green)',
             fontSize:'12px',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'
           }}>{q.category}</span>
           <span style={{
             padding:'5px 12px',borderRadius:'99px',
             background: q.level==='advanced'?'rgba(196,113,74,0.1)':q.level==='intermediate'?'rgba(27,58,75,0.1)':'rgba(74,122,90,0.1)',
-            color: q.level==='advanced'?'#C4714A':q.level==='intermediate'?'#1B3A4B':'#4A7A5A',
+            color: q.level==='advanced'?'var(--accent-terra)':q.level==='intermediate'?'#1B3A4B':'#4A7A5A',
             fontSize:'12px',fontWeight:700,letterSpacing:'0.05em',textTransform:'uppercase'
           }}>{q.level}</span>
           <span style={{
@@ -172,7 +172,7 @@ function QuizPage() {
         <h1 style={{
           fontFamily:'Nunito, sans-serif',
           fontSize:'clamp(22px,3.5vw,32px)',
-          color:'#1C1C1A',lineHeight:1.4,
+          color:'var(--text-primary)',lineHeight:1.4,
           marginBottom:'36px',fontWeight:600
         }}>
           {q.question}
@@ -198,9 +198,9 @@ function QuizPage() {
                 background: state==='correct' ? 'rgba(74,122,90,0.1)'
                   : state==='wrong' ? 'rgba(196,113,74,0.1)'
                   : 'white',
-                color: state==='correct' ? '#2D4A3E'
-                  : state==='wrong' ? '#C4714A'
-                  : '#1C1C1A',
+                color: state==='correct' ? 'var(--accent-green)'
+                  : state==='wrong' ? 'var(--accent-terra)'
+                  : 'var(--text-primary)',
                 boxShadow: state==='correct' ? '0 4px 16px rgba(74,122,90,0.2)'
                   : state==='wrong' ? '0 4px 16px rgba(196,113,74,0.2)'
                   : '0 2px 8px rgba(0,0,0,0.05)',
@@ -235,11 +235,11 @@ function QuizPage() {
               <div>
                 <div style={{
                   fontWeight:700,marginBottom:'4px',
-                  color: selected===q.correct?'#2D4A3E':'#C4714A'
+                  color: selected===q.correct?'var(--accent-green)':'var(--accent-terra)'
                 }}>
                   {selected===q.correct ? 'Correct!' : 'Not quite — here\'s why:'}
                 </div>
-                <div style={{fontSize:'14px',color:'#1C1C1A',lineHeight:1.6}}>
+                <div style={{fontSize:'14px',color:'var(--text-primary)',lineHeight:1.6}}>
                   {q.explanation}
                 </div>
               </div>
@@ -252,7 +252,7 @@ function QuizPage() {
       {isAnswered && (
         <div style={{
           padding:'20px 24px',
-          background:'white',
+          background: 'var(--surface-raised)',
           borderTop:'1px solid #E0DDD6'
         }}>
           <button onClick={nextQuestion} style={{
@@ -289,7 +289,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
 
   const confettiParticles = Array.from({length: 40}).map(() => ({
     x: Math.random() * 100,
-    color: ['#FF6B35', '#C9A84C', '#2D4A3E', '#1B3A4B'][Math.floor(Math.random() * 4)],
+    color: ['#FF6B35', '#C9A84C', 'var(--accent-green)', '#1B3A4B'][Math.floor(Math.random() * 4)],
     delay: Math.random() * 2,
     duration: 3 + Math.random() * 2,
     rotation: Math.random() * 360
@@ -336,7 +336,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
       </h1>
       
       <p style={{
-        color:'#6B6B63',fontSize:'16px',marginBottom:'40px',
+        color:'var(--text-secondary)',fontSize:'16px',marginBottom:'40px',
         fontStyle:'italic',textAlign:'center',
         animation:'bounceIn 0.6s ease 0.2s both'
       }}>
@@ -345,7 +345,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
       
       {/* Stats card */}
       <div style={{
-        background:'white',borderRadius:'24px',
+        background: 'var(--surface-raised)',borderRadius:'24px',
         padding:'32px',width:'100%',maxWidth:'400px',
         boxShadow:'0 8px 40px rgba(0,0,0,0.12)',
         marginBottom:'24px',
@@ -353,28 +353,28 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
       }}>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1px 1fr',gap:'0',marginBottom:'24px'}}>
           <div style={{textAlign:'center',padding:'0 20px'}}>
-            <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>Accuracy</div>
+            <div style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>Accuracy</div>
             <div style={{
               fontFamily:'Nunito, sans-serif',fontSize:'40px',fontWeight:700,
-              color: accuracy>=80?'#2D4A3E':accuracy>=60?'#C9A84C':'#C4714A'
+              color: accuracy>=80?'var(--accent-green)':accuracy>=60?'#C9A84C':'var(--accent-terra)'
             }}>{accuracy}%</div>
           </div>
-          <div style={{background:'#E0DDD6'}}/>
+          <div style={{background:'var(--border)'}}/>
           <div style={{textAlign:'center',padding:'0 20px'}}>
-            <div style={{fontSize:'11px',color:'#6B6B63',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>XP Gained</div>
+            <div style={{fontSize:'11px',color:'var(--text-secondary)',fontWeight:700,textTransform:'uppercase',letterSpacing:'0.08em',marginBottom:'8px'}}>XP Gained</div>
             <div style={{fontFamily:'Nunito, sans-serif',fontSize:'40px',fontWeight:700,color:'#C9A84C'}}>+{earnedXP}</div>
           </div>
         </div>
         
-        <div style={{height:'1px',background:'#E0DDD6',marginBottom:'20px'}}/>
+        <div style={{height:'1px',background:'var(--border)',marginBottom:'20px'}}/>
         
         {/* Accuracy bar */}
         <div style={{marginBottom:'20px'}}>
           <div style={{display:'flex',justifyContent:'space-between',marginBottom:'8px'}}>
             <span style={{fontSize:'13px',fontWeight:600}}>Score</span>
-            <span style={{fontSize:'13px',color:'#6B6B63'}}>{score}/{total} correct</span>
+            <span style={{fontSize:'13px',color:'var(--text-secondary)'}}>{score}/{total} correct</span>
           </div>
-          <div style={{height:'10px',background:'#E0DDD6',borderRadius:'99px',overflow:'hidden'}}>
+          <div style={{height:'10px',background:'var(--border)',borderRadius:'99px',overflow:'hidden'}}>
             <div style={{
               height:'100%',borderRadius:'99px',
               background: accuracy>=80?'linear-gradient(90deg,#2D4A3E,#4A7A6A)':accuracy>=60?'linear-gradient(90deg,#C9A84C,#D4A84C)':'linear-gradient(90deg,#C4714A,#D4824A)',
@@ -392,11 +392,11 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
             background:'rgba(196,113,74,0.06)',
             border:'1px solid rgba(196,113,74,0.15)'
           }}>
-            <div style={{fontSize:'13px',fontWeight:700,color:'#C4714A',marginBottom:'8px'}}>
+            <div style={{fontSize:'13px',fontWeight:700,color:'var(--accent-terra)',marginBottom:'8px'}}>
               📝 Review ({missed.length} missed)
             </div>
             {missed.slice(0,2).map((q,i) => (
-              <div key={i} style={{fontSize:'12px',color:'#6B6B63',marginBottom:'4px',paddingLeft:'8px',borderLeft:'2px solid #C4714A'}}>
+              <div key={i} style={{fontSize:'12px',color:'var(--text-secondary)',marginBottom:'4px',paddingLeft:'8px',borderLeft:'2px solid #C4714A'}}>
                 {q.question.slice(0,60)}...
               </div>
             ))}
@@ -417,8 +417,8 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
         </button>
         <button onClick={() => nav({to:'/play'})} style={{
           padding:'16px',borderRadius:'16px',
-          background:'white',
-          color:'#1C1C1A',border:'2px solid #E0DDD6',cursor:'pointer',
+          background: 'var(--surface-raised)',
+          color:'var(--text-primary)',border:'2px solid #E0DDD6',cursor:'pointer',
           fontSize:'16px',fontWeight:700
         }}>
           ← Back to Games
@@ -444,7 +444,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
           ))}
           
           <div style={{
-            background:'white',borderRadius:'28px',
+            background: 'var(--surface-raised)',borderRadius:'28px',
             padding:'48px 40px',textAlign:'center',
             maxWidth:'380px',width:'100%',
             animation:'bounceIn 0.6s cubic-bezier(0.34,1.56,0.64,1)'
@@ -456,11 +456,11 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
             }}>Level Up!</div>
             <h2 style={{
               fontFamily:'Nunito, sans-serif',fontSize:'32px',
-              marginBottom:'12px',color:'#1C1C1A'
+              marginBottom:'12px',color:'var(--text-primary)'
             }}>
               Welcome, Native Soul!
             </h2>
-            <p style={{color:'#6B6B63',fontSize:'16px',lineHeight:1.6,marginBottom:'32px'}}>
+            <p style={{color:'var(--text-secondary)',fontSize:'16px',lineHeight:1.6,marginBottom:'32px'}}>
               You've been practicing consistently. Keep going — fluency is closer than you think. 🌟
             </p>
             
@@ -478,7 +478,7 @@ function QuizResults({ mode, score, total, missed, addXP, onDone }: { mode: stri
             
             <button onClick={() => setShowLevelUp(false)} style={{
               width:'100%',padding:'16px',borderRadius:'16px',
-              background:'#F0EEE9',color:'#1C1C1A',
+              background:'#F0EEE9',color:'var(--text-primary)',
               border:'none',cursor:'pointer',fontSize:'16px',fontWeight:700
             }}>
               Continue →

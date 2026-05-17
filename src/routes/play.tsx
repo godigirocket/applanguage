@@ -17,7 +17,7 @@ const GAME_MODES = [
     title: 'Quick Quiz',
     desc: '10 questions. Any topic.',
     xp: 'Up to 100 XP',
-    color: '#2D4A3E',
+    color: 'var(--accent-green)',
     tag: null,
   },
   {
@@ -44,7 +44,7 @@ const GAME_MODES = [
     title: 'Streak Quiz',
     desc: 'Answer until you miss one.',
     xp: '10 XP per correct',
-    color: '#C4714A',
+    color: 'var(--accent-terra)',
     tag: null,
   },
 ];
@@ -65,14 +65,14 @@ function PlayPage() {
       <main style={{ maxWidth: '1120px', margin: '0 auto', padding: '48px 24px 120px', animation: 'pageEnter 0.4s ease forwards' }}>
         
         <header style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#2D4A3E', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--accent-green)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '16px' }}>
             <Sparkles size={14} />
             <span>{language === 'pt' ? 'Arena de Treinamento' : 'Training Arena'}</span>
           </div>
-          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: 'var(--text-primary)', marginBottom: '12px', fontWeight: 700 }}>
             {language === 'pt' ? 'Treine suas habilidades' : 'Train your skills'}
           </h1>
-          <p style={{ color: '#6B6B63', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
             {language === 'pt' ? 'Jogos curtos, progresso real.' : 'Short games, real progress.'}
           </p>
         </header>
@@ -80,22 +80,22 @@ function PlayPage() {
         {/* Stats Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '64px' }}>
           {[
-            { label: language === 'pt' ? 'Quizzes' : 'Quizzes', value: stats.quizzesCompleted, color: '#2D4A3E', icon: <Trophy size={18} /> },
+            { label: language === 'pt' ? 'Quizzes' : 'Quizzes', value: stats.quizzesCompleted, color: 'var(--accent-green)', icon: <Trophy size={18} /> },
             { label: language === 'pt' ? 'Precisão' : 'Accuracy', value: `${stats.accuracy}%`, color: '#C9A84C', icon: <Star size={18} /> },
-            { label: 'Streak', value: stats.bestStreak, color: '#C4714A', icon: <Flame size={18} /> },
+            { label: 'Streak', value: stats.bestStreak, color: 'var(--accent-terra)', icon: <Flame size={18} /> },
             { label: 'XP', value: stats.xpFromQuizzes, color: '#1B3A4B', icon: <Zap size={18} /> }
           ].map((stat, i) => (
             <div key={i} className="glass premium-shadow" style={{ padding: '24px', borderRadius: '24px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.4)' }}>
                <div style={{ display: 'flex', justifyContent: 'center', color: stat.color, marginBottom: '8px', opacity: 0.6 }}>{stat.icon}</div>
-               <div style={{ fontSize: '28px', fontFamily: 'Nunito, sans-serif', fontWeight: 700, color: '#1C1C1A' }}>{stat.value}</div>
-               <div style={{ fontSize: '10px', color: '#6B6B63', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 800 }}>{stat.label}</div>
+               <div style={{ fontSize: '28px', fontFamily: 'Nunito, sans-serif', fontWeight: 700, color: 'var(--text-primary)' }}>{stat.value}</div>
+               <div style={{ fontSize: '10px', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontWeight: 800 }}>{stat.label}</div>
             </div>
           ))}
         </div>
 
         {/* Category Pick */}
         <div style={{ marginBottom: '48px' }}>
-          <h2 style={{ fontSize: '14px', fontWeight: 800, color: '#1C1C1A', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '24px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '14px', fontWeight: 800, color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '24px', textAlign: 'center' }}>
             {language === 'pt' ? 'Focar em categoria' : 'Focus by category'}
           </h2>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -107,8 +107,8 @@ function PlayPage() {
               {cat:'Professional',icon:'Briefcase',prog:0.9},
             ].map((c, i) => (
               <motion.div key={c.cat} whileHover={{ scale: 1.05 }} className="glass premium-shadow" style={{ padding: '12px 20px', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', border: '1px solid rgba(255,255,255,0.4)' }}>
-                <div style={{ color: '#2D4A3E' }}><DynamicIcon name={c.icon} size={18} /></div>
-                <span style={{ fontSize: '14px', fontWeight: 700, color: '#1C1C1A' }}>{c.cat}</span>
+                <div style={{ color: 'var(--accent-green)' }}><DynamicIcon name={c.icon} size={18} /></div>
+                <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text-primary)' }}>{c.cat}</span>
               </motion.div>
             ))}
           </div>
@@ -160,12 +160,12 @@ function GameModeCard({ mode, index }: { mode: typeof GAME_MODES[0]; index: numb
         </div>
 
         <div>
-          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', color: '#1C1C1A', marginBottom: '8px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '24px', color: 'var(--text-primary)', marginBottom: '8px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
             {mode.title}
             <ChevronRight size={20} style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateX(0)' : 'translateX(-10px)', transition: 'all 0.3s', color: mode.color }} />
           </h3>
-          <p style={{ fontSize: '14px', color: '#6B6B63', lineHeight: 1.5, marginBottom: '20px', opacity: 0.8 }}>{mode.desc}</p>
-          <div style={{ display: 'inline-block', padding: '6px 14px', borderRadius: '99px', background: 'white', color: mode.color, fontSize: '11px', fontWeight: 800, letterSpacing: '0.05em', border: `1px solid ${mode.color}20` }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.5, marginBottom: '20px', opacity: 0.8 }}>{mode.desc}</p>
+          <div style={{ display: 'inline-block', padding: '6px 14px', borderRadius: '99px', background: 'var(--surface-raised)', color: mode.color, fontSize: '11px', fontWeight: 800, letterSpacing: '0.05em', border: `1px solid ${mode.color}20` }}>
             {mode.xp}
           </div>
         </div>

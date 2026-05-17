@@ -77,11 +77,11 @@ export function LumeIllustration({ className }: { className?: string }) {
 
         <defs>
           <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 100) rotate(90) scale(80)">
-            <stop stopColor="#2D4A3E" stopOpacity="0.6" />
-            <stop offset="1" stopColor="#2D4A3E" stopOpacity="0" />
+            <stop stopColor="var(--accent-green)" stopOpacity="0.6" />
+            <stop offset="1" stopColor="var(--accent-green)" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="paint1_linear" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#2D4A3E" />
+            <stop stopColor="var(--accent-green)" />
             <stop offset="1" stopColor="#1B3A4B" />
           </linearGradient>
         </defs>

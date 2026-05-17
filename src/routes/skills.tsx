@@ -32,14 +32,14 @@ function SkillsPage() {
       <main style={{ maxWidth: '900px', margin: '0 auto', padding: '48px 24px 120px', animation: 'pageEnter 0.4s ease forwards' }}>
 
         <header style={{ textAlign: 'center', marginBottom: '80px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#2D4A3E', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--accent-green)', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '16px' }}>
             <Sparkles size={14} />
             <span>{language === 'pt' ? 'Sua Evolução' : 'Your Evolution'}</span>
           </div>
-          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: '#1C1C1A', marginBottom: '12px', fontWeight: 700 }}>
+          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px, 5vw, 48px)', color: 'var(--text-primary)', marginBottom: '12px', fontWeight: 700 }}>
             {language === 'pt' ? 'Árvore de Habilidades' : 'Skill Tree'}
           </h1>
-          <p style={{ color: '#6B6B63', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '18px', fontStyle: 'italic', maxWidth: '500px', margin: '0 auto', opacity: 0.8 }}>
             {language === 'pt' ? 'Um mapa visual da sua evolução linguística.' : 'A visual map of your linguistic evolution.'}
           </p>
         </header>
@@ -88,7 +88,7 @@ function SkillNode({ skill }: { skill: typeof SKILLS[0] }) {
   const [hovered, setHovered] = useState(false);
 
   const bg = skill.completed ? 'linear-gradient(135deg, #2D4A3E, #1B3A4B)' : skill.locked ? 'rgba(255,255,255,0.4)' : 'white';
-  const borderColor = skill.completed ? 'transparent' : skill.locked ? '#E0DDD6' : '#2D4A3E';
+  const borderColor = skill.completed ? 'transparent' : skill.locked ? 'var(--border)' : 'var(--accent-green)';
   const borderStyle = skill.completed ? 'solid' : skill.locked ? 'solid' : 'dashed';
   const opacity = skill.locked ? 0.6 : 1;
 
@@ -119,9 +119,9 @@ function SkillNode({ skill }: { skill: typeof SKILLS[0] }) {
         {skill.completed ? (
           <Check size={36} color="white" strokeWidth={3} />
         ) : skill.locked ? (
-          <Lock size={24} color="#6B6B63" opacity={0.5} />
+          <Lock size={24} color="var(--text-secondary)" opacity={0.5} />
         ) : (
-          <div style={{ color: '#2D4A3E' }}>
+          <div style={{ color: 'var(--accent-green)' }}>
             <DynamicIcon name={skill.icon} size={36} />
           </div>
         )}
@@ -143,11 +143,11 @@ function SkillNode({ skill }: { skill: typeof SKILLS[0] }) {
       <div style={{ textAlign: 'center', maxWidth: '160px' }}>
         <h3 style={{
           fontFamily: 'Nunito, sans-serif', fontSize: '18px',
-          color: skill.locked ? '#6B6B63' : '#1C1C1A', fontWeight: 700, marginBottom: '4px',
+          color: skill.locked ? 'var(--text-secondary)' : 'var(--text-primary)', fontWeight: 700, marginBottom: '4px',
         }}>
           {skill.title}
         </h3>
-        <p style={{ fontSize: '13px', color: '#6B6B63', lineHeight: 1.5, opacity: 0.8 }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-secondary)', lineHeight: 1.5, opacity: 0.8 }}>
           {skill.desc}
         </p>
       </div>
