@@ -1,7 +1,44 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Helper to recursively find a file in a directory
+function findFile(dir, fileName) {
+  try {
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      const fullPath = path.join(dir, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        // Skip node_modules to avoid infinite/long recursion
+        if (file !== 'node_modules') {
+          const found = findFile(fullPath, fileName);
+          if (found) return found;
+        }
+      } else if (file === fileName) {
+        return fullPath;
+      }
+    }
+  } catch (e) {
+    console.error(`Error reading directory ${dir}:`, e);
+  }
+  return null;
+}
+
 export default async function handler(req, res) {
   try {
-    // Import from the bypass server-build folder, which Vercel does not exclude!
-    const { default: server } = await import('../server-build/server.js');
+    // 1. Dynamically locate server.js at runtime!
+    const taskRoot = process.cwd();
+    console.log(`Task Root: ${taskRoot}`);
+    
+    // Find server.js recursively under taskRoot
+    const serverPath = findFile(taskRoot, 'server.js');
+    console.log(`Located server.js at: ${serverPath}`);
+
+    if (!serverPath) {
+      throw new Error(`Could not find server.js anywhere under ${taskRoot}`);
+    }
+
+    // Import the located server
+    const { default: server } = await import(serverPath);
 
     // Construct the absolute URL
     const protocol = req.headers['x-forwarded-proto'] || 'http';
@@ -44,6 +81,6 @@ export default async function handler(req, res) {
     console.error('SSR Bridge Error:', error);
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
-    res.end(`Internal Server Error inside SSR Bridge: ${error.message}`);
+    res.end(`Internal Server Error inside SSR Bridge: ${error.message}\nStack: ${error.stack}`);
   }
 }
