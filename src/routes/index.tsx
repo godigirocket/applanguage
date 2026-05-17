@@ -20,11 +20,12 @@ function Landing() {
   const { user } = useAuth();
   const nav = useNavigate();
 
-  useEffect(() => {
-    if (user) {
-      nav({ to: '/home', replace: true });
-    }
-  }, [user, nav]);
+  // Disable auto-redirect so users can view the landing page even if logged in
+  // useEffect(() => {
+  //   if (user) {
+  //     nav({ to: '/home', replace: true });
+  //   }
+  // }, [user, nav]);
 
   const content = {
     en: {
