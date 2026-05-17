@@ -1,7 +1,11 @@
-import server from "../dist/server/server.js";
+import path from 'node:path';
 
 export default async function handler(req, res) {
   try {
+    // Resolve server.js path dynamically at runtime using process.cwd()
+    const serverPath = path.join(process.cwd(), 'dist', 'server', 'server.js');
+    const { default: server } = await import(serverPath);
+
     // Construct the absolute URL
     const protocol = req.headers['x-forwarded-proto'] || 'http';
     const host = req.headers['x-forwarded-host'] || req.headers.host;
@@ -43,6 +47,6 @@ export default async function handler(req, res) {
     console.error('SSR Bridge Error:', error);
     res.statusCode = 500;
     res.setHeader('content-type', 'text/plain; charset=utf-8');
-    res.end('Internal Server Error inside SSR Bridge');
+    res.end(`Internal Server Error inside SSR Bridge: ${error.message}`);
   }
 }
