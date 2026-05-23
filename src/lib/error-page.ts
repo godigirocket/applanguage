@@ -1,7 +1,7 @@
 export function renderErrorPage(error?: Error): string {
-  const errorDetails = error 
-    ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>` 
-    : '';
+  const errorDetails = error
+    ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>`
+    : "";
 
   return `<!doctype html>
 <html lang="en">

@@ -1,0 +1,116 @@
+{
+  "pt": [
+    {
+      "id": "i_pt_001",
+      "idiom": "Matar a cobra e mostrar o pau",
+      "literalTranslation": "Kill the snake and show the stick",
+      "meaning": "Provar o que fez com evidências concretas.",
+      "examples": [
+        "Ela matou a cobra e mostrou o pau: trouxe os documentos assinados.",
+        "Não basta falar, tem que matar a cobra e mostrar o pau."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_002",
+      "idiom": "Dar com os burros n'água",
+      "literalTranslation": "End up with the donkeys in water",
+      "meaning": "Fracassar em uma tentativa.",
+      "examples": [
+        "Tentei convencê-lo, mas dei com os burros n'água.",
+        "Se não planejar, vai dar com os burros n'água."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_003",
+      "idiom": "Pagar o pato",
+      "literalTranslation": "Pay the duck",
+      "meaning": "Ser responsabilizado por algo que não fez.",
+      "examples": [
+        "Ele fez a bagunça e eu paguei o pato.",
+        "Não quero pagar o pato por erros dos outros."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    }
+  ],
+  "en": [
+    {
+      "id": "i_en_001",
+      "idiom": "Bite the bullet",
+      "literalTranslation": "Morder a bala",
+      "meaning": "Enfrentar uma situação difícil com coragem.",
+      "examples": [
+        "I hate going to the dentist, but I'll just have to bite the bullet.",
+        "He bit the bullet and accepted the demotion."
+      ],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_002",
+      "idiom": "Piece of cake",
+      "literalTranslation": "Pedaço de bolo",
+      "meaning": "Algo muito fácil de fazer.",
+      "examples": ["The exam was a piece of cake.", "Don't worry, fixing this is a piece of cake."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_003",
+      "idiom": "Under the weather",
+      "literalTranslation": "Sob o clima",
+      "meaning": "Sentir-se um pouco doente.",
+      "examples": [
+        "I'm feeling a bit under the weather today.",
+        "He stayed home because he was under the weather."
+      ],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_004",
+      "idiom": "Break the ice",
+      "literalTranslation": "Quebrar o gelo",
+      "meaning": "Iniciar conversa para reduzir tensão.",
+      "examples": ["He told a joke to break the ice.", "Let's play a game to break the ice."],
+      "region": "Universal",
+      "formality": "Informal"
+    }
+  ],
+  "es": [
+    {
+      "id": "i_es_001",
+      "idiom": "Tomar el pelo",
+      "literalTranslation": "Pegar o cabelo",
+      "meaning": "Brincar com alguém ou enganar.",
+      "examples": ["¿Me estás tomando el pelo?", "Siempre me toma el pelo con esa historia."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_002",
+      "idiom": "Estar como una cabra",
+      "literalTranslation": "Estar como uma cabra",
+      "meaning": "Estar louco ou agir de forma estranha.",
+      "examples": ["Mi vecino está como una cabra.", "Estás como una cabra si piensas eso."],
+      "region": "Espanha",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_003",
+      "idiom": "Dar en el clavo",
+      "literalTranslation": "Acertar no prego",
+      "meaning": "Acertar exatamente no ponto.",
+      "examples": [
+        "Con tu análisis, diste en el clavo.",
+        "El profesor dio en el clavo con su explicación."
+      ],
+      "region": "Universal",
+      "formality": "Informal"
+    }
+  ]
+}

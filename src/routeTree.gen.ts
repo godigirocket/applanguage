@@ -9,10 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VocabularyListsRouteImport } from './routes/vocabulary-lists'
 import { Route as SkillsRouteImport } from './routes/skills'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as QuizHubRouteImport } from './routes/quiz-hub'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PlayRouteImport } from './routes/play'
@@ -24,10 +26,19 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as HangmanRouteImport } from './routes/hangman'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as GuestRouteImport } from './routes/guest'
+import { Route as DictionaryRouteImport } from './routes/dictionary'
+import { Route as CultureRouteImport } from './routes/culture'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsPrivacyRouteImport } from './routes/settings/privacy'
 import { Route as QuizModeRouteImport } from './routes/quiz.$mode'
+import { Route as QuizPlayTypeRouteImport } from './routes/quiz-play.$type'
 import { Route as ConversationTopicRouteImport } from './routes/conversation.$topic'
 
+const VocabularyListsRoute = VocabularyListsRouteImport.update({
+  id: '/vocabulary-lists',
+  path: '/vocabulary-lists',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SkillsRoute = SkillsRouteImport.update({
   id: '/skills',
   path: '/skills',
@@ -46,6 +57,11 @@ const ShopRoute = ShopRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizHubRoute = QuizHubRouteImport.update({
+  id: '/quiz-hub',
+  path: '/quiz-hub',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgressRoute = ProgressRouteImport.update({
@@ -103,14 +119,34 @@ const GuestRoute = GuestRouteImport.update({
   path: '/guest',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DictionaryRoute = DictionaryRouteImport.update({
+  id: '/dictionary',
+  path: '/dictionary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CultureRoute = CultureRouteImport.update({
+  id: '/culture',
+  path: '/culture',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsPrivacyRoute = SettingsPrivacyRouteImport.update({
+  id: '/settings/privacy',
+  path: '/settings/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuizModeRoute = QuizModeRouteImport.update({
   id: '/quiz/$mode',
   path: '/quiz/$mode',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizPlayTypeRoute = QuizPlayTypeRouteImport.update({
+  id: '/quiz-play/$type',
+  path: '/quiz-play/$type',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConversationTopicRoute = ConversationTopicRouteImport.update({
@@ -121,6 +157,8 @@ const ConversationTopicRoute = ConversationTopicRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/culture': typeof CultureRoute
+  '/dictionary': typeof DictionaryRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -132,15 +170,21 @@ export interface FileRoutesByFullPath {
   '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
+  '/quiz-hub': typeof QuizHubRoute
   '/setup': typeof SetupRoute
   '/shop': typeof ShopRoute
   '/signup': typeof SignupRoute
   '/skills': typeof SkillsRoute
+  '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
+  '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/culture': typeof CultureRoute
+  '/dictionary': typeof DictionaryRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -152,16 +196,22 @@ export interface FileRoutesByTo {
   '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
+  '/quiz-hub': typeof QuizHubRoute
   '/setup': typeof SetupRoute
   '/shop': typeof ShopRoute
   '/signup': typeof SignupRoute
   '/skills': typeof SkillsRoute
+  '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
+  '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/culture': typeof CultureRoute
+  '/dictionary': typeof DictionaryRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -173,17 +223,23 @@ export interface FileRoutesById {
   '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
+  '/quiz-hub': typeof QuizHubRoute
   '/setup': typeof SetupRoute
   '/shop': typeof ShopRoute
   '/signup': typeof SignupRoute
   '/skills': typeof SkillsRoute
+  '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
+  '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/settings/privacy': typeof SettingsPrivacyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/culture'
+    | '/dictionary'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -195,15 +251,21 @@ export interface FileRouteTypes {
     | '/play'
     | '/profile'
     | '/progress'
+    | '/quiz-hub'
     | '/setup'
     | '/shop'
     | '/signup'
     | '/skills'
+    | '/vocabulary-lists'
     | '/conversation/$topic'
+    | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/settings/privacy'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/culture'
+    | '/dictionary'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -215,15 +277,21 @@ export interface FileRouteTypes {
     | '/play'
     | '/profile'
     | '/progress'
+    | '/quiz-hub'
     | '/setup'
     | '/shop'
     | '/signup'
     | '/skills'
+    | '/vocabulary-lists'
     | '/conversation/$topic'
+    | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/settings/privacy'
   id:
     | '__root__'
     | '/'
+    | '/culture'
+    | '/dictionary'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -235,16 +303,22 @@ export interface FileRouteTypes {
     | '/play'
     | '/profile'
     | '/progress'
+    | '/quiz-hub'
     | '/setup'
     | '/shop'
     | '/signup'
     | '/skills'
+    | '/vocabulary-lists'
     | '/conversation/$topic'
+    | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/settings/privacy'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CultureRoute: typeof CultureRoute
+  DictionaryRoute: typeof DictionaryRoute
   GuestRoute: typeof GuestRoute
   GuideRoute: typeof GuideRoute
   HangmanRoute: typeof HangmanRoute
@@ -256,16 +330,27 @@ export interface RootRouteChildren {
   PlayRoute: typeof PlayRoute
   ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
+  QuizHubRoute: typeof QuizHubRoute
   SetupRoute: typeof SetupRoute
   ShopRoute: typeof ShopRoute
   SignupRoute: typeof SignupRoute
   SkillsRoute: typeof SkillsRoute
+  VocabularyListsRoute: typeof VocabularyListsRoute
   ConversationTopicRoute: typeof ConversationTopicRoute
+  QuizPlayTypeRoute: typeof QuizPlayTypeRoute
   QuizModeRoute: typeof QuizModeRoute
+  SettingsPrivacyRoute: typeof SettingsPrivacyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vocabulary-lists': {
+      id: '/vocabulary-lists'
+      path: '/vocabulary-lists'
+      fullPath: '/vocabulary-lists'
+      preLoaderRoute: typeof VocabularyListsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/skills': {
       id: '/skills'
       path: '/skills'
@@ -292,6 +377,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz-hub': {
+      id: '/quiz-hub'
+      path: '/quiz-hub'
+      fullPath: '/quiz-hub'
+      preLoaderRoute: typeof QuizHubRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/progress': {
@@ -371,6 +463,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GuestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dictionary': {
+      id: '/dictionary'
+      path: '/dictionary'
+      fullPath: '/dictionary'
+      preLoaderRoute: typeof DictionaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/culture': {
+      id: '/culture'
+      path: '/culture'
+      fullPath: '/culture'
+      preLoaderRoute: typeof CultureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -378,11 +484,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/privacy': {
+      id: '/settings/privacy'
+      path: '/settings/privacy'
+      fullPath: '/settings/privacy'
+      preLoaderRoute: typeof SettingsPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quiz/$mode': {
       id: '/quiz/$mode'
       path: '/quiz/$mode'
       fullPath: '/quiz/$mode'
       preLoaderRoute: typeof QuizModeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz-play/$type': {
+      id: '/quiz-play/$type'
+      path: '/quiz-play/$type'
+      fullPath: '/quiz-play/$type'
+      preLoaderRoute: typeof QuizPlayTypeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/conversation/$topic': {
@@ -397,6 +517,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CultureRoute: CultureRoute,
+  DictionaryRoute: DictionaryRoute,
   GuestRoute: GuestRoute,
   GuideRoute: GuideRoute,
   HangmanRoute: HangmanRoute,
@@ -408,12 +530,16 @@ const rootRouteChildren: RootRouteChildren = {
   PlayRoute: PlayRoute,
   ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
+  QuizHubRoute: QuizHubRoute,
   SetupRoute: SetupRoute,
   ShopRoute: ShopRoute,
   SignupRoute: SignupRoute,
   SkillsRoute: SkillsRoute,
+  VocabularyListsRoute: VocabularyListsRoute,
   ConversationTopicRoute: ConversationTopicRoute,
+  QuizPlayTypeRoute: QuizPlayTypeRoute,
   QuizModeRoute: QuizModeRoute,
+  SettingsPrivacyRoute: SettingsPrivacyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,0 +1,29 @@
+{
+  "en": [
+    {
+      "id": "r_en_001",
+      "title": "A Day at the Park",
+      "level": "A1",
+      "text": "Today is a beautiful day. The sun is shining and the sky is blue. Many people are at the park. Children are playing on the swings. Some people are reading books on the grass. A dog is running after a ball. It is a very peaceful morning.",
+      "glossary": [
+        { "word": "shining", "translation": "brilhando" },
+        { "word": "swings", "translation": "balanços" },
+        { "word": "peaceful", "translation": "pacífico" }
+      ],
+      "questions": [
+        {
+          "question": "What is the weather like?",
+          "type": "multiple-choice",
+          "options": ["Raining", "Snowing", "Sunny", "Cloudy"],
+          "correct": 2
+        },
+        {
+          "question": "What are the children doing?",
+          "type": "multiple-choice",
+          "options": ["Reading books", "Playing on swings", "Running with a dog", "Eating apples"],
+          "correct": 1
+        }
+      ]
+    }
+  ]
+}

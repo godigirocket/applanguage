@@ -1,16 +1,16 @@
 export default async function handler(req, res) {
   try {
     // Static literal import guarantees Vercel's esbuild compiler traces and bundles all server dependencies (like h3-v2, vinxi, react, etc.)!
-    const { default: server } = await import('../server-build/server.js');
+    const { default: server } = await import("../server-build/server.js");
 
     // Construct the absolute URL
-    const protocol = req.headers['x-forwarded-proto'] || 'http';
-    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const host = req.headers["x-forwarded-host"] || req.headers.host;
     const url = `${protocol}://${host}${req.url}`;
 
     // Read the request body if it exists
     let body = null;
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
+    if (req.method !== "GET" && req.method !== "HEAD") {
       const buffers = [];
       for await (const chunk of req) {
         buffers.push(chunk);
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     res.statusCode = webResponse.status;
     webResponse.headers.forEach((value, key) => {
       // Avoid duplicate or invalid headers
-      if (key.toLowerCase() !== 'transfer-encoding') {
+      if (key.toLowerCase() !== "transfer-encoding") {
         res.setHeader(key, value);
       }
     });
@@ -41,14 +41,14 @@ export default async function handler(req, res) {
     const responseBody = await webResponse.arrayBuffer();
     res.end(Buffer.from(responseBody));
   } catch (error) {
-    console.error('SSR Bridge Error:', error);
+    console.error("SSR Bridge Error:", error);
     res.statusCode = 500;
-    res.setHeader('content-type', 'text/html; charset=utf-8');
-    
+    res.setHeader("content-type", "text/html; charset=utf-8");
+
     // Detailed error trace directly in browser for easy diagnostics
-    const errorDetails = error 
-      ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>` 
-      : '';
+    const errorDetails = error
+      ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>`
+      : "";
 
     res.end(`<!doctype html>
 <html lang="en">

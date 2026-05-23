@@ -1,14 +1,27 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { safeQuery, supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { MOODS } from "@/lib/topics";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { checkTables } from "@/lib/supabase-safe";
+import { safeGetProfile, safeUpsertProfile } from "@/lib/db";
+import { useStore } from "@/hooks/useStore";
+import { useUserStore, UserLevel } from "@/store/userStore";
+import {
+  LogOut,
+  User,
+  Settings,
+  Bell,
+  Shield,
+  Volume2,
+  Trash2,
+  Download,
+} from "@/components/lume/CustomIcons";
 
 export const Route = createFileRoute("/profile")({
-  head: () => ({ meta: [{ title: "Seu Perfil & Segurança — Lume" }] }),
+  head: () => ({ meta: [{ title: "Configurações e Perfil — Lume" }] }),
   component: Profile,
 });
 
@@ -17,17 +30,94 @@ type AuditLog = { action: string; ip: string; timestamp: string };
 function Profile() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  
-  // Profile settings
+
+  const handleLogoutCleanup = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.error("Signout error:", e);
+    }
+
+    localStorage.removeItem("lume-storage");
+    localStorage.removeItem("lume-user-settings");
+    localStorage.removeItem("lume_user_level");
+    localStorage.removeItem("lume_level");
+    localStorage.removeItem("lume-game-storage");
+
+    useUserStore.setState({
+      userLevel: "",
+      xp: 0,
+      lumes: 0,
+      streak: 0,
+      quests: [
+        {
+          id: "dq-1",
+          title: "Complete 2 lições",
+          target: 2,
+          current: 0,
+          completed: false,
+          xpReward: 50,
+          lumesReward: 10,
+        },
+        {
+          id: "dq-2",
+          title: "Ganhe 150 XP",
+          target: 150,
+          current: 0,
+          completed: false,
+          xpReward: 25,
+          lumesReward: 5,
+        },
+        {
+          id: "dq-3",
+          title: "Acerte 10 flashcards",
+          target: 10,
+          current: 0,
+          completed: false,
+          xpReward: 40,
+          lumesReward: 15,
+        },
+        {
+          id: "dq-4",
+          title: "Conclua o Modo Sobrevivência",
+          target: 1,
+          current: 0,
+          completed: false,
+          xpReward: 100,
+          lumesReward: 20,
+        },
+      ],
+    });
+
+    useStore.setState({
+      learningLevel: "",
+      xp: 0,
+      lumes: 0,
+      streak: 0,
+      messages: [],
+      onboardingStep: 1,
+    });
+  };
+
+  // Lume global store variables
+  const { interfaceLanguage, setInterfaceLanguage, targetLanguage, setTargetLanguage } = useStore();
+
+  const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
+
+  // Profile local/DB settings
   const [name, setName] = useState("");
-  const [language, setLanguage] = useState<"pt" | "en">("en");
-  const [level, setLevel] = useState<"beginner" | "intermediate" | "advanced">("beginner");
+  const [level, setLevel] = useState<UserLevel>("A1");
   const [mood, setMood] = useState<"calm" | "intensive" | "cultural" | "confidence">("calm");
+
+  // New UI options
+  const [notifications, setNotifications] = useState(true);
+  const [soundEffects, setSoundEffects] = useState(true);
+  const [speechRate, setSpeechRate] = useState("1.0");
+
   const [saving, setSaving] = useState(false);
   const [loaded, setLoaded] = useState(false);
-
-  // Advanced customization state
-  const [fontSize, setFontSize] = useState<"small" | "medium" | "large">("medium");
+  const [showSetupBanner, setShowSetupBanner] = useState(false);
 
   // 2FA TOTP state
   const [enable2FA, setEnable2FA] = useState(false);
@@ -41,19 +131,43 @@ function Profile() {
 
   // Audit log
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>([
-    { action: "Sessão iniciada", ip: "192.168.1.45", timestamp: new Date(Date.now() - 3600000).toLocaleString() },
-    { action: "Preferências atualizadas", ip: "192.168.1.45", timestamp: new Date(Date.now() - 7200000).toLocaleString() }
+    {
+      action: "Sessão iniciada",
+      ip: "192.168.1.45",
+      timestamp: new Date(Date.now() - 3600000).toLocaleString(),
+    },
+    {
+      action: "Preferências atualizadas",
+      ip: "192.168.1.45",
+      timestamp: new Date(Date.now() - 7200000).toLocaleString(),
+    },
   ]);
 
   useEffect(() => {
-    if (!loading && !user) { nav({ to: "/login" }); return; }
+    async function verifyDatabase() {
+      const exists = await checkTables();
+      setShowSetupBanner(!exists);
+    }
+    verifyDatabase();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      nav({ to: "/login" });
+      return;
+    }
     if (!user || loaded) return;
     (async () => {
-      const data = await safeQuery(() => supabase.from("profiles").select("full_name, language, level, preferred_mood").eq("id", user.id).maybeSingle());
+      const data = await safeGetProfile(user.id);
       if (data) {
         setName(data.full_name ?? "");
-        setLanguage(data.language as "pt" | "en");
-        setLevel(data.level as any);
+
+        let dbLevel = data.level;
+        if (dbLevel === "beginner") dbLevel = "A1";
+        else if (dbLevel === "intermediate") dbLevel = "B1";
+        else if (dbLevel === "advanced") dbLevel = "C1";
+        setLevel((dbLevel || "A1") as any);
+
         setMood(data.preferred_mood as any);
         setLoaded(true);
       }
@@ -63,22 +177,51 @@ function Profile() {
   async function save() {
     if (!user) return;
     setSaving(true);
-    const { error } = await supabase.from("profiles").update({
-      full_name: name, language, level, preferred_mood: mood,
-    }).eq("id", user.id);
+
+    // Sync into Zustand stores immediately
+    useUserStore.getState().setUserLevel(level);
+    useStore.getState().setLearningLevel(level);
+
+    const updates = {
+      full_name: name,
+      language: interfaceLanguage,
+      level: level,
+      preferred_mood: mood,
+    };
+
+    const result = await safeUpsertProfile(user.id, updates);
     setSaving(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Suas preferências foram atualizadas com sucesso!");
+
+    if (result.success) {
+      toast.success(
+        result.fallback
+          ? isPT
+            ? "Salvo localmente (configure o banco para sincronizar)"
+            : isES
+              ? "Guardado localmente"
+              : "Saved locally (configure DB to sync)"
+          : isPT
+            ? "Configurações salvas com sucesso!"
+            : isES
+              ? "¡Ajustes guardados con éxito!"
+              : "Settings saved successfully!",
+      );
       logSecurityAction("Configurações atualizadas");
+    } else {
+      toast.error(
+        isPT
+          ? "Falha ao salvar preferências."
+          : isES
+            ? "Error al guardar ajustes."
+            : "Failed to save preferences.",
+      );
     }
   }
 
   const logSecurityAction = (action: string) => {
-    setAuditLogs(prev => [
+    setAuditLogs((prev) => [
       { action, ip: "192.168.1.45", timestamp: new Date().toLocaleString() },
-      ...prev
+      ...prev,
     ]);
   };
 
@@ -86,302 +229,1059 @@ function Profile() {
     if (totpCode === "123456") {
       setEnable2FA(true);
       setShow2FAConfig(false);
-      toast.success("Autenticação em duas etapas (2FA) ativada com sucesso!");
+      toast.success(
+        isPT
+          ? "Autenticação em duas etapas ativada!"
+          : isES
+            ? "¡Autenticación de 2 factores activada!"
+            : "Two-factor authentication enabled!",
+      );
       logSecurityAction("2FA ativado");
     } else {
-      toast.error("Código TOTP inválido. Tente usar '123456' para o teste.");
+      toast.error(
+        isPT ? "Código TOTP inválido." : isES ? "Código TOTP inválido." : "Invalid TOTP code.",
+      );
     }
   };
 
   const handleDeleteAccount = async () => {
-    if (deleteConfirmText.toLowerCase() === "excluir conta") {
-      toast.loading("Excluindo conta de forma segura...");
+    const triggerWord = isPT ? "excluir" : isES ? "eliminar" : "delete";
+    if (deleteConfirmText.toLowerCase() === triggerWord) {
+      toast.loading(
+        isPT ? "Excluindo conta..." : isES ? "Eliminando cuenta..." : "Deleting account...",
+      );
       setTimeout(async () => {
         if (user) {
-          await supabase.from("profiles").delete().eq("id", user.id);
-          await supabase.auth.signOut();
+          try {
+            await supabase.from("profiles").delete().eq("id", user.id);
+          } catch (e) {
+            console.error("Error deleting profile:", e);
+          }
+          await handleLogoutCleanup();
         }
         toast.dismiss();
-        toast.success("Sua conta foi excluída com sucesso.");
+        toast.success(isPT ? "Conta excluída." : isES ? "Cuenta eliminada." : "Account deleted.");
         nav({ to: "/login" });
       }, 2000);
     } else {
-      toast.error("Por favor, digite 'excluir conta' exatamente para confirmar.");
+      toast.error(
+        isPT
+          ? "Digite 'excluir' para confirmar."
+          : isES
+            ? "Escriba 'eliminar' para confirmar."
+            : "Type 'delete' to confirm.",
+      );
     }
   };
 
-  const initials = name.split(" ").map((s) => s[0]).filter(Boolean).slice(0, 2).join("").toUpperCase() || "L";
+  const initials =
+    name
+      .split(" ")
+      .map((s) => s[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "L";
 
   return (
-    <div className="min-h-screen bg-background dark:bg-[#0D0D0B] text-foreground transition-colors duration-300">
+    <div style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: "40px" }}>
       <AppHeader />
-      <main className="max-w-3xl mx-auto px-6 py-10 md:py-16 pb-32 page-enter">
-        
-        <header className="flex items-center gap-6 mb-10">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent-green to-sky-950 flex items-center justify-center font-display text-3xl font-extrabold text-white shadow-lg shrink-0">
+      <main
+        style={{
+          maxWidth: "800px",
+          margin: "0 auto",
+          padding: "40px 20px",
+          animation: "pageEnter 0.5s ease",
+        }}
+      >
+        {/* Setup Banner */}
+        {showSetupBanner && (
+          <div
+            style={{
+              background: "linear-gradient(135deg, #C4714A, #D4824A)",
+              borderRadius: "16px",
+              padding: "16px 20px",
+              marginBottom: "32px",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              boxShadow: "0 4px 14px rgba(196,113,74,0.25)",
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: 800, fontSize: "15px" }}>
+                {isPT
+                  ? "Base de dados não configurada"
+                  : isES
+                    ? "Base de datos no configurada"
+                    : "Database not configured"}
+              </div>
+              <div style={{ opacity: 0.9, fontSize: "13px" }}>
+                {isPT
+                  ? "Execute o SQL no Supabase para salvar seu progresso."
+                  : isES
+                    ? "Ejecute el SQL en Supabase para guardar su progreso."
+                    : "Run SQL script in Supabase to sync your progress."}
+              </div>
+            </div>
+            <Link
+              to="/setup"
+              style={{
+                padding: "8px 16px",
+                borderRadius: "99px",
+                background: "rgba(255,255,255,0.2)",
+                color: "white",
+                textDecoration: "none",
+                fontSize: "13px",
+                fontWeight: 700,
+              }}
+            >
+              {isPT ? "Instruções →" : isES ? "Instrucciones →" : "Instructions →"}
+            </Link>
+          </div>
+        )}
+
+        <header
+          style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "40px" }}
+        >
+          <div
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "24px",
+              background: "linear-gradient(135deg, var(--brand), #1B3A4B)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "white",
+              fontSize: "32px",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 800,
+              boxShadow: "0 8px 24px rgba(45,74,62,0.3)",
+            }}
+          >
             {initials}
           </div>
           <div>
-            <h1 className="font-display text-3xl font-extrabold text-[#1C1C1A] dark:text-white m-0">{name || "Seu perfil"}</h1>
-            <p className="text-[#6B6B63] dark:text-gray-400 mt-1 text-sm md:text-base font-semibold">{user?.email}</p>
+            <h1
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "32px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                margin: "0 0 4px",
+              }}
+            >
+              {name || (isPT ? "Seu perfil" : isES ? "Tu perfil" : "Your profile")}
+            </h1>
+            <p
+              style={{
+                color: "var(--text-secondary)",
+                fontSize: "15px",
+                fontWeight: 600,
+                margin: 0,
+              }}
+            >
+              {user?.email}
+            </p>
           </div>
         </header>
 
-        {/* PROFILE PREFERENCES CARD */}
-        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
-          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-6 flex items-center gap-2.5">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Preferências de Aprendizado
+        {/* PROFILE PREFERENCES */}
+        <section
+          style={{
+            background: "var(--surface-raised)",
+            borderRadius: "24px",
+            padding: "32px",
+            border: "1px solid var(--border)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.02)",
+            marginBottom: "32px",
+          }}
+        >
+          <h2
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "var(--text-primary)",
+              marginBottom: "24px",
+            }}
+          >
+            <User size={20} color="var(--brand)" />
+            {isPT ? "Perfil e Aprendizado" : isES ? "Perfil y Aprendizaje" : "Profile & Learning"}
           </h2>
-          
-          <div className="flex flex-col gap-6">
-            <Field label="Nome Completo">
-              <input 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
-                className="w-full px-5 py-3.5 rounded-xl border border-zinc-200/80 dark:border-zinc-750 bg-background dark:bg-zinc-950 text-foreground outline-none font-bold text-sm md:text-base transition-colors focus:border-accent-green"
-                placeholder="Como quer ser chamado?"
+
+          <div style={{ display: "grid", gap: "24px" }}>
+            <Field label={isPT ? "Nome Completo" : isES ? "Nombre Completo" : "Full Name"}>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: "14px 16px",
+                  borderRadius: "12px",
+                  border: "1.5px solid var(--border)",
+                  background: "var(--bg)",
+                  color: "var(--text-primary)",
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  outline: "none",
+                  transition: "border 0.2s",
+                }}
+                placeholder={
+                  isPT
+                    ? "Como quer ser chamado?"
+                    : isES
+                      ? "¿Cómo quieres que te llamen?"
+                      : "What should we call you?"
+                }
               />
             </Field>
 
-            <Field label="Idioma de Estudo">
-              <div className="grid grid-cols-2 gap-3.5">
-                <Pill active={language === "pt"} onClick={() => setLanguage("pt")}>Português</Pill>
-                <Pill active={language === "en"} onClick={() => setLanguage("en")}>English</Pill>
+            {/* SYSTEM / INTERFACE LANGUAGE */}
+            <Field
+              label={
+                isPT
+                  ? "Idioma do Sistema Lume"
+                  : isES
+                    ? "Idioma del Sistema Lume"
+                    : "Lume Interface Language"
+              }
+            >
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                <Pill
+                  active={interfaceLanguage === "pt"}
+                  onClick={() => setInterfaceLanguage("pt")}
+                >
+                  🇵🇹 Português
+                </Pill>
+                <Pill
+                  active={interfaceLanguage === "en"}
+                  onClick={() => setInterfaceLanguage("en")}
+                >
+                  🇺🇸 English
+                </Pill>
+                <Pill
+                  active={interfaceLanguage === "es"}
+                  onClick={() => setInterfaceLanguage("es")}
+                >
+                  🇪🇸 Español
+                </Pill>
               </div>
             </Field>
 
-            <Field label="Nível Atual de Conversação">
-              <div className="grid grid-cols-3 gap-3.5">
-                {(["beginner", "intermediate", "advanced"] as const).map((l) => (
-                  <Pill key={l} active={level === l} onClick={() => setLevel(l)}>{l}</Pill>
-                ))}
+            {/* TARGET / STUDY LANGUAGE */}
+            <Field
+              label={
+                isPT
+                  ? "Idioma que Você Estuda"
+                  : isES
+                    ? "Idioma que Estudias"
+                    : "Language You Learn"
+              }
+            >
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                <Pill active={targetLanguage === "pt"} onClick={() => setTargetLanguage("pt")}>
+                  🇵🇹 Português
+                </Pill>
+                <Pill active={targetLanguage === "en"} onClick={() => setTargetLanguage("en")}>
+                  🇺🇸 English
+                </Pill>
+                <Pill active={targetLanguage === "es"} onClick={() => setTargetLanguage("es")}>
+                  🇪🇸 Español
+                </Pill>
               </div>
             </Field>
 
-            <Field label="Modo de Correção da IA">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+            <Field label={isPT ? "Nível Atual" : isES ? "Nivel Actual" : "Current Level"}>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+                  gap: "12px",
+                }}
+              >
+                {[
+                  {
+                    id: "A1",
+                    title: "A1",
+                    desc: isPT ? "Iniciante" : isES ? "Principiante" : "Beginner",
+                    color: "#4A7A5B",
+                    bg: "rgba(74, 122, 91, 0.06)",
+                  },
+                  {
+                    id: "A2",
+                    title: "A2",
+                    desc: isPT ? "Básico" : isES ? "Básico" : "Basic",
+                    color: "#3B7A8C",
+                    bg: "rgba(59, 122, 140, 0.06)",
+                  },
+                  {
+                    id: "B1",
+                    title: "B1",
+                    desc: isPT ? "Intermediário" : isES ? "Intermedio" : "Intermediate",
+                    color: "#D49E3B",
+                    bg: "rgba(212, 158, 59, 0.06)",
+                  },
+                  {
+                    id: "B2",
+                    title: "B2",
+                    desc: isPT
+                      ? "Intermediário Alto"
+                      : isES
+                        ? "Intermedio Alto"
+                        : "Upper Intermediate",
+                    color: "#C46D4B",
+                    bg: "rgba(196, 109, 75, 0.06)",
+                  },
+                  {
+                    id: "C1",
+                    title: "C1",
+                    desc: isPT ? "Avançado" : isES ? "Avanzado" : "Advanced",
+                    color: "#B34A4A",
+                    bg: "rgba(179, 74, 74, 0.06)",
+                  },
+                  {
+                    id: "C2",
+                    title: "C2",
+                    desc: isPT ? "Proficiente" : isES ? "Proficiente" : "Proficient",
+                    color: "#2A4D69",
+                    bg: "rgba(42, 77, 105, 0.06)",
+                  },
+                ].map((l) => {
+                  const active = level === l.id;
+                  return (
+                    <button
+                      key={l.id}
+                      type="button"
+                      onClick={() => setLevel(l.id as any)}
+                      style={{
+                        padding: "16px 12px",
+                        borderRadius: "16px",
+                        border: "2px solid",
+                        borderColor: active ? l.color : "var(--border)",
+                        background: active ? l.bg : "var(--bg)",
+                        color: active ? l.color : "var(--text-primary)",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        textAlign: "left",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "4px",
+                        boxShadow: active ? "0 4px 12px rgba(0,0,0,0.03)" : "none",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontWeight: 800,
+                          fontSize: "16px",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                        }}
+                      >
+                        {l.title}
+                        {active && (
+                          <span
+                            style={{
+                              width: "6px",
+                              height: "6px",
+                              borderRadius: "50%",
+                              background: l.color,
+                            }}
+                          />
+                        )}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          color: "var(--text-secondary)",
+                          fontWeight: 600,
+                          lineHeight: 1.3,
+                        }}
+                      >
+                        {l.desc}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </Field>
+
+            <Field
+              label={
+                isPT
+                  ? "Modo de Correção da IA"
+                  : isES
+                    ? "Modo de Corrección de IA"
+                    : "IA Correction Mode"
+              }
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                  gap: "10px",
+                }}
+              >
                 {MOODS.map((m) => (
                   <Pill key={m.slug} active={mood === m.slug} onClick={() => setMood(m.slug)}>
-                    <span className="mr-2">{m.icon}</span> {m.label}
+                    {m.label}
                   </Pill>
                 ))}
               </div>
             </Field>
           </div>
+        </section>
 
-          <div className="mt-8 flex gap-4 flex-wrap sm:flex-nowrap">
-            <button onClick={save} disabled={saving} className="flex-1 py-4 bg-accent-green dark:bg-accent-gold text-white dark:text-zinc-950 border-none rounded-2xl font-bold text-sm md:text-base cursor-pointer shadow-[0_4px_16px_rgba(45,74,62,0.2)] dark:shadow-none hover:brightness-105 active:scale-[0.98] transition-all">
-              {saving ? "Salvando..." : "Salvar Alterações"}
-            </button>
-            <button onClick={exportData} className="px-6 py-4 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-850 text-zinc-600 dark:text-zinc-300 font-bold text-sm md:text-base cursor-pointer flex items-center justify-center gap-2 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all">
-              <span>Exportar Dados</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </button>
-          </div>
-        </div>
-
-        {/* CUSTOMIZATION CARD */}
-        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
-          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-6 flex items-center gap-2.5">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            Personalização de Aparência
+        {/* SYSTEM SETTINGS */}
+        <section
+          style={{
+            background: "var(--surface-raised)",
+            borderRadius: "24px",
+            padding: "32px",
+            border: "1px solid var(--border)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.02)",
+            marginBottom: "32px",
+          }}
+        >
+          <h2
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "var(--text-primary)",
+              marginBottom: "24px",
+            }}
+          >
+            <Settings size={20} color="var(--text-secondary)" />
+            {isPT ? "Configurações do App" : isES ? "Ajustes de la App" : "App Settings"}
           </h2>
 
-          <div className="flex flex-col gap-6">
-            <Field label="Tamanho da Fonte das Conversas">
-              <div className="grid grid-cols-3 gap-3.5">
-                <Pill active={fontSize === "small"} onClick={() => setFontSize("small")}>A- Pequeno</Pill>
-                <Pill active={fontSize === "medium"} onClick={() => setFontSize("medium")}>A Padrão</Pill>
-                <Pill active={fontSize === "large"} onClick={() => setFontSize("large")}>A+ Grande</Pill>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {/* Notification Toggle */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "16px",
+                background: "var(--bg)",
+                borderRadius: "12px",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: "rgba(201,168,76,0.1)",
+                    color: "#C9A84C",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Bell size={18} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                    {isPT
+                      ? "Lembretes Diários"
+                      : isES
+                        ? "Recordatorios Diarios"
+                        : "Daily Reminders"}
+                  </div>
+                  <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                    {isPT
+                      ? "Receba avisos para não perder a ofensiva"
+                      : isES
+                        ? "Recibe avisos para no perder tu racha"
+                        : "Get notifications to keep your streak active"}
+                  </div>
+                </div>
+              </div>
+              <Toggle active={notifications} onClick={() => setNotifications(!notifications)} />
+            </div>
+
+            {/* Sound Toggle */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "16px",
+                background: "var(--bg)",
+                borderRadius: "12px",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: "rgba(45,74,62,0.1)",
+                    color: "var(--brand)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Volume2 size={18} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                    {isPT ? "Efeitos Sonoros" : isES ? "Efectos de Sonido" : "Sound Effects"}
+                  </div>
+                  <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                    {isPT
+                      ? "Sons ao acertar quizzes e missões"
+                      : isES
+                        ? "Sonidos al responder cuestionarios y misiones"
+                        : "Play audio cues for correct answers and streaks"}
+                  </div>
+                </div>
+              </div>
+              <Toggle active={soundEffects} onClick={() => setSoundEffects(!soundEffects)} />
+            </div>
+
+            <Field
+              label={
+                isPT
+                  ? "Velocidade da Voz (Áudio)"
+                  : isES
+                    ? "Velocidad de Voz (Audio)"
+                    : "Voice Speed (Audio)"
+              }
+            >
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+                <Pill active={speechRate === "0.8"} onClick={() => setSpeechRate("0.8")}>
+                  {isPT ? "Lento" : isES ? "Lento" : "Slow"}
+                </Pill>
+                <Pill active={speechRate === "1.0"} onClick={() => setSpeechRate("1.0")}>
+                  {isPT ? "Normal" : isES ? "Normal" : "Normal"}
+                </Pill>
+                <Pill active={speechRate === "1.2"} onClick={() => setSpeechRate("1.2")}>
+                  {isPT ? "Rápido" : isES ? "Rápido" : "Fast"}
+                </Pill>
               </div>
             </Field>
           </div>
+        </section>
+
+        {/* SAVE ACTIONS */}
+        <div style={{ display: "flex", gap: "16px", marginBottom: "40px" }}>
+          <button
+            onClick={save}
+            disabled={saving}
+            style={{
+              flex: 1,
+              padding: "16px",
+              borderRadius: "16px",
+              background: "var(--brand)",
+              color: "white",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "15px",
+              fontWeight: 700,
+              boxShadow: "0 4px 16px rgba(45,74,62,0.25)",
+              transition: "transform 0.1s",
+            }}
+          >
+            {saving
+              ? isPT
+                ? "Salvando..."
+                : isES
+                  ? "Guardando..."
+                  : "Saving..."
+              : isPT
+                ? "Salvar Configurações"
+                : isES
+                  ? "Guardar Ajustes"
+                  : "Save Settings"}
+          </button>
+
+          <button
+            onClick={exportData}
+            style={{
+              padding: "16px 24px",
+              borderRadius: "16px",
+              background: "var(--bg)",
+              border: "1.5px solid var(--border)",
+              color: "var(--text-primary)",
+              cursor: "pointer",
+              fontSize: "15px",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <Download size={18} /> {isPT ? "Exportar" : isES ? "Exportar" : "Export"}
+          </button>
         </div>
 
-        {/* SECURITY & 2FA CARD */}
-        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
-          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-4 flex items-center gap-2.5">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Segurança & Verificação 2FA
+        {/* SECURITY */}
+        <section
+          style={{
+            background: "var(--surface-raised)",
+            borderRadius: "24px",
+            padding: "32px",
+            border: "1px solid var(--border)",
+            boxShadow: "0 4px 20px rgba(0,0,0,0.02)",
+            marginBottom: "32px",
+          }}
+        >
+          <h2
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "var(--text-primary)",
+              marginBottom: "24px",
+            }}
+          >
+            <Shield size={20} color="#1B3A4B" />
+            {isPT ? "Segurança da Conta" : isES ? "Seguridad de la Cuenta" : "Account Security"}
           </h2>
-          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6 leading-relaxed font-semibold">
-            Proteja sua conta adicionando uma camada extra de segurança. Ao ativar, você precisará de um código do seu aplicativo autenticador para fazer login.
-          </p>
 
-          <div className="flex items-center justify-between gap-4 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/60 dark:border-zinc-800/80 mb-6">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "16px",
+              background: "var(--bg)",
+              borderRadius: "12px",
+              border: "1px solid var(--border)",
+            }}
+          >
             <div>
-              <div className="font-bold text-sm md:text-base text-[#1C1C1A] dark:text-white">Autenticação em Duas Etapas (TOTP)</div>
-              <div className="text-xs text-[#6B6B63] dark:text-gray-400 mt-0.5">{enable2FA ? "Ativo e protegido" : "Desativado"}</div>
+              <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                {isPT ? "Autenticação 2FA" : isES ? "Autenticación 2FA" : "2FA Authentication"}
+              </div>
+              <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                {enable2FA
+                  ? isPT
+                    ? "Ativado"
+                    : isES
+                      ? "Activado"
+                      : "Enabled"
+                  : isPT
+                    ? "Proteja sua conta"
+                    : isES
+                      ? "Proteja su cuenta"
+                      : "Protect your account"}
+              </div>
             </div>
-            <button 
+            <button
               onClick={() => {
                 if (enable2FA) {
                   setEnable2FA(false);
-                  logSecurityAction("2FA desativado");
-                  toast.success("2FA desativado.");
+                  toast.success("2FA desativado");
                 } else {
                   setShow2FAConfig(true);
                 }
-              }} 
-              className={`px-5 py-2.5 rounded-full border-none text-white font-extrabold text-xs tracking-wider uppercase cursor-pointer hover:brightness-105 transition-all ${enable2FA ? 'bg-accent-terra' : 'bg-accent-green'}`}
+              }}
+              style={{
+                padding: "8px 16px",
+                borderRadius: "99px",
+                border: "none",
+                background: enable2FA ? "rgba(196,113,74,0.1)" : "var(--brand)",
+                color: enable2FA ? "#C4714A" : "white",
+                fontWeight: 700,
+                fontSize: "13px",
+                cursor: "pointer",
+              }}
             >
-              {enable2FA ? "Desativar" : "Configurar"}
+              {enable2FA
+                ? isPT
+                  ? "Desativar"
+                  : isES
+                    ? "Desactivar"
+                    : "Disable"
+                : isPT
+                  ? "Configurar"
+                  : isES
+                    ? "Configurar"
+                    : "Setup"}
             </button>
           </div>
 
           {show2FAConfig && (
-            <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-accent-terra/30 mt-4 page-enter">
-              <div className="flex gap-5 flex-wrap items-center mb-5">
-                <div className="w-28 h-28 bg-white dark:bg-white rounded-xl p-2.5 flex items-center justify-center border border-zinc-200">
-                  <svg width="100" height="100" viewBox="0 0 100 100">
-                    <rect x="5" y="5" width="20" height="20" fill="var(--text-primary)" />
-                    <rect x="10" y="10" width="10" height="10" fill="white" />
-                    <rect x="75" y="5" width="20" height="20" fill="var(--text-primary)" />
-                    <rect x="80" y="10" width="10" height="10" fill="white" />
-                    <rect x="5" y="75" width="20" height="20" fill="var(--text-primary)" />
-                    <rect x="10" y="80" width="10" height="10" fill="white" />
-                    <rect x="35" y="35" width="30" height="30" fill="var(--text-primary)" />
-                    <rect x="45" y="45" width="10" height="10" fill="white" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <div className="text-xs font-extrabold uppercase tracking-wider text-accent-terra">Chave Secreta</div>
-                  <code className="text-sm bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-700 inline-block my-2.5 font-mono font-bold">{twoFactorSecret}</code>
-                  <p className="text-xs text-[#6B6B63] dark:text-gray-400 margin-0">Escaneie o QR Code ou insira a chave no seu app (Google Authenticator ou Authy).</p>
-                </div>
+            <div
+              style={{
+                marginTop: "16px",
+                padding: "20px",
+                background: "var(--bg)",
+                border: "1px dashed var(--border)",
+                borderRadius: "16px",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  color: "var(--text-secondary)",
+                  textTransform: "uppercase",
+                  marginBottom: "8px",
+                }}
+              >
+                Chave Secreta TOTP
               </div>
-
-              <div className="flex gap-3">
-                <input 
-                  type="text" 
-                  value={totpCode} 
-                  onChange={e => setTotpCode(e.target.value)} 
-                  placeholder="Código de 6 dígitos (digite 123456)" 
-                  className="flex-1 px-4 py-3.5 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-foreground outline-none font-bold text-sm"
+              <code
+                style={{
+                  display: "inline-block",
+                  padding: "8px 12px",
+                  background: "var(--surface-raised)",
+                  borderRadius: "8px",
+                  border: "1px solid var(--border)",
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  marginBottom: "16px",
+                  color: "var(--text-primary)",
+                }}
+              >
+                {twoFactorSecret}
+              </code>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  type="text"
+                  value={totpCode}
+                  onChange={(e) => setTotpCode(e.target.value)}
+                  placeholder="Código de 6 dígitos"
+                  style={{
+                    flex: 1,
+                    padding: "12px 16px",
+                    borderRadius: "10px",
+                    border: "1px solid var(--border)",
+                    background: "var(--surface-raised)",
+                    color: "var(--text-primary)",
+                    outline: "none",
+                  }}
                 />
-                <button onClick={handleVerify2FA} className="px-5 py-3.5 rounded-xl border-none bg-accent-green hover:brightness-105 text-white font-extrabold text-sm cursor-pointer transition-all">Confirmar</button>
+                <button
+                  onClick={handleVerify2FA}
+                  style={{
+                    padding: "0 20px",
+                    borderRadius: "10px",
+                    background: "var(--brand)",
+                    color: "white",
+                    border: "none",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  Confirmar
+                </button>
               </div>
             </div>
           )}
-        </div>
+        </section>
 
-        {/* SECURITY AUDIT LOG CARD */}
-        <div className="glass p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 premium-shadow mb-8">
-          <h2 className="font-display text-xl md:text-2xl font-extrabold text-[#1C1C1A] dark:text-white mb-4 flex items-center gap-2.5">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-            Histórico de Ações de Segurança
-          </h2>
-          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6">Logs de auditoria dos eventos recentes da sua conta.</p>
-
-          <div className="flex flex-col gap-3">
-            {auditLogs.map((log, idx) => (
-              <div key={idx} className="flex flex-wrap sm:flex-nowrap justify-between gap-2 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200/50 dark:border-zinc-800/50 text-xs md:text-sm font-semibold">
-                <span className="text-accent-green dark:text-accent-gold font-extrabold">{log.action}</span>
-                <span className="text-[#6B6B63] dark:text-gray-400">IP: {log.ip} · {log.timestamp}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* DELETE ACCOUNT ZONE */}
-        <div className="p-6 md:p-8 bg-accent-terra/5 dark:bg-accent-terra/10 rounded-[28px] border border-accent-terra/20 dark:border-accent-terra/30 mb-8">
-          <h3 className="font-display text-xl font-extrabold text-accent-terra mb-2">Zona Crítica</h3>
-          <p className="text-[#6B6B63] dark:text-gray-400 text-sm mb-6 font-semibold leading-relaxed">Ao excluir sua conta, todas as suas lições, expressões salvas e progresso de conversação serão deletados permanentemente.</p>
-          <button 
-            onClick={() => setShowDeleteModal(true)} 
-            className="px-6 py-3.5 rounded-xl border-none bg-accent-terra text-white font-extrabold text-sm tracking-wider uppercase cursor-pointer hover:brightness-105 transition-all"
+        {/* LOGOUT & DANGER ZONE */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <button
+            onClick={async () => {
+              await handleLogoutCleanup();
+              nav({ to: "/login" });
+            }}
+            style={{
+              padding: "16px",
+              borderRadius: "16px",
+              background: "var(--surface-raised)",
+              border: "1px solid var(--border)",
+              color: "var(--text-primary)",
+              fontSize: "15px",
+              fontWeight: 700,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+            }}
           >
-            Excluir Minha Conta
+            <LogOut size={18} /> {isPT ? "Sair da conta" : isES ? "Cerrar sesión" : "Sign Out"}
+          </button>
+
+          <button
+            onClick={() => setShowDeleteModal(true)}
+            style={{
+              padding: "16px",
+              borderRadius: "16px",
+              background: "rgba(196,113,74,0.05)",
+              border: "1px solid rgba(196,113,74,0.2)",
+              color: "#C4714A",
+              fontSize: "15px",
+              fontWeight: 700,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "10px",
+            }}
+          >
+            <Trash2 size={18} />{" "}
+            {isPT ? "Excluir conta" : isES ? "Eliminar cuenta" : "Delete Account"}
           </button>
         </div>
 
-        {/* DELETE CONFIRMATION MODAL */}
+        {/* DELETE MODAL */}
         {showDeleteModal && (
-          <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-md flex items-center justify-center p-6">
-            <div className="bg-white dark:bg-zinc-900 text-foreground rounded-3xl p-8 max-w-sm w-full text-center border border-zinc-200 dark:border-zinc-800 premium-shadow">
-              <h2 className="font-display text-2xl text-accent-terra mb-3.5 font-extrabold">Tem certeza absoluta?</h2>
-              <p className="text-sm text-[#6B6B63] dark:text-gray-400 leading-relaxed mb-6 font-semibold">
-                Esta ação é irreversível. Para confirmar, digite <strong>excluir conta</strong> no campo abaixo.
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 9999,
+              background: "rgba(0,0,0,0.5)",
+              backdropFilter: "blur(4px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "20px",
+            }}
+          >
+            <div
+              style={{
+                background: "var(--surface-raised)",
+                padding: "32px",
+                borderRadius: "24px",
+                maxWidth: "400px",
+                width: "100%",
+                border: "1px solid var(--border)",
+                boxShadow: "0 16px 48px rgba(0,0,0,0.2)",
+              }}
+            >
+              <h2
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "24px",
+                  color: "#C4714A",
+                  margin: "0 0 16px",
+                }}
+              >
+                {isPT ? "Excluir Conta" : isES ? "Eliminar Cuenta" : "Delete Account"}
+              </h2>
+              <p
+                style={{
+                  color: "var(--text-secondary)",
+                  fontSize: "15px",
+                  lineHeight: 1.5,
+                  margin: "0 0 24px",
+                }}
+              >
+                {isPT
+                  ? "Esta ação é irreversível. Todas as suas lições e expressões salvas serão perdidas. Digite 'excluir' para confirmar."
+                  : isES
+                    ? "Esta acción es irreversible. Se perderán todas tus lecciones y expresiones guardadas. Escribe 'eliminar' para confirmar."
+                    : "This action is irreversible. All your lesson progress and saved expressions will be lost forever. Type 'delete' to confirm."}
               </p>
-              <input 
-                type="text" 
-                value={deleteConfirmText} 
-                onChange={e => setDeleteConfirmText(e.target.value)} 
-                placeholder="excluir conta" 
-                className="w-full px-4 py-3 border-2 border-accent-terra/30 dark:border-accent-terra/40 bg-zinc-50 dark:bg-zinc-950 text-foreground outline-none text-sm mb-6 text-center font-bold rounded-xl"
+
+              <input
+                type="text"
+                value={deleteConfirmText}
+                onChange={(e) => setDeleteConfirmText(e.target.value)}
+                placeholder={isPT ? "excluir" : isES ? "eliminar" : "delete"}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  borderRadius: "12px",
+                  border: "1px solid rgba(196,113,74,0.3)",
+                  background: "var(--bg)",
+                  color: "var(--text-primary)",
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  marginBottom: "24px",
+                  outline: "none",
+                }}
               />
-              <div className="flex gap-3">
-                <button onClick={() => setShowDeleteModal(false)} className="flex-1 py-3 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300 font-extrabold text-sm cursor-pointer transition-all hover:bg-zinc-50 dark:hover:bg-zinc-800">Cancelar</button>
-                <button onClick={handleDeleteAccount} className="flex-1 py-3 rounded-xl border-none bg-accent-terra text-white font-extrabold text-sm cursor-pointer transition-all hover:brightness-105">Confirmar Exclusão</button>
+
+              <div style={{ display: "flex", gap: "12px" }}>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  style={{
+                    flex: 1,
+                    padding: "14px",
+                    borderRadius: "12px",
+                    background: "var(--bg)",
+                    border: "1px solid var(--border)",
+                    color: "var(--text-primary)",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  {isPT ? "Cancelar" : isES ? "Cancelar" : "Cancel"}
+                </button>
+                <button
+                  onClick={handleDeleteAccount}
+                  style={{
+                    flex: 1,
+                    padding: "14px",
+                    borderRadius: "12px",
+                    background: "#C4714A",
+                    border: "none",
+                    color: "white",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                  }}
+                >
+                  {isPT ? "Confirmar" : isES ? "Confirmar" : "Confirm"}
+                </button>
               </div>
             </div>
           </div>
         )}
-
       </main>
     </div>
   );
 
   async function exportData() {
     if (!user) return;
-    toast.promise(async () => {
-      const exprs = await safeQuery(() => supabase.from("saved_expressions").select("*"));
-      const convs = await safeQuery(() => supabase.from("conversations").select("*"));
-      
-      let md = `# Lume Data Export — ${name}\n\n`;
-      md += `Gerado em: ${new Date().toLocaleString()}\n\n`;
-      
-      md += `## Expressões Salvas\n\n`;
-      if (!exprs?.length) md += "Nenhuma expressão salva ainda.\n";
-      else exprs.forEach(e => {
-        md += `### ${e.expression}\nContexto: ${e.context || 'N/A'} · Salvo em: ${new Date(e.created_at).toLocaleDateString()}\n\n`;
-      });
-      
-      md += `\n## Histórico de Conversas\n\n`;
-      if (!convs?.length) md += "Nenhuma conversa registrada ainda.\n";
-      else convs.forEach(c => {
-        md += `### ${c.title}\nTópico: ${c.topic_slug} · Duração: ${Math.round(c.duration_seconds / 60)} min · Data: ${new Date(c.created_at).toLocaleDateString()}\n\n`;
-      });
-      
-      const blob = new Blob([md], { type: 'text/markdown' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `lume-export-${new Date().toISOString().slice(0,10)}.md`;
-      a.click();
-      URL.revokeObjectURL(url);
-      logSecurityAction("Dados exportados");
-    }, {
-      loading: 'Preparando exportação de dados...',
-      success: 'Dados exportados com sucesso!',
-      error: 'Erro ao exportar seus dados.'
-    });
+    toast.promise(
+      async () => {
+        const exprs = (await safeQuery(
+          () => supabase.from("saved_expressions").select("*") as any,
+        )) as any;
+        const convs = (await safeQuery(
+          () => supabase.from("conversations").select("*") as any,
+        )) as any;
+
+        let md = `# Lume Data Export — ${name}\n\n`;
+        md += `Gerado em: ${new Date().toLocaleString()}\n\n`;
+
+        md += `## Expressões Salvas\n\n`;
+        if (!exprs?.length) md += "Nenhuma expressão salva ainda.\n";
+        else
+          exprs.forEach((e: any) => {
+            md += `### ${e.expression}\nContexto: ${e.context || "N/A"} · Salvo em: ${new Date(e.created_at).toLocaleDateString()}\n\n`;
+          });
+
+        md += `\n## Histórico de Conversas\n\n`;
+        if (!convs?.length) md += "Nenhuma conversa registrada ainda.\n";
+        else
+          convs.forEach((c: any) => {
+            md += `### ${c.title}\nTópico: ${c.topic_slug} · Duração: ${Math.round(c.duration_seconds / 60)} min · Data: ${new Date(c.created_at).toLocaleDateString()}\n\n`;
+          });
+
+        const blob = new Blob([md], { type: "text/markdown" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `lume-export-${new Date().toISOString().slice(0, 10)}.md`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      {
+        loading: isPT
+          ? "Preparando exportação..."
+          : isES
+            ? "Preparando exportación..."
+            : "Preparing export...",
+        success: isPT
+          ? "Exportado com sucesso!"
+          : isES
+            ? "¡Exportado con éxito!"
+            : "Exported successfully!",
+        error: isPT ? "Erro ao exportar." : isES ? "Error al exportar." : "Error during export.",
+      },
+    );
   }
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-2">
-      <label className="text-[10px] font-extrabold text-[#6B6B63] dark:text-gray-400 uppercase tracking-widest">{label}</label>
+    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <label
+        style={{
+          fontSize: "11px",
+          fontWeight: 800,
+          color: "var(--text-secondary)",
+          textTransform: "uppercase",
+          letterSpacing: "0.08em",
+        }}
+      >
+        {label}
+      </label>
       {children}
     </div>
   );
 }
 
-function Pill({ active, children, onClick }: { active: boolean; children: React.ReactNode; onClick: () => void }) {
+function Pill({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
   return (
-    <button 
-      type="button" 
+    <button
+      type="button"
       onClick={onClick}
-      className="px-5 py-3.5 rounded-xl text-sm font-bold cursor-pointer transition-all duration-200 outline-none flex items-center justify-center"
       style={{
-        border: active ? '2.5px solid var(--accent-green)' : '1.5px solid var(--border)',
-        background: active ? 'rgba(45,74,62,0.1)' : 'var(--surface-raised)',
-        color: active ? 'var(--accent-green)' : 'var(--text-secondary)'
+        padding: "12px 16px",
+        borderRadius: "12px",
+        fontSize: "14px",
+        fontWeight: 700,
+        cursor: "pointer",
+        transition: "all 0.15s",
+        outline: "none",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        border: active ? "2px solid var(--brand)" : "1.5px solid var(--border)",
+        background: active ? "rgba(45,74,62,0.06)" : "var(--bg)",
+        color: active ? "var(--brand)" : "var(--text-primary)",
       }}
     >
       {children}
     </button>
+  );
+}
+
+function Toggle({ active, onClick }: { active: boolean; onClick: () => void }) {
+  return (
+    <div
+      onClick={onClick}
+      style={{
+        width: "44px",
+        height: "24px",
+        borderRadius: "99px",
+        background: active ? "var(--brand)" : "var(--border)",
+        position: "relative",
+        cursor: "pointer",
+        transition: "background 0.2s",
+      }}
+    >
+      <div
+        style={{
+          width: "20px",
+          height: "20px",
+          borderRadius: "50%",
+          background: "white",
+          position: "absolute",
+          top: "2px",
+          left: active ? "22px" : "2px",
+          transition: "left 0.2s",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
+        }}
+      />
+    </div>
   );
 }

@@ -1,211 +1,647 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
+import { useStore } from "@/hooks/useStore";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import {
+  HelpCircle,
+  ChevronDown,
+  BookOpen,
+  Mic,
+  Sliders,
+  Play,
+  Smartphone,
+} from "@/components/lume/CustomIcons";
 
 export const Route = createFileRoute("/guide")({
   component: GuidePage,
 });
 
+interface FAQItem {
+  id: string;
+  qEN: string;
+  qPT: string;
+  qES: string;
+  aEN: string;
+  aPT: string;
+  aES: string;
+}
+
+const FAQS: FAQItem[] = [
+  {
+    id: "what-is-lume",
+    qEN: "What makes Lume different from other language apps?",
+    qPT: "O que torna o Lume diferente de outros aplicativos de idiomas?",
+    qES: "¿Qué hace a Lume diferente de otras aplicaciones de idiomas?",
+    aEN: "Lume prioritizes cultural authenticity, regional accents, and human-like voice interaction over simple multiple-choice drills. Inspired by neuroaesthetics and boutique design, we believe language learning should be sensory, beautiful, and culturally immersive.",
+    aPT: "O Lume prioriza a autenticidade cultural, sotaques regionais e interação de voz humanizada em vez de exercícios repetitivos de múltipla escolha. Inspirados em neuroestética e design boutique, acreditamos que aprender um idioma deve ser sensorial, bonito e culturalmente imersivo.",
+    aES: "Lume prioriza la autenticidad cultural, los acentos regionales y la interacción de voz humanizada en lugar de ejercicios repetitivos de opción múltiple. Inspirados en la neuroestética y el diseño boutique, creemos que aprender un idioma debe ser sensorial, hermoso y culturalmente inmersivo.",
+  },
+  {
+    id: "how-xp",
+    qEN: "How does the XP system work?",
+    qPT: "Como funciona o sistema de XP?",
+    qES: "¿Cómo funciona el sistema de XP?",
+    aEN: "You earn XP by completing conversations, participating in the Play Arena's 18 game modes, and completing daily challenges. Earning XP advances your level: from Beginner, to Explorer, Conversationalist, Fluent, and finally Native Soul.",
+    aPT: "Você ganha XP completando conversas, participando dos 18 modos de jogo na Arena Play e concluindo desafios diários. Acumular XP avança seu nível: de Beginner a Explorer, Conversationalist, Fluent e finalmente Native Soul.",
+    aES: "Ganas XP al completar conversaciones, participar en los 18 modos de juego de la Arena Play y completar desafíos diarios. Acumular XP aumenta tu nivel: de Beginner a Explorer, Conversationalist, Fluent y finalmente Native Soul.",
+  },
+  {
+    id: "regional-tts",
+    qEN: "How do regional accents and Speech Synthesis work?",
+    qPT: "Como funcionam os sotaques regionais e a síntese de voz?",
+    qES: "¿Cómo funcionan los acentos regionales y la síntesis de voz?",
+    aEN: "When exploring the Culture Hub, each regional slang features specialized Speech Synthesis parameters. Lume automatically adjusts local audio parameters (such as London vs. Scotland, or São Paulo vs. Rio de Janeiro) to guarantee authentic phonetics.",
+    aPT: "Ao explorar o Hub Cultural, cada gíria regional apresenta parâmetros especializados de Síntese de Voz. O Lume ajusta automaticamente os parâmetros de áudio locais (como Londres vs. Escócia, ou São Paulo vs. Rio de Janeiro) para garantir uma fonética autêntica.",
+    aES: "Al explorar el Hub Cultural, cada jerga regional presenta parámetros especializados de Síntesis de Voz. Lume ajusta automáticamente los parámetros de audio locales (como Londres frente a Escocia, o São Paulo frente a Río de Janeiro) para garantizar una fonética auténtica.",
+  },
+  {
+    id: "save-expr",
+    qEN: "How do I save expressions during conversations?",
+    qPT: "Como salvo expressões durante as conversas?",
+    qES: "¿Cómo guardo expresiones durante las conversaciones?",
+    aEN: "Inside the voice-chat dashboard, click the 'Save' button under any interesting phrase sent by the AI. This instantly saves it to your Progress page, complete with context and an active Text-to-Speech pronunciation button.",
+    aPT: "Dentro do chat de voz, clique no botão 'Salvar' abaixo de qualquer frase interessante enviada pela IA. Isso a salva instantaneamente em sua página de Progresso, completa com contexto e um botão de pronúncia ativa via voz.",
+    aES: "Dentro del chat de voz, haz clic en el botón 'Guardar' debajo de cualquier frase interesante enviada por la IA. Esto la guarda instantáneamente en tu página de Progreso, completa con contexto y un botón de pronunciación activa por voz.",
+  },
+  {
+    id: "mobile-pwa",
+    qEN: "Can I install Lume on my mobile device?",
+    qPT: "Posso instalar o Lume no meu celular?",
+    qES: "¿Puedo instalar Lume en mi móvil?",
+    aEN: "Yes! Lume is built as a progressive web app (PWA). You can install it on your device for a full-screen, premium app experience. On iOS, open Safari, tap Share, and select 'Add to Home Screen'. On Android, tap the three dots in Chrome and select 'Install'.",
+    aPT: "Sim! O Lume é desenvolvido como um Progressive Web App (PWA). Você pode instalá-lo diretamente no seu dispositivo para ter uma experiência em tela cheia premium. No iOS, abra o Safari, toque em Compartilhar e selecione 'Adicionar à Tela de Início'. No Android, toque nos três pontos no Chrome e selecione 'Instalar'.",
+    aES: "¡Sí! Lume está desarrollado como una Progressive Web App (PWA). Puedes instalarla directamente en tu dispositivo para tener una experiencia en pantalla completa premium. En iOS, abre Safari, toca Compartir y selecciona 'Agregar a la pantalla de inicio'. En Android, toca los tres puntos en Chrome y selecciona 'Instalar'.",
+  },
+  {
+    id: "system-lang",
+    qEN: "How do I change the system language?",
+    qPT: "Como altero o idioma do sistema?",
+    qES: "¿Cómo cambio el idioma del sistema?",
+    aEN: "You can change the system language (English, Portuguese, Spanish) at any time inside the Profile settings page. This immediately translates the entire dashboard, lesson guidelines, and interactive maps.",
+    aPT: "Você pode alterar o idioma do sistema (Inglês, Português, Espanhol) a qualquer momento na página de Perfil. Isso traduz imediatamente todo o painel, diretrizes de lições e mapas interativos.",
+    aES: "Puedes cambiar el idioma del sistema (inglés, portugués, español) en cualquier momento en la página de Perfil. Esto traduce inmediatamente todo el panel, las directrices de las lecciones y los mapas interactivos.",
+  },
+];
+
 function GuidePage() {
+  const { interfaceLanguage } = useStore();
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
+
+  const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
+
+  const getTranslation = (item: any, keyBase: string) => {
+    if (isPT) return item[`${keyBase}PT`] || item[keyBase];
+    if (isES) return item[`${keyBase}ES`] || item[keyBase];
+    return item[`${keyBase}EN`] || item[keyBase];
+  };
+
+  const toggleFaq = (id: string) => {
+    setOpenFaq(openFaq === id ? null : id);
+  };
+
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+    <div style={{ minHeight: "100vh", background: "transparent" }}>
       <AppHeader />
-      
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '60px 24px 120px', animation: 'pageEnter 0.6s ease-out both' }}>
-        <div style={{ marginBottom: '48px', textAlign: 'center' }}>
-          <h1 style={{ fontFamily: 'Nunito, sans-serif', fontSize: 'clamp(32px,4vw,48px)', marginBottom: '12px', fontWeight: 800, color: 'var(--text-primary)' }}>
-            Como usar o Lume
+
+      <main
+        style={{
+          maxWidth: "840px",
+          margin: "0 auto",
+          padding: "48px 16px 40px",
+          animation: "pageEnter 0.4s ease forwards",
+        }}
+      >
+        {/* Back Button */}
+        <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: "32px" }}>
+          <Link
+            to="/home"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "var(--text-secondary)",
+              textDecoration: "none",
+              fontSize: "14px",
+              fontWeight: 700,
+              padding: "8px 16px",
+              borderRadius: "12px",
+              background: "var(--surface-raised)",
+              border: "1px solid var(--border)",
+              transition: "all 0.2s",
+            }}
+            className="hover:scale-95"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            {isPT ? "Voltar ao Início" : isES ? "Volver al Inicio" : "Back to Home"}
+          </Link>
+        </div>
+
+        {/* Editorial Header */}
+        <header style={{ marginBottom: "56px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              color: "var(--brand)",
+              fontSize: "11px",
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.15em",
+              marginBottom: "16px",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                width: "8px",
+                height: "8px",
+                background: "var(--brand)",
+                borderRadius: "50%",
+              }}
+            ></span>
+            {isPT ? "Metodologia Lume" : isES ? "Metodología Lume" : "Lume Methodology"}
+          </div>
+          <h1
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "clamp(36px, 6vw, 56px)",
+              marginBottom: "24px",
+              fontWeight: 800,
+              color: "var(--text-primary)",
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {isPT
+              ? "A arte de aprender com elegância."
+              : isES
+                ? "El arte de aprender con elegancia."
+                : "The art of learning with elegance."}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '17px', lineHeight: 1.6, maxWidth: '600px', margin: '0 auto' }}>
-            Um guia simples para tirar o máximo proveito da sua prática de conversação com inteligência artificial.
+          <p
+            style={{
+              color: "var(--text-secondary)",
+              fontSize: "19px",
+              lineHeight: 1.6,
+              maxWidth: "640px",
+              fontWeight: 500,
+            }}
+          >
+            {isPT
+              ? "Esqueça exercícios mecânicos e decoreba de gramática. O Lume une neuroestética, imersão em sotaques reais e o prazer da descoberta cultural."
+              : isES
+                ? "Olvídese de los ejercicios mecánicos y la memorización de gramática. Lume une la neuroestética, la inmersión en acentos reales y el placer del descubrimiento cultural."
+                : "Forget mechanical vocabulary drills and boring grammar tables. Lume blends neuroaesthetics, real accent immersion, and the pure sensory pleasure of cultural discovery."}
           </p>
-        </div>
+        </header>
 
-        {/* Guide sections */}
-        <div className="glass" style={{ borderRadius: '24px', padding: '12px 32px', background: 'var(--surface-raised)', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)' }}>
-          {[
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-              ),
-              color: 'var(--accent-green)',
-              title: '1. Escolha um tema de conversa',
-              body: 'Na tela inicial, você verá 8 temas: Vida Cotidiana, Arte & Cultura, Profissional, Conversa Livre, Confiança ao Falar, Viagem, Música e Relacionamentos. Escolha o que fizer mais sentido para você hoje.',
-              tip: 'Dica: comece com "Conversa Livre" se não souber por onde começar.'
-            },
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <line x1="12" y1="19" x2="12" y2="23"/>
-                </svg>
-              ),
-              color: 'var(--accent-terra)',
-              title: '2. Fale ou escreva',
-              body: 'Você pode usar o botão de microfone para falar (recomendado!) ou digitar no campo de texto. Falar em voz alta é muito mais eficiente para desenvolver fluência.',
-              tip: 'Dica: mesmo que você erre muito, continue. A IA corrige com gentileza.'
-            },
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M9 11l3 3L22 4"/>
-                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                </svg>
-              ),
-              color: '#1B3A4B',
-              title: '3. Escolha seu modo (Humor)',
-              body: 'Antes de conversar, selecione um modo: Calmo (menos correções), Intensivo (feedback técnico), Cultural (contexto e referências), Confiança (zero correções, só encorajamento).',
-              tip: 'Dica: use "Calmo" nos dias que estiver cansado. Use "Intensivo" quando quiser avançar rápido.'
-            },
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-                </svg>
-              ),
-              color: '#7A4A8A',
-              title: '4. Salve expressões',
-              body: 'Quando a IA usar uma frase interessante, clique em "Salvar" embaixo da mensagem. Ela vai para sua biblioteca de expressões e fica disponível para revisar depois.',
-              tip: 'Dica: tente salvar pelo menos 3 expressões por sessão.'
-            },
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" opacity="0.15"/>
-                  <polyline points="5 3 19 12 5 21 5 3"/>
-                </svg>
-              ),
-              color: '#C9A84C',
-              title: '5. Jogue os quizzes',
-              body: 'Na aba "Jogar" você encontra 4 modos: Quiz Rápido (10 perguntas), Speed Round (contra o tempo), Desafio Diário (bônus de XP) e Quiz Sequência (quanto mais acertar, mais XP).',
-              tip: 'Dica: faça o Desafio Diário todo dia — é a forma mais rápida de ganhar XP.'
-            },
-            {
-              icon: (
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                </svg>
-              ),
-              color: '#4A7A5A',
-              title: '6. Acompanhe seu progresso',
-              body: 'Na aba "Progresso" você vê seu gráfico de confiança, conquistas desbloqueadas, expressões salvas e histórico de sessões. Quanto mais você pratica, mais o gráfico sobe.',
-              tip: 'Dica: uma sessão por dia, mesmo que curta, é muito melhor do que uma sessão longa por semana.'
-            },
-          ].map((section, i) => (
-            <div key={i} style={{
-              display: 'grid', gridTemplateColumns: '56px 1fr',
-              gap: '24px', padding: '32px 0',
-              borderBottom: i < 5 ? '1px solid #E0DDD6' : 'none'
-            }}>
-              <div style={{
-                width: '56px', height: '56px', borderRadius: '16px',
-                background: `${section.color}12`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: section.color, flexShrink: 0
-              }}>
-                {section.icon}
-              </div>
-              <div>
-                <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
-                  {section.title}
-                </h3>
-                <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '12px' }}>
-                  {section.body}
-                </p>
-                <div style={{
-                  padding: '10px 14px', borderRadius: '10px',
-                  background: `${section.color}08`,
-                  border: `1px solid ${section.color}20`,
-                  fontSize: '13px', color: section.color, fontWeight: 600
-                }}>
-                  {section.tip}
-                </div>
-              </div>
+        {/* The Core Pillars */}
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "24px", marginBottom: "56px" }}
+        >
+          {/* Pillar 1 */}
+          <div
+            className="glass premium-shadow"
+            style={{
+              padding: "40px",
+              borderRadius: "28px",
+              border: "1px solid var(--border)",
+              background: "var(--surface-raised)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ color: "var(--brand)", marginBottom: "18px" }}>
+              <Mic size={32} />
             </div>
-          ))}
-        </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "24px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                marginBottom: "12px",
+              }}
+            >
+              {isPT
+                ? "1. Fale, não apenas digite."
+                : isES
+                  ? "1. Hable, no sólo escriba."
+                  : "1. Speak, don't just type."}
+            </h2>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "var(--text-secondary)",
+                lineHeight: 1.6,
+                margin: 0,
+                maxWidth: "560px",
+              }}
+            >
+              {isPT
+                ? "Nossa interface de conversação foi desenhada para simular diálogos e ligações reais. Use o microfone para falar livremente. O sotaque regional se ajusta para guiar sua confiança e pronúncia."
+                : isES
+                  ? "Nuestra interfaz de conversación está diseñada para simular diálogos y llamadas reales. Use el micrófono para hablar libremente. El acento regional se ajusta para guiar su confianza y pronunciación."
+                  : "Our conversation dashboard is designed to simulate natural, human dialogue. Use the microphone to speak freely. The regional accent adapts in real-time to build your speech confidence and perfect your phonetic flow."}
+            </p>
+          </div>
 
-        {/* iPhone Shortcut Instructions */}
-        <div className="glass" style={{ borderRadius: '24px', padding: '32px', background: 'var(--surface-raised)', border: '1px solid white', boxShadow: '0 8px 32px rgba(0,0,0,0.02)', marginTop: '32px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '56px 1fr', gap: '24px' }}>
-            <div style={{
-              width: '56px', height: '56px', borderRadius: '16px',
-              background: '#C4714A12',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'var(--accent-terra)', flexShrink: 0
-            }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                <line x1="12" y1="18" x2="12.01" y2="18"/>
-              </svg>
+          {/* Pillar 2 */}
+          <div
+            className="glass premium-shadow"
+            style={{
+              padding: "40px",
+              borderRadius: "28px",
+              border: "1px solid var(--border)",
+              background: "var(--surface-raised)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ color: "var(--accent-green)", marginBottom: "18px" }}>
+              <Sliders size={32} />
             </div>
-            <div>
-              <h3 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '20px', fontWeight: 700, marginBottom: '10px', color: 'var(--text-primary)' }}>
-                📱 Como instalar no iPhone (Tela de Início)
-              </h3>
-              <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: '16px' }}>
-                Você pode usar o Lume como um aplicativo de celular nativo! Isso remove a barra do navegador e deixa a experiência muito mais rápida e fluida.
-              </p>
-              
-              <div style={{ display: 'grid', gap: '12px', fontSize: '14px', color: 'var(--text-primary)', fontWeight: 500, paddingLeft: '8px' }}>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <span style={{ color: 'var(--accent-terra)' }}>1.</span>
-                  <span>Abra o <strong>Safari</strong> no seu iPhone e acesse o site do Lume.</span>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <span style={{ color: 'var(--accent-terra)' }}>2.</span>
-                  <span>Toque no botão de <strong>Compartilhar</strong> <span style={{ fontSize: '16px' }}>📤</span> (o quadrado com uma seta para cima na barra inferior).</span>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <span style={{ color: 'var(--accent-terra)' }}>3.</span>
-                  <span>Role a lista para baixo e toque em <strong>"Adicionar à Tela de Início"</strong> <span style={{ fontSize: '16px' }}>➕</span>.</span>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <span style={{ color: 'var(--accent-terra)' }}>4.</span>
-                  <span>Digite "Lume" como nome (se já não estiver) e toque em <strong>"Adicionar"</strong> no canto superior direito.</span>
-                </div>
-              </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "24px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                marginBottom: "12px",
+              }}
+            >
+              {isPT
+                ? "2. Imersão Cultural Total"
+                : isES
+                  ? "2. Inmersión Cultural Total"
+                  : "2. Total Cultural Immersion"}
+            </h2>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "var(--text-secondary)",
+                lineHeight: 1.6,
+                margin: 0,
+                maxWidth: "560px",
+              }}
+            >
+              {isPT
+                ? "Explore o Culture Hub para clicar em pins reais ao redor do mundo. Conheça pratos típicos, pontos históricos icônicos e gírias audíveis em inglês americano, britânico, espanhol e muito mais."
+                : isES
+                  ? "Explore el Culture Hub para hacer clic en pins reales de todo el mundo. Conozca platos típicos, monumentos históricos y escuche jerga real en inglés americano, británico, español y más."
+                  : "Explore the Culture Hub to interact with regional pins. Discover typical cuisine, historic trivia, and listen to authentic regional slangs in authentic voice outputs."}
+            </p>
+          </div>
 
-              <div style={{
-                padding: '12px 14px', borderRadius: '10px',
-                background: '#C4714A08',
-                border: '1px solid #C4714A20',
-                fontSize: '13px', color: 'var(--accent-terra)', fontWeight: 600,
-                marginTop: '16px'
-              }}>
-                ✨ Pronto! O ícone do Lume aparecerá na sua tela inicial e funcionará em tela cheia com máxima fluidez!
-              </div>
+          {/* Pillar 3 */}
+          <div
+            className="glass premium-shadow"
+            style={{
+              padding: "40px",
+              borderRadius: "28px",
+              border: "1px solid var(--border)",
+              background: "var(--surface-raised)",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ color: "var(--accent-terra)", marginBottom: "18px" }}>
+              <BookOpen size={32} />
             </div>
+            <h2
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "24px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                marginBottom: "12px",
+              }}
+            >
+              {isPT
+                ? "3. Colecione o Idioma"
+                : isES
+                  ? "3. Coleccione el Idioma"
+                  : "3. Collect the Language"}
+            </h2>
+            <p
+              style={{
+                fontSize: "15px",
+                color: "var(--text-secondary)",
+                lineHeight: 1.6,
+                margin: 0,
+                maxWidth: "560px",
+              }}
+            >
+              {isPT
+                ? "Sempre que descobrir termos curiosos na plataforma, salve-os instantaneamente. Revise-os na página de Progresso e use o botão de áudio dedicado para ouvir sua fonética quantas vezes quiser."
+                : isES
+                  ? "Cada vez que descubra términos curiosos, guárdelos al instante. Revíselos en la página de Progreso y use el botón de audio dedicado para escuchar su fonética cuántas veces quiera."
+                  : "Whenever you discover interesting expressions, save them instantly. Review them inside your Progress hub and tap the active speech audio button to master their pronunciation."}
+            </p>
           </div>
         </div>
 
-        {/* CTA */}
-        <div style={{
-          marginTop: '48px', textAlign: 'center',
-          padding: '48px', background: 'linear-gradient(135deg,#2D4A3E,#1B3A4B)',
-          borderRadius: '24px', color: 'white',
-          boxShadow: '0 8px 32px rgba(45,74,62,0.25)'
-        }}>
-          <h2 style={{ fontFamily: 'Nunito, sans-serif', fontSize: '28px', marginBottom: '12px', fontWeight: 700 }}>
-            Pronto para começar?
+        {/* Premium FAQ Accordion */}
+        <section style={{ marginBottom: "56px" }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "28px",
+              fontWeight: 800,
+              color: "var(--text-primary)",
+              marginBottom: "24px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <HelpCircle size={24} color="var(--brand)" />
+            {isPT
+              ? "Perguntas Frequentes"
+              : isES
+                ? "Preguntas Frecuentes"
+                : "Frequently Asked Questions"}
           </h2>
-          <p style={{ opacity: 0.8, marginBottom: '24px', fontSize: '15px' }}>
-            Escolha um tema e faça sua primeira conversa agora.
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {FAQS.map((faq) => {
+              const isOpen = openFaq === faq.id;
+              return (
+                <div
+                  key={faq.id}
+                  className="glass"
+                  style={{
+                    borderRadius: "16px",
+                    border: "1px solid var(--border)",
+                    background: "var(--surface-raised)",
+                    overflow: "hidden",
+                    transition: "all 0.3s",
+                  }}
+                >
+                  <button
+                    onClick={() => toggleFaq(faq.id)}
+                    style={{
+                      width: "100%",
+                      padding: "20px 24px",
+                      border: "none",
+                      background: "transparent",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 800,
+                        color: "var(--text-primary)",
+                        paddingRight: "16px",
+                      }}
+                    >
+                      {getTranslation(faq, "q")}
+                    </span>
+                    <motion.div
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      style={{
+                        color: "var(--text-secondary)",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ChevronDown size={18} />
+                    </motion.div>
+                  </button>
+
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <div
+                          style={{
+                            padding: "0 24px 20px",
+                            fontSize: "14px",
+                            color: "var(--text-secondary)",
+                            lineHeight: 1.6,
+                            borderTop: "1px solid var(--border)",
+                            paddingTop: "16px",
+                          }}
+                        >
+                          {getTranslation(faq, "a")}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* PWA Installation Guides */}
+        <section
+          className="glass premium-shadow"
+          style={{
+            padding: "40px",
+            borderRadius: "32px",
+            border: "1px solid var(--border)",
+            background: "var(--surface-raised)",
+          }}
+        >
+          <h2
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "28px",
+              fontWeight: 800,
+              color: "var(--text-primary)",
+              marginBottom: "12px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <Smartphone size={24} color="var(--accent-green)" />
+            {isPT
+              ? "Lume no Celular (PWA)"
+              : isES
+                ? "Lume en el Móvil (PWA)"
+                : "Lume on Mobile (PWA)"}
+          </h2>
+          <p
+            style={{
+              color: "var(--text-secondary)",
+              fontSize: "15px",
+              lineHeight: 1.6,
+              marginBottom: "28px",
+              maxWidth: "600px",
+            }}
+          >
+            {isPT
+              ? "Instale o Lume diretamente na tela de início do seu celular para uma experiência de aprendizado fluida, rápida e sem distração de abas do navegador."
+              : isES
+                ? "Instale Lume directamente en la pantalla de inicio de su móvil para tener una experiencia de aprendizaje fluida, rápida y sin la distracción del navegador."
+                : "Install Lume directly onto your device screen for a seamless, blazing-fast learning experience without address bars."}
           </p>
-          <Link to="/home" style={{
-            display: 'inline-block',
-            padding: '14px 32px', borderRadius: '99px',
-            background: 'var(--surface-raised)', color: 'var(--accent-green)',
-            textDecoration: 'none', fontWeight: 700, fontSize: '15px',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
-            transition: 'transform 0.2s'
-          }} className="hover:scale-[1.02]">
-            Ir para o app →
-          </Link>
-        </div>
-      </div>
+
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "24px",
+            }}
+          >
+            {/* iOS */}
+            <div
+              className="glass"
+              style={{
+                padding: "24px",
+                borderRadius: "20px",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  fontSize: "15px",
+                  marginBottom: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                iOS (iPhone & iPad)
+              </div>
+              <ol
+                style={{
+                  paddingLeft: "16px",
+                  margin: 0,
+                  fontSize: "13.5px",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.7,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                <li>
+                  {isPT
+                    ? "Abra o app no Safari."
+                    : isES
+                      ? "Abra la app en Safari."
+                      : "Open Lume in Safari."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Toque no ícone Compartilhar (caixa com seta)."
+                    : isES
+                      ? "Toque en Compartir (caja con flecha)."
+                      : "Tap Share button."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Role e clique em 'Tela de Início'."
+                    : isES
+                      ? "Seleccione 'Añadir a pantalla de inicio'."
+                      : "Select 'Add to Home Screen'."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Confirme tocando em 'Adicionar'."
+                    : isES
+                      ? "Toque en 'Añadir'."
+                      : "Tap 'Add' to install."}
+                </li>
+              </ol>
+            </div>
+
+            {/* Android */}
+            <div
+              className="glass"
+              style={{
+                padding: "24px",
+                borderRadius: "20px",
+                background: "var(--surface)",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  fontSize: "15px",
+                  marginBottom: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                Android (Chrome)
+              </div>
+              <ol
+                style={{
+                  paddingLeft: "16px",
+                  margin: 0,
+                  fontSize: "13.5px",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.7,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
+                <li>
+                  {isPT
+                    ? "Abra o Chrome no celular."
+                    : isES
+                      ? "Abra Chrome en su móvil."
+                      : "Open Chrome on your phone."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Toque nos 3 pontos de menu."
+                    : isES
+                      ? "Toque en los 3 puntos de menú."
+                      : "Tap the 3 dots menu."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Clique em 'Instalar aplicativo'."
+                    : isES
+                      ? "Seleccione 'Instalar aplicación'."
+                      : "Select 'Install app'."}
+                </li>
+                <li>
+                  {isPT
+                    ? "Confirme para finalizar."
+                    : isES
+                      ? "Confirme para finalizar."
+                      : "Confirm to complete."}
+                </li>
+              </ol>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

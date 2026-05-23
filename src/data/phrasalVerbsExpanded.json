@@ -1,0 +1,41 @@
+{
+  "en": [
+    {
+      "id": "pv_en_001",
+      "verb": "Give up",
+      "meanings": ["To stop trying", "To quit a habit"],
+      "separable": true,
+      "examples": [
+        "I won't give up until I succeed.",
+        "He gave up smoking last year.",
+        "Don't give it up."
+      ]
+    },
+    {
+      "id": "pv_en_002",
+      "verb": "Look forward to",
+      "meanings": ["To be excited about something in the future"],
+      "separable": false,
+      "examples": [
+        "I am looking forward to the weekend.",
+        "She looks forward to seeing you.",
+        "We look forward to it."
+      ]
+    },
+    {
+      "id": "pv_en_003",
+      "verb": "Take off",
+      "meanings": [
+        "To remove clothing",
+        "When an airplane leaves the ground",
+        "To become successful quickly"
+      ],
+      "separable": true,
+      "examples": [
+        "Take off your shoes.",
+        "The plane takes off at 6 PM.",
+        "Her business really took off last year."
+      ]
+    }
+  ]
+}

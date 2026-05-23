@@ -1,38 +1,458 @@
 {
   "en": [
-    { "word": "Apple", "translation": "Maçã", "example": "I ate an apple." },
-    { "word": "House", "translation": "Casa", "example": "This is my house." },
-    { "word": "Water", "translation": "Água", "example": "I drink water." },
-    { "word": "Friend", "translation": "Amigo", "example": "He is my friend." },
-    { "word": "Time", "translation": "Tempo", "example": "What time is it?" },
-    { "word": "Car", "translation": "Carro", "example": "I drive a car." },
-    { "word": "Book", "translation": "Livro", "example": "I read a book." },
-    { "word": "Sun", "translation": "Sol", "example": "The sun is bright." },
-    { "word": "Moon", "translation": "Lua", "example": "The moon is beautiful." },
-    { "word": "Dog", "translation": "Cachorro", "example": "The dog is barking." }
+    {
+      "word": "Serendipity",
+      "translation": "Serendipidade (encontrar algo maravilhoso por acaso)",
+      "example": "Finding my old diary was a beautiful serendipity."
+    },
+    {
+      "word": "Resilient",
+      "translation": "Resiliente (capaz de se recuperar rapidamente)",
+      "example": "To succeed in a new country, you must be resilient."
+    },
+    {
+      "word": "Ephemeral",
+      "translation": "Efémero (que dura muito pouco)",
+      "example": "Cherry blossoms are gorgeous but ephemeral."
+    },
+    {
+      "word": "Cozy",
+      "translation": "Acolhedor (confortável e quente)",
+      "example": "The fireplace made the living room feel so cozy."
+    },
+    {
+      "word": "Wanderlust",
+      "translation": "Desejo de viajar (forte desejo de explorar o mundo)",
+      "example": "Her wanderlust led her to backpack across Asia."
+    },
+    {
+      "word": "Eloquent",
+      "translation": "Eloquente (que se expressa com clareza e fluidez)",
+      "example": "He gave an eloquent speech that moved the audience."
+    },
+    {
+      "word": "Nostalgia",
+      "translation": "Nostalgia (saudade de tempos passados)",
+      "example": "Hearing that song filled me with deep nostalgia."
+    },
+    {
+      "word": "Solitude",
+      "translation": "Solidão pacífica (estar sozinho sem se sentir só)",
+      "example": "He went to the mountains to seek silence and solitude."
+    },
+    {
+      "word": "Overwhelming",
+      "translation": "Avassalador / Esmagador",
+      "example": "The support from my friends was completely overwhelming."
+    },
+    {
+      "word": "Grateful",
+      "translation": "Grato / Agradecido",
+      "example": "I am incredibly grateful for your patient guidance."
+    },
+    {
+      "word": "Astute",
+      "translation": "Astuto / Perspicaz",
+      "example": "An astute businessman knows when to take calculated risks."
+    },
+    {
+      "word": "Humble",
+      "translation": "Humilde",
+      "example": "Despite his massive success, he remains humble."
+    },
+    {
+      "word": "Plausible",
+      "translation": "Plausível / Verossímil",
+      "example": "Her explanation for the delay sounded perfectly plausible."
+    },
+    {
+      "word": "Ambiguity",
+      "translation": "Ambiguidade",
+      "example": "Clear communication reduces ambiguity in the workplace."
+    },
+    {
+      "word": "Vibrant",
+      "translation": "Vibrante / Cheio de energia",
+      "example": "Barcelona is a vibrant city full of art and music."
+    },
+    {
+      "word": "Diligent",
+      "translation": "Diligente / Esforçado",
+      "example": "With diligent practice, your English will improve rapidly."
+    },
+    {
+      "word": "Exquisite",
+      "translation": "Requintado / Primoroso",
+      "example": "The local chef prepared an exquisite three-course meal."
+    },
+    {
+      "word": "Compelling",
+      "translation": "Convincente / Fascinante",
+      "example": "The novel had a compelling plot that kept me up all night."
+    },
+    {
+      "word": "Mindfulness",
+      "translation": "Atenção plena",
+      "example": "Mindfulness helps in reducing everyday professional anxiety."
+    },
+    {
+      "word": "Enigmatic",
+      "translation": "Enigmático / Misterioso",
+      "example": "She had an enigmatic smile that made everyone curious."
+    },
+    {
+      "word": "Persevere",
+      "translation": "Perseverar / Continuar apesar das dificuldades",
+      "example": "You must persevere through challenges to achieve great things."
+    },
+    {
+      "word": "Empathy",
+      "translation": "Empatia (capacidade de sentir o que o outro sente)",
+      "example": "Good leaders show empathy towards their team members."
+    },
+    {
+      "word": "Profound",
+      "translation": "Profundo / Com grande significado",
+      "example": "The documentary had a profound impact on my worldview."
+    },
+    {
+      "word": "Innovative",
+      "translation": "Inovador / Criativo e original",
+      "example": "This startup is known for its innovative approach to design."
+    },
+    {
+      "word": "Gracious",
+      "translation": "Gracioso / Cortês e gentil",
+      "example": "She was gracious in defeat, congratulating her rival warmly."
+    },
+    {
+      "word": "Tenacious",
+      "translation": "Tenaz / Que não desiste facilmente",
+      "example": "His tenacious attitude helped him finish the marathon."
+    },
+    {
+      "word": "Bittersweet",
+      "translation": "Agridoce (mistura de alegria e tristeza)",
+      "example": "Graduation is a bittersweet moment for most students."
+    },
+    {
+      "word": "Witty",
+      "translation": "Espirituoso / Inteligente e engraçado",
+      "example": "Her witty remarks always lightened the mood at work."
+    },
+    {
+      "word": "Serene",
+      "translation": "Sereno / Calmo e tranquilo",
+      "example": "The lake at dawn was absolutely serene and still."
+    },
+    {
+      "word": "Meticulous",
+      "translation": "Meticuloso / Extremamente cuidadoso com detalhes",
+      "example": "He is meticulous about keeping every project perfectly organized."
+    }
   ],
   "es": [
-    { "word": "Manzana", "translation": "Maçã", "example": "Me comí una manzana." },
-    { "word": "Casa", "translation": "Casa", "example": "Esta es mi casa." },
-    { "word": "Agua", "translation": "Água", "example": "Bebo agua." },
-    { "word": "Amigo", "translation": "Amigo", "example": "Él es mi amigo." },
-    { "word": "Tiempo", "translation": "Tempo", "example": "¿Qué tiempo hace?" },
-    { "word": "Coche", "translation": "Carro", "example": "Conduzco un coche." },
-    { "word": "Libro", "translation": "Livro", "example": "Leo un libro." },
-    { "word": "Sol", "translation": "Sol", "example": "El sol brilla." },
-    { "word": "Luna", "translation": "Lua", "example": "La luna es hermosa." },
-    { "word": "Perro", "translation": "Cachorro", "example": "El perro ladra." }
+    {
+      "word": "Sobremesa",
+      "translation": "Conversar ao redor da mesa após comer",
+      "example": "Disfrutamos de una larga sobremesa con la familia."
+    },
+    {
+      "word": "Madrugar",
+      "translation": "Acordar muito cedo de manhã",
+      "example": "Para llegar a tiempo al vuelo tuvimos que madrugar."
+    },
+    {
+      "word": "Estrenar",
+      "translation": "Usar algo pela primeira vez",
+      "example": "Mañana voy a estrenar los zapatos nuevos."
+    },
+    {
+      "word": "Desvelado",
+      "translation": "Sem sono / incapaz de dormir",
+      "example": "Tomé mucho café y ahora estoy completamente desvelado."
+    },
+    {
+      "word": "Añoranza",
+      "translation": "Saudade / Nostalgia profunda",
+      "example": "Siento una gran añoranza por los días de mi infancia."
+    },
+    {
+      "word": "Orgullo",
+      "translation": "Orgulho / Sentimento de satisfação",
+      "example": "Ella miró el diploma de su hijo con profundo orgullo."
+    },
+    {
+      "word": "Vergüenza ajena",
+      "translation": "Vergonha alheia / sentir vergonha pelo outro",
+      "example": "Sentí vergüenza ajena al ver su comportamiento en la fiesta."
+    },
+    {
+      "word": "Querencia",
+      "translation": "Querência / afeto especial por um lugar ou pessoa",
+      "example": "Este pequeño pueblo costero es mi querencia."
+    },
+    {
+      "word": "Resiliencia",
+      "translation": "Resiliência / capacidade de superar dificuldades",
+      "example": "La resiliencia nos ayuda a superar los momentos difíciles."
+    },
+    {
+      "word": "Empatía",
+      "translation": "Empatia / capacidade de sentir o que o outro sente",
+      "example": "Tener empatía es fundamental para construir buenas relaciones."
+    },
+    {
+      "word": "Apapachar",
+      "translation": "Aconchegar / acariciar com carinho genuíno",
+      "example": "A mi abuela siempre le gusta apapachar a sus nietos."
+    },
+    {
+      "word": "Cálido",
+      "translation": "Caloroso / acolhedor e cheio de afeto",
+      "example": "Nos dieron un cálido recibimiento al llegar a la oficina."
+    },
+    {
+      "word": "Eficaz",
+      "translation": "Eficaz / que produz o resultado desejado",
+      "example": "Este nuevo método de estudio es sumamente eficaz."
+    },
+    {
+      "word": "Asombroso",
+      "translation": "Assombroso / que causa admiração e espanto",
+      "example": "El paisaje desde la cima de la montaña era asombroso."
+    },
+    {
+      "word": "Sencillo",
+      "translation": "Simples / humilde e sem pretensões",
+      "example": "Es un hombre sencillo al que le gusta la naturaleza."
+    },
+    {
+      "word": "Abundancia",
+      "translation": "Abundância / grande quantidade disponível",
+      "example": "La naturaleza aquí ofrece una abundancia de frutas frescas."
+    },
+    {
+      "word": "Desafío",
+      "translation": "Desafio / situação que exige esforço e coragem",
+      "example": "Aprender un nuevo idioma es un hermoso desafío."
+    },
+    {
+      "word": "Vanguardia",
+      "translation": "Vanguarda / estar na frente, ser pioneiro",
+      "example": "Esta empresa tecnológica siempre está a la vanguardia."
+    },
+    {
+      "word": "Solidez",
+      "translation": "Solidez / firmeza e resistência",
+      "example": "La estructura del edificio demostró una gran solidez."
+    },
+    {
+      "word": "Agradecido",
+      "translation": "Agradecido / grato por algo recebido",
+      "example": "Estoy muy agradecido por toda la ayuda que me brindaron."
+    },
+    {
+      "word": "Madrugada",
+      "translation": "Madrugada / horas da manhã entre meia-noite e amanhecer",
+      "example": "La ciudad tiene su propia magia en la madrugada."
+    },
+    {
+      "word": "Bienvenida",
+      "translation": "Boas-vindas / recepção calorosa a alguém",
+      "example": "Nos dieron una bienvenida increíble al llegar a la ciudad."
+    },
+    {
+      "word": "Temporada",
+      "translation": "Temporada / período específico do ano",
+      "example": "La temporada de lluvias comienza en junio en esta región."
+    },
+    {
+      "word": "Confianza",
+      "translation": "Confiança / fé em si mesmo ou nos outros",
+      "example": "Hablar en público requiere mucha confianza en uno mismo."
+    },
+    {
+      "word": "Cotidiano",
+      "translation": "Cotidiano / do dia a dia, rotineiro",
+      "example": "El transporte público es parte de su vida cotidiana."
+    },
+    {
+      "word": "Maravilla",
+      "translation": "Maravilha / algo que causa admiração profunda",
+      "example": "La Sagrada Família es una auténtica maravilla arquitectónica."
+    },
+    {
+      "word": "Atardecer",
+      "translation": "Entardecer / momento em que o sol se põe",
+      "example": "El atardecer en el Mediterráneo es algo inexplicable."
+    },
+    {
+      "word": "Encuentro",
+      "translation": "Encontro / reunião entre pessoas",
+      "example": "Ese encuentro casual cambió el rumbo de su vida."
+    },
+    {
+      "word": "Sosiego",
+      "translation": "Sossego / calma e paz interior profunda",
+      "example": "Necesito un poco de sosiego después de este día tan intenso."
+    },
+    {
+      "word": "Luminoso",
+      "translation": "Luminoso / cheio de luz e claridade",
+      "example": "El apartamento es muy luminoso gracias a sus grandes ventanas."
+    }
   ],
-  "fr": [
-    { "word": "Pomme", "translation": "Maçã", "example": "J'ai mangé une pomme." },
-    { "word": "Maison", "translation": "Casa", "example": "C'est ma maison." },
-    { "word": "Eau", "translation": "Água", "example": "Je bois de l'eau." },
-    { "word": "Ami", "translation": "Amigo", "example": "Il est mon ami." },
-    { "word": "Temps", "translation": "Tempo", "example": "Quel temps fait-il ?" },
-    { "word": "Voiture", "translation": "Carro", "example": "Je conduis une voiture." },
-    { "word": "Livre", "translation": "Livro", "example": "Je lis un livre." },
-    { "word": "Soleil", "translation": "Sol", "example": "Le soleil brille." },
-    { "word": "Lune", "translation": "Lua", "example": "La lune est belle." },
-    { "word": "Chien", "translation": "Cachorro", "example": "Le chien aboie." }
+  "pt": [
+    {
+      "word": "Saudade",
+      "translation": "Saudade (longing for someone or something missed)",
+      "example": "Eu sinto saudade dos dias que passei na praia com minha família."
+    },
+    {
+      "word": "Ginga",
+      "translation": "Ginga (graceful, rhythmic way of moving)",
+      "example": "A ginga do capoeirista encantou todo o público."
+    },
+    {
+      "word": "Jeitinho",
+      "translation": "Jeitinho (creative way to solve problems)",
+      "example": "Ele usou um jeitinho brasileiro para resolver o problema burocrático."
+    },
+    {
+      "word": "Madrugada",
+      "translation": "Madrugada (the small hours between midnight and dawn)",
+      "example": "Eles conversaram até a madrugada sem perceber o tempo passar."
+    },
+    {
+      "word": "Desenrolar",
+      "translation": "To unfold / to handle a situation smoothly",
+      "example": "Ela sabe se desenrolar em qualquer situação difícil."
+    },
+    {
+      "word": "Caprichoso",
+      "translation": "Whimsical / one who puts great care into details",
+      "example": "O chef é muito caprichoso na apresentação dos pratos."
+    },
+    {
+      "word": "Maneiro",
+      "translation": "Cool / awesome (informal Brazilian slang)",
+      "example": "Que ideia maneira! Vamos tentar isso no próximo projeto."
+    },
+    {
+      "word": "Espaçoso",
+      "translation": "Spacious / having a lot of space",
+      "example": "O apartamento novo é muito espaçoso e cheio de luz natural."
+    },
+    {
+      "word": "Aconchegante",
+      "translation": "Cozy / warm and welcoming",
+      "example": "A cafeteria tem um ambiente aconchegante com música suave."
+    },
+    {
+      "word": "Empolgado",
+      "translation": "Excited / enthusiastic and eager",
+      "example": "Fiquei muito empolgado ao receber o convite para o festival."
+    },
+    {
+      "word": "Xodó",
+      "translation": "Darling / someone held dear and cherished",
+      "example": "Essa música é o xodó da minha avó desde que era jovem."
+    },
+    {
+      "word": "Arretado",
+      "translation": "Awesome / fantastic (Northeastern Brazilian slang)",
+      "example": "Esse forró arretado fez todo mundo dançar até o amanhecer."
+    },
+    {
+      "word": "Cafuné",
+      "translation": "Cafuné (gently running fingers through someone's hair)",
+      "example": "Ela fazia cafuné no filho enquanto ele adormecia tranquilo."
+    },
+    {
+      "word": "Bagunça",
+      "translation": "Mess / chaos or disorder",
+      "example": "O quarto estava uma bagunça depois da festa de aniversário."
+    },
+    {
+      "word": "Devagar",
+      "translation": "Slowly / at a gentle, unhurried pace",
+      "example": "Devagar e sempre é o segredo para aprender um novo idioma."
+    },
+    {
+      "word": "Suingue",
+      "translation": "Swing / rhythm and groove in music or movement",
+      "example": "O suingue do samba é inigualável em qualquer lugar do mundo."
+    },
+    {
+      "word": "Moleque",
+      "translation": "Kid / cheeky boy (informal)",
+      "example": "Aquele moleque sempre aprontava alguma travessura na escola."
+    },
+    {
+      "word": "Perrengue",
+      "translation": "Hardship / a tough and difficult situation",
+      "example": "Passou um perrengue danado para chegar até aqui no trânsito."
+    },
+    {
+      "word": "Trampo",
+      "translation": "Work / job (informal slang)",
+      "example": "Tenho muito trampo acumulado para terminar até sexta-feira."
+    },
+    {
+      "word": "Bueiro",
+      "translation": "Storm drain / manhole cover on streets",
+      "example": "A chuva forte entupiu todos os bueiros da avenida central."
+    },
+    {
+      "word": "Rabiscar",
+      "translation": "To scribble / to sketch or doodle casually",
+      "example": "Ela rabiscava ideias no caderno enquanto esperava a reunião."
+    },
+    {
+      "word": "Encrenca",
+      "translation": "Trouble / a difficult and complicated situation",
+      "example": "Ele sempre se mete em alguma encrenca quando sai com os amigos."
+    },
+    {
+      "word": "Garoa",
+      "translation": "Light drizzle / very fine and gentle rain",
+      "example": "A garoa de São Paulo deixava as ruas molhadas e brilhantes."
+    },
+    {
+      "word": "Zoeira",
+      "translation": "Noise / fun banter among friends",
+      "example": "O grupo fez muita zoeira durante o churrasco do final de semana."
+    },
+    {
+      "word": "Pipoca",
+      "translation": "Popcorn / also slang for a crowd gathering quickly",
+      "example": "A pipoca do cinema é sempre salgada do jeito certo para mim."
+    },
+    {
+      "word": "Galera",
+      "translation": "Crowd / group of friends or people",
+      "example": "A galera toda foi à praia aproveitar o sol do feriado."
+    },
+    {
+      "word": "Badalado",
+      "translation": "Trendy / fashionable and much talked about",
+      "example": "Esse restaurante badalado tem fila de espera de duas semanas."
+    },
+    {
+      "word": "Vadiagem",
+      "translation": "Loafing / lazily spending time without purpose",
+      "example": "Passar o fim de semana em vadiagem total é meu luxo favorito."
+    },
+    {
+      "word": "Torcer",
+      "translation": "To root for / to cheer and support a team or person",
+      "example": "Todo o país ia torcer pela seleção na final do campeonato mundial."
+    },
+    {
+      "word": "Vivacidade",
+      "translation": "Vivacity / being lively, energetic and full of life",
+      "example": "A vivacidade dela contagia todos ao redor com alegria genuína."
+    }
   ]
 }

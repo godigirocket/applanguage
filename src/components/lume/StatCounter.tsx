@@ -20,5 +20,10 @@ export function StatCounter({ value, duration = 2, suffix = "" }: StatCounterPro
     return () => controls.stop();
   }, [value, duration]);
 
-  return <span>{count}{suffix}</span>;
+  return (
+    <span>
+      {count}
+      {suffix}
+    </span>
+  );
 }

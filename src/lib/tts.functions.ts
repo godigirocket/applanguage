@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const TTSInput = z.object({
   text: z.string(),
-  languageCode: z.enum(["pt-BR", "en-US"]),
+  languageCode: z.enum(["pt-BR", "en-US", "es-ES"]),
 });
 
 export const getGoogleTTS = createServerFn({ method: "POST" })
@@ -12,7 +12,9 @@ export const getGoogleTTS = createServerFn({ method: "POST" })
     const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
     if (!apiKey) {
       // Fallback or warning
-      console.warn("Missing GOOGLE_CLOUD_API_KEY. Speech synthesis will use browser native fallback.");
+      console.warn(
+        "Missing GOOGLE_CLOUD_API_KEY. Speech synthesis will use browser native fallback.",
+      );
       return { audioContent: null };
     }
 
@@ -26,12 +28,17 @@ export const getGoogleTTS = createServerFn({ method: "POST" })
             input: { text: data.text },
             voice: {
               languageCode: data.languageCode,
-              name: data.languageCode === "pt-BR" ? "pt-BR-Wavenet-A" : "en-US-Wavenet-F",
+              name:
+                data.languageCode === "pt-BR"
+                  ? "pt-BR-Wavenet-A"
+                  : data.languageCode === "es-ES"
+                    ? "es-ES-Wavenet-C"
+                    : "en-US-Wavenet-F",
               ssmlGender: "FEMALE",
             },
             audioConfig: { audioEncoding: "MP3" },
           }),
-        }
+        },
       );
 
       if (!response.ok) {

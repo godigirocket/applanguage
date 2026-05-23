@@ -1,10 +1,30 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
-  Outlet, Link, createRootRouteWithContext, useRouter,
-  HeadContent, Scripts,
+  Outlet,
+  Link,
+  createRootRouteWithContext,
+  useRouter,
+  HeadContent,
+  Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
-import { AuthProvider } from "@/lib/auth";
-import { Toaster } from "sonner";
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { safeGetProfile, safeUpsertProfile } from "@/lib/db";
+import { Toaster, toast } from "sonner";
+import { useEffect, useState } from "react";
+import { sounds } from "@/lib/soundEffects";
+import { useStore } from "@/hooks/useStore";
+import { useUserStore } from "@/store/userStore";
+import "@/i18n/config";
+import i18n from "i18next";
+import { AppHeader } from "@/components/lume/AppHeader";
+import { BottomNav } from "@/components/lume/BottomNav";
+import { Logo } from "@/components/lume/Logo";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { startTutorial } from "@/components/lume/Tutorial";
+import { LevelSelectionModal } from "@/components/LevelSelectionModal";
+import { DifficultyPopup } from "@/components/DifficultyPopup";
+import { AnimatePresence } from "framer-motion";
 
 import appCss from "../styles.css?url";
 
@@ -14,7 +34,10 @@ function NotFoundComponent() {
       <div className="max-w-md text-center page-enter">
         <h1 className="font-display text-7xl">404</h1>
         <p className="mt-3 text-muted-foreground">This page drifted away.</p>
-        <Link to="/" className="mt-6 inline-block px-5 py-2 rounded-full bg-primary text-primary-foreground">
+        <Link
+          to="/"
+          className="mt-6 inline-block px-5 py-2 rounded-full bg-primary text-primary-foreground"
+        >
           Back home
         </Link>
       </div>
@@ -25,6 +48,27 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+
+  useEffect(() => {
+    const message = error?.message || "";
+    const isChunkError =
+      message.includes("Failed to fetch dynamically imported module") ||
+      message.includes("dynamically imported module") ||
+      message.includes("Failed to fetch") ||
+      error?.name === "ChunkLoadError";
+
+    if (isChunkError) {
+      const lastReload = sessionStorage.getItem("last_chunk_error_reload");
+      const now = Date.now();
+      // Throttle reloads to once per 15 seconds
+      if (!lastReload || now - parseInt(lastReload, 10) > 15000) {
+        sessionStorage.setItem("last_chunk_error_reload", now.toString());
+        console.warn("Chunk load error detected! Reloading page to fetch latest assets...", error);
+        window.location.reload();
+      }
+    }
+  }, [error]);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
@@ -32,10 +76,17 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex justify-center gap-2">
           <button
-            onClick={() => { router.invalidate(); reset(); }}
+            onClick={() => {
+              router.invalidate();
+              reset();
+            }}
             className="px-5 py-2 rounded-full bg-primary text-primary-foreground"
-          >Try again</button>
-          <Link to="/" className="px-5 py-2 rounded-full border border-border">Go home</Link>
+          >
+            Try again
+          </button>
+          <Link to="/" className="px-5 py-2 rounded-full border border-border">
+            Go home
+          </Link>
         </div>
       </div>
     </div>
@@ -46,11 +97,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { title: "Lume — Speak with confidence" },
-      { name: "description", content: "Lume is an AI speaking companion that complements your private language lessons." },
+      {
+        name: "description",
+        content: "Lume is an AI speaking companion that complements your private language lessons.",
+      },
       { property: "og:title", content: "Lume — Speak with confidence" },
-      { property: "og:description", content: "Premium AI-powered speaking practice in Portuguese and English." },
+      {
+        property: "og:description",
+        content: "Premium AI-powered speaking practice in Portuguese and English.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -59,7 +116,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -71,8 +131,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <head><HeadContent /></head>
-      <body>{children}<Scripts /></body>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
     </html>
   );
 }
@@ -82,10 +147,424 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <div className="grain-overlay" aria-hidden="true" />
-        <Outlet />
-        <Toaster position="bottom-right" richColors />
+        <RootInner />
       </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+function RootInner() {
+  const { user } = useAuth();
+  const interfaceLanguage = useStore((state) => state.interfaceLanguage);
+  const { isLocked, setIsLocked, pinCode, learningLevel, setLearningLevel } = useStore();
+  const { userLevel, setUserLevel } = useUserStore();
+
+  const [pinInput, setPinInput] = useState("");
+  const [pinError, setPinError] = useState(false);
+  const [storeHydrated, setStoreHydrated] = useState(false);
+
+  // Monitor async store hydration
+  useEffect(() => {
+    const checkHydration = () => {
+      const hasHydrated = useStore.persist.hasHydrated();
+      setStoreHydrated(hasHydrated);
+    };
+
+    checkHydration();
+
+    const unsub = useStore.persist.onHydrate(() => setStoreHydrated(false));
+    const unsub2 = useStore.persist.onFinishHydration(() => setStoreHydrated(true));
+
+    return () => {
+      unsub();
+      unsub2();
+    };
+  }, []);
+
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
+
+  const isAuthOrLanding =
+    currentPath === "/" ||
+    currentPath === "/login" ||
+    currentPath === "/signup" ||
+    currentPath === "/onboarding" ||
+    currentPath === "/guest";
+  const isImmersive =
+    currentPath.startsWith("/quiz") ||
+    currentPath === "/hangman" ||
+    currentPath === "/memory" ||
+    currentPath.startsWith("/conversation") ||
+    currentPath === "/setup" ||
+    currentPath.startsWith("/quiz-play") ||
+    currentPath.startsWith("/play/");
+
+  // Synchronize user level from Supabase DB on auth load
+  useEffect(() => {
+    if (!user || !storeHydrated) return;
+    (async () => {
+      try {
+        const data = await safeGetProfile(user.id);
+        if (data && data.level) {
+          let matched = data.level;
+          if (matched === "beginner") matched = "A1";
+          else if (matched === "intermediate") matched = "B1";
+          else if (matched === "advanced") matched = "C1";
+          const valid = ["A1", "A2", "B1", "B2", "C1", "C2"];
+          if (valid.includes(matched)) {
+            setUserLevel(matched as any);
+            setLearningLevel(matched);
+          }
+        } else if (userLevel) {
+          // If profile level not in DB but we have one locally, upsert it
+          await safeUpsertProfile(user.id, { level: userLevel });
+        }
+      } catch (e) {
+        console.error("Error loading level:", e);
+      }
+    })();
+  }, [user, storeHydrated, userLevel, setUserLevel, setLearningLevel]);
+
+  // Synchronize stores if they deviate
+  useEffect(() => {
+    if (!storeHydrated) return;
+    if (learningLevel && !userLevel) {
+      setUserLevel(learningLevel as any);
+    } else if (userLevel && !learningLevel) {
+      setLearningLevel(userLevel);
+    }
+  }, [storeHydrated, learningLevel, userLevel, setLearningLevel, setUserLevel]);
+
+  useEffect(() => {
+    if (interfaceLanguage) {
+      i18n.changeLanguage(interfaceLanguage);
+    }
+  }, [interfaceLanguage]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("lume_theme") || "light";
+    if (savedTheme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const tutorialShown = localStorage.getItem("tutorial_shown");
+    if (!tutorialShown) {
+      setTimeout(() => startTutorial(), 500);
+      localStorage.setItem("tutorial_shown", "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target) return;
+
+      if (
+        target.tagName === "BUTTON" ||
+        target.tagName === "A" ||
+        target.closest("button") ||
+        target.closest("a") ||
+        target.closest('[role="button"]') ||
+        target.classList.contains("lume-card") ||
+        target.closest(".lume-card")
+      ) {
+        sounds.playClick();
+      }
+    };
+
+    window.addEventListener("click", handleGlobalClick);
+    return () => window.removeEventListener("click", handleGlobalClick);
+  }, []);
+
+  // 30-minute inactivity timeout
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let timer: any;
+    const resetTimer = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setIsLocked(true);
+      }, 1800000); // 30 minutes
+    };
+
+    const events = ["mousemove", "keydown", "click", "scroll", "touchstart"];
+    events.forEach((e) => window.addEventListener(e, resetTimer));
+    resetTimer();
+
+    return () => {
+      clearTimeout(timer);
+      events.forEach((e) => window.removeEventListener(e, resetTimer));
+    };
+  }, [setIsLocked]);
+
+  const handlePinSubmit = (val: string) => {
+    if (val === pinCode) {
+      setIsLocked(false);
+      setPinInput("");
+      setPinError(false);
+      toast.success("Bem-vindo de volta!");
+    } else {
+      setPinError(true);
+      setPinInput("");
+      sounds.playClick(); // Play a generic click sound or feedback
+      toast.error("PIN incorreto. Tente novamente.");
+    }
+  };
+
+  const handleKeypadPress = (num: string) => {
+    setPinError(false);
+    if (num === "clear") {
+      setPinInput("");
+    } else if (num === "back") {
+      setPinInput((prev) => prev.slice(0, -1));
+    } else {
+      if (pinInput.length < 4) {
+        const next = pinInput + num;
+        setPinInput(next);
+        if (next.length === 4) {
+          handlePinSubmit(next);
+        }
+      }
+    }
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        boxSizing: "border-box",
+        position: "relative",
+      }}
+    >
+      <div className="grain-overlay" aria-hidden="true" />
+
+      {/* Global 3D metallic and drop shadow SVG filters */}
+      <svg
+        style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }}
+        aria-hidden="true"
+      >
+        <defs>
+          <filter id="lume-3d-emboss" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="0.8" result="blur" />
+            <feSpecularLighting
+              in="blur"
+              surfaceScale={3}
+              specularConstant={1.2}
+              specularExponent={16}
+              lightingColor="#ffffff"
+              result="specOut"
+            >
+              <feDistantLight azimuth={225} elevation={60} />
+            </feSpecularLighting>
+            <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specColor" />
+            <feComposite
+              in="SourceGraphic"
+              in2="specColor"
+              operator="arithmetic"
+              k1={0}
+              k2={1}
+              k3={0.7}
+              k4={0}
+              result="litGraphic"
+            />
+          </filter>
+          <filter id="lume-premium-shadow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow
+              dx={0}
+              dy={2.5}
+              stdDeviation={2.5}
+              floodColor="#000000"
+              floodOpacity={0.18}
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Main Content Area */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          boxSizing: "border-box",
+        }}
+      >
+        {isAuthOrLanding || currentPath === "/guide" ? (
+          <Outlet />
+        ) : (
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        )}
+      </div>
+      {!isAuthOrLanding && !isImmersive && (
+        <>
+          <div className="lume-bottom-spacer" />
+          <BottomNav />
+        </>
+      )}
+
+      {/* Level Selection Modal & Difficulty Adjuster */}
+      {!isAuthOrLanding && <LevelSelectionModal />}
+      {!isAuthOrLanding && <DifficultyPopup />}
+
+      {/* Global Toaster */}
+      <Toaster position="bottom-right" richColors />
+
+      {/* Inactivity Glassmorphic Lockscreen */}
+      {isLocked && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 99999,
+            background: "rgba(28,28,26,0.7)",
+            backdropFilter: "blur(20px)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--text-primary)",
+            fontFamily: "var(--font-sans)",
+            animation: "fadeIn 0.3s ease",
+          }}
+        >
+          <div
+            className="glass premium-shadow"
+            style={{
+              padding: "40px",
+              borderRadius: "32px",
+              maxWidth: "380px",
+              width: "90%",
+              textAlign: "center",
+              border: "1.5px solid var(--border)",
+              background: "var(--surface-raised)",
+            }}
+          >
+            <div
+              style={{
+                width: "64px",
+                height: "64px",
+                borderRadius: "20px",
+                background: "linear-gradient(135deg, var(--brand), #1B3A4B)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 24px",
+                boxShadow: "0 8px 24px rgba(45,74,62,0.15)",
+              }}
+            >
+              <Logo size={42} withText={false} />
+            </div>
+
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "28px",
+                marginBottom: "8px",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+              }}
+            >
+              Lume Bloqueado
+            </h2>
+            <p
+              style={{
+                color: "var(--text-secondary)",
+                fontSize: "13px",
+                marginBottom: "32px",
+                fontWeight: 600,
+              }}
+            >
+              Por segurança, o Lume foi bloqueado por inatividade. Digite o PIN de 4 dígitos.
+            </p>
+
+            {/* PIN Indicators */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "16px",
+                marginBottom: "40px",
+              }}
+            >
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: "16px",
+                    height: "16px",
+                    borderRadius: "50%",
+                    border: "2px solid var(--border)",
+                    background: pinInput.length > i ? "var(--accent)" : "transparent",
+                    boxShadow: pinInput.length > i ? "0 0 12px var(--accent)" : "none",
+                    transform: pinError ? "scale(1.1)" : "none",
+                    transition: "all 0.15s",
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Keypad */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr 1fr",
+                gap: "12px",
+                maxWidth: "280px",
+                margin: "0 auto",
+              }}
+            >
+              {["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "back"].map((key) => {
+                const isControl = key === "clear" || key === "back";
+                return (
+                  <button
+                    key={key}
+                    onClick={() => handleKeypadPress(key)}
+                    style={{
+                      height: "52px",
+                      borderRadius: "16px",
+                      background: "var(--surface)",
+                      border: "1px solid var(--border)",
+                      color: "var(--text-primary)",
+                      fontSize: isControl ? "11px" : "18px",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      transition: "all 0.12s",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textTransform: "uppercase",
+                      letterSpacing: isControl ? "0.05em" : "none",
+                    }}
+                    onMouseDown={(e) => {
+                      const target = e.target as HTMLElement;
+                      target.style.transform = "scale(0.95)";
+                      target.style.background = "var(--border)";
+                    }}
+                    onMouseUp={(e) => {
+                      const target = e.target as HTMLElement;
+                      target.style.transform = "none";
+                      target.style.background = "var(--surface)";
+                    }}
+                  >
+                    {key === "back" ? "←" : key === "clear" ? "Limpar" : key}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

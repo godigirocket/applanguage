@@ -1,0 +1,138 @@
+{
+  "pt": [
+    {
+      "id": "g_pt_001",
+      "title": "Presente do Indicativo",
+      "explanation": "Used to express habitual actions, general truths, and current states. In Portuguese, verbs are conjugated differently for each person.",
+      "examples": [
+        "Eu falo português.",
+        "Ela come frutas todos os dias.",
+        "Nós moramos no Brasil.",
+        "Vocês estudam muito.",
+        "Eles trabalham aqui."
+      ],
+      "level": "A1",
+      "category": "verb_tenses",
+      "exceptions": [
+        "Some verbs are irregular: ser (sou, é, somos), ir (vou, vai, vamos), ter (tenho, tem, temos)."
+      ]
+    },
+    {
+      "id": "g_pt_002",
+      "title": "Pretérito Perfeito",
+      "explanation": "Used for completed actions in the past. Similar to English Simple Past.",
+      "examples": [
+        "Eu falei com ela ontem.",
+        "Nós viajamos para o Rio.",
+        "Ele comeu pizza.",
+        "Eles saíram cedo."
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["Irregular verbs: fazer (fiz), ver (vi), ir (fui), ser (fui)."]
+    },
+    {
+      "id": "g_pt_003",
+      "title": "Subjuntivo Presente",
+      "explanation": "Used to express wishes, doubts, and hypothetical situations. Triggered by certain conjunctions and expressions.",
+      "examples": [
+        "Espero que você venha.",
+        "Talvez ele saiba a resposta.",
+        "Quero que ela estude mais."
+      ],
+      "level": "B2",
+      "category": "verb_tenses",
+      "exceptions": ["The subjunctive is always triggered by a subordinate clause with 'que'."]
+    }
+  ],
+  "en": [
+    {
+      "id": "g_en_001",
+      "title": "Present Continuous",
+      "explanation": "Usado para ações acontecendo agora ou planos futuros confirmados. Formado com be + verbo-ing.",
+      "examples": [
+        "I am studying now.",
+        "She is traveling tomorrow.",
+        "They are not listening.",
+        "Are you coming?",
+        "He is working hard."
+      ],
+      "level": "A1",
+      "category": "verb_tenses",
+      "exceptions": ["Stative verbs (know, like, want) geralmente não usam continuous."]
+    },
+    {
+      "id": "g_en_002",
+      "title": "Present Perfect",
+      "explanation": "Conecta passado ao presente. Usado para experiências, ações recentes ou ações que continuam.",
+      "examples": [
+        "I have visited Paris.",
+        "She has just finished.",
+        "They have lived here for ten years.",
+        "Have you ever eaten sushi?",
+        "We haven't seen him."
+      ],
+      "level": "B1",
+      "category": "verb_tenses",
+      "exceptions": ["Com tempo específico (yesterday, last year), use Simple Past."]
+    },
+    {
+      "id": "g_en_003",
+      "title": "Conditionals (Type 2)",
+      "explanation": "Usado para situações hipotéticas no presente/futuro. If + past simple, would + infinitive.",
+      "examples": [
+        "If I had money, I would buy a car.",
+        "If she knew, she would tell us.",
+        "Would you go if he invited you?",
+        "If I were you, I would study more."
+      ],
+      "level": "B2",
+      "category": "conditionals",
+      "exceptions": ["O verbo 'to be' usa 'were' para todas as pessoas no Type 2."]
+    }
+  ],
+  "es": [
+    {
+      "id": "g_es_001",
+      "title": "Pretérito Indefinido",
+      "explanation": "Usado para ações concluídas em momento específico do passado.",
+      "examples": [
+        "Ayer fui al cine.",
+        "Ella comió una manzana.",
+        "Nosotros viajamos a Madrid.",
+        "¿Qué hiciste el fin de semana?"
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["Verbos irregulares mudam a raiz: ir → fui, tener → tuve, hacer → hice."]
+    },
+    {
+      "id": "g_es_002",
+      "title": "Subjuntivo Presente",
+      "explanation": "Expressa desejos, dúvidas e hipóteses. Muito usado em espanhol.",
+      "examples": [
+        "Espero que vengas.",
+        "Quiero que estudies más.",
+        "Ojalá haga buen tiempo.",
+        "No creo que sea verdad."
+      ],
+      "level": "B2",
+      "category": "verb_tenses",
+      "exceptions": ["Sempre precedido de 'que' em orações subordinadas."]
+    },
+    {
+      "id": "g_es_003",
+      "title": "Ser vs Estar",
+      "explanation": "Ser = características permanentes. Estar = estados temporários e localização.",
+      "examples": [
+        "Yo soy brasileño.",
+        "Ella es doctora.",
+        "Estoy cansado.",
+        "La tienda está en la esquina."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["Algumas expressões fixas: estar muerto (morto é 'permanente' mas usa estar)."]
+    }
+  ]
+}

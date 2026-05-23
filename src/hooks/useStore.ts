@@ -1,9 +1,10 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { encryptForStorage, decryptFromStorage } from "@/lib/crypto";
 
 type Msg = { role: "user" | "assistant"; content: string };
 type Level = "Beginner" | "Explorer" | "Conversationalist" | "Fluent" | "Native Soul";
-type TargetLanguage = "en" | "es" | "fr";
+type TargetLanguage = "en" | "es" | "pt";
 
 interface DailyChallenge {
   id: string;
@@ -32,16 +33,23 @@ interface LumeState {
   // Onboarding / Profile
   onboardingStep: number;
   setOnboardingStep: (step: number) => void;
-  
+
   // Gamification & Settings
   xp: number;
   lumes: number; // Virtual currency
   streak: number;
   level: Level;
   interfaceLanguage: "pt" | "en" | "es";
+  language: "pt" | "en" | "es"; // Reactive alias for interfaceLanguage
   targetLanguage: TargetLanguage;
   dailyChallenges: DailyChallenge[];
-  
+
+  // Security
+  isLocked: boolean;
+  setIsLocked: (state: boolean) => void;
+  pinCode: string;
+  setPinCode: (pin: string) => void;
+
   setXP: (xp: number) => void;
   setLumes: (lumes: number) => void;
   setStreak: (streak: number) => void;
@@ -51,6 +59,9 @@ interface LumeState {
   addXP: (amount: number) => void;
   addLumes: (amount: number) => void;
   completeChallenge: (id: string) => void;
+  // Adaptive difficulty
+  learningLevel: string;
+  setLearningLevel: (level: string) => void;
 }
 
 const getLevelName = (xp: number): Level => {
@@ -62,9 +73,9 @@ const getLevelName = (xp: number): Level => {
 };
 
 const initialChallenges: DailyChallenge[] = [
-  { id: '1', title: 'Faça 1 lição', completed: false, reward: 10 },
-  { id: '2', title: 'Pratique pronúncia por 2 minutos', completed: false, reward: 15 },
-  { id: '3', title: 'Salve 5 novas palavras', completed: false, reward: 20 },
+  { id: "1", title: "Faça 1 lição", completed: false, reward: 10 },
+  { id: "2", title: "Pratique pronúncia por 2 minutes", completed: false, reward: 15 },
+  { id: "3", title: "Salve 5 novas palavras", completed: false, reward: 20 },
 ];
 
 export const useStore = create<LumeState>()(
@@ -91,41 +102,88 @@ export const useStore = create<LumeState>()(
       streak: 0,
       level: "Beginner",
       interfaceLanguage: "pt",
+      language: "pt",
       targetLanguage: "en",
       dailyChallenges: initialChallenges,
-      
+
+      isLocked: false,
+      setIsLocked: (isLocked) => set({ isLocked }),
+      pinCode: "1234",
+      setPinCode: (pinCode) => set({ pinCode }),
+
       setXP: (xp) => set({ xp, level: getLevelName(xp) }),
       setLumes: (lumes) => set({ lumes }),
       setStreak: (streak) => set({ streak }),
       setLevel: (level) => set({ level }),
-      setInterfaceLanguage: (interfaceLanguage) => set({ interfaceLanguage }),
+      setInterfaceLanguage: (interfaceLanguage) =>
+        set({ interfaceLanguage, language: interfaceLanguage }),
       setTargetLanguage: (targetLanguage) => set({ targetLanguage }),
-      addXP: (amount) => set((state) => {
-        const newXP = state.xp + amount;
-        return { xp: newXP, level: getLevelName(newXP) };
-      }),
+      addXP: (amount) =>
+        set((state) => {
+          const newXP = state.xp + amount;
+          return { xp: newXP, level: getLevelName(newXP) };
+        }),
       addLumes: (amount) => set((state) => ({ lumes: state.lumes + amount })),
-      completeChallenge: (id) => set((state) => ({
-        dailyChallenges: state.dailyChallenges.map(c => 
-          c.id === id && !c.completed ? { ...c, completed: true } : c
-        ),
-        lumes: state.dailyChallenges.find(c => c.id === id && !c.completed) 
-          ? state.lumes + (state.dailyChallenges.find(c => c.id === id)!.reward)
-          : state.lumes
-      })),
+      completeChallenge: (id) =>
+        set((state) => ({
+          dailyChallenges: state.dailyChallenges.map((c) =>
+            c.id === id && !c.completed ? { ...c, completed: true } : c,
+          ),
+          lumes: state.dailyChallenges.find((c) => c.id === id && !c.completed)
+            ? state.lumes + state.dailyChallenges.find((c) => c.id === id)!.reward
+            : state.lumes,
+        })),
+      learningLevel: "",
+      setLearningLevel: (learningLevel) => set({ learningLevel }),
     }),
     {
-      name: 'lume-storage',
-      partialize: (state) => ({ 
-        onboardingStep: state.onboardingStep,
-        xp: state.xp,
-        lumes: state.lumes,
-        streak: state.streak,
-        level: state.level,
-        interfaceLanguage: state.interfaceLanguage,
-        targetLanguage: state.targetLanguage,
-        dailyChallenges: state.dailyChallenges
-      }),
-    }
-  )
+      name: "lume-storage",
+      storage: {
+        getItem: async (name) => {
+          if (typeof window === "undefined") return null;
+          const raw = localStorage.getItem(name);
+          if (!raw) return null;
+          try {
+            const decrypted = await decryptFromStorage(raw, "lume-editorial-keyphrase");
+            return JSON.parse(decrypted);
+          } catch (e) {
+            try {
+              return JSON.parse(raw);
+            } catch {
+              return null;
+            }
+          }
+        },
+        setItem: async (name, value) => {
+          if (typeof window === "undefined") return;
+          try {
+            const rawStr = JSON.stringify(value);
+            const encrypted = await encryptForStorage(rawStr, "lume-editorial-keyphrase");
+            localStorage.setItem(name, encrypted);
+          } catch (e) {
+            localStorage.setItem(name, JSON.stringify(value));
+          }
+        },
+        removeItem: (name) => {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem(name);
+          }
+        },
+      },
+      partialize: (state) =>
+        ({
+          onboardingStep: state.onboardingStep,
+          xp: state.xp,
+          lumes: state.lumes,
+          streak: state.streak,
+          level: state.level,
+          interfaceLanguage: state.interfaceLanguage,
+          language: state.language,
+          targetLanguage: state.targetLanguage,
+          dailyChallenges: state.dailyChallenges,
+          pinCode: state.pinCode,
+          learningLevel: state.learningLevel,
+        }) as any,
+    },
+  ),
 );

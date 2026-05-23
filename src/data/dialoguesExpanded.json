@@ -1,0 +1,36 @@
+{
+  "en": [
+    {
+      "id": "d_en_001",
+      "title": "Ordering Coffee",
+      "level": "A1",
+      "participants": ["Barista", "Customer"],
+      "lines": [
+        { "speaker": "Barista", "text": "Hi, what can I get for you today?" },
+        { "speaker": "Customer", "text": "I'll have a medium latte, please." },
+        { "speaker": "Barista", "text": "For here or to go?" },
+        { "speaker": "Customer", "text": "To go. And a blueberry muffin." },
+        { "speaker": "Barista", "text": "That'll be $6.50." }
+      ],
+      "keyVocabulary": ["medium", "latte", "for here", "to go", "muffin"],
+      "culturalNotes": "In the US, 'to go' is used instead of 'takeaway'."
+    }
+  ],
+  "es": [
+    {
+      "id": "d_es_001",
+      "title": "Pidiendo un café",
+      "level": "A1",
+      "participants": ["Camarero", "Cliente"],
+      "lines": [
+        { "speaker": "Camarero", "text": "Hola, ¿qué le pongo?" },
+        { "speaker": "Cliente", "text": "Un café con leche, por favor." },
+        { "speaker": "Camarero", "text": "¿Algo para comer?" },
+        { "speaker": "Cliente", "text": "No, gracias. Solo el café." },
+        { "speaker": "Camarero", "text": "Son 2 euros." }
+      ],
+      "keyVocabulary": ["le pongo", "café con leche", "comer"],
+      "culturalNotes": "In Spain, it's very common to just say '¿qué le pongo?' when asking for an order."
+    }
+  ]
+}

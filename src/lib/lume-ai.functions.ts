@@ -8,7 +8,7 @@ const ChatMsg = z.object({
 
 const Input = z.object({
   topic: z.string().min(1).max(80),
-  language: z.enum(["pt", "en"]),
+  language: z.enum(["pt", "en", "es"]),
   mood: z.enum(["calm", "intensive", "cultural", "confidence"]),
   level: z.enum(["beginner", "intermediate", "advanced"]),
   studentName: z.string().min(1).max(80),
@@ -16,9 +16,11 @@ const Input = z.object({
 });
 
 function buildSystem(p: z.infer<typeof Input>) {
-  const langName = p.language === "pt" ? "Brazilian Portuguese" : "English";
-  const targetLang = p.language === "pt" ? "Portuguese" : "English";
-  
+  const langName =
+    p.language === "pt" ? "Brazilian Portuguese" : p.language === "es" ? "Spanish" : "English";
+  const targetLang =
+    p.language === "pt" ? "Portuguese" : p.language === "es" ? "Spanish" : "English";
+
   const moodInstructions = {
     calm: "Flow naturally, correct maximum once per 3 messages, always encourage first.",
     intensive: "After each response, add one specific grammar or vocabulary correction in italics.",
@@ -27,8 +29,10 @@ function buildSystem(p: z.infer<typeof Input>) {
   }[p.mood];
 
   const levelRules = {
-    beginner: "keep sentences short, use simpler vocabulary, add English hints in parentheses for complex words.",
-    intermediate: "use a natural pace, introduce occasional new expressions, and explain idioms if used.",
+    beginner:
+      "keep sentences short, use simpler vocabulary, add English hints in parentheses for complex words.",
+    intermediate:
+      "use a natural pace, introduce occasional new expressions, and explain idioms if used.",
     advanced: "native-level conversation, challenge with complex ideas and nuanced vocabulary.",
   }[p.level];
 
@@ -52,46 +56,99 @@ export const lumeChat = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => Input.parse(data))
   .handler(async ({ data }) => {
     const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) throw new Error("Missing GEMINI_API_KEY");
-
     const system = buildSystem(data);
-    
+
     // Map roles to Gemini roles
-    const contents = data.messages.map(m => ({
+    const contents = data.messages.map((m) => ({
       role: m.role === "user" ? "user" : "model",
-      parts: [{ text: m.content }]
+      parts: [{ text: m.content }],
     }));
 
-    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: system }]
+    if (!apiKey) {
+      console.warn("Missing GEMINI_API_KEY. Using resilient mock fallback.");
+      const ptMocks = [
+        "Olá! Que maravilhoso praticar com você hoje. Como vai o seu dia?",
+        "Com certeza! O aprendizado é uma jornada linda. O que você gostaria de explorar mais sobre este assunto?",
+        "Excelente! Você está indo muito bem. Me conte mais sobre as suas experiências!",
+        "Que interessante! Vamos continuar praticando com calma e alegria. Qual é a sua próxima dúvida?",
+      ];
+      const enMocks = [
+        "Hello! It's so wonderful to practice with you today. How is your day going?",
+        "Absolutely! Learning is a beautiful journey. What would you like to explore further about this topic?",
+        "Excellent! You're doing incredibly well. Tell me more about your experiences!",
+        "How interesting! Let's keep practicing with peace and joy. What is your next question?",
+      ];
+      const esMocks = [
+        "¡Hola! Es maravilloso practicar contigo hoy. ¿Cómo va tu día?",
+        "¡Claro que sí! El aprendizaje es un viaje hermoso. ¿Qué te gustaría explorar más sobre este tema?",
+        "¡Excelente! Lo estás haciendo increíblemente bien. ¡Cuéntame más sobre tus experiencias!",
+        "¡Qué interesante! Sigamos practicando con calma y alegría. ¿Cuál es tu próxima pregunta?",
+      ];
+      const mocks = data.language === "pt" ? ptMocks : data.language === "es" ? esMocks : enMocks;
+      const idx = Math.min(data.messages.length - 1, mocks.length - 1);
+      return { reply: mocks[idx] };
+    }
+
+    try {
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            system_instruction: {
+              parts: [{ text: system }],
+            },
+            contents: contents,
+            generationConfig: {
+              temperature: 0.7,
+              topP: 0.95,
+              topK: 40,
+              maxOutputTokens: 1024,
+            },
+          }),
         },
-        contents: contents,
-        generationConfig: {
-          temperature: 0.7,
-          topP: 0.95,
-          topK: 40,
-          maxOutputTokens: 1024,
-        }
-      }),
-    });
+      );
 
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Gemini API error: ${res.status} ${text.slice(0, 200)}`);
+      if (!res.ok) {
+        const text = (await res.ok) ? "" : await res.text();
+        throw new Error(`Gemini API error: ${res.status} ${text.slice(0, 200)}`);
+      }
+
+      const json = (await res.json()) as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      };
+      const reply = json.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
+
+      if (!reply) {
+        throw new Error("Lume couldn't generate a response. Please try again.");
+      }
+
+      return { reply };
+    } catch (error) {
+      console.warn("Gemini call failed. Using mock fallback.", error);
+      const ptMocks = [
+        "Olá! Que maravilhoso praticar com você hoje. Como vai o seu dia?",
+        "Com certeza! O aprendizado é uma jornada linda. O que você gostaria de explorar mais sobre este assunto?",
+        "Excelente! Você está indo muito bem. Me conte mais sobre as suas experiências!",
+        "Que interessante! Vamos continuar praticando com calma e alegria. Qual é a sua próxima dúvida?",
+      ];
+      const enMocks = [
+        "Hello! It's so wonderful to practice with you today. How is your day going?",
+        "Absolutely! Learning is a beautiful journey. What would you like to explore further about this topic?",
+        "Excellent! You're doing incredibly well. Tell me more about your experiences!",
+        "How interesting! Let's keep practicing with peace and joy. What is your next question?",
+      ];
+      const esMocks = [
+        "¡Hola! Es maravilloso practicar contigo hoy. ¿Cómo va tu día?",
+        "¡Claro que sí! El aprendizaje es un viaje hermoso. ¿Qué te gustaría explorar más sobre este tema?",
+        "¡Excelente! Lo estás haciendo increíblemente bien. ¡Cuéntame más sobre tus experiencias!",
+        "¡Qué interessante! Sigamos practicando con calma y alegría. ¿Cuál es tu próxima pregunta?",
+      ];
+      const mocks = data.language === "pt" ? ptMocks : data.language === "es" ? esMocks : enMocks;
+      const idx = Math.min(data.messages.length - 1, mocks.length - 1);
+      return { reply: mocks[idx] };
     }
-
-    const json = await res.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
-    const reply = json.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "";
-    
-    if (!reply) {
-      throw new Error("Lume couldn't generate a response. Please try again.");
-    }
-
-    return { reply };
   });

@@ -36,7 +36,7 @@ export function LumeIllustration({ className }: { className?: string }) {
             ease: "easeInOut",
           }}
         />
-        
+
         {/* The "Lume" character core */}
         <motion.path
           d="M100 60C77.9086 60 60 77.9086 60 100C60 122.091 77.9086 140 100 140C122.091 140 140 122.091 140 100C140 77.9086 122.091 60 100 60Z"
@@ -76,11 +76,25 @@ export function LumeIllustration({ className }: { className?: string }) {
         ))}
 
         <defs>
-          <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 100) rotate(90) scale(80)">
+          <radialGradient
+            id="paint0_radial"
+            cx="0"
+            cy="0"
+            r="1"
+            gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(100 100) rotate(90) scale(80)"
+          >
             <stop stopColor="var(--accent-green)" stopOpacity="0.6" />
             <stop offset="1" stopColor="var(--accent-green)" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="paint1_linear" x1="60" y1="60" x2="140" y2="140" gradientUnits="userSpaceOnUse">
+          <linearGradient
+            id="paint1_linear"
+            x1="60"
+            y1="60"
+            x2="140"
+            y2="140"
+            gradientUnits="userSpaceOnUse"
+          >
             <stop stopColor="var(--accent-green)" />
             <stop offset="1" stopColor="#1B3A4B" />
           </linearGradient>

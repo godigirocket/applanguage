@@ -1,12 +1,33 @@
-<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="32" cy="32" r="32" fill="url(#grad)" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Delicate Watercolor Base -->
+  <circle cx="50" cy="50" r="45" fill="url(#base)" opacity="0.9" />
+  
+  <!-- Overlapping Continent Shapes -->
+  <path d="M35,32 C40,25 55,20 62,32 C68,42 58,52 65,65 C70,75 52,82 45,72 C38,62 30,68 28,52 C26,38 30,36 35,32 Z" fill="url(#clay)" opacity="0.75" />
+  <path d="M52,38 C58,35 68,32 72,42 C76,52 70,62 65,68 C60,72 55,62 50,55 C45,48 48,42 52,38 Z" fill="url(#sage)" opacity="0.7" />
+  
+  <!-- Muted Gold Outlines -->
+  <circle cx="50" cy="50" r="45" stroke="#C9A84C" stroke-width="1.8" opacity="0.6" stroke-dasharray="4 2" />
+  <ellipse cx="50" cy="50" rx="18" ry="45" stroke="#C9A84C" stroke-width="1.2" opacity="0.4" />
+  
+  <!-- Golden Star Detail -->
+  <g transform="translate(78, 26)">
+    <path d="M0,-8 L2,-2 L8,0 L2,2 L0,8 L-2,2 L-8,0 L-2,-2 Z" fill="#D4A23B" />
+  </g>
+  
   <defs>
-    <linearGradient id="grad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#2D4A3E" />
-      <stop offset="100%" stop-color="#1B3A4B" />
+    <radialGradient id="base" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#D4E4DC"/>
+      <stop offset="70%" stop-color="#C5D3CD"/>
+      <stop offset="100%" stop-color="#FAF7F2" stop-opacity="0.5"/>
+    </radialGradient>
+    <linearGradient id="clay" x1="20" y1="20" x2="70" y2="80">
+      <stop offset="0%" stop-color="#D99E82" />
+      <stop offset="100%" stop-color="#B26C51" />
+    </linearGradient>
+    <linearGradient id="sage" x1="45" y1="30" x2="75" y2="70">
+      <stop offset="0%" stop-color="#A5B8AD" />
+      <stop offset="100%" stop-color="#738A7E" />
     </linearGradient>
   </defs>
-  <path d="M32 16C24 16 18 22 18 30C18 38 24 44 32 44C40 44 46 38 46 30C46 22 40 16 32 16ZM32 40C26.5 40 22 35.5 22 30C22 24.5 26.5 20 32 20C37.5 20 42 24.5 42 30C42 35.5 37.5 40 32 40Z" fill="white" fill-opacity="0.9" />
-  <circle cx="32" cy="30" r="4" fill="white" />
-  <path d="M32 44V52M24 48H40" stroke="white" stroke-width="2" stroke-linecap="round" />
 </svg>

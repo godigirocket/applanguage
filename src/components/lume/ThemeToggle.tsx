@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon } from "@/components/lume/CustomIcons";
 
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
@@ -9,10 +9,10 @@ export function ThemeToggle() {
     // Check local storage or system preference
     const savedTheme = localStorage.getItem("lume_theme");
     const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    
+
     const shouldBeDark = savedTheme === "dark" || (!savedTheme && systemPrefersDark);
     setIsDark(shouldBeDark);
-    
+
     if (shouldBeDark) {
       document.documentElement.classList.add("dark");
     } else {
@@ -23,7 +23,7 @@ export function ThemeToggle() {
   const toggleTheme = () => {
     const nextDark = !isDark;
     setIsDark(nextDark);
-    
+
     if (nextDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("lume_theme", "dark");
@@ -40,15 +40,18 @@ export function ThemeToggle() {
       onClick={toggleTheme}
       aria-label="Toggle theme"
       style={{
-        width: '42px', height: '40px',
-        borderRadius: '50%',
-        background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
-        border: '1.5px solid var(--border)',
-        cursor: 'pointer',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '0',
-        transition: 'all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+        width: "42px",
+        height: "40px",
+        borderRadius: "50%",
+        background: isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)",
+        border: "1.5px solid var(--border)",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0",
+        transition: "all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
       }}
       className="hover:scale-110 active:scale-95 group relative overflow-hidden"
     >

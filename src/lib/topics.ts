@@ -1,6 +1,12 @@
 export type TopicSlug =
-  | "daily-life" | "art-culture" | "professional" | "free-talk"
-  | "speaking-confidence" | "music-expression" | "travel" | "relationships";
+  | "daily-life"
+  | "art-culture"
+  | "professional"
+  | "free-talk"
+  | "speaking-confidence"
+  | "music-expression"
+  | "travel"
+  | "relationships";
 
 export interface Topic {
   slug: TopicSlug;
@@ -16,10 +22,13 @@ export interface Topic {
 
 export const TOPICS: Topic[] = [
   {
-    slug: "daily-life", icon: "Coffee", title: "Daily Life",
+    slug: "daily-life",
+    icon: "Coffee",
+    title: "Daily Life",
     description: "Real conversations for everyday situations",
     description_pt: "Conversas reais para situações do dia a dia",
-    category: "everyday", color: "#C4714A",
+    category: "everyday",
+    color: "#C4714A",
     vocab: {
       pt: ["padaria", "trânsito", "vizinho", "rotina", "fila"],
       en: ["errand", "commute", "neighbor", "routine", "queue"],
@@ -30,10 +39,13 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "art-culture", icon: "Palette", title: "Art & Culture",
+    slug: "art-culture",
+    icon: "Palette",
+    title: "Art & Culture",
     description: "Discuss art, cinema, music and creativity",
     description_pt: "Discuta arte, cinema, música e criatividade",
-    category: "culture", color: "#1B3A4B",
+    category: "culture",
+    color: "#1B3A4B",
     vocab: {
       pt: ["enredo", "trilha sonora", "exposição", "ensaio", "obra"],
       en: ["plot", "soundtrack", "exhibit", "essay", "masterpiece"],
@@ -44,10 +56,13 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "professional", icon: "Briefcase", title: "Professional",
+    slug: "professional",
+    icon: "Briefcase",
+    title: "Professional",
     description: "Work, interviews and business English",
     description_pt: "Trabalho, entrevistas e inglês para negócios",
-    category: "professional", color: "#2D4A3E",
+    category: "professional",
+    color: "#2D4A3E",
     vocab: {
       pt: ["prazo", "reunião", "entrega", "feedback", "cargo"],
       en: ["deadline", "stakeholder", "deliverable", "feedback", "role"],
@@ -58,18 +73,24 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "free-talk", icon: "MessageCircle", title: "Free Talk",
+    slug: "free-talk",
+    icon: "MessageCircle",
+    title: "Free Talk",
     description: "Open conversation about anything you want",
     description_pt: "Conversa aberta sobre o que você quiser",
-    category: "free", color: "#D4C5A9",
+    category: "free",
+    color: "#D4C5A9",
     vocab: { pt: [], en: [] },
     culturalTip: { pt: "", en: "" },
   },
   {
-    slug: "speaking-confidence", icon: "Brain", title: "Speaking Confidence",
+    slug: "speaking-confidence",
+    icon: "Brain",
+    title: "Speaking Confidence",
     description: "Practice without fear of making mistakes",
     description_pt: "Pratique sem medo de cometer erros",
-    category: "confidence", color: "#C4714A",
+    category: "confidence",
+    color: "#C4714A",
     vocab: {
       pt: ["acho que…", "tipo assim", "deixa eu pensar", "na verdade", "então"],
       en: ["I think…", "kind of", "let me think", "actually", "so"],
@@ -80,10 +101,13 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "music-expression", icon: "Music", title: "Music & Expression",
+    slug: "music-expression",
+    icon: "Music",
+    title: "Music & Expression",
     description: "Songs, emotions and creative language",
     description_pt: "Músicas, emoções e linguagem criativa",
-    category: "culture", color: "#2D4A3E",
+    category: "culture",
+    color: "#2D4A3E",
     vocab: {
       pt: ["letra", "refrão", "saudade", "emoção", "melodia"],
       en: ["lyric", "chorus", "longing", "mood", "melody"],
@@ -94,10 +118,13 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "travel", icon: "Plane", title: "Travel",
+    slug: "travel",
+    icon: "Plane",
+    title: "Travel",
     description: "Airports, hotels, directions, real situations",
     description_pt: "Aeroportos, hotéis, direções, situações reais",
-    category: "everyday", color: "#1B3A4B",
+    category: "everyday",
+    color: "#1B3A4B",
     vocab: {
       pt: ["embarque", "bagagem", "pousada", "endereço", "passagem"],
       en: ["boarding", "luggage", "lodging", "directions", "ticket"],
@@ -108,10 +135,13 @@ export const TOPICS: Topic[] = [
     },
   },
   {
-    slug: "relationships", icon: "Heart", title: "Relationships & Social",
+    slug: "relationships",
+    icon: "Heart",
+    title: "Relationships & Social",
     description: "Friendships, social life, small talk",
     description_pt: "Amizades, vida social, conversas casuais",
-    category: "social", color: "#D4C5A9",
+    category: "social",
+    color: "#D4C5A9",
     vocab: {
       pt: ["amizade", "rolê", "encontro", "afeto", "cumplicidade"],
       en: ["friendship", "hangout", "date", "care", "trust"],
@@ -128,8 +158,32 @@ export const TOPIC_BY_SLUG: Record<string, Topic> = Object.fromEntries(
 );
 
 export const MOODS = [
-  { slug: "calm" as const,       icon: "Leaf", label: "Calm",       hint: "Encouragement, less correction", color: "#4A7A5A" },
-  { slug: "intensive" as const,  icon: "Zap", label: "Intensive",  hint: "Precise grammar feedback", color: "#1B3A4B" },
-  { slug: "cultural" as const,   icon: "Palette", label: "Cultural",   hint: "Context and references", color: "#C4714A" },
-  { slug: "confidence" as const, icon: "Dumbbell", label: "Confidence", hint: "Unlock your speech", color: "#C9A84C" },
+  {
+    slug: "calm" as const,
+    icon: "Leaf",
+    label: "Calm",
+    hint: "Encouragement, less correction",
+    color: "#4A7A5A",
+  },
+  {
+    slug: "intensive" as const,
+    icon: "Zap",
+    label: "Intensive",
+    hint: "Precise grammar feedback",
+    color: "#1B3A4B",
+  },
+  {
+    slug: "cultural" as const,
+    icon: "Palette",
+    label: "Cultural",
+    hint: "Context and references",
+    color: "#C4714A",
+  },
+  {
+    slug: "confidence" as const,
+    icon: "Dumbbell",
+    label: "Confidence",
+    hint: "Unlock your speech",
+    color: "#C9A84C",
+  },
 ];

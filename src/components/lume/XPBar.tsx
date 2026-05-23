@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+// @ts-ignore
 import confetti from "canvas-confetti";
 import { useStore } from "@/hooks/useStore";
 
@@ -9,8 +10,10 @@ export function XPBar() {
 
   // Level thresholds
   const thresholds = [0, 100, 300, 600, 1000, 5000];
-  const levelIdx = ["Beginner", "Explorer", "Conversationalist", "Fluent", "Native Soul"].indexOf(level);
-  
+  const levelIdx = ["Beginner", "Explorer", "Conversationalist", "Fluent", "Native Soul"].indexOf(
+    level,
+  );
+
   const minXP = thresholds[levelIdx];
   const maxXP = thresholds[levelIdx + 1];
   const progress = ((xp - minXP) / (maxXP - minXP)) * 100;
@@ -21,7 +24,7 @@ export function XPBar() {
         particleCount: 150,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["var(--accent-green)", "var(--accent-terra)", "#D4C5A9"]
+        colors: ["var(--accent-green)", "var(--accent-terra)", "#D4C5A9"],
       });
       setPrevLevel(level);
     }
@@ -31,12 +34,16 @@ export function XPBar() {
     <div className="w-full space-y-2">
       <div className="flex justify-between items-end">
         <div className="flex items-center gap-2">
-          <span className="text-xs uppercase tracking-widest text-muted-foreground font-bold">Level</span>
+          <span className="text-xs uppercase tracking-widest text-muted-foreground font-bold">
+            Level
+          </span>
           <span className="font-display text-lg text-primary">{level}</span>
         </div>
-        <span className="text-xs font-medium text-muted-foreground">{xp} / {maxXP} XP</span>
+        <span className="text-xs font-medium text-muted-foreground">
+          {xp} / {maxXP} XP
+        </span>
       </div>
-      
+
       <div className="h-2 w-full bg-surface rounded-full overflow-hidden border border-border/50">
         <motion.div
           className="h-full bg-terra"

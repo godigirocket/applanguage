@@ -1,450 +1,1253 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { safeQuery, supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
 import { TOPICS } from "@/lib/topics";
 import { getUserStats } from "@/lib/db";
-import { getDailyWord } from "@/lib/daily-words";
-import { DynamicIcon } from "@/components/lume/DynamicIcon";
-import { LumeIllustration } from "@/components/lume/LumeIllustration";
-import { ChevronRight, Play, Star, Book, Sparkles, Trophy, Zap, Clock, Bookmark, Layers, BarChart2, Home, User, Target } from "lucide-react";
+import { checkTables } from "@/lib/supabase-safe";
+import { useTranslation } from "react-i18next";
+import {
+  ChevronRight,
+  Play,
+  Star,
+  Book,
+  Trophy,
+  Zap,
+  Clock,
+  Bookmark,
+  Layers,
+  BarChart2,
+  Home,
+  User,
+  Target,
+  Award,
+  Music,
+  Film,
+  Search,
+  RefreshCw,
+  CheckCircle,
+  Lock,
+  HelpCircle,
+  Sparkle,
+  Heart,
+  Flame,
+  Sprout,
+  Compass,
+  MessageSquare,
+  BookOpen,
+  Mic,
+  MessageCircle,
+  Coffee,
+  Palette,
+  Briefcase,
+  Brain,
+  DynamicIcon,
+} from "@/components/lume/CustomIcons";
+import {
+  AnimatedCounter,
+  AnimatedCheck,
+  StaggerList,
+  MicPulseRing,
+} from "@/components/lume/Animations";
+import { CategoryIllustration, IlluGlobe } from "@/components/lume/Illustrations";
+// @ts-ignore
+import confetti from "canvas-confetti";
+import { DailyQuest } from "@/components/lume/DailyQuest";
+import { Leaderboard } from "@/components/lume/Leaderboard";
 
 export const Route = createFileRoute("/home")({
   component: HomePage,
 });
 
-const MODULES = [
-  { id: 'm1', title: 'Foundations', slug: 'basics', icon: 'Seedling', color: 'var(--accent-green)', progress: 100, xpRequired: 0, desc: 'Master the essential building blocks of native interaction.' },
-  { id: 'm2', title: 'Social Life', slug: 'travel', icon: 'Coffee', color: '#1B3A4B', progress: 45, xpRequired: 100, desc: 'Navigate restaurants, travel, and casual street talk.' },
-  { id: 'm3', title: 'Work & Biz', slug: 'business', icon: 'Briefcase', color: 'var(--accent-terra)', progress: 0, xpRequired: 300, desc: 'Professional etiquette and street-smart workplace communication.' },
-  { id: 'm4', title: 'Culture & Slang', slug: 'history', icon: 'Palette', color: '#7850B4', progress: 0, xpRequired: 600, desc: 'Deep dive into cultural street slang, local idioms, and nuances.' },
-];
+const getLevelIcon = (iconName: string, size = 20, color?: string) => {
+  switch (iconName) {
+    case "sprout":
+      return <Sprout size={size} color={color} fill="currentColor" />;
+    case "compass":
+      return <Compass size={size} color={color} />;
+    case "message":
+      return <MessageSquare size={size} color={color} />;
+    case "trophy":
+      return <Trophy size={size} color={color} />;
+    case "star":
+      return <Star size={size} color={color} fill="currentColor" />;
+    case "sparkle":
+      return <Sparkle size={size} color={color} />;
+    default:
+      return <Sparkle size={size} color={color} />;
+  }
+};
 
-const QUICK_TIPS = [
-  { icon: 'Zap', text: 'Pratique 5 minutos por dia para acelerar seu aprendizado em até 2x.' },
-  { icon: 'Book', text: 'Salve as gírias do dia a dia e revise antes de iniciar o chat de voz.' },
-  { icon: 'MessageSquare', text: 'Não tenha medo de errar; o Lume corrige sua pronúncia na hora.' },
-];
+const getMissionIcon = (iconName: string, size = 16, color?: string) => {
+  switch (iconName) {
+    case "book":
+      return <BookOpen size={size} color={color} />;
+    case "mic":
+      return <Mic size={size} color={color} />;
+    case "bookmark":
+      return <Bookmark size={size} color={color} />;
+    default:
+      return <CheckCircle size={size} color={color} />;
+  }
+};
+
+const TOPIC_COLORS: Record<string, { bg: string; border: string; glow: string }> = {
+  "daily-life": { bg: "rgba(196,113,74,0.06)", border: "#C4714A", glow: "rgba(196,113,74,0.18)" },
+  "art-culture": { bg: "rgba(27,58,75,0.06)", border: "#1B3A4B", glow: "rgba(27,58,75,0.18)" },
+  professional: { bg: "rgba(45,74,62,0.06)", border: "#2D4A3E", glow: "rgba(45,74,62,0.18)" },
+  "free-talk": { bg: "rgba(212,197,169,0.08)", border: "#D4C5A9", glow: "rgba(212,197,169,0.18)" },
+  "speaking-confidence": {
+    bg: "rgba(196,113,74,0.06)",
+    border: "#C4714A",
+    glow: "rgba(196,113,74,0.18)",
+  },
+  "music-expression": { bg: "rgba(45,74,62,0.06)", border: "#2D4A3E", glow: "rgba(45,74,62,0.18)" },
+  travel: { bg: "rgba(27,58,75,0.06)", border: "#1B3A4B", glow: "rgba(27,58,75,0.18)" },
+  relationships: {
+    bg: "rgba(212,197,169,0.08)",
+    border: "#D4C5A9",
+    glow: "rgba(212,197,169,0.18)",
+  },
+};
+
+function FlagSvg({ lang, size = 18 }: { lang: string; size?: number }) {
+  if (lang === "en") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
+        <rect width="640" height="480" fill="#012169" />
+        <path d="M0 0l640 480M640 0L0 480" stroke="#fff" strokeWidth="80" />
+        <path d="M0 0l640 480M640 0L0 480" stroke="#C8102E" strokeWidth="48" />
+        <path d="M320 0v480M0 240h640" stroke="#fff" strokeWidth="120" />
+        <path d="M320 0v480M0 240h640" stroke="#C8102E" strokeWidth="80" />
+      </svg>
+    );
+  }
+  if (lang === "es") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
+        <rect width="640" height="480" fill="#c60b1e" />
+        <rect y="120" width="640" height="240" fill="#ffc400" />
+      </svg>
+    );
+  }
+  return (
+    <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
+      <rect width="640" height="480" fill="#009c3b" />
+      <path d="M320 80L560 240L320 400L80 240Z" fill="#fedf00" />
+      <circle cx="320" cy="240" r="85" fill="#002776" />
+    </svg>
+  );
+}
 
 function HomePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, xp, streak, level, lumes, dailyChallenges, setXP, setStreak, setInterfaceLanguage } = useStore();
+  const { interfaceLanguage, xp, streak, setXP, setStreak, setInterfaceLanguage, dailyChallenges } =
+    useStore();
+  const { t } = useTranslation(["common"]);
+
   const [profile, setProfile] = useState<any>(null);
+  const [loadingData, setLoadingData] = useState(true);
+  const [showSetupBanner, setShowSetupBanner] = useState(false);
   const [conversationCount, setConversationCount] = useState(0);
   const [expressionCount, setExpressionCount] = useState(0);
-  const [hasConversationToday, setHasConversationToday] = useState(false);
-  const [todayExpressions, setTodayExpressions] = useState(0);
-  const [loadingData, setLoadingData] = useState(true);
-  
-  const isPT = interfaceLanguage === 'pt';
-  const dailyWord = getDailyWord(isPT ? 'en' : 'pt');
+  const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [showHelp, setShowHelp] = useState(false);
+
+  const isPT = interfaceLanguage === "pt";
+  const targetLanguage = useStore((state) => state.targetLanguage);
 
   useEffect(() => {
-    if (!loading && !user) { nav({ to: "/login" }); return; }
-    
+    async function verifyDatabase() {
+      const exists = await checkTables();
+      setShowSetupBanner(!exists);
+    }
+    verifyDatabase();
+  }, []);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      nav({ to: "/login" });
+      return;
+    }
+
     async function loadHomeData() {
       if (!user) return;
       const result = await getUserStats(user.id);
-      if (result.profile) {
-        setProfile(result.profile);
-        setXP(result.profile.xp || 0);
-        setStreak(result.profile.streak || 0);
-        // Only sync language from DB if the user hasn't manually chosen one
-        const storedLang = localStorage.getItem('lume_interface_language');
+      const p = result.profile as any;
+      if (p) {
+        setProfile(p);
+        setXP(p.xp || 0);
+        setStreak(p.streak || 0);
+        setConversationCount(result.stats.conversationCount || 0);
+        setExpressionCount(result.stats.expressionCount || 0);
+        const storedLang = localStorage.getItem("lume_interface_language");
         if (!storedLang) {
-          setInterfaceLanguage((result.profile.interface_language || 'pt') as any);
+          setInterfaceLanguage((p.interface_language || "pt") as any);
         }
       }
-      setConversationCount(result.stats.conversationCount);
-      setExpressionCount(result.stats.expressionCount);
-      
-      const today = new Date().toISOString().split('T')[0];
-      const todayConvs = result.conversations.filter(c => 
-        c.created_at.startsWith(today)
-      );
-      setHasConversationToday(todayConvs.length > 0);
-      
-      const todayExprs = result.expressions.filter(e => 
-        e.created_at.startsWith(today)
-      );
-      setTodayExpressions(todayExprs.length);
-      
       setLoadingData(false);
     }
-    
+
     if (user) {
       loadHomeData();
     }
-  }, [user, loading, nav]);
+  }, [user, loading, nav, setInterfaceLanguage, setXP, setStreak]);
 
   const firstName = profile?.full_name?.split(" ")[0] || (isPT ? "Estudante" : "Learner");
 
   const getGreeting = () => {
     const hr = new Date().getHours();
     if (isPT) {
-      if (hr < 12) return { main: `Bom dia, ${firstName}`, sub: "Que tal praticar algumas gírias hoje?" };
-      if (hr < 18) return { main: `Boa tarde, ${firstName}`, sub: "Pronto para levar seu inglês para a rua?" };
-      return { main: `Boa noite, ${firstName}`, sub: "Uma conversa rápida antes de encerrar o dia?" };
+      if (hr < 12)
+        return {
+          text: `Bom dia, ${firstName}`,
+          sub: "Que tal iniciar sua jornada diária com o Lume?",
+          bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+          accent: "var(--accent-terra)",
+        };
+      if (hr < 18)
+        return {
+          text: `Boa tarde, ${firstName}`,
+          sub: "Seu caminho de aprendizado está pronto!",
+          bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+          accent: "var(--brand)",
+        };
+      return {
+        text: `Boa noite, ${firstName}`,
+        sub: "Uma prática rápida para consolidar seu dia.",
+        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+        accent: "var(--accent-green)",
+      };
     }
-    if (hr < 12) return { main: `Good morning, ${firstName}`, sub: "Shall we practice some street talk today?" };
-    if (hr < 18) return { main: `Good afternoon, ${firstName}`, sub: "Ready to level up your English skills?" };
-    return { main: `Good evening, ${firstName}`, sub: "A quick conversational practice before bed?" };
+    if (hr < 12)
+      return {
+        text: `Good morning, ${firstName}`,
+        sub: "Let's kickstart your customized Lume path!",
+        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+        accent: "var(--accent-terra)",
+      };
+    if (hr < 18)
+      return {
+        text: `Good afternoon, ${firstName}`,
+        sub: "Your guided daily steps are waiting for you!",
+        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+        accent: "var(--brand)",
+      };
+    return {
+      text: `Good evening, ${firstName}`,
+      sub: "A quick consolidation practice before bed.",
+      bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
+      accent: "var(--accent-green)",
+    };
   };
 
   const greeting = getGreeting();
+  const locationFlair =
+    targetLanguage === "en"
+      ? isPT
+        ? "Imersão em Inglês"
+        : "English Immersion"
+      : targetLanguage === "es"
+        ? isPT
+          ? "Imersão em Espanhol"
+          : "Spanish Immersion"
+        : isPT
+          ? "Imersão em Português"
+          : "Portuguese Immersion";
+
+  const getLevelData = (currentXp: number) => {
+    if (currentXp < 100)
+      return {
+        level: { name: isPT ? "Iniciante" : "Beginner", icon: "sprout", color: "#2D4A3E" },
+        nextLevel: {
+          name: isPT ? "Explorador" : "Explorer",
+          icon: "compass",
+          min: 100,
+          color: "#C9A84C",
+        },
+        xpPercent: Math.min(100, Math.round((currentXp / 100) * 100)),
+      };
+    if (currentXp < 300)
+      return {
+        level: { name: isPT ? "Explorador" : "Explorer", icon: "compass", color: "#C9A84C" },
+        nextLevel: {
+          name: isPT ? "Conversador" : "Conversationalist",
+          icon: "message",
+          min: 300,
+          color: "#FF6B35",
+        },
+        xpPercent: Math.min(100, Math.round(((currentXp - 100) / 200) * 100)),
+      };
+    if (currentXp < 800)
+      return {
+        level: {
+          name: isPT ? "Conversador" : "Conversationalist",
+          icon: "message",
+          color: "#FF6B35",
+        },
+        nextLevel: { name: isPT ? "Fluente" : "Fluent", icon: "star", min: 800, color: "#1B3A4B" },
+        xpPercent: Math.min(100, Math.round(((currentXp - 300) / 500) * 100)),
+      };
+    return {
+      level: { name: isPT ? "Poliglota" : "Polyglot", icon: "trophy", color: "#1B3A4B" },
+      nextLevel: { name: isPT ? "Mestre" : "Master", icon: "sparkle", min: 2000, color: "#FF6B35" },
+      xpPercent: Math.min(100, Math.round(((currentXp - 800) / 1200) * 100)),
+    };
+  };
+
+  const { level, nextLevel, xpPercent } = getLevelData(xp);
+
+  const MISSIONS = [
+    {
+      title: isPT ? "Faça 1 lição" : "Complete 1 lesson",
+      xp: 10,
+      done: dailyChallenges[0]?.completed || false,
+      icon: "book",
+    },
+    {
+      title: isPT ? "Pratique pronúncia" : "Practice pronunciation",
+      xp: 15,
+      done: dailyChallenges[1]?.completed || false,
+      icon: "mic",
+    },
+    {
+      title: isPT ? "Salve 5 expressões" : "Save 5 expressions",
+      xp: 20,
+      done: dailyChallenges[2]?.completed || false,
+      icon: "bookmark",
+    },
+  ];
+
+  const completedMissions = MISSIONS.filter((m) => m.done).length;
+
+  const filteredTopics = useMemo(() => {
+    if (activeCategory === "all") return TOPICS;
+    return TOPICS.filter((t) => t.category === activeCategory);
+  }, [activeCategory]);
 
   if (loading || (!profile && loadingData)) return null;
 
   return (
-    <div className="min-h-screen bg-background dark:bg-[#0D0D0B] text-foreground transition-colors duration-300">
+    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text-primary)" }}>
       <AppHeader />
-      
-      <main className="max-w-6xl mx-auto px-6 py-8 md:py-12 pb-32">
-        
-        {/* Welcome Section */}
-        <section className="relative mb-12 page-enter">
-          <div className="glass p-8 md:p-10 rounded-[32px] relative overflow-hidden premium-shadow border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60">
-            <div className="relative z-10 max-w-xl">
-              <div className="flex items-center gap-2 text-accent-green dark:text-accent-gold text-xs font-extrabold uppercase tracking-widest mb-4">
-                <Sparkles size={14} className="animate-pulse" />
-                <span>{isPT ? 'Progresso Diário' : 'Daily Progress'}</span>
+
+      <main style={{ maxWidth: "1000px", margin: "0 auto", padding: "24px 16px 40px" }}>
+        {/* Setup Banner if tables don't exist */}
+        {showSetupBanner && (
+          <div
+            style={{
+              background: "linear-gradient(135deg,#C4714A,#D4824A)",
+              borderRadius: "16px",
+              padding: "16px 20px",
+              marginBottom: "24px",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "16px",
+              flexWrap: "wrap",
+              boxShadow: "0 4px 14px rgba(196,113,74,0.25)",
+            }}
+          >
+            <div>
+              <div style={{ fontWeight: 800, fontSize: "15px", marginBottom: "3px" }}>
+                Base de dados não configurada
               </div>
-              <h1 className="font-display text-3xl md:text-5xl text-[#1C1C1A] dark:text-white font-extrabold mb-3 leading-tight tracking-tight">
-                {greeting.main}
-              </h1>
-              <p className="text-[#6B6B63] dark:text-gray-400 text-base md:text-lg mb-8 font-medium italic">
-                {greeting.sub}
-              </p>
-
-              <div className="flex gap-4 flex-wrap items-center">
-                <Link to="/play" className="no-underline">
-                  <motion.button 
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    className="px-6 py-3.5 bg-accent-green dark:bg-accent-gold text-white dark:text-zinc-900 rounded-2xl font-bold text-sm md:text-base flex items-center gap-2.5 shadow-[0_8px_20px_rgba(45,74,62,0.25)] dark:shadow-[0_8px_20px_rgba(221,192,110,0.15)] cursor-pointer hover:brightness-105 transition-all duration-200"
-                  >
-                    <Play size={16} fill="currentColor" />
-                    <span>{isPT ? 'Iniciar Conversa' : 'Start Conversation'}</span>
-                  </motion.button>
-                </Link>
-
-                <div className="flex gap-3">
-                  <StatItem icon="Zap" value={xp} label="XP" color="var(--accent-green)" />
-                  <StatItem icon="Flame" value={streak} label={isPT ? 'DIAS' : 'DAYS'} color="#FF6B35" />
-                </div>
+              <div style={{ opacity: 0.85, fontSize: "13px" }}>
+                Execute o SQL no Supabase para ativar o progresso e histórico.
               </div>
             </div>
-            
-            <LumeIllustration className="absolute right-[-40px] top-1/2 -translate-y-1/2 w-60 h-60 opacity-15 md:opacity-90 md:right-8 pointer-events-none transition-transform hover:scale-105 duration-500" />
-          </div>
-        </section>
-
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          
-          {/* Main Content Area (2 Cols) */}
-          <div className="lg:col-span-2 flex flex-col gap-10">
-            
-            {/* Learning Path */}
-            <section>
-              <SectionHeader 
-                title={isPT ? 'Sua Trilha de Aprendizado' : 'Your Learning Path'} 
-                sub={isPT ? 'Desbloqueie novos caminhos acumulando XP' : 'Unlock paths by leveling up'}
-                action={{ label: isPT ? 'Habilidades' : 'Skills', to: '/skills' }}
-              />
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {MODULES.map((m, i) => (
-                  <ModuleCard key={m.id} module={m} index={i} isPT={isPT} />
-                ))}
-              </div>
-            </section>
-
-            {/* Daily Word */}
-            <section>
-              <div className="glass premium-shadow p-6 md:p-8 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 relative">
-                <div className="flex justify-between items-start mb-5">
-                  <div>
-                    <span className="text-[11px] font-extrabold color-[#C4714A] text-accent-terra dark:text-accent-terra uppercase tracking-wider">
-                      {isPT ? 'Palavra & Gíria do Dia' : 'Daily Word & Slang'}
-                    </span>
-                    <h3 className="font-display text-2xl md:text-3xl text-[#1C1C1A] dark:text-white mt-1.5 font-extrabold">
-                      {dailyWord.word}
-                    </h3>
-                  </div>
-                  <div className="w-12 h-12 rounded-xl bg-accent-terra/10 dark:bg-accent-terra/20 flex items-center justify-center text-accent-terra">
-                    <Bookmark size={20} />
-                  </div>
-                </div>
-                <p className="text-lg text-[#1C1C1A] dark:text-white mb-4.5 font-bold">{dailyWord.translation}</p>
-                <div className="text-sm md:text-base text-[#6B6B63] dark:text-gray-300 font-medium italic bg-[#F7F4EF]/60 dark:bg-zinc-800/40 p-4.5 rounded-2xl border-l-4 border-accent-terra">
-                  "{dailyWord.example}"
-                </div>
-              </div>
-            </section>
-
-            {/* Mini-Games Section */}
-            <section>
-              <SectionHeader 
-                title={isPT ? 'Mini-Jogos' : 'Mini-Games'} 
-                sub={isPT ? 'Melhore sua fixação brincando' : 'Learn and play at the same time'}
-              />
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <Link to="/memory" className="no-underline">
-                  <div className="lume-card glass p-6 rounded-2xl border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 flex flex-col items-center text-center">
-                    <div className="mb-3.5 text-accent-green dark:text-accent-gold">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
-                    </div>
-                    <h4 className="font-display text-lg font-bold text-[#1C1C1A] dark:text-white">Jogo da Memória</h4>
-                    <p className="text-xs text-[#6B6B63] dark:text-gray-400 mt-1">{isPT ? 'Combine as gírias e palavras' : 'Match vocabulary pairs'}</p>
-                  </div>
-                </Link>
-
-                <Link to="/hangman" className="no-underline">
-                  <div className="lume-card glass p-6 rounded-2xl border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 flex flex-col items-center text-center">
-                    <div className="mb-3.5 text-accent-terra">
-                      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-                    </div>
-                    <h4 className="font-display text-lg font-bold text-[#1C1C1A] dark:text-white">Forca do Lume</h4>
-                    <p className="text-xs text-[#6B6B63] dark:text-gray-400 mt-1">{isPT ? 'Adivinhe o vocabulário' : 'Guess the hidden terms'}</p>
-                  </div>
-                </Link>
-              </div>
-            </section>
-          </div>
-
-          {/* Sidebar Area (1 Col) */}
-          <aside className="flex flex-col gap-8">
-            
-            {/* CEFR Level & Heatmap */}
-            <div className="glass premium-shadow p-6 rounded-[24px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60">
-              <div className="flex justify-between items-center mb-5">
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#6B6B63] dark:text-gray-400">{isPT ? 'NÍVEL CEFR ESTIMADO' : 'ESTIMATED CEFR LEVEL'}</span>
-                <span className="px-3 py-1 bg-accent-green dark:bg-accent-gold text-white dark:text-zinc-900 rounded-lg font-extrabold text-xs">
-                  {xp < 200 ? 'A1' : xp < 600 ? 'A2' : xp < 1500 ? 'B1' : 'B2'}
-                </span>
-              </div>
-              
-              <div className="mt-4">
-                <span className="text-[10px] font-extrabold text-[#A8A8A0] dark:text-gray-500 uppercase tracking-widest">{isPT ? 'ATIVIDADE SEMANAL' : 'WEEKLY ACTIVITY'}</span>
-                <div className="flex gap-1.5 mt-3 h-10 items-end">
-                  {[0.2, 0.4, 0.8, 1, 0.3, 0.6, 0.1].map((val, i) => (
-                    <div key={i} className="flex-1 bg-accent-green dark:bg-accent-gold rounded-md" style={{ opacity: Math.max(0.15, val), height: `${val * 100}%` }} />
-                  ))}
-                </div>
-                <div className="flex justify-between mt-2.5 text-[9px] color-[#A8A8A0] dark:text-gray-500 font-extrabold uppercase">
-                  <span>Seg</span><span>Dom</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Daily Challenge */}
-            <div className="glass-dark premium-shadow p-6 rounded-[24px] border border-white/10 bg-[#1C1C1A]/95 dark:bg-[#151513] text-white relative overflow-hidden">
-              <div className="absolute right-[-20px] top-[-20px] width-24 height-24 bg-accent-gold/10 rounded-full pointer-events-none" />
-              <div className="flex items-center gap-2 mb-4">
-                <Zap size={16} className="text-accent-gold fill-accent-gold animate-bounce" />
-                <span className="text-xs font-extrabold uppercase tracking-widest text-accent-gold">
-                  {isPT ? 'DESAFIO DE CONVERSA' : 'CONVERSATION CHALLENGE'}
-                </span>
-              </div>
-              <p className="text-sm md:text-base mb-6 leading-relaxed font-bold">
-                {isPT 
-                  ? 'Fale sobre o seu café da manhã em inglês usando pelo menos uma gíria por 1 minuto.' 
-                  : 'Talk about your breakfast in English using at least one slang for 1 minute.'}
-              </p>
-              <Link to="/play" className="no-underline">
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full py-3 bg-accent-gold hover:brightness-105 text-zinc-950 border-none rounded-xl font-extrabold text-xs tracking-wider uppercase cursor-pointer transition-all duration-200"
-                >
-                  {isPT ? 'Iniciar (+50 XP)' : 'Start (+50 XP)'}
-                </motion.button>
-              </Link>
-            </div>
-
-            {/* Daily Missions */}
-            <div className="glass premium-shadow p-6 rounded-[24px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60">
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-2">
-                  <Target size={16} className="text-accent-green dark:text-accent-gold" />
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-accent-green dark:text-accent-gold">
-                    {isPT ? 'MISSÕES DIÁRIAS' : 'DAILY MISSIONS'}
-                  </span>
-                </div>
-                <Link to="/shop" className="text-sm font-extrabold text-accent-gold no-underline flex items-center gap-1 hover:underline">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M8 9h8"/><path d="M8 15h8"/></svg>
-                  <span>{lumes}</span>
-                </Link>
-              </div>
-              
-              <div className="flex flex-col gap-3.5">
-                {dailyChallenges?.map((c, i) => (
-                  <div key={c.id} className="flex gap-3 items-center pt-3 border-t border-zinc-200/50 dark:border-zinc-700/50 first:border-t-0 first:pt-0">
-                    <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                      {c.completed ? (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" strokeWidth="3" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-                      ) : (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A8A8A0" strokeWidth="2.5" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                      )}
-                    </div>
-                    <div className="flex-1">
-                      <div className={`text-sm font-bold leading-tight ${c.completed ? 'text-gray-400 line-through' : 'text-[#1C1C1A] dark:text-white'}`}>
-                        {c.title}
-                      </div>
-                      <div className="text-[10px] text-accent-gold font-extrabold mt-0.5">+{c.reward} Lumes</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick Tips */}
-            <div className="flex flex-col gap-3.5">
-              <h4 className="text-xs font-extrabold text-[#1C1C1A] dark:text-white uppercase tracking-widest pl-2">
-                {isPT ? 'DICAS DO LUME' : 'LUME TIPS'}
-              </h4>
-              {QUICK_TIPS.map((tip, i) => (
-                <motion.div 
-                  key={i} 
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + (i * 0.1) }}
-                  className="flex gap-3.5 p-4 bg-white/70 dark:bg-zinc-900/60 rounded-2xl border border-white/20 dark:border-zinc-800/80 shadow-sm"
-                >
-                  <div className="text-accent-green dark:text-accent-gold shrink-0 mt-0.5"><DynamicIcon name={tip.icon} size={16} /></div>
-                  <p className="text-xs text-[#6B6B63] dark:text-gray-400 font-medium leading-relaxed">{tip.text}</p>
-                </motion.div>
-              ))}
-            </div>
-          </aside>
-        </div>
-
-      </main>
-
-      <MobileNav isPT={isPT} />
-    </div>
-  );
-}
-
-function SectionHeader({ title, sub, action }: { title: string; sub: string; action?: { label: string; to: string } }) {
-  return (
-    <div className="flex justify-between items-end mb-6">
-      <div>
-        <h2 className="font-display text-2xl md:text-3xl text-[#1C1C1A] dark:text-white font-extrabold leading-tight">{title}</h2>
-        <p className="text-xs md:text-sm text-[#6B6B63] dark:text-gray-400 font-semibold mt-0.5">{sub}</p>
-      </div>
-      {action && (
-        <Link to={action.to} className="text-xs font-extrabold text-accent-green dark:text-accent-gold no-underline flex items-center gap-1 px-4 py-2 rounded-xl bg-accent-green/5 dark:bg-accent-gold/10 hover:brightness-105 transition-all">
-          <span>{action.label}</span> <ChevronRight size={14} />
-        </Link>
-      )}
-    </div>
-  );
-}
-
-function ModuleCard({ module, index, isPT }: { module: typeof MODULES[0]; index: number; isPT: boolean }) {
-  const { xp } = useStore();
-  const locked = xp < module.xpRequired;
-  const nav = useNavigate();
-
-  const handleClick = () => {
-    if (locked) return;
-    nav({ to: `/conversation/${module.slug}` });
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.08 * index + 0.2 }}
-      whileHover={locked ? {} : { scale: 1.025, y: -4 }}
-      whileTap={locked ? {} : { scale: 0.985 }}
-      onClick={handleClick}
-      className="lume-card glass flex flex-col p-6 rounded-[28px] border border-white/20 dark:border-zinc-800/80 bg-white/70 dark:bg-zinc-900/60 relative overflow-hidden transition-all duration-300"
-      style={{ 
-        borderStyle: locked ? 'dashed' : 'solid', 
-        borderColor: locked ? 'var(--accent-terra)' : 'var(--border)',
-        cursor: locked ? 'not-allowed' : 'pointer'
-      }}
-    >
-      {locked && (
-        <div className="absolute inset-0 bg-[#F7F4EF]/85 dark:bg-[#0D0D0B]/85 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center gap-3">
-          <div className="w-11 h-11 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center shadow-md border border-border dark:border-zinc-700">
-            <DynamicIcon name="Lock" size={16} color="var(--accent-terra)" />
-          </div>
-          <span className="text-[10px] font-extrabold text-accent-terra uppercase tracking-wider bg-white dark:bg-zinc-800 px-3.5 py-1.5 rounded-full shadow-sm">
-            {isPT ? `Requer ${module.xpRequired} XP` : `Requires ${module.xpRequired} XP`}
-          </span>
-        </div>
-      )}
-      
-      <div className="flex justify-between items-start mb-5 z-10">
-        <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `${module.color}15`, color: module.color }}>
-          <DynamicIcon name={module.icon} size={24} />
-        </div>
-        {module.progress > 0 && !locked && (
-          <div className="px-2.5 py-1 rounded-full text-[10px] font-extrabold" style={{ background: `${module.color}15`, color: module.color }}>
-            {module.progress}%
+            <Link
+              to="/setup"
+              style={{
+                padding: "8px 18px",
+                borderRadius: "99px",
+                background: "rgba(255,255,255,0.2)",
+                color: "white",
+                textDecoration: "none",
+                fontSize: "13px",
+                fontWeight: 700,
+                border: "1px solid rgba(255,255,255,0.3)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              Ver instruções →
+            </Link>
           </div>
         )}
-      </div>
 
-      <h3 className="font-display text-lg md:text-xl font-bold text-[#1C1C1A] dark:text-white mb-2 leading-snug z-10">{module.title}</h3>
-      <p className="text-xs md:text-sm text-[#6B6B63] dark:text-gray-400 leading-relaxed mb-6 font-medium z-10">{module.desc}</p>
-
-      {!locked && (
-        <div className="mt-auto h-1.5 bg-[#F7F4EF] dark:bg-zinc-800 rounded-full overflow-hidden z-10">
-          <motion.div 
-            initial={{ width: 0 }}
-            animate={{ width: `${module.progress}%` }}
-            transition={{ duration: 1.2, delay: 0.4 + (index * 0.1) }}
-            style={{ height: '100%', background: module.color }} 
+        {/* Hero card — full redesign */}
+        <div
+          style={{
+            borderRadius: "28px",
+            padding: "40px 44px",
+            marginBottom: "28px",
+            position: "relative",
+            overflow: "hidden",
+            background: greeting.bg,
+            boxShadow: "0 8px 40px rgba(0,0,0,0.08)",
+            minHeight: "220px",
+          }}
+        >
+          {/* Rich background shapes */}
+          <div
+            style={{
+              position: "absolute",
+              right: "-60px",
+              top: "-60px",
+              width: "300px",
+              height: "300px",
+              borderRadius: "50%",
+              background: `${greeting.accent}12`,
+            }}
           />
-        </div>
-      )}
-    </motion.div>
-  );
-}
+          <div
+            style={{
+              position: "absolute",
+              right: "80px",
+              bottom: "-80px",
+              width: "200px",
+              height: "200px",
+              borderRadius: "50%",
+              background: `${greeting.accent}15`,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: "-30px",
+              bottom: "-30px",
+              width: "150px",
+              height: "150px",
+              borderRadius: "50%",
+              background: `${greeting.accent}08`,
+            }}
+          />
 
-function StatItem({ icon, value, label, color }: { icon: string; value: any; label: string; color: string }) {
-  return (
-    <div className="flex items-center gap-3.5 px-4 py-2 bg-white dark:bg-zinc-900/80 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-      <div style={{ color }} className="shrink-0"><DynamicIcon name={icon} size={16} /></div>
-      <div>
-        <div className="text-base md:text-lg font-extrabold text-[#1C1C1A] dark:text-white leading-none">{value}</div>
-        <div className="text-[9px] font-extrabold text-[#6B6B63] dark:text-gray-400 uppercase tracking-widest mt-1">{label}</div>
-      </div>
-    </div>
-  );
-}
+          <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
+            {/* Label */}
+            {locationFlair && (
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "4px 14px",
+                  borderRadius: "99px",
+                  background: "var(--card-bg)",
+                  fontSize: "12px",
+                  fontWeight: 800,
+                  color: greeting.accent,
+                  marginBottom: "16px",
+                  border: "1px solid var(--border)",
+                }}
+              >
+                <span
+                  style={{
+                    display: "inline-flex",
+                    flexShrink: 0,
+                    overflow: "hidden",
+                    borderRadius: "4px",
+                  }}
+                >
+                  <FlagSvg lang={targetLanguage} size={16} />
+                </span>
+                <span>{locationFlair}</span>
+              </div>
+            )}
 
-function MobileNav({ isPT }: { isPT: boolean }) {
-  const NAV_ITEMS = [
-    { to: '/home', icon: 'Home', label: isPT ? 'Início' : 'Home' },
-    { to: '/play', icon: 'Zap', label: isPT ? 'Jogar' : 'Play' },
-    { to: '/skills', icon: 'Layers', label: isPT ? 'Habilidades' : 'Skills' },
-    { to: '/progress', icon: 'BarChart2', label: isPT ? 'Perfil' : 'Profile' },
-  ];
+            {/* Greeting — LARGE */}
+            <h1
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "clamp(32px, 4vw, 52px)",
+                fontWeight: 800,
+                color: "var(--text-primary)",
+                marginBottom: "10px",
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              {greeting.text}
+            </h1>
+            <p
+              style={{
+                fontSize: "17px",
+                color: "var(--text-secondary)",
+                fontStyle: "italic",
+                marginBottom: "32px",
+                lineHeight: 1.5,
+              }}
+            >
+              {greeting.sub}
+            </p>
 
-  return (
-    <nav className="md:hidden fixed bottom-6 left-6 right-6 z-40">
-      <div className="glass shadow-xl rounded-2xl p-2.5 flex justify-around items-center border border-white/30 dark:border-zinc-850 bg-white/70 dark:bg-zinc-900/80">
-        {NAV_ITEMS.map(item => (
-          <Link 
-            key={item.to}
-            to={item.to} 
-            className="flex flex-col items-center gap-1 p-1.5 transition-all text-[#6B6B63] dark:text-gray-400 [&.active]:text-accent-green dark:[&.active]:text-accent-gold"
+            {/* Stats badges — bigger, more contrast */}
+            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+              {[
+                {
+                  label: "XP",
+                  value: xp,
+                  icon: <Star size={18} fill="#C9A84C" color="#C9A84C" />,
+                  color: "#C9A84C",
+                  bg: "rgba(201,168,76,0.12)",
+                },
+                {
+                  label: streak === 1 ? (isPT ? "dia" : "day") : isPT ? "dias" : "days",
+                  value: streak,
+                  icon: (
+                    <Flame
+                      size={18}
+                      fill={streak >= 3 ? "#FF6B35" : "#6B6B63"}
+                      color={streak >= 3 ? "#FF6B35" : "#6B6B63"}
+                    />
+                  ),
+                  color: streak >= 3 ? "#FF6B35" : "#6B6B63",
+                  bg: streak >= 3 ? "rgba(255,107,53,0.1)" : "rgba(107,107,99,0.08)",
+                },
+                {
+                  label: isPT ? "conversas" : "chats",
+                  value: conversationCount,
+                  icon: <MessageCircle size={18} fill="#2D4A3E" color="#2D4A3E" />,
+                  color: "#2D4A3E",
+                  bg: "rgba(45,74,62,0.08)",
+                },
+                {
+                  label: isPT ? "expressões" : "phrases",
+                  value: expressionCount,
+                  icon: <Bookmark size={18} fill="#1B3A4B" color="#1B3A4B" />,
+                  color: "#1B3A4B",
+                  bg: "rgba(27,58,75,0.08)",
+                },
+              ].map((stat, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "10px 18px",
+                    borderRadius: "99px",
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--border)",
+                    boxShadow:
+                      stat.color === "#FF6B35" && streak >= 3
+                        ? "0 0 20px rgba(255,107,53,0.25), 0 2px 8px rgba(0,0,0,0.06)"
+                        : "0 2px 8px rgba(0,0,0,0.06)",
+                  }}
+                >
+                  <span style={{ display: "flex", alignItems: "center" }}>{stat.icon}</span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      color: stat.color,
+                      lineHeight: 1,
+                    }}
+                  >
+                    <AnimatedCounter value={stat.value} duration={1.5} />
+                  </span>
+                  <span
+                    style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600 }}
+                  >
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right side — level badge */}
+          <div
+            style={{
+              position: "absolute",
+              right: "40px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              textAlign: "center",
+              display: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "block",
+            }}
           >
-            <DynamicIcon name={item.icon} size={20} />
-            <span className="text-[8px] font-extrabold uppercase tracking-widest">{item.label}</span>
+            <div
+              style={{
+                width: "100px",
+                height: "100px",
+                borderRadius: "50%",
+                background: `linear-gradient(135deg, ${level.color}20, ${level.color}40)`,
+                border: `3px solid ${level.color}40`,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                boxShadow: `0 8px 32px ${level.color}25`,
+                animation: "floatBadge 4s ease-in-out infinite",
+              }}
+            >
+              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {getLevelIcon(level.icon, 32, level.color)}
+              </span>
+              <span
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 800,
+                  color: level.color,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                  marginTop: "6px",
+                }}
+              >
+                {level.name}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* XP BAR — below hero, full width */}
+        <div
+          style={{
+            background: "var(--card-bg)",
+            borderRadius: "18px",
+            padding: "16px 24px",
+            marginBottom: "28px",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+            border: "1.5px solid var(--border)",
+            backdropFilter: "blur(20px)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "13px",
+                fontWeight: 700,
+                color: "var(--text-primary)",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+              {getLevelIcon(level.icon, 16, level.color)} {level.name}
+            </span>
+            <span
+              style={{
+                fontSize: "13px",
+                color: "var(--brand)",
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                flexWrap: "wrap",
+              }}
+            >
+              {xp} / {nextLevel.min} XP <span style={{ color: "var(--text-secondary)" }}>→</span>{" "}
+              {getLevelIcon(nextLevel.icon, 16, nextLevel.color || level.color)} {nextLevel.name}
+            </span>
+          </div>
+          <div
+            style={{
+              height: "10px",
+              background: "var(--bg-secondary)",
+              borderRadius: "99px",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+                borderRadius: "99px",
+                background: `linear-gradient(90deg, ${level.color}, ${level.color}AA)`,
+                width: `${xpPercent}%`,
+                transition: "width 1.2s cubic-bezier(0.34,1.56,0.64,1)",
+                boxShadow: `0 0 10px ${level.color}50`,
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mb-8 mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <DailyQuest />
+          <Leaderboard />
+        </div>
+
+        {/* TOPIC CARDS — Dynamic Categories Overhaul */}
+        <div style={{ marginTop: "48px", marginBottom: "28px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              flexWrap: "wrap",
+              gap: "12px",
+              marginBottom: "20px",
+            }}
+          >
+            <div>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(24px,3vw,34px)",
+                  fontWeight: 800,
+                  color: "var(--text-primary)",
+                  margin: "0 0 4px",
+                }}
+              >
+                {isPT ? "Salas de Conversação" : "Conversation Rooms"}
+              </h2>
+              <p
+                style={{
+                  fontSize: "14.5px",
+                  color: "var(--text-secondary)",
+                  margin: 0,
+                  fontWeight: 500,
+                }}
+              >
+                {isPT
+                  ? "Escolha uma categoria e destrave sua fala"
+                  : "Select a topic category to start speaking"}
+              </p>
+            </div>
+          </div>
+
+          {/* Category Tabs Container */}
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              overflowX: "auto",
+              paddingBottom: "8px",
+              marginBottom: "24px",
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+            className="no-scrollbar"
+          >
+            {[
+              { id: "all", label: isPT ? "Todos" : "All", icon: <Compass size={14} /> },
+              {
+                id: "everyday",
+                label: isPT ? "Dia a Dia" : "Everyday",
+                icon: <Coffee size={14} />,
+              },
+              {
+                id: "culture",
+                label: isPT ? "Arte & Cultura" : "Culture",
+                icon: <Palette size={14} />,
+              },
+              {
+                id: "professional",
+                label: isPT ? "Carreira" : "Career",
+                icon: <Briefcase size={14} />,
+              },
+              {
+                id: "free",
+                label: isPT ? "Livre" : "Free Talk",
+                icon: <MessageCircle size={14} />,
+              },
+              {
+                id: "confidence",
+                label: isPT ? "Confiança" : "Confidence",
+                icon: <Brain size={14} />,
+              },
+            ].map((tab) => {
+              const isActive = activeCategory === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveCategory(tab.id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    padding: "8px 16px",
+                    borderRadius: "12px",
+                    background: isActive ? "var(--accent-green)" : "var(--card-bg)",
+                    color: isActive ? "white" : "var(--text-secondary)",
+                    border: "1.5px solid",
+                    borderColor: isActive ? "var(--accent-green)" : "var(--border)",
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    transition: "all 0.2s",
+                    boxShadow: isActive ? "0 4px 12px rgba(38,70,58,0.15)" : "none",
+                  }}
+                  className="hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+            gap: "16px",
+            marginBottom: "40px",
+          }}
+        >
+          <StaggerList stagger={0.06}>
+            {filteredTopics.map((topic) => {
+              const colors = TOPIC_COLORS[topic.slug] || {
+                bg: "rgba(0,0,0,0.05)",
+                border: "#666",
+                glow: "rgba(0,0,0,0.1)",
+              };
+              return (
+                <Link
+                  key={topic.slug}
+                  to={`/conversation/${topic.slug}` as any}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <div
+                    className="topic-card-upgrade card-hover"
+                    style={{
+                      background: colors.bg,
+                      borderRadius: "22px",
+                      padding: "28px 24px",
+                      borderTop: `4px solid ${colors.border}`,
+                      border: `1px solid ${colors.border}18`,
+                      minHeight: "220px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      position: "relative",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
+                    }}
+                  >
+                    {/* Decorative circle */}
+                    <div
+                      style={{
+                        position: "absolute",
+                        right: "-20px",
+                        bottom: "-20px",
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                        background: `${colors.border}10`,
+                      }}
+                    />
+
+                    {/* Icon box using new abstract illustrations */}
+                    <div
+                      style={{
+                        width: "56px",
+                        height: "56px",
+                        borderRadius: "16px",
+                        background: `${colors.border}15`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: "18px",
+                        boxShadow: `0 4px 16px ${colors.border}15`,
+                      }}
+                    >
+                      <CategoryIllustration
+                        category={
+                          topic.category === "grammar"
+                            ? "grammar"
+                            : topic.category === "vocabulary"
+                              ? "vocabulary"
+                              : topic.category === "culture"
+                                ? "culture"
+                                : topic.category === "professional"
+                                  ? "professional"
+                                  : "default"
+                        }
+                        size={32}
+                      />
+                    </div>
+
+                    <div>
+                      <h3
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "20px",
+                          fontWeight: 700,
+                          color: "var(--text-primary)",
+                          marginBottom: "8px",
+                        }}
+                      >
+                        {topic.title}
+                      </h3>
+                      <p
+                        style={{
+                          fontSize: "13px",
+                          color: "var(--text-secondary)",
+                          lineHeight: 1.55,
+                          marginBottom: "18px",
+                        }}
+                      >
+                        {isPT ? topic.description_pt : topic.description}
+                      </p>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          position: "relative",
+                          zIndex: 2,
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 800,
+                            textTransform: "uppercase",
+                            letterSpacing: "0.08em",
+                            color: colors.border,
+                          }}
+                        >
+                          {isPT ? "Começar →" : "Start →"}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: 700,
+                            color: "var(--text-secondary)",
+                            background: "var(--card-bg)",
+                            padding: "3px 10px",
+                            borderRadius: "99px",
+                            border: "1px solid rgba(0,0,0,0.06)",
+                          }}
+                        >
+                          {topic.category}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
+          </StaggerList>
+        </div>
+
+        {/* LUME CULTURAL ATLAS CTA */}
+        {(activeCategory === "all" || activeCategory === "culture") && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(38,70,58,0.03) 0%, rgba(196,113,74,0.03) 100%)",
+              border: "1.5px dashed rgba(38,70,58,0.25)",
+              borderRadius: "24px",
+              padding: "30px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "24px",
+              marginTop: "16px",
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ flex: 1, minWidth: "280px" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}
+              >
+                <span style={{ display: "flex", color: "var(--accent-terra)" }}>
+                  <IlluGlobe
+                    size={36}
+                    primary="var(--accent-terra)"
+                    secondary="var(--accent-gold)"
+                  />
+                </span>
+                <h4
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "20px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    margin: 0,
+                  }}
+                >
+                  {t(
+                    "cultureMap",
+                    isPT ? "Explorar Atlas Cultural Lume" : "Explore the Lume Cultural Atlas",
+                  )}
+                </h4>
+              </div>
+              <p
+                style={{
+                  fontSize: "13.5px",
+                  color: "var(--text-secondary)",
+                  margin: 0,
+                  lineHeight: 1.5,
+                  fontWeight: 500,
+                }}
+              >
+                {t(
+                  "cultureMapDesc",
+                  isPT
+                    ? "Viaje por capitais interativas, descubra pratos típicos, curiosidades históricas e sotaques regionais com nosso mapa ilustrado."
+                    : "Travel through interactive capitals, discover traditional dishes, historical curiosities and regional accents with our illustrated map.",
+                )}
+              </p>
+            </div>
+            <Link
+              to="/culture"
+              style={{
+                textDecoration: "none",
+                padding: "12px 24px",
+                background: "var(--brand)",
+                color: "white",
+                borderRadius: "14px",
+                fontSize: "13.5px",
+                fontWeight: 800,
+                boxShadow: "0 4px 12px rgba(38,70,58,0.15)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+              className="hover:scale-105 active:scale-95 transition-transform"
+            >
+              <span>{t("openMap", isPT ? "Abrir Mapa Cultural →" : "Open Cultural Map →")}</span>
+            </Link>
+          </motion.div>
+        )}
+
+        {/* Quick Challenge CTA */}
+        <div
+          style={{
+            borderRadius: "24px",
+            padding: "32px 38px",
+            background: "linear-gradient(135deg, var(--brand) 0%, var(--accent-teal) 100%)",
+            color: "white",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            flexWrap: "wrap",
+            gap: "20px",
+            boxShadow: "0 8px 32px rgba(45,74,62,0.2)",
+            marginTop: "48px",
+            position: "relative",
+            overflow: "hidden",
+          }}
+          className="page-enter"
+        >
+          <div
+            style={{
+              position: "absolute",
+              right: "-40px",
+              bottom: "-40px",
+              width: "180px",
+              height: "180px",
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.05)",
+              pointerEvents: "none",
+            }}
+          />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <h3
+              style={{
+                fontFamily: "var(--font-display)",
+                fontSize: "24px",
+                fontWeight: 800,
+                marginBottom: "8px",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              {isPT ? "Pronto para um desafio relâmpago?" : "Ready for a quick drill?"}
+            </h3>
+            <p
+              style={{
+                opacity: 0.85,
+                fontSize: "14px",
+                maxWidth: "500px",
+                lineHeight: 1.5,
+                margin: 0,
+              }}
+            >
+              {isPT
+                ? "Inicie uma conversa por voz de 2 minutos com a Lume IA e ganhe bônus de XP instantâneo!"
+                : "Start an express 2-minute voice session with Lume AI and claim an instant XP bonus!"}
+            </p>
+          </div>
+          <Link
+            to={"/conversation/free-talk" as any}
+            style={{ textDecoration: "none", position: "relative", zIndex: 1 }}
+          >
+            <button
+              style={{
+                background: "white",
+                color: "var(--brand)",
+                padding: "12px 24px",
+                borderRadius: "14px",
+                fontSize: "14px",
+                fontWeight: 800,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                border: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+              className="hover:scale-105 active:scale-95"
+            >
+              <MicPulseRing recording={true} size={28} />
+              {isPT ? "Falar Agora" : "Speak Now"}
+            </button>
           </Link>
-        ))}
-      </div>
-    </nav>
+        </div>
+
+        {/* ℹ️ FLOATING HELP BUTTON */}
+        <button
+          onClick={() => setShowHelp(true)}
+          style={{
+            position: "fixed",
+            right: "24px",
+            bottom: "80px",
+            zIndex: 99,
+            width: "52px",
+            height: "52px",
+            borderRadius: "50%",
+            background: "var(--accent-terra)",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 8px 32px rgba(196,109,75,0.3)",
+            transition: "transform 0.2s",
+          }}
+          className="hover:scale-110 active:scale-95"
+        >
+          <span style={{ fontSize: "20px", fontWeight: 800 }}>?</span>
+        </button>
+
+        {/* HELP MODAL */}
+        <AnimatePresence>
+          {showHelp && (
+            <div
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 9999,
+                background: "rgba(0,0,0,0.4)",
+                backdropFilter: "blur(4px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "20px",
+              }}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="glass"
+                style={{
+                  maxWidth: "480px",
+                  width: "100%",
+                  borderRadius: "28px",
+                  padding: "32px",
+                  background: "var(--surface-raised)",
+                  border: "1.5px solid var(--border)",
+                  boxShadow: "0 12px 48px rgba(0,0,0,0.1)",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "24px",
+                      fontWeight: 800,
+                      margin: 0,
+                      color: "var(--text-primary)",
+                    }}
+                  >
+                    {isPT ? "Painel de Bordo Lume" : "Lume Dashboard Guide"}
+                  </h3>
+                  <button
+                    onClick={() => setShowHelp(false)}
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: "18px",
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+                <div
+                  style={{
+                    fontSize: "14.5px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.6,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "12px",
+                  }}
+                >
+                  <p>
+                    <strong>1. {isPT ? "Nível e Streak:" : "Level & Streak:"}</strong>{" "}
+                    {isPT
+                      ? "Monitore seus dias seguidos estudando e ganhe bônus ao completar objetivos diários."
+                      : "Track your consecutive learning days and unlock rewards by hitting daily targets."}
+                  </p>
+                  <p>
+                    <strong>2. {isPT ? "Lições recomendadas:" : "Recommended Sessions:"}</strong>{" "}
+                    {isPT
+                      ? "Seu itinerário pessoal foi formulado por inteligência artificial para maximizar seu tempo."
+                      : "Your personal route is formulated dynamically by AI to optimize your time."}
+                  </p>
+                  <p>
+                    <strong>3. {isPT ? "Atlas Cultural:" : "Cultural Atlas:"}</strong>{" "}
+                    {isPT
+                      ? "Explore capital por capital no Atlas Cultural Lume para dominar sotaques e jargões locais."
+                      : "Journey capital by capital in Lume Cultural Atlas to master local slangs and accents."}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowHelp(false)}
+                  style={{
+                    marginTop: "24px",
+                    width: "100%",
+                    padding: "12px",
+                    background: "var(--brand)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "14px",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                  }}
+                >
+                  {isPT ? "Entendi!" : "Got it!"}
+                </button>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+      </main>
+    </div>
   );
 }

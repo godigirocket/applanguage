@@ -1,161 +1,317 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
-import { LanguageToggle } from "./LanguageToggle";
-import { ThemeToggle } from "./ThemeToggle";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useStore } from "@/hooks/useStore";
+import { Logo } from "@/components/lume/Logo";
+import { Sun, Moon } from "@/components/lume/CustomIcons";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/lume/LanguageSwitcher";
 
-const NavIcons = {
-  practice: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+// Mobile bottom-tab nav icons as inline SVG for zero dependency
+function IconHome() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
+      <path d="M9 21V12h6v9" />
     </svg>
-  ),
-  play: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <polygon points="5 3 19 12 5 21 5 3" fill="currentColor" opacity="0.2"/>
-      <polyline points="5 3 19 12 5 21 5 3"/>
+  );
+}
+function IconBook() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 19.5A2.5 2.5 0 016.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" />
     </svg>
-  ),
-  skills: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+  );
+}
+function IconPlay() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none" />
     </svg>
-  ),
-  progress: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+  );
+}
+function IconChart() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
     </svg>
-  ),
-  lessons: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+  );
+}
+function IconGlobe() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="2" y1="12" x2="22" y2="12" />
+      <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
     </svg>
-  ),
-  guide: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <circle cx="12" cy="12" r="10"/>
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-      <line x1="12" y1="17" x2="12.01" y2="17"/>
+  );
+}
+function IconUser() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </svg>
-  ),
-  shop: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <path d="M16 10a4 4 0 0 1-8 0"></path>
-    </svg>
-  ),
-  user: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-  )
-};
+  );
+}
 
-export function AppHeader() {
+export function AppHeader({
+  hideMobileTabs = false,
+  isGlobal = false,
+}: { hideMobileTabs?: boolean; isGlobal?: boolean } = {}) {
+  // If this is a child render and the global header is already active, render nothing.
+  if (!isGlobal && typeof window !== "undefined" && (window as any).__lumeGlobalHeaderMounted) {
+    return null;
+  }
+
+  // Set the global mount flag
+  if (isGlobal && typeof window !== "undefined") {
+    (window as any).__lumeGlobalHeaderMounted = true;
+  }
   const { user } = useAuth();
-  const { interfaceLanguage } = useStore();
   const [profile, setProfile] = useState<any>(null);
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
+  const { t } = useTranslation(["common"]);
+
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "light";
+    try {
+      return (localStorage.getItem("lume_theme") || "light") as "light" | "dark";
+    } catch {
+      return "light";
+    }
+  });
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.remove("dark");
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (user) {
-      supabase.from("profiles").select("full_name, onboarding_done").eq("id", user.id).maybeSingle()
-        .then(({ data }) => setProfile(data));
+      supabase
+        .from("profiles")
+        .select("full_name, onboarding_done")
+        .eq("id", user.id)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data) setProfile(data);
+        });
     }
   }, [user]);
 
   const firstName = profile?.full_name?.split(" ")[0] || "";
 
+  const NAV_ITEMS = [
+    { href: "/home", label: t("practice"), Icon: IconHome },
+    { href: "/lessons", label: t("lessons"), Icon: IconBook },
+    { href: "/play", label: t("play"), Icon: IconPlay },
+    { href: "/culture", label: "Cultura", Icon: IconGlobe },
+    { href: "/profile", label: "Perfil", Icon: IconUser },
+  ];
+
+  const isLoggedIn = user && profile?.onboarding_done;
+
   return (
     <>
-      <header className="sticky top-0 z-30 border-b border-white/20 glass backdrop-blur-md">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <Link to="/home" className="flex items-center gap-2.5 no-underline select-none" style={{ textDecoration: 'none' }}>
-            <div style={{
-              width: '34px', height: '34px', borderRadius: '11px',
-              background: 'linear-gradient(135deg, #2D6A4F 0%, #1B3A4B 100%)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 2px 10px rgba(45,106,79,0.35), inset 0 1px 0 rgba(255,255,255,0.15)',
-              flexShrink: 0
-            }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C12 2 7 8 7 13a5 5 0 0 0 10 0c0-2-1-4-2-5.5C14 9 13.5 11 12 12c0 0 1-4-1-6" fill="white" opacity="0.9"/>
-                <path d="M12 16a2 2 0 0 0 2-2c0-1-1-2-2-2s-2 1-2 2a2 2 0 0 0 2 2" fill="white"/>
-              </svg>
-            </div>
-            <div className="flex flex-col select-none">
-              <span style={{
-                fontFamily: 'Nunito, sans-serif',
-                fontSize: '21px', fontWeight: 900,
-                color: 'var(--text-primary)',
-                letterSpacing: '-0.03em', lineHeight: 1.05
-              }}>Lume</span>
-              <span style={{
-                fontSize: '7.5px', fontWeight: 800,
-                color: 'var(--text-secondary)',
-                letterSpacing: '0.08em', marginTop: '1.5px', textTransform: 'uppercase',
-                whiteSpace: 'nowrap', opacity: 0.95
-              }}>Language & Mind Experience</span>
-            </div>
+      {/* ── TOP HEADER ─────────────────────────────────────────── */}
+      <header
+        style={{
+          position: "relative",
+          zIndex: 100,
+          background: "var(--surface-raised)",
+          borderBottom: "1.5px solid var(--border)",
+          height: "58px",
+          boxShadow: "0 1px 12px rgba(0,0,0,0.06)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1120px",
+            margin: "0 auto",
+            padding: "0 16px",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "8px",
+          }}
+        >
+          {/* LOGO */}
+          <Link
+            to="/home"
+            style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
+          >
+            <Logo size={46} />
           </Link>
 
-          {user && profile?.onboarding_done && (
-            <div className="hidden md:flex items-center gap-6">
-              <NavLink to="/home" icon="practice">{interfaceLanguage === 'pt' ? 'Praticar' : 'Practice'}</NavLink>
-              <NavLink to="/lessons" icon="lessons">{interfaceLanguage === 'pt' ? 'Lições' : 'Lessons'}</NavLink>
-              <NavLink to="/play" icon="play">{interfaceLanguage === 'pt' ? 'Jogar' : 'Play'}</NavLink>
-              <NavLink to="/skills" icon="skills">{interfaceLanguage === 'pt' ? 'Habilidades' : 'Skills'}</NavLink>
-              <NavLink to="/progress" icon="progress">{interfaceLanguage === 'pt' ? 'Progresso' : 'Progress'}</NavLink>
-              <NavLink to="/guide" icon="guide">{interfaceLanguage === 'pt' ? 'Como usar' : 'Guide'}</NavLink>
-              <NavLink to="/shop" icon="shop">{interfaceLanguage === 'pt' ? 'Loja' : 'Shop'}</NavLink>
-            </div>
+          {/* DESKTOP NAV — hidden on mobile */}
+          {isLoggedIn && (
+            <nav className="lume-desktop-nav">
+              {NAV_ITEMS.map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href as any}
+                  style={{
+                    padding: "7px 12px",
+                    borderRadius: "10px",
+                    fontSize: "13px",
+                    fontWeight: 700,
+                    color: currentPath === item.href ? "var(--brand)" : "var(--text-secondary)",
+                    background: currentPath === item.href ? "rgba(45,74,62,0.08)" : "transparent",
+                    textDecoration: "none",
+                    transition: "all 0.18s",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           )}
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <LanguageToggle />
+          {/* RIGHT CONTROLS */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
+            <LanguageSwitcher />
+
+            {/* Theme Toggle */}
+            <button
+              onClick={() => {
+                const next = theme === "light" ? "dark" : "light";
+                setTheme(next);
+                localStorage.setItem("lume_theme", next);
+              }}
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "10px",
+                background: "var(--surface-raised)",
+                border: "1.5px solid var(--border)",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--text-secondary)",
+                transition: "all 0.2s",
+                flexShrink: 0,
+              }}
+              title={t("themeToggle")}
+            >
+              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+            </button>
+
+            {/* Avatar — desktop only */}
             {user ? (
-              <Link to="/profile">
-                <div className="w-10 h-10 rounded-full bg-accent-sand flex items-center justify-center text-accent-green font-bold text-sm border border-border shadow-sm hover:shadow-md transition-shadow overflow-hidden group relative">
-                  {firstName ? firstName[0] : NavIcons.user}
-                  <div className="absolute inset-0 bg-accent-green/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Link
+                to="/profile"
+                className="lume-desktop-only"
+                style={{ textDecoration: "none", flexShrink: 0 }}
+              >
+                <div
+                  style={{
+                    width: "34px",
+                    height: "34px",
+                    borderRadius: "50%",
+                    background: "linear-gradient(135deg, var(--brand), var(--accent-teal))",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontFamily: "var(--font-display)",
+                    fontSize: "14px",
+                    fontWeight: 800,
+                    color: "white",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    border: "2px solid var(--border)",
+                  }}
+                >
+                  {firstName ? firstName[0].toUpperCase() : "L"}
                 </div>
               </Link>
             ) : (
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 style={{
-                  padding: '8px 18px', borderRadius: '99px',
-                  background: 'rgba(45,74,62,0.08)', color: 'var(--accent-green)',
-                  textDecoration: 'none', fontSize: '13px', fontWeight: 700,
-                  transition: 'all 0.2s'
+                  padding: "7px 16px",
+                  borderRadius: "99px",
+                  background: "var(--brand)",
+                  color: "white",
+                  textDecoration: "none",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  whiteSpace: "nowrap",
+                  transition: "opacity 0.2s",
                 }}
-                className="hover:bg-primary hover:text-white"
               >
-                {interfaceLanguage === 'pt' ? 'Entrar' : 'Sign In'}
+                {t("signIn")}
               </Link>
             )}
           </div>
         </div>
       </header>
     </>
-  );
-}
-
-function NavLink({ to, children, icon }: { to: string; children: React.ReactNode; icon: keyof typeof NavIcons }) {
-  return (
-    <Link 
-      to={to} 
-      className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.15em] transition-all px-3 py-2 rounded-lg"
-      style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
-      activeProps={{ style: { color: 'var(--accent-green)', background: 'rgba(45,106,79,0.08)' } }}
-    >
-      {NavIcons[icon]}
-      {children}
-    </Link>
   );
 }

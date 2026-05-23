@@ -1,0 +1,458 @@
+{
+  "pt": [
+    {
+      "id": "v_pt_001",
+      "word": "Saudade",
+      "translation": "Longing / Missing",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "noun",
+      "example": "Sinto saudade da minha terra.",
+      "pronunciationHint": "saw-DAH-dji"
+    },
+    {
+      "id": "v_pt_002",
+      "word": "Aconchegante",
+      "translation": "Cozy / Snug",
+      "level": "B2",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "A casa dela é muito aconchegante.",
+      "pronunciationHint": "ah-kon-she-GAN-tchi"
+    },
+    {
+      "id": "v_pt_003",
+      "word": "Madrugada",
+      "translation": "Early dawn",
+      "level": "A2",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "Acordei de madrugada para estudar.",
+      "pronunciationHint": "ma-dru-GA-da"
+    },
+    {
+      "id": "v_pt_004",
+      "word": "Almoço",
+      "translation": "Lunch",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "O almoço está pronto.",
+      "pronunciationHint": "al-MOH-soh"
+    },
+    {
+      "id": "v_pt_005",
+      "word": "Empresa",
+      "translation": "Company / Business",
+      "level": "A2",
+      "category": "business",
+      "partOfSpeech": "noun",
+      "example": "Ela trabalha em uma grande empresa.",
+      "pronunciationHint": "en-PRE-za"
+    },
+    {
+      "id": "v_pt_006",
+      "word": "Celular",
+      "translation": "Cell phone",
+      "level": "A1",
+      "category": "technology",
+      "partOfSpeech": "noun",
+      "example": "Esqueci meu celular em casa.",
+      "pronunciationHint": "se-lu-LAR"
+    },
+    {
+      "id": "v_pt_007",
+      "word": "Gentileza",
+      "translation": "Kindness",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "noun",
+      "example": "Gentileza gera gentileza.",
+      "pronunciationHint": "jen-ti-LE-za"
+    },
+    {
+      "id": "v_pt_008",
+      "word": "Paisagem",
+      "translation": "Landscape / Scenery",
+      "level": "B1",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "A paisagem era de tirar o fôlego.",
+      "pronunciationHint": "pai-ZA-jen"
+    },
+    {
+      "id": "v_pt_009",
+      "word": "Reunião",
+      "translation": "Meeting",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "Tenho uma reunião às três.",
+      "pronunciationHint": "he-u-ni-OWN"
+    },
+    {
+      "id": "v_pt_010",
+      "word": "Carteira",
+      "translation": "Wallet / Desk",
+      "level": "A1",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "Perdi minha carteira no ônibus.",
+      "pronunciationHint": "kar-TEI-ra"
+    },
+    {
+      "id": "v_pt_011",
+      "word": "Empreendedor",
+      "translation": "Entrepreneur",
+      "level": "C1",
+      "category": "business",
+      "partOfSpeech": "noun",
+      "example": "Ele é um empreendedor de sucesso.",
+      "pronunciationHint": "en-pre-en-de-DOR"
+    },
+    {
+      "id": "v_pt_012",
+      "word": "Orgulho",
+      "translation": "Pride",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "noun",
+      "example": "Tenho orgulho de você.",
+      "pronunciationHint": "or-GU-lyo"
+    },
+    {
+      "id": "v_pt_013",
+      "word": "Abacaxi",
+      "translation": "Pineapple",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "O suco de abacaxi está delicioso.",
+      "pronunciationHint": "a-ba-ka-SHI"
+    },
+    {
+      "id": "v_pt_014",
+      "word": "Desenvolvimento",
+      "translation": "Development",
+      "level": "B2",
+      "category": "technology",
+      "partOfSpeech": "noun",
+      "example": "O desenvolvimento do app levou seis meses.",
+      "pronunciationHint": "de-zen-vol-vi-MEN-to"
+    },
+    {
+      "id": "v_pt_015",
+      "word": "Resiliência",
+      "translation": "Resilience",
+      "level": "C1",
+      "category": "emotions",
+      "partOfSpeech": "noun",
+      "example": "A resiliência é uma qualidade admirável.",
+      "pronunciationHint": "he-zi-li-EN-sia"
+    }
+  ],
+  "en": [
+    {
+      "id": "v_en_001",
+      "word": "Resilient",
+      "translation": "Resiliente",
+      "level": "B2",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "She is a very resilient person.",
+      "pronunciationHint": "ri-ZIL-yent"
+    },
+    {
+      "id": "v_en_002",
+      "word": "Commute",
+      "translation": "Deslocamento diário",
+      "level": "B1",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "My daily commute takes an hour.",
+      "pronunciationHint": "kuh-MYOOT"
+    },
+    {
+      "id": "v_en_003",
+      "word": "Briefcase",
+      "translation": "Maleta / Pasta",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "He forgot his briefcase at home.",
+      "pronunciationHint": "BREEF-kays"
+    },
+    {
+      "id": "v_en_004",
+      "word": "Apple",
+      "translation": "Maçã",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "I eat an apple every day.",
+      "pronunciationHint": "A-puhl"
+    },
+    {
+      "id": "v_en_005",
+      "word": "Obsolete",
+      "translation": "Obsoleto",
+      "level": "C1",
+      "category": "technology",
+      "partOfSpeech": "adjective",
+      "example": "That software is now obsolete.",
+      "pronunciationHint": "ob-suh-LEET"
+    },
+    {
+      "id": "v_en_006",
+      "word": "Sustainable",
+      "translation": "Sustentável",
+      "level": "B2",
+      "category": "nature",
+      "partOfSpeech": "adjective",
+      "example": "We need sustainable energy sources.",
+      "pronunciationHint": "suh-STAY-nuh-buhl"
+    },
+    {
+      "id": "v_en_007",
+      "word": "Overwhelmed",
+      "translation": "Sobrecarregado",
+      "level": "B2",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "I feel overwhelmed with work.",
+      "pronunciationHint": "oh-ver-WELMD"
+    },
+    {
+      "id": "v_en_008",
+      "word": "Deadline",
+      "translation": "Prazo final",
+      "level": "B1",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "The deadline is next Friday.",
+      "pronunciationHint": "DED-lain"
+    },
+    {
+      "id": "v_en_009",
+      "word": "Receipt",
+      "translation": "Recibo",
+      "level": "A2",
+      "category": "business",
+      "partOfSpeech": "noun",
+      "example": "Can I have the receipt, please?",
+      "pronunciationHint": "ri-SEET"
+    },
+    {
+      "id": "v_en_010",
+      "word": "Waterfall",
+      "translation": "Cachoeira",
+      "level": "A2",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "The waterfall was breathtaking.",
+      "pronunciationHint": "WAH-ter-fol"
+    },
+    {
+      "id": "v_en_011",
+      "word": "Strawberry",
+      "translation": "Morango",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "I love strawberry ice cream.",
+      "pronunciationHint": "STRAW-beh-ree"
+    },
+    {
+      "id": "v_en_012",
+      "word": "Accountable",
+      "translation": "Responsável",
+      "level": "C1",
+      "category": "business",
+      "partOfSpeech": "adjective",
+      "example": "Managers are accountable for their teams.",
+      "pronunciationHint": "ah-KOWN-tah-buhl"
+    },
+    {
+      "id": "v_en_013",
+      "word": "Algorithm",
+      "translation": "Algoritmo",
+      "level": "B2",
+      "category": "technology",
+      "partOfSpeech": "noun",
+      "example": "The algorithm sorts data efficiently.",
+      "pronunciationHint": "AL-go-ri-thm"
+    },
+    {
+      "id": "v_en_014",
+      "word": "Grateful",
+      "translation": "Grato / Agradecido",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "I am grateful for your help.",
+      "pronunciationHint": "GRAYT-fuhl"
+    },
+    {
+      "id": "v_en_015",
+      "word": "Luggage",
+      "translation": "Bagagem",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeesh": "noun",
+      "example": "Please collect your luggage.",
+      "pronunciationHint": "LUH-gij"
+    }
+  ],
+  "es": [
+    {
+      "id": "v_es_001",
+      "word": "Desayuno",
+      "translation": "Café da manhã",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "El desayuno es la comida más importante.",
+      "pronunciationHint": "de-sa-YU-no"
+    },
+    {
+      "id": "v_es_002",
+      "word": "Oficina",
+      "translation": "Escritório",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "Trabajo en una oficina moderna.",
+      "pronunciationHint": "o-fi-SI-na"
+    },
+    {
+      "id": "v_es_003",
+      "word": "Desarrollo",
+      "translation": "Desenvolvimento",
+      "level": "B2",
+      "category": "business",
+      "partOfSpeech": "noun",
+      "example": "El desarrollo del proyecto fue rápido.",
+      "pronunciationHint": "de-sa-RRO-yo"
+    },
+    {
+      "id": "v_es_004",
+      "word": "Naturaleza",
+      "translation": "Natureza",
+      "level": "B1",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "Me gusta caminar en la naturaleza.",
+      "pronunciationHint": "na-tu-ra-LE-za"
+    },
+    {
+      "id": "v_es_005",
+      "word": "Imprescindible",
+      "translation": "Imprescindível",
+      "level": "C1",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "Es imprescindible terminar esto hoy.",
+      "pronunciationHint": "im-pre-sin-DI-ble"
+    },
+    {
+      "id": "v_es_006",
+      "word": "Madrugada",
+      "translation": "Madrugada",
+      "level": "A2",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "Salimos de madrugada para el viaje.",
+      "pronunciationHint": "ma-dru-GA-da"
+    },
+    {
+      "id": "v_es_007",
+      "word": "Empresa",
+      "translation": "Empresa",
+      "level": "A2",
+      "category": "business",
+      "partOfSpeech": "noun",
+      "example": "La empresa tiene 500 empleados.",
+      "pronunciationHint": "em-PRE-sa"
+    },
+    {
+      "id": "v_es_008",
+      "word": "Agradecido",
+      "translation": "Agradecido / Grato",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "adjective",
+      "example": "Estoy muy agradecido por tu ayuda.",
+      "pronunciationHint": "a-gra-de-SI-do"
+    },
+    {
+      "id": "v_es_009",
+      "word": "Equipaje",
+      "translation": "Bagagem",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "Mi equipaje pesa veinte kilos.",
+      "pronunciationHint": "e-ki-PA-he"
+    },
+    {
+      "id": "v_es_010",
+      "word": "Fresa",
+      "translation": "Morango",
+      "level": "A1",
+      "category": "food",
+      "partOfSpeech": "noun",
+      "example": "Me gustan las fresas con crema.",
+      "pronunciationHint": "FRE-sa"
+    },
+    {
+      "id": "v_es_011",
+      "word": "Cascada",
+      "translation": "Cachoeira",
+      "level": "B1",
+      "category": "nature",
+      "partOfSpeech": "noun",
+      "example": "La cascada mide cien metros.",
+      "pronunciationHint": "kas-KA-da"
+    },
+    {
+      "id": "v_es_012",
+      "word": "Sostenible",
+      "translation": "Sustentável",
+      "level": "B2",
+      "category": "nature",
+      "partOfSpeech": "adjective",
+      "example": "Necesitamos un futuro sostenible.",
+      "pronunciationHint": "sos-te-NI-ble"
+    },
+    {
+      "id": "v_es_013",
+      "word": "Algoritmo",
+      "translation": "Algoritmo",
+      "level": "B2",
+      "category": "technology",
+      "partOfSpeech": "noun",
+      "example": "El algoritmo ordena los datos.",
+      "pronunciationHint": "al-go-RIT-mo"
+    },
+    {
+      "id": "v_es_014",
+      "word": "Orgullo",
+      "translation": "Orgulho",
+      "level": "B1",
+      "category": "emotions",
+      "partOfSpeech": "noun",
+      "example": "Siento mucho orgullo por mi familia.",
+      "pronunciationHint": "or-GU-yo"
+    },
+    {
+      "id": "v_es_015",
+      "word": "Reunión",
+      "translation": "Reunião",
+      "level": "A2",
+      "category": "work",
+      "partOfSpeech": "noun",
+      "example": "La reunión empieza a las diez.",
+      "pronunciationHint": "re-u-NION"
+    }
+  ]
+}
