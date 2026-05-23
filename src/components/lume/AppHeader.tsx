@@ -117,15 +117,6 @@ export function AppHeader({
   hideMobileTabs = false,
   isGlobal = false,
 }: { hideMobileTabs?: boolean; isGlobal?: boolean } = {}) {
-  // If this is a child render and the global header is already active, render nothing.
-  if (!isGlobal && typeof window !== "undefined" && (window as any).__lumeGlobalHeaderMounted) {
-    return null;
-  }
-
-  // Set the global mount flag
-  if (isGlobal && typeof window !== "undefined") {
-    (window as any).__lumeGlobalHeaderMounted = true;
-  }
   const { user } = useAuth();
   const [profile, setProfile] = useState<any>(null);
   const routerState = useRouterState();
@@ -163,6 +154,17 @@ export function AppHeader({
         });
     }
   }, [user]);
+
+  // If this is a child render and the global header is already active, render nothing.
+  // Must come AFTER all hooks to avoid rules-of-hooks violation.
+  if (!isGlobal && typeof window !== "undefined" && (window as any).__lumeGlobalHeaderMounted) {
+    return null;
+  }
+
+  // Set the global mount flag
+  if (isGlobal && typeof window !== "undefined") {
+    (window as any).__lumeGlobalHeaderMounted = true;
+  }
 
   const firstName = profile?.full_name?.split(" ")[0] || "";
 

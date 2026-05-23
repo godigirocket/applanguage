@@ -16,6 +16,8 @@ export function DifficultyPopup() {
     resetConsecutiveIncorrect,
   } = useUserStore();
 
+  const { setLearningLevel } = useStore();
+
   const [promptType, setPromptType] = useState<"upgrade" | "downgrade" | null>(null);
   const [targetLevel, setTargetLevel] = useState<UserLevel | null>(null);
 
@@ -46,12 +48,7 @@ export function DifficultyPopup() {
     localStorage.setItem("lume_user_level", targetLevel);
     localStorage.setItem("lume_level", targetLevel);
     // Sync with useStore as well
-    try {
-      const { setLearningLevel } = useStore();
-      setLearningLevel(targetLevel);
-    } catch (e) {
-      console.warn("Could not sync with useStore in DifficultyPopup");
-    }
+    setLearningLevel(targetLevel);
     toast.success(`Nível atualizado para ${targetLevel}! 🚀`);
     handleDismiss();
   };

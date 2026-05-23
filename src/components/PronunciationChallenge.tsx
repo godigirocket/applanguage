@@ -66,11 +66,11 @@ export function PronunciationChallenge({
   const calculateScore = (spoken: string) => {
     const cleanTarget = targetPhrase
       .toLowerCase()
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
       .trim();
     const cleanSpoken = spoken
       .toLowerCase()
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
       .trim();
 
     const targetWords = cleanTarget.split(/\s+/);
