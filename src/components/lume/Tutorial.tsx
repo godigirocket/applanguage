@@ -21,7 +21,7 @@ export function startTutorial() {
         },
       },
       {
-        element: 'a[href="/play"]',
+        element: 'a[href="/games"]',
         popover: {
           title: "Jogos & Quizzes",
           description:

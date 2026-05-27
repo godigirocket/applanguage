@@ -156,6 +156,7 @@ function HomePage() {
   const [expressionCount, setExpressionCount] = useState(0);
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [showHelp, setShowHelp] = useState(false);
+  const [showStreakModal, setShowStreakModal] = useState(false);
 
   const isPT = interfaceLanguage === "pt";
   const targetLanguage = useStore((state) => state.targetLanguage);
@@ -167,6 +168,20 @@ function HomePage() {
     }
     verifyDatabase();
   }, []);
+
+  // Show streak modal once per day when streak > 0
+  useEffect(() => {
+    if (streak > 0) {
+      const key = `lume_streak_modal_${new Date().toDateString()}`;
+      if (!localStorage.getItem(key)) {
+        const t = setTimeout(() => {
+          setShowStreakModal(true);
+          localStorage.setItem(key, "1");
+        }, 1400);
+        return () => clearTimeout(t);
+      }
+    }
+  }, [streak]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -1248,6 +1263,124 @@ function HomePage() {
           )}
         </AnimatePresence>
       </main>
+
+      {/* ===== STREAK MODAL ===== */}
+      <AnimatePresence>
+        {showStreakModal && (
+          <motion.div
+            className="lume-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShowStreakModal(false)}
+          >
+            <motion.div
+              className="lume-modal-card"
+              initial={{ scale: 0.8, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 340, damping: 28 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setShowStreakModal(false)}
+                style={{
+                  position: "absolute", top: "16px", right: "16px",
+                  background: "var(--bg)", border: "1.5px solid var(--border)",
+                  borderRadius: "50%", width: "32px", height: "32px",
+                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: "16px", color: "var(--text-secondary)", fontWeight: 700,
+                }}
+              >
+                ×
+              </button>
+
+              {/* Mascot */}
+              <div className="mascot-bob" style={{ marginBottom: "20px" }}>
+                <div style={{
+                  width: "96px", height: "96px", borderRadius: "50%",
+                  background: "var(--surface-raised)",
+                  border: "3px solid var(--accent-terra)",
+                  margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center",
+                  overflow: "hidden",
+                }} className="streak-ring-pulse">
+                  <img
+                    src="/lume_mascot_hero.png"
+                    alt="Lume Mascot"
+                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = "none";
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Flame count */}
+              <div style={{
+                display: "inline-flex", alignItems: "center", gap: "8px",
+                background: "linear-gradient(135deg, #FF6B35, #FF8C42)",
+                borderRadius: "99px", padding: "8px 20px", marginBottom: "20px",
+                boxShadow: "0 8px 24px rgba(255,107,53,0.35)",
+              }}>
+                <Flame size={22} color="white" fill="white" />
+                <span style={{ fontSize: "22px", fontWeight: 900, color: "white" }}>
+                  {streak}
+                </span>
+                <span style={{ fontSize: "14px", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>
+                  {isPT ? (streak === 1 ? "dia" : "dias") : (streak === 1 ? "day" : "days")}
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 style={{
+                fontFamily: "var(--font-display)", fontSize: "26px", fontWeight: 900,
+                color: "var(--text-primary)", marginBottom: "10px", lineHeight: 1.2,
+              }}>
+                {isPT ? "Sequência Incrível! 🔥" : "Amazing Streak! 🔥"}
+              </h2>
+
+              {/* Subtitle */}
+              <p style={{
+                fontSize: "15px", color: "var(--text-secondary)",
+                lineHeight: 1.6, marginBottom: "28px",
+              }}>
+                {isPT
+                  ? `Você praticou por ${streak} ${streak === 1 ? "dia" : "dias"} seguidos. Continue assim e você vai voar!`
+                  : `You've practiced ${streak} ${streak === 1 ? "day" : "days"} in a row. Keep it up and you'll soar!`
+                }
+              </p>
+
+              {/* CTA */}
+              <button
+                className="btn-premium"
+                onClick={() => setShowStreakModal(false)}
+                style={{
+                  width: "100%", padding: "16px",
+                  borderRadius: "16px", fontSize: "16px", fontWeight: 800,
+                  background: "linear-gradient(135deg, #FF6B35, #FF8C42)",
+                  border: "none", color: "white", cursor: "pointer",
+                  boxShadow: "0 8px 24px rgba(255,107,53,0.35)",
+                }}
+              >
+                {isPT ? "Vamos praticar! 🚀" : "Let's practice! 🚀"}
+              </button>
+
+              {/* Dismiss */}
+              <button
+                onClick={() => setShowStreakModal(false)}
+                style={{
+                  marginTop: "12px", background: "none", border: "none",
+                  color: "var(--text-secondary)", fontSize: "13px",
+                  cursor: "pointer", fontWeight: 600,
+                }}
+              >
+                {isPT ? "Fechar" : "Dismiss"}
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

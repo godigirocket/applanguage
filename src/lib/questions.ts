@@ -723,8 +723,8 @@ export const QUESTIONS: Question[] = [
   },
 ];
 
-// Programmatic Generator to reach exactly 1200 total questions!
-const targetTotal = 1200;
+// Programmatic Generator to reach exactly 2200 total questions!
+const targetTotal = 2200;
 const currentCount = QUESTIONS.length;
 const neededCount = targetTotal - currentCount;
 

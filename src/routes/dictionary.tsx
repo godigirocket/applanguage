@@ -14,6 +14,7 @@ function DictionaryPage() {
   const { targetLanguage } = useStore();
   const [search, setSearch] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const data = (vocabularyData as Record<string, any[]>)[targetLanguage] || [];
 
@@ -22,7 +23,8 @@ function DictionaryPage() {
       item.word.toLowerCase().includes(search.toLowerCase()) ||
       item.translation.toLowerCase().includes(search.toLowerCase());
     const matchesLevel = selectedLevel === "all" || item.level === selectedLevel;
-    return matchesSearch && matchesLevel;
+    const matchesCategory = selectedCategory === "all" || item.category === selectedCategory;
+    return matchesSearch && matchesLevel && matchesCategory;
   });
 
   const handleSpeak = (word: string) => {
@@ -97,12 +99,36 @@ function DictionaryPage() {
                 cursor: "pointer",
               }}
             >
-              <option value="all">Todos os Níveis</option>
+              <option value="all">Níveis</option>
               <option value="A1">A1 - Iniciante</option>
               <option value="A2">A2 - Básico</option>
               <option value="B1">B1 - Intermediário</option>
               <option value="B2">B2 - Independente</option>
               <option value="C1">C1 - Avançado</option>
+            </select>
+
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              style={{
+                padding: "0 20px",
+                borderRadius: "16px",
+                border: "1.5px solid var(--border)",
+                background: "var(--surface-raised)",
+                color: "var(--text-primary)",
+                fontSize: "15px",
+                fontWeight: 700,
+                outline: "none",
+                cursor: "pointer",
+              }}
+            >
+              <option value="all">Categorias</option>
+              <option value="emotions">Emoções</option>
+              <option value="business">Negócios</option>
+              <option value="food">Comida</option>
+              <option value="nature">Natureza</option>
+              <option value="technology">Tecnologia</option>
+              <option value="work">Trabalho</option>
             </select>
           </div>
         </header>

@@ -890,3 +890,126 @@ export function CategoryIllustration({ category, size = 40 }: { category: string
   const Comp = CATEGORY_ILLUSTRATIONS[category] || CATEGORY_ILLUSTRATIONS.default;
   return <Comp size={size} />;
 }
+
+// ============================================================
+// LUME ASSET LOADER (CDN 3D / Fallback System)
+// ============================================================
+export interface LumeImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  fallback?: keyof typeof CATEGORY_ILLUSTRATIONS | React.ReactNode;
+  fallbackSize?: number;
+  fallbackStyle?: React.CSSProperties;
+}
+
+export function LumeImage({
+  src,
+  alt,
+  fallback,
+  className,
+  style,
+  fallbackSize = 48,
+  fallbackStyle,
+  ...props
+}: LumeImageProps) {
+  const [error, setError] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+
+  React.useEffect(() => {
+    setError(false);
+    setLoaded(false);
+
+    if (!src) {
+      setError(true);
+      return;
+    }
+
+    // Check if the image is already fully loaded from cache
+    if (imgRef.current && imgRef.current.complete) {
+      setLoaded(true);
+    }
+
+    // 2-second timeout to trigger SVG fallback
+    const timer = setTimeout(() => {
+      if (imgRef.current && !imgRef.current.complete) {
+        console.warn(`LumeImage: Timeout loading ${src}. Triggering SVG fallback.`);
+        setError(true);
+      }
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [src]);
+
+  if (error || !src) {
+    if (typeof fallback === "string" && CATEGORY_ILLUSTRATIONS[fallback]) {
+      const FallbackComp = CATEGORY_ILLUSTRATIONS[fallback];
+      return (
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            ...style,
+            ...fallbackStyle,
+          }}
+          className={className}
+        >
+          <FallbackComp size={fallbackSize} />
+        </div>
+      );
+    }
+    if (React.isValidElement(fallback)) {
+      return (
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            ...style,
+            ...fallbackStyle,
+          }}
+          className={className}
+        >
+          {fallback}
+        </div>
+      );
+    }
+    // Default fallback
+    return (
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          ...style,
+          ...fallbackStyle,
+        }}
+        className={className}
+      >
+        <IlluGlobe size={fallbackSize} />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      {...props}
+      ref={imgRef}
+      src={src}
+      alt={alt}
+      className={className}
+      style={{
+        ...style,
+        opacity: loaded ? 1 : 0,
+        transition: "opacity 0.3s ease-in-out",
+      }}
+      onLoad={(e) => {
+        setLoaded(true);
+        props.onLoad?.(e);
+      }}
+      onError={(e) => {
+        setError(true);
+        props.onError?.(e);
+      }}
+    />
+  );
+}

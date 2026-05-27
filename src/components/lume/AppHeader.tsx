@@ -171,7 +171,7 @@ export function AppHeader({
   const NAV_ITEMS = [
     { href: "/home", label: t("practice"), Icon: IconHome },
     { href: "/lessons", label: t("lessons"), Icon: IconBook },
-    { href: "/play", label: t("play"), Icon: IconPlay },
+    { href: "/games", label: t("play"), Icon: IconPlay },
     { href: "/culture", label: "Cultura", Icon: IconGlobe },
     { href: "/profile", label: "Perfil", Icon: IconUser },
   ];
@@ -266,7 +266,7 @@ export function AppHeader({
               {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
             </button>
 
-            {/* Avatar — desktop only */}
+          {/* Avatar — desktop only */}
             {user ? (
               <Link
                 to="/profile"
@@ -314,6 +314,59 @@ export function AppHeader({
           </div>
         </div>
       </header>
+
+      {/* ── MOBILE BOTTOM NAVIGATION ─────────────────────────── */}
+      {isLoggedIn && !hideMobileTabs && (
+        <>
+          <div
+            className="lume-mobile-tabs glass"
+            style={{
+              position: "fixed",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "64px",
+              zIndex: 9999,
+              borderTop: "1.5px solid var(--border)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-around",
+              paddingBottom: "env(safe-area-inset-bottom, 0px)",
+              background: "var(--surface-raised)",
+              boxShadow: "0 -2px 10px rgba(0,0,0,0.04)",
+            }}
+          >
+            {NAV_ITEMS.map((item) => {
+              const isActive = currentPath === item.href;
+              const Icon = item.Icon;
+              return (
+                <Link
+                  key={item.href}
+                  to={item.href as any}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    textDecoration: "none",
+                    color: isActive ? "var(--brand)" : "var(--text-secondary)",
+                    gap: "4px",
+                    flex: 1,
+                    height: "100%",
+                    transition: "color 0.2s",
+                  }}
+                >
+                  <Icon />
+                  <span style={{ fontSize: "10px", fontWeight: isActive ? 800 : 600 }}>
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+          <div className="lume-bottom-spacer" />
+        </>
+      )}
     </>
   );
 }

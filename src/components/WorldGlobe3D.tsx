@@ -762,6 +762,19 @@ export const WorldGlobe3D: React.FC<WorldGlobe3DProps> = ({
             }}
           />
           {getTranslation(hoveredPin)}
+          {hoveredPin.cityId === selectedCityId && (
+            <span
+              style={{
+                fontSize: "10px",
+                opacity: 0.85,
+                fontWeight: 600,
+                color: "var(--accent-gold)",
+                marginLeft: "4px",
+              }}
+            >
+              {isPT ? "• Iniciar Curso 🎓" : isES ? "• Iniciar Curso 🎓" : "• Start Course 🎓"}
+            </span>
+          )}
         </div>
       )}
     </div>

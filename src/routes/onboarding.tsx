@@ -221,12 +221,12 @@ function OnboardingPage() {
   const currentStepData = STEPS[step];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-[#111113] flex flex-col items-center justify-center p-4 md:p-6 overflow-x-hidden relative transition-colors duration-300">
+    <div className="min-h-screen bg-background dark:bg-[#111113] flex flex-col items-center justify-start md:justify-center p-4 md:p-6 overflow-y-auto overflow-x-hidden relative transition-colors duration-300">
       {/* Decorative Orbs */}
       <div className="orb w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-accent-green/10 top-[-5%] right-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
       <div className="orb w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-accent-terra/10 bottom-[-5%] left-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
 
-      <main className="w-full max-w-md relative z-10">
+      <main className="w-full max-w-md my-auto relative z-10">
         {/* Onboarding Card */}
         <div className="glass p-6 md:p-8 rounded-[28px] border border-border bg-white dark:bg-[#1B1B1E] shadow-lg relative overflow-hidden transition-all duration-300">
           {/* Header navigation (Back button + progress bar) */}
@@ -315,7 +315,10 @@ function OnboardingPage() {
               transition={{ duration: 0.25 }}
               className="text-center"
             >
-              <h2 className="font-display text-2xl md:text-3xl text-var(--text-primary) font-extrabold leading-tight mb-6">
+              <h2
+                style={{ color: "var(--text-primary)" }}
+                className="font-display text-2xl md:text-3xl font-extrabold leading-tight mb-6"
+              >
                 {currentStepData.question}
               </h2>
 

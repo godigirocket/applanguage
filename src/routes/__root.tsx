@@ -113,12 +113,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "manifest", href: "/manifest.json" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap",
       },
     ],
   }),
@@ -156,7 +157,7 @@ function RootComponent() {
 function RootInner() {
   const { user } = useAuth();
   const interfaceLanguage = useStore((state) => state.interfaceLanguage);
-  const { isLocked, setIsLocked, pinCode, learningLevel, setLearningLevel } = useStore();
+  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } = useStore();
   const { userLevel, setUserLevel } = useUserStore();
 
   const [pinInput, setPinInput] = useState("");
@@ -261,6 +262,19 @@ function RootInner() {
     }
   }, []);
 
+  // Register PWA Service Worker
+  useEffect(() => {
+    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js")
+        .then((reg) => {
+          console.log("Lume PWA Service Worker registered:", reg.scope);
+        })
+        .catch((err) => {
+          console.error("Lume PWA Service Worker registration failed:", err);
+        });
+    }
+  }, []);
+
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -285,7 +299,7 @@ function RootInner() {
 
   // 30-minute inactivity timeout
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !pinEnabled) return;
     let timer: any;
     const resetTimer = () => {
       clearTimeout(timer);
@@ -302,7 +316,7 @@ function RootInner() {
       clearTimeout(timer);
       events.forEach((e) => window.removeEventListener(e, resetTimer));
     };
-  }, [setIsLocked]);
+  }, [setIsLocked, pinEnabled]);
 
   const handlePinSubmit = (val: string) => {
     if (val === pinCode) {
@@ -335,6 +349,19 @@ function RootInner() {
     }
   };
 
+  const getLevelGradient = (level: string) => {
+    const baseBg = "var(--bg)";
+    if (level === "A1" || level === "A2") {
+      return `radial-gradient(circle at 10% 20%, rgba(45, 74, 62, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.07) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%), ${baseBg}`;
+    }
+    if (level === "B1" || level === "B2") {
+      return `radial-gradient(circle at 10% 20%, rgba(27, 58, 75, 0.12) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(120, 80, 180, 0.08) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(78, 143, 183, 0.06) 0%, transparent 60%), ${baseBg}`;
+    }
+    return `radial-gradient(circle at 10% 20%, rgba(196, 113, 74, 0.12) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(212, 162, 59, 0.1) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.05) 0%, transparent 60%), ${baseBg}`;
+  };
+
+  const backgroundStyle = getLevelGradient(userLevel || "A1");
+
   return (
     <div
       style={{
@@ -343,6 +370,8 @@ function RootInner() {
         minHeight: "100vh",
         boxSizing: "border-box",
         position: "relative",
+        background: backgroundStyle,
+        transition: "background 0.5s ease-in-out",
       }}
     >
       <div className="grain-overlay" aria-hidden="true" />
@@ -421,7 +450,7 @@ function RootInner() {
       <Toaster position="bottom-right" richColors />
 
       {/* Inactivity Glassmorphic Lockscreen */}
-      {isLocked && (
+      {isLocked && pinEnabled && (
         <div
           style={{
             position: "fixed",

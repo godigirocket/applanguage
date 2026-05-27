@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
 import { MessageCircle, Brain, Compass, Star, Flame } from "@/components/lume/CustomIcons";
 import { MarketingSection } from "@/components/lume/MarketingSection";
+import { LumeImage } from "@/components/lume/Illustrations";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -165,33 +166,35 @@ function Landing() {
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               style={{
                 position: "absolute",
-                top: "-80px",
-                left: isMobile ? "12px" : "-60px",
+                top: "-90px",
+                left: isMobile ? "12px" : "-70px",
                 zIndex: 3,
                 display: "flex",
                 alignItems: "center",
-                gap: "12px",
+                gap: "16px",
                 pointerEvents: "none",
               }}
             >
               <div
                 style={{
-                  width: "76px",
-                  height: "76px",
+                  width: "92px",
+                  height: "92px",
                   borderRadius: "50%",
                   background: "var(--surface-raised)",
-                  border: "2px solid var(--accent-green)",
+                  border: "2.5px solid var(--accent-green)",
                   boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
-                  padding: "6px",
+                  padding: "4px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  overflow: "hidden",
                 }}
               >
-                <img
+                <LumeImage
                   src="/lume_mascot_hero.png"
                   alt="Lume Mascot"
                   style={{ width: "100%", height: "100%", objectFit: "contain" }}
+                  fallback="default"
                 />
               </div>
               <div
@@ -418,14 +421,14 @@ function Landing() {
               </div>
             </motion.div>
 
-            {/* Floating streak */}
+            {/* Floating streak — anchored to the main card, not leaking over word card */}
             <motion.div
               whileHover={{ scale: 1.05, rotate: "-3deg" }}
               style={{
                 position: "absolute",
-                bottom: "60px",
-                left: "-20px",
-                zIndex: 3,
+                bottom: "-18px",
+                left: "20px",
+                zIndex: 4,
                 background: "linear-gradient(135deg,#FF6B35,#FF8C42)",
                 borderRadius: "16px",
                 padding: "10px 16px",
@@ -451,7 +454,7 @@ function Landing() {
                 borderRadius: "24px",
                 padding: "20px 24px",
                 color: "white",
-                marginTop: "8px",
+                marginTop: "28px",
                 position: "relative",
                 zIndex: 2,
                 boxShadow: "0 10px 30px rgba(27,58,75,0.2)",

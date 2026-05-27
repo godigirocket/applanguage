@@ -18,6 +18,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -88,35 +89,111 @@ function Login() {
             </p>
           </div>
 
-          <form onSubmit={onSubmit} className="space-y-5">
+          <form onSubmit={onSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="dark:text-gray-300">
+              <label htmlFor="email" style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: 700,
+                color: "var(--text-primary)",
+                marginBottom: "8px",
+                textAlign: "left",
+              }}>
                 {t("emailLabel")}
               </label>
-              <input
-                id="email"
-                required
-                type="email"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="dark:bg-zinc-800/50 dark:border-zinc-700 dark:text-white"
-              />
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#6B6B63] dark:text-gray-400">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                  </svg>
+                </span>
+                <input
+                  id="email"
+                  required
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "14px 16px 14px 48px",
+                    borderRadius: "14px",
+                    border: "1.5px solid var(--border)",
+                    background: "var(--surface-raised)",
+                    color: "var(--text-primary)",
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    outline: "none",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    transition: "all 0.2s ease"
+                  }}
+                  className="focus:border-accent-green"
+                />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="dark:text-gray-300">
+              <label htmlFor="password" style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: 700,
+                color: "var(--text-primary)",
+                marginBottom: "8px",
+                textAlign: "left",
+              }}>
                 {t("passwordLabel")}
               </label>
-              <input
-                id="password"
-                required
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="dark:bg-zinc-800/50 dark:border-zinc-700 dark:text-white"
-              />
+              <div className="relative">
+                <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#6B6B63] dark:text-gray-400">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </span>
+                <input
+                  id="password"
+                  required
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "14px 48px 14px 48px",
+                    borderRadius: "14px",
+                    border: "1.5px solid var(--border)",
+                    background: "var(--surface-raised)",
+                    color: "var(--text-primary)",
+                    fontSize: "15px",
+                    fontWeight: 600,
+                    outline: "none",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                    transition: "all 0.2s ease"
+                  }}
+                  className="focus:border-accent-green"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#6B6B63] dark:text-gray-400 hover:text-foreground cursor-pointer focus:outline-none"
+                  style={{ background: "none", border: "none", boxShadow: "none", padding: 0 }}
+                >
+                  {showPassword ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                      <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                      <path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                      <line x1="2" x2="22" y1="2" y2="22"/>
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
 
             <button type="submit" disabled={loading} className="w-full btn-premium py-3.5 mt-2">

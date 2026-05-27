@@ -463,7 +463,7 @@ function SkillsPage() {
               </motion.div>
             </Link>
 
-            <Link to="/play" style={{ textDecoration: "none" }}>
+            <Link to="/games" style={{ textDecoration: "none" }}>
               <motion.div
                 whileHover={{ y: -6 }}
                 className="glass premium-shadow"

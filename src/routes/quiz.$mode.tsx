@@ -7,6 +7,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { Flashcards } from "@/components/lume/Flashcards";
 import { PronunciationChallenge } from "@/components/PronunciationChallenge";
+import { LumeMatch } from "@/components/lume/Games/LumeMatch";
+import { SpeedTranslator } from "@/components/lume/Games/SpeedTranslator";
+import { CulturalTrivia } from "@/components/lume/Games/CulturalTrivia";
 
 export const Route = createFileRoute("/quiz/$mode")({
   component: QuizPage,
@@ -67,7 +70,7 @@ function QuizPage() {
         }}
       >
         <button
-          onClick={() => nav({ to: "/play" })}
+          onClick={() => nav({ to: "/games" })}
           style={{
             alignSelf: "flex-start",
             marginBottom: "24px",
@@ -86,6 +89,10 @@ function QuizPage() {
       </div>
     );
   }
+
+  if (mode === "lumematch") return <LumeMatch />;
+  if (mode === "speedtranslator") return <SpeedTranslator />;
+  if (mode === "culturaltrivia") return <CulturalTrivia />;
 
   const voicePhrases =
     language === "en"
@@ -212,7 +219,7 @@ function QuizPage() {
             </div>
 
             <button
-              onClick={() => nav({ to: "/play" })}
+              onClick={() => nav({ to: "/games" })}
               style={{
                 width: "100%",
                 padding: "16px 24px",
@@ -256,7 +263,7 @@ function QuizPage() {
           {/* Header */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <button
-              onClick={() => nav({ to: "/play" })}
+              onClick={() => nav({ to: "/games" })}
               style={{
                 width: "36px",
                 height: "36px",
@@ -399,7 +406,7 @@ function QuizPage() {
   };
 
   const exitQuiz = () => {
-    nav({ to: "/play" });
+    nav({ to: "/games" });
   };
 
   if (isComplete) {
@@ -410,7 +417,7 @@ function QuizPage() {
         total={totalQ}
         missed={missedQuestions}
         addXP={addXP}
-        onDone={() => nav({ to: "/play" })}
+        onDone={() => nav({ to: "/games" })}
       />
     );
   }
@@ -1039,7 +1046,7 @@ function QuizResults({
           🔄 Play Again
         </button>
         <button
-          onClick={() => nav({ to: "/play" })}
+          onClick={() => nav({ to: "/games" })}
           style={{
             padding: "16px",
             borderRadius: "16px",

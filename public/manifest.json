@@ -1,0 +1,22 @@
+{
+  "short_name": "Lume",
+  "name": "Lume — Aprenda com confiança",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#f7f4ef",
+  "theme_color": "#2d4a3e",
+  "display": "standalone",
+  "orientation": "portrait"
+}

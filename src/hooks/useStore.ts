@@ -49,6 +49,8 @@ interface LumeState {
   setIsLocked: (state: boolean) => void;
   pinCode: string;
   setPinCode: (pin: string) => void;
+  pinEnabled: boolean;
+  setPinEnabled: (enabled: boolean) => void;
 
   setXP: (xp: number) => void;
   setLumes: (lumes: number) => void;
@@ -110,6 +112,8 @@ export const useStore = create<LumeState>()(
       setIsLocked: (isLocked) => set({ isLocked }),
       pinCode: "1234",
       setPinCode: (pinCode) => set({ pinCode }),
+      pinEnabled: false,
+      setPinEnabled: (pinEnabled) => set({ pinEnabled }),
 
       setXP: (xp) => set({ xp, level: getLevelName(xp) }),
       setLumes: (lumes) => set({ lumes }),
@@ -182,6 +186,7 @@ export const useStore = create<LumeState>()(
           targetLanguage: state.targetLanguage,
           dailyChallenges: state.dailyChallenges,
           pinCode: state.pinCode,
+          pinEnabled: state.pinEnabled,
           learningLevel: state.learningLevel,
         }) as any,
     },

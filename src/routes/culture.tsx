@@ -3,6 +3,7 @@ import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useStore } from "@/hooks/useStore";
+import { useUserStore } from "@/store/userStore";
 import { toast } from "sonner";
 import {
   MapPin,
@@ -16,7 +17,7 @@ import {
   HelpCircle,
   Compass,
 } from "@/components/lume/CustomIcons";
-import { IlluMapPin, IlluGlobe } from "@/components/lume/Illustrations";
+import { IlluMapPin, IlluGlobe, LumeImage } from "@/components/lume/Illustrations";
 
 export const Route = createFileRoute("/culture")({
   component: CultureHubPage,
@@ -1153,22 +1154,22 @@ function FlagSvg({ countryId, size = 20 }: { countryId: string; size?: number })
 }
 
 const CITY_LANDMARK_IMAGES: Record<string, string> = {
-  ny: "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=600&q=80",
+  ny: "https://images.unsplash.com/photo-1508849789987-4e5333c12b78?auto=format&fit=crop&w=600&q=80",
   boston:
     "https://images.unsplash.com/photo-1506551902872-65f241a4a086?auto=format&fit=crop&w=600&q=80",
   miami:
-    "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1501426026826-31c667bdf23d?auto=format&fit=crop&w=600&q=80",
   lon: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80",
   sco: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&w=600&q=80",
   mad: "https://images.unsplash.com/photo-1539650116574-8efeb43e2750?auto=format&fit=crop&w=600&q=80",
   and: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=600&q=80",
   cdmx: "https://images.unsplash.com/photo-1512813583145-baaa340ef29f?auto=format&fit=crop&w=600&q=80",
   ba: "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=600&q=80",
-  bog: "https://images.unsplash.com/photo-1583997052301-0042b33fc596?auto=format&fit=crop&w=600&q=80",
-  sp: "https://images.unsplash.com/photo-1543059344-234a49c5588f?auto=format&fit=crop&w=600&q=80",
+  bog: "https://images.unsplash.com/photo-1597843797221-8664408d655f?auto=format&fit=crop&w=600&q=80",
+  sp: "https://images.unsplash.com/photo-1543059152-42b350c0e743?auto=format&fit=crop&w=600&q=80",
   rio: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=600&q=80",
   lis: "https://images.unsplash.com/photo-1509840144525-4c690c8a4fca?auto=format&fit=crop&w=600&q=80",
-  tor: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80",
+  tor: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=600&q=80",
   van: "https://images.unsplash.com/photo-1559511259-66e6c4e9c2ec?auto=format&fit=crop&w=600&q=80",
   syd: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80",
   mel: "https://images.unsplash.com/photo-1514395462725-fb4566210144?auto=format&fit=crop&w=600&q=80",
@@ -1178,45 +1179,262 @@ const CITY_LANDMARK_IMAGES: Record<string, string> = {
   tok: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80",
   bei: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=600&q=80",
   del: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=600&q=80",
-  cpt: "https://images.unsplash.com/photo-1580618672591-eb180b1a973f?auto=format&fit=crop&w=600&q=80",
+  cpt: "https://images.unsplash.com/photo-1580619305218-8423a7f19981?auto=format&fit=crop&w=600&q=80",
 };
 
 const CITY_FOOD_IMAGES: Record<string, string> = {
-  ny: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80",
+  ny: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80",
   boston:
-    "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1560684352-8497838a2229?auto=format&fit=crop&w=600&q=80",
   miami:
-    "https://images.unsplash.com/photo-1588168333986-5078647a5c7e?auto=format&fit=crop&w=600&q=80",
-  lon: "https://images.unsplash.com/photo-1524351199679-46cddf530c04?auto=format&fit=crop&w=600&q=80",
+    "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80",
+  lon: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80",
   sco: "https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&w=600&q=80",
   mad: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=600&q=80",
   and: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=600&q=80",
-  cdmx: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=600&q=80",
+  cdmx: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=600&q=80",
   ba: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
   bog: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=600&q=80",
-  sp: "https://images.unsplash.com/photo-1579631542720-3a87824ff8c9?auto=format&fit=crop&w=600&q=80",
-  rio: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80",
+  sp: "https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=600&q=80",
+  rio: "https://images.unsplash.com/photo-1590179068383-b9c69aacebd3?auto=format&fit=crop&w=600&q=80",
   lis: "https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=600&q=80",
-  tor: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=600&q=80",
-  van: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80",
-  syd: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80",
+  tor: "https://images.unsplash.com/photo-1608039829572-78524f79c4c7?auto=format&fit=crop&w=600&q=80",
+  van: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=600&q=80",
+  syd: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80",
   mel: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80",
   par: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80",
-  ber: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=600&q=80",
+  ber: "https://images.unsplash.com/photo-1605333396915-47ed6b68a00e?auto=format&fit=crop&w=600&q=80",
   rom: "https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&w=600&q=80",
   tok: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?auto=format&fit=crop&w=600&q=80",
   bei: "https://images.unsplash.com/photo-1526318896980-cf78c088247c?auto=format&fit=crop&w=600&q=80",
   del: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80",
-  cpt: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80",
+  cpt: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=600&q=80",
 };
+
+// Deep historical and cultural contexts for the 24 cities of Lume Culture Hub
+const CITY_HISTORICAL_CONTEXTS: Record<string, { en: string; pt: string; es: string }> = {
+  ny: {
+    en: "Originally settled as New Amsterdam in 1624, New York City is the ultimate melting pot. From the historic gateway of Ellis Island to Wall Street and Broadway, it shapes global finance and culture.",
+    pt: "Originalmente estabelecida como Nova Amsterdã em 1624, Nova York é o maior caldeirão cultural do planeta. De Ellis Island a Wall Street e Broadway, molda a cultura e finanças globais.",
+    es: "Originalmente fundada como Nueva Ámsterdam en 1624, Nueva York es el crisol de culturas definitivo. Desde Ellis Island hasta Wall Street y Broadway, moldea la cultura y las finanzas globales.",
+  },
+  boston: {
+    en: "Founded in 1630 by Puritan settlers, Boston is one of America's oldest cities, famous for the American Revolution, the Freedom Trail, and prestigious academic institutions like Harvard.",
+    pt: "Fundada em 1630 por colonos puritanos, Boston é uma das cidades mais antigas dos EUA, famosa pela Revolução Americana, a Rota da Liberdade e prestigiadas universidades como Harvard.",
+    es: "Fundada en 1630 por colonos puritanos, Boston es una de las ciudades más antiguas de EE. UU., famosa por la Revolución Americana, la Ruta de la Libertad y prestigiosas universidades como Harvard.",
+  },
+  miami: {
+    en: "Incorporated in 1896, Miami boasts a unique blend of Caribbean, Latin American, and Art Deco influences. It has evolved into a global hub for international trade, tourism, and contemporary art.",
+    pt: "Incorporada em 1896, Miami possui uma mistura única de influências caribenhas, latino-americanas e Art Deco. Evoluiu para um centro global de comércio internacional, turismo e arte moderna.",
+    es: "Incorporada en 1896, Miami cuenta con una combinación única de influencias caribeñas, latinoamericanas y Art Deco. Ha evolucionado hasta convertirse en un centro global de comercio, turismo y arte.",
+  },
+  lon: {
+    en: "Established by the Romans as Londinium over 2,000 years ago, London is a global capital of royalty, literature, and trade, home to historic landmarks like the Tower of London and Big Ben.",
+    pt: "Estabelecida pelos romanos como Londinium há mais de 2.000 anos, Londres é uma capital global de realeza, literatura e comércio, lar de marcos históricos como a Torre de Londres e o Big Ben.",
+    es: "Fundada por los romanos como Londinium hace más de 2.000 años, Londres es una capital global de realeza, literatura y comercio, cuna de hitos históricos como la Torre de Londres y el Big Ben.",
+  },
+  sco: {
+    en: "Edinburgh, Scotland's capital since the 15th century, is renowned for its medieval Old Town, elegant Georgian New Town, and its iconic castle perched atop an extinct volcanic rock.",
+    pt: "Edimburgo, capital da Escócia desde o século XV, é famosa por sua Cidade Antiga medieval, a elegante Cidade Nova georgiana e seu castelo icônico no topo de uma rocha vulcânica extinta.",
+    es: "Edimburgo, capital de Escocia desde el siglo XV, es famosa por su Ciudad Vieja medieval, la elegante Ciudad Nueva georgiana y su icónico castillo sobre una roca volcánica extinta.",
+  },
+  mad: {
+    en: "Madrid became the capital of the Spanish Empire in 1561 under Philip II. Today, it stands as a vibrant capital known for its golden art triangle, royal history, and lively late-night culture.",
+    pt: "Madri tornou-se a capital do Império Espanhol em 1561 sob o comando de Filipe II. Hoje, é uma capital vibrante conhecida por seu triângulo dourado de arte, história real e vida noturna agitada.",
+    es: "Madrid se convirtió en la capital del Imperio Español en 1561 bajo Felipe II. Hoy en día, es una vibrante capital conocida por su triángulo de oro del arte, historia real y animada vida nocturna.",
+  },
+  and: {
+    en: "Andalucia is a region rich in history, heavily influenced by Moorish rule between the 8th and 15th centuries, leaving breathtaking monuments like the Alhambra and the birth of Flamenco.",
+    pt: "A Andaluzia é uma região rica em história, fortemente influenciada pelo domínio mouro entre os séculos VIII e XV, deixando monumentos deslumbrantes como a Alhambra e a origem do Flamenco.",
+    es: "Andalucía es una región rica en historia, muy influenciada por el dominio morisco entre los siglos VIII y XV, que dejó monumentos espectaculares como la Alhambra y vio nacer el Flamenco.",
+  },
+  cdmx: {
+    en: "Built on the ruins of the ancient Aztec capital Tenochtitlan, Mexico City is a high-altitude megalopolis blending Mesoamerican roots, Spanish colonial architecture, and modern art.",
+    pt: "Construída sobre as ruínas da antiga capital asteca Tenochtitlan, a Cidade do México é uma megalópole que mistura raízes mesoamericanas, arquitetura colonial espanhola e arte moderna.",
+    es: "Construida sobre las ruinas de la antigua capital azteca Tenochtitlán, la Ciudad de México es una megalópolis que mezcla raíces mesoamericanas, arquitectura colonial española y arte moderno.",
+  },
+  ba: {
+    en: "Founded in 1536, Buenos Aires is known as the 'Paris of South America' due to its European-style architecture, rich literary history, and its status as the birthplace of Tango.",
+    pt: "Fundada em 1536, Buenos Aires é conhecida como a 'Paris da América do Sul' devido à sua arquitetura de estilo europeu, rica história literária e seu status como o berço do Tango.",
+    es: "Fundada en 1536, Buenos Aires es conocida como la 'París de América del Sur' debido a su arquitectura de estilo europeo, su rica historia literaria y su estatus como cuna del Tango.",
+  },
+  bog: {
+    en: "Bogota was established in 1538 as the capital of the New Kingdom of Granada. Situated high in the Andes, it is Colombia's intellectual and cultural core, famous for its Gold Museum.",
+    pt: "Bogotá foi estabelecida em 1538 como a capital do Novo Reino de Granada. Situada no alto dos Andes, é o núcleo intelectual e cultural da Colômbia, famosa por seu Museu do Ouro.",
+    es: "Bogotá fue establecida en 1538 como la capital del Nuevo Reino de Granada. Situada en lo alto de los Andes, es el núcleo intelectual y cultural de Colombia, famosa por su Museo del Oro.",
+  },
+  sp: {
+    en: "Founded in 1554 as a Jesuit mission, São Paulo grew during the coffee boom to become the southern hemisphere's largest financial hub, home to immense Japanese and Italian immigration.",
+    pt: "Fundada em 1554 como uma missão jesuíta, São Paulo cresceu durante o ciclo do café para se tornar o maior centro financeiro do hemisfério sul, lar de imensa imigração japonesa e italiana.",
+    es: "Fundada en 1554 como una misión jesuita, São Paulo creció durante el auge del café hasta convertirse en el mayor centro financiero del hemisferio sur, hogar de una gran inmigración japonesa e italiana.",
+  },
+  rio: {
+    en: "Rio de Janeiro, founded in 1565, was the capital of the Portuguese Empire during the Napoleonic wars. It is world-famous for its natural harbor, Carnival, Samba, and Copacabana beach.",
+    pt: "O Rio de Janeiro, fundado em 1565, foi a capital do Império Português durante as guerras napoleônicas. É mundialmente famoso por seu porto natural, Carnaval, Samba e praia de Copacabana.",
+    es: "Río de Janeiro, fundada en 1565, fue la capital del Imperio Portugués durante las guerras napoleónicas. Es mundialmente famosa por su puerto natural, Carnaval, Samba y la playa de Copacabana.",
+  },
+  lis: {
+    en: "One of the oldest cities in the world, Lisbon was a major hub during the Age of Discovery in the 15th century. It features beautiful tiled facades, tram cars, and iconic Fado music.",
+    pt: "Uma das cidades mais antigas do mundo, Lisboa foi um importante centro durante a Era dos Descobrimentos no século XV. Apresenta belas fachadas de azulejos, bondes e o icônico Fado.",
+    es: "Una de las ciudades más antiguas del mundo, Lisboa fue un centro importante durante la Era de los Descubrimientos en el siglo XV. Presenta fachadas de azulejos, tranvías y el icónico Fado.",
+  },
+  tor: {
+    en: "Originally Fort Rouillé, Toronto has developed into Canada's largest city and financial center. It is celebrated as one of the most multicultural and diverse urban areas in the world.",
+    pt: "Originalmente Fort Rouillé, Toronto tornou-se a maior cidade e centro financeiro do Canadá. É celebrada como uma das áreas urbanas mais multiculturais e diversas do mundo.",
+    es: "Originalmente Fort Rouillé, Toronto se ha convertido en la ciudad y centro financiero más grande de Canadá. Es celebrada como una de las áreas urbanas más diversas del mundo.",
+  },
+  van: {
+    en: "Nestled between the Pacific Ocean and snow-capped mountains, Vancouver is a young city founded in 1886. It is highly valued for its natural parks, cultural diversity, and green living.",
+    pt: "Aninhada entre o Oceano Pacífico e montanhas cobertas de neve, Vancouver é uma cidade jovem fundada em 1886. É muito valorizada por seus parques naturais, diversidade e vida sustentável.",
+    es: "Enclavada entre el Océano Pacífico y montañas nevadas, Vancouver es una ciudad joven fundada en 1886. Es muy valorada por sus parques naturales, diversidad y vida sostenible.",
+  },
+  syd: {
+    en: "Established in 1788 as the first British penal colony in Australia, Sydney is now a spectacular global metropolis centered around its famous harbor, surfing beaches, and opera house.",
+    pt: "Estabelecida em 1788 como a primeira colônia penal britânica na Austrália, Sydney é hoje uma metrópole global espetacular centrada em torno de seu porto, praias de surfe e ópera.",
+    es: "Establecida en 1788 como la primera colonia penal británica en Australia, Sídney es hoy una espectacular metrópolis global centrada en su puerto, playas de surf y su ópera.",
+  },
+  mel: {
+    en: "Founded in 1835, Melbourne grew rapidly during the Victorian gold rush of the 1850s. It is recognized as Australia's cultural capital, famous for its laneway art and coffee culture.",
+    pt: "Fundada em 1835, Melbourne cresceu rapidamente durante a corrida do ouro na década de 1850. É reconhecida como a capital cultural da Austrália, famosa pela arte urbana nos becos e café.",
+    es: "Fundada en 1835, Melbourne creció durante la fiebre del oro de la década de 1850. Es reconocida como la capital cultural de Australia, famosa por su arte en los callejones y su café.",
+  },
+  par: {
+    en: "Dating back to the Celtic Parisii tribe around 250 BC, Paris is the global capital of fashion, gastronomy, and literature, known as the 'City of Light' for its leading role in the Enlightenment.",
+    pt: "Remontando à tribo celta Parisii em 250 a.C., Paris é a capital global da moda, gastronomia e literatura, conhecida como a 'Cidade Luz' por seu papel de liderança no Iluminismo.",
+    es: "Remontándose a la tribu celta Parisii en el 250 a.C., París es la capital mundial de la moda, la gastronomía y la literatura, conocida como la 'Ciudad de la Luz' por su papel en la Ilustración.",
+  },
+  ber: {
+    en: "Berlin's history spans from its medieval origins to its division during the Cold War and reunification in 1990. It has evolved into a global capital of tolerance, electronic music, and startups.",
+    pt: "A história de Berlim vai desde suas origens medievais até a divisão durante a Guerra Fria e a reunificação em 1990. Tornou-se uma capital global de tolerância, música eletrônica e startups.",
+    es: "La historia de Berlín abarca desde sus orígenes medievales hasta su división en la Guerra Fría y la reunificación en 1990. Se ha convertido en una capital de tolerancia, música y startups.",
+  },
+  rom: {
+    en: "According to myth, Rome was founded in 753 BC by Romulus and Remus. As the heart of the Roman Empire and the Catholic Church, it holds nearly 3,000 years of globally influential history.",
+    pt: "Segundo o mito, Roma foi fundada em 753 a.C. por Rômulo e Remo. Como o coração do Império Romano e da Igreja Católica, possui quase 3.000 anos de história influente no mundo todo.",
+    es: "Según el mito, Roma fue fundada en el 753 a.C. por Rómulo y Remo. Como corazón del Imperio Romano y de la Iglesia Católica, alberga casi 3.000 años de historia influyente a nivel mundial.",
+  },
+  tok: {
+    en: "Originally a fishing village called Edo, Tokyo became the capital of Japan in 1869. It is the world's most populous metropolitan area, balancing futuristic technology with historic temples.",
+    pt: "Originalmente uma vila de pescadores chamada Edo, Tóquio tornou-se a capital do Japão em 1869. É a área metropolitana mais populosa do mundo, equilibrando tecnologia futurista e templos históricos.",
+    es: "Originalmente un pueblo pesquero llamado Edo, Tokio se convirtió en la capital de Japón en 1869. Es el área metropolitana más poblada del mundo, que equilibra tecnología futurista y templos.",
+  },
+  bei: {
+    en: "With a history stretching back 3,000 years, Beijing is one of the oldest cities in the world. It features monumental dynastic heritage, including the Forbidden City and the Great Wall.",
+    pt: "Com uma história que remonta a 3.000 anos, Pequim é uma das cidades mais antigas do mundo. Apresenta um patrimônio dinástico monumental, incluindo a Cidade Proibida e a Grande Muralha.",
+    es: "Con una historia que se remonta a 3.000 años, Pekín es una de las ciudades más antiguas del mundo. Cuenta con un patrimonio dinástico monumental, incluyendo la Ciudad Prohibida y la Gran Muralla.",
+  },
+  del: {
+    en: "Inhabited continuously since at least the 6th century BC, New Delhi has served as the capital of various empires. It is India's cultural capital, featuring heritage like the nearby Taj Mahal.",
+    pt: "Habitada continuamente desde pelo menos o século VI a.C., Nova Déli serviu como capital de vários impérios. É a capital cultural da Índia, apresentando patrimônios como o Taj Mahal.",
+    es: "Habitada continuamente desde el siglo VI a.C., Nueva Delhi ha sido la capital de varios imperios. Es la capital cultural de la India y cuenta con patrimonios cercanos como el Taj Mahal.",
+  },
+  cpt: {
+    en: "Cape Town was developed by the Dutch East India Company as a supply station in 1652. It is South Africa's oldest city, famous for its natural scenery, Table Mountain, and Robben Island.",
+    pt: "A Cidade do Cabo foi desenvolvida pela Companhia Holandesa das Índias Orientais como estação de abastecimento em 1652. É a cidade mais antiga da África do Sul, famosa pela Table Mountain.",
+    es: "Ciudad del Cabo fue desarrollada por la Compañía Holandesa de las Indias Orientales en 1652. Es la ciudad más antigua de Sudáfrica, famosa por su paisaje natural y Table Mountain.",
+  },
+};
+
+interface QuizOption {
+  text: string;
+  isCorrect: boolean;
+}
+
+interface QuizQuestion {
+  questionText: string;
+  options: QuizOption[];
+}
 
 function CultureHubPage() {
   const { interfaceLanguage } = useStore();
+  const { addXP } = useUserStore();
+
   const [selectedCountry, setSelectedCountry] = useState<CountryData>(COUNTRIES[0]);
   const [selectedCity, setSelectedCity] = useState<CityInfo | null>(COUNTRIES[0].cities[0] ?? null);
   const [activeTab, setActiveTab] = useState<"slangs" | "culture" | "accents">("slangs");
 
   const [isMobile, setIsMobile] = useState(false);
+
+  // Mini-course state variables
+  const [isMiniCourseOpen, setIsMiniCourseOpen] = useState(false);
+  const [miniCourseCity, setMiniCourseCity] = useState<CityInfo | null>(null);
+  const [miniCourseStep, setMiniCourseStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
+  const [hasPlayedAllSlang, setHasPlayedAllSlang] = useState<Record<number, boolean>>({});
+  const [quizQuestions, setQuizQuestions] = useState<QuizQuestion[]>([]);
+
+  const startMiniCourse = (city: CityInfo) => {
+    setMiniCourseCity(city);
+    setMiniCourseStep(0);
+    setQuizAnswers({});
+    setHasPlayedAllSlang({});
+
+    const isPT = interfaceLanguage === "pt";
+    const isES = interfaceLanguage === "es";
+
+    // Q1: Landmark Question
+    const q1Text = isPT
+      ? `Qual é o ponto turístico icônico de ${getTranslation(city, "name")}?`
+      : isES
+        ? `¿Cuál es el punto de interés icónico de ${getTranslation(city, "name")}?`
+        : `What is the iconic landmark of ${getTranslation(city, "name")}?`;
+
+    const q1Correct = getTranslation(city, "landmark");
+
+    // Gather landmarks from other cities to act as distractors
+    const allOtherLandmarks: string[] = [];
+    COUNTRIES.forEach((c) => {
+      c.cities.forEach((ct) => {
+        if (ct.id !== city.id) {
+          allOtherLandmarks.push(getTranslation(ct, "landmark"));
+        }
+      });
+    });
+    const q1Distractors = allOtherLandmarks.sort(() => 0.5 - Math.random()).slice(0, 2);
+    const q1Options = [
+      { text: q1Correct, isCorrect: true },
+      ...q1Distractors.map((t) => ({ text: t, isCorrect: false })),
+    ].sort(() => 0.5 - Math.random());
+
+    // Q2: Slang Question
+    const slangObj = city.slangs[0] || {
+      expression: "Hello",
+      meaningEN: "Hello",
+      meaningPT: "Olá",
+      meaningES: "Hola",
+    };
+    const q2Text = isPT
+      ? `O que significa a gíria local "${slangObj.expression}"?`
+      : isES
+        ? `¿Qué significa la jerga local "${slangObj.expression}"?`
+        : `What does the local slang "${slangObj.expression}" mean?`;
+
+    const q2Correct = getTranslation(slangObj, "meaning");
+
+    // Gather meanings from other slangs as distractors
+    const allOtherMeanings: string[] = [];
+    COUNTRIES.forEach((c) => {
+      c.cities.forEach((ct) => {
+        ct.slangs.forEach((s) => {
+          if (s.expression !== slangObj.expression) {
+            allOtherMeanings.push(getTranslation(s, "meaning"));
+          }
+        });
+      });
+    });
+    const q2Distractors = allOtherMeanings.sort(() => 0.5 - Math.random()).slice(0, 2);
+    const q2Options = [
+      { text: q2Correct, isCorrect: true },
+      ...q2Distractors.map((t) => ({ text: t, isCorrect: false })),
+    ].sort(() => 0.5 - Math.random());
+
+    setQuizQuestions([
+      { questionText: q1Text, options: q1Options },
+      { questionText: q2Text, options: q2Options },
+    ]);
+
+    setIsMiniCourseOpen(true);
+  };
   useEffect(() => {
     if (typeof window === "undefined") return;
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -1505,7 +1723,11 @@ function CultureHubPage() {
                     setSelectedCountry(country);
                     const city = country.cities.find((c) => c.id === cityId);
                     if (city) {
-                      setSelectedCity(city);
+                      if (selectedCity?.id === cityId) {
+                        startMiniCourse(city);
+                      } else {
+                        setSelectedCity(city);
+                      }
                     }
                   }
                 }}
@@ -1631,6 +1853,51 @@ function CultureHubPage() {
                     ✕
                   </button>
                 </div>
+
+                {/* 5-Minute Mini-Course Callout */}
+                <button
+                  onClick={() => startMiniCourse(selectedCity)}
+                  style={{
+                    width: "100%",
+                    padding: "14px 20px",
+                    borderRadius: "16px",
+                    background: "linear-gradient(135deg, var(--accent-terra), var(--accent-gold))",
+                    color: "white",
+                    border: "none",
+                    fontWeight: 800,
+                    fontSize: "14px",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    boxShadow: "0 6px 20px rgba(196,113,74,0.3)",
+                    transition: "transform 0.2s, box-shadow 0.2s",
+                    marginTop: "-8px",
+                  }}
+                  className="hover:scale-[1.01] active:scale-95 hover:shadow-lg transition-all"
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span style={{ fontSize: "18px" }}>🎓</span>
+                    <span style={{ textAlign: "left" }}>
+                      {isPT
+                        ? "Iniciar Mini-Curso de 5 Mins"
+                        : isES
+                          ? "Iniciar Mini-Curso de 5 Mins"
+                          : "Start 5-Min Mini-Course"}
+                    </span>
+                  </div>
+                  <span
+                    style={{
+                      background: "rgba(255,255,255,0.25)",
+                      padding: "4px 8px",
+                      borderRadius: "20px",
+                      fontSize: "11.5px",
+                      fontWeight: 900,
+                    }}
+                  >
+                    +15 XP
+                  </span>
+                </button>
 
                 {/* Advanced Premium Tab Selector */}
                 <div
@@ -1797,7 +2064,7 @@ function CultureHubPage() {
                             position: "relative",
                           }}
                         >
-                          <img
+                          <LumeImage
                             src={
                               CITY_LANDMARK_IMAGES[selectedCity.id] ||
                               "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80"
@@ -1809,6 +2076,7 @@ function CultureHubPage() {
                               objectFit: "cover",
                               transition: "transform 0.4s ease",
                             }}
+                            fallback="travel"
                           />
                           <div
                             style={{
@@ -1881,7 +2149,7 @@ function CultureHubPage() {
                             position: "relative",
                           }}
                         >
-                          <img
+                          <LumeImage
                             src={
                               CITY_FOOD_IMAGES[selectedCity.id] ||
                               "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80"
@@ -1893,6 +2161,7 @@ function CultureHubPage() {
                               objectFit: "cover",
                               transition: "transform 0.4s ease",
                             }}
+                            fallback="culture"
                           />
                           <div
                             style={{
@@ -2161,6 +2430,860 @@ function CultureHubPage() {
           </AnimatePresence>
         </div>
       </main>
+
+      {/* 5-Minute Mini-Course Modal */}
+      <AnimatePresence>
+        {isMiniCourseOpen && miniCourseCity && (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(8px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              zIndex: 99999,
+              padding: "16px",
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 250 }}
+              style={{
+                width: "100%",
+                maxWidth: "600px",
+                maxHeight: "90vh",
+                background: "var(--surface-raised)",
+                border: "2px solid var(--border)",
+                borderRadius: "32px",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+                boxShadow: "0 24px 64px rgba(0,0,0,0.3)",
+              }}
+            >
+              {/* Modal Header with Progress Bar */}
+              <div
+                style={{
+                  padding: "20px 24px 16px",
+                  borderBottom: "1px solid var(--border)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "16px",
+                }}
+              >
+                <div
+                  style={{
+                    flex: 1,
+                    height: "12px",
+                    background: "var(--surface)",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${(miniCourseStep + 1) * 25}%`,
+                      background: "linear-gradient(90deg, var(--accent-green), var(--accent-teal))",
+                      borderRadius: "10px",
+                      transition: "width 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  />
+                </div>
+                <button
+                  onClick={() => {
+                    setIsMiniCourseOpen(false);
+                    setMiniCourseCity(null);
+                  }}
+                  style={{
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "50%",
+                    background: "var(--surface)",
+                    border: "none",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "var(--text-secondary)",
+                    fontWeight: 700,
+                  }}
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Modal Scrollable Content */}
+              <div
+                style={{
+                  padding: "24px",
+                  overflowY: "auto",
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "20px",
+                }}
+              >
+                {/* STEP 0: Introduction & Landmark */}
+                {miniCourseStep === 0 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 900,
+                          color: "var(--accent-terra)",
+                          letterSpacing: "0.08em",
+                        }}
+                      >
+                        {isPT
+                          ? "PASSO 1: HISTÓRIA & PONTO TURÍSTICO"
+                          : isES
+                            ? "PASO 1: HISTORIA Y PUNTO DE INTERÉS"
+                            : "STEP 1: HISTORY & LANDMARK"}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--text-secondary)",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "name")}
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        position: "relative",
+                        height: "180px",
+                        borderRadius: "20px",
+                        overflow: "hidden",
+                        border: "1.5px solid var(--border)",
+                      }}
+                    >
+                      <LumeImage
+                        src={
+                          CITY_LANDMARK_IMAGES[miniCourseCity.id] ||
+                          "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=600&q=80"
+                        }
+                        alt={getTranslation(miniCourseCity, "landmark")}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        fallback="travel"
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "12px",
+                          left: "12px",
+                          background: "rgba(0,0,0,0.6)",
+                          color: "white",
+                          padding: "6px 12px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          backdropFilter: "blur(4px)",
+                        }}
+                      >
+                        📍 {getTranslation(miniCourseCity, "landmark")}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3
+                        style={{
+                          margin: "0 0 8px 0",
+                          fontSize: "20px",
+                          fontWeight: 800,
+                          color: "var(--text-primary)",
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "landmark")}
+                      </h3>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "14px",
+                          color: "var(--text-secondary)",
+                          lineHeight: 1.5,
+                          fontStyle: "italic",
+                        }}
+                      >
+                        "{getTranslation(miniCourseCity, "landmarkDesc")}"
+                      </p>
+                    </div>
+
+                    <div
+                      style={{
+                        background: "var(--surface)",
+                        padding: "18px",
+                        borderRadius: "20px",
+                        border: "1px solid var(--border)",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          margin: "0 0 6px 0",
+                          fontSize: "13px",
+                          fontWeight: 900,
+                          color: "var(--accent-terra)",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.05em",
+                        }}
+                      >
+                        {isPT
+                          ? "Contexto Histórico & Cultural"
+                          : isES
+                            ? "Contexto Histórico y Cultural"
+                            : "Historical & Cultural Context"}
+                      </h4>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "14px",
+                          color: "var(--text-primary)",
+                          lineHeight: 1.6,
+                        }}
+                      >
+                        {CITY_HISTORICAL_CONTEXTS[miniCourseCity.id]?.[
+                          isPT ? "pt" : isES ? "es" : "en"
+                        ] || ""}
+                      </p>
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        const audioText = `${getTranslation(miniCourseCity, "landmark")}. ${getTranslation(miniCourseCity, "landmarkDesc")} ${CITY_HISTORICAL_CONTEXTS[miniCourseCity.id]?.[isPT ? "pt" : isES ? "es" : "en"] || ""}`;
+                        speakText(audioText, selectedCountry.accent);
+                      }}
+                      style={{
+                        padding: "12px",
+                        borderRadius: "14px",
+                        background: "var(--accent-terra)10",
+                        color: "var(--accent-terra)",
+                        border: "1.5px solid var(--accent-terra)20",
+                        fontWeight: 700,
+                        fontSize: "13.5px",
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "8px",
+                        transition: "all 0.2s",
+                      }}
+                      className="hover:scale-95"
+                    >
+                      <Volume2 size={16} />
+                      {isPT
+                        ? "Ouvir Narrador Regional"
+                        : isES
+                          ? "Escuchar Narrador Regional"
+                          : "Listen to Regional Narrator"}
+                    </button>
+                  </div>
+                )}
+
+                {/* STEP 1: Gastronomy & Slangs */}
+                {miniCourseStep === 1 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 900,
+                          color: "var(--accent-green)",
+                          letterSpacing: "0.08em",
+                        }}
+                      >
+                        {isPT
+                          ? "PASSO 2: GASTRONOMIA & GÍRIAS LOCAIS"
+                          : isES
+                            ? "PASO 2: GASTRONOMÍA Y JERGAS LOCALES"
+                            : "STEP 2: GASTRONOMY & LOCAL SLANGS"}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--text-secondary)",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "name")}
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        position: "relative",
+                        height: "150px",
+                        borderRadius: "20px",
+                        overflow: "hidden",
+                        border: "1.5px solid var(--border)",
+                      }}
+                    >
+                      <LumeImage
+                        src={
+                          CITY_FOOD_IMAGES[miniCourseCity.id] ||
+                          "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80"
+                        }
+                        alt={getTranslation(miniCourseCity, "food")}
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        fallback="culture"
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "12px",
+                          left: "12px",
+                          background: "rgba(0,0,0,0.6)",
+                          color: "white",
+                          padding: "6px 12px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          backdropFilter: "blur(4px)",
+                        }}
+                      >
+                        🍲 {getTranslation(miniCourseCity, "food")}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h3
+                        style={{
+                          margin: "0 0 4px 0",
+                          fontSize: "18px",
+                          fontWeight: 800,
+                          color: "var(--text-primary)",
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "food")}
+                      </h3>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "13.5px",
+                          color: "var(--text-secondary)",
+                          lineHeight: 1.5,
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "foodDesc")}
+                      </p>
+                    </div>
+
+                    <div style={{ borderTop: "1px solid var(--border)", paddingTop: "16px" }}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "6px",
+                          marginBottom: "12px",
+                        }}
+                      >
+                        <span style={{ fontSize: "16px" }}>🎧</span>
+                        <h4
+                          style={{
+                            margin: 0,
+                            fontSize: "14px",
+                            fontWeight: 850,
+                            color: "var(--text-primary)",
+                          }}
+                        >
+                          {isPT
+                            ? "Painel de Pronúncia de Gírias"
+                            : isES
+                              ? "Panel de Pronunciación de Jergas"
+                              : "Slang Pronunciation Board"}
+                        </h4>
+                      </div>
+
+                      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                        {miniCourseCity.slangs.map((s, idx) => {
+                          const hasPlayed = hasPlayedAllSlang[idx];
+                          return (
+                            <div
+                              key={idx}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                padding: "12px 16px",
+                                borderRadius: "16px",
+                                background: hasPlayed ? "var(--surface)" : "var(--surface-raised)",
+                                border: hasPlayed
+                                  ? "1px solid var(--border)"
+                                  : "1.5px dashed var(--accent-green)40",
+                                transition: "all 0.2s",
+                              }}
+                            >
+                              <div>
+                                <span
+                                  style={{
+                                    fontWeight: 800,
+                                    color: "var(--accent-green)",
+                                    fontSize: "15px",
+                                  }}
+                                >
+                                  "{s.expression}"
+                                </span>
+                                <div
+                                  style={{
+                                    fontSize: "12.5px",
+                                    color: "var(--text-secondary)",
+                                    marginTop: "2px",
+                                  }}
+                                >
+                                  {getTranslation(s, "meaning")}
+                                </div>
+                              </div>
+
+                              <button
+                                onClick={() => {
+                                  speakText(s.expression, selectedCountry.accent);
+                                  setHasPlayedAllSlang((prev) => ({ ...prev, [idx]: true }));
+                                }}
+                                style={{
+                                  width: "36px",
+                                  height: "36px",
+                                  borderRadius: "50%",
+                                  background: hasPlayed
+                                    ? "var(--accent-green)15"
+                                    : "var(--accent-green)",
+                                  color: hasPlayed ? "var(--accent-green)" : "white",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  boxShadow: hasPlayed ? "none" : "0 4px 10px rgba(76,175,80,0.2)",
+                                  transition: "all 0.2s",
+                                }}
+                                className="hover:scale-105"
+                              >
+                                <Volume1 size={16} />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {!miniCourseCity.slangs.every((_, idx) => hasPlayedAllSlang[idx]) && (
+                        <div
+                          style={{
+                            marginTop: "12px",
+                            textAlign: "center",
+                            fontSize: "12px",
+                            color: "var(--accent-green)",
+                            fontWeight: 700,
+                          }}
+                        >
+                          {isPT
+                            ? "🔔 Ouça todas as gírias acima para liberar o quiz!"
+                            : isES
+                              ? "🔔 ¡Escucha todas las jergas arriba para desbloquear el quiz!"
+                              : "🔔 Listen to all slangs above to unlock the quiz!"}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* STEP 2: Immersion Quiz */}
+                {miniCourseStep === 2 && (
+                  <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 900,
+                          color: "var(--accent-gold)",
+                          letterSpacing: "0.08em",
+                        }}
+                      >
+                        {isPT
+                          ? "PASSO 3: DESAFIO DE COMPREENSÃO"
+                          : isES
+                            ? "PASO 3: DESAFÍO DE COMPRENSIÓN"
+                            : "STEP 3: COMPREHENSION CHALLENGE"}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "var(--text-secondary)",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {getTranslation(miniCourseCity, "name")}
+                      </span>
+                    </div>
+
+                    {quizQuestions.map((q, qIdx) => {
+                      const selectedAnswer = quizAnswers[qIdx];
+                      return (
+                        <div
+                          key={qIdx}
+                          style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+                        >
+                          <h4
+                            style={{
+                              margin: 0,
+                              fontSize: "15px",
+                              fontWeight: 800,
+                              color: "var(--text-primary)",
+                              lineHeight: 1.4,
+                            }}
+                          >
+                            {qIdx + 1}. {q.questionText}
+                          </h4>
+
+                          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                            {q.options.map((opt, optIdx) => {
+                              const isSelected = selectedAnswer === opt.text;
+                              const isCorrect = opt.isCorrect;
+                              const hasAnswered = selectedAnswer !== undefined;
+
+                              let btnBg = "var(--surface)";
+                              let btnBorder = "1px solid var(--border)";
+                              let btnColor = "var(--text-primary)";
+
+                              if (isSelected) {
+                                if (isCorrect) {
+                                  btnBg = "var(--accent-green)20";
+                                  btnBorder = "2px solid var(--accent-green)";
+                                  btnColor = "var(--accent-green)";
+                                } else {
+                                  btnBg = "var(--accent-terra)20";
+                                  btnBorder = "2px solid var(--accent-terra)";
+                                  btnColor = "var(--accent-terra)";
+                                }
+                              } else if (hasAnswered) {
+                                if (isCorrect) {
+                                  btnBg = "var(--accent-green)10";
+                                  btnBorder = "1.5px solid var(--accent-green)50";
+                                } else {
+                                  btnBg = "var(--surface)";
+                                  btnBorder = "1px solid var(--border)";
+                                  btnColor = "var(--text-secondary)";
+                                }
+                              }
+
+                              return (
+                                <button
+                                  key={optIdx}
+                                  disabled={hasAnswered}
+                                  onClick={() =>
+                                    setQuizAnswers((prev) => ({ ...prev, [qIdx]: opt.text }))
+                                  }
+                                  style={{
+                                    width: "100%",
+                                    padding: "12px 16px",
+                                    borderRadius: "16px",
+                                    background: btnBg,
+                                    border: btnBorder,
+                                    color: btnColor,
+                                    fontWeight: 700,
+                                    fontSize: "13.5px",
+                                    textAlign: "left",
+                                    cursor: hasAnswered ? "default" : "pointer",
+                                    transition: "all 0.2s",
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                  className={hasAnswered ? "" : "hover:bg-var(--surface-raised)"}
+                                >
+                                  <span>{opt.text}</span>
+                                  {isSelected && <span>{isCorrect ? "✅" : "❌"}</span>}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* STEP 3: Celebration */}
+                {miniCourseStep === 3 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "24px",
+                      padding: "20px 0",
+                      textAlign: "center",
+                    }}
+                  >
+                    <div
+                      style={{
+                        fontSize: "64px",
+                        filter: "drop-shadow(0 12px 24px rgba(212,162,59,0.3))",
+                        animation: "celebrateJump 0.6s ease infinite alternate",
+                      }}
+                    >
+                      🎓🏆
+                    </div>
+
+                    <div>
+                      <h2
+                        style={{
+                          margin: "0 0 8px 0",
+                          fontSize: "24px",
+                          fontWeight: 800,
+                          color: "var(--text-primary)",
+                        }}
+                      >
+                        {isPT
+                          ? "Imersão Concluída com Sucesso!"
+                          : isES
+                            ? "¡Inmersión Completada con Éxito!"
+                            : "Immersion Successfully Completed!"}
+                      </h2>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "14.5px",
+                          color: "var(--text-secondary)",
+                          lineHeight: 1.6,
+                          maxWidth: "420px",
+                        }}
+                      >
+                        {isPT
+                          ? `Parabéns! Você concluiu com sucesso a jornada cultural por ${getTranslation(miniCourseCity, "name")} e dominou a pronúncia local.`
+                          : isES
+                            ? `¡Felicidades! Completaste con éxito el viaje cultural por ${getTranslation(miniCourseCity, "name")} y dominaste la pronunciación local.`
+                            : `Congratulations! You successfully completed the cultural journey through ${getTranslation(miniCourseCity, "name")} and mastered the local pronunciation.`}
+                      </p>
+                    </div>
+
+                    {/* XP Reward Badge */}
+                    <div
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        borderRadius: "50%",
+                        background:
+                          "linear-gradient(135deg, var(--accent-gold), var(--accent-terra))",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "white",
+                        boxShadow: "0 10px 25px rgba(212,162,59,0.4)",
+                        animation: "pulseGlow 2s infinite",
+                      }}
+                    >
+                      <span style={{ fontSize: "20px", fontWeight: 900 }}>+15</span>
+                      <span
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 800,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.05em",
+                          marginTop: "-2px",
+                        }}
+                      >
+                        XP
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Footer */}
+              <div
+                style={{
+                  padding: "16px 24px 20px",
+                  borderTop: "1px solid var(--border)",
+                  display: "flex",
+                  gap: "12px",
+                }}
+              >
+                {/* Back button */}
+                {miniCourseStep > 0 && miniCourseStep < 3 && (
+                  <button
+                    onClick={() => setMiniCourseStep((prev) => prev - 1)}
+                    style={{
+                      padding: "12px 20px",
+                      borderRadius: "16px",
+                      background: "transparent",
+                      border: "1.5px solid var(--border)",
+                      color: "var(--text-secondary)",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                    }}
+                  >
+                    {isPT ? "Voltar" : isES ? "Atrás" : "Back"}
+                  </button>
+                )}
+
+                {/* Main Action Button */}
+                {miniCourseStep === 0 && (
+                  <button
+                    onClick={() => setMiniCourseStep(1)}
+                    style={{
+                      flex: 1,
+                      padding: "12px 20px",
+                      borderRadius: "16px",
+                      background: "var(--accent-terra)",
+                      color: "white",
+                      border: "none",
+                      fontWeight: 800,
+                      fontSize: "14px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      boxShadow: "0 4px 12px rgba(196,113,74,0.2)",
+                    }}
+                    className="hover:scale-[1.01] active:scale-95"
+                  >
+                    {isPT
+                      ? "Avançar: Culinária & Gírias"
+                      : isES
+                        ? "Siguiente: Gastronomía y Jerga"
+                        : "Next: Gastronomy & Slangs"}
+                  </button>
+                )}
+
+                {miniCourseStep === 1 && (
+                  <button
+                    disabled={!miniCourseCity.slangs.every((_, idx) => hasPlayedAllSlang[idx])}
+                    onClick={() => setMiniCourseStep(2)}
+                    style={{
+                      flex: 1,
+                      padding: "12px 20px",
+                      borderRadius: "16px",
+                      background: "var(--accent-green)",
+                      color: "white",
+                      border: "none",
+                      fontWeight: 800,
+                      fontSize: "14px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      boxShadow: "0 4px 12px rgba(76,175,80,0.2)",
+                      opacity: miniCourseCity.slangs.every((_, idx) => hasPlayedAllSlang[idx])
+                        ? 1
+                        : 0.6,
+                    }}
+                    className={
+                      miniCourseCity.slangs.every((_, idx) => hasPlayedAllSlang[idx])
+                        ? "hover:scale-[1.01] active:scale-95"
+                        : ""
+                    }
+                  >
+                    {isPT
+                      ? "Avançar: Quiz de Imersão"
+                      : isES
+                        ? "Siguiente: Quiz de Inmersión"
+                        : "Next: Immersion Quiz"}
+                  </button>
+                )}
+
+                {miniCourseStep === 2 && (
+                  <button
+                    disabled={quizAnswers[0] === undefined || quizAnswers[1] === undefined}
+                    onClick={() => setMiniCourseStep(3)}
+                    style={{
+                      flex: 1,
+                      padding: "12px 20px",
+                      borderRadius: "16px",
+                      background: "var(--accent-gold)",
+                      color: "white",
+                      border: "none",
+                      fontWeight: 800,
+                      fontSize: "14px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      boxShadow: "0 4px 12px rgba(212,162,59,0.2)",
+                      opacity:
+                        quizAnswers[0] !== undefined && quizAnswers[1] !== undefined ? 1 : 0.6,
+                    }}
+                    className={
+                      quizAnswers[0] !== undefined && quizAnswers[1] !== undefined
+                        ? "hover:scale-[1.01] active:scale-95"
+                        : ""
+                    }
+                  >
+                    {isPT
+                      ? "Concluir Mini-Curso"
+                      : isES
+                        ? "Completar Mini-Curso"
+                        : "Complete Mini-Course"}
+                  </button>
+                )}
+
+                {miniCourseStep === 3 && (
+                  <button
+                    onClick={() => {
+                      addXP(15);
+                      toast.success(
+                        isPT
+                          ? "Parabéns! Você ganhou +15 XP e completou o mini-curso! 🎓🌟"
+                          : isES
+                            ? "¡Felicidades! ¡Ganaste +15 XP y completaste el mini-curso! 🎓🌟"
+                            : "Congratulations! You earned +15 XP and completed the mini-course! 🎓🌟",
+                      );
+                      setIsMiniCourseOpen(false);
+                      setMiniCourseCity(null);
+                    }}
+                    style={{
+                      flex: 1,
+                      padding: "14px 20px",
+                      borderRadius: "16px",
+                      background:
+                        "linear-gradient(135deg, var(--accent-green), var(--accent-teal))",
+                      color: "white",
+                      border: "none",
+                      fontWeight: 800,
+                      fontSize: "15.5px",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      boxShadow: "0 6px 20px rgba(76,175,80,0.3)",
+                    }}
+                    className="hover:scale-[1.01] active:scale-95"
+                  >
+                    {isPT
+                      ? "Resgatar +15 XP e Fechar"
+                      : isES
+                        ? "Reclamar +15 XP y Cerrar"
+                        : "Claim +15 XP & Close"}
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

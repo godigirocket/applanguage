@@ -100,7 +100,16 @@ function Profile() {
   };
 
   // Lume global store variables
-  const { interfaceLanguage, setInterfaceLanguage, targetLanguage, setTargetLanguage } = useStore();
+  const {
+    interfaceLanguage,
+    setInterfaceLanguage,
+    targetLanguage,
+    setTargetLanguage,
+    pinEnabled,
+    setPinEnabled,
+    pinCode,
+    setPinCode,
+  } = useStore();
 
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -859,66 +868,156 @@ function Profile() {
             {isPT ? "Segurança da Conta" : isES ? "Seguridad de la Cuenta" : "Account Security"}
           </h2>
 
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "16px",
-              background: "var(--bg)",
-              borderRadius: "12px",
-              border: "1px solid var(--border)",
-            }}
-          >
-            <div>
-              <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
-                {isPT ? "Autenticação 2FA" : isES ? "Autenticación 2FA" : "2FA Authentication"}
-              </div>
-              <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-                {enable2FA
-                  ? isPT
-                    ? "Ativado"
-                    : isES
-                      ? "Activado"
-                      : "Enabled"
-                  : isPT
-                    ? "Proteja sua conta"
-                    : isES
-                      ? "Proteja su cuenta"
-                      : "Protect your account"}
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                if (enable2FA) {
-                  setEnable2FA(false);
-                  toast.success("2FA desativado");
-                } else {
-                  setShow2FAConfig(true);
-                }
-              }}
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            {/* PIN Lock Toggle */}
+            <div
               style={{
-                padding: "8px 16px",
-                borderRadius: "99px",
-                border: "none",
-                background: enable2FA ? "rgba(196,113,74,0.1)" : "var(--brand)",
-                color: enable2FA ? "#C4714A" : "white",
-                fontWeight: 700,
-                fontSize: "13px",
-                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "16px",
+                background: "var(--bg)",
+                borderRadius: "12px",
+                border: "1px solid var(--border)",
               }}
             >
-              {enable2FA
-                ? isPT
-                  ? "Desativar"
-                  : isES
-                    ? "Desactivar"
-                    : "Disable"
-                : isPT
-                  ? "Configurar"
-                  : isES
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: "rgba(27,58,75,0.1)",
+                    color: "#1B3A4B",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Shield size={18} />
+                </div>
+                <div>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                    {isPT
+                      ? "Bloqueio por PIN"
+                      : isES
+                        ? "Bloqueo por PIN"
+                        : "PIN Lock"}
+                  </div>
+                  <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                    {isPT
+                      ? "Bloquear o app após 30 minutos de inatividade"
+                      : isES
+                        ? "Bloquear la app tras 30 minutos de inactividad"
+                        : "Lock the app after 30 minutes of inactivity"}
+                  </div>
+                </div>
+              </div>
+              <Toggle active={pinEnabled} onClick={() => setPinEnabled(!pinEnabled)} />
+            </div>
+
+            {/* PIN Code Configuration */}
+            {pinEnabled && (
+              <div
+                style={{
+                  padding: "16px",
+                  background: "var(--bg)",
+                  borderRadius: "12px",
+                  border: "1px solid var(--border)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "12px",
+                }}
+              >
+                <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
+                  {isPT ? "Código PIN (4 dígitos)" : isES ? "Código PIN (4 dígitos)" : "PIN Code (4 digits)"}
+                </div>
+                <input
+                  type="text"
+                  maxLength={4}
+                  value={pinCode}
+                  onChange={(e) => {
+                    const val = e.target.value.replace(/\D/g, "");
+                    if (val.length <= 4) setPinCode(val);
+                  }}
+                  style={{
+                    padding: "12px 16px",
+                    borderRadius: "10px",
+                    border: "1.5px solid var(--border)",
+                    background: "var(--surface-raised)",
+                    color: "var(--text-primary)",
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    letterSpacing: "0.5em",
+                    textAlign: "center",
+                    maxWidth: "150px",
+                    outline: "none",
+                  }}
+                />
+              </div>
+            )}
+
+            {/* 2FA Authentication */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "16px",
+                background: "var(--bg)",
+                borderRadius: "12px",
+                border: "1px solid var(--border)",
+              }}
+            >
+              <div>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: "var(--text-primary)" }}>
+                  {isPT ? "Autenticação 2FA" : isES ? "Autenticación 2FA" : "2FA Authentication"}
+                </div>
+                <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                  {enable2FA
+                    ? isPT
+                      ? "Ativado"
+                      : isES
+                        ? "Activado"
+                        : "Enabled"
+                    : isPT
+                      ? "Proteja sua conta"
+                      : isES
+                        ? "Proteja su cuenta"
+                        : "Protect your account"}
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  if (enable2FA) {
+                    setEnable2FA(false);
+                    toast.success("2FA desativado");
+                  } else {
+                    setShow2FAConfig(true);
+                  }
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "99px",
+                  border: "none",
+                  background: enable2FA ? "rgba(196,113,74,0.1)" : "var(--brand)",
+                  color: enable2FA ? "#C4714A" : "white",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  cursor: "pointer",
+                }}
+              >
+                {enable2FA
+                  ? isPT
+                    ? "Desativar"
+                    : isES
+                      ? "Desactivar"
+                      : "Disable"
+                  : isPT
                     ? "Configurar"
-                    : "Setup"}
+                    : isES
+                      ? "Configurar"
+                      : "Setup"}
             </button>
           </div>
 
@@ -991,6 +1090,7 @@ function Profile() {
               </div>
             </div>
           )}
+          </div>
         </section>
 
         {/* LOGOUT & DANGER ZONE */}

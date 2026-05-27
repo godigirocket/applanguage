@@ -1,4 +1,4 @@
- 
+/* eslint-disable */
 
 // @ts-nocheck
 
@@ -17,7 +17,6 @@ import { Route as SetupRouteImport } from './routes/setup'
 import { Route as QuizHubRouteImport } from './routes/quiz-hub'
 import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as PlayRouteImport } from './routes/play'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as LoginRouteImport } from './routes/login'
@@ -26,6 +25,7 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as HangmanRouteImport } from './routes/hangman'
 import { Route as GuideRouteImport } from './routes/guide'
 import { Route as GuestRouteImport } from './routes/guest'
+import { Route as GamesRouteImport } from './routes/games'
 import { Route as DictionaryRouteImport } from './routes/dictionary'
 import { Route as CultureRouteImport } from './routes/culture'
 import { Route as IndexRouteImport } from './routes/index'
@@ -74,11 +74,6 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlayRoute = PlayRouteImport.update({
-  id: '/play',
-  path: '/play',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
@@ -117,6 +112,11 @@ const GuideRoute = GuideRouteImport.update({
 const GuestRoute = GuestRouteImport.update({
   id: '/guest',
   path: '/guest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GamesRoute = GamesRouteImport.update({
+  id: '/games',
+  path: '/games',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DictionaryRoute = DictionaryRouteImport.update({
@@ -159,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/culture': typeof CultureRoute
   '/dictionary': typeof DictionaryRoute
+  '/games': typeof GamesRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -167,7 +168,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/onboarding': typeof OnboardingRoute
-  '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/quiz-hub': typeof QuizHubRoute
@@ -185,6 +185,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/culture': typeof CultureRoute
   '/dictionary': typeof DictionaryRoute
+  '/games': typeof GamesRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -193,7 +194,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/onboarding': typeof OnboardingRoute
-  '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/quiz-hub': typeof QuizHubRoute
@@ -212,6 +212,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/culture': typeof CultureRoute
   '/dictionary': typeof DictionaryRoute
+  '/games': typeof GamesRoute
   '/guest': typeof GuestRoute
   '/guide': typeof GuideRoute
   '/hangman': typeof HangmanRoute
@@ -220,7 +221,6 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/onboarding': typeof OnboardingRoute
-  '/play': typeof PlayRoute
   '/profile': typeof ProfileRoute
   '/progress': typeof ProgressRoute
   '/quiz-hub': typeof QuizHubRoute
@@ -240,6 +240,7 @@ export interface FileRouteTypes {
     | '/'
     | '/culture'
     | '/dictionary'
+    | '/games'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -248,7 +249,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/memory'
     | '/onboarding'
-    | '/play'
     | '/profile'
     | '/progress'
     | '/quiz-hub'
@@ -266,6 +266,7 @@ export interface FileRouteTypes {
     | '/'
     | '/culture'
     | '/dictionary'
+    | '/games'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -274,7 +275,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/memory'
     | '/onboarding'
-    | '/play'
     | '/profile'
     | '/progress'
     | '/quiz-hub'
@@ -292,6 +292,7 @@ export interface FileRouteTypes {
     | '/'
     | '/culture'
     | '/dictionary'
+    | '/games'
     | '/guest'
     | '/guide'
     | '/hangman'
@@ -300,7 +301,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/memory'
     | '/onboarding'
-    | '/play'
     | '/profile'
     | '/progress'
     | '/quiz-hub'
@@ -319,6 +319,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CultureRoute: typeof CultureRoute
   DictionaryRoute: typeof DictionaryRoute
+  GamesRoute: typeof GamesRoute
   GuestRoute: typeof GuestRoute
   GuideRoute: typeof GuideRoute
   HangmanRoute: typeof HangmanRoute
@@ -327,7 +328,6 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   MemoryRoute: typeof MemoryRoute
   OnboardingRoute: typeof OnboardingRoute
-  PlayRoute: typeof PlayRoute
   ProfileRoute: typeof ProfileRoute
   ProgressRoute: typeof ProgressRoute
   QuizHubRoute: typeof QuizHubRoute
@@ -400,13 +400,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/play': {
-      id: '/play'
-      path: '/play'
-      fullPath: '/play'
-      preLoaderRoute: typeof PlayRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
@@ -461,6 +454,13 @@ declare module '@tanstack/react-router' {
       path: '/guest'
       fullPath: '/guest'
       preLoaderRoute: typeof GuestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/games': {
+      id: '/games'
+      path: '/games'
+      fullPath: '/games'
+      preLoaderRoute: typeof GamesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dictionary': {
@@ -519,6 +519,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CultureRoute: CultureRoute,
   DictionaryRoute: DictionaryRoute,
+  GamesRoute: GamesRoute,
   GuestRoute: GuestRoute,
   GuideRoute: GuideRoute,
   HangmanRoute: HangmanRoute,
@@ -527,7 +528,6 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   MemoryRoute: MemoryRoute,
   OnboardingRoute: OnboardingRoute,
-  PlayRoute: PlayRoute,
   ProfileRoute: ProfileRoute,
   ProgressRoute: ProgressRoute,
   QuizHubRoute: QuizHubRoute,

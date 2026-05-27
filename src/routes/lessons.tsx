@@ -3,6 +3,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { getLessonCatalogue, Lesson } from "@/data/lessonEngine";
 import { ALL_LESSONS } from "@/lib/lessons-data";
+import masterContent from "@/data/masterContent.json";
 
 import { useStore } from "@/hooks/useStore";
 import { useUserStore } from "@/store/userStore";
@@ -1191,6 +1192,9 @@ function LessonsPage() {
 
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
+  const [translationInput, setTranslationInput] = useState("");
+  const [dragSelectedTokens, setDragSelectedTokens] = useState<string[]>([]);
+  const [isCorrectFeedback, setIsCorrectFeedback] = useState<boolean | null>(null);
 
   // Lume Library States
   const [searchQuery, setSearchQuery] = useState("");
@@ -1220,8 +1224,8 @@ function LessonsPage() {
 
   const lessons = useMemo(() => {
     const staticList = ALL_LESSONS.filter((l: any) => l.language === targetLanguage);
-    const dynamicList = getLessonCatalogue(targetLanguage, 1200 - staticList.length);
-    return [...staticList, ...dynamicList];
+    const generatedList = (masterContent as any[]).filter((l: any) => l.language === targetLanguage);
+    return [...staticList, ...generatedList];
   }, [targetLanguage]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -1409,7 +1413,12 @@ function LessonsPage() {
     const isLast = step === lesson.steps.length - 1;
 
     let canContinue = true;
-    if (currentStep.type === "quiz" || currentStep.type === "listening") {
+    if (
+      currentStep.type === "quiz" ||
+      currentStep.type === "listening" ||
+      currentStep.type === "translation" ||
+      currentStep.type === "dragdrop"
+    ) {
       canContinue = answered;
     } else if (currentStep.type === "speaking") {
       canContinue = speechScore !== null;
@@ -1425,6 +1434,16 @@ function LessonsPage() {
       } else {
         lumiMood = "thinking";
         lumiPhrase = "Qual das opções abaixo está correta?";
+      }
+    } else if (currentStep.type === "translation" || currentStep.type === "dragdrop") {
+      if (answered) {
+        lumiMood = isCorrectFeedback ? "correct" : "wrong";
+      } else {
+        lumiMood = "thinking";
+        lumiPhrase =
+          currentStep.type === "translation"
+            ? "Escreva a tradução correta da frase!"
+            : "Ordene as palavras para montar a frase!";
       }
     } else if (currentStep.type === "speaking") {
       if (isRecording) {
@@ -1488,6 +1507,9 @@ function LessonsPage() {
                   setAnswered(false);
                   setSelectedAnswer(null);
                   setSpeechScore(null);
+                  setTranslationInput("");
+                  setDragSelectedTokens([]);
+                  setIsCorrectFeedback(null);
                 }}
                 style={{
                   display: "flex",
@@ -2364,6 +2386,291 @@ function LessonsPage() {
                     );
                   })()}
 
+                {currentStep.type === "translation" &&
+                  (() => {
+                    const StepIllu = getIllustrationForStep(currentStep, lesson.category);
+                    return (
+                      <div style={{ textAlign: "center" }}>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          style={{
+                            width: "64px",
+                            height: "64px",
+                            borderRadius: "50%",
+                            background: `radial-gradient(circle, ${lesson.color}18, ${lesson.color}06)`,
+                            border: `2px solid ${lesson.color}18`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto 16px",
+                          }}
+                        >
+                          <StepIllu size={36} primary={lesson.color} secondary={lesson.color + "99"} />
+                        </motion.div>
+                        <h2 style={{ fontSize: "22px", marginBottom: "18px", color: "var(--text-primary)", fontWeight: 800 }}>
+                          Traduzir Frase
+                        </h2>
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            color: lesson.color,
+                            fontWeight: 700,
+                            padding: "16px",
+                            background: "var(--bg)",
+                            borderRadius: "16px",
+                            border: "1.5px solid var(--border)",
+                            marginBottom: "20px",
+                          }}
+                        >
+                          "{currentStep.targetPhrase}"
+                        </div>
+                        <input
+                          type="text"
+                          disabled={answered}
+                          value={translationInput}
+                          onChange={(e) => setTranslationInput(e.target.value)}
+                          placeholder="Digite a tradução aqui..."
+                          style={{
+                            width: "100%",
+                            padding: "16px",
+                            borderRadius: "14px",
+                            border: answered 
+                              ? isCorrectFeedback 
+                                ? "2.5px solid var(--accent-green)" 
+                                : "2.5px solid var(--accent-terra)"
+                              : "1.5px solid var(--border)",
+                            background: "var(--surface)",
+                            color: "var(--text-primary)",
+                            fontSize: "16px",
+                            fontWeight: 600,
+                            marginBottom: "20px",
+                          }}
+                        />
+                        {!answered && (
+                          <button
+                            disabled={!translationInput.trim()}
+                            onClick={() => {
+                              const userAns = translationInput.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"");
+                              const correctAns = currentStep.correctTranslation.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g,"");
+                              const isMatch = userAns === correctAns;
+                              setIsCorrectFeedback(isMatch);
+                              setAnswered(true);
+                              if (isMatch) {
+                                sounds.playSuccess();
+                              } else {
+                                sounds.playError();
+                              }
+                            }}
+                            style={{
+                              padding: "12px 24px",
+                              borderRadius: "12px",
+                              background: lesson.color,
+                              color: "white",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Verificar
+                          </button>
+                        )}
+                        {answered && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            style={{
+                              padding: "16px",
+                              borderRadius: "14px",
+                              background: isCorrectFeedback ? "rgba(76,175,80,0.08)" : "rgba(244,67,54,0.08)",
+                              border: isCorrectFeedback ? "1px solid var(--accent-green)" : "1px solid var(--accent-terra)",
+                              color: isCorrectFeedback ? "var(--accent-green)" : "var(--accent-terra)",
+                              fontWeight: 700,
+                              textAlign: "left",
+                            }}
+                          >
+                            <div>{isCorrectFeedback ? "🎉 Excelente! Tradução perfeita." : "❌ Ops, quase lá!"}</div>
+                            <div style={{ fontSize: "14px", marginTop: "4px", color: "var(--text-secondary)" }}>
+                              {currentStep.explanation || `Tradução correta: "${currentStep.correctTranslation}"`}
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
+                {currentStep.type === "dragdrop" &&
+                  (() => {
+                    const StepIllu = getIllustrationForStep(currentStep, lesson.category);
+                    return (
+                      <div style={{ textAlign: "center" }}>
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          style={{
+                            width: "64px",
+                            height: "64px",
+                            borderRadius: "50%",
+                            background: `radial-gradient(circle, ${lesson.color}18, ${lesson.color}06)`,
+                            border: `2px solid ${lesson.color}18`,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            margin: "0 auto 16px",
+                          }}
+                        >
+                          <StepIllu size={36} primary={lesson.color} secondary={lesson.color + "99"} />
+                        </motion.div>
+                        <h2 style={{ fontSize: "22px", marginBottom: "18px", color: "var(--text-primary)", fontWeight: 800 }}>
+                          Organize as Palavras
+                        </h2>
+                        <div style={{ color: "var(--text-secondary)", marginBottom: "12px", fontWeight: 600 }}>
+                          Traduza a frase: "{currentStep.sentence}"
+                        </div>
+
+                        {/* Selected tokens container */}
+                        <div
+                          style={{
+                            minHeight: "60px",
+                            padding: "12px",
+                            borderRadius: "14px",
+                            border: answered
+                              ? isCorrectFeedback
+                                ? "2.5px solid var(--accent-green)"
+                                : "2.5px solid var(--accent-terra)"
+                              : "1.5px solid var(--border)",
+                            background: "var(--surface)",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "8px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginBottom: "20px",
+                          }}
+                        >
+                          {dragSelectedTokens.length === 0 && (
+                            <span style={{ color: "var(--text-muted)", fontSize: "14px" }}>
+                              Clique nas palavras abaixo para construir a frase
+                            </span>
+                          )}
+                          {dragSelectedTokens.map((tok, idx) => (
+                            <motion.button
+                              key={idx}
+                              disabled={answered}
+                              onClick={() => {
+                                setDragSelectedTokens(dragSelectedTokens.filter((_, tIdx) => tIdx !== idx));
+                              }}
+                              style={{
+                                padding: "8px 14px",
+                                borderRadius: "8px",
+                                background: "var(--surface-raised)",
+                                border: "1.5px solid var(--border)",
+                                color: "var(--text-primary)",
+                                fontWeight: 700,
+                                cursor: "pointer",
+                              }}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                            >
+                              {tok}
+                            </motion.button>
+                          ))}
+                        </div>
+
+                        {/* Word Pool */}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "8px",
+                            justifyContent: "center",
+                            marginBottom: "24px",
+                          }}
+                        >
+                          {currentStep.tokens?.map((tok: string, idx: number) => {
+                            const totalInPool = currentStep.tokens.filter((t: string) => t === tok).length;
+                            const totalSelected = dragSelectedTokens.filter(t => t === tok).length;
+                            const isUsed = totalSelected >= totalInPool;
+
+                            return (
+                              <motion.button
+                                key={idx}
+                                disabled={isUsed || answered}
+                                onClick={() => {
+                                  setDragSelectedTokens([...dragSelectedTokens, tok]);
+                                }}
+                                style={{
+                                  padding: "8px 14px",
+                                  borderRadius: "8px",
+                                  background: isUsed ? "var(--border)" : "var(--surface-raised)",
+                                  border: "1.5px solid var(--border)",
+                                  color: isUsed ? "var(--text-muted)" : "var(--text-primary)",
+                                  fontWeight: 700,
+                                  cursor: isUsed ? "default" : "pointer",
+                                  opacity: isUsed ? 0.4 : 1,
+                                }}
+                                whileHover={!isUsed && !answered ? { scale: 1.05 } : {}}
+                                whileTap={!isUsed && !answered ? { scale: 0.95 } : {}}
+                              >
+                                {tok}
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+
+                        {!answered && (
+                          <button
+                            disabled={dragSelectedTokens.length === 0}
+                            onClick={() => {
+                              const isMatch =
+                                JSON.stringify(dragSelectedTokens) ===
+                                JSON.stringify(currentStep.answerTokens);
+                              setIsCorrectFeedback(isMatch);
+                              setAnswered(true);
+                              if (isMatch) {
+                                sounds.playSuccess();
+                              } else {
+                                sounds.playError();
+                              }
+                            }}
+                            style={{
+                              padding: "12px 24px",
+                              borderRadius: "12px",
+                              background: lesson.color,
+                              color: "white",
+                              border: "none",
+                              fontWeight: 800,
+                              cursor: "pointer",
+                            }}
+                          >
+                            Verificar
+                          </button>
+                        )}
+
+                        {answered && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            style={{
+                              padding: "16px",
+                              borderRadius: "14px",
+                              background: isCorrectFeedback ? "rgba(76,175,80,0.08)" : "rgba(244,67,54,0.08)",
+                              border: isCorrectFeedback ? "1px solid var(--accent-green)" : "1px solid var(--accent-terra)",
+                              color: isCorrectFeedback ? "var(--accent-green)" : "var(--accent-terra)",
+                              fontWeight: 700,
+                              textAlign: "left",
+                            }}
+                          >
+                            <div>{isCorrectFeedback ? "🎉 Incrível! Você ordenou perfeitamente." : "❌ Ops, ordem incorreta."}</div>
+                            <div style={{ fontSize: "14px", marginTop: "4px", color: "var(--text-secondary)" }}>
+                              Ordem correta: <strong style={{ color: "var(--text-primary)" }}>{currentStep.answerTokens.join(" ")}</strong>
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+                    );
+                  })()}
+
                 {currentStep.type === "practice" && (
                   <div style={{ textAlign: "center" }}>
                     <motion.div
@@ -2471,6 +2778,9 @@ function LessonsPage() {
                   setSelectedAnswer(null);
                   setSpeechScore(null);
                   setSpokenText("");
+                  setTranslationInput("");
+                  setDragSelectedTokens([]);
+                  setIsCorrectFeedback(null);
 
                   // Spark confetti
                   confetti({
@@ -2491,6 +2801,9 @@ function LessonsPage() {
                   setSelectedAnswer(null);
                   setSpeechScore(null);
                   setSpokenText("");
+                  setTranslationInput("");
+                  setDragSelectedTokens([]);
+                  setIsCorrectFeedback(null);
 
                   const newProgress = { ...progress, [lesson.id]: nextS };
                   setProgress(newProgress);
@@ -3270,244 +3583,231 @@ function LessonsPage() {
           </div>
         </div>
 
-        {/* CATALOGUE GRID */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))",
-            gap: "24px",
-          }}
-        >
-          <StaggerList stagger={0.05}>
-            {paginatedLessons.map((lesson: any, i) => {
-              const hasStarted = progress[lesson.id] !== undefined;
-              const currentStepIdx = progress[lesson.id] || 0;
-              const totalStepsCount = lesson.steps?.length || 5;
-              const progressPercent = Math.round((currentStepIdx / totalStepsCount) * 100);
+        {/* ──────────────────────────────────────────────────── */}
+        {/* CURVED DUOLINGO-STYLE SVG LEARNING PATH             */}
+        {/* ──────────────────────────────────────────────────── */}
+        {(() => {
+          // Layout constants
+          const NODE_R   = 45;        // node radius px
+          const ROW_H    = 140;       // vertical gap between nodes
+          const CX       = 200;       // SVG center-x
+          const AMPLITUDE = 110;      // how far nodes snake left/right
+          const totalNodes = paginatedLessons.length;
+          const SVG_W    = CX * 2;
+          const SVG_H    = totalNodes * ROW_H + 60;
 
-              return (
-                <motion.div
-                  key={lesson.id}
-                  className="card-hover"
-                  whileHover={{
-                    y: -6,
-                    boxShadow: `0 16px 48px ${lesson.color}18, 0 4px 12px rgba(0,0,0,0.06)`,
-                  }}
-                  whileTap={{ scale: 0.985 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                  style={{
-                    background: "var(--card-bg)",
-                    borderRadius: "22px",
-                    overflow: "hidden",
-                    boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-                    border: `1px solid ${lesson.color}20`,
-                    cursor: "pointer",
-                    position: "relative",
-                  }}
-                  onClick={() => startLesson(lesson.id)}
-                >
-                  {/* Colored header band */}
-                  <div
-                    style={{
-                      height: "8px",
-                      background: `linear-gradient(90deg, ${lesson.color}, ${lesson.color}88)`,
-                    }}
-                  />
+          // Compute node centres using the same sin-wave offset
+          const nodes = paginatedLessons.map((lesson: any, i: number) => {
+            const x = CX + Math.sin(i * 0.8) * AMPLITUDE;
+            const y = 60 + i * ROW_H;
+            return { lesson, i, x, y };
+          });
 
-                  <div style={{ padding: "24px" }}>
-                    {/* Icon using Abstract Illustration */}
-                    <div
+          // Build smooth cubic bezier path through node centres
+          const buildPath = () => {
+            if (nodes.length === 0) return "";
+            let d = `M ${nodes[0].x} ${nodes[0].y}`;
+            for (let k = 1; k < nodes.length; k++) {
+              const prev = nodes[k - 1];
+              const curr = nodes[k];
+              const midY = (prev.y + curr.y) / 2;
+              d += ` C ${prev.x} ${midY}, ${curr.x} ${midY}, ${curr.x} ${curr.y}`;
+            }
+            return d;
+          };
+
+          // Approximate path length for dash animation
+          const pathLen = nodes.length * ROW_H * 1.1;
+
+          // Count completed lessons for progress fill
+          const completedCount = nodes.filter(n => completed.includes(n.lesson.id)).length;
+          const progressFraction = totalNodes > 0 ? completedCount / totalNodes : 0;
+          const filledLen = progressFraction * pathLen;
+
+          return (
+            <div style={{ position: "relative", width: "100%", overflowX: "hidden" }}>
+              {/* ── SVG path canvas ── */}
+              <svg
+                width="100%"
+                viewBox={`0 0 ${SVG_W} ${SVG_H}`}
+                style={{ display: "block", pointerEvents: "none" }}
+                aria-hidden="true"
+              >
+                {/* Background track */}
+                <path
+                  d={buildPath()}
+                  fill="none"
+                  stroke="var(--border)"
+                  strokeWidth="14"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Animated progress fill */}
+                <path
+                  d={buildPath()}
+                  fill="none"
+                  stroke="var(--accent-green)"
+                  strokeWidth="10"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeDasharray={`${filledLen} ${pathLen}`}
+                  strokeDashoffset={0}
+                  style={{ transition: "stroke-dasharray 1.2s cubic-bezier(0.4,0,0.2,1)" }}
+                />
+              </svg>
+
+              {/* ── Absolute-positioned lesson nodes ── */}
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  // SVG uses a viewBox of SVG_W × SVG_H, nodes are in those coords
+                  // We scale via percentage positioning
+                }}
+              >
+                {nodes.map(({ lesson, i, x, y }) => {
+                  const hasStarted     = progress[lesson.id] !== undefined;
+                  const completedStatus = completed.includes(lesson.id);
+                  const currentStepIdx  = progress[lesson.id] || 0;
+                  const totalStepsCount = lesson.steps?.length || 5;
+
+                  // Convert SVG coords → percentage of rendered SVG
+                  const xPct = (x / SVG_W) * 100;
+                  const yPct = (y / SVG_H) * 100;
+
+                  return (
+                    <motion.div
+                      key={lesson.id}
+                      whileHover={{ scale: 1.15 }}
+                      whileTap={{ scale: 0.92 }}
+                      onClick={() => startLesson(lesson.id)}
                       style={{
-                        width: "64px",
-                        height: "64px",
-                        borderRadius: "18px",
-                        background: `linear-gradient(135deg, ${lesson.color}15, ${lesson.color}05)`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginBottom: "16px",
-                        boxShadow: `0 4px 16px ${lesson.color}10`,
-                        border: `1.5px solid ${lesson.color}20`,
-                        color: lesson.color,
+                        position:  "absolute",
+                        left:      `calc(${xPct}% - ${NODE_R}px)`,
+                        top:       `calc(${yPct}% - ${NODE_R}px)`,
+                        width:     NODE_R * 2,
+                        height:    NODE_R * 2,
+                        cursor:    "pointer",
+                        zIndex:    2,
+                      }}
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{
+                        delay: i * 0.06,
+                        type: "spring",
+                        stiffness: 320,
+                        damping: 24,
                       }}
                     >
-                      <CategoryIllustration category={lesson.category || "default"} size={36} />
-                    </div>
-
-                    {/* Badges row */}
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "6px",
-                        marginBottom: "12px",
-                        flexWrap: "wrap",
-                      }}
-                    >
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "99px",
-                          background: `${lesson.color}12`,
-                          color: lesson.color,
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.05em",
-                        }}
-                      >
-                        {lesson.level}
-                      </span>
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "99px",
-                          background: "var(--surface)",
-                          color: "var(--text-secondary)",
-                          fontSize: "11px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        Duração: {lesson.duration}
-                      </span>
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          borderRadius: "99px",
-                          background: "rgba(201,168,76,0.1)",
-                          color: "#B8962A",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                        }}
-                      >
-                        +{lesson.xp} XP
-                      </span>
-                      {completed.includes(lesson.id) && (
-                        <span
+                      {/* Outer glow ring for in-progress */}
+                      {hasStarted && !completedStatus && (
+                        <div
                           style={{
-                            padding: "3px 10px",
-                            borderRadius: "99px",
-                            background: "rgba(45,74,62,0.1)",
-                            color: "var(--brand)",
-                            fontSize: "11px",
-                            fontWeight: 800,
+                            position:    "absolute",
+                            inset:       -8,
+                            borderRadius: "50%",
+                            border:      `3px solid ${lesson.color}60`,
+                            animation:   "streakRingPulse 2.5s ease-in-out infinite",
                           }}
-                        >
-                          Concluído
-                        </span>
+                        />
                       )}
-                    </div>
 
-                    <h3
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontSize: "19px",
-                        fontWeight: 700,
-                        marginBottom: "6px",
-                        color: "var(--text-primary)",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {lesson.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "var(--text-secondary)",
-                        lineHeight: 1.55,
-                        marginBottom: "16px",
-                      }}
-                    >
-                      {lesson.description}
-                    </p>
+                      {/* Node circle */}
+                      <div
+                        style={{
+                          width:        "100%",
+                          height:       "100%",
+                          borderRadius: "50%",
+                          background:   completedStatus
+                            ? lesson.color
+                            : hasStarted
+                              ? "var(--bg)"
+                              : "var(--surface-raised)",
+                          border: `5px solid ${
+                            completedStatus
+                              ? lesson.color
+                              : hasStarted
+                                ? lesson.color
+                                : "var(--border)"
+                          }`,
+                          display:       "flex",
+                          alignItems:    "center",
+                          justifyContent:"center",
+                          boxShadow:     completedStatus
+                            ? `0 8px 24px ${lesson.color}50`
+                            : "0 4px 12px rgba(0,0,0,0.06)",
+                          position:      "relative",
+                        }}
+                      >
+                        <CategoryIllustration category={lesson.category || "default"} size={36} />
 
-                    {/* Progress segment indicator */}
-                    {hasStarted && !completed.includes(lesson.id) ? (
-                      <div style={{ marginTop: "16px" }}>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            fontSize: "11px",
-                            color: "var(--text-secondary)",
-                            marginBottom: "4px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          <span>Continuar Lição</span>
-                          <span>{progressPercent}%</span>
-                        </div>
-                        <div
-                          style={{
-                            width: "100%",
-                            height: "6px",
-                            background: "var(--surface)",
-                            borderRadius: "99px",
-                            overflow: "hidden",
-                          }}
-                        >
+                        {/* Completed star badge */}
+                        {completedStatus && (
+                          <div style={{ position: "absolute", top: -14, right: -14 }}>
+                            <IlluStar size={30} primary="#FFD700" secondary="#FFB300" />
+                          </div>
+                        )}
+
+                        {/* In-progress mini bar */}
+                        {hasStarted && !completedStatus && (
                           <div
                             style={{
-                              width: `${progressPercent}%`,
-                              height: "100%",
-                              background: lesson.color,
+                              position:     "absolute",
+                              bottom:       -8,
+                              left:         "50%",
+                              transform:    "translateX(-50%)",
+                              width:        "60px",
+                              height:       "5px",
+                              background:   "var(--border)",
                               borderRadius: "99px",
-                              transition: "width 0.3s",
+                              overflow:     "hidden",
                             }}
-                          />
-                        </div>
-
-                        {/* Dots progression */}
-                        <div
-                          style={{
-                            display: "flex",
-                            gap: "4px",
-                            marginTop: "8px",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {lesson.steps?.map((step: any, idx: number) => (
+                          >
                             <div
-                              key={idx}
                               style={{
-                                width: "8px",
-                                height: "8px",
-                                borderRadius: "50%",
-                                background:
-                                  idx < currentStepIdx
-                                    ? lesson.color
-                                    : idx === currentStepIdx
-                                      ? "#D4824A"
-                                      : "var(--border)",
-                                transform: idx === currentStepIdx ? "scale(1.25)" : "none",
-                                transition: "all 0.2s",
+                                height:       "100%",
+                                width:        `${Math.round((currentStepIdx / totalStepsCount) * 100)}%`,
+                                background:   lesson.color,
+                                borderRadius: "99px",
+                                transition:   "width 0.5s ease",
                               }}
                             />
-                          ))}
-                        </div>
+                          </div>
+                        )}
                       </div>
-                    ) : (
-                      <div style={{ display: "flex", gap: "3px", marginTop: "12px" }}>
-                        {lesson.steps?.map((_: any, idx: number) => (
-                          <div
-                            key={idx}
-                            style={{
-                              flex: 1,
-                              height: "4px",
-                              background: completed.includes(lesson.id)
-                                ? lesson.color
-                                : "var(--border)",
-                              borderRadius: "2px",
-                            }}
-                          />
-                        ))}
+
+                      {/* Title label */}
+                      <div
+                        style={{
+                          position:   "absolute",
+                          top:        "calc(100% + 12px)",
+                          left:       "50%",
+                          transform:  "translateX(-50%)",
+                          background: "var(--card-bg)",
+                          padding:    "7px 13px",
+                          borderRadius:"14px",
+                          boxShadow:  "0 6px 20px rgba(0,0,0,0.1)",
+                          whiteSpace: "nowrap",
+                          fontWeight: 800,
+                          fontSize:   "13px",
+                          color:      "var(--text-primary)",
+                          border:     "1.5px solid var(--border)",
+                          pointerEvents:"none",
+                          maxWidth:   "160px",
+                          overflow:   "hidden",
+                          textOverflow:"ellipsis",
+                        }}
+                      >
+                        {lesson.title}
                       </div>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </StaggerList>
-        </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
 
         {/* Pagination Bar */}
         <div

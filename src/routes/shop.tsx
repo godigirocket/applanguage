@@ -126,7 +126,7 @@ function ShopPage() {
         {/* Back navigation */}
         <div style={{ display: "flex", justifyContent: "flex-start" }}>
           <Link
-            to="/play"
+            to="/games"
             style={{
               display: "inline-flex",
               alignItems: "center",

@@ -167,13 +167,14 @@ export function MarketingSection() {
         </p>
       </motion.div>
 
-      {/* Cards grid */}
+      {/* Cards grid — fixed 2×2 on desktop, 1-col on mobile */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+          gridTemplateColumns: "repeat(2, 1fr)",
           gap: "24px",
         }}
+        className="marketing-grid"
       >
         {cards.map((card) => (
           <MarketingCard key={card.title} {...card} />

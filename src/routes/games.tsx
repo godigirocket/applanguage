@@ -20,7 +20,7 @@ import { useState } from "react";
 import { DynamicIcon } from "@/components/lume/CustomIcons";
 import { useTranslation } from "react-i18next";
 
-export const Route = createFileRoute("/play")({
+export const Route = createFileRoute("/games")({
   component: PlayPage,
 });
 
@@ -236,6 +236,39 @@ function PlayPage() {
       xp: isPT ? "Até 160 XP" : "Up to 160 XP",
       color: "#C0392B",
       tag: null,
+    },
+    {
+      slug: "lumematch",
+      icon: "Layers",
+      title: isPT ? "Lume Match" : "Lume Match",
+      desc: isPT
+        ? "Associe palavras às imagens correspondentes."
+        : "Match words to their corresponding images.",
+      xp: isPT ? "Até 120 XP" : "Up to 120 XP",
+      color: "#F39C12",
+      tag: isPT ? "NOVO" : "NEW",
+    },
+    {
+      slug: "speedtranslator",
+      icon: "Zap",
+      title: isPT ? "Speed Translator" : "Speed Translator",
+      desc: isPT
+        ? "Tradução super rápida contra o relógio!"
+        : "Super fast translation against the clock!",
+      xp: isPT ? "Até 150 XP" : "Up to 150 XP",
+      color: "#E74C3C",
+      tag: isPT ? "NOVO" : "NEW",
+    },
+    {
+      slug: "culturaltrivia",
+      icon: "Globe",
+      title: isPT ? "Trivia Cultural" : "Cultural Trivia",
+      desc: isPT
+        ? "Teste seus conhecimentos com fatos do Atlas Cultural."
+        : "Test your knowledge with Cultural Atlas facts.",
+      xp: isPT ? "Até 200 XP" : "Up to 200 XP",
+      color: "#2980B9",
+      tag: isPT ? "NOVO" : "NEW",
     },
   ];
 

@@ -32,7 +32,7 @@ export function BottomNav() {
       Icon: BookOpen,
     },
     {
-      href: "/play",
+      href: "/games",
       label: getNavLabel(
         "navPlay",
         i18n.language === "en" ? "Play" : i18n.language === "es" ? "Jugar" : "Jogar",

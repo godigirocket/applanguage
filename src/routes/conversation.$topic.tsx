@@ -9,6 +9,7 @@ import {
   saveProgressSnapshot,
   addLocalXP,
   getLocalStreak,
+  safeGetProfile,
 } from "@/lib/db";
 import { useAuth } from "@/lib/auth";
 import { useStore } from "@/hooks/useStore";
@@ -116,12 +117,14 @@ function ConversationPage() {
       return;
     }
     if (user) {
-      safeQuery(
-        () => supabase.from("profiles").select("*").eq("id", user.id).maybeSingle() as any,
-      ).then((data) => {
-        const profileData = data as any;
-        setProfile(profileData);
-        if (profileData?.preferred_mood) setActiveMood(profileData.preferred_mood);
+      safeGetProfile(user.id).then((profileData) => {
+        const fallbackProfile = profileData || {
+          full_name: user.email?.split("@")[0] || "Friend",
+          level: "beginner",
+          preferred_mood: "calm",
+        };
+        setProfile(fallbackProfile);
+        if (fallbackProfile.preferred_mood) setActiveMood(fallbackProfile.preferred_mood);
       });
     }
     clearMessages();
@@ -144,12 +147,31 @@ function ConversationPage() {
         },
       }).then((res) => {
         try {
-          const parsed = JSON.parse(res.reply);
+          const match = res.reply.match(/\{[\s\S]*\}/);
+          const parsed = JSON.parse(match ? match[0] : res.reply);
           setVocabulary(parsed.vocab || []);
           setCulturalTip(parsed.tip || "");
-        } catch (e) {
-          console.error(e);
+        } catch (e: any) {
+          console.warn("AI vocabulary parsing fell back to curated static list (non-fatal):", e.message || e);
+          const langKey = language === "pt" ? "pt" : "en";
+          const defaultVocab = (t.vocab?.[langKey as "pt" | "en"] || []).map((w, idx) => ({
+            word: w,
+            translation: langKey === "pt" ? (t.vocab?.en?.[idx] || "") : (t.vocab?.pt?.[idx] || ""),
+          }));
+          const defaultTip = t.culturalTip?.[langKey as "pt" | "en"] || "";
+          setVocabulary(defaultVocab);
+          setCulturalTip(defaultTip);
         }
+      }).catch((err: any) => {
+        console.warn("AI vocabulary fetching fell back to curated static list (non-fatal):", err.message || err);
+        const langKey = language === "pt" ? "pt" : "en";
+        const defaultVocab = (t.vocab?.[langKey as "pt" | "en"] || []).map((w, idx) => ({
+          word: w,
+          translation: langKey === "pt" ? (t.vocab?.en?.[idx] || "") : (t.vocab?.pt?.[idx] || ""),
+        }));
+        const defaultTip = t.culturalTip?.[langKey as "pt" | "en"] || "";
+        setVocabulary(defaultVocab);
+        setCulturalTip(defaultTip);
       });
     }
 
@@ -203,6 +225,54 @@ function ConversationPage() {
     }
   }
 
+  function getCleanChatData(customMessages: any[]) {
+    // 1. Normalize studentName
+    const studentName = (profile?.full_name || "Friend").slice(0, 80).trim() || "Friend";
+
+    // 2. Normalize topic
+    const topic = (t?.title || "Free Talk").slice(0, 80).trim() || "Free Talk";
+
+    // 3. Normalize language
+    const cleanLang = ["pt", "en", "es"].includes(language) ? language : "en";
+
+    // 4. Normalize mood
+    const cleanMood = ["calm", "intensive", "cultural", "confidence"].includes(activeMood)
+      ? activeMood
+      : "calm";
+
+    // 5. Normalize level (map "Beginner" -> "beginner", "Conversationalist"/"Explorer" -> "intermediate", etc.)
+    const rawLevel = String(profile?.level || "beginner").toLowerCase();
+    let cleanLevel: "beginner" | "intermediate" | "advanced" = "beginner";
+    if (rawLevel.includes("intermediate") || rawLevel.includes("explorer") || rawLevel.includes("conversationalist")) {
+      cleanLevel = "intermediate";
+    } else if (rawLevel.includes("advanced") || rawLevel.includes("fluent") || rawLevel.includes("native")) {
+      cleanLevel = "advanced";
+    }
+
+    // 6. Normalize messages: filter out empty messages, limit roles, slice to last 30, and truncate content
+    const cleanMessages = customMessages
+      .filter((m) => m && m.content && String(m.content).trim())
+      .map((m) => ({
+        role: (m.role === "assistant" ? "assistant" : "user") as "user" | "assistant",
+        content: String(m.content).slice(0, 4000),
+      }))
+      .slice(-30);
+
+    // Ensure at least one message is present
+    if (cleanMessages.length === 0) {
+      cleanMessages.push({ role: "user", content: "Hi" });
+    }
+
+    return {
+      topic,
+      language: cleanLang as any,
+      mood: cleanMood as any,
+      level: cleanLevel,
+      studentName,
+      messages: cleanMessages,
+    };
+  }
+
   async function generateFirstMessage() {
     setIsTyping(true);
     try {
@@ -214,21 +284,15 @@ function ConversationPage() {
         ? `(System: This is a lesson practice session. Greet the user warmly and invite them to practice using the prompt: "${lessonPrompt}")`
         : `(Greeting: Invite student to talk about ${t?.title || "anything"})`;
 
-      const res = await chatFn({
-        data: {
-          topic: t?.title || "Free Talk",
-          language: language as any,
-          mood: activeMood,
-          level: profile?.level || "beginner",
-          studentName: profile?.full_name || "Friend",
-          messages: [{ role: "user", content: systemPrompt }],
-        },
-      });
+      const requestData = getCleanChatData([{ role: "user", content: systemPrompt }]);
+
+      const res = await chatFn({ data: requestData });
       setIsTyping(false);
       addMessage({ role: "assistant", content: res.reply });
       if (!isMuted) playTTS(res.reply);
     } catch (e) {
       setIsTyping(false);
+      console.error("generateFirstMessage failed:", e);
       toast.error("Failed to start conversation.");
     }
   }
@@ -243,16 +307,9 @@ function ConversationPage() {
     setIsLoading(true);
 
     try {
-      const res = await chatFn({
-        data: {
-          topic: t?.title || "Free Talk",
-          language: language as any,
-          mood: activeMood,
-          level: profile?.level || "beginner",
-          studentName: profile?.full_name || "Friend",
-          messages: [...messages, userMsg],
-        },
-      });
+      const requestData = getCleanChatData([...messages, userMsg]);
+
+      const res = await chatFn({ data: requestData });
       setIsLoading(false);
       addMessage({ role: "assistant", content: res.reply });
       if (!isMuted) playTTS(res.reply);
@@ -263,6 +320,7 @@ function ConversationPage() {
       addXP(earned);
     } catch (e) {
       setIsLoading(false);
+      console.error("sendMessage failed:", e);
       toast.error("Failed to get response.");
     }
   }

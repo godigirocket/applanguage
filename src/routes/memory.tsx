@@ -454,7 +454,7 @@ function MemoryGamePage() {
         {/* Back navigation */}
         <div style={{ display: "flex", justifyContent: "center", marginTop: "16px" }}>
           <Link
-            to="/play"
+            to="/games"
             style={{
               padding: "12px 24px",
               borderRadius: "99px",
