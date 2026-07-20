@@ -15,12 +15,12 @@ const structuredData = {
   name: "LumeLearn",
   applicationCategory: "EducationalApplication",
   operatingSystem: "Web",
-  description: "Plataforma de idiomas com 630+ liÃ§Ãµes interativas, prÃ¡tica de conversaÃ§Ã£o com IA e gamificaÃ§Ã£o.",
+  description: "Plataforma de idiomas com 630+ lições interativas, prática de conversação com IA e gamificação.",
   offers: {
     "@type": "Offer",
     price: "0",
     priceCurrency: "BRL",
-    description: "Plano gratuito com liÃ§Ãµes limitadas",
+    description: "Plano gratuito com lições limitadas",
   },
   aggregateRating: {
     "@type": "AggregateRating",
@@ -28,24 +28,24 @@ const structuredData = {
     ratingCount: "50",
     bestRating: "5",
   },
-  featureList: "630+ liÃ§Ãµes interativas, 3 idiomas (EN/ES/PT), 6 nÃ­veis CEFR, 5 modos de jogo, IA conversacional, GamificaÃ§Ã£o com XP",
+  featureList: "630+ lições interativas, 3 idiomas (EN/ES/PT), 6 níveis CEFR, 5 modos de jogo, IA conversacional, Gamificação com XP",
   inLanguage: ["pt-BR", "en", "es"],
 };
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LumeLearn â€” Aprenda InglÃªs, Espanhol e PortuguÃªs com IA Conversacional" },
+      { title: "LumeLearn — Aprenda Inglês, Espanhol e Português com IA Conversacional" },
       {
         name: "description",
         content:
-          "Plataforma de idiomas com 630+ liÃ§Ãµes interativas, prÃ¡tica de conversaÃ§Ã£o com IA e gamificaÃ§Ã£o. 3 idiomas, 6 nÃ­veis CEFR, 5 modos de jogo. Comece grÃ¡tis.",
+          "Plataforma de idiomas com 630+ lições interativas, prática de conversação com IA e gamificação. 3 idiomas, 6 níveis CEFR, 5 modos de jogo. Comece grátis.",
       },
       { property: "og:title", content: "LumeLearn â€” Aprenda Idiomas de Forma Inteligente" },
       {
         property: "og:description",
         content:
-          "630+ liÃ§Ãµes, conversaÃ§Ã£o com IA, 5 modos de jogo. Aprenda inglÃªs, espanhol e portuguÃªs com gamificaÃ§Ã£o. Comece grÃ¡tis.",
+          "630+ lições, conversação com IA, 5 modos de jogo. Aprenda inglês, espanhol e português com gamificação. Comece grátis.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -62,11 +62,11 @@ function Landing() {
   const isPT = currentLang === "pt";
   const mascotGreeting =
     {
-      pt: "OlÃ¡! Sou o Lume. Que tal praticar um pouco hoje? Sem pressÃµes!",
+      pt: "Olá! Sou o Lume. Que tal praticar um pouco hoje? Sem pressões!",
       en: "Hi! I'm Lume. How about practicing a bit today! No pressure!",
-      es: "Â¡Hola! Soy Lume. Â¿QuÃ© tal practicar un poco hoy? Â¡Sin presiones!",
+      es: "¡Hola! Soy Lume. ¿Qué tal practicar un poco hoy? ¡Sin presiones!",
     }[currentLang as "pt" | "en" | "es"] ||
-    "OlÃ¡! Sou o Lume. Que tal praticar um pouco hoje? Sem pressÃµes!";
+    "Olá! Sou o Lume. Que tal praticar um pouco hoje? Sem pressões!";
 
   return (
     <div
@@ -127,7 +127,7 @@ function Landing() {
                 marginBottom: "24px",
               }}
             >
-              Pratique idiomas todos os dias com liÃ§Ãµes curtas e jogos
+              Pratique idiomas todos os dias com lições curtas e jogos
             </h1>
 
             <p
@@ -140,7 +140,7 @@ function Landing() {
                 fontWeight: 500,
               }}
             >
-              InglÃªs, Espanhol e PortuguÃªs com prÃ¡tica guiada por IA, progresso salvo automaticamente e gamificaÃ§Ã£o inteligente.
+              Inglês, Espanhol e Português com prática guiada por IA, progresso salvo automaticamente e gamificação inteligente.
             </p>
 
             <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "32px" }}>
@@ -513,10 +513,10 @@ function Landing() {
         <section style={{ maxWidth: "1120px", margin: "clamp(48px, 10vw, 80px) auto 0", padding: "0 clamp(16px, 3vw, 24px)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))", gap: "clamp(16px, 3vw, 20px)" }}>
             {[
-              { value: "630+", label: isPT ? "LiÃ§Ãµes estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
-              { value: "6", label: isPT ? "NÃ­veis CEFR" : "CEFR Levels", color: "#1B3A4B", Icon: Zap },
+              { value: "630+", label: isPT ? "Lições estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
+              { value: "6", label: isPT ? "Níveis CEFR" : "CEFR Levels", color: "#1B3A4B", Icon: Zap },
               { value: "5", label: isPT ? "Modos de jogo" : "Game modes", color: "#C4714A", Icon: Gamepad2 },
-              { value: "3", label: isPT ? "Idiomas disponÃ­veis" : "Available languages", color: "#9B59B6", Icon: Globe },
+              { value: "3", label: isPT ? "Idiomas disponíveis" : "Available languages", color: "#9B59B6", Icon: Globe },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -554,7 +554,7 @@ function Landing() {
               {isPT ? "Como o Lume funciona" : "How Lume works"}
             </h2>
             <p style={{ fontSize: "clamp(16px, 3vw, 18px)", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto" }}>
-              {isPT ? "TrÃªs etapas simples para comeÃ§ar a evoluir hoje" : "Three simple steps to start improving today"}
+              {isPT ? "Três etapas simples para começar a evoluir hoje" : "Three simple steps to start improving today"}
             </p>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(20px, 3vw, 24px)" }}>
@@ -565,8 +565,8 @@ function Landing() {
                 icon: (
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 ),
-                title: isPT ? "Escolha seu idioma e nÃ­vel" : "Choose your language & level",
-                desc: isPT ? "InglÃªs, Espanhol ou PortuguÃªs. Do iniciante ao avanÃ§ado, o Lume se adapta ao seu ritmo." : "English, Spanish or Portuguese. From beginner to advanced, Lume adapts to your pace.",
+                title: isPT ? "Escolha seu idioma e nível" : "Choose your language & level",
+                desc: isPT ? "Inglês, Espanhol ou Português. Do iniciante ao avançado, o Lume se adapta ao seu ritmo." : "English, Spanish or Portuguese. From beginner to advanced, Lume adapts to your pace.",
               },
               {
                 step: "02",
@@ -574,8 +574,8 @@ function Landing() {
                 icon: (
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 ),
-                title: isPT ? "Complete liÃ§Ãµes estruturadas" : "Complete structured lessons",
-                desc: isPT ? "GramÃ¡tica, vocabulÃ¡rio, pronÃºncia e mais. Cada liÃ§Ã£o desbloqueia a prÃ³xima, construindo o conhecimento de forma progressiva." : "Grammar, vocabulary, pronunciation and more. Each lesson unlocks the next, building knowledge progressively.",
+                title: isPT ? "Complete lições estruturadas" : "Complete structured lessons",
+                desc: isPT ? "Gramática, vocabulário, pronúncia e mais. Cada lição desbloqueia a próxima, construindo o conhecimento de forma progressiva." : "Grammar, vocabulary, pronunciation and more. Each lesson unlocks the next, building knowledge progressively.",
               },
               {
                 step: "03",
@@ -584,7 +584,7 @@ function Landing() {
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                 ),
                 title: isPT ? "Pratique com IA e jogos" : "Practice with AI & games",
-                desc: isPT ? "Converse com a IA sem pressÃ£o, jogue quizzes e ganhe XP. Aprendizado que parece um jogo, nÃ£o uma tarefa." : "Chat with AI without pressure, play quizzes and earn XP. Learning that feels like a game, not a chore.",
+                desc: isPT ? "Converse com a IA sem pressão, jogue quizzes e ganhe XP. Aprendizado que parece um jogo, não uma tarefa." : "Chat with AI without pressure, play quizzes and earn XP. Learning that feels like a game, not a chore.",
               },
             ].map((item, i) => (
               <motion.div
@@ -639,15 +639,15 @@ function Landing() {
             <div style={{ position: "relative", zIndex: 1 }}>
               <Sparkles size={32} color="#FFD700" style={{ marginBottom: "16px" }} />
               <h2 style={{ fontSize: "clamp(24px, 6vw, 56px)", fontWeight: 900, marginBottom: "16px", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-                {isPT ? "Tudo que vocÃª precisa para aprender" : "Everything you need to learn"}
+                {isPT ? "Tudo que você precisa para aprender" : "Everything you need to learn"}
               </h2>
               <p style={{ fontSize: "clamp(16px, 3vw, 20px)", opacity: 0.95, marginBottom: "clamp(32px, 5vw, 40px)", maxWidth: "700px", margin: "0 auto clamp(32px, 5vw, 40px)" }}>
-                {isPT ? "LiÃ§Ãµes estruturadas, conversaÃ§Ã£o com IA, jogos interativos e muito mais" : "Structured lessons, AI conversation, interactive games and much more"}
+                {isPT ? "Lições estruturadas, conversação com IA, jogos interativos e muito mais" : "Structured lessons, AI conversation, interactive games and much more"}
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 120px), 1fr))", gap: "clamp(16px, 3vw, 20px)", maxWidth: "900px", margin: "0 auto" }}>
                 {[
-                  { label: isPT ? "LiÃ§Ãµes" : "Lessons", value: "630+", icon: Book },
-                  { label: isPT ? "NÃ­veis" : "Levels", value: "6", icon: Brain },
+                  { label: isPT ? "Lições" : "Lessons", value: "630+", icon: Book },
+                  { label: isPT ? "Níveis" : "Levels", value: "6", icon: Brain },
                   { label: isPT ? "Jogos" : "Games", value: "5", icon: Star },
                   { label: isPT ? "Idiomas" : "Languages", value: "3", icon: Compass },
                 ].map((stat, i) => (
@@ -860,7 +860,7 @@ function Landing() {
           </div>
         </section>
 
-        {/* ===== PARA QUEM Ã‰ O LUMELEARN ===== */}
+        {/* ===== PARA QUEM É O LUMELEARN ===== */}
         <section
           style={{
             background: "var(--surface)",
@@ -886,7 +886,7 @@ function Landing() {
                   letterSpacing: "-0.02em",
                 }}
               >
-                {isPT ? "Para quem Ã© o LumeLearn" : "Who is LumeLearn for"}
+                {isPT ? "Para quem é o LumeLearn" : "Who is LumeLearn for"}
               </h2>
               <p style={{
                 fontSize: "18px",
@@ -909,31 +909,31 @@ function Landing() {
             >
               {[
                 {
-                  icon: "ðŸŽ¯",
+                  icon: "🎯",
                   title: isPT ? "Quer praticar todos os dias" : "Want to practice every day",
                   desc: isPT 
-                    ? "LiÃ§Ãµes curtas de 5-10 minutos que cabem na sua rotina. Pratique no Ã´nibus, no intervalo ou antes de dormir." 
+                    ? "Lições curtas de 5-10 minutos que cabem na sua rotina. Pratique no ônibus, no intervalo ou antes de dormir." 
                     : "Short 5-10 minute lessons that fit your routine. Practice on the bus, during breaks or before bed.",
                 },
                 {
-                  icon: "ðŸ’¬",
+                  icon: "💬",
                   title: isPT ? "Trava na hora de falar" : "Freeze when speaking",
                   desc: isPT 
-                    ? "Converse com IA sem medo de julgamento. Pratique atÃ© ganhar confianÃ§a para falar com pessoas reais." 
+                    ? "Converse com IA sem medo de julgamento. Pratique até ganhar confiança para falar com pessoas reais." 
                     : "Chat with AI without fear of judgment. Practice until you gain confidence to speak with real people.",
                 },
                 {
-                  icon: "ðŸ“š",
-                  title: isPT ? "Quer estudar do bÃ¡sico ao avanÃ§ado" : "Want to study from beginner to advanced",
+                  icon: "📚",
+                  title: isPT ? "Quer estudar do básico ao avançado" : "Want to study from beginner to advanced",
                   desc: isPT 
-                    ? "630+ liÃ§Ãµes estruturadas em 6 nÃ­veis CEFR. Do A1 ao C2, com progresso salvo automaticamente." 
+                    ? "630+ lições estruturadas em 6 níveis CEFR. Do A1 ao C2, com progresso salvo automaticamente." 
                     : "630+ structured lessons across 6 CEFR levels. From A1 to C2, with progress saved automatically.",
                 },
                 {
-                  icon: "ðŸŽ®",
+                  icon: "🎮",
                   title: isPT ? "Aprende melhor jogando" : "Learn better through games",
                   desc: isPT 
-                    ? "Quizzes interativos, jogos de memÃ³ria e desafios diÃ¡rios. Aprendizado que parece diversÃ£o." 
+                    ? "Quizzes interativos, jogos de memória e desafios diários. Aprendizado que parece diversão." 
                     : "Interactive quizzes, memory games and daily challenges. Learning that feels like fun.",
                 },
               ].map((item, i) => (

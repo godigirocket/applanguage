@@ -70,6 +70,23 @@ interface LumeState {
   completeLesson: (lessonId: string) => void;
 }
 
+type PersistedLumeState = Pick<
+  LumeState,
+  | "onboardingStep"
+  | "xp"
+  | "lumes"
+  | "streak"
+  | "level"
+  | "interfaceLanguage"
+  | "language"
+  | "targetLanguage"
+  | "dailyChallenges"
+  | "pinCode"
+  | "pinEnabled"
+  | "learningLevel"
+  | "completedLessons"
+>;
+
 const getLevelName = (xp: number): Level => {
   if (xp < 100) return "Beginner";
   if (xp < 300) return "Explorer";
@@ -85,7 +102,7 @@ const initialChallenges: DailyChallenge[] = [
 ];
 
 export const useStore = create<LumeState>()(
-  persist(
+  persist<LumeState, [], [], PersistedLumeState>(
     (set) => ({
       messages: [],
       setMessages: (messages) => set({ messages }),
@@ -185,22 +202,21 @@ export const useStore = create<LumeState>()(
           }
         },
       },
-      partialize: (state) =>
-        ({
-          onboardingStep: state.onboardingStep,
-          xp: state.xp,
-          lumes: state.lumes,
-          streak: state.streak,
-          level: state.level,
-          interfaceLanguage: state.interfaceLanguage,
-          language: state.language,
-          targetLanguage: state.targetLanguage,
-          dailyChallenges: state.dailyChallenges,
-          pinCode: state.pinCode,
-          pinEnabled: state.pinEnabled,
-          learningLevel: state.learningLevel,
-          completedLessons: state.completedLessons,
-        }) as any,
+      partialize: (state): PersistedLumeState => ({
+        onboardingStep: state.onboardingStep,
+        xp: state.xp,
+        lumes: state.lumes,
+        streak: state.streak,
+        level: state.level,
+        interfaceLanguage: state.interfaceLanguage,
+        language: state.language,
+        targetLanguage: state.targetLanguage,
+        dailyChallenges: state.dailyChallenges,
+        pinCode: state.pinCode,
+        pinEnabled: state.pinEnabled,
+        learningLevel: state.learningLevel,
+        completedLessons: state.completedLessons,
+      }),
       onRehydrateStorage: () => (state) => {
         if (typeof window !== "undefined" && state?.interfaceLanguage) {
           import("i18next").then((i18n) => {
