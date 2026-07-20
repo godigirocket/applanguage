@@ -33,4 +33,9 @@ dist-ssr
 *.sw?
 
 .vercel
+.env
+.env*.local
+!.env.example
+
+.vercel
 .env*.local
