@@ -1,0 +1,74 @@
+import type { ConceptEntry } from "./types";
+
+export const GRAMMAR_VOCAB: ConceptEntry[] = [
+  {
+    concept: "present_perfect",
+    difficulty: "intermediate",
+    en: { term: "present perfect", partOfSpeech: "grammar term", example: "I have studied English for five years." },
+    es: { term: "pretérito perfecto", partOfSpeech: "término gramatical", example: "He estudiado inglés durante cinco años." },
+    pt: { term: "pretérito perfeito composto", partOfSpeech: "termo gramatical", example: "Eu tenho estudado inglês há cinco anos." },
+  },
+  {
+    concept: "conditional",
+    difficulty: "advanced",
+    en: { term: "conditional", partOfSpeech: "grammar term", example: "If I had time, I would travel more." },
+    es: { term: "condicional", partOfSpeech: "término gramatical", example: "Si tuviera tiempo, viajaría más." },
+    pt: { term: "condicional", partOfSpeech: "termo gramatical", example: "Se eu tivesse tempo, viajaria mais." },
+  },
+  {
+    concept: "passive_voice",
+    difficulty: "advanced",
+    en: { term: "passive voice", partOfSpeech: "grammar term", example: "The book was written by her." },
+    es: { term: "voz pasiva", partOfSpeech: "término gramatical", example: "El libro fue escrito por ella." },
+    pt: { term: "voz passiva", partOfSpeech: "termo gramatical", example: "O livro foi escrito por ela." },
+  },
+  {
+    concept: "adjective",
+    difficulty: "beginner",
+    en: { term: "adjective", partOfSpeech: "grammar term", example: "\"Beautiful\" is an adjective describing the view." },
+    es: { term: "adjetivo", partOfSpeech: "término gramatical", example: "\"Hermosa\" es un adjetivo que describe la vista." },
+    pt: { term: "adjetivo", partOfSpeech: "termo gramatical", example: "\"Bonita\" é um adjetivo que descreve a vista." },
+  },
+  {
+    concept: "verb_tense",
+    difficulty: "beginner",
+    en: { term: "verb tense", partOfSpeech: "grammar term", example: "Choose the right verb tense for this sentence." },
+    es: { term: "tiempo verbal", partOfSpeech: "término gramatical", example: "Elige el tiempo verbal correcto para esta oración." },
+    pt: { term: "tempo verbal", partOfSpeech: "termo gramatical", example: "Escolha o tempo verbal correto para essa frase." },
+  },
+  {
+    concept: "gerund",
+    difficulty: "intermediate",
+    en: { term: "gerund", partOfSpeech: "grammar term", example: "Swimming is my favorite activity." },
+    es: { term: "gerundio", partOfSpeech: "término gramatical", example: "Nadando es mi actividad favorita." },
+    pt: { term: "gerúndio", partOfSpeech: "termo gramatical", example: "Nadando é minha atividade favorita." },
+  },
+  {
+    concept: "subject_pronoun",
+    difficulty: "beginner",
+    en: { term: "subject pronoun", partOfSpeech: "grammar term", example: "\"She\" is the subject pronoun in this sentence." },
+    es: { term: "pronombre sujeto", partOfSpeech: "término gramatical", example: "\"Ella\" es el pronombre sujeto en esta oración." },
+    pt: { term: "pronome sujeito", partOfSpeech: "termo gramatical", example: "\"Ela\" é o pronome sujeito nessa frase." },
+  },
+  {
+    concept: "irregular_verb",
+    difficulty: "intermediate",
+    en: { term: "irregular verb", partOfSpeech: "grammar term", example: "\"Go\" becomes \"went\", an irregular verb." },
+    es: { term: "verbo irregular", partOfSpeech: "término gramatical", example: "\"Ir\" se convierte en \"fui\", un verbo irregular." },
+    pt: { term: "verbo irregular", partOfSpeech: "termo gramatical", example: "\"Ir\" vira \"fui\", um verbo irregular." },
+  },
+  {
+    concept: "comparative",
+    difficulty: "beginner",
+    en: { term: "comparative", partOfSpeech: "grammar term", example: "This one is bigger than that one." },
+    es: { term: "comparativo", partOfSpeech: "término gramatical", example: "Este es más grande que aquel." },
+    pt: { term: "comparativo", partOfSpeech: "termo gramatical", example: "Este é maior do que aquele." },
+  },
+  {
+    concept: "subjunctive",
+    difficulty: "advanced",
+    en: { term: "subjunctive", partOfSpeech: "grammar term", example: "I wish I were taller." },
+    es: { term: "subjuntivo", partOfSpeech: "término gramatical", example: "Ojalá yo fuera más alto." },
+    pt: { term: "subjuntivo", partOfSpeech: "termo gramatical", example: "Eu queria que eu fosse mais alto." },
+  },
+];

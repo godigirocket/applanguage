@@ -1,0 +1,81 @@
+import type { ConceptEntry } from "./types";
+
+export const CULTURE_VOCAB: ConceptEntry[] = [
+  {
+    concept: "tradition",
+    difficulty: "beginner",
+    en: { term: "tradition", partOfSpeech: "noun", example: "It's a tradition in my family to cook together on Sundays." },
+    es: { term: "tradición", partOfSpeech: "sustantivo", example: "Es una tradición en mi familia cocinar juntos los domingos." },
+    pt: { term: "tradição", partOfSpeech: "substantivo", example: "É uma tradição na minha família cozinhar juntos aos domingos." },
+  },
+  {
+    concept: "festival",
+    difficulty: "beginner",
+    en: { term: "festival", partOfSpeech: "noun", example: "The music festival happens every summer." },
+    es: { term: "festival", partOfSpeech: "sustantivo", example: "El festival de música ocurre cada verano." },
+    pt: { term: "festival", partOfSpeech: "substantivo", example: "O festival de música acontece todo verão." },
+  },
+  {
+    concept: "folklore",
+    difficulty: "advanced",
+    en: { term: "folklore", partOfSpeech: "noun", example: "The story comes from local folklore." },
+    es: { term: "folclore", partOfSpeech: "sustantivo", example: "La historia viene del folclore local." },
+    pt: { term: "folclore", partOfSpeech: "substantivo", example: "A história vem do folclore local." },
+  },
+  {
+    concept: "heritage",
+    difficulty: "advanced",
+    en: { term: "heritage", partOfSpeech: "noun", example: "The old town is a protected cultural heritage site." },
+    es: { term: "patrimonio", partOfSpeech: "sustantivo", example: "El casco antiguo es un sitio de patrimonio cultural protegido." },
+    pt: { term: "patrimônio", partOfSpeech: "substantivo", example: "O centro histórico é um patrimônio cultural protegido." },
+  },
+  {
+    concept: "etiquette",
+    difficulty: "intermediate",
+    en: { term: "etiquette", partOfSpeech: "noun", example: "Tipping etiquette varies a lot between countries." },
+    es: { term: "etiqueta (normas sociales)", partOfSpeech: "sustantivo", example: "La etiqueta de las propinas varía mucho entre países." },
+    pt: { term: "etiqueta (normas sociais)", partOfSpeech: "substantivo", example: "A etiqueta das gorjetas varia bastante entre países." },
+  },
+  {
+    concept: "greeting_custom",
+    difficulty: "beginner",
+    en: { term: "greeting", partOfSpeech: "noun", example: "A handshake is a common greeting there." },
+    es: { term: "saludo", partOfSpeech: "sustantivo", example: "Un apretón de manos es un saludo común allí." },
+    pt: { term: "cumprimento", partOfSpeech: "substantivo", example: "Um aperto de mão é um cumprimento comum lá." },
+  },
+  {
+    concept: "holiday_celebration",
+    difficulty: "beginner",
+    en: { term: "holiday", partOfSpeech: "noun", example: "This holiday is celebrated with fireworks." },
+    es: { term: "día festivo", partOfSpeech: "sustantivo", example: "Este día festivo se celebra con fuegos artificiales." },
+    pt: { term: "feriado", partOfSpeech: "substantivo", example: "Esse feriado é comemorado com fogos de artifício." },
+  },
+  {
+    concept: "cuisine",
+    difficulty: "intermediate",
+    en: { term: "cuisine", partOfSpeech: "noun", example: "Local cuisine is heavily influenced by the coast." },
+    es: { term: "gastronomía", partOfSpeech: "sustantivo", example: "La gastronomía local está muy influenciada por la costa." },
+    pt: { term: "culinária", partOfSpeech: "substantivo", example: "A culinária local é bastante influenciada pelo litoral." },
+  },
+  {
+    concept: "landmark_monument",
+    difficulty: "intermediate",
+    en: { term: "monument", partOfSpeech: "noun", example: "The monument was built over two hundred years ago." },
+    es: { term: "monumento", partOfSpeech: "sustantivo", example: "El monumento fue construido hace más de doscientos años." },
+    pt: { term: "monumento", partOfSpeech: "substantivo", example: "O monumento foi construído há mais de duzentos anos." },
+  },
+  {
+    concept: "dialect",
+    difficulty: "advanced",
+    en: { term: "dialect", partOfSpeech: "noun", example: "That word is only used in one regional dialect." },
+    es: { term: "dialecto", partOfSpeech: "sustantivo", example: "Esa palabra solo se usa en un dialecto regional." },
+    pt: { term: "dialeto", partOfSpeech: "substantivo", example: "Essa palavra só é usada em um dialeto regional." },
+  },
+  {
+    concept: "superstition",
+    difficulty: "advanced",
+    en: { term: "superstition", partOfSpeech: "noun", example: "There's a superstition about walking under ladders." },
+    es: { term: "superstición", partOfSpeech: "sustantivo", example: "Hay una superstición sobre pasar bajo escaleras." },
+    pt: { term: "superstição", partOfSpeech: "substantivo", example: "Existe uma superstição sobre passar debaixo de escadas." },
+  },
+];

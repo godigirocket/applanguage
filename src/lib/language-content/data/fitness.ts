@@ -1,0 +1,88 @@
+import type { ConceptEntry } from "./types";
+
+export const FITNESS_VOCAB: ConceptEntry[] = [
+  {
+    concept: "workout",
+    difficulty: "beginner",
+    en: { term: "workout", partOfSpeech: "noun", example: "I do a short workout every morning." },
+    es: { term: "entrenamiento", partOfSpeech: "sustantivo", example: "Hago un entrenamiento corto cada mañana." },
+    pt: { term: "treino", partOfSpeech: "substantivo", example: "Eu faço um treino curto todas as manhãs." },
+  },
+  {
+    concept: "stamina",
+    difficulty: "intermediate",
+    en: { term: "stamina", partOfSpeech: "noun", example: "Running improves your stamina." },
+    es: { term: "resistencia", partOfSpeech: "sustantivo", example: "Correr mejora tu resistencia." },
+    pt: { term: "resistência", partOfSpeech: "substantivo", example: "Correr melhora sua resistência." },
+  },
+  {
+    concept: "stretch",
+    difficulty: "beginner",
+    en: { term: "to stretch", partOfSpeech: "verb", example: "Always stretch before exercising." },
+    es: { term: "estirar", partOfSpeech: "verbo", example: "Siempre estira antes de hacer ejercicio." },
+    pt: { term: "alongar", partOfSpeech: "verbo", example: "Sempre alongue antes de se exercitar." },
+  },
+  {
+    concept: "muscle_soreness",
+    difficulty: "intermediate",
+    en: { term: "muscle soreness", partOfSpeech: "noun", example: "I have muscle soreness after leg day." },
+    es: { term: "dolor muscular", partOfSpeech: "sustantivo", example: "Tengo dolor muscular después del día de piernas." },
+    pt: { term: "dor muscular", partOfSpeech: "substantivo", example: "Estou com dor muscular depois do treino de perna." },
+  },
+  {
+    concept: "personal_trainer",
+    difficulty: "beginner",
+    en: { term: "personal trainer", partOfSpeech: "noun", example: "My personal trainer designed a new plan." },
+    es: { term: "entrenador personal", partOfSpeech: "sustantivo", example: "Mi entrenador personal diseñó un plan nuevo." },
+    pt: { term: "personal trainer", partOfSpeech: "substantivo", example: "Meu personal trainer montou um plano novo." },
+  },
+  {
+    concept: "set_reps",
+    difficulty: "intermediate",
+    en: { term: "sets and reps", partOfSpeech: "noun", example: "Do three sets of twelve reps." },
+    es: { term: "series y repeticiones", partOfSpeech: "sustantivo", example: "Haz tres series de doce repeticiones." },
+    pt: { term: "séries e repetições", partOfSpeech: "substantivo", example: "Faça três séries de doze repetições." },
+  },
+  {
+    concept: "cardio",
+    difficulty: "beginner",
+    en: { term: "cardio", partOfSpeech: "noun", example: "I do cardio three times a week." },
+    es: { term: "cardio", partOfSpeech: "sustantivo", example: "Hago cardio tres veces por semana." },
+    pt: { term: "cardio", partOfSpeech: "substantivo", example: "Faço cardio três vezes por semana." },
+  },
+  {
+    concept: "burn_calories",
+    difficulty: "intermediate",
+    en: { term: "to burn calories", partOfSpeech: "verb", example: "Swimming burns a lot of calories." },
+    es: { term: "quemar calorías", partOfSpeech: "verbo", example: "Nadar quema muchas calorías." },
+    pt: { term: "queimar calorias", partOfSpeech: "verbo", example: "Nadar queima muitas calorias." },
+  },
+  {
+    concept: "gym_membership",
+    difficulty: "beginner",
+    en: { term: "gym membership", partOfSpeech: "noun", example: "I renewed my gym membership for the year." },
+    es: { term: "membresía del gimnasio", partOfSpeech: "sustantivo", example: "Renové mi membresía del gimnasio por el año." },
+    pt: { term: "matrícula da academia", partOfSpeech: "substantivo", example: "Renovei minha matrícula da academia para o ano." },
+  },
+  {
+    concept: "endurance",
+    difficulty: "advanced",
+    en: { term: "endurance", partOfSpeech: "noun", example: "Marathon training builds serious endurance." },
+    es: { term: "resistencia física", partOfSpeech: "sustantivo", example: "Entrenar para un maratón desarrolla mucha resistencia física." },
+    pt: { term: "resistência física", partOfSpeech: "substantivo", example: "Treinar para maratona constrói bastante resistência física." },
+  },
+  {
+    concept: "rest_day",
+    difficulty: "beginner",
+    en: { term: "rest day", partOfSpeech: "noun", example: "Sunday is always my rest day." },
+    es: { term: "día de descanso", partOfSpeech: "sustantivo", example: "El domingo siempre es mi día de descanso." },
+    pt: { term: "dia de descanso", partOfSpeech: "substantivo", example: "Domingo sempre é meu dia de descanso." },
+  },
+  {
+    concept: "flexibility",
+    difficulty: "intermediate",
+    en: { term: "flexibility", partOfSpeech: "noun", example: "Yoga really improved my flexibility." },
+    es: { term: "flexibilidad", partOfSpeech: "sustantivo", example: "El yoga mejoró mucho mi flexibilidad." },
+    pt: { term: "flexibilidade", partOfSpeech: "substantivo", example: "O yoga melhorou muito a minha flexibilidade." },
+  },
+];

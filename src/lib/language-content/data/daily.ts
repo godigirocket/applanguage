@@ -1,0 +1,88 @@
+import type { ConceptEntry } from "./types";
+
+export const DAILY_VOCAB: ConceptEntry[] = [
+  {
+    concept: "commute",
+    difficulty: "beginner",
+    en: { term: "commute", partOfSpeech: "noun", example: "My daily commute takes about an hour." },
+    es: { term: "trayecto al trabajo", partOfSpeech: "sustantivo", example: "Mi trayecto diario al trabajo toma como una hora." },
+    pt: { term: "deslocamento diário", partOfSpeech: "substantivo", example: "Meu deslocamento diário leva cerca de uma hora." },
+  },
+  {
+    concept: "errand",
+    difficulty: "beginner",
+    en: { term: "errand", partOfSpeech: "noun", example: "I have a few errands to run this afternoon." },
+    es: { term: "mandado", partOfSpeech: "sustantivo", example: "Tengo unos mandados que hacer esta tarde." },
+    pt: { term: "tarefa (do dia a dia)", partOfSpeech: "substantivo", example: "Tenho algumas tarefas para fazer essa tarde." },
+  },
+  {
+    concept: "routine",
+    difficulty: "beginner",
+    en: { term: "routine", partOfSpeech: "noun", example: "I have a simple morning routine." },
+    es: { term: "rutina", partOfSpeech: "sustantivo", example: "Tengo una rutina matutina sencilla." },
+    pt: { term: "rotina", partOfSpeech: "substantivo", example: "Eu tenho uma rotina matinal simples." },
+  },
+  {
+    concept: "neighbor",
+    difficulty: "beginner",
+    en: { term: "neighbor", partOfSpeech: "noun", example: "My neighbor waters my plants when I travel." },
+    es: { term: "vecino", partOfSpeech: "sustantivo", example: "Mi vecino riega mis plantas cuando viajo." },
+    pt: { term: "vizinho", partOfSpeech: "substantivo", example: "Meu vizinho rega minhas plantas quando eu viajo." },
+  },
+  {
+    concept: "chores",
+    difficulty: "beginner",
+    en: { term: "chores", partOfSpeech: "noun", example: "We split the house chores every week." },
+    es: { term: "quehaceres", partOfSpeech: "sustantivo", example: "Dividimos los quehaceres de la casa cada semana." },
+    pt: { term: "tarefas domésticas", partOfSpeech: "substantivo", example: "Dividimos as tarefas domésticas toda semana." },
+  },
+  {
+    concept: "traffic",
+    difficulty: "beginner",
+    en: { term: "traffic", partOfSpeech: "noun", example: "The traffic was terrible this morning." },
+    es: { term: "tráfico", partOfSpeech: "sustantivo", example: "El tráfico estuvo terrible esta mañana." },
+    pt: { term: "trânsito", partOfSpeech: "substantivo", example: "O trânsito estava terrível hoje de manhã." },
+  },
+  {
+    concept: "alarm_clock",
+    difficulty: "beginner",
+    en: { term: "alarm clock", partOfSpeech: "noun", example: "I didn't hear my alarm clock this morning." },
+    es: { term: "despertador", partOfSpeech: "sustantivo", example: "No escuché mi despertador esta mañana." },
+    pt: { term: "despertador", partOfSpeech: "substantivo", example: "Não ouvi meu despertador hoje de manhã." },
+  },
+  {
+    concept: "queue_line",
+    difficulty: "beginner",
+    en: { term: "line (to wait in)", partOfSpeech: "noun", example: "We waited in line for twenty minutes." },
+    es: { term: "fila", partOfSpeech: "sustantivo", example: "Esperamos en la fila veinte minutos." },
+    pt: { term: "fila", partOfSpeech: "substantivo", example: "Esperamos na fila por vinte minutos." },
+  },
+  {
+    concept: "nap",
+    difficulty: "beginner",
+    en: { term: "nap", partOfSpeech: "noun", example: "I took a short nap after lunch." },
+    es: { term: "siesta", partOfSpeech: "sustantivo", example: "Tomé una siesta corta después del almuerzo." },
+    pt: { term: "cochilo", partOfSpeech: "substantivo", example: "Tirei um cochilo curto depois do almoço." },
+  },
+  {
+    concept: "run_late",
+    difficulty: "intermediate",
+    en: { term: "to run late", partOfSpeech: "verb", example: "Sorry, I'm running late because of the traffic." },
+    es: { term: "llegar tarde", partOfSpeech: "verbo", example: "Perdón, voy a llegar tarde por el tráfico." },
+    pt: { term: "estar atrasado", partOfSpeech: "verbo", example: "Desculpa, vou chegar atrasado por causa do trânsito." },
+  },
+  {
+    concept: "habit",
+    difficulty: "beginner",
+    en: { term: "habit", partOfSpeech: "noun", example: "Drinking water first thing is a good habit." },
+    es: { term: "hábito", partOfSpeech: "sustantivo", example: "Tomar agua nada más despertar es un buen hábito." },
+    pt: { term: "hábito", partOfSpeech: "substantivo", example: "Beber água assim que acorda é um bom hábito." },
+  },
+  {
+    concept: "grocery_shopping",
+    difficulty: "beginner",
+    en: { term: "grocery shopping", partOfSpeech: "noun", example: "I do grocery shopping every Saturday." },
+    es: { term: "compras del supermercado", partOfSpeech: "sustantivo", example: "Hago las compras del supermercado todos los sábados." },
+    pt: { term: "compras do mercado", partOfSpeech: "substantivo", example: "Faço as compras do mercado todo sábado." },
+  },
+];

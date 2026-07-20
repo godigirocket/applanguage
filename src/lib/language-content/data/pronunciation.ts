@@ -1,0 +1,74 @@
+import type { ConceptEntry } from "./types";
+
+export const PRONUNCIATION_VOCAB: ConceptEntry[] = [
+  {
+    concept: "thought",
+    difficulty: "intermediate",
+    en: { term: "thought", partOfSpeech: "noun", example: "I thought about you yesterday." },
+    es: { term: "pensamiento", partOfSpeech: "sustantivo", example: "Pensé en ti ayer." },
+    pt: { term: "pensamento", partOfSpeech: "substantivo", example: "Eu pensei em você ontem." },
+  },
+  {
+    concept: "through",
+    difficulty: "intermediate",
+    en: { term: "through", partOfSpeech: "preposition", example: "We walked through the park." },
+    es: { term: "a través de", partOfSpeech: "preposición", example: "Caminamos a través del parque." },
+    pt: { term: "através de", partOfSpeech: "preposição", example: "Caminhamos através do parque." },
+  },
+  {
+    concept: "colonel",
+    difficulty: "advanced",
+    en: { term: "colonel", partOfSpeech: "noun", example: "The colonel gave the orders." },
+    es: { term: "coronel", partOfSpeech: "sustantivo", example: "El coronel dio las órdenes." },
+    pt: { term: "coronel", partOfSpeech: "substantivo", example: "O coronel deu as ordens." },
+  },
+  {
+    concept: "choir",
+    difficulty: "intermediate",
+    en: { term: "choir", partOfSpeech: "noun", example: "She sings in the church choir." },
+    es: { term: "coro", partOfSpeech: "sustantivo", example: "Ella canta en el coro de la iglesia." },
+    pt: { term: "coral", partOfSpeech: "substantivo", example: "Ela canta no coral da igreja." },
+  },
+  {
+    concept: "rhythm",
+    difficulty: "advanced",
+    en: { term: "rhythm", partOfSpeech: "noun", example: "The song has a great rhythm." },
+    es: { term: "ritmo", partOfSpeech: "sustantivo", example: "La canción tiene un gran ritmo." },
+    pt: { term: "ritmo", partOfSpeech: "substantivo", example: "A música tem um ótimo ritmo." },
+  },
+  {
+    concept: "vegetable",
+    difficulty: "beginner",
+    en: { term: "vegetable", partOfSpeech: "noun", example: "Broccoli is my favorite vegetable." },
+    es: { term: "verdura", partOfSpeech: "sustantivo", example: "El brócoli es mi verdura favorita." },
+    pt: { term: "vegetal", partOfSpeech: "substantivo", example: "Brócolis é meu vegetal favorito." },
+  },
+  {
+    concept: "comfortable",
+    difficulty: "beginner",
+    en: { term: "comfortable", partOfSpeech: "adjective", example: "This chair is really comfortable." },
+    es: { term: "cómodo", partOfSpeech: "adjetivo", example: "Esta silla es muy cómoda." },
+    pt: { term: "confortável", partOfSpeech: "adjetivo", example: "Essa cadeira é bem confortável." },
+  },
+  {
+    concept: "specific",
+    difficulty: "intermediate",
+    en: { term: "specific", partOfSpeech: "adjective", example: "Can you be more specific about the time?" },
+    es: { term: "específico", partOfSpeech: "adjetivo", example: "¿Puedes ser más específico sobre la hora?" },
+    pt: { term: "específico", partOfSpeech: "adjetivo", example: "Você pode ser mais específico sobre o horário?" },
+  },
+  {
+    concept: "world",
+    difficulty: "beginner",
+    en: { term: "world", partOfSpeech: "noun", example: "She has traveled all around the world." },
+    es: { term: "mundo", partOfSpeech: "sustantivo", example: "Ella ha viajado por todo el mundo." },
+    pt: { term: "mundo", partOfSpeech: "substantivo", example: "Ela já viajou pelo mundo todo." },
+  },
+  {
+    concept: "recipe_pronounce",
+    difficulty: "intermediate",
+    en: { term: "recipe", partOfSpeech: "noun", example: "This recipe is easier than it looks." },
+    es: { term: "receta", partOfSpeech: "sustantivo", example: "Esta receta es más fácil de lo que parece." },
+    pt: { term: "receita", partOfSpeech: "substantivo", example: "Essa receita é mais fácil do que parece." },
+  },
+];

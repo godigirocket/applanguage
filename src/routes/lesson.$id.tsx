@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useStore } from "@/hooks/useStore";
 import { useAuth } from "@/lib/auth";
 import {
-  ArrowLeft, Book, Mic, Volume2, BookOpen, Sparkles, Target, CheckCircle, Clock, Brain, Zap, Check, Trophy, Award, Lock,
+  ArrowLeft, Book, Mic, Volume2, BookOpen, Sparkles, Target, CheckCircle, Clock, Brain, Zap, Check, Trophy, Award, Lock, Bookmark,
 } from "@/components/lume/CustomIcons";
 import {
   VOCAB_BY_TYPE, QUIZ_BY_TYPE, LESSON_TYPES, LESSON_TOPICS,
@@ -16,6 +16,9 @@ import { generateLessonCatalog } from "@/data/lessonCatalog";
 import { toast } from "sonner";
 import { PremiumGate } from "@/components/PremiumGate";
 import { supabase } from "@/integrations/supabase/client";
+import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
+import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
+import type { VocabularyItem } from "@/lib/language-content/types";
 
 export const Route = createFileRoute("/lesson/$id")({
   component: LessonPage,
@@ -87,6 +90,34 @@ function LessonPage() {
   // Track completion - only once
   const [hasCompletedThisSession, setHasCompletedThisSession] = useState(false);
 
+  // Saved-word bookmarks for the vocab step (spaced-repetition review pool)
+  const [savedWordIds, setSavedWordIds] = useState<Set<string>>(new Set());
+
+  function vocabAsVocabularyItem(v: { word: string; meaning: string; example: string }, idx: number): VocabularyItem {
+    return {
+      id: `${id}-vocab-${idx}`,
+      term: v.word,
+      translation: v.meaning,
+      example: v.example,
+      difficulty: "beginner",
+      topic: "daily",
+      targetLanguage: (lesson?.language as VocabularyItem["targetLanguage"]) || "en",
+      source: "manual",
+    };
+  }
+
+  function handleToggleSaveWord(idx: number) {
+    const item = vocabAsVocabularyItem(vocab[idx], idx);
+    if (isWordSaved(item.id)) return; // saveWord/unsave isn't reversible here yet — keep it simple
+    saveWord(item);
+    setSavedWordIds((prev) => new Set(prev).add(item.id));
+  }
+
+  function handleSpeakWord(text: string) {
+    if (!isTTSSupported()) return;
+    speak(text, (lesson?.language as "en" | "es" | "pt") || "en");
+  }
+
   // Premium gate state
   const [showPremiumGate, setShowPremiumGate] = useState(false);
   const [userPlan, setUserPlan] = useState<"free" | "premium" | "loading">("loading");
@@ -132,6 +163,17 @@ function LessonPage() {
       setShowPremiumGate(true);
     }
   }, [isPremiumLesson, userPlan]);
+
+  // Reflect words already saved in a previous session (localStorage) on load.
+  useEffect(() => {
+    const saved = new Set<string>();
+    vocab.forEach((_, idx) => {
+      const wordId = `${id}-vocab-${idx}`;
+      if (isWordSaved(wordId)) saved.add(wordId);
+    });
+    setSavedWordIds(saved);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   // Load progress on mount
   useEffect(() => {
@@ -361,9 +403,27 @@ function LessonPage() {
                 <div style={{ fontSize: "11px", fontWeight: 800, color, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "10px" }}>
                   {isPT ? "Conceito" : "Concept"} {vocabIdx + 1}
                 </div>
-                <h2 style={{ fontSize: "clamp(24px, 5vw, 36px)", fontWeight: 900, color: "var(--text-primary)", marginBottom: "12px" }}>
+                <h2 style={{ fontSize: "clamp(24px, 5vw, 36px)", fontWeight: 900, color: "var(--text-primary)", marginBottom: "4px" }}>
                   {vocab[vocabIdx].word}
                 </h2>
+                <div style={{ display: "flex", justifyContent: "center", gap: "8px", marginBottom: "12px" }}>
+                  {isTTSSupported() && (
+                    <button
+                      onClick={() => handleSpeakWord(vocab[vocabIdx].word)}
+                      aria-label={isPT ? "Ouvir" : "Listen"}
+                      style={{ width: "32px", height: "32px", borderRadius: "50%", border: `1px solid ${color}44`, background: `${color}10`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                    >
+                      <Volume2 size={16} color={color} />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleToggleSaveWord(vocabIdx)}
+                    aria-label={isPT ? "Salvar palavra" : "Save word"}
+                    style={{ width: "32px", height: "32px", borderRadius: "50%", border: `1px solid ${color}44`, background: savedWordIds.has(`${id}-vocab-${vocabIdx}`) ? color : `${color}10`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                  >
+                    <Bookmark size={16} color={savedWordIds.has(`${id}-vocab-${vocabIdx}`) ? "white" : color} />
+                  </button>
+                </div>
                 <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "24px", lineHeight: 1.6 }}>
                   {vocab[vocabIdx].meaning}
                 </p>

@@ -1,0 +1,88 @@
+import type { ConceptEntry } from "./types";
+
+export const SPORTS_VOCAB: ConceptEntry[] = [
+  {
+    concept: "referee",
+    difficulty: "beginner",
+    en: { term: "referee", partOfSpeech: "noun", example: "The referee gave him a yellow card." },
+    es: { term: "árbitro", partOfSpeech: "sustantivo", example: "El árbitro le sacó tarjeta amarilla." },
+    pt: { term: "árbitro", partOfSpeech: "substantivo", example: "O árbitro deu cartão amarelo para ele." },
+  },
+  {
+    concept: "score",
+    difficulty: "beginner",
+    en: { term: "score", partOfSpeech: "noun", example: "What's the score of the game?" },
+    es: { term: "marcador", partOfSpeech: "sustantivo", example: "¿Cuál es el marcador del partido?" },
+    pt: { term: "placar", partOfSpeech: "substantivo", example: "Qual é o placar do jogo?" },
+  },
+  {
+    concept: "championship",
+    difficulty: "intermediate",
+    en: { term: "championship", partOfSpeech: "noun", example: "They won the championship last year." },
+    es: { term: "campeonato", partOfSpeech: "sustantivo", example: "Ganaron el campeonato el año pasado." },
+    pt: { term: "campeonato", partOfSpeech: "substantivo", example: "Eles ganharam o campeonato no ano passado." },
+  },
+  {
+    concept: "teammate",
+    difficulty: "beginner",
+    en: { term: "teammate", partOfSpeech: "noun", example: "My teammate passed me the ball." },
+    es: { term: "compañero de equipo", partOfSpeech: "sustantivo", example: "Mi compañero de equipo me pasó el balón." },
+    pt: { term: "companheiro de time", partOfSpeech: "substantivo", example: "Meu companheiro de time me passou a bola." },
+  },
+  {
+    concept: "goal",
+    difficulty: "beginner",
+    en: { term: "goal", partOfSpeech: "noun", example: "She scored the winning goal." },
+    es: { term: "gol", partOfSpeech: "sustantivo", example: "Ella marcó el gol de la victoria." },
+    pt: { term: "gol", partOfSpeech: "substantivo", example: "Ela marcou o gol da vitória." },
+  },
+  {
+    concept: "training_session",
+    difficulty: "beginner",
+    en: { term: "training session", partOfSpeech: "noun", example: "The training session starts at 6am." },
+    es: { term: "sesión de entrenamiento", partOfSpeech: "sustantivo", example: "La sesión de entrenamiento empieza a las 6am." },
+    pt: { term: "sessão de treino", partOfSpeech: "substantivo", example: "A sessão de treino começa às 6h." },
+  },
+  {
+    concept: "underdog",
+    difficulty: "advanced",
+    en: { term: "underdog", partOfSpeech: "noun", example: "The underdog team surprised everyone." },
+    es: { term: "equipo desfavorito", partOfSpeech: "sustantivo", example: "El equipo desfavorito sorprendió a todos." },
+    pt: { term: "time azarão", partOfSpeech: "substantivo", example: "O time azarão surpreendeu todo mundo." },
+  },
+  {
+    concept: "injury",
+    difficulty: "intermediate",
+    en: { term: "injury", partOfSpeech: "noun", example: "He's out for the season with a knee injury." },
+    es: { term: "lesión", partOfSpeech: "sustantivo", example: "Está fuera de temporada por una lesión en la rodilla." },
+    pt: { term: "lesão", partOfSpeech: "substantivo", example: "Ele está fora da temporada por uma lesão no joelho." },
+  },
+  {
+    concept: "tie_game",
+    difficulty: "intermediate",
+    en: { term: "tie (draw)", partOfSpeech: "noun", example: "The match ended in a tie." },
+    es: { term: "empate", partOfSpeech: "sustantivo", example: "El partido terminó en empate." },
+    pt: { term: "empate", partOfSpeech: "substantivo", example: "A partida terminou em empate." },
+  },
+  {
+    concept: "fan_supporter",
+    difficulty: "beginner",
+    en: { term: "fan", partOfSpeech: "noun", example: "I've been a fan of this team since I was a kid." },
+    es: { term: "aficionado", partOfSpeech: "sustantivo", example: "Soy aficionado de este equipo desde niño." },
+    pt: { term: "torcedor", partOfSpeech: "substantivo", example: "Sou torcedor desse time desde criança." },
+  },
+  {
+    concept: "warm_up",
+    difficulty: "beginner",
+    en: { term: "warm-up", partOfSpeech: "noun", example: "Don't skip the warm-up before the match." },
+    es: { term: "calentamiento", partOfSpeech: "sustantivo", example: "No te saltes el calentamiento antes del partido." },
+    pt: { term: "aquecimento", partOfSpeech: "substantivo", example: "Não pule o aquecimento antes da partida." },
+  },
+  {
+    concept: "coach",
+    difficulty: "beginner",
+    en: { term: "coach", partOfSpeech: "noun", example: "The coach called a timeout." },
+    es: { term: "entrenador", partOfSpeech: "sustantivo", example: "El entrenador pidió tiempo fuera." },
+    pt: { term: "técnico", partOfSpeech: "substantivo", example: "O técnico pediu tempo." },
+  },
+];
