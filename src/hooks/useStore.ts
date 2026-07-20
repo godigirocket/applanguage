@@ -64,6 +64,10 @@ interface LumeState {
   // Adaptive difficulty
   learningLevel: string;
   setLearningLevel: (level: string) => void;
+
+  // Lesson Progress
+  completedLessons: string[];
+  completeLesson: (lessonId: string) => void;
 }
 
 const getLevelName = (xp: number): Level => {
@@ -139,6 +143,13 @@ export const useStore = create<LumeState>()(
         })),
       learningLevel: "",
       setLearningLevel: (learningLevel) => set({ learningLevel }),
+
+      completedLessons: [],
+      completeLesson: (lessonId) =>
+        set((state) => {
+          if (state.completedLessons.includes(lessonId)) return state;
+          return { completedLessons: [...state.completedLessons, lessonId] };
+        }),
     }),
     {
       name: "lume-storage",
@@ -188,7 +199,15 @@ export const useStore = create<LumeState>()(
           pinCode: state.pinCode,
           pinEnabled: state.pinEnabled,
           learningLevel: state.learningLevel,
+          completedLessons: state.completedLessons,
         }) as any,
+      onRehydrateStorage: () => (state) => {
+        if (typeof window !== "undefined" && state?.interfaceLanguage) {
+          import("i18next").then((i18n) => {
+            i18n.default.changeLanguage(state.interfaceLanguage);
+          });
+        }
+      },
     },
   ),
 );

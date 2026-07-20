@@ -32,7 +32,11 @@ function GuestPage() {
 
   if (!started) {
     return (
-      <div style={{ minHeight: "100vh", background: "var(--bg)", padding: "80px 24px" }}>
+      <div style={{ 
+        minHeight: "100vh", 
+        background: "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
+        padding: "80px 24px" 
+      }}>
         <div style={{ maxWidth: "680px", margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: "48px", marginBottom: "20px" }}>
             <svg
@@ -234,7 +238,11 @@ function GuestPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", padding: "24px" }}>
+    <div style={{ 
+      minHeight: "100vh", 
+      background: "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
+      padding: "24px" 
+    }}>
       <div style={{ maxWidth: "860px", margin: "0 auto" }}>
         {/* Timer bar */}
         <div

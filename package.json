@@ -9,6 +9,7 @@
     "postbuild": "node scripts/copy-client.js",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

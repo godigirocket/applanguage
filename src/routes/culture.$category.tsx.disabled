@@ -1,0 +1,248 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { AppHeader } from "@/components/lume/AppHeader";
+import { motion } from "framer-motion";
+import { useStore } from "@/hooks/useStore";
+import {
+  Book,
+  Utensils,
+  Landmark,
+  Sparkles,
+  ArrowLeft,
+  Play,
+} from "@/components/lume/CustomIcons";
+
+export const Route = createFileRoute("/culture/$category")({
+  component: CategoryPage,
+});
+
+// Category data — only categories with generatable content
+const CATEGORY_DATA: Record<string, any> = {
+  lessons: {
+    icon: Sparkles,
+    title: "Lições Culturais",
+    description: "Gírias, expressões e costumes de diferentes culturas",
+    color: "#F39C12",
+    totalCount: 8500,
+  },
+  stories: {
+    icon: Book,
+    title: "Histórias Locais",
+    description: "Contos e tradições culturais autênticas",
+    color: "#3498DB",
+    totalCount: 5600,
+  },
+  recipes: {
+    icon: Utensils,
+    title: "Receitas Típicas",
+    description: "Aprenda vocabulário culinário de diferentes países",
+    color: "#E67E22",
+    totalCount: 2100,
+  },
+  landmarks: {
+    icon: Landmark,
+    title: "Pontos Turísticos",
+    description: "História e arquitetura dos principais locais do mundo",
+    color: "#1ABC9C",
+    totalCount: 2400,
+  },
+};
+
+// Generate content for each category — no external images
+function generateCategoryContent(category: string, count: number = 24) {
+  const categoryInfo = CATEGORY_DATA[category] || CATEGORY_DATA.lessons;
+  
+  const citiesData = [
+    { name: "Londres", country: "Reino Unido", flag: "🇬🇧" },
+    { name: "Paris", country: "França", flag: "🇫🇷" },
+    { name: "Tóquio", country: "Japão", flag: "🇯🇵" },
+    { name: "Nova York", country: "EUA", flag: "🇺🇸" },
+    { name: "Barcelona", country: "Espanha", flag: "🇪🇸" },
+    { name: "Rio de Janeiro", country: "Brasil", flag: "🇧🇷" },
+    { name: "Roma", country: "Itália", flag: "🇮🇹" },
+    { name: "Berlim", country: "Alemanha", flag: "🇩🇪" },
+  ];
+
+  const topicsByCategory: Record<string, string[]> = {
+    lessons: ["Gírias do dia a dia", "Expressões idiomáticas", "Costumes locais", "Linguagem formal", "Cultura pop", "Festivais e tradições", "Etiqueta social", "Humor local"],
+    stories: ["Lendas urbanas", "Contos populares", "Histórias de imigração", "Tradições familiares", "Festas culturais", "Heróis locais", "Gastronomia histórica", "Arte e literatura"],
+    recipes: ["Café da manhã típico", "Pratos principais", "Sobremesas tradicionais", "Bebidas culturais", "Temperos regionais", "Receitas de festa", "Comida de rua", "Culinária fusion"],
+    landmarks: ["Pontos históricos", "Museus famosos", "Arquitetura moderna", "Praças e parques", "Monumentos icônicos", "Bairros históricos", "Universidades históricas", "Pontes famosas"],
+  };
+
+  const topics = topicsByCategory[category] || topicsByCategory.lessons;
+  const difficulties = ["Iniciante", "Intermediário", "Avançado"];
+  const durations = [5, 8, 10, 12, 15, 20];
+
+  return Array.from({ length: count }, (_, i) => {
+    const city = citiesData[i % citiesData.length];
+    const topic = topics[i % topics.length];
+    const difficulty = difficulties[i % 3];
+    const xp = 10 + (i % 5) * 5;
+    return {
+      id: `${category}-${i + 1}`,
+      number: i + 1,
+      title: `${topic} — ${city.name}`,
+      description: `Explore ${topic.toLowerCase()} na cultura de ${city.name}`,
+      difficulty,
+      city: city.name,
+      country: city.country,
+      flag: city.flag,
+      duration: durations[i % durations.length],
+      xp,
+      color: categoryInfo.color,
+    };
+  });
+}
+
+function CategoryPage() {
+  const { category } = Route.useParams();
+  const nav = useNavigate();
+  const { interfaceLanguage } = useStore();
+  
+  const isPT = interfaceLanguage === "pt";
+  const categoryInfo = CATEGORY_DATA[category] || CATEGORY_DATA.lessons;
+  const content = generateCategoryContent(category, 24);
+  
+  const CategoryIcon = categoryInfo.icon;
+
+  return (
+    <div style={{ 
+      minHeight: "100vh", 
+      background: "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
+      paddingBottom: "80px",
+    }}>
+      <AppHeader />
+
+      {/* Hero Section */}
+      <section style={{ 
+        background: `linear-gradient(135deg, ${categoryInfo.color}dd 0%, ${categoryInfo.color}99 100%)`,
+        padding: "60px 24px",
+        color: "white",
+      }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+          <button
+            onClick={() => nav({ to: "/culture" })}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "rgba(255,255,255,0.2)",
+              border: "none",
+              borderRadius: "99px",
+              padding: "8px 16px",
+              color: "white",
+              fontSize: "14px",
+              fontWeight: 700,
+              cursor: "pointer",
+              marginBottom: "24px",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <ArrowLeft size={16} />
+            {isPT ? "Voltar" : "Back"}
+          </button>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
+              <div style={{ width: "64px", height: "64px", background: "rgba(255,255,255,0.2)", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", backdropFilter: "blur(10px)" }}>
+                <CategoryIcon size={32} color="white" />
+              </div>
+              <div>
+                <h1 style={{ fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 900, marginBottom: "8px", letterSpacing: "-0.02em" }}>
+                  {categoryInfo.title}
+                </h1>
+                <p style={{ fontSize: "18px", opacity: 0.95 }}>
+                  {categoryInfo.description}
+                </p>
+              </div>
+            </div>
+            <div style={{ marginTop: "24px" }}>
+              <div style={{ fontSize: "36px", fontWeight: 900 }}>{categoryInfo.totalCount.toLocaleString()}</div>
+              <div style={{ fontSize: "14px", opacity: 0.9, fontWeight: 600 }}>
+                {isPT ? "Conteúdos Disponíveis" : "Available Content"}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Content Grid — no external images */}
+      <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "60px 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "24px" }}>
+          {content.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.03 }}
+              whileHover={{ y: -6, scale: 1.02 }}
+              style={{
+                background: "var(--card-bg)",
+                borderRadius: "20px",
+                overflow: "hidden",
+                border: "2px solid var(--border)",
+                cursor: "pointer",
+                transition: "all 0.3s ease",
+                boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
+              }}
+            >
+              {/* Color header strip with icon and emoji flag */}
+              <div style={{
+                height: "100px",
+                background: `linear-gradient(135deg, ${item.color}22, ${item.color}44)`,
+                borderBottom: `3px solid ${item.color}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0 24px",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div style={{ width: "48px", height: "48px", borderRadius: "14px", background: `${item.color}22`, border: `2px solid ${item.color}44`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <CategoryIcon size={24} color={item.color} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "22px" }}>{item.flag}</div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)" }}>{item.country}</div>
+                  </div>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <div style={{ fontSize: "18px", fontWeight: 900, color: item.color }}>+{item.xp} XP</div>
+                  <div style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 700 }}>{item.duration}min</div>
+                </div>
+              </div>
+
+              {/* Card content */}
+              <div style={{ padding: "20px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                  <span style={{ padding: "3px 10px", background: `${item.color}15`, borderRadius: "6px", fontSize: "11px", fontWeight: 800, color: item.color }}>
+                    {item.difficulty}
+                  </span>
+                  <span style={{ padding: "3px 10px", background: "var(--border)", borderRadius: "6px", fontSize: "11px", fontWeight: 800, color: "var(--text-secondary)" }}>
+                    {item.city}
+                  </span>
+                </div>
+
+                <h3 style={{ fontSize: "17px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "8px", lineHeight: 1.3 }}>
+                  {item.title}
+                </h3>
+                <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: "16px" }}>
+                  {item.description}
+                </p>
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "12px", borderTop: "1px solid var(--border)" }}>
+                  <span style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 700 }}>
+                    #{item.number}
+                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px", color: item.color, fontSize: "13px", fontWeight: 700 }}>
+                    <Play size={14} color={item.color} fill={item.color} />
+                    {isPT ? "Iniciar" : "Start"}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </main>
+    </div>
+  );
+}

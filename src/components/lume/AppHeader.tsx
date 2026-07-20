@@ -182,13 +182,16 @@ export function AppHeader({
     <>
       {/* ── TOP HEADER ─────────────────────────────────────────── */}
       <header
+        aria-label="Site header"
         style={{
-          position: "relative",
+          position: "sticky",
+          top: 0,
           zIndex: 100,
           background: "var(--surface-raised)",
-          borderBottom: "1.5px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
           height: "58px",
-          boxShadow: "0 1px 12px rgba(0,0,0,0.06)",
+          boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
+          transition: "box-shadow 0.2s ease",
         }}
       >
         <div
@@ -325,13 +328,13 @@ export function AppHeader({
               bottom: 0,
               left: 0,
               right: 0,
-              height: "64px",
+              height: "calc(64px + env(safe-area-inset-bottom, 0px))",
+              paddingBottom: "env(safe-area-inset-bottom, 0px)",
               zIndex: 9999,
               borderTop: "1.5px solid var(--border)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              paddingBottom: "env(safe-area-inset-bottom, 0px)",
               background: "var(--surface-raised)",
               boxShadow: "0 -2px 10px rgba(0,0,0,0.04)",
             }}

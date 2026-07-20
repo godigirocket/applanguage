@@ -1,0 +1,14 @@
+# LumeLearn Robots.txt
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /home
+Disallow: /profile
+Disallow: /settings
+Disallow: /checkout
+
+# Sitemap
+Sitemap: https://applanguage.vercel.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1

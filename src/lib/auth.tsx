@@ -15,16 +15,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Skip SSR
+    if (typeof window === "undefined") return;
+
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_e, s) => {
+    } = supabase.auth.onAuthStateChange(async (event, s) => {
       setSession(s);
       setLoading(false);
+
+      // After sign up or sign in, claim any pending payments for this email
+      if (s?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+        try {
+          const { data, error } = await supabase.rpc("claim_pending_payments", {
+            user_email: s.user.email || "",
+            user_id: s.user.id,
+          });
+
+          if (error) {
+            console.error("[Auth] Failed to claim pending payments:", error);
+          } else if (data && data > 0) {
+            console.log(`[Auth] ✅ Claimed ${data} pending payment(s) for ${s.user.email}`);
+            // Optional: Show toast notification
+            // toast.success("Premium activated!");
+          }
+        } catch (err) {
+          console.warn("[Auth] Error claiming payments:", err);
+        }
+      }
     });
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
+    supabase.auth
+      .getSession()
+      .then(({ data }) => {
+        setSession(data.session);
+        setLoading(false);
+      })
+      .catch((err) => {
+        // A rejected getSession() (e.g. network failure) must not leave `loading`
+        // stuck at true forever — that renders as an infinite spinner instead of
+        // a usable (logged-out) screen.
+        console.error("[Auth] getSession failed:", err);
+        setLoading(false);
+      });
     return () => subscription.unsubscribe();
   }, []);
 

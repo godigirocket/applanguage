@@ -1,8 +1,19 @@
 {
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "dist",
   "functions": {
-    "api/index.js": {
+    "api/**/*.js": {
+      "includeFiles": "server-build/**"
+    },
+    "api/**/*.ts": {
       "includeFiles": "server-build/**"
     }
   },
-  "rewrites": [{ "source": "/((?!api|assets|.*\\.).*)", "destination": "/api" }]
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/api/webhooks/(.*)", "dest": "/api/webhooks/$1" },
+    { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/(.*)", "dest": "/api/index" }
+  ]
 }

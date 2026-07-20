@@ -500,7 +500,7 @@ function HangmanGamePage() {
               gap: "6px",
             }}
           >
-            <span>⌨️</span> {t.keyboard}
+            {t.keyboard}
           </h3>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
@@ -762,7 +762,8 @@ function HangmanGamePage() {
                           fontWeight: 800,
                         }}
                       >
-                        ✨ +30 XP
+                        <Sparkles size={14} color="#F39C12" style={{ marginRight: "6px" }} />
+                        +30 XP
                       </div>
                       <div
                         style={{

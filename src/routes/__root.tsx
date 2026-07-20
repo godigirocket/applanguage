@@ -24,6 +24,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { startTutorial } from "@/components/lume/Tutorial";
 import { LevelSelectionModal } from "@/components/LevelSelectionModal";
 import { DifficultyPopup } from "@/components/DifficultyPopup";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
 
 import appCss from "../styles.css?url";
@@ -97,29 +98,50 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { title: "Lume — Speak with confidence" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" },
+      { title: "LumeLearn — Aprenda Inglês, Espanhol e Português com IA" },
       {
         name: "description",
-        content: "Lume is an AI speaking companion that complements your private language lessons.",
+        content:
+          "Aprenda idiomas de forma inteligente com 630+ lições interativas, prática de conversação com IA e gamificação. Inglês, Espanhol e Português. Comece grátis.",
       },
-      { property: "og:title", content: "Lume — Speak with confidence" },
+      { property: "og:title", content: "LumeLearn — Aprenda Idiomas com IA e Gamificação" },
       {
         property: "og:description",
-        content: "Premium AI-powered speaking practice in Portuguese and English.",
+        content:
+          "630+ lições interativas, 5 modos de jogo, 3 idiomas. Prática de conversação com IA que complementa suas aulas. Comece grátis.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:locale:alternate", content: "en_US" },
+      { property: "og:locale:alternate", content: "es_ES" },
+      { property: "og:site_name", content: "LumeLearn" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "LumeLearn — Aprenda Idiomas com IA" },
+      { name: "twitter:description", content: "630+ lições, 3 idiomas, 5 modos de jogo. Comece grátis." },
+      { name: "theme-color", content: "#2D4A3E" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
+      { name: "format-detection", content: "telephone=no" },
+      { name: "robots", content: "index, follow" },
+      { name: "author", content: "LumeLearn" },
+      { name: "keywords", content: "aprender inglês, aprender espanhol, aprender português, IA, gamificação, lições interativas, conversação" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
+        rel: "preload",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
+        as: "style",
+      },
+      {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
       },
     ],
   }),
@@ -131,7 +153,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" dir="ltr">
       <head>
         <HeadContent />
       </head>
@@ -190,7 +212,14 @@ function RootInner() {
     currentPath === "/login" ||
     currentPath === "/signup" ||
     currentPath === "/onboarding" ||
-    currentPath === "/guest";
+    currentPath === "/pricing" ||
+    currentPath === "/checkout" ||
+    currentPath === "/terms" ||
+    currentPath === "/support" ||
+    currentPath === "/refund" ||
+    currentPath === "/forgot-password" ||
+    currentPath === "/success" ||
+    currentPath === "/cancel";
   const isImmersive =
     currentPath.startsWith("/quiz") ||
     currentPath === "/hangman" ||
@@ -255,12 +284,13 @@ function RootInner() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!user) return; // Don't show tutorial for non-logged users
     const tutorialShown = localStorage.getItem("tutorial_shown");
     if (!tutorialShown) {
       setTimeout(() => startTutorial(), 500);
       localStorage.setItem("tutorial_shown", "true");
     }
-  }, []);
+  }, [user]);
 
   // Register PWA Service Worker
   useEffect(() => {
@@ -374,6 +404,9 @@ function RootInner() {
         transition: "background 0.5s ease-in-out",
       }}
     >
+      {/* Scroll to top on route change */}
+      <ScrollToTop />
+      
       <div className="grain-overlay" aria-hidden="true" />
 
       {/* Global 3D metallic and drop shadow SVG filters */}
@@ -442,9 +475,9 @@ function RootInner() {
         </>
       )}
 
-      {/* Level Selection Modal & Difficulty Adjuster */}
-      {!isAuthOrLanding && <LevelSelectionModal />}
-      {!isAuthOrLanding && <DifficultyPopup />}
+      {/* Level Selection Modal — only show if user is logged in AND has no level set */}
+      {!isAuthOrLanding && user && !userLevel && !learningLevel && <LevelSelectionModal />}
+      {!isAuthOrLanding && user && <DifficultyPopup />}
 
       {/* Global Toaster */}
       <Toaster position="bottom-right" richColors />

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppHeader } from "@/components/lume/AppHeader";
+import { Check, Save } from "@/components/lume/CustomIcons";
 
 export const Route = createFileRoute("/setup")({
   component: SetupPage,
@@ -211,7 +212,17 @@ function SetupPage() {
               transition: "all 0.2s",
             }}
           >
-            {copied ? "✅ Copied!" : "📋 Copy SQL"}
+            {copied ? (
+              <>
+                <Check size={16} color="white" style={{ marginRight: "6px" }} />
+                Copied!
+              </>
+            ) : (
+              <>
+                <Save size={16} color="white" style={{ marginRight: "6px" }} />
+                Copy SQL
+              </>
+            )}
           </button>
         </div>
 

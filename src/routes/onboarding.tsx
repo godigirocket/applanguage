@@ -30,43 +30,11 @@ const STEPS = [
     question: "Como podemos te chamar?",
     field: "full_name",
     type: "text",
-    placeholder: "Digite seu nome...",
+    placeholder: "Seu nome...",
   },
   {
     id: 2,
-    question: "Qual é a sua idade?",
-    field: "age",
-    type: "number",
-    placeholder: "Ex: 25",
-  },
-  {
-    id: 3,
-    question: "Quer aprender gírias e inglês/português real de rua (convencional)?",
-    field: "learn_slang",
-    type: "options",
-    options: [
-      { label: "Sim, quero falar como nativo de verdade!", val: "yes", icon: <Flame size={20} /> },
-      {
-        label: "Prefiro focar em conversação formal / negócios",
-        val: "no",
-        icon: <Briefcase size={20} />,
-      },
-    ],
-  },
-  {
-    id: 4,
-    question: "Qual é o seu idioma nativo?",
-    field: "native_language",
-    type: "options",
-    options: [
-      { label: "Português", val: "pt", icon: <MessageCircle size={20} /> },
-      { label: "English", val: "en", icon: <MessageCircle size={20} /> },
-      { label: "Español", val: "es", icon: <MessageCircle size={20} /> },
-    ],
-  },
-  {
-    id: 5,
-    question: "Qual idioma você quer praticar?",
+    question: "Qual idioma você quer aprender?",
     field: "target_language",
     type: "options",
     options: [
@@ -76,42 +44,14 @@ const STEPS = [
     ],
   },
   {
-    id: 6,
-    question: "Qual é o seu nível atual?",
+    id: 3,
+    question: "Qual é o seu nível?",
     field: "level",
     type: "options",
     options: [
-      { label: "Iniciante (A1 - A2)", val: "beginner", icon: <Sprout size={20} /> },
-      { label: "Intermediário (B1 - B2)", val: "intermediate", icon: <Star size={20} /> },
-      { label: "Avançado / Fluente (C1 - C2)", val: "advanced", icon: <Flame size={20} /> },
-    ],
-  },
-  {
-    id: 7,
-    question: "Qual é o seu objetivo principal?",
-    field: "goal",
-    type: "options",
-    options: [
-      {
-        label: "Melhorar Conversação Geral",
-        val: "conversação",
-        icon: <MessageCircle size={20} />,
-      },
-      { label: "Viagens e Intercâmbio", val: "viagem", icon: <Map size={20} /> },
-      { label: "Trabalho e Negócios", val: "trabalho", icon: <Briefcase size={20} /> },
-      { label: "Preparação para Exames", val: "exame", icon: <BookOpen size={20} /> },
-    ],
-  },
-  {
-    id: 8,
-    question: "Quais temas mais te interessam?",
-    field: "interests",
-    type: "options",
-    options: [
-      { label: "Música, Arte & Cultura", val: "musica", icon: <Music size={20} /> },
-      { label: "Tecnologia, Games & Futuro", val: "tecnologia", icon: <Sparkles size={20} /> },
-      { label: "Gastronomia, Culinária & Viagem", val: "culinaria", icon: <Map size={20} /> },
-      { label: "Esportes, Saúde & Bem-estar", val: "esportes", icon: <Heart size={20} /> },
+      { label: "Iniciante", val: "beginner", icon: <Sprout size={20} /> },
+      { label: "Intermediário", val: "intermediate", icon: <Star size={20} /> },
+      { label: "Avançado", val: "advanced", icon: <Flame size={20} /> },
     ],
   },
 ];
@@ -141,11 +81,18 @@ function OnboardingPage() {
         .select("full_name")
         .eq("id", user.id)
         .maybeSingle()
-        .then(({ data }) => {
-          if (data?.full_name) {
-            setTextVal(data.full_name);
-          }
-        });
+        .then(
+          ({ data }) => {
+            if (data?.full_name) {
+              setTextVal(data.full_name);
+            }
+          },
+          (err: unknown) => {
+            // Non-critical prefill; a network failure here must not surface as an
+            // unhandled promise rejection / blank screen.
+            console.warn("[Onboarding] Could not prefill profile:", err);
+          },
+        );
     }
   }, [user]);
 
@@ -221,14 +168,10 @@ function OnboardingPage() {
   const currentStepData = STEPS[step];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-[#111113] flex flex-col items-center justify-start md:justify-center p-4 md:p-6 overflow-y-auto overflow-x-hidden relative transition-colors duration-300">
-      {/* Decorative Orbs */}
-      <div className="orb w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-accent-green/10 top-[-5%] right-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
-      <div className="orb w-[250px] h-[250px] md:w-[400px] md:h-[400px] bg-accent-terra/10 bottom-[-5%] left-[-5%] pointer-events-none absolute rounded-full blur-[80px]" />
-
-      <main className="w-full max-w-md my-auto relative z-10">
+    <div style={{ minHeight: "100vh", background: "#F7F4EF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+      <main style={{ width: "100%", maxWidth: "440px" }}>
         {/* Onboarding Card */}
-        <div className="glass p-6 md:p-8 rounded-[28px] border border-border bg-white dark:bg-[#1B1B1E] shadow-lg relative overflow-hidden transition-all duration-300">
+        <div style={{ background: "#fff", padding: "32px 28px", borderRadius: "20px", border: "1px solid #E8E6E1", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
           {/* Header navigation (Back button + progress bar) */}
           <div className="flex items-center justify-between gap-4 mb-6">
             {step > 0 ? (
@@ -432,17 +375,8 @@ function OnboardingPage() {
           </AnimatePresence>
         </div>
 
-        {/* Small brand note */}
-        <p
-          style={{
-            textAlign: "center",
-            fontSize: "11px",
-            color: "var(--text-secondary)",
-            marginTop: "24px",
-            fontWeight: 600,
-          }}
-        >
-          Lume — Language & Mind Experience
+        <p style={{ textAlign: "center", fontSize: "11px", color: "#8B8B83", marginTop: "20px", fontWeight: 600 }}>
+          LangLume — Aprenda praticando
         </p>
       </main>
     </div>

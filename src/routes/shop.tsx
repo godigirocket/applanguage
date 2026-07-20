@@ -8,6 +8,7 @@ import {
   Award,
   Flame,
   Coins,
+  Sparkles,
   ArrowLeft,
   ArrowRight,
 } from "@/components/lume/CustomIcons";
@@ -219,7 +220,7 @@ function ShopPage() {
                 justifyContent: "center",
               }}
             >
-              ✨
+              <Sparkles size={20} color="#F39C12" style={{ marginRight: "8px" }} />
             </div>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <span

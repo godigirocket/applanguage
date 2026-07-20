@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { useStore } from "@/hooks/useStore";
 import { QUESTIONS, Question } from "@/lib/questions";
 import { motion, AnimatePresence } from "framer-motion";
+import { BookX } from "lucide-react";
 // @ts-ignore
 import confetti from "canvas-confetti";
 import { Flashcards } from "@/components/lume/Flashcards";
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/quiz/$mode")({
 
 function QuizPage() {
   const { mode } = Route.useParams();
-  const { language, addXP } = useStore();
+  const { targetLanguage, addXP } = useStore();
   const nav = useNavigate();
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -37,7 +38,7 @@ function QuizPage() {
   // Render Flashcards mode separately — MUST be after all hooks
   useEffect(() => {
     if (mode === "flashcards") return; // skip question loading for flashcards mode
-    let q = QUESTIONS.filter((q) => q.language === language);
+    let q = QUESTIONS.filter((q) => q.language === targetLanguage);
     if (mode === "quick") q = q.sort(() => 0.5 - Math.random()).slice(0, 10);
     else if (mode === "daily") {
       const day = new Date().getDate();
@@ -46,7 +47,7 @@ function QuizPage() {
         .slice(0, 15);
     } else q = q.sort(() => 0.5 - Math.random());
     setQuestions(q);
-  }, [mode, language]);
+  }, [mode, targetLanguage]);
 
   // survival = old streak mode, race = speed mode with timer
   const effectiveMode = mode === "survival" ? "streak" : mode === "race" ? "speed" : mode;
@@ -95,7 +96,7 @@ function QuizPage() {
   if (mode === "culturaltrivia") return <CulturalTrivia />;
 
   const voicePhrases =
-    language === "en"
+    targetLanguage === "en"
       ? [
           "Hello, how can I help you today?",
           "I would like to order a large latte, please.",
@@ -103,7 +104,7 @@ function QuizPage() {
           "It is a pleasure meeting you this afternoon.",
           "Could you please speak a little slower?",
         ]
-      : language === "es"
+      : targetLanguage === "es"
         ? [
             "Hola, ¿cómo estás hoy?",
             "Me gustaría pedir un café con leche, por favor.",
@@ -422,7 +423,48 @@ function QuizPage() {
     );
   }
 
-  if (!questions.length) return null;
+  if (!questions.length) {
+    const isPT = targetLanguage === "pt";
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "var(--bg)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "16px",
+          padding: "32px",
+          textAlign: "center",
+        }}
+      >
+        <BookX size={40} style={{ color: "var(--muted)" }} />
+        <h1 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text)" }}>
+          {isPT ? "Ainda não há quiz para este idioma" : "No quiz content for this language yet"}
+        </h1>
+        <p style={{ color: "var(--muted)", maxWidth: "360px" }}>
+          {isPT
+            ? "Tente o modo Quiz na aba de Jogos, que já cobre este idioma."
+            : "Try Quiz mode from the Games tab — it already covers this language."}
+        </p>
+        <button
+          onClick={exitQuiz}
+          style={{
+            padding: "12px 24px",
+            borderRadius: "12px",
+            background: "var(--brand)",
+            color: "#fff",
+            fontWeight: 700,
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          {isPT ? "Voltar" : "Go back"}
+        </button>
+      </div>
+    );
+  }
 
   const q = questions[currentIdx];
   if (!q) {

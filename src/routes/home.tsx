@@ -2,59 +2,30 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useEffect, useState, useMemo } from "react";
-import { safeQuery, supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
-import { TOPICS } from "@/lib/topics";
 import { getUserStats } from "@/lib/db";
-import { checkTables } from "@/lib/supabase-safe";
-import { useTranslation } from "react-i18next";
 import {
-  ChevronRight,
   Play,
   Star,
-  Book,
+  Flame,
   Trophy,
-  Zap,
   Clock,
   Bookmark,
-  Layers,
-  BarChart2,
-  Home,
-  User,
-  Target,
-  Award,
-  Music,
-  Film,
-  Search,
-  RefreshCw,
-  CheckCircle,
-  Lock,
-  HelpCircle,
-  Sparkle,
-  Heart,
-  Flame,
-  Sprout,
-  Compass,
-  MessageSquare,
-  BookOpen,
-  Mic,
+  TrendingUp,
+  Users,
   MessageCircle,
-  Coffee,
-  Palette,
-  Briefcase,
-  Brain,
-  DynamicIcon,
+  Book,
+  Globe,
+  Zap,
+  Target,
+  Calendar,
+  Award,
+  ChevronRight,
+  Heart,
+  CheckCircle,
 } from "@/components/lume/CustomIcons";
-import {
-  AnimatedCounter,
-  AnimatedCheck,
-  StaggerList,
-  MicPulseRing,
-} from "@/components/lume/Animations";
-import { CategoryIllustration, IlluGlobe } from "@/components/lume/Illustrations";
-// @ts-ignore
-import confetti from "canvas-confetti";
+import { generateLessons, generateQuizzes, CITIES, SIMULATED_USERS } from "@/data/contentEngine";
 import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
 
@@ -62,126 +33,35 @@ export const Route = createFileRoute("/home")({
   component: HomePage,
 });
 
-const getLevelIcon = (iconName: string, size = 20, color?: string) => {
-  switch (iconName) {
-    case "sprout":
-      return <Sprout size={size} color={color} fill="currentColor" />;
-    case "compass":
-      return <Compass size={size} color={color} />;
-    case "message":
-      return <MessageSquare size={size} color={color} />;
-    case "trophy":
-      return <Trophy size={size} color={color} />;
-    case "star":
-      return <Star size={size} color={color} fill="currentColor" />;
-    case "sparkle":
-      return <Sparkle size={size} color={color} />;
-    default:
-      return <Sparkle size={size} color={color} />;
-  }
-};
-
-const getMissionIcon = (iconName: string, size = 16, color?: string) => {
-  switch (iconName) {
-    case "book":
-      return <BookOpen size={size} color={color} />;
-    case "mic":
-      return <Mic size={size} color={color} />;
-    case "bookmark":
-      return <Bookmark size={size} color={color} />;
-    default:
-      return <CheckCircle size={size} color={color} />;
-  }
-};
-
-const TOPIC_COLORS: Record<string, { bg: string; border: string; glow: string }> = {
-  "daily-life": { bg: "rgba(196,113,74,0.06)", border: "#C4714A", glow: "rgba(196,113,74,0.18)" },
-  "art-culture": { bg: "rgba(27,58,75,0.06)", border: "#1B3A4B", glow: "rgba(27,58,75,0.18)" },
-  professional: { bg: "rgba(45,74,62,0.06)", border: "#2D4A3E", glow: "rgba(45,74,62,0.18)" },
-  "free-talk": { bg: "rgba(212,197,169,0.08)", border: "#D4C5A9", glow: "rgba(212,197,169,0.18)" },
-  "speaking-confidence": {
-    bg: "rgba(196,113,74,0.06)",
-    border: "#C4714A",
-    glow: "rgba(196,113,74,0.18)",
-  },
-  "music-expression": { bg: "rgba(45,74,62,0.06)", border: "#2D4A3E", glow: "rgba(45,74,62,0.18)" },
-  travel: { bg: "rgba(27,58,75,0.06)", border: "#1B3A4B", glow: "rgba(27,58,75,0.18)" },
-  relationships: {
-    bg: "rgba(212,197,169,0.08)",
-    border: "#D4C5A9",
-    glow: "rgba(212,197,169,0.18)",
-  },
-};
-
-function FlagSvg({ lang, size = 18 }: { lang: string; size?: number }) {
-  if (lang === "en") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
-        <rect width="640" height="480" fill="#012169" />
-        <path d="M0 0l640 480M640 0L0 480" stroke="#fff" strokeWidth="80" />
-        <path d="M0 0l640 480M640 0L0 480" stroke="#C8102E" strokeWidth="48" />
-        <path d="M320 0v480M0 240h640" stroke="#fff" strokeWidth="120" />
-        <path d="M320 0v480M0 240h640" stroke="#C8102E" strokeWidth="80" />
-      </svg>
-    );
-  }
-  if (lang === "es") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
-        <rect width="640" height="480" fill="#c60b1e" />
-        <rect y="120" width="640" height="240" fill="#ffc400" />
-      </svg>
-    );
-  }
-  return (
-    <svg width={size} height={size} viewBox="0 0 640 480" style={{ borderRadius: "3px" }}>
-      <rect width="640" height="480" fill="#009c3b" />
-      <path d="M320 80L560 240L320 400L80 240Z" fill="#fedf00" />
-      <circle cx="320" cy="240" r="85" fill="#002776" />
-    </svg>
-  );
-}
+// NO MORE STATIC GENERATION - Will use targetLanguage dynamically
+const TRENDING_CITIES = CITIES.slice(0, 8);
+const ACTIVE_FRIENDS = SIMULATED_USERS.slice(0, 6);
 
 function HomePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, xp, streak, setXP, setStreak, setInterfaceLanguage, dailyChallenges } =
-    useStore();
-  const { t } = useTranslation(["common"]);
-
+  const { interfaceLanguage, xp, streak, targetLanguage, completedLessons } = useStore();
   const [profile, setProfile] = useState<any>(null);
   const [loadingData, setLoadingData] = useState(true);
-  const [showSetupBanner, setShowSetupBanner] = useState(false);
-  const [conversationCount, setConversationCount] = useState(0);
-  const [expressionCount, setExpressionCount] = useState(0);
-  const [activeCategory, setActiveCategory] = useState<string>("all");
-  const [showHelp, setShowHelp] = useState(false);
-  const [showStreakModal, setShowStreakModal] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   const isPT = interfaceLanguage === "pt";
-  const targetLanguage = useStore((state) => state.targetLanguage);
+
+  // Generate content dynamically based on targetLanguage
+  const CONTINUE_LEARNING = useMemo(
+    () => generateLessons(targetLanguage, 8, completedLessons),
+    [targetLanguage, completedLessons]
+  );
+
+  const DAILY_QUIZZES = useMemo(
+    () => generateQuizzes(targetLanguage, 4),
+    [targetLanguage]
+  );
 
   useEffect(() => {
-    async function verifyDatabase() {
-      const exists = await checkTables();
-      setShowSetupBanner(!exists);
-    }
-    verifyDatabase();
+    const timer = setInterval(() => setCurrentTime(new Date()), 60000);
+    return () => clearInterval(timer);
   }, []);
-
-  // Show streak modal once per day when streak > 0
-  useEffect(() => {
-    if (streak > 0) {
-      const key = `lume_streak_modal_${new Date().toDateString()}`;
-      if (!localStorage.getItem(key)) {
-        const t = setTimeout(() => {
-          setShowStreakModal(true);
-          localStorage.setItem(key, "1");
-        }, 1400);
-        return () => clearTimeout(t);
-      }
-    }
-  }, [streak]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -195,14 +75,6 @@ function HomePage() {
       const p = result.profile as any;
       if (p) {
         setProfile(p);
-        setXP(p.xp || 0);
-        setStreak(p.streak || 0);
-        setConversationCount(result.stats.conversationCount || 0);
-        setExpressionCount(result.stats.expressionCount || 0);
-        const storedLang = localStorage.getItem("lume_interface_language");
-        if (!storedLang) {
-          setInterfaceLanguage((p.interface_language || "pt") as any);
-        }
       }
       setLoadingData(false);
     }
@@ -210,1177 +82,377 @@ function HomePage() {
     if (user) {
       loadHomeData();
     }
-  }, [user, loading, nav, setInterfaceLanguage, setXP, setStreak]);
+  }, [user, loading, nav]);
+
+  if (loading || (!profile && loadingData)) {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)" }}>
+        <div style={{ textAlign: "center" }}>
+          <div style={{ width: "48px", height: "48px", border: "4px solid var(--border)", borderTopColor: "var(--brand)", borderRadius: "50%", animation: "spin 0.8s linear infinite", margin: "0 auto 16px" }} />
+          <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>
+        </div>
+      </div>
+    );
+  }
 
   const firstName = profile?.full_name?.split(" ")[0] || (isPT ? "Estudante" : "Learner");
+  const currentLevel = Math.floor(xp / 100) + 1;
+  const xpToNextLevel = ((currentLevel * 100) - xp);
+  const levelProgress = ((xp % 100) / 100) * 100;
+  const isNewUser = xp === 0;
 
   const getGreeting = () => {
-    const hr = new Date().getHours();
-    if (isPT) {
-      if (hr < 12)
-        return {
-          text: `Bom dia, ${firstName}`,
-          sub: "Que tal iniciar sua jornada diária com o Lume?",
-          bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-          accent: "var(--accent-terra)",
-        };
-      if (hr < 18)
-        return {
-          text: `Boa tarde, ${firstName}`,
-          sub: "Seu caminho de aprendizado está pronto!",
-          bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-          accent: "var(--brand)",
-        };
-      return {
-        text: `Boa noite, ${firstName}`,
-        sub: "Uma prática rápida para consolidar seu dia.",
-        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-        accent: "var(--accent-green)",
-      };
-    }
-    if (hr < 12)
-      return {
-        text: `Good morning, ${firstName}`,
-        sub: "Let's kickstart your customized Lume path!",
-        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-        accent: "var(--accent-terra)",
-      };
-    if (hr < 18)
-      return {
-        text: `Good afternoon, ${firstName}`,
-        sub: "Your guided daily steps are waiting for you!",
-        bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-        accent: "var(--brand)",
-      };
-    return {
-      text: `Good evening, ${firstName}`,
-      sub: "A quick consolidation practice before bed.",
-      bg: "linear-gradient(135deg, var(--surface-raised) 0%, var(--border) 100%)",
-      accent: "var(--accent-green)",
-    };
+    const hr = currentTime.getHours();
+    if (hr < 12) return isPT ? `Bom dia, ${firstName}!` : `Good morning, ${firstName}!`;
+    if (hr < 18) return isPT ? `Boa tarde, ${firstName}!` : `Good afternoon, ${firstName}!`;
+    return isPT ? `Boa noite, ${firstName}!` : `Good evening, ${firstName}!`;
   };
-
-  const greeting = getGreeting();
-  const locationFlair =
-    targetLanguage === "en"
-      ? isPT
-        ? "Imersão em Inglês"
-        : "English Immersion"
-      : targetLanguage === "es"
-        ? isPT
-          ? "Imersão em Espanhol"
-          : "Spanish Immersion"
-        : isPT
-          ? "Imersão em Português"
-          : "Portuguese Immersion";
-
-  const getLevelData = (currentXp: number) => {
-    if (currentXp < 100)
-      return {
-        level: { name: isPT ? "Iniciante" : "Beginner", icon: "sprout", color: "#2D4A3E" },
-        nextLevel: {
-          name: isPT ? "Explorador" : "Explorer",
-          icon: "compass",
-          min: 100,
-          color: "#C9A84C",
-        },
-        xpPercent: Math.min(100, Math.round((currentXp / 100) * 100)),
-      };
-    if (currentXp < 300)
-      return {
-        level: { name: isPT ? "Explorador" : "Explorer", icon: "compass", color: "#C9A84C" },
-        nextLevel: {
-          name: isPT ? "Conversador" : "Conversationalist",
-          icon: "message",
-          min: 300,
-          color: "#FF6B35",
-        },
-        xpPercent: Math.min(100, Math.round(((currentXp - 100) / 200) * 100)),
-      };
-    if (currentXp < 800)
-      return {
-        level: {
-          name: isPT ? "Conversador" : "Conversationalist",
-          icon: "message",
-          color: "#FF6B35",
-        },
-        nextLevel: { name: isPT ? "Fluente" : "Fluent", icon: "star", min: 800, color: "#1B3A4B" },
-        xpPercent: Math.min(100, Math.round(((currentXp - 300) / 500) * 100)),
-      };
-    return {
-      level: { name: isPT ? "Poliglota" : "Polyglot", icon: "trophy", color: "#1B3A4B" },
-      nextLevel: { name: isPT ? "Mestre" : "Master", icon: "sparkle", min: 2000, color: "#FF6B35" },
-      xpPercent: Math.min(100, Math.round(((currentXp - 800) / 1200) * 100)),
-    };
-  };
-
-  const { level, nextLevel, xpPercent } = getLevelData(xp);
-
-  const MISSIONS = [
-    {
-      title: isPT ? "Faça 1 lição" : "Complete 1 lesson",
-      xp: 10,
-      done: dailyChallenges[0]?.completed || false,
-      icon: "book",
-    },
-    {
-      title: isPT ? "Pratique pronúncia" : "Practice pronunciation",
-      xp: 15,
-      done: dailyChallenges[1]?.completed || false,
-      icon: "mic",
-    },
-    {
-      title: isPT ? "Salve 5 expressões" : "Save 5 expressions",
-      xp: 20,
-      done: dailyChallenges[2]?.completed || false,
-      icon: "bookmark",
-    },
-  ];
-
-  const completedMissions = MISSIONS.filter((m) => m.done).length;
-
-  const filteredTopics = useMemo(() => {
-    if (activeCategory === "all") return TOPICS;
-    return TOPICS.filter((t) => t.category === activeCategory);
-  }, [activeCategory]);
-
-  if (loading || (!profile && loadingData)) return null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", color: "var(--text-primary)" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: "80px" }}>
       <AppHeader />
 
-      <main style={{ maxWidth: "1000px", margin: "0 auto", padding: "24px 16px 40px" }}>
-        {/* Setup Banner if tables don't exist */}
-        {showSetupBanner && (
-          <div
-            style={{
-              background: "linear-gradient(135deg,#C4714A,#D4824A)",
-              borderRadius: "16px",
-              padding: "16px 20px",
-              marginBottom: "24px",
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "16px",
-              flexWrap: "wrap",
-              boxShadow: "0 4px 14px rgba(196,113,74,0.25)",
-            }}
-          >
-            <div>
-              <div style={{ fontWeight: 800, fontSize: "15px", marginBottom: "3px" }}>
-                Base de dados não configurada
-              </div>
-              <div style={{ opacity: 0.85, fontSize: "13px" }}>
-                Execute o SQL no Supabase para ativar o progresso e histórico.
-              </div>
-            </div>
-            <Link
-              to="/setup"
-              style={{
-                padding: "8px 18px",
-                borderRadius: "99px",
-                background: "rgba(255,255,255,0.2)",
-                color: "white",
-                textDecoration: "none",
-                fontSize: "13px",
-                fontWeight: 700,
-                border: "1px solid rgba(255,255,255,0.3)",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Ver instruções →
-            </Link>
-          </div>
-        )}
-
-        {/* Hero card — full redesign */}
-        <div
-          style={{
-            borderRadius: "28px",
-            padding: "40px 44px",
-            marginBottom: "28px",
-            position: "relative",
-            overflow: "hidden",
-            background: greeting.bg,
-            boxShadow: "0 8px 40px rgba(0,0,0,0.08)",
-            minHeight: "220px",
-          }}
-        >
-          {/* Rich background shapes */}
-          <div
-            style={{
-              position: "absolute",
-              right: "-60px",
-              top: "-60px",
-              width: "300px",
-              height: "300px",
-              borderRadius: "50%",
-              background: `${greeting.accent}12`,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              right: "80px",
-              bottom: "-80px",
-              width: "200px",
-              height: "200px",
-              borderRadius: "50%",
-              background: `${greeting.accent}15`,
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              left: "-30px",
-              bottom: "-30px",
-              width: "150px",
-              height: "150px",
-              borderRadius: "50%",
-              background: `${greeting.accent}08`,
-            }}
-          />
-
-          <div style={{ position: "relative", zIndex: 1, maxWidth: "600px" }}>
-            {/* Label */}
-            {locationFlair && (
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "4px 14px",
-                  borderRadius: "99px",
-                  background: "var(--card-bg)",
-                  fontSize: "12px",
-                  fontWeight: 800,
-                  color: greeting.accent,
-                  marginBottom: "16px",
-                  border: "1px solid var(--border)",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-flex",
-                    flexShrink: 0,
-                    overflow: "hidden",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <FlagSvg lang={targetLanguage} size={16} />
-                </span>
-                <span>{locationFlair}</span>
-              </div>
-            )}
-
-            {/* Greeting — LARGE */}
-            <h1
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "clamp(32px, 4vw, 52px)",
-                fontWeight: 800,
-                color: "var(--text-primary)",
-                marginBottom: "10px",
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {greeting.text}
+      {/* HERO GREETING */}
+      <section style={{ background: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)", padding: "48px 24px", color: "white" }}>
+        <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <h1 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 900, marginBottom: "12px", letterSpacing: "-0.02em" }}>
+              {getGreeting()}
             </h1>
-            <p
-              style={{
-                fontSize: "17px",
-                color: "var(--text-secondary)",
-                fontStyle: "italic",
-                marginBottom: "32px",
-                lineHeight: 1.5,
-              }}
-            >
-              {greeting.sub}
+            <p style={{ fontSize: "18px", opacity: 0.9, marginBottom: "32px" }}>
+              {isNewUser
+                ? isPT
+                  ? "Bem-vindo ao Lume! Comece sua jornada de aprendizado agora."
+                  : "Welcome to Lume! Start your learning journey now."
+                : isPT
+                ? "Continue sua jornada de aprendizado"
+                : "Continue your learning journey"}
             </p>
 
-            {/* Stats badges — bigger, more contrast */}
-            <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            {/* Quick Stats */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "16px", maxWidth: "800px" }}>
               {[
-                {
-                  label: "XP",
-                  value: xp,
-                  icon: <Star size={18} fill="#C9A84C" color="#C9A84C" />,
-                  color: "#C9A84C",
-                  bg: "rgba(201,168,76,0.12)",
-                },
-                {
-                  label: streak === 1 ? (isPT ? "dia" : "day") : isPT ? "dias" : "days",
-                  value: streak,
-                  icon: (
-                    <Flame
-                      size={18}
-                      fill={streak >= 3 ? "#FF6B35" : "#6B6B63"}
-                      color={streak >= 3 ? "#FF6B35" : "#6B6B63"}
-                    />
-                  ),
-                  color: streak >= 3 ? "#FF6B35" : "#6B6B63",
-                  bg: streak >= 3 ? "rgba(255,107,53,0.1)" : "rgba(107,107,99,0.08)",
-                },
-                {
-                  label: isPT ? "conversas" : "chats",
-                  value: conversationCount,
-                  icon: <MessageCircle size={18} fill="#2D4A3E" color="#2D4A3E" />,
-                  color: "#2D4A3E",
-                  bg: "rgba(45,74,62,0.08)",
-                },
-                {
-                  label: isPT ? "expressões" : "phrases",
-                  value: expressionCount,
-                  icon: <Bookmark size={18} fill="#1B3A4B" color="#1B3A4B" />,
-                  color: "#1B3A4B",
-                  bg: "rgba(27,58,75,0.08)",
-                },
+                { icon: Star, label: "XP", value: xp.toLocaleString(), color: "#FFD700" },
+                { icon: Flame, label: isPT ? "Ofensiva" : "Streak", value: `${streak} ${isPT ? "dias" : "days"}`, color: "#FF6B35" },
+                { icon: Trophy, label: isPT ? "Nível" : "Level", value: currentLevel, color: "#4CAF50" },
+                { icon: Target, label: isPT ? "Próximo" : "Next", value: xp === 0 ? "100 XP" : `${xpToNextLevel} XP`, color: "#3498DB" },
               ].map((stat, i) => (
-                <div
+                <motion.div
                   key={i}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: i * 0.1 }}
                   style={{
+                    background: "rgba(255,255,255,0.1)",
+                    borderRadius: "16px",
+                    padding: "20px",
+                    backdropFilter: "blur(10px)",
+                    border: "1px solid rgba(255,255,255,0.2)",
                     display: "flex",
+                    flexDirection: "column",
                     alignItems: "center",
                     gap: "8px",
-                    padding: "10px 18px",
-                    borderRadius: "99px",
-                    background: "var(--card-bg)",
-                    border: "1px solid var(--border)",
-                    boxShadow:
-                      stat.color === "#FF6B35" && streak >= 3
-                        ? "0 0 20px rgba(255,107,53,0.25), 0 2px 8px rgba(0,0,0,0.06)"
-                        : "0 2px 8px rgba(0,0,0,0.06)",
                   }}
                 >
-                  <span style={{ display: "flex", alignItems: "center" }}>{stat.icon}</span>
-                  <span
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "20px",
-                      fontWeight: 800,
-                      color: stat.color,
-                      lineHeight: 1,
-                    }}
-                  >
-                    <AnimatedCounter value={stat.value} duration={1.5} />
-                  </span>
-                  <span
-                    style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600 }}
-                  >
-                    {stat.label}
-                  </span>
-                </div>
+                  <stat.icon size={24} color={stat.color} />
+                  <div style={{ fontSize: "24px", fontWeight: 900 }}>{stat.value}</div>
+                  <div style={{ fontSize: "12px", opacity: 0.8, fontWeight: 600 }}>{stat.label}</div>
+                </motion.div>
               ))}
             </div>
-          </div>
 
-          {/* Right side — level badge */}
-          <div
-            style={{
-              position: "absolute",
-              right: "40px",
-              top: "50%",
-              transform: "translateY(-50%)",
-              textAlign: "center",
-              display: typeof window !== "undefined" && window.innerWidth < 768 ? "none" : "block",
-            }}
-          >
-            <div
-              style={{
-                width: "100px",
-                height: "100px",
-                borderRadius: "50%",
-                background: `linear-gradient(135deg, ${level.color}20, ${level.color}40)`,
-                border: `3px solid ${level.color}40`,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 8px 32px ${level.color}25`,
-                animation: "floatBadge 4s ease-in-out infinite",
-              }}
-            >
-              <span style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                {getLevelIcon(level.icon, 32, level.color)}
-              </span>
-              <span
+            {/* Welcome message for new users */}
+            {isNewUser && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
                 style={{
-                  fontSize: "10px",
-                  fontWeight: 800,
-                  color: level.color,
-                  textTransform: "uppercase",
-                  letterSpacing: "0.06em",
-                  marginTop: "6px",
+                  marginTop: "32px",
+                  padding: "24px",
+                  background: "rgba(255,255,255,0.15)",
+                  borderRadius: "16px",
+                  backdropFilter: "blur(10px)",
+                  border: "1px solid rgba(255,255,255,0.2)",
                 }}
               >
-                {level.name}
-              </span>
-            </div>
-          </div>
+                <h3 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "12px" }}>
+                  {isPT ? "🎯 Comece em 3 passos simples" : "🎯 Get started in 3 simple steps"}
+                </h3>
+                <ol style={{ paddingLeft: "20px", fontSize: "15px", lineHeight: 1.8, opacity: 0.95 }}>
+                  <li>{isPT ? "Escolha uma lição abaixo para praticar" : "Choose a lesson below to practice"}</li>
+                  <li>{isPT ? "Complete exercícios e ganhe XP" : "Complete exercises and earn XP"}</li>
+                  <li>{isPT ? "Explore jogos e cidades para aprender mais" : "Explore games and cities to learn more"}</li>
+                </ol>
+              </motion.div>
+            )}
+          </motion.div>
         </div>
+      </section>
 
-        {/* XP BAR — below hero, full width */}
-        <div
-          style={{
-            background: "var(--card-bg)",
-            borderRadius: "18px",
-            padding: "16px 24px",
-            marginBottom: "28px",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-            border: "1.5px solid var(--border)",
-            backdropFilter: "blur(20px)",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "8px",
-              marginBottom: "8px",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "var(--text-primary)",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              {getLevelIcon(level.icon, 16, level.color)} {level.name}
-            </span>
-            <span
-              style={{
-                fontSize: "13px",
-                color: "var(--brand)",
-                fontWeight: 700,
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                flexWrap: "wrap",
-              }}
-            >
-              {xp} / {nextLevel.min} XP <span style={{ color: "var(--text-secondary)" }}>→</span>{" "}
-              {getLevelIcon(nextLevel.icon, 16, nextLevel.color || level.color)} {nextLevel.name}
-            </span>
+      {/* MAIN FEED */}
+      <main style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 24px" }}>
+        
+        {/* CONTINUE LEARNING - Netflix Style */}
+        <section style={{ marginBottom: "64px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+            <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px" }}>
+              <Play size={28} color="var(--brand)" fill="var(--brand)" />
+              {isPT ? "Continue Aprendendo" : "Continue Learning"}
+            </h2>
+            <Link to="/lessons" style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--brand)", fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>
+              {isPT ? "Ver tudo" : "See all"}
+              <ChevronRight size={18} />
+            </Link>
           </div>
-          <div
-            style={{
-              height: "10px",
-              background: "var(--bg-secondary)",
-              borderRadius: "99px",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                height: "100%",
-                borderRadius: "99px",
-                background: `linear-gradient(90deg, ${level.color}, ${level.color}AA)`,
-                width: `${xpPercent}%`,
-                transition: "width 1.2s cubic-bezier(0.34,1.56,0.64,1)",
-                boxShadow: `0 0 10px ${level.color}50`,
-              }}
-            />
-          </div>
-        </div>
 
-        <div className="mb-8 mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "20px" }}>
+            {CONTINUE_LEARNING.map((lesson, i) => (
+              <motion.div
+                key={lesson.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                whileHover={{ y: -4, scale: 1.02 }}
+                onClick={() => nav({ to: `/lesson/${lesson.id}` as any })}
+                style={{
+                  background: "var(--surface-raised)",
+                  borderRadius: "16px",
+                  overflow: "hidden",
+                  border: "2px solid var(--border)",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                {/* Progress bar */}
+                {lesson.progress > 0 && (
+                  <div style={{ height: "4px", background: "var(--border)" }}>
+                    <div style={{ height: "100%", background: "var(--brand)", width: `${lesson.progress}%`, transition: "width 0.3s" }} />
+                  </div>
+                )}
+
+                <div style={{ padding: "20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                    <span style={{ padding: "4px 10px", background: "var(--border)", borderRadius: "6px", fontSize: "11px", fontWeight: 800, color: "var(--text-secondary)" }}>
+                      {lesson.difficulty}
+                    </span>
+                    <span style={{ padding: "4px 10px", background: "rgba(76,175,80,0.1)", borderRadius: "6px", fontSize: "11px", fontWeight: 800, color: "#4CAF50" }}>
+                      +{lesson.xp} XP
+                    </span>
+                  </div>
+
+                  <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "8px", lineHeight: 1.3 }}>
+                    {lesson.title}
+                  </h3>
+
+                  <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "16px", lineHeight: 1.5 }}>
+                    {lesson.description}
+                  </p>
+
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px", fontSize: "13px", color: "var(--text-secondary)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <Clock size={14} />
+                        {lesson.duration}min
+                      </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                        <Book size={14} />
+                        {lesson.type}
+                      </div>
+                    </div>
+
+                    {lesson.completed && (
+                      <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "#4CAF50", fontSize: "13px", fontWeight: 700 }}>
+                        <CheckCircle size={16} color="#4CAF50" />
+                        {isPT ? "Completo" : "Completed"}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* DAILY CHALLENGES GRID */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))", gap: "24px", marginBottom: "64px" }}>
           <DailyQuest />
           <Leaderboard />
         </div>
 
-        {/* TOPIC CARDS — Dynamic Categories Overhaul */}
-        <div style={{ marginTop: "48px", marginBottom: "28px" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              flexWrap: "wrap",
-              gap: "12px",
-              marginBottom: "20px",
-            }}
-          >
-            <div>
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "clamp(24px,3vw,34px)",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  margin: "0 0 4px",
-                }}
-              >
-                {isPT ? "Salas de Conversação" : "Conversation Rooms"}
-              </h2>
-              <p
-                style={{
-                  fontSize: "14.5px",
-                  color: "var(--text-secondary)",
-                  margin: 0,
-                  fontWeight: 500,
-                }}
-              >
-                {isPT
-                  ? "Escolha uma categoria e destrave sua fala"
-                  : "Select a topic category to start speaking"}
-              </p>
-            </div>
+        {/* RECOMMENDED VIDEOS REMOVIDO — thumbnails externos não carregam de forma confiável */}
+
+        {/* EXPLORE CITIES - Airbnb Style */}
+        <section style={{ marginBottom: "64px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+            <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px" }}>
+              <Globe size={28} color="#3498DB" />
+              {isPT ? "Explore Cidades" : "Explore Cities"}
+            </h2>
+            <Link to="/culture" style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--brand)", fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>
+              {isPT ? "Ver todas" : "See all"}
+              <ChevronRight size={18} />
+            </Link>
           </div>
 
-          {/* Category Tabs Container */}
-          <div
-            style={{
-              display: "flex",
-              gap: "8px",
-              overflowX: "auto",
-              paddingBottom: "8px",
-              marginBottom: "24px",
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-            className="no-scrollbar"
-          >
-            {[
-              { id: "all", label: isPT ? "Todos" : "All", icon: <Compass size={14} /> },
-              {
-                id: "everyday",
-                label: isPT ? "Dia a Dia" : "Everyday",
-                icon: <Coffee size={14} />,
-              },
-              {
-                id: "culture",
-                label: isPT ? "Arte & Cultura" : "Culture",
-                icon: <Palette size={14} />,
-              },
-              {
-                id: "professional",
-                label: isPT ? "Carreira" : "Career",
-                icon: <Briefcase size={14} />,
-              },
-              {
-                id: "free",
-                label: isPT ? "Livre" : "Free Talk",
-                icon: <MessageCircle size={14} />,
-              },
-              {
-                id: "confidence",
-                label: isPT ? "Confiança" : "Confidence",
-                icon: <Brain size={14} />,
-              },
-            ].map((tab) => {
-              const isActive = activeCategory === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveCategory(tab.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "8px 16px",
-                    borderRadius: "12px",
-                    background: isActive ? "var(--accent-green)" : "var(--card-bg)",
-                    color: isActive ? "white" : "var(--text-secondary)",
-                    border: "1.5px solid",
-                    borderColor: isActive ? "var(--accent-green)" : "var(--border)",
-                    fontSize: "13px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    transition: "all 0.2s",
-                    boxShadow: isActive ? "0 4px 12px rgba(38,70,58,0.15)" : "none",
-                  }}
-                  className="hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  {tab.icon}
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "16px" }}>
+            {TRENDING_CITIES.map((city, i) => (
+              <motion.div
+                key={city.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.05 }}
+                whileHover={{ scale: 1.05 }}
+                onClick={() => nav({ to: "/culture" })}
+                style={{
+                  background: "var(--surface-raised)",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  border: "2px solid var(--border)",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <div style={{ fontSize: "48px", marginBottom: "12px" }}>{city.flag}</div>
+                <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
+                  {city.name}
+                </h3>
+                <p style={{ fontSize: "12px", color: "var(--text-secondary)", marginBottom: "8px" }}>
+                  {city.country}
+                </p>
+                <div style={{ fontSize: "14px", fontWeight: 900, color: "var(--brand)" }}>
+                  {city.content.toLocaleString()} {isPT ? "itens" : "items"}
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: "16px",
-            marginBottom: "40px",
-          }}
-        >
-          <StaggerList stagger={0.06}>
-            {filteredTopics.map((topic) => {
-              const colors = TOPIC_COLORS[topic.slug] || {
-                bg: "rgba(0,0,0,0.05)",
-                border: "#666",
-                glow: "rgba(0,0,0,0.1)",
-              };
-              return (
-                <Link
-                  key={topic.slug}
-                  to={`/conversation/${topic.slug}` as any}
-                  style={{ textDecoration: "none", color: "inherit" }}
-                >
-                  <div
-                    className="topic-card-upgrade card-hover"
-                    style={{
-                      background: colors.bg,
-                      borderRadius: "22px",
-                      padding: "28px 24px",
-                      borderTop: `4px solid ${colors.border}`,
-                      border: `1px solid ${colors.border}18`,
-                      minHeight: "220px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "space-between",
-                      position: "relative",
-                      overflow: "hidden",
-                      cursor: "pointer",
-                      boxShadow: "0 2px 12px rgba(0,0,0,0.05)",
-                    }}
-                  >
-                    {/* Decorative circle */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        right: "-20px",
-                        bottom: "-20px",
-                        width: "100px",
-                        height: "100px",
-                        borderRadius: "50%",
-                        background: `${colors.border}10`,
-                      }}
-                    />
+        {/* QUICK QUIZZES - Duolingo Style */}
+        <section style={{ marginBottom: "64px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+            <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px" }}>
+              <Zap size={28} color="#F39C12" />
+              {isPT ? "Quiz Rápido" : "Quick Quizzes"}
+            </h2>
+          </div>
 
-                    {/* Icon box using new abstract illustrations */}
-                    <div
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        borderRadius: "16px",
-                        background: `${colors.border}15`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        marginBottom: "18px",
-                        boxShadow: `0 4px 16px ${colors.border}15`,
-                      }}
-                    >
-                      <CategoryIllustration
-                        category={
-                          topic.category === "grammar"
-                            ? "grammar"
-                            : topic.category === "vocabulary"
-                              ? "vocabulary"
-                              : topic.category === "culture"
-                                ? "culture"
-                                : topic.category === "professional"
-                                  ? "professional"
-                                  : "default"
-                        }
-                        size={32}
-                      />
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "20px" }}>
+            {DAILY_QUIZZES.map((quiz, i) => (
+              <motion.div
+                key={quiz.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.1 }}
+                whileHover={{ scale: 1.03 }}
+                onClick={() => nav({ to: "/quiz/quick" as any })}
+                style={{
+                  background: "linear-gradient(135deg, #F39C12 0%, #E67E22 100%)",
+                  borderRadius: "20px",
+                  padding: "24px",
+                  color: "white",
+                  cursor: "pointer",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div style={{ position: "absolute", top: "-20px", right: "-20px", width: "100px", height: "100px", borderRadius: "50%", background: "rgba(255,255,255,0.1)" }} />
+                
+                <div style={{ position: "relative", zIndex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                    <Zap size={20} color="white" fill="white" />
+                    <span style={{ fontSize: "12px", fontWeight: 800, opacity: 0.9 }}>
+                      +{quiz.xp} XP
+                    </span>
+                  </div>
+
+                  <h3 style={{ fontSize: "18px", fontWeight: 900, marginBottom: "8px", lineHeight: 1.3 }}>
+                    {quiz.title}
+                  </h3>
+
+                  <p style={{ fontSize: "14px", opacity: 0.9, marginBottom: "16px" }}>
+                    {quiz.questions} {isPT ? "questões" : "questions"}
+                  </p>
+
+                  {quiz.bestScore && (
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: 700 }}>
+                      <Trophy size={14} />
+                      {isPT ? "Melhor:" : "Best:"} {quiz.bestScore}%
                     </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-                    <div>
-                      <h3
-                        style={{
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "20px",
-                          fontWeight: 700,
-                          color: "var(--text-primary)",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        {topic.title}
-                      </h3>
-                      <p
-                        style={{
-                          fontSize: "13px",
-                          color: "var(--text-secondary)",
-                          lineHeight: 1.55,
-                          marginBottom: "18px",
-                        }}
-                      >
-                        {isPT ? topic.description_pt : topic.description}
-                      </p>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          position: "relative",
-                          zIndex: 2,
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            fontWeight: 800,
-                            textTransform: "uppercase",
-                            letterSpacing: "0.08em",
-                            color: colors.border,
-                          }}
-                        >
-                          {isPT ? "Começar →" : "Start →"}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: "10px",
-                            fontWeight: 700,
-                            color: "var(--text-secondary)",
-                            background: "var(--card-bg)",
-                            padding: "3px 10px",
-                            borderRadius: "99px",
-                            border: "1px solid rgba(0,0,0,0.06)",
-                          }}
-                        >
-                          {topic.category}
-                        </span>
-                      </div>
+        {/* ACTIVE FRIENDS - Social */}
+        <section style={{ marginBottom: "64px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "24px" }}>
+            <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "12px" }}>
+              <Users size={28} color="#9B59B6" />
+              {isPT ? "Amigos Ativos" : "Active Friends"}
+            </h2>
+            <Link to="/community" style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--brand)", fontWeight: 700, textDecoration: "none", fontSize: "14px" }}>
+              {isPT ? "Ver comunidade" : "See community"}
+              <ChevronRight size={18} />
+            </Link>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "16px" }}>
+            {ACTIVE_FRIENDS.map((friend, i) => (
+              <motion.div
+                key={friend.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                whileHover={{ y: -4 }}
+                style={{
+                  background: "var(--surface-raised)",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  border: "2px solid var(--border)",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                  <div style={{ fontSize: "40px" }}>{friend.avatar}</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
+                      {friend.name}
+                    </div>
+                    <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                      {friend.country} • Lvl {friend.level}
                     </div>
                   </div>
-                </Link>
-              );
-            })}
-          </StaggerList>
-        </div>
-
-        {/* LUME CULTURAL ATLAS CTA */}
-        {(activeCategory === "all" || activeCategory === "culture") && (
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(38,70,58,0.03) 0%, rgba(196,113,74,0.03) 100%)",
-              border: "1.5px dashed rgba(38,70,58,0.25)",
-              borderRadius: "24px",
-              padding: "30px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "24px",
-              marginTop: "16px",
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ flex: 1, minWidth: "280px" }}>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}
-              >
-                <span style={{ display: "flex", color: "var(--accent-terra)" }}>
-                  <IlluGlobe
-                    size={36}
-                    primary="var(--accent-terra)"
-                    secondary="var(--accent-gold)"
-                  />
-                </span>
-                <h4
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "20px",
-                    fontWeight: 800,
-                    color: "var(--text-primary)",
-                    margin: 0,
-                  }}
-                >
-                  {t(
-                    "cultureMap",
-                    isPT ? "Explorar Atlas Cultural Lume" : "Explore the Lume Cultural Atlas",
-                  )}
-                </h4>
-              </div>
-              <p
-                style={{
-                  fontSize: "13.5px",
-                  color: "var(--text-secondary)",
-                  margin: 0,
-                  lineHeight: 1.5,
-                  fontWeight: 500,
-                }}
-              >
-                {t(
-                  "cultureMapDesc",
-                  isPT
-                    ? "Viaje por capitais interativas, descubra pratos típicos, curiosidades históricas e sotaques regionais com nosso mapa ilustrado."
-                    : "Travel through interactive capitals, discover traditional dishes, historical curiosities and regional accents with our illustrated map.",
-                )}
-              </p>
-            </div>
-            <Link
-              to="/culture"
-              style={{
-                textDecoration: "none",
-                padding: "12px 24px",
-                background: "var(--brand)",
-                color: "white",
-                borderRadius: "14px",
-                fontSize: "13.5px",
-                fontWeight: 800,
-                boxShadow: "0 4px 12px rgba(38,70,58,0.15)",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-              }}
-              className="hover:scale-105 active:scale-95 transition-transform"
-            >
-              <span>{t("openMap", isPT ? "Abrir Mapa Cultural →" : "Open Cultural Map →")}</span>
-            </Link>
-          </motion.div>
-        )}
-
-        {/* Quick Challenge CTA */}
-        <div
-          style={{
-            borderRadius: "24px",
-            padding: "32px 38px",
-            background: "linear-gradient(135deg, var(--brand) 0%, var(--accent-teal) 100%)",
-            color: "white",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "20px",
-            boxShadow: "0 8px 32px rgba(45,74,62,0.2)",
-            marginTop: "48px",
-            position: "relative",
-            overflow: "hidden",
-          }}
-          className="page-enter"
-        >
-          <div
-            style={{
-              position: "absolute",
-              right: "-40px",
-              bottom: "-40px",
-              width: "180px",
-              height: "180px",
-              borderRadius: "50%",
-              background: "rgba(255,255,255,0.05)",
-              pointerEvents: "none",
-            }}
-          />
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <h3
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "24px",
-                fontWeight: 800,
-                marginBottom: "8px",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              {isPT ? "Pronto para um desafio relâmpago?" : "Ready for a quick drill?"}
-            </h3>
-            <p
-              style={{
-                opacity: 0.85,
-                fontSize: "14px",
-                maxWidth: "500px",
-                lineHeight: 1.5,
-                margin: 0,
-              }}
-            >
-              {isPT
-                ? "Inicie uma conversa por voz de 2 minutos com a Lume IA e ganhe bônus de XP instantâneo!"
-                : "Start an express 2-minute voice session with Lume AI and claim an instant XP bonus!"}
-            </p>
-          </div>
-          <Link
-            to={"/conversation/free-talk" as any}
-            style={{ textDecoration: "none", position: "relative", zIndex: 1 }}
-          >
-            <button
-              style={{
-                background: "white",
-                color: "var(--brand)",
-                padding: "12px 24px",
-                borderRadius: "14px",
-                fontSize: "14px",
-                fontWeight: 800,
-                boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                border: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                gap: "12px",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-              className="hover:scale-105 active:scale-95"
-            >
-              <MicPulseRing recording={true} size={28} />
-              {isPT ? "Falar Agora" : "Speak Now"}
-            </button>
-          </Link>
-        </div>
-
-        {/* ℹ️ FLOATING HELP BUTTON */}
-        <button
-          onClick={() => setShowHelp(true)}
-          style={{
-            position: "fixed",
-            right: "24px",
-            bottom: "80px",
-            zIndex: 99,
-            width: "52px",
-            height: "52px",
-            borderRadius: "50%",
-            background: "var(--accent-terra)",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 8px 32px rgba(196,109,75,0.3)",
-            transition: "transform 0.2s",
-          }}
-          className="hover:scale-110 active:scale-95"
-        >
-          <span style={{ fontSize: "20px", fontWeight: 800 }}>?</span>
-        </button>
-
-        {/* HELP MODAL */}
-        <AnimatePresence>
-          {showHelp && (
-            <div
-              style={{
-                position: "fixed",
-                inset: 0,
-                zIndex: 9999,
-                background: "rgba(0,0,0,0.4)",
-                backdropFilter: "blur(4px)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "20px",
-              }}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="glass"
-                style={{
-                  maxWidth: "480px",
-                  width: "100%",
-                  borderRadius: "28px",
-                  padding: "32px",
-                  background: "var(--surface-raised)",
-                  border: "1.5px solid var(--border)",
-                  boxShadow: "0 12px 48px rgba(0,0,0,0.1)",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "24px",
-                      fontWeight: 800,
-                      margin: 0,
-                      color: "var(--text-primary)",
-                    }}
-                  >
-                    {isPT ? "Painel de Bordo Lume" : "Lume Dashboard Guide"}
-                  </h3>
-                  <button
-                    onClick={() => setShowHelp(false)}
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                      fontSize: "18px",
-                      color: "var(--text-secondary)",
-                    }}
-                  >
-                    ✕
-                  </button>
                 </div>
-                <div
-                  style={{
-                    fontSize: "14.5px",
-                    color: "var(--text-secondary)",
-                    lineHeight: 1.6,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                  }}
-                >
-                  <p>
-                    <strong>1. {isPT ? "Nível e Streak:" : "Level & Streak:"}</strong>{" "}
-                    {isPT
-                      ? "Monitore seus dias seguidos estudando e ganhe bônus ao completar objetivos diários."
-                      : "Track your consecutive learning days and unlock rewards by hitting daily targets."}
-                  </p>
-                  <p>
-                    <strong>2. {isPT ? "Lições recomendadas:" : "Recommended Sessions:"}</strong>{" "}
-                    {isPT
-                      ? "Seu itinerário pessoal foi formulado por inteligência artificial para maximizar seu tempo."
-                      : "Your personal route is formulated dynamically by AI to optimize your time."}
-                  </p>
-                  <p>
-                    <strong>3. {isPT ? "Atlas Cultural:" : "Cultural Atlas:"}</strong>{" "}
-                    {isPT
-                      ? "Explore capital por capital no Atlas Cultural Lume para dominar sotaques e jargões locais."
-                      : "Journey capital by capital in Lume Cultural Atlas to master local slangs and accents."}
-                  </p>
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: "12px", borderTop: "1px solid var(--border)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "12px", color: "var(--text-secondary)" }}>
+                    <Flame size={14} color="#FF6B35" />
+                    {friend.streak}
+                  </div>
+                  <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--brand)" }}>
+                    {friend.xp.toLocaleString()} XP
+                  </div>
                 </div>
-                <button
-                  onClick={() => setShowHelp(false)}
-                  style={{
-                    marginTop: "24px",
-                    width: "100%",
-                    padding: "12px",
-                    background: "var(--brand)",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "14px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  {isPT ? "Entendi!" : "Got it!"}
-                </button>
               </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+            ))}
+          </div>
+        </section>
+
       </main>
 
-      {/* ===== STREAK MODAL ===== */}
-      <AnimatePresence>
-        {showStreakModal && (
-          <motion.div
-            className="lume-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowStreakModal(false)}
-          >
-            <motion.div
-              className="lume-modal-card"
-              initial={{ scale: 0.8, opacity: 0, y: 40 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", stiffness: 340, damping: 28 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close button */}
-              <button
-                onClick={() => setShowStreakModal(false)}
-                style={{
-                  position: "absolute", top: "16px", right: "16px",
-                  background: "var(--bg)", border: "1.5px solid var(--border)",
-                  borderRadius: "50%", width: "32px", height: "32px",
-                  cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "16px", color: "var(--text-secondary)", fontWeight: 700,
-                }}
-              >
-                ×
-              </button>
-
-              {/* Mascot */}
-              <div className="mascot-bob" style={{ marginBottom: "20px" }}>
-                <div style={{
-                  width: "96px", height: "96px", borderRadius: "50%",
-                  background: "var(--surface-raised)",
-                  border: "3px solid var(--accent-terra)",
-                  margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center",
-                  overflow: "hidden",
-                }} className="streak-ring-pulse">
-                  <img
-                    src="/lume_mascot_hero.png"
-                    alt="Lume Mascot"
-                    style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).style.display = "none";
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Flame count */}
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: "8px",
-                background: "linear-gradient(135deg, #FF6B35, #FF8C42)",
-                borderRadius: "99px", padding: "8px 20px", marginBottom: "20px",
-                boxShadow: "0 8px 24px rgba(255,107,53,0.35)",
-              }}>
-                <Flame size={22} color="white" fill="white" />
-                <span style={{ fontSize: "22px", fontWeight: 900, color: "white" }}>
-                  {streak}
-                </span>
-                <span style={{ fontSize: "14px", fontWeight: 700, color: "rgba(255,255,255,0.9)" }}>
-                  {isPT ? (streak === 1 ? "dia" : "dias") : (streak === 1 ? "day" : "days")}
-                </span>
-              </div>
-
-              {/* Title */}
-              <h2 style={{
-                fontFamily: "var(--font-display)", fontSize: "26px", fontWeight: 900,
-                color: "var(--text-primary)", marginBottom: "10px", lineHeight: 1.2,
-              }}>
-                {isPT ? "Sequência Incrível! 🔥" : "Amazing Streak! 🔥"}
-              </h2>
-
-              {/* Subtitle */}
-              <p style={{
-                fontSize: "15px", color: "var(--text-secondary)",
-                lineHeight: 1.6, marginBottom: "28px",
-              }}>
-                {isPT
-                  ? `Você praticou por ${streak} ${streak === 1 ? "dia" : "dias"} seguidos. Continue assim e você vai voar!`
-                  : `You've practiced ${streak} ${streak === 1 ? "day" : "days"} in a row. Keep it up and you'll soar!`
-                }
-              </p>
-
-              {/* CTA */}
-              <button
-                className="btn-premium"
-                onClick={() => setShowStreakModal(false)}
-                style={{
-                  width: "100%", padding: "16px",
-                  borderRadius: "16px", fontSize: "16px", fontWeight: 800,
-                  background: "linear-gradient(135deg, #FF6B35, #FF8C42)",
-                  border: "none", color: "white", cursor: "pointer",
-                  boxShadow: "0 8px 24px rgba(255,107,53,0.35)",
-                }}
-              >
-                {isPT ? "Vamos praticar! 🚀" : "Let's practice! 🚀"}
-              </button>
-
-              {/* Dismiss */}
-              <button
-                onClick={() => setShowStreakModal(false)}
-                style={{
-                  marginTop: "12px", background: "none", border: "none",
-                  color: "var(--text-secondary)", fontSize: "13px",
-                  cursor: "pointer", fontWeight: 600,
-                }}
-              >
-                {isPT ? "Fechar" : "Dismiss"}
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        .video-play-overlay:hover {
+          opacity: 1 !important;
+        }
+      `}</style>
     </div>
   );
 }

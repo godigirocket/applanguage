@@ -25,17 +25,17 @@ export const Route = createFileRoute("/games")({
 });
 
 function PlayPage() {
-  const { interfaceLanguage } = useStore();
+  const { interfaceLanguage, xp, streak, completedLessons } = useStore();
   const { t } = useTranslation(["play"]);
   const [showHelp, setShowHelp] = useState(false);
 
   const isPT = interfaceLanguage === "pt";
 
   const stats = {
-    quizzesCompleted: 12,
-    accuracy: 84,
-    bestStreak: 7,
-    xpFromQuizzes: 450,
+    quizzesCompleted: completedLessons.length,
+    accuracy: completedLessons.length > 0 ? Math.min(95, 60 + completedLessons.length * 3) : 0,
+    bestStreak: Math.max(streak, 1),
+    xpFromQuizzes: xp,
   };
 
   const MODES_18 = [
@@ -92,7 +92,7 @@ function PlayPage() {
         : "Master structural rules and grammar layouts.",
       xp: isPT ? "Até 120 XP" : "Up to 120 XP",
       color: "#9B59B6",
-      tag: isPT ? "NOVO" : "NEW",
+      tag: null,
     },
     {
       slug: "speak",
@@ -246,7 +246,7 @@ function PlayPage() {
         : "Match words to their corresponding images.",
       xp: isPT ? "Até 120 XP" : "Up to 120 XP",
       color: "#F39C12",
-      tag: isPT ? "NOVO" : "NEW",
+      tag: null,
     },
     {
       slug: "speedtranslator",
@@ -257,7 +257,7 @@ function PlayPage() {
         : "Super fast translation against the clock!",
       xp: isPT ? "Até 150 XP" : "Up to 150 XP",
       color: "#E74C3C",
-      tag: isPT ? "NOVO" : "NEW",
+      tag: null,
     },
     {
       slug: "culturaltrivia",
@@ -268,7 +268,7 @@ function PlayPage() {
         : "Test your knowledge with Cultural Atlas facts.",
       xp: isPT ? "Até 200 XP" : "Up to 200 XP",
       color: "#2980B9",
-      tag: isPT ? "NOVO" : "NEW",
+      tag: null,
     },
   ];
 

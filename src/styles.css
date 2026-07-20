@@ -85,6 +85,7 @@
   --brand: #2d4a3e;
   --accent: #c4714a;
   --card-bg: #ffffff;
+  --overlay-bg: rgba(255, 255, 255, 0.94);
   --border: #e0ddd6;
 
   /* Legacy Mapping for Seamless Downstream Compatibility */
@@ -135,15 +136,17 @@ body {
   overflow-x: hidden;
   width: 100%;
 }
-body {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  padding-bottom: 16px;
-}
+  body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    padding-bottom: 16px;
+  }
 
 h1,
 h2,
@@ -167,16 +170,16 @@ h6 {
 
 /* Cards modernos */
 .card-modern {
-  background: var(--surface);
+  background: var(--surface-raised);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 .card-modern:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.15);
 }
 
@@ -208,6 +211,7 @@ h6 {
   --brand: #4a7a6a;
   --accent: #d4824a;
   --card-bg: #252523;
+  --overlay-bg: rgba(26, 26, 24, 0.94);
   --border: #3a3a36;
 
   /* Legacy Mapping for Seamless Downstream Compatibility */
@@ -323,12 +327,13 @@ h6 {
   }
   body {
     background:
-      radial-gradient(circle at 10% 20%, rgba(45, 74, 62, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.07) 0%, transparent 40%),
-      radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%), var(--bg);
+      radial-gradient(circle at 10% 20%, rgba(45, 74, 62, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.03) 0%, transparent 50%), var(--bg);
     color: var(--text-primary);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     position: relative;
     overflow-x: hidden;
@@ -338,12 +343,10 @@ h6 {
     content: "";
     position: fixed;
     inset: 0;
-    /* Static noise is better than SVG filter for performance */
-    background-image: url("https://www.transparenttextures.com/patterns/p6.png");
-    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    will-change: transform;
+    opacity: 0.5;
   }
 
   h1,
@@ -360,15 +363,26 @@ h6 {
   button,
   [data-card] {
     transition:
-      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform, opacity;
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      background-color 0.2s ease,
+      box-shadow 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   button:active {
     transform: scale(0.97);
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   /* Smooth scroll */
@@ -411,7 +425,6 @@ h6 {
       0 10px 30px rgba(0, 0, 0, 0.02),
       inset 0 1px 1px rgba(255, 255, 255, 0.8),
       inset 0 -1px 1px rgba(0, 0, 0, 0.01);
-    will-change: transform, opacity;
   }
 
   .glass-dark {
@@ -420,7 +433,6 @@ h6 {
     box-shadow:
       0 12px 40px rgba(0, 0, 0, 0.25),
       inset 0 1px 0px rgba(255, 255, 255, 0.06);
-    will-change: transform, opacity;
   }
 
   /* Dark header: solid, no bleed-through */
@@ -440,7 +452,7 @@ h6 {
   select {
     width: 100%;
     padding: 14px 18px;
-    font-size: 15px;
+    font-size: 16px; /* Minimum 16px to prevent iOS zoom */
     font-weight: 500;
     color: var(--text-primary);
     background: rgba(255, 255, 255, 0.5);
@@ -595,19 +607,19 @@ h6 {
 @layer utilities {
   /* Card hover lift — apply to all interactive cards */
   .lume-card {
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow:
-      0 8px 30px rgba(0, 0, 0, 0.02),
-      0 1px 2px rgba(0, 0, 0, 0.04);
+      0 4px 16px rgba(0, 0, 0, 0.03),
+      0 1px 3px rgba(0, 0, 0, 0.04);
   }
   .lume-card:hover {
-    transform: translateY(-8px) scale(1.015);
+    transform: translateY(-6px) scale(1.01);
     box-shadow:
-      0 24px 48px rgba(45, 74, 62, 0.08),
-      0 4px 12px rgba(0, 0, 0, 0.02) !important;
+      0 20px 40px rgba(45, 74, 62, 0.07),
+      0 4px 12px rgba(0, 0, 0, 0.03) !important;
   }
   .lume-card:active {
-    transform: translateY(-2px) scale(0.995);
+    transform: translateY(-2px) scale(0.99);
     cursor: pointer;
   }
 
@@ -1124,10 +1136,10 @@ h6 {
 
   /* Tighter main content padding — account for fixed bottom nav */
   main {
-    padding-left: 14px !important;
-    padding-right: 14px !important;
+    padding-left: clamp(16px, 4vw, 20px) !important;
+    padding-right: clamp(16px, 4vw, 20px) !important;
     padding-top: 20px !important;
-    padding-bottom: 80px !important;
+    padding-bottom: 88px !important;
   }
 
   /* Hero stats: smaller padding on mobile */
@@ -1150,6 +1162,38 @@ h6 {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px !important;
   }
+  
+  /* Ensure all inputs are minimum 16px to prevent iOS zoom */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+
+  /* Better touch targets on mobile (min 44px) */
+  button,
+  a,
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve text readability on small screens */
+  h1 {
+    font-size: clamp(28px, 7vw, 42px) !important;
+    line-height: 1.15 !important;
+  }
+
+  h2 {
+    font-size: clamp(22px, 5vw, 32px) !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Prevent content from touching screen edges */
+  section {
+    padding-left: clamp(16px, 4vw, 24px);
+    padding-right: clamp(16px, 4vw, 24px);
+  }
 }
 
 /* ---- Grid breakpoints: override auto-fit on mobile ---- */
@@ -1163,13 +1207,13 @@ h6 {
   /* Topic / conversation cards: 1 column */
   [style*="minmax(240px, 1fr)"] {
     grid-template-columns: 1fr !important;
-    gap: 12px !important;
+    gap: 14px !important;
   }
 
   /* Lesson cards: 1 column */
   [style*="minmax(280px, 1fr)"] {
     grid-template-columns: 1fr !important;
-    gap: 14px !important;
+    gap: 16px !important;
   }
 
   /* Feature / marketing cards: 1 column */
@@ -1180,12 +1224,40 @@ h6 {
 
   /* Overall page padding tighter */
   main {
-    padding: 16px 14px 80px !important;
+    padding: 16px 16px 88px !important;
   }
 
   /* Header: slightly shorter */
   header[style] {
-    height: 56px !important;
+    height: 54px !important;
+  }
+
+  /* Reduce border-radius on very small screens */
+  .glass,
+  .lume-card,
+  .card-modern {
+    border-radius: 16px !important;
+  }
+}
+
+/* Small phones (320px-360px) */
+@media (max-width: 360px) {
+  main {
+    padding: 12px 12px 88px !important;
+  }
+
+  h1 {
+    font-size: 26px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  /* Stack CTAs vertically */
+  [style*="flex-wrap: wrap"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
   }
 }
 
@@ -1196,8 +1268,15 @@ h6 {
     font-size: 12px !important;
   }
   main {
-    padding-left: 20px !important;
-    padding-right: 20px !important;
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Large Desktop: 1440px+ — wider container */
+@media (min-width: 1440px) {
+  .container-lume {
+    max-width: 1280px;
   }
 }
 
@@ -1376,3 +1455,120 @@ code, pre, kbd, samp {
   font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
 }
 
+/* =============================================
+   PERFORMANCE OPTIMIZATIONS
+   ============================================= */
+
+/* GPU-accelerated animations only where needed */
+.lume-card,
+.card-modern,
+.glass,
+.topic-card {
+  contain: layout style paint;
+}
+
+/* Image optimization defaults */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Optimize paint for fixed elements */
+header,
+.lume-mobile-tabs {
+  contain: layout style;
+  transform: translateZ(0);
+}
+
+/* Content visibility for off-screen sections */
+section:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
+}
+
+/* =============================================
+   IMPROVED FOCUS & ACCESSIBILITY
+   ============================================= */
+
+/* High-contrast focus ring */
+*:focus-visible {
+  outline: 2.5px solid var(--brand);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: var(--brand);
+  color: white;
+  border-radius: 0 0 12px 12px;
+  font-weight: 700;
+  z-index: 10000;
+  transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* =============================================
+   SMOOTH LOADING STATES
+   ============================================= */
+
+/* Skeleton shimmer - improved */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 25%,
+    var(--surface-raised) 50%,
+    var(--surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerLoad 1.2s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+/* Fade in for lazy-loaded content */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-loaded {
+  animation: contentFadeIn 0.4s ease both;
+}
+
+/* =============================================
+   PRINT STYLES
+   ============================================= */
+@media print {
+  header,
+  .lume-mobile-tabs,
+  .lume-bottom-spacer,
+  button,
+  nav {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+}

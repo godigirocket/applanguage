@@ -653,7 +653,8 @@ function MemoryGamePage() {
                         fontWeight: 800,
                       }}
                     >
-                      ✨ +50 XP
+                      <Sparkles size={14} color="#F39C12" style={{ marginRight: "6px" }} />
+                      +50 XP
                     </div>
                     <div
                       style={{

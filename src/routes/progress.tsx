@@ -18,6 +18,7 @@ import {
   CartesianGrid,
 } from "recharts";
 import { TOPIC_BY_SLUG } from "@/lib/topics";
+import { AlertTriangle } from "@/components/lume/CustomIcons";
 import { DynamicIcon } from "@/components/lume/DynamicIcon";
 import {
   MessageSquare,
@@ -184,8 +185,9 @@ function ProgressPage() {
             }}
           >
             <div>
-              <div style={{ fontWeight: 800, fontSize: "15px", marginBottom: "3px" }}>
-                ⚠️ Base de dados não configurada
+              <div style={{ fontWeight: 800, fontSize: "15px", marginBottom: "3px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <AlertTriangle size={18} aria-hidden="true" />
+                Base de dados não configurada
               </div>
               <div style={{ opacity: 0.85, fontSize: "13px" }}>
                 Execute o SQL no Supabase para ativar o progresso e histórico.

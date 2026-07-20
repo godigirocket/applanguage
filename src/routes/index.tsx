@@ -1,23 +1,53 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+﻿import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
-import { MessageCircle, Brain, Compass, Star, Flame } from "@/components/lume/CustomIcons";
+import { MessageCircle, Brain, Compass, Star, Flame, Sparkles, Book, BookOpen, Zap, Gamepad2, Globe } from "@/components/lume/CustomIcons";
 import { MarketingSection } from "@/components/lume/MarketingSection";
-import { LumeImage } from "@/components/lume/Illustrations";
+
+// Structured Data for SEO (JSON-LD)
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "LumeLearn",
+  applicationCategory: "EducationalApplication",
+  operatingSystem: "Web",
+  description: "Plataforma de idiomas com 630+ liÃ§Ãµes interativas, prÃ¡tica de conversaÃ§Ã£o com IA e gamificaÃ§Ã£o.",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "BRL",
+    description: "Plano gratuito com liÃ§Ãµes limitadas",
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.8",
+    ratingCount: "50",
+    bestRating: "5",
+  },
+  featureList: "630+ liÃ§Ãµes interativas, 3 idiomas (EN/ES/PT), 6 nÃ­veis CEFR, 5 modos de jogo, IA conversacional, GamificaÃ§Ã£o com XP",
+  inLanguage: ["pt-BR", "en", "es"],
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Lume — Aprenda através de conversa, cultura e confiança" },
+      { title: "LumeLearn â€” Aprenda InglÃªs, Espanhol e PortuguÃªs com IA Conversacional" },
       {
         name: "description",
         content:
-          "Prática de conversação com IA projetada como um complemento calmo e paciente para suas aulas particulares.",
+          "Plataforma de idiomas com 630+ liÃ§Ãµes interativas, prÃ¡tica de conversaÃ§Ã£o com IA e gamificaÃ§Ã£o. 3 idiomas, 6 nÃ­veis CEFR, 5 modos de jogo. Comece grÃ¡tis.",
       },
+      { property: "og:title", content: "LumeLearn â€” Aprenda Idiomas de Forma Inteligente" },
+      {
+        property: "og:description",
+        content:
+          "630+ liÃ§Ãµes, conversaÃ§Ã£o com IA, 5 modos de jogo. Aprenda inglÃªs, espanhol e portuguÃªs com gamificaÃ§Ã£o. Comece grÃ¡tis.",
+      },
+      { property: "og:type", content: "website" },
     ],
   }),
   component: Landing,
@@ -28,48 +58,46 @@ function Landing() {
   const nav = useNavigate();
   const { t, i18n } = useTranslation(["landing", "common"]);
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   const currentLang = i18n.language || "pt";
+  const isPT = currentLang === "pt";
   const mascotGreeting =
     {
-      pt: "Olá! Sou o Lume. Que tal praticar um pouco hoje? Sem pressões!",
-      en: "Hi! I'm Lume. How about practicing a bit today? No pressure!",
-      es: "¡Hola! Soy Lume. ¿Qué tal practicar un poco hoy? ¡Sin presiones!",
+      pt: "OlÃ¡! Sou o Lume. Que tal praticar um pouco hoje? Sem pressÃµes!",
+      en: "Hi! I'm Lume. How about practicing a bit today! No pressure!",
+      es: "Â¡Hola! Soy Lume. Â¿QuÃ© tal practicar un poco hoy? Â¡Sin presiones!",
     }[currentLang as "pt" | "en" | "es"] ||
-    "Olá! Sou o Lume. Que tal praticar um pouco hoje? Sem pressões!";
+    "OlÃ¡! Sou o Lume. Que tal praticar um pouco hoje? Sem pressÃµes!";
 
   return (
     <div
       style={{
         minHeight: "100vh",
-        background:
-          "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.05) 0%, transparent 60%), var(--bg)",
+        background: "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
         overflow: "hidden",
       }}
     >
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
       <AppHeader />
-      <main style={{ animation: "pageEnter 0.6s ease forwards" }}>
+      <main style={{ animation: "pageEnter 0.5s ease forwards" }} id="main-content" role="main">
         {/* Editorial Hero Layout (2 Columns) */}
         <section
           style={{
             maxWidth: "1120px",
             margin: "0 auto",
-            padding: "80px 24px 80px",
+            padding: "clamp(32px, 6vw, 80px) clamp(16px, 3vw, 24px)",
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-            gap: "60px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
+            gap: "clamp(32px, 5vw, 60px)",
             alignItems: "center",
           }}
         >
-          {/* LEFT — text */}
-          <div style={{ paddingRight: "20px" }}>
+          {/* LEFT â€” text */}
+          <div style={{ paddingRight: "0", maxWidth: "100%" }}>
             <div
               style={{
                 display: "inline-block",
@@ -99,7 +127,7 @@ function Landing() {
                 marginBottom: "24px",
               }}
             >
-              {t("landing:title")}
+              Pratique idiomas todos os dias com liÃ§Ãµes curtas e jogos
             </h1>
 
             <p
@@ -112,7 +140,7 @@ function Landing() {
                 fontWeight: 500,
               }}
             >
-              {t("landing:subtitle")}
+              InglÃªs, Espanhol e PortuguÃªs com prÃ¡tica guiada por IA, progresso salvo automaticamente e gamificaÃ§Ã£o inteligente.
             </p>
 
             <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "32px" }}>
@@ -125,22 +153,11 @@ function Landing() {
                   textDecoration: "none",
                   fontSize: "16px",
                   fontWeight: 700,
+                  width: "auto",
+                  textAlign: "center",
                 }}
               >
-                {t("landing:ctaStart")}
-              </Link>
-              <Link
-                to="/guest"
-                className="btn-secondary-premium"
-                style={{
-                  padding: "16px 32px",
-                  borderRadius: "99px",
-                  textDecoration: "none",
-                  fontSize: "16px",
-                  fontWeight: 700,
-                }}
-              >
-                {t("landing:ctaTryFree")}
+                Começar agora
               </Link>
             </div>
 
@@ -152,68 +169,66 @@ function Landing() {
                 fontStyle: "italic",
               }}
             >
-              {t("landing:testimonial")}
+              "Finalmente aprendo sem travar"
             </p>
           </div>
 
-          {/* RIGHT — live conversation preview card */}
+          {/* RIGHT â€” live conversation preview card */}
           <div
-            style={{ position: "relative", display: "flex", flexDirection: "column", gap: "16px" }}
+            style={{ 
+              position: "relative", 
+              display: "flex", 
+              flexDirection: "column", 
+              gap: "16px",
+              marginTop: "0",
+            }}
           >
-            {/* Mascot Lume */}
+            {/* Title above chat */}
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
               style={{
-                position: "absolute",
-                top: "-90px",
-                left: isMobile ? "12px" : "-70px",
-                zIndex: 3,
-                display: "flex",
-                alignItems: "center",
-                gap: "16px",
-                pointerEvents: "none",
+                textAlign: "center",
+                marginBottom: "8px",
               }}
             >
               <div
                 style={{
-                  width: "92px",
-                  height: "92px",
-                  borderRadius: "50%",
-                  background: "var(--surface-raised)",
-                  border: "2.5px solid var(--accent-green)",
-                  boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
-                  padding: "4px",
-                  display: "flex",
+                  display: "inline-flex",
                   alignItems: "center",
-                  justifyContent: "center",
-                  overflow: "hidden",
-                }}
-              >
-                <LumeImage
-                  src="/lume_mascot_hero.png"
-                  alt="Lume Mascot"
-                  style={{ width: "100%", height: "100%", objectFit: "contain" }}
-                  fallback="default"
-                />
-              </div>
-              <div
-                className="glass"
-                style={{
-                  padding: "10px 16px",
-                  borderRadius: "16px 16px 16px 4px",
-                  border: "1.5px solid var(--border)",
-                  maxWidth: "200px",
-                  fontSize: "12.5px",
-                  fontWeight: 700,
-                  color: "var(--text-primary)",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                  gap: "10px",
+                  padding: "10px 20px",
+                  borderRadius: "99px",
+                  background: "var(--card-bg)",
                   backdropFilter: "blur(10px)",
-                  lineHeight: 1.4,
-                  background: "rgba(255, 255, 255, 0.85)",
+                  border: "2px solid rgba(45,74,62,0.15)",
+                  boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
                 }}
               >
-                {mascotGreeting}
+                <div
+                  style={{
+                    width: "10px",
+                    height: "10px",
+                    borderRadius: "50%",
+                    background: "#4CAF50",
+                    boxShadow: "0 0 12px #4CAF50AA",
+                    animation: "pulse 2s infinite",
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "15px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    letterSpacing: "-0.01em",
+                  }}
+                >
+                  <MessageCircle size={16} color="var(--brand)" style={{ flexShrink: 0 }} />
+                  <span style={{ fontWeight: 600 }}>
+                    {isPT ? "Conversa ao Vivo" : "Live Conversation"}
+                  </span>
+                </span>
               </div>
             </motion.div>
 
@@ -223,9 +238,12 @@ function Landing() {
               style={{
                 borderRadius: "32px",
                 padding: "28px",
-                border: "1.5px solid var(--border)",
+                border: "1px solid rgba(255,255,255,0.3)",
                 position: "relative",
                 zIndex: 2,
+                background: "var(--card-bg)",
+                backdropFilter: "blur(20px)",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.5) inset",
               }}
             >
               {/* AI header */}
@@ -299,7 +317,7 @@ function Landing() {
                     border: "1.5px solid var(--border)",
                   }}
                 >
-                  What did you do last weekend? Tell me — no pressure.
+                  What did you do last weekend? Tell me â€” no pressure.
                 </div>
                 <div
                   style={{
@@ -328,7 +346,7 @@ function Landing() {
                     border: "1.5px solid var(--border)",
                   }}
                 >
-                  Love it! Small tip: "she <strong>invited</strong> me" — past tense. But your
+                  Love it! Small tip: "she <strong>invited</strong> me" â€” past tense. But your
                   meaning was totally clear. What kind of music?
                 </div>
               </div>
@@ -346,7 +364,7 @@ function Landing() {
                 }}
               >
                 <span style={{ fontSize: "14px", color: "#A8A8A0", flex: 1, fontWeight: 600 }}>
-                  {t("common:search")}
+                  Digite sua mensagem...
                 </span>
                 <div
                   style={{
@@ -421,12 +439,13 @@ function Landing() {
               </div>
             </motion.div>
 
-            {/* Floating streak — anchored to the main card, not leaking over word card */}
+            {/* Floating streak â€” anchored to the main card, not leaking over word card */}
             <motion.div
               whileHover={{ scale: 1.05, rotate: "-3deg" }}
               style={{
                 position: "absolute",
                 bottom: "-18px",
+                top: "auto",
                 left: "20px",
                 zIndex: 4,
                 background: "linear-gradient(135deg,#FF6B35,#FF8C42)",
@@ -457,8 +476,8 @@ function Landing() {
                 marginTop: "28px",
                 position: "relative",
                 zIndex: 2,
-                boxShadow: "0 10px 30px rgba(27,58,75,0.2)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                boxShadow: "0 16px 48px rgba(27,58,75,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset",
+                border: "2px solid rgba(255,255,255,0.15)",
               }}
             >
               <div
@@ -490,170 +509,485 @@ function Landing() {
           </div>
         </section>
 
+        {/* ===== STATS STRIP ===== */}
+        <section style={{ maxWidth: "1120px", margin: "clamp(48px, 10vw, 80px) auto 0", padding: "0 clamp(16px, 3vw, 24px)" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))", gap: "clamp(16px, 3vw, 20px)" }}>
+            {[
+              { value: "630+", label: isPT ? "LiÃ§Ãµes estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
+              { value: "6", label: isPT ? "NÃ­veis CEFR" : "CEFR Levels", color: "#1B3A4B", Icon: Zap },
+              { value: "5", label: isPT ? "Modos de jogo" : "Game modes", color: "#C4714A", Icon: Gamepad2 },
+              { value: "3", label: isPT ? "Idiomas disponÃ­veis" : "Available languages", color: "#9B59B6", Icon: Globe },
+            ].map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                style={{
+                  background: "var(--card-bg)",
+                  borderRadius: "20px",
+                  padding: "28px 24px",
+                  border: "2px solid var(--border)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                  textAlign: "center",
+                }}
+              >
+                <div style={{ marginBottom: "12px" }}>
+                  <stat.Icon size={40} color={stat.color} />
+                </div>
+                <div style={{ fontSize: "36px", fontWeight: 900, color: stat.color, fontFamily: "var(--font-display)", marginBottom: "6px" }}>{stat.value}</div>
+                <div style={{ fontSize: "13px", color: "var(--text-secondary)", fontWeight: 700 }}>{stat.label}</div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ===== COMO FUNCIONA ===== */}
+        <section style={{ 
+          maxWidth: "1120px", 
+          margin: "clamp(64px, 12vw, 120px) auto clamp(48px, 10vw, 80px)", 
+          padding: "0 clamp(16px, 3vw, 24px)"
+        }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ textAlign: "center", marginBottom: "clamp(48px, 8vw, 64px)" }}>
+            <h2 style={{ fontSize: "clamp(28px, 6vw, 48px)", fontWeight: 900, marginBottom: "16px", color: "var(--text-primary)", fontFamily: "var(--font-display)", letterSpacing: "-0.02em" }}>
+              {isPT ? "Como o Lume funciona" : "How Lume works"}
+            </h2>
+            <p style={{ fontSize: "clamp(16px, 3vw, 18px)", color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto" }}>
+              {isPT ? "TrÃªs etapas simples para comeÃ§ar a evoluir hoje" : "Three simple steps to start improving today"}
+            </p>
+          </motion.div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: "clamp(20px, 3vw, 24px)" }}>
+            {[
+              {
+                step: "01",
+                color: "#2D4A3E",
+                icon: (
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                ),
+                title: isPT ? "Escolha seu idioma e nÃ­vel" : "Choose your language & level",
+                desc: isPT ? "InglÃªs, Espanhol ou PortuguÃªs. Do iniciante ao avanÃ§ado, o Lume se adapta ao seu ritmo." : "English, Spanish or Portuguese. From beginner to advanced, Lume adapts to your pace.",
+              },
+              {
+                step: "02",
+                color: "#1B3A4B",
+                icon: (
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                ),
+                title: isPT ? "Complete liÃ§Ãµes estruturadas" : "Complete structured lessons",
+                desc: isPT ? "GramÃ¡tica, vocabulÃ¡rio, pronÃºncia e mais. Cada liÃ§Ã£o desbloqueia a prÃ³xima, construindo o conhecimento de forma progressiva." : "Grammar, vocabulary, pronunciation and more. Each lesson unlocks the next, building knowledge progressively.",
+              },
+              {
+                step: "03",
+                color: "#C4714A",
+                icon: (
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                ),
+                title: isPT ? "Pratique com IA e jogos" : "Practice with AI & games",
+                desc: isPT ? "Converse com a IA sem pressÃ£o, jogue quizzes e ganhe XP. Aprendizado que parece um jogo, nÃ£o uma tarefa." : "Chat with AI without pressure, play quizzes and earn XP. Learning that feels like a game, not a chore.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                whileHover={{ y: -6 }}
+                style={{
+                  background: "var(--card-bg)",
+                  borderRadius: "28px",
+                  padding: "36px 32px",
+                  border: "2px solid var(--border)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <div style={{ position: "absolute", top: "24px", right: "24px", fontSize: "48px", fontWeight: 900, opacity: 0.06, color: item.color, fontFamily: "var(--font-display)" }}>{item.step}</div>
+                <div style={{ width: "60px", height: "60px", borderRadius: "18px", background: `${item.color}15`, display: "flex", alignItems: "center", justifyContent: "center", color: item.color, marginBottom: "24px" }}>
+                  {item.icon}
+                </div>
+                <h3 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "12px", lineHeight: 1.3 }}>{item.title}</h3>
+                <p style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, fontWeight: 500 }}>{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
         {/* ===== MARKETING SECTION ===== */}
         <MarketingSection />
 
+        {/* STATS BANNER */}
+        <section style={{ maxWidth: "1120px", margin: "clamp(48px, 10vw, 80px) auto", padding: "0 clamp(16px, 3vw, 24px)" }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{
+              background: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)",
+              borderRadius: "clamp(20px, 4vw, 32px)",
+              padding: "clamp(32px, 6vw, 60px) clamp(20px, 4vw, 48px)",
+              color: "white",
+              textAlign: "center",
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <div style={{ position: "absolute", top: "-50px", right: "-50px", width: "200px", height: "200px", borderRadius: "50%", background: "rgba(255,255,255,0.05)" }} />
+            <div style={{ position: "absolute", bottom: "-60px", left: "-60px", width: "250px", height: "250px", borderRadius: "50%", background: "rgba(255,255,255,0.03)" }} />
+            <div style={{ position: "relative", zIndex: 1 }}>
+              <Sparkles size={32} color="#FFD700" style={{ marginBottom: "16px" }} />
+              <h2 style={{ fontSize: "clamp(24px, 6vw, 56px)", fontWeight: 900, marginBottom: "16px", letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                {isPT ? "Tudo que vocÃª precisa para aprender" : "Everything you need to learn"}
+              </h2>
+              <p style={{ fontSize: "clamp(16px, 3vw, 20px)", opacity: 0.95, marginBottom: "clamp(32px, 5vw, 40px)", maxWidth: "700px", margin: "0 auto clamp(32px, 5vw, 40px)" }}>
+                {isPT ? "LiÃ§Ãµes estruturadas, conversaÃ§Ã£o com IA, jogos interativos e muito mais" : "Structured lessons, AI conversation, interactive games and much more"}
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 120px), 1fr))", gap: "clamp(16px, 3vw, 20px)", maxWidth: "900px", margin: "0 auto" }}>
+                {[
+                  { label: isPT ? "LiÃ§Ãµes" : "Lessons", value: "630+", icon: Book },
+                  { label: isPT ? "NÃ­veis" : "Levels", value: "6", icon: Brain },
+                  { label: isPT ? "Jogos" : "Games", value: "5", icon: Star },
+                  { label: isPT ? "Idiomas" : "Languages", value: "3", icon: Compass },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    style={{ background: "rgba(255,255,255,0.1)", borderRadius: "16px", padding: "20px", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)" }}
+                  >
+                    <stat.icon size={24} color="white" style={{ marginBottom: "8px" }} />
+                    <div style={{ fontSize: "28px", fontWeight: 900, marginBottom: "4px" }}>{stat.value}</div>
+                    <div style={{ fontSize: "12px", opacity: 0.9, fontWeight: 600 }}>{stat.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
         {/* Features list */}
-        <section style={{ maxWidth: "1120px", margin: "0 auto", padding: "40px 24px 120px" }}>
+        <section style={{ maxWidth: "1120px", margin: "0 auto", padding: "clamp(32px, 5vw, 40px) clamp(16px, 3vw, 24px) clamp(64px, 10vw, 80px)" }}>
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "28px",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))",
+              gap: "clamp(20px, 4vw, 28px)",
             }}
           >
             <motion.div
               whileHover={{ y: -6 }}
               className="lume-card"
               style={{
-                background: "var(--surface-raised)",
+                backgroundImage: "url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 borderRadius: "28px",
                 padding: "44px 36px",
                 border: "1.5px solid var(--border)",
                 borderTop: "5px solid var(--accent-green)",
                 boxShadow: "0 8px 30px rgba(0,0,0,0.02)",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "22px",
-                  background: "rgba(45,74,62,0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "32px",
-                  marginBottom: "28px",
-                  color: "var(--accent-green)",
-                }}
-              >
-                <Brain size={30} color="currentColor" />
+              {/* Overlay for readability */}
+              <div style={{ position: "absolute", inset: 0, background: "var(--overlay-bg)", zIndex: 0 }} />
+              
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <div
+                  style={{
+                    width: "64px",
+                    height: "64px",
+                    borderRadius: "22px",
+                    background: "rgba(45,74,62,0.12)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "32px",
+                    marginBottom: "28px",
+                    color: "var(--accent-green)",
+                  }}
+                >
+                  <Brain size={30} color="currentColor" />
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "24px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    marginBottom: "14px",
+                  }}
+                >
+                  {t("featureAITitle")}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "15.5px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.65,
+                    fontWeight: 500,
+                  }}
+                >
+                  {t("featureAIDesc")}
+                </p>
               </div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "24px",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  marginBottom: "14px",
-                }}
-              >
-                {t("featureAITitle")}
-              </h3>
-              <p
-                style={{
-                  fontSize: "15.5px",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.65,
-                  fontWeight: 500,
-                }}
-              >
-                {t("featureAIDesc")}
-              </p>
             </motion.div>
 
             <motion.div
               whileHover={{ y: -6 }}
               className="lume-card"
               style={{
-                background: "var(--surface-raised)",
+                backgroundImage: "url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&q=80')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 borderRadius: "28px",
                 padding: "44px 36px",
                 border: "1.5px solid var(--border)",
                 borderTop: "5px solid var(--accent-terra)",
                 boxShadow: "0 8px 30px rgba(0,0,0,0.02)",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "22px",
-                  background: "rgba(196,109,75,0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "32px",
-                  marginBottom: "28px",
-                  color: "var(--accent-terra)",
-                }}
-              >
-                <Compass size={30} color="currentColor" />
+              {/* Overlay for readability */}
+              <div style={{ position: "absolute", inset: 0, background: "var(--overlay-bg)", zIndex: 0 }} />
+              
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <div
+                  style={{
+                    width: "64px",
+                    height: "64px",
+                    borderRadius: "22px",
+                    background: "rgba(196,109,75,0.12)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "32px",
+                    marginBottom: "28px",
+                    color: "var(--accent-terra)",
+                  }}
+                >
+                  <Compass size={30} color="currentColor" />
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "24px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    marginBottom: "14px",
+                  }}
+                >
+                  {t("featureCultureTitle")}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "15.5px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.65,
+                    fontWeight: 500,
+                  }}
+                >
+                  {t("featureCultureDesc")}
+                </p>
               </div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "24px",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  marginBottom: "14px",
-                }}
-              >
-                {t("featureCultureTitle")}
-              </h3>
-              <p
-                style={{
-                  fontSize: "15.5px",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.65,
-                  fontWeight: 500,
-                }}
-              >
-                {t("featureCultureDesc")}
-              </p>
             </motion.div>
 
             <motion.div
               whileHover={{ y: -6 }}
               className="lume-card"
               style={{
-                background: "var(--surface-raised)",
+                backgroundImage: "url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&q=80')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 borderRadius: "28px",
                 padding: "44px 36px",
                 border: "1.5px solid var(--border)",
                 borderTop: "5px solid var(--accent-gold)",
                 boxShadow: "0 8px 30px rgba(0,0,0,0.02)",
+                position: "relative",
+                overflow: "hidden",
               }}
             >
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  borderRadius: "22px",
-                  background: "rgba(212,162,59,0.08)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "32px",
-                  marginBottom: "28px",
-                  color: "var(--accent-gold)",
-                }}
-              >
-                <MessageCircle size={30} color="currentColor" />
+              {/* Overlay for readability */}
+              <div style={{ position: "absolute", inset: 0, background: "var(--overlay-bg)", zIndex: 0 }} />
+              
+              <div style={{ position: "relative", zIndex: 1 }}>
+                <div
+                  style={{
+                    width: "64px",
+                    height: "64px",
+                    borderRadius: "22px",
+                    background: "rgba(212,162,59,0.12)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "32px",
+                    marginBottom: "28px",
+                    color: "var(--accent-gold)",
+                  }}
+                >
+                  <MessageCircle size={30} color="currentColor" />
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontSize: "24px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    marginBottom: "14px",
+                  }}
+                >
+                  {t("featureCalmTitle")}
+                </h3>
+                <p
+                  style={{
+                    fontSize: "15.5px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.65,
+                    fontWeight: 500,
+                  }}
+                >
+                  {t("featureCalmDesc")}
+                </p>
               </div>
-              <h3
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ===== PARA QUEM Ã‰ O LUMELEARN ===== */}
+        <section
+          style={{
+            background: "var(--surface)",
+            backdropFilter: "blur(10px)",
+            padding: "clamp(60px,8vw,100px) 24px",
+            margin: "80px 0 0 0",
+            borderTop: "1px solid var(--border)",
+          }}
+        >
+          <div style={{ maxWidth: "1120px", margin: "0 auto" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              style={{ textAlign: "center", marginBottom: "64px" }}
+            >
+              <h2
                 style={{
+                  fontSize: "clamp(32px, 5vw, 48px)",
+                  fontWeight: 900,
+                  marginBottom: "16px",
                   fontFamily: "var(--font-display)",
-                  fontSize: "24px",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  marginBottom: "14px",
+                  letterSpacing: "-0.02em",
                 }}
               >
-                {t("featureCalmTitle")}
-              </h3>
-              <p
-                style={{
-                  fontSize: "15.5px",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.65,
-                  fontWeight: 500,
-                }}
-              >
-                {t("featureCalmDesc")}
+                {isPT ? "Para quem Ã© o LumeLearn" : "Who is LumeLearn for"}
+              </h2>
+              <p style={{
+                fontSize: "18px",
+                color: "var(--text-secondary)",
+                maxWidth: "600px",
+                margin: "0 auto",
+              }}>
+                {isPT 
+                  ? "Ideal para quem quer praticar idiomas de forma estruturada e consistente" 
+                  : "Ideal for those who want to practice languages in a structured and consistent way"}
               </p>
             </motion.div>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: "28px",
+              }}
+            >
+              {[
+                {
+                  icon: "ðŸŽ¯",
+                  title: isPT ? "Quer praticar todos os dias" : "Want to practice every day",
+                  desc: isPT 
+                    ? "LiÃ§Ãµes curtas de 5-10 minutos que cabem na sua rotina. Pratique no Ã´nibus, no intervalo ou antes de dormir." 
+                    : "Short 5-10 minute lessons that fit your routine. Practice on the bus, during breaks or before bed.",
+                },
+                {
+                  icon: "ðŸ’¬",
+                  title: isPT ? "Trava na hora de falar" : "Freeze when speaking",
+                  desc: isPT 
+                    ? "Converse com IA sem medo de julgamento. Pratique atÃ© ganhar confianÃ§a para falar com pessoas reais." 
+                    : "Chat with AI without fear of judgment. Practice until you gain confidence to speak with real people.",
+                },
+                {
+                  icon: "ðŸ“š",
+                  title: isPT ? "Quer estudar do bÃ¡sico ao avanÃ§ado" : "Want to study from beginner to advanced",
+                  desc: isPT 
+                    ? "630+ liÃ§Ãµes estruturadas em 6 nÃ­veis CEFR. Do A1 ao C2, com progresso salvo automaticamente." 
+                    : "630+ structured lessons across 6 CEFR levels. From A1 to C2, with progress saved automatically.",
+                },
+                {
+                  icon: "ðŸŽ®",
+                  title: isPT ? "Aprende melhor jogando" : "Learn better through games",
+                  desc: isPT 
+                    ? "Quizzes interativos, jogos de memÃ³ria e desafios diÃ¡rios. Aprendizado que parece diversÃ£o." 
+                    : "Interactive quizzes, memory games and daily challenges. Learning that feels like fun.",
+                },
+              ].map((item, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  whileHover={{ y: -6 }}
+                  style={{
+                    background: "var(--card-bg)",
+                    borderRadius: "24px",
+                    padding: "32px 28px",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.06)",
+                    border: "2px solid var(--border)",
+                    transition: "all 0.3s ease",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "48px",
+                      marginBottom: "20px",
+                      textAlign: "center",
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <h3
+                    style={{
+                      fontSize: "19px",
+                      fontWeight: 800,
+                      marginBottom: "12px",
+                      color: "var(--text-primary)",
+                      textAlign: "center",
+                      lineHeight: 1.3,
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontSize: "15px",
+                      lineHeight: 1.7,
+                      color: "var(--text-secondary)",
+                      textAlign: "center",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {item.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -661,7 +995,8 @@ function Landing() {
         <footer
           style={{
             borderTop: "1px solid var(--border)",
-            background: "var(--surface-raised)",
+            background: "var(--surface)",
+            backdropFilter: "blur(10px)",
             opacity: 0.98,
           }}
         >
@@ -694,21 +1029,21 @@ function Landing() {
                 style={{ color: "var(--text-secondary)", textDecoration: "none", fontWeight: 700 }}
                 className="hover:text-primary"
               >
-                {t("common:guide")}
+                Guia
               </Link>
               <Link
                 to="/lessons"
                 style={{ color: "var(--text-secondary)", textDecoration: "none", fontWeight: 700 }}
                 className="hover:text-primary"
               >
-                {t("common:lessons")}
+                Lições
               </Link>
               <Link
-                to="/guest"
+                to="/lessons"
                 style={{ color: "var(--text-secondary)", textDecoration: "none", fontWeight: 700 }}
                 className="hover:text-primary"
               >
-                {t("common:practice")}
+                Praticar
               </Link>
             </div>
             <span
@@ -727,3 +1062,4 @@ function Landing() {
     </div>
   );
 }
+

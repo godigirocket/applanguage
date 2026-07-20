@@ -154,6 +154,23 @@ export const useUserStore = create<UserStoreState>()(
     }),
     {
       name: "lume-user-settings",
+      storage: {
+        getItem: (name) => {
+          if (typeof window === "undefined") return null;
+          const item = localStorage.getItem(name);
+          return item ? JSON.parse(item) : null;
+        },
+        setItem: (name, value) => {
+          if (typeof window !== "undefined") {
+            localStorage.setItem(name, JSON.stringify(value));
+          }
+        },
+        removeItem: (name) => {
+          if (typeof window !== "undefined") {
+            localStorage.removeItem(name);
+          }
+        },
+      },
     },
   ),
 );

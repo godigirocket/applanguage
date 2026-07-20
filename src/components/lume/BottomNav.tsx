@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
-import { Home, BookOpen, Play, Globe, User } from "lucide-react";
+import { Home, BookOpen, Play, Globe, User, MessageCircle } from "lucide-react";
 
 export function BottomNav() {
   const router = useRouterState();
@@ -32,20 +32,20 @@ export function BottomNav() {
       Icon: BookOpen,
     },
     {
+      href: "/community",
+      label: getNavLabel(
+        "navCommunity",
+        i18n.language === "en" ? "Community" : i18n.language === "es" ? "Comunidad" : "Comunidade",
+      ),
+      Icon: MessageCircle,
+    },
+    {
       href: "/games",
       label: getNavLabel(
         "navPlay",
         i18n.language === "en" ? "Play" : i18n.language === "es" ? "Jugar" : "Jogar",
       ),
       Icon: Play,
-    },
-    {
-      href: "/culture",
-      label: getNavLabel(
-        "navCulture",
-        i18n.language === "en" ? "Culture" : i18n.language === "es" ? "Cultura" : "Cultura",
-      ),
-      Icon: Globe,
     },
     {
       href: "/profile",
@@ -61,7 +61,8 @@ export function BottomNav() {
 
   return (
     <nav
-      className="lume-mobile-tabs glass"
+      className="lume-mobile-tabs"
+      aria-label="Main navigation"
       style={{
         position: "fixed",
         bottom: 0,
@@ -72,9 +73,9 @@ export function BottomNav() {
         borderTop: "1px solid var(--border)",
         display: "flex",
         alignItems: "stretch",
-        height: "56px",
+        height: "60px",
         paddingBottom: "env(safe-area-inset-bottom)",
-        boxShadow: "0 -4px 24px rgba(0,0,0,0.06)",
+        boxShadow: "0 -2px 20px rgba(0,0,0,0.05)",
       }}
     >
       {NAV_ITEMS.map(({ href, label, Icon }) => {
@@ -83,23 +84,25 @@ export function BottomNav() {
           <Link
             key={href}
             to={href as any}
+            aria-current={active ? "page" : undefined}
             style={{
               flex: 1,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              gap: "4px",
+              gap: "3px",
               textDecoration: "none",
               color: active ? "var(--brand)" : "var(--text-secondary)",
               fontSize: "10px",
               fontWeight: active ? 800 : 600,
               letterSpacing: "0.02em",
-              transition: "all 0.18s",
-              padding: "6px 4px 4px",
+              transition: "color 0.15s ease, transform 0.15s ease",
+              padding: "8px 4px 6px",
               position: "relative",
               WebkitTapHighlightColor: "transparent",
               touchAction: "manipulation",
+              transform: active ? "scale(1)" : "scale(0.95)",
             }}
           >
             {active && (
@@ -107,16 +110,17 @@ export function BottomNav() {
                 style={{
                   position: "absolute",
                   top: 0,
-                  left: "20%",
-                  right: "20%",
-                  height: "2.5px",
-                  borderRadius: "0 0 4px 4px",
+                  left: "25%",
+                  right: "25%",
+                  height: "3px",
+                  borderRadius: "0 0 6px 6px",
                   background: "var(--brand)",
+                  transition: "all 0.2s ease",
                 }}
               />
             )}
             <Icon />
-            <span style={{ lineHeight: 1 }}>{label}</span>
+            <span style={{ lineHeight: 1, whiteSpace: "nowrap" }}>{label}</span>
           </Link>
         );
       })}

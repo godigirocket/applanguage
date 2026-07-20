@@ -1,0 +1,197 @@
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { LessonPlayer } from "@/components/LessonPlayer";
+import { ALL_LESSONS } from "@/lib/lessons-data";
+import type { Lesson, LessonStep } from "@/lib/lessons-data";
+import { useAuth } from "@/lib/auth";
+import { useSubscription } from "@/hooks/useSubscription";
+import { Paywall } from "@/components/Paywall";
+
+// Generate lesson with steps from lesson ID
+function generateLessonWithSteps(lessonId: string): Lesson | null {
+  // First, try to find in ALL_LESSONS (lessons with pre-defined steps)
+  const existingLesson = ALL_LESSONS.find((l) => l.id === lessonId);
+  if (existingLesson) {
+    return existingLesson;
+  }
+
+  // If not found, generate a basic lesson structure
+  // This is a fallback for the 360 generated lessons
+  const lessonMatch = lessonId.match(/lesson-(\d+)/);
+  if (!lessonMatch) return null;
+
+  const lessonNumber = parseInt(lessonMatch[1]);
+  
+  // Generate basic steps for any lesson
+  const steps: LessonStep[] = [
+    {
+      type: "intro",
+      title: "Welcome to this lesson!",
+      text: "In this lesson, you'll learn important concepts and practice your skills. Let's get started!",
+    },
+    {
+      type: "vocab",
+      title: "Key Vocabulary",
+      word: "Example",
+      translation: "Exemplo",
+      example: "This is an example sentence.",
+    },
+    {
+      type: "quiz",
+      title: "Quick Quiz",
+      question: "What did you learn in this lesson?",
+      options: [
+        "Important concepts",
+        "Nothing",
+        "Everything",
+        "I don't know",
+      ],
+      correct: "Important concepts",
+      explanation: "Great! You learned important concepts in this lesson.",
+    },
+    {
+      type: "speaking",
+      title: "Practice Speaking",
+      targetPhrase: "I am learning English with Lume!",
+    },
+  ];
+
+  return {
+    id: lessonId,
+    title: `Lesson ${lessonNumber}`,
+    language: "en",
+    level: "Beginner",
+    duration: "5 min",
+    xp: 50,
+    color: "#8B5A2B",
+    description: "Practice your skills with this interactive lesson.",
+    category: "General",
+    steps,
+    icon: "📚",
+  };
+}
+
+export const Route = createFileRoute("/lesson/$id")({
+  component: LessonPage,
+  beforeLoad: ({ params }) => {
+    // Pre-generate lesson data on server
+    const lesson = generateLessonWithSteps(params.id);
+    return { lesson };
+  },
+});
+
+function LessonPage() {
+  const { id } = Route.useParams();
+  const context = Route.useRouteContext();
+  const { user } = useAuth();
+  const { isPremium, loading: subLoading } = useSubscription();
+  const navigate = useNavigate();
+
+  const [lesson, setLesson] = useState<Lesson | null>(context.lesson || null);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    if (!context.lesson) {
+      // Generate lesson with steps
+      const foundLesson = generateLessonWithSteps(id);
+
+      if (!foundLesson) {
+        // Lesson not found, redirect to lessons page
+        navigate({ to: "/lessons" });
+        return;
+      }
+
+      setLesson(foundLesson);
+    }
+  }, [id, navigate, context.lesson]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    
+    // Check if user needs premium for this lesson
+    if (lesson && !subLoading) {
+      // Check if lesson is premium (C1 or C2 level)
+      const isPremiumLesson =
+        lesson.level === "C1" ||
+        lesson.level === "C2" ||
+        lesson.level.toLowerCase().includes("advanced") ||
+        lesson.level.toLowerCase().includes("expert");
+
+      if (isPremiumLesson && !isPremium) {
+        setShowPaywall(true);
+      }
+    }
+  }, [lesson, isPremium, subLoading]);
+
+  // SSR-safe check for user
+  if (typeof window !== "undefined" && !user) {
+    // Redirect to login
+    navigate({ to: "/login", search: { redirect: `/lesson/${id}` } });
+    return null;
+  }
+
+  if (loading || subLoading) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "var(--bg)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: "48px",
+              height: "48px",
+              border: "4px solid var(--border)",
+              borderTopColor: "var(--brand)",
+              borderRadius: "50%",
+              animation: "spin 0.8s linear infinite",
+              margin: "0 auto 16px",
+            }}
+          />
+          <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
+            Loading lesson...
+          </p>
+        </div>
+
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  if (!lesson) {
+    return null;
+  }
+
+  const handleComplete = () => {
+    // Navigate back to lessons page
+    navigate({ to: "/lessons" });
+  };
+
+  const handleExit = () => {
+    // Navigate back to lessons page
+    navigate({ to: "/lessons" });
+  };
+
+  return (
+    <>
+      <LessonPlayer lesson={lesson} onComplete={handleComplete} onExit={handleExit} />
+
+      {/* Paywall Modal */}
+      {showPaywall && (
+        <Paywall onClose={() => navigate({ to: "/lessons" })} reason="premium_content" />
+      )}
+    </>
+  );
+}

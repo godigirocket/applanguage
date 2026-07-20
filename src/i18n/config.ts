@@ -78,10 +78,6 @@ const resources = {
       mktChallengeDesc:
         "Ganhe Lumes e mantenha sua ofensiva. Pequenas vitórias que constroem grandes hábitos.",
       mktChallengeCta: "Ver desafios",
-      mktCommunityTitle: "Comunidade",
-      mktCommunityDesc:
-        "Em breve — conecte-se com estudantes ao redor do mundo e pratique em grupo.",
-      mktCommunityCta: "Em breve",
       // Stats
       statStudents: "Estudantes",
       statSatisfaction: "Satisfação",
@@ -259,10 +255,6 @@ const resources = {
       mktChallengeTitle: "Daily Challenges",
       mktChallengeDesc: "Earn Lumes and keep your streak. Small wins that build great habits.",
       mktChallengeCta: "See challenges",
-      mktCommunityTitle: "Community",
-      mktCommunityDesc:
-        "Coming soon — connect with students around the world and practice together.",
-      mktCommunityCta: "Coming soon",
       // Stats
       statStudents: "Students",
       statSatisfaction: "Satisfaction",
@@ -552,7 +544,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
   resources,
-  lng: "pt",
+  lng: "pt", // Always start with pt during SSR
   fallbackLng: "pt", // Fallback to pt (português) as requested!
   ns: ["common", "landing", "lessons", "shop", "profile", "guide", "guest", "login", "play"],
   defaultNS: "common",
@@ -560,5 +552,13 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
 });
+
+// Update language from localStorage on client side only
+if (typeof window !== "undefined") {
+  const savedLang = localStorage.getItem("lume_interface_language");
+  if (savedLang && (savedLang === "pt" || savedLang === "en" || savedLang === "es")) {
+    i18n.changeLanguage(savedLang);
+  }
+}
 
 export default i18n;

@@ -649,6 +649,23 @@ export const Film: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
   </svg>
 );
 
+export const Video: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <polygon points="23 7 16 12 23 17 23 7" />
+    <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+  </svg>
+);
+
 export const User: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
   <svg
     width={size}
@@ -663,6 +680,25 @@ export const User: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
   >
     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
     <circle cx="12" cy="7" r="4" />
+  </svg>
+);
+
+export const Users: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
   </svg>
 );
 
@@ -1117,6 +1153,23 @@ export const Calendar: React.FC<IconProps> = ({ size = 20, color = "currentColor
   </svg>
 );
 
+export const Eye: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
 export const LogOut: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
   <svg
     width={size}
@@ -1398,6 +1451,20 @@ export const Dumbbell: React.FC<IconProps> = ({ size = 20, color = "currentColor
 );
 
 // Fallback dynamic icon component if needed
+export const Crown: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M2 4l3 12h14l3-12-5 4-5-4-5 4-1 0z"/>
+    <path d="M5 16h14v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2z"/>
+  </svg>
+);
+
+export const X: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+);
+
 export const DynamicIcon = ({ name, ...props }: any) => {
   const icons: Record<string, React.FC<IconProps>> = {
     Sun,
@@ -1436,7 +1503,9 @@ export const DynamicIcon = ({ name, ...props }: any) => {
     Sprout,
     Music,
     Film,
+    Video,
     User,
+    Users,
     Home,
     Target,
     SpacingSpacer,

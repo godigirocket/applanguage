@@ -15,12 +15,18 @@ export default defineConfig({
     plugins: [
       VitePWA({
         registerType: "autoUpdate",
-        includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
+        includeAssets: ["favicon.ico", "favicon.svg", "apple-touch-icon.png", "masked-icon.svg"],
         manifest: {
-          name: "Lume Language App",
-          short_name: "Lume",
-          description: "Aprenda idiomas com IA e gamificação",
-          theme_color: "#F7F4EF",
+          name: "LumeLearn — Aprenda Idiomas",
+          short_name: "LumeLearn",
+          description: "Aprenda idiomas com IA, gamificação e 630+ lições interativas",
+          theme_color: "#2D4A3E",
+          background_color: "#F7F4EF",
+          display: "standalone",
+          orientation: "portrait",
+          start_url: "/home",
+          scope: "/",
+          categories: ["education", "productivity"],
           icons: [
             {
               src: "pwa-192x192.png",
@@ -32,13 +38,57 @@ export default defineConfig({
               sizes: "512x512",
               type: "image/png",
             },
+            {
+              src: "pwa-512x512.png",
+              sizes: "512x512",
+              type: "image/png",
+              purpose: "maskable",
+            },
           ],
         },
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,json}"],
+          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "google-fonts-cache",
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+              handler: "CacheFirst",
+              options: {
+                cacheName: "gstatic-fonts-cache",
+                expiration: {
+                  maxEntries: 10,
+                  maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+          ],
         },
       }),
     ],
+    build: {
+      // Target modern browsers for smaller bundles
+      target: "es2020",
+      // Better minification
+      minify: "esbuild",
+      // CSS code splitting
+      cssCodeSplit: true,
+    },
   },
   tanstackStart: {
     server: {
@@ -52,6 +102,7 @@ export default defineConfig({
         "X-Content-Type-Options": "nosniff",
         "Referrer-Policy": "origin-when-cross-origin",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Permissions-Policy": "camera=(), microphone=(self), geolocation=()",
       },
     },
   },

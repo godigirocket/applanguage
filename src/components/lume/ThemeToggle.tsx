@@ -58,9 +58,9 @@ export function ThemeToggle() {
       <div className="absolute inset-0 bg-[#2D4A3E]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
       <span className="relative z-10 transition-transform duration-300 group-hover:rotate-12 flex items-center justify-center">
         {isDark ? (
-          <Moon size={18} className="text-[#DDC06E]" />
+          <Moon size={18} style={{ color: "#FFD700" }} />
         ) : (
-          <Sun size={18} className="text-[#2D4A3E]" />
+          <Sun size={18} style={{ color: "#F39C12" }} />
         )}
       </span>
     </button>

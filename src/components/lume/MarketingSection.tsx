@@ -80,7 +80,7 @@ export function MarketingSection() {
       title: t("landing:mktAITitle"),
       description: t("landing:mktAIDesc"),
       cta: t("landing:mktAICta"),
-      href: "/guest",
+      href: "/login",
       accentColor: "var(--brand)",
       delay: 0,
     },
@@ -102,69 +102,82 @@ export function MarketingSection() {
       accentColor: "var(--accent)",
       delay: 0.16,
     },
-    {
-      icon: <IllustrationCommunity />,
-      title: t("landing:mktCommunityTitle"),
-      description: t("landing:mktCommunityDesc"),
-      cta: t("landing:mktCommunityCta"),
-      href: "#",
-      accentColor: "#C9A84C",
-      delay: 0.24,
-      disabled: true,
-    },
   ];
 
   return (
-    <section style={{ maxWidth: "1120px", margin: "0 auto", padding: "80px 24px" }}>
-      {/* Section header */}
+    <section 
+      style={{ 
+        maxWidth: "1120px", 
+        margin: "0 auto", 
+        padding: "80px 24px",
+        position: "relative",
+      }}
+    >
+      {/* Background image banner at the top */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        style={{ textAlign: "center", marginBottom: "64px" }}
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1400&q=80')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          borderRadius: "32px",
+          padding: "80px 48px",
+          marginBottom: "64px",
+          position: "relative",
+          overflow: "hidden",
+          textAlign: "center",
+        }}
       >
-        <div
-          style={{
-            display: "inline-block",
-            padding: "6px 18px",
-            borderRadius: "99px",
-            background: "rgba(45,74,62,0.08)",
-            border: "1.5px solid rgba(45,74,62,0.12)",
-            fontSize: "11px",
-            fontWeight: 800,
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            color: "var(--brand)",
-            marginBottom: "20px",
-          }}
-        >
-          {t("landing:whyTitle")}
+        {/* Dark overlay for readability */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(45,74,62,0.93) 0%, rgba(27,58,75,0.90) 100%)", zIndex: 0 }} />
+        
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div
+            style={{
+              display: "inline-block",
+              padding: "6px 18px",
+              borderRadius: "99px",
+              background: "rgba(255,255,255,0.15)",
+              border: "1.5px solid rgba(255,255,255,0.25)",
+              fontSize: "11px",
+              fontWeight: 800,
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "white",
+              marginBottom: "20px",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            {t("landing:whyTitle")}
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "clamp(30px, 4vw, 44px)",
+              fontWeight: 800,
+              color: "white",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              marginBottom: "14px",
+            }}
+          >
+            {t("landing:mktSectionTitle")}
+          </h2>
+          <p
+            style={{
+              fontSize: "17px",
+              color: "rgba(255,255,255,0.95)",
+              maxWidth: "520px",
+              margin: "0 auto",
+              lineHeight: 1.65,
+            }}
+          >
+            {t("landing:mktSectionSubtitle")}
+          </p>
         </div>
-        <h2
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(30px, 4vw, 44px)",
-            fontWeight: 800,
-            color: "var(--text-primary)",
-            lineHeight: 1.2,
-            letterSpacing: "-0.02em",
-            marginBottom: "14px",
-          }}
-        >
-          {t("landing:mktSectionTitle")}
-        </h2>
-        <p
-          style={{
-            fontSize: "17px",
-            color: "var(--text-secondary)",
-            maxWidth: "520px",
-            margin: "0 auto",
-            lineHeight: 1.65,
-          }}
-        >
-          {t("landing:mktSectionSubtitle")}
-        </p>
       </motion.div>
 
       {/* Cards grid — fixed 2×2 on desktop, 1-col on mobile */}
