@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
+import { checkRateLimit } from "./rate-limit";
 
 const ChatMsg = z.object({
   role: z.enum(["user", "assistant"]),
@@ -52,9 +54,23 @@ Core Rules:
 - Be an active listener. Show interest in ${p.studentName}'s life.`;
 }
 
+const RATE_LIMIT = { limit: 20, windowMs: 10 * 60 * 1000 }; // 20 requests / 10 min per IP
+
+const RATE_LIMIT_MESSAGES = {
+  pt: "Você enviou muitas mensagens em pouco tempo. Espere alguns minutos e tente novamente.",
+  en: "You've sent too many messages in a short time. Please wait a few minutes and try again.",
+  es: "Has enviado demasiados mensajes en poco tiempo. Espera unos minutos e inténtalo de nuevo.",
+};
+
 export const lumeChat = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => Input.parse(data))
   .handler(async ({ data }) => {
+    const ip = getRequestIP({ xForwardedFor: true }) || "unknown";
+    const { allowed } = checkRateLimit(`lume-chat:${ip}`, RATE_LIMIT);
+    if (!allowed) {
+      return { reply: RATE_LIMIT_MESSAGES[data.language] };
+    }
+
     const apiKey = process.env.GEMINI_API_KEY;
     const system = buildSystem(data);
 

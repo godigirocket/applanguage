@@ -1,14 +1,26 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { z } from "zod";
+import { checkRateLimit } from "./rate-limit";
 
 const TTSInput = z.object({
   text: z.string(),
   languageCode: z.enum(["pt-BR", "en-US", "es-ES"]),
 });
 
+const RATE_LIMIT = { limit: 40, windowMs: 10 * 60 * 1000 }; // 40 requests / 10 min per IP
+
 export const getGoogleTTS = createServerFn({ method: "POST" })
   .inputValidator((data: unknown) => TTSInput.parse(data))
   .handler(async ({ data }) => {
+    const ip = getRequestIP({ xForwardedFor: true }) || "unknown";
+    const { allowed } = checkRateLimit(`tts:${ip}`, RATE_LIMIT);
+    if (!allowed) {
+      // Client already falls back to the browser's native speech synthesis
+      // when audioContent is null, so this degrades gracefully.
+      return { audioContent: null };
+    }
+
     const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
     if (!apiKey) {
       // Fallback or warning
