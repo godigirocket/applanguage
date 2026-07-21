@@ -39,6 +39,7 @@ import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as CancelRouteImport } from './routes/cancel'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CultureIndexRouteImport } from './routes/culture.index'
 import { Route as QuizModeRouteImport } from './routes/quiz.$mode'
 import { Route as QuizPlayTypeRouteImport } from './routes/quiz-play.$type'
 import { Route as LessonIdRouteImport } from './routes/lesson.$id'
@@ -196,6 +197,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CultureIndexRoute = CultureIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CultureRoute,
+} as any)
 const QuizModeRoute = QuizModeRouteImport.update({
   id: '/quiz/$mode',
   path: '/quiz/$mode',
@@ -264,13 +270,13 @@ export interface FileRoutesByFullPath {
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/culture/': typeof CultureIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cancel': typeof CancelRoute
   '/checkout': typeof CheckoutRoute
   '/community': typeof CommunityRoute
-  '/culture': typeof CultureRouteWithChildren
   '/dictionary': typeof DictionaryRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/games': typeof GamesRoute
@@ -302,6 +308,7 @@ export interface FileRoutesByTo {
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/culture': typeof CultureIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -341,6 +348,7 @@ export interface FileRoutesById {
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
+  '/culture/': typeof CultureIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -381,13 +389,13 @@ export interface FileRouteTypes {
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/culture/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/cancel'
     | '/checkout'
     | '/community'
-    | '/culture'
     | '/dictionary'
     | '/forgot-password'
     | '/games'
@@ -419,6 +427,7 @@ export interface FileRouteTypes {
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/culture'
   id:
     | '__root__'
     | '/'
@@ -457,6 +466,7 @@ export interface FileRouteTypes {
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
+    | '/culture/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -709,6 +719,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/culture/': {
+      id: '/culture/'
+      path: '/'
+      fullPath: '/culture/'
+      preLoaderRoute: typeof CultureIndexRouteImport
+      parentRoute: typeof CultureRoute
+    }
     '/quiz/$mode': {
       id: '/quiz/$mode'
       path: '/quiz/$mode'
@@ -756,10 +773,12 @@ declare module '@tanstack/react-router' {
 
 interface CultureRouteChildren {
   CultureCityIdRoute: typeof CultureCityIdRoute
+  CultureIndexRoute: typeof CultureIndexRoute
 }
 
 const CultureRouteChildren: CultureRouteChildren = {
   CultureCityIdRoute: CultureCityIdRoute,
+  CultureIndexRoute: CultureIndexRoute,
 }
 
 const CultureRouteWithChildren =

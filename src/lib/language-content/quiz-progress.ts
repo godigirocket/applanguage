@@ -55,9 +55,18 @@ export function recordQuizCompletion(score: number, total: number): void {
   writeStats(stats);
 }
 
-export function getQuizStats(): { quizzesCompleted: number; bestQuizStreak: number } {
+export function getQuizStats(): {
+  quizzesCompleted: number;
+  bestQuizStreak: number;
+  perfectScores: number;
+} {
   const stats = readStats();
-  return { quizzesCompleted: stats.history.length, bestQuizStreak: stats.bestStreak };
+  const perfectScores = stats.history.filter((a) => a.total > 0 && a.score === a.total).length;
+  return {
+    quizzesCompleted: stats.history.length,
+    bestQuizStreak: stats.bestStreak,
+    perfectScores,
+  };
 }
 
 function readRecentIds(): string[] {
