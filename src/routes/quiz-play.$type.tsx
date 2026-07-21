@@ -156,7 +156,6 @@ function QuizPlayPage() {
         display: "flex",
         flexDirection: "column",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={scenarioTopicForType(type)} intensity="subtle" />
@@ -234,6 +233,8 @@ function QuizPlayPage() {
                   question={currentQ.prompt}
                   options={currentQ.options}
                   correctAnswer={currentQ.correctAnswer}
+                  explanation={currentQ.explanation}
+                  explanationLabel={isPT ? "Explicação:" : "Explanation:"}
                   onAnswer={handleAnswer}
                 />
               )}
@@ -254,6 +255,7 @@ function QuizPlayPage() {
                   audioText={currentQ.audioText}
                   options={currentQ.options}
                   correctAnswer={currentQ.correctAnswer}
+                  explanation={currentQ.explanation}
                   targetLanguage={targetLanguage}
                   isPT={isPT}
                   onAnswer={handleAnswer}
@@ -358,6 +360,7 @@ function ListeningQuestion({
   audioText,
   options,
   correctAnswer,
+  explanation,
   targetLanguage,
   isPT,
   onAnswer,
@@ -365,6 +368,7 @@ function ListeningQuestion({
   audioText: string;
   options: string[];
   correctAnswer: string;
+  explanation?: string;
   targetLanguage: "en" | "es" | "pt";
   isPT: boolean;
   onAnswer: (isCorrect: boolean) => void;
@@ -412,6 +416,8 @@ function ListeningQuestion({
         question={isPT ? "O que você ouviu?" : "What did you hear?"}
         options={options}
         correctAnswer={correctAnswer}
+        explanation={explanation}
+        explanationLabel={isPT ? "Explicação:" : "Explanation:"}
         onAnswer={onAnswer}
       />
     </div>

@@ -165,7 +165,6 @@ function LessonsPage() {
           "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
         paddingBottom: "80px",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={pickRotatingTopic("lessons")} />

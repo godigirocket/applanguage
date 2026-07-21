@@ -167,24 +167,40 @@ function LessonPage() {
   const quiz: QuizItem[] = [];
   if (translationQuizStep?.options?.length) {
     const correct = translationQuizStep.options[translationQuizStep.correct ?? 0];
+    // The question wording always quotes the term being translated (e.g. `Qual é a
+    // tradução correta para "reservation"?`) — pull it out so the explanation can
+    // spell out the actual term -> translation pairing instead of just repeating
+    // the option the learner already saw.
+    const term = translationQuizStep.question?.match(/"([^"]+)"/)?.[1];
     quiz.push({
       q: translationQuizStep.question || "",
       options: translationQuizStep.options,
       correct,
-      explanation: isPT
-        ? `A resposta correta é "${correct}".`
-        : `The correct answer is "${correct}".`,
+      explanation: term
+        ? isPT
+          ? `"${term}" significa "${correct}".`
+          : `"${term}" means "${correct}".`
+        : isPT
+          ? `A resposta correta é "${correct}".`
+          : `The correct answer is "${correct}".`,
     });
   }
   if (listeningStep?.options?.length) {
     const correct = listeningStep.options[listeningStep.correct ?? 0];
+    const meaning = vocab.find((v) => v.word.toLowerCase() === correct.toLowerCase())?.meaning;
     quiz.push({
       q:
         listeningStep.question ||
         (isPT ? "Ouça e escolha a palavra correta:" : "Listen and choose the correct word:"),
       options: listeningStep.options,
       correct,
-      explanation: isPT ? `A palavra correta é "${correct}".` : `The correct word is "${correct}".`,
+      explanation: meaning
+        ? isPT
+          ? `"${correct}" significa "${meaning}".`
+          : `"${correct}" means "${meaning}".`
+        : isPT
+          ? `A palavra correta é "${correct}".`
+          : `The correct word is "${correct}".`,
       audioText: listeningStep.audioText,
     });
   }
@@ -507,7 +523,6 @@ function LessonPage() {
         background: "var(--bg)",
         paddingBottom: "80px",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={lesson?.topic || scenarioTopicFor(topic || id)} />

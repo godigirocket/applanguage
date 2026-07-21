@@ -6,6 +6,8 @@ interface MultipleChoiceProps {
   question: string;
   options: string[];
   correctAnswer: string;
+  explanation?: string;
+  explanationLabel?: string;
   onAnswer: (isCorrect: boolean) => void;
 }
 
@@ -13,6 +15,8 @@ export function MultipleChoice({
   question,
   options,
   correctAnswer,
+  explanation,
+  explanationLabel = "Explicação:",
   onAnswer,
 }: MultipleChoiceProps) {
   const [selected, setSelected] = useState<string | null>(null);
@@ -23,9 +27,12 @@ export function MultipleChoice({
     setSelected(opt);
     setIsAnswered(true);
 
-    setTimeout(() => {
-      onAnswer(opt === correctAnswer);
-    }, 1200);
+    setTimeout(
+      () => {
+        onAnswer(opt === correctAnswer);
+      },
+      explanation ? 2200 : 1200,
+    );
   };
 
   return (
@@ -93,6 +100,27 @@ export function MultipleChoice({
           );
         })}
       </div>
+
+      {isAnswered && explanation && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{
+            padding: "16px",
+            borderRadius: "12px",
+            background: "var(--surface-raised)",
+            border: "1px solid var(--border)",
+            marginTop: "8px",
+          }}
+        >
+          <p
+            style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.5, margin: 0 }}
+          >
+            <strong style={{ color: "var(--text-primary)" }}>{explanationLabel} </strong>
+            {explanation}
+          </p>
+        </motion.div>
+      )}
     </div>
   );
 }

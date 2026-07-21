@@ -164,7 +164,6 @@ function ProgressPage() {
         minHeight: "100vh",
         background: "transparent",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={pickRotatingTopic("progress")} />

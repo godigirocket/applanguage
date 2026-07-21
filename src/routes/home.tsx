@@ -153,7 +153,6 @@ function HomePage() {
         background: "var(--bg)",
         paddingBottom: "80px",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={pickRotatingTopic("home")} />

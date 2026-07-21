@@ -280,7 +280,6 @@ function PlayPage() {
         minHeight: "100vh",
         background: "transparent",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={pickRotatingTopic("games")} />

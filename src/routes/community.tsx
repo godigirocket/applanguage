@@ -183,7 +183,6 @@ function CommunityPage() {
         minHeight: "100vh",
         background: "var(--bg)",
         position: "relative",
-        overflow: "hidden",
       }}
     >
       <TopicScenario topic={pickRotatingTopic("community")} />

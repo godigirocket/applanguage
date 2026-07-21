@@ -32,7 +32,14 @@ export type UnifiedQuestion =
       correctAnswer: string;
       explanation?: string;
     }
-  | { id: string; kind: "listening"; audioText: string; options: string[]; correctAnswer: string }
+  | {
+      id: string;
+      kind: "listening";
+      audioText: string;
+      options: string[];
+      correctAnswer: string;
+      explanation?: string;
+    }
   | { id: string; kind: "pronunciation"; targetPhrase: string };
 
 export const ROTATION_TOPICS: LessonTopic[] = [
@@ -81,13 +88,24 @@ function seededShuffle<T>(arr: T[], seed: number): T[] {
   return out;
 }
 
+const LISTENING_EXPLANATION: Record<
+  "en" | "es" | "pt",
+  (term: string, translation: string) => string
+> = {
+  en: (term, translation) => `"${term}" means "${translation}".`,
+  es: (term, translation) => `"${term}" significa "${translation}".`,
+  pt: (term, translation) => `"${term}" significa "${translation}".`,
+};
+
 export function buildListeningQuestions(
   topic: LessonTopic,
   targetLanguage: "en" | "es" | "pt",
   count: number,
+  interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
   const items = getVocabularyForTopic(topic, targetLanguage, {
     count: count * 2,
+    interfaceLanguage,
     seed: `listening-${topic}`,
   });
   return items.slice(0, count).map((item, i) => {
@@ -102,6 +120,7 @@ export function buildListeningQuestions(
       audioText: item.term,
       options,
       correctAnswer: item.term,
+      explanation: LISTENING_EXPLANATION[interfaceLanguage](item.term, item.translation),
     };
   });
 }
@@ -169,7 +188,7 @@ export function buildQuestionsForType(
 
   if (type === "listening") {
     const topic = pickRotatingTopic("listening");
-    return buildListeningQuestions(topic, targetLanguage, QUESTION_COUNT);
+    return buildListeningQuestions(topic, targetLanguage, QUESTION_COUNT, interfaceLanguage);
   }
 
   if (type === "pronunciation") {
