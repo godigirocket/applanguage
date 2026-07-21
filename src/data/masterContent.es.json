@@ -83,14 +83,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "apple",
-          "house",
           "mi",
-          "tarjeta",
-          "Tengo",
-          "de",
           "embarque",
-          "libro"
+          "Tengo",
+          "boleto",
+          "reserva",
+          "de",
+          "tarjeta",
+          "hacer"
         ],
         "answerTokens": [
           "Tengo",
@@ -209,13 +209,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "apple",
-          "¿Tienen",
-          "de",
-          "libro",
           "leche",
-          "house",
-          "avena"
+          "para",
+          "llevar",
+          "avena",
+          "de",
+          "¿Tienen",
+          "comestibles"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -334,13 +334,13 @@
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
           "oportunidad",
-          "la",
+          "turno",
+          "ascenso",
           "gracias",
+          "la",
           "por",
-          "Muchas",
-          "libro",
-          "house",
-          "apple"
+          "cliente",
+          "Muchas"
         ],
         "answerTokens": [
           "Muchas",
@@ -459,14 +459,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "electrónico",
-          "house",
           "Te",
-          "apple",
-          "libro",
           "correo",
+          "electrónico",
           "enviaré",
-          "un"
+          "agotó",
+          "un",
+          "la",
+          "descargar"
         ],
         "answerTokens": [
           "Te",
@@ -585,13 +585,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "tomar",
-          "libro",
+          "de",
+          "recuperarse",
+          "agua",
+          "insomnio",
           "más",
-          "house",
-          "apple",
           "Necesito",
-          "agua"
+          "tomar"
         ],
         "answerTokens": [
           "Necesito",
@@ -709,13 +709,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "está",
+          "el",
+          "vuelo",
+          "viaje",
           "Mi",
-          "house",
-          "libro",
-          "retrasado",
-          "apple",
-          "vuelo"
+          "retraso",
+          "está",
+          "retrasado"
         ],
         "answerTokens": [
           "Mi",
@@ -833,13 +833,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "apple",
-          "el",
-          "libro",
-          "Quédate",
-          "house",
           "con",
-          "cambio"
+          "el",
+          "cambio",
+          "Quédate",
+          "sabor",
+          "la",
+          "gas"
         ],
         "answerTokens": [
           "Quédate",
@@ -957,14 +957,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
+          "entrevista",
+          "reunión",
           "su",
+          "laboral",
           "Hábleme",
           "experiencia",
-          "libro",
-          "house",
-          "de",
-          "laboral",
-          "apple"
+          "turno",
+          "de"
         ],
         "answerTokens": [
           "Hábleme",
@@ -1083,14 +1083,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "apple",
-          "el",
-          "house",
-          "libro",
-          "conmigo",
-          "¿Puedes",
           "compartir",
-          "archivo"
+          "archivo",
+          "conmigo",
+          "la",
+          "agotó",
+          "el",
+          "¿Puedes",
+          "descargar"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -1209,12 +1209,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "¿Te",
-          "apple",
-          "libro",
-          "sientes",
+          "sueño",
           "bien",
-          "house"
+          "sientes",
+          "médica",
+          "¿Te",
+          "chequeo"
         ],
         "answerTokens": [
           "¿Te",
@@ -1332,13 +1332,13 @@
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
           "recoger",
-          "apple",
+          "tarjeta",
+          "¿Dónde",
           "mi",
-          "house",
-          "libro",
-          "equipaje",
+          "hostal",
+          "viaje",
           "puedo",
-          "¿Dónde"
+          "equipaje"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -1457,16 +1457,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
+          "gas",
+          "un",
+          "tomar",
           "caliente",
+          "favor",
           "por",
           "¿Puedo",
-          "libro",
-          "house",
-          "un",
           "café",
-          "tomar",
-          "apple",
-          "favor"
+          "recarga",
+          "vegetariano"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -1587,14 +1587,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "en",
-          "apple",
-          "Trabajo",
-          "libro",
-          "muy",
+          "entrevista",
           "bien",
+          "retroalimentación",
+          "en",
           "equipo",
-          "house"
+          "muy",
+          "currículum",
+          "Trabajo"
         ],
         "answerTokens": [
           "Trabajo",
@@ -1713,15 +1713,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "apple",
           "internet",
-          "a",
+          "captura",
+          "batería",
           "La",
-          "inestable",
           "conexión",
-          "house",
+          "a",
           "es",
-          "libro"
+          "inestable",
+          "se"
         ],
         "answerTokens": [
           "La",
@@ -1841,13 +1841,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "libro",
-          "house",
-          "relájate",
-          "hondo",
-          "apple",
+          "estado",
           "y",
-          "Respira"
+          "Respira",
+          "hondo",
+          "de",
+          "autocuidado",
+          "relájate"
         ],
         "answerTokens": [
           "Respira",
@@ -1965,15 +1965,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "house",
-          "¿Dónde",
-          "apple",
-          "está",
-          "libro",
-          "el",
-          "control",
           "de",
-          "pasaportes"
+          "control",
+          "pasaportes",
+          "el",
+          "está",
+          "equipaje",
+          "¿Dónde",
+          "hostal",
+          "tarjeta"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -2094,14 +2094,14 @@
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
           "gustaría",
-          "house",
-          "de",
-          "una",
-          "apple",
-          "porción",
+          "vegetariano",
           "pastel",
+          "una",
           "Me",
-          "libro"
+          "porción",
+          "con",
+          "de",
+          "cuenta"
         ],
         "answerTokens": [
           "Me",
@@ -2221,14 +2221,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "house",
-          "salariales",
-          "apple",
-          "sus",
-          "son",
+          "contactos",
+          "turno",
           "¿Cuáles",
           "expectativas",
-          "libro"
+          "salariales",
+          "sus",
+          "son",
+          "retroalimentación"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -2347,13 +2347,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "la",
-          "house",
-          "apple",
           "llamada",
+          "señal",
+          "dispositivo",
+          "a",
+          "la",
           "Unámonos",
-          "libro",
-          "a"
+          "contraseña"
         ],
         "answerTokens": [
           "Unámonos",
@@ -2471,15 +2471,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "cansado",
-          "house",
-          "hoy",
-          "poco",
-          "libro",
-          "Me",
-          "siento",
+          "médico",
+          "adolorido",
           "un",
-          "apple"
+          "hoy",
+          "siento",
+          "Me",
+          "poco",
+          "cita",
+          "cansado"
         ],
         "answerTokens": [
           "Me",
@@ -2599,14 +2599,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "apple",
-          "mi",
-          "tarjeta",
-          "libro",
+          "control",
           "Tengo",
+          "tarjeta",
           "de",
           "embarque",
-          "house"
+          "mi",
+          "hostal",
+          "reserva"
         ],
         "answerTokens": [
           "Tengo",
@@ -2725,13 +2725,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "house",
-          "apple",
-          "de",
-          "avena",
-          "leche",
+          "ingrediente",
           "¿Tienen",
-          "libro"
+          "de",
+          "picante",
+          "comestibles",
+          "leche",
+          "avena"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -2849,14 +2849,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "por",
-          "libro",
-          "oportunidad",
-          "Muchas",
-          "apple",
           "gracias",
+          "Muchas",
           "la",
-          "house"
+          "ascenso",
+          "por",
+          "oportunidad",
+          "currículum",
+          "fecha"
         ],
         "answerTokens": [
           "Muchas",
@@ -2975,14 +2975,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "un",
-          "electrónico",
-          "house",
           "correo",
-          "enviaré",
-          "libro",
+          "pantalla",
+          "electrónico",
+          "un",
+          "agotó",
           "Te",
-          "apple"
+          "enviaré",
+          "vivo"
         ],
         "answerTokens": [
           "Te",
@@ -3101,13 +3101,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "tomar",
-          "apple",
-          "house",
-          "agua",
           "Necesito",
           "más",
-          "libro"
+          "agua",
+          "médico",
+          "tomar",
+          "con",
+          "fiebre"
         ],
         "answerTokens": [
           "Necesito",
@@ -3225,13 +3225,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "vuelo",
           "Mi",
-          "apple",
-          "house",
-          "libro",
           "retrasado",
-          "está"
+          "está",
+          "equipaje",
+          "vuelo",
+          "indicaciones",
+          "de"
         ],
         "answerTokens": [
           "Mi",
@@ -3349,13 +3349,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
+          "de",
           "el",
+          "Quédate",
+          "receta",
+          "vegetariano",
           "cambio",
-          "house",
-          "libro",
-          "con",
-          "apple",
-          "Quédate"
+          "con"
         ],
         "answerTokens": [
           "Quédate",
@@ -3473,14 +3473,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "laboral",
+          "remoto",
           "su",
-          "libro",
+          "trabajo",
           "experiencia",
-          "de",
           "Hábleme",
-          "apple",
-          "house"
+          "ascenso",
+          "de",
+          "laboral"
         ],
         "answerTokens": [
           "Hábleme",
@@ -3599,14 +3599,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "apple",
-          "¿Puedes",
-          "libro",
-          "archivo",
-          "house",
+          "notificación",
+          "de",
           "compartir",
           "conmigo",
-          "el"
+          "¿Puedes",
+          "el",
+          "archivo",
+          "agotó"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -3725,12 +3725,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "¿Te",
-          "libro",
+          "fiebre",
           "bien",
-          "apple",
-          "house",
-          "sientes"
+          "¿Te",
+          "sientes",
+          "agotamiento",
+          "médico"
         ],
         "answerTokens": [
           "¿Te",
@@ -3847,14 +3847,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
-          "apple",
-          "mi",
-          "recoger",
-          "house",
           "equipaje",
-          "libro",
+          "indicaciones",
+          "retraso",
+          "¿Dónde",
           "puedo",
-          "¿Dónde"
+          "recoger",
+          "hacer",
+          "mi"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -3973,15 +3973,15 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
+          "llevar",
           "tomar",
-          "por",
-          "¿Puedo",
-          "libro",
-          "caliente",
-          "apple",
-          "favor",
-          "house",
           "café",
+          "por",
+          "favor",
+          "gas",
+          "sabor",
+          "¿Puedo",
+          "caliente",
           "un"
         ],
         "answerTokens": [
@@ -4103,14 +4103,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "Trabajo",
+          "muy",
           "equipo",
+          "Trabajo",
           "en",
-          "house",
-          "apple",
-          "libro",
+          "fecha",
+          "entrevista",
           "bien",
-          "muy"
+          "colega"
         ],
         "answerTokens": [
           "Trabajo",
@@ -4229,15 +4229,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "conexión",
-          "La",
-          "libro",
+          "es",
+          "internet",
+          "señal",
           "a",
           "inestable",
-          "house",
-          "apple",
-          "internet",
-          "es"
+          "La",
+          "conexión",
+          "wifi",
+          "agotó"
         ],
         "answerTokens": [
           "La",
@@ -4357,13 +4357,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
+          "lidiar",
+          "estado",
           "Respira",
-          "hondo",
           "relájate",
+          "hondo",
           "y",
-          "house",
-          "libro",
-          "apple"
+          "médica"
         ],
         "answerTokens": [
           "Respira",
@@ -4481,15 +4481,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "house",
+          "escala",
+          "embarque",
           "está",
-          "pasaportes",
-          "libro",
-          "de",
-          "¿Dónde",
-          "apple",
           "el",
-          "control"
+          "equipaje",
+          "¿Dónde",
+          "control",
+          "pasaportes",
+          "de"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -4609,15 +4609,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "porción",
-          "apple",
+          "tienda",
+          "recarga",
+          "la",
           "de",
-          "house",
-          "libro",
-          "una",
-          "Me",
           "pastel",
-          "gustaría"
+          "porción",
+          "gustaría",
+          "Me",
+          "una"
         ],
         "answerTokens": [
           "Me",
@@ -4737,14 +4737,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "¿Cuáles",
-          "son",
-          "apple",
+          "salariales",
           "sus",
-          "house",
           "expectativas",
-          "libro",
-          "salariales"
+          "entrevista",
+          "ascenso",
+          "trabajo",
+          "¿Cuáles",
+          "son"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -4863,13 +4863,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "house",
-          "apple",
-          "a",
+          "señal",
           "Unámonos",
           "llamada",
-          "libro",
-          "la"
+          "la",
+          "a",
+          "en",
+          "agotó"
         ],
         "answerTokens": [
           "Unámonos",
@@ -4987,15 +4987,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "un",
-          "libro",
-          "cansado",
-          "Me",
-          "house",
           "hoy",
           "siento",
-          "apple",
-          "poco"
+          "ánimo",
+          "un",
+          "poco",
+          "cansado",
+          "agradecido",
+          "Me",
+          "con"
         ],
         "answerTokens": [
           "Me",
@@ -5115,14 +5115,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "mi",
+          "ida",
           "Tengo",
-          "house",
+          "mi",
+          "hacer",
+          "indicaciones",
+          "embarque",
           "de",
-          "apple",
-          "libro",
-          "tarjeta",
-          "embarque"
+          "tarjeta"
         ],
         "answerTokens": [
           "Tengo",
@@ -5241,13 +5241,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "house",
-          "leche",
           "de",
-          "apple",
-          "libro",
+          "menú",
+          "tienda",
+          "sabor",
+          "avena",
           "¿Tienen",
-          "avena"
+          "leche"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -5365,14 +5365,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "libro",
-          "gracias",
-          "house",
-          "Muchas",
           "oportunidad",
-          "apple",
+          "entrevista",
           "por",
-          "la"
+          "Muchas",
+          "cliente",
+          "gracias",
+          "la",
+          "colega"
         ],
         "answerTokens": [
           "Muchas",
@@ -5491,14 +5491,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
+          "de",
           "enviaré",
           "electrónico",
-          "libro",
           "Te",
-          "house",
-          "apple",
+          "batería",
           "un",
-          "correo"
+          "correo",
+          "la"
         ],
         "answerTokens": [
           "Te",
@@ -5617,13 +5617,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "apple",
-          "tomar",
-          "agua",
-          "house",
+          "cita",
           "más",
-          "Necesito",
-          "libro"
+          "médico",
+          "agua",
+          "tomar",
+          "vacuna",
+          "Necesito"
         ],
         "answerTokens": [
           "Necesito",
@@ -5741,13 +5741,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "apple",
-          "libro",
-          "vuelo",
-          "está",
+          "retrasado",
           "Mi",
-          "house",
-          "retrasado"
+          "vuelo",
+          "reserva",
+          "está",
+          "jet",
+          "lag"
         ],
         "answerTokens": [
           "Mi",
@@ -5865,13 +5865,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "libro",
-          "con",
           "cambio",
-          "Quédate",
-          "house",
+          "agua",
           "el",
-          "apple"
+          "Quédate",
+          "comestibles",
+          "con",
+          "de"
         ],
         "answerTokens": [
           "Quédate",
@@ -5989,14 +5989,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "libro",
-          "apple",
-          "Hábleme",
-          "house",
-          "laboral",
           "su",
+          "laboral",
+          "de",
+          "negociar",
           "experiencia",
-          "de"
+          "turno",
+          "cliente",
+          "Hábleme"
         ],
         "answerTokens": [
           "Hábleme",
@@ -6115,14 +6115,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
+          "¿Puedes",
+          "conmigo",
+          "en",
           "compartir",
           "archivo",
           "el",
-          "apple",
-          "conmigo",
-          "house",
-          "¿Puedes",
-          "libro"
+          "pantalla",
+          "transmisión"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -6241,12 +6241,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "libro",
-          "bien",
-          "¿Te",
-          "house",
           "sientes",
-          "apple"
+          "síntoma",
+          "bien",
+          "adolorido",
+          "¿Te",
+          "médico"
         ],
         "answerTokens": [
           "¿Te",
@@ -6363,14 +6363,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
-          "equipaje",
-          "apple",
-          "recoger",
-          "¿Dónde",
-          "mi",
-          "libro",
+          "hacer",
           "puedo",
-          "house"
+          "mi",
+          "¿Dónde",
+          "hostal",
+          "equipaje",
+          "recoger",
+          "embarque"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -6489,16 +6489,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "tomar",
+          "para",
+          "¿Puedo",
           "caliente",
-          "por",
-          "café",
-          "favor",
-          "house",
-          "apple",
           "un",
-          "libro",
-          "¿Puedo"
+          "favor",
+          "café",
+          "tomar",
+          "picante",
+          "por",
+          "sabor"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -6619,14 +6619,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "house",
+          "muy",
           "en",
-          "apple",
+          "colega",
           "bien",
-          "libro",
+          "currículum",
+          "presupuesto",
           "Trabajo",
-          "equipo",
-          "muy"
+          "equipo"
         ],
         "answerTokens": [
           "Trabajo",
@@ -6746,14 +6746,14 @@
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
           "inestable",
-          "conexión",
-          "house",
-          "apple",
+          "vivo",
+          "captura",
           "a",
+          "videollamada",
           "La",
-          "internet",
-          "libro",
-          "es"
+          "conexión",
+          "es",
+          "internet"
         ],
         "answerTokens": [
           "La",
@@ -6873,13 +6873,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
+          "Respira",
+          "médico",
+          "cita",
+          "chequeo",
           "relájate",
-          "libro",
-          "y",
-          "house",
-          "apple",
           "hondo",
-          "Respira"
+          "y"
         ],
         "answerTokens": [
           "Respira",
@@ -6997,14 +6997,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "house",
-          "¿Dónde",
           "control",
-          "está",
-          "libro",
-          "apple",
-          "pasaportes",
           "de",
+          "embarque",
+          "¿Dónde",
+          "boleto",
+          "hacer",
+          "pasaportes",
+          "está",
           "el"
         ],
         "answerTokens": [
@@ -7125,15 +7125,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "de",
-          "porción",
-          "libro",
           "Me",
-          "house",
-          "apple",
-          "gustaría",
+          "comestibles",
           "pastel",
-          "una"
+          "una",
+          "gustaría",
+          "ingrediente",
+          "de",
+          "cuenta",
+          "porción"
         ],
         "answerTokens": [
           "Me",
@@ -7253,14 +7253,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "apple",
-          "son",
-          "house",
+          "expectativas",
           "sus",
+          "trabajo",
+          "de",
           "salariales",
-          "libro",
-          "¿Cuáles",
-          "expectativas"
+          "son",
+          "retroalimentación",
+          "¿Cuáles"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -7379,13 +7379,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "libro",
-          "llamada",
-          "house",
-          "Unámonos",
-          "apple",
           "a",
-          "la"
+          "pantalla",
+          "notificación",
+          "la",
+          "llamada",
+          "Unámonos",
+          "en"
         ],
         "answerTokens": [
           "Unámonos",
@@ -7503,15 +7503,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "un",
+          "ánimo",
           "hoy",
-          "siento",
-          "apple",
-          "libro",
+          "un",
+          "Me",
+          "agradecido",
           "poco",
-          "house",
           "cansado",
-          "Me"
+          "estado",
+          "siento"
         ],
         "answerTokens": [
           "Me",
@@ -7632,13 +7632,13 @@
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
           "Tengo",
-          "apple",
-          "libro",
-          "embarque",
-          "house",
-          "de",
+          "mi",
+          "el",
           "tarjeta",
-          "mi"
+          "equipaje",
+          "de",
+          "embarque",
+          "reserva"
         ],
         "answerTokens": [
           "Tengo",
@@ -7757,13 +7757,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "house",
-          "apple",
-          "¿Tienen",
-          "de",
-          "avena",
+          "comestibles",
           "leche",
-          "libro"
+          "avena",
+          "¿Tienen",
+          "picante",
+          "de",
+          "tienda"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -7882,13 +7882,13 @@
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
           "por",
-          "Muchas",
           "la",
-          "libro",
           "oportunidad",
-          "apple",
+          "trabajo",
+          "fecha",
           "gracias",
-          "house"
+          "ascenso",
+          "Muchas"
         ],
         "answerTokens": [
           "Muchas",
@@ -8007,13 +8007,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "apple",
-          "un",
-          "libro",
-          "house",
-          "enviaré",
+          "pantalla",
           "electrónico",
+          "enviaré",
+          "táctil",
           "Te",
+          "videollamada",
+          "un",
           "correo"
         ],
         "answerTokens": [
@@ -8133,13 +8133,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "libro",
           "tomar",
-          "apple",
           "Necesito",
+          "ansioso",
+          "ánimo",
           "más",
           "agua",
-          "house"
+          "fiebre"
         ],
         "answerTokens": [
           "Necesito",
@@ -8257,13 +8257,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "vuelo",
-          "house",
+          "equipaje",
+          "boleto",
+          "Mi",
           "retrasado",
+          "el",
           "está",
-          "libro",
-          "apple",
-          "Mi"
+          "vuelo"
         ],
         "answerTokens": [
           "Mi",
@@ -8381,13 +8381,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
+          "comestibles",
+          "con",
           "cambio",
+          "picante",
           "Quédate",
-          "house",
           "el",
-          "libro",
-          "apple",
-          "con"
+          "la"
         ],
         "answerTokens": [
           "Quédate",
@@ -8505,14 +8505,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "libro",
-          "de",
           "su",
+          "trabajo",
+          "experiencia",
+          "de",
+          "reunión",
           "laboral",
-          "apple",
-          "house",
           "Hábleme",
-          "experiencia"
+          "entrevista"
         ],
         "answerTokens": [
           "Hábleme",
@@ -8631,14 +8631,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "apple",
-          "el",
+          "videollamada",
+          "la",
           "conmigo",
-          "house",
-          "libro",
+          "pantalla",
+          "archivo",
           "¿Puedes",
           "compartir",
-          "archivo"
+          "el"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -8757,12 +8757,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "libro",
-          "sientes",
-          "bien",
-          "apple",
+          "síntoma",
           "¿Te",
-          "house"
+          "sientes",
+          "insomnio",
+          "bien",
+          "con"
         ],
         "answerTokens": [
           "¿Te",
@@ -8880,13 +8880,13 @@
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
           "equipaje",
+          "mi",
+          "y",
+          "recoger",
+          "lag",
           "puedo",
           "¿Dónde",
-          "recoger",
-          "house",
-          "apple",
-          "mi",
-          "libro"
+          "guiada"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -9005,16 +9005,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "favor",
-          "house",
-          "por",
-          "apple",
           "un",
-          "¿Puedo",
-          "caliente",
+          "tomar",
           "café",
-          "libro",
-          "tomar"
+          "caliente",
+          "favor",
+          "¿Puedo",
+          "mesa",
+          "propina",
+          "por",
+          "una"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -9136,13 +9136,13 @@
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
           "equipo",
-          "Trabajo",
-          "bien",
-          "apple",
           "en",
-          "libro",
+          "bien",
+          "contactos",
           "muy",
-          "house"
+          "sueldo",
+          "Trabajo",
+          "presupuesto"
         ],
         "answerTokens": [
           "Trabajo",
@@ -9261,15 +9261,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "es",
-          "libro",
+          "seguridad",
           "inestable",
-          "La",
-          "house",
-          "apple",
-          "conexión",
           "a",
-          "internet"
+          "en",
+          "La",
+          "es",
+          "internet",
+          "conexión",
+          "actualización"
         ],
         "answerTokens": [
           "La",
@@ -9389,13 +9389,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "y",
-          "house",
-          "apple",
-          "relájate",
+          "médica",
+          "Respira",
           "hondo",
-          "libro",
-          "Respira"
+          "recuperarse",
+          "y",
+          "relájate",
+          "abrumado"
         ],
         "answerTokens": [
           "Respira",
@@ -9513,15 +9513,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "el",
-          "apple",
-          "está",
-          "libro",
           "control",
-          "house",
-          "de",
           "¿Dónde",
-          "pasaportes"
+          "sobrevendido",
+          "el",
+          "escala",
+          "está",
+          "de",
+          "pasaportes",
+          "monumento"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -9641,15 +9641,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "de",
+          "alérgico",
           "porción",
-          "gustaría",
-          "libro",
-          "Me",
-          "apple",
-          "una",
           "pastel",
-          "house"
+          "Me",
+          "gustaría",
+          "de",
+          "una",
+          "agua",
+          "gas"
         ],
         "answerTokens": [
           "Me",
@@ -9769,14 +9769,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "sus",
-          "house",
-          "salariales",
-          "apple",
+          "trabajo",
           "¿Cuáles",
+          "contactos",
+          "salariales",
           "son",
-          "libro",
-          "expectativas"
+          "sus",
+          "expectativas",
+          "presupuesto"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -9895,13 +9895,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
+          "copia",
           "la",
-          "a",
+          "captura",
+          "contraseña",
           "llamada",
-          "house",
-          "Unámonos",
-          "apple",
-          "libro"
+          "a",
+          "Unámonos"
         ],
         "answerTokens": [
           "Unámonos",
@@ -10019,15 +10019,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "un",
-          "house",
-          "libro",
-          "Me",
-          "hoy",
           "siento",
+          "Me",
+          "síntoma",
+          "hoy",
           "cansado",
-          "apple",
-          "poco"
+          "un",
+          "poco",
+          "de",
+          "estado"
         ],
         "answerTokens": [
           "Me",
@@ -10147,13 +10147,13 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "libro",
-          "house",
+          "tarjeta",
+          "mi",
+          "aduana",
+          "hostal",
+          "vuelta",
           "embarque",
           "de",
-          "mi",
-          "apple",
-          "tarjeta",
           "Tengo"
         ],
         "answerTokens": [
@@ -10273,13 +10273,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "libro",
-          "house",
           "¿Tienen",
-          "apple",
-          "de",
           "leche",
-          "avena"
+          "de",
+          "avena",
+          "alérgico",
+          "receta",
+          "sobras"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -10397,14 +10397,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "house",
-          "apple",
-          "libro",
           "por",
-          "gracias",
-          "la",
+          "contactos",
+          "trabajo",
           "Muchas",
-          "oportunidad"
+          "oportunidad",
+          "negociar",
+          "la",
+          "gracias"
         ],
         "answerTokens": [
           "Muchas",
@@ -10524,13 +10524,13 @@
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
           "un",
-          "libro",
           "enviaré",
+          "la",
+          "electrónico",
+          "nube",
           "correo",
           "Te",
-          "electrónico",
-          "house",
-          "apple"
+          "aplicación"
         ],
         "answerTokens": [
           "Te",
@@ -10649,13 +10649,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
+          "médica",
           "tomar",
-          "Necesito",
-          "apple",
           "agua",
-          "libro",
+          "síntoma",
+          "de",
           "más",
-          "house"
+          "Necesito"
         ],
         "answerTokens": [
           "Necesito",
@@ -10773,11 +10773,11 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "libro",
-          "house",
-          "apple",
-          "retrasado",
           "está",
+          "vuelta",
+          "cambio",
+          "itinerario",
+          "retrasado",
           "vuelo",
           "Mi"
         ],
@@ -10897,13 +10897,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "cambio",
-          "Quédate",
-          "libro",
-          "house",
           "el",
-          "apple",
-          "con"
+          "Quédate",
+          "la",
+          "guarnición",
+          "con",
+          "cambio",
+          "una"
         ],
         "answerTokens": [
           "Quédate",
@@ -11021,14 +11021,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "experiencia",
-          "house",
           "su",
-          "apple",
-          "libro",
-          "de",
+          "experiencia",
+          "aumento",
+          "Hábleme",
+          "colega",
+          "ascenso",
           "laboral",
-          "Hábleme"
+          "de"
         ],
         "answerTokens": [
           "Hábleme",
@@ -11147,13 +11147,13 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "apple",
-          "conmigo",
-          "libro",
-          "house",
           "archivo",
-          "el",
           "compartir",
+          "captura",
+          "aplicación",
+          "el",
+          "en",
+          "conmigo",
           "¿Puedes"
         ],
         "answerTokens": [
@@ -11273,12 +11273,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "house",
+          "recuperarse",
           "sientes",
-          "¿Te",
           "bien",
-          "libro",
-          "apple"
+          "vacuna",
+          "¿Te",
+          "abrumado"
         ],
         "answerTokens": [
           "¿Te",
@@ -11395,14 +11395,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
+          "escala",
           "puedo",
-          "recoger",
-          "apple",
-          "equipaje",
-          "house",
-          "libro",
           "mi",
-          "¿Dónde"
+          "recoger",
+          "de",
+          "equipaje",
+          "¿Dónde",
+          "viaje"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -11521,16 +11521,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "house",
-          "caliente",
-          "libro",
+          "recarga",
           "favor",
-          "tomar",
-          "café",
           "¿Puedo",
+          "caliente",
+          "una",
+          "agua",
+          "un",
+          "tomar",
           "por",
-          "apple",
-          "un"
+          "café"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -11651,14 +11651,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "house",
-          "equipo",
+          "muy",
+          "de",
           "bien",
-          "apple",
-          "libro",
+          "negociar",
           "en",
+          "remoto",
           "Trabajo",
-          "muy"
+          "equipo"
         ],
         "answerTokens": [
           "Trabajo",
@@ -11777,15 +11777,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "conexión",
-          "internet",
-          "inestable",
           "a",
-          "apple",
-          "libro",
+          "aplicación",
           "La",
+          "inestable",
+          "internet",
           "es",
-          "house"
+          "pantalla",
+          "conexión",
+          "notificación"
         ],
         "answerTokens": [
           "La",
@@ -11905,13 +11905,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "y",
-          "libro",
-          "house",
           "hondo",
-          "apple",
+          "y",
+          "aliviado",
           "relájate",
-          "Respira"
+          "ánimo",
+          "Respira",
+          "médica"
         ],
         "answerTokens": [
           "Respira",
@@ -12029,15 +12029,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "apple",
-          "libro",
-          "control",
-          "el",
           "¿Dónde",
-          "está",
           "pasaportes",
-          "house",
-          "de"
+          "está",
+          "el",
+          "vuelta",
+          "viaje",
+          "de",
+          "control",
+          "monumento"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -12157,15 +12157,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "libro",
-          "porción",
+          "alimentaria",
+          "alérgico",
+          "reservar",
+          "una",
+          "gustaría",
           "Me",
-          "house",
           "de",
           "pastel",
-          "una",
-          "apple",
-          "gustaría"
+          "porción"
         ],
         "answerTokens": [
           "Me",
@@ -12285,14 +12285,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
+          "límite",
+          "sus",
           "salariales",
           "¿Cuáles",
-          "sus",
-          "expectativas",
-          "apple",
-          "libro",
-          "house",
-          "son"
+          "incorporación",
+          "contactos",
+          "son",
+          "expectativas"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -12411,13 +12411,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "Unámonos",
-          "apple",
-          "house",
-          "libro",
-          "a",
           "la",
-          "llamada"
+          "algoritmo",
+          "llamada",
+          "Unámonos",
+          "atajo",
+          "software",
+          "a"
         ],
         "answerTokens": [
           "Unámonos",
@@ -12536,14 +12536,14 @@
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
           "siento",
-          "hoy",
           "Me",
-          "poco",
-          "libro",
-          "apple",
+          "hoy",
           "cansado",
-          "un",
-          "house"
+          "receta",
+          "abrumado",
+          "terapia",
+          "poco",
+          "un"
         ],
         "answerTokens": [
           "Me",
@@ -12663,14 +12663,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "tarjeta",
-          "apple",
-          "embarque",
-          "libro",
+          "mi",
+          "ida",
           "Tengo",
-          "house",
           "de",
-          "mi"
+          "escala",
+          "embarque",
+          "monumento",
+          "tarjeta"
         ],
         "answerTokens": [
           "Tengo",
@@ -12789,13 +12789,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "apple",
-          "libro",
           "¿Tienen",
-          "de",
-          "house",
+          "leche",
           "avena",
-          "leche"
+          "sobras",
+          "mesa",
+          "alérgico",
+          "de"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -12913,14 +12913,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "Muchas",
-          "oportunidad",
+          "trabajo",
+          "currículum",
           "por",
-          "la",
-          "apple",
-          "house",
-          "libro",
-          "gracias"
+          "gracias",
+          "de",
+          "oportunidad",
+          "Muchas",
+          "la"
         ],
         "answerTokens": [
           "Muchas",
@@ -13039,14 +13039,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "correo",
-          "libro",
-          "apple",
-          "enviaré",
           "un",
-          "house",
+          "Te",
           "electrónico",
-          "Te"
+          "la",
+          "enviaré",
+          "seguridad",
+          "cerró",
+          "correo"
         ],
         "answerTokens": [
           "Te",
@@ -13165,13 +13165,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
+          "recuperarse",
+          "agua",
           "tomar",
-          "libro",
-          "apple",
+          "ansioso",
           "Necesito",
-          "más",
-          "house",
-          "agua"
+          "terapia",
+          "más"
         ],
         "answerTokens": [
           "Necesito",
@@ -13289,13 +13289,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "vuelo",
-          "está",
-          "retrasado",
-          "apple",
-          "house",
           "Mi",
-          "libro"
+          "está",
+          "monumento",
+          "control",
+          "vuelo",
+          "retrasado",
+          "guiada"
         ],
         "answerTokens": [
           "Mi",
@@ -13413,13 +13413,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "el",
-          "con",
-          "apple",
-          "Quédate",
-          "libro",
+          "sobras",
           "cambio",
-          "house"
+          "propina",
+          "cocido",
+          "Quédate",
+          "con",
+          "el"
         ],
         "answerTokens": [
           "Quédate",
@@ -13537,14 +13537,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "experiencia",
           "de",
           "su",
-          "house",
+          "sueldo",
+          "experiencia",
+          "factura",
+          "laboral",
           "Hábleme",
-          "libro",
-          "apple",
-          "laboral"
+          "fecha"
         ],
         "answerTokens": [
           "Hábleme",
@@ -13663,14 +13663,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "conmigo",
-          "libro",
+          "¿Puedes",
           "compartir",
-          "apple",
-          "archivo",
-          "house",
+          "aplicación",
+          "copia",
+          "cerró",
           "el",
-          "¿Puedes"
+          "conmigo",
+          "archivo"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -13789,12 +13789,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "house",
-          "¿Te",
-          "apple",
-          "libro",
           "sientes",
-          "bien"
+          "bien",
+          "receta",
+          "autocuidado",
+          "¿Te",
+          "aliviado"
         ],
         "answerTokens": [
           "¿Te",
@@ -13911,14 +13911,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
-          "¿Dónde",
           "equipaje",
-          "puedo",
-          "recoger",
+          "viaje",
           "mi",
-          "house",
-          "apple",
-          "libro"
+          "puedo",
+          "ida",
+          "recoger",
+          "¿Dónde",
+          "escala"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -14037,16 +14037,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "libro",
-          "caliente",
           "café",
-          "house",
-          "por",
           "favor",
-          "un",
+          "¿Puedo",
+          "ingrediente",
+          "mesa",
+          "por",
+          "caliente",
+          "guarnición",
           "tomar",
-          "apple",
-          "¿Puedo"
+          "un"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -14167,14 +14167,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "equipo",
-          "apple",
-          "bien",
-          "Trabajo",
-          "libro",
-          "house",
+          "presupuesto",
           "muy",
-          "en"
+          "sueldo",
+          "negociar",
+          "en",
+          "Trabajo",
+          "equipo",
+          "bien"
         ],
         "answerTokens": [
           "Trabajo",
@@ -14293,15 +14293,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "La",
+          "aplicación",
+          "conexión",
+          "se",
+          "inestable",
+          "wifi",
           "a",
           "internet",
-          "libro",
           "es",
-          "conexión",
-          "inestable",
-          "apple",
-          "house"
+          "La"
         ],
         "answerTokens": [
           "La",
@@ -14421,12 +14421,12 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "libro",
-          "y",
+          "agradecido",
           "Respira",
+          "autocuidado",
           "hondo",
-          "house",
-          "apple",
+          "terapia",
+          "y",
           "relájate"
         ],
         "answerTokens": [
@@ -14545,15 +14545,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "pasaportes",
-          "apple",
-          "el",
           "¿Dónde",
-          "libro",
-          "house",
+          "boleto",
           "control",
+          "de",
+          "vuelta",
+          "pasaportes",
+          "visita",
           "está",
-          "de"
+          "el"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -14673,15 +14673,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "porción",
-          "house",
-          "gustaría",
-          "una",
-          "pastel",
           "de",
           "Me",
-          "apple",
-          "libro"
+          "porción",
+          "una",
+          "gustaría",
+          "recarga",
+          "cocido",
+          "bien",
+          "pastel"
         ],
         "answerTokens": [
           "Me",
@@ -14801,14 +14801,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "apple",
-          "sus",
-          "libro",
           "son",
-          "salariales",
+          "contactos",
           "expectativas",
-          "house",
-          "¿Cuáles"
+          "sus",
+          "¿Cuáles",
+          "salariales",
+          "establecer",
+          "retroalimentación"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -14927,13 +14927,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "a",
-          "Unámonos",
-          "house",
-          "llamada",
-          "libro",
+          "software",
+          "algoritmo",
           "la",
-          "apple"
+          "llamada",
+          "Unámonos",
+          "a",
+          "espacio"
         ],
         "answerTokens": [
           "Unámonos",
@@ -15051,15 +15051,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
+          "ansioso",
+          "hoy",
+          "recuperarse",
           "Me",
-          "cansado",
+          "médica",
           "poco",
           "un",
-          "hoy",
           "siento",
-          "apple",
-          "house",
-          "libro"
+          "cansado"
         ],
         "answerTokens": [
           "Me",
@@ -15179,14 +15179,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "mi",
-          "embarque",
-          "libro",
-          "house",
-          "apple",
           "Tengo",
-          "de",
-          "tarjeta"
+          "tarjeta",
+          "guiada",
+          "mi",
+          "casa",
+          "y",
+          "embarque",
+          "de"
         ],
         "answerTokens": [
           "Tengo",
@@ -15305,13 +15305,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "apple",
-          "libro",
-          "avena",
+          "guarnición",
           "de",
-          "house",
+          "¿Tienen",
+          "la",
           "leche",
-          "¿Tienen"
+          "bien",
+          "avena"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -15429,14 +15429,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "house",
-          "apple",
-          "por",
+          "trabajo",
           "gracias",
-          "Muchas",
           "oportunidad",
-          "libro",
-          "la"
+          "por",
+          "Muchas",
+          "sueldo",
+          "la",
+          "remoto"
         ],
         "answerTokens": [
           "Muchas",
@@ -15555,14 +15555,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "libro",
-          "apple",
+          "se",
           "electrónico",
-          "un",
           "Te",
           "correo",
+          "almacenamiento",
           "enviaré",
-          "house"
+          "un",
+          "atajo"
         ],
         "answerTokens": [
           "Te",
@@ -15681,13 +15681,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "apple",
-          "house",
-          "Necesito",
-          "libro",
+          "aliviado",
           "más",
+          "receta",
           "tomar",
-          "agua"
+          "Necesito",
+          "agua",
+          "ansioso"
         ],
         "answerTokens": [
           "Necesito",
@@ -15805,13 +15805,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "apple",
-          "retrasado",
-          "libro",
+          "visita",
+          "cambio",
+          "está",
           "vuelo",
-          "house",
           "Mi",
-          "está"
+          "y",
+          "retrasado"
         ],
         "answerTokens": [
           "Mi",
@@ -15929,13 +15929,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "libro",
-          "el",
-          "con",
-          "apple",
-          "Quédate",
+          "guarnición",
           "cambio",
-          "house"
+          "sobras",
+          "Quédate",
+          "mesa",
+          "con",
+          "el"
         ],
         "answerTokens": [
           "Quédate",
@@ -16053,14 +16053,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "house",
+          "contactos",
+          "laboral",
           "Hábleme",
-          "de",
-          "libro",
-          "apple",
-          "su",
           "experiencia",
-          "laboral"
+          "de",
+          "trimestral",
+          "su",
+          "informe"
         ],
         "answerTokens": [
           "Hábleme",
@@ -16179,14 +16179,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "libro",
+          "suscripción",
           "conmigo",
-          "compartir",
-          "house",
-          "archivo",
           "el",
-          "apple",
-          "¿Puedes"
+          "descargar",
+          "¿Puedes",
+          "archivo",
+          "compartir",
+          "cerró"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -16305,12 +16305,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "libro",
-          "apple",
           "bien",
-          "house",
-          "sientes",
-          "¿Te"
+          "vacuna",
+          "receta",
+          "ansioso",
+          "¿Te",
+          "sientes"
         ],
         "answerTokens": [
           "¿Te",
@@ -16427,14 +16427,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
-          "apple",
+          "monumento",
+          "equipaje",
+          "aduana",
           "mi",
-          "puedo",
-          "libro",
-          "¿Dónde",
-          "house",
           "recoger",
-          "equipaje"
+          "¿Dónde",
+          "puedo",
+          "vuelta"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -16553,16 +16553,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "house",
-          "libro",
-          "un",
-          "caliente",
           "tomar",
-          "favor",
-          "café",
+          "¿Puedo",
           "por",
-          "apple",
-          "¿Puedo"
+          "caliente",
+          "cocido",
+          "un",
+          "favor",
+          "reservar",
+          "café",
+          "alérgico"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -16683,14 +16683,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "en",
+          "sueldo",
+          "presupuesto",
           "bien",
+          "Trabajo",
           "muy",
-          "apple",
-          "libro",
-          "house",
           "equipo",
-          "Trabajo"
+          "contactos",
+          "en"
         ],
         "answerTokens": [
           "Trabajo",
@@ -16809,15 +16809,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "La",
-          "inestable",
-          "libro",
-          "conexión",
-          "house",
           "internet",
+          "inestable",
+          "La",
+          "a",
+          "almacenamiento",
+          "copia",
           "es",
-          "apple",
-          "a"
+          "conexión",
+          "actualización"
         ],
         "answerTokens": [
           "La",
@@ -16937,13 +16937,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "hondo",
-          "house",
-          "relájate",
-          "apple",
+          "autocuidado",
           "Respira",
-          "libro",
-          "y"
+          "abrumado",
+          "médica",
+          "y",
+          "relájate",
+          "hondo"
         ],
         "answerTokens": [
           "Respira",
@@ -17061,15 +17061,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "apple",
+          "viaje",
+          "¿Dónde",
+          "control",
+          "boleto",
+          "está",
           "pasaportes",
-          "house",
           "el",
           "de",
-          "control",
-          "¿Dónde",
-          "está",
-          "libro"
+          "vuelta"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -17189,15 +17189,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "una",
-          "libro",
-          "pastel",
-          "Me",
-          "house",
+          "alimentaria",
           "de",
-          "gustaría",
+          "una",
           "porción",
-          "apple"
+          "recarga",
+          "Me",
+          "pastel",
+          "gustaría",
+          "propina"
         ],
         "answerTokens": [
           "Me",
@@ -17317,14 +17317,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "apple",
-          "salariales",
-          "¿Cuáles",
+          "expectativas",
           "sus",
           "son",
-          "libro",
-          "expectativas",
-          "house"
+          "sueldo",
+          "trabajo",
+          "salariales",
+          "¿Cuáles",
+          "negociar"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -17443,13 +17443,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "la",
-          "llamada",
-          "house",
-          "apple",
+          "en",
           "Unámonos",
-          "libro",
-          "a"
+          "llamada",
+          "la",
+          "a",
+          "contraseña",
+          "aplicación"
         ],
         "answerTokens": [
           "Unámonos",
@@ -17567,15 +17567,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "house",
-          "libro",
-          "hoy",
-          "Me",
-          "cansado",
+          "poco",
           "un",
+          "hoy",
+          "síntoma",
           "siento",
-          "apple",
-          "poco"
+          "receta",
+          "Me",
+          "recuperarse",
+          "cansado"
         ],
         "answerTokens": [
           "Me",
@@ -17695,14 +17695,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "libro",
-          "house",
-          "de",
-          "mi",
-          "embarque",
-          "apple",
+          "hostal",
+          "tarjeta",
           "Tengo",
-          "tarjeta"
+          "sobrevendido",
+          "embarque",
+          "mochilero",
+          "mi",
+          "de"
         ],
         "answerTokens": [
           "Tengo",
@@ -17822,12 +17822,12 @@
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
           "leche",
-          "avena",
-          "libro",
-          "house",
-          "de",
+          "comida",
+          "una",
           "¿Tienen",
-          "apple"
+          "receta",
+          "de",
+          "avena"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -17945,14 +17945,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "libro",
-          "gracias",
-          "la",
-          "house",
           "Muchas",
-          "apple",
+          "gracias",
+          "despido",
+          "la",
+          "contactos",
           "por",
-          "oportunidad"
+          "oportunidad",
+          "trimestral"
         ],
         "answerTokens": [
           "Muchas",
@@ -18071,14 +18071,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "libro",
-          "Te",
-          "electrónico",
+          "se",
+          "atajo",
           "correo",
-          "house",
-          "apple",
+          "Te",
+          "cerró",
           "un",
-          "enviaré"
+          "enviaré",
+          "electrónico"
         ],
         "answerTokens": [
           "Te",
@@ -18197,13 +18197,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "apple",
+          "agua",
+          "aliviado",
           "Necesito",
           "más",
-          "agua",
-          "house",
+          "sueño",
           "tomar",
-          "libro"
+          "lidiar"
         ],
         "answerTokens": [
           "Necesito",
@@ -18321,13 +18321,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "Mi",
+          "sobrevendido",
+          "está",
           "vuelo",
-          "house",
-          "libro",
-          "retrasado",
-          "apple",
-          "está"
+          "Mi",
+          "ida",
+          "control",
+          "retrasado"
         ],
         "answerTokens": [
           "Mi",
@@ -18445,13 +18445,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "house",
-          "libro",
+          "ingrediente",
+          "restricción",
+          "con",
           "el",
-          "apple",
           "cambio",
-          "Quédate",
-          "con"
+          "mesa",
+          "Quédate"
         ],
         "answerTokens": [
           "Quédate",
@@ -18569,14 +18569,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "apple",
-          "de",
-          "Hábleme",
-          "su",
-          "house",
           "laboral",
-          "libro",
-          "experiencia"
+          "experiencia",
+          "Hábleme",
+          "trimestral",
+          "interesada",
+          "su",
+          "de",
+          "currículum"
         ],
         "answerTokens": [
           "Hábleme",
@@ -18695,14 +18695,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
+          "notificación",
+          "suscripción",
           "el",
-          "¿Puedes",
-          "archivo",
-          "house",
           "compartir",
-          "libro",
+          "cerró",
           "conmigo",
-          "apple"
+          "archivo",
+          "¿Puedes"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -18821,12 +18821,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
+          "adolorido",
+          "síntoma",
+          "de",
           "¿Te",
-          "sientes",
-          "house",
-          "apple",
-          "libro",
-          "bien"
+          "bien",
+          "sientes"
         ],
         "answerTokens": [
           "¿Te",
@@ -18943,14 +18943,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
-          "puedo",
-          "recoger",
-          "mi",
-          "house",
-          "equipaje",
-          "apple",
+          "ida",
+          "viaje",
           "¿Dónde",
-          "libro"
+          "puedo",
+          "mi",
+          "equipaje",
+          "recoger",
+          "vuelta"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -19069,16 +19069,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
+          "alérgico",
           "¿Puedo",
+          "favor",
+          "restricción",
+          "por",
+          "alimentaria",
+          "caliente",
           "un",
           "café",
-          "favor",
-          "house",
-          "apple",
-          "caliente",
-          "por",
-          "tomar",
-          "libro"
+          "tomar"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -19199,14 +19199,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "Trabajo",
           "en",
           "bien",
-          "muy",
-          "house",
+          "Trabajo",
+          "negociar",
+          "trimestral",
           "equipo",
-          "apple",
-          "libro"
+          "despido",
+          "muy"
         ],
         "answerTokens": [
           "Trabajo",
@@ -19325,15 +19325,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
+          "hackear",
           "es",
-          "a",
-          "house",
+          "atajo",
           "La",
-          "libro",
-          "inestable",
+          "teclado",
+          "a",
+          "conexión",
           "internet",
-          "apple",
-          "conexión"
+          "inestable"
         ],
         "answerTokens": [
           "La",
@@ -19453,13 +19453,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "y",
-          "house",
-          "relájate",
           "Respira",
-          "apple",
-          "libro",
-          "hondo"
+          "falto",
+          "y",
+          "hondo",
+          "lidiar",
+          "relájate",
+          "agradecido"
         ],
         "answerTokens": [
           "Respira",
@@ -19577,15 +19577,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "apple",
-          "de",
-          "libro",
+          "¿Dónde",
           "pasaportes",
           "el",
-          "control",
           "está",
-          "¿Dónde",
-          "house"
+          "casa",
+          "reserva",
+          "de",
+          "control",
+          "recuerdo"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -19705,15 +19705,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
+          "comida",
           "pastel",
-          "Me",
-          "gustaría",
-          "una",
           "de",
-          "libro",
-          "house",
-          "apple",
-          "porción"
+          "gustaría",
+          "sobras",
+          "Me",
+          "porción",
+          "para",
+          "una"
         ],
         "answerTokens": [
           "Me",
@@ -19833,13 +19833,13 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "libro",
-          "¿Cuáles",
-          "house",
-          "expectativas",
-          "apple",
+          "incorporación",
           "salariales",
+          "interesada",
           "son",
+          "expectativas",
+          "negociar",
+          "¿Cuáles",
           "sus"
         ],
         "answerTokens": [
@@ -19959,13 +19959,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "Unámonos",
-          "apple",
-          "llamada",
-          "libro",
-          "house",
+          "teclado",
           "la",
-          "a"
+          "a",
+          "Unámonos",
+          "llamada",
+          "atajo",
+          "de"
         ],
         "answerTokens": [
           "Unámonos",
@@ -20083,15 +20083,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "hoy",
-          "house",
           "cansado",
-          "libro",
-          "Me",
           "un",
-          "apple",
+          "hoy",
+          "agotamiento",
+          "Me",
+          "receta",
+          "poco",
           "siento",
-          "poco"
+          "insomnio"
         ],
         "answerTokens": [
           "Me",
@@ -20211,14 +20211,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "libro",
-          "house",
           "mi",
           "de",
-          "apple",
-          "tarjeta",
+          "escala",
+          "y",
+          "embarque",
+          "casa",
           "Tengo",
-          "embarque"
+          "tarjeta"
         ],
         "answerTokens": [
           "Tengo",
@@ -20337,13 +20337,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "libro",
-          "avena",
-          "apple",
+          "restricción",
           "leche",
-          "house",
+          "de",
           "¿Tienen",
-          "de"
+          "llevar",
+          "bien",
+          "avena"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -20461,14 +20461,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "apple",
+          "despido",
           "gracias",
-          "Muchas",
-          "la",
-          "libro",
-          "por",
           "oportunidad",
-          "house"
+          "por",
+          "Muchas",
+          "factura",
+          "entregable",
+          "la"
         ],
         "answerTokens": [
           "Muchas",
@@ -20587,14 +20587,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "libro",
+          "hackear",
           "Te",
-          "enviaré",
           "electrónico",
-          "correo",
-          "apple",
           "un",
-          "house"
+          "actualización",
+          "en",
+          "enviaré",
+          "correo"
         ],
         "answerTokens": [
           "Te",
@@ -20713,13 +20713,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "apple",
-          "libro",
-          "tomar",
+          "insomnio",
           "más",
-          "agua",
           "Necesito",
-          "house"
+          "sueño",
+          "agua",
+          "con",
+          "tomar"
         ],
         "answerTokens": [
           "Necesito",
@@ -20837,13 +20837,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "apple",
-          "house",
           "retrasado",
+          "indicaciones",
+          "itinerario",
           "Mi",
-          "libro",
-          "está",
-          "vuelo"
+          "aduana",
+          "vuelo",
+          "está"
         ],
         "answerTokens": [
           "Mi",
@@ -20961,12 +20961,12 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "house",
-          "cambio",
+          "alérgico",
+          "agua",
+          "propina",
           "con",
           "Quédate",
-          "apple",
-          "libro",
+          "cambio",
           "el"
         ],
         "answerTokens": [
@@ -21086,13 +21086,13 @@
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
           "experiencia",
+          "reunión",
           "de",
-          "Hábleme",
-          "apple",
-          "laboral",
+          "parte",
+          "colega",
           "su",
-          "house",
-          "libro"
+          "laboral",
+          "Hábleme"
         ],
         "answerTokens": [
           "Hábleme",
@@ -21211,14 +21211,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "el",
-          "compartir",
+          "seguridad",
+          "se",
+          "archivo",
           "conmigo",
           "¿Puedes",
-          "apple",
-          "libro",
-          "archivo",
-          "house"
+          "espacio",
+          "el",
+          "compartir"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -21337,12 +21337,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "bien",
-          "libro",
-          "house",
           "¿Te",
           "sientes",
-          "apple"
+          "de",
+          "bien",
+          "sueño",
+          "con"
         ],
         "answerTokens": [
           "¿Te",
@@ -21460,13 +21460,13 @@
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
           "equipaje",
-          "puedo",
-          "libro",
-          "house",
-          "mi",
           "¿Dónde",
           "recoger",
-          "apple"
+          "reserva",
+          "boleto",
+          "ida",
+          "mi",
+          "puedo"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -21585,16 +21585,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "un",
-          "tomar",
-          "café",
-          "house",
-          "apple",
+          "receta",
           "¿Puedo",
-          "libro",
-          "favor",
           "por",
-          "caliente"
+          "favor",
+          "café",
+          "recarga",
+          "tomar",
+          "para",
+          "caliente",
+          "un"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -21715,14 +21715,14 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
-          "equipo",
-          "muy",
-          "apple",
-          "Trabajo",
-          "house",
           "en",
+          "muy",
+          "remoto",
+          "Trabajo",
           "bien",
-          "libro"
+          "turno",
+          "equipo",
+          "interesada"
         ],
         "answerTokens": [
           "Trabajo",
@@ -21841,15 +21841,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "apple",
+          "La",
           "a",
-          "es",
-          "house",
-          "inestable",
+          "hackear",
+          "captura",
           "conexión",
-          "libro",
+          "transmisión",
           "internet",
-          "La"
+          "es",
+          "inestable"
         ],
         "answerTokens": [
           "La",
@@ -21969,13 +21969,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "libro",
-          "house",
-          "apple",
-          "relájate",
+          "chequeo",
           "y",
+          "terapia",
           "hondo",
-          "Respira"
+          "estado",
+          "Respira",
+          "relájate"
         ],
         "answerTokens": [
           "Respira",
@@ -22093,15 +22093,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "de",
+          "mochilero",
           "está",
-          "house",
-          "el",
-          "apple",
           "control",
-          "pasaportes",
           "¿Dónde",
-          "libro"
+          "aduana",
+          "equipaje",
+          "el",
+          "de",
+          "pasaportes"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -22221,15 +22221,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "libro",
-          "de",
+          "alimentaria",
+          "porción",
           "pastel",
-          "apple",
           "gustaría",
+          "ingrediente",
+          "de",
           "una",
           "Me",
-          "porción",
-          "house"
+          "cuenta"
         ],
         "answerTokens": [
           "Me",
@@ -22349,14 +22349,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
-          "house",
-          "¿Cuáles",
-          "libro",
-          "sus",
-          "son",
-          "apple",
           "expectativas",
-          "salariales"
+          "¿Cuáles",
+          "salariales",
+          "contactos",
+          "trimestral",
+          "establecer",
+          "sus",
+          "son"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -22475,13 +22475,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "Unámonos",
+          "firmware",
+          "la",
           "llamada",
-          "apple",
-          "house",
           "a",
-          "libro",
-          "la"
+          "Unámonos",
+          "atajo",
+          "hackear"
         ],
         "answerTokens": [
           "Unámonos",
@@ -22599,15 +22599,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "poco",
-          "apple",
-          "hoy",
-          "un",
-          "house",
-          "cansado",
+          "vacuna",
           "siento",
-          "libro",
-          "Me"
+          "cansado",
+          "poco",
+          "un",
+          "insomnio",
+          "hoy",
+          "Me",
+          "agotamiento"
         ],
         "answerTokens": [
           "Me",
@@ -22727,14 +22727,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "apple",
-          "Tengo",
-          "de",
-          "embarque",
-          "house",
           "mi",
           "tarjeta",
-          "libro"
+          "de",
+          "reserva",
+          "monumento",
+          "casa",
+          "embarque",
+          "Tengo"
         ],
         "answerTokens": [
           "Tengo",
@@ -22853,13 +22853,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "de",
-          "¿Tienen",
+          "bien",
           "leche",
+          "de",
           "avena",
-          "house",
-          "apple",
-          "libro"
+          "propina",
+          "cocido",
+          "¿Tienen"
         ],
         "answerTokens": [
           "¿Tienen",
@@ -22977,14 +22977,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "apple",
-          "gracias",
-          "house",
-          "la",
           "Muchas",
+          "oportunidad",
+          "entregable",
+          "incorporación",
+          "gracias",
+          "presupuesto",
           "por",
-          "libro",
-          "oportunidad"
+          "la"
         ],
         "answerTokens": [
           "Muchas",
@@ -23103,14 +23103,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "electrónico",
-          "enviaré",
-          "house",
-          "correo",
           "Te",
-          "libro",
-          "apple",
-          "un"
+          "hackear",
+          "un",
+          "correo",
+          "electrónico",
+          "en",
+          "enviaré",
+          "se"
         ],
         "answerTokens": [
           "Te",
@@ -23229,13 +23229,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "Necesito",
-          "agua",
-          "apple",
-          "más",
-          "house",
           "tomar",
-          "libro"
+          "de",
+          "fiebre",
+          "Necesito",
+          "más",
+          "agua",
+          "lidiar"
         ],
         "answerTokens": [
           "Necesito",
@@ -23353,13 +23353,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "retrasado",
-          "está",
-          "libro",
-          "house",
-          "vuelo",
           "Mi",
-          "apple"
+          "vuelo",
+          "sobrevendido",
+          "itinerario",
+          "de",
+          "está",
+          "retrasado"
         ],
         "answerTokens": [
           "Mi",
@@ -23477,13 +23477,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
+          "alimentaria",
+          "con",
+          "guarnición",
+          "Quédate",
           "el",
           "cambio",
-          "libro",
-          "apple",
-          "con",
-          "Quédate",
-          "house"
+          "una"
         ],
         "answerTokens": [
           "Quédate",
@@ -23601,14 +23601,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "libro",
-          "experiencia",
-          "laboral",
-          "house",
-          "su",
+          "incorporación",
+          "currículum",
           "Hábleme",
-          "apple",
-          "de"
+          "de",
+          "sueldo",
+          "laboral",
+          "experiencia",
+          "su"
         ],
         "answerTokens": [
           "Hábleme",
@@ -23727,14 +23727,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "apple",
-          "libro",
-          "¿Puedes",
-          "el",
-          "conmigo",
           "archivo",
+          "seguridad",
           "compartir",
-          "house"
+          "conmigo",
+          "¿Puedes",
+          "contraseña",
+          "el",
+          "algoritmo"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -23853,12 +23853,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "sientes",
+          "ánimo",
           "bien",
-          "house",
-          "libro",
-          "apple",
-          "¿Te"
+          "¿Te",
+          "sientes",
+          "de",
+          "sueño"
         ],
         "answerTokens": [
           "¿Te",
@@ -23975,14 +23975,14 @@
         "question": "Ordene as palavras para formar a frase: \"Onde posso retirar minha bagagem?\"",
         "sentence": "Onde posso retirar minha bagagem?",
         "tokens": [
+          "puedo",
           "mi",
           "¿Dónde",
           "equipaje",
-          "puedo",
-          "libro",
           "recoger",
-          "apple",
-          "house"
+          "pasaportes",
+          "viaje",
+          "control"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -24101,16 +24101,16 @@
         "question": "Ordene as palavras para formar a frase: \"Posso pegar um café quente, por favor?\"",
         "sentence": "Posso pegar um café quente, por favor?",
         "tokens": [
-          "café",
+          "de",
+          "tomar",
           "un",
-          "¿Puedo",
-          "caliente",
+          "entrante",
+          "restricción",
           "por",
-          "house",
-          "libro",
-          "favor",
-          "apple",
-          "tomar"
+          "café",
+          "caliente",
+          "¿Puedo",
+          "favor"
         ],
         "answerTokens": [
           "¿Puedo",
@@ -24231,13 +24231,13 @@
         "question": "Ordene as palavras para formar a frase: \"Trabalho muito bem em equipe.\"",
         "sentence": "Trabalho muito bem em equipe.",
         "tokens": [
+          "parte",
+          "interesada",
           "muy",
-          "house",
-          "libro",
-          "apple",
           "en",
-          "Trabajo",
           "equipo",
+          "sueldo",
+          "Trabajo",
           "bien"
         ],
         "answerTokens": [
@@ -24357,15 +24357,15 @@
         "question": "Ordene as palavras para formar a frase: \"A conexão com a internet está instável.\"",
         "sentence": "A conexão com a internet está instável.",
         "tokens": [
-          "house",
-          "apple",
-          "conexión",
-          "es",
+          "a",
+          "nube",
           "inestable",
+          "de",
+          "conexión",
           "internet",
           "La",
-          "a",
-          "libro"
+          "suscripción",
+          "es"
         ],
         "answerTokens": [
           "La",
@@ -24485,13 +24485,13 @@
         "question": "Ordene as palavras para formar a frase: \"Respire fundo e relaxe.\"",
         "sentence": "Respire fundo e relaxe.",
         "tokens": [
-          "house",
-          "relájate",
-          "hondo",
-          "apple",
+          "agradecido",
+          "lidiar",
           "Respira",
-          "libro",
-          "y"
+          "sueño",
+          "relájate",
+          "y",
+          "hondo"
         ],
         "answerTokens": [
           "Respira",
@@ -24609,15 +24609,15 @@
         "question": "Ordene as palavras para formar a frase: \"Onde fica o controle de passaportes?\"",
         "sentence": "Onde fica o controle de passaportes?",
         "tokens": [
-          "libro",
-          "apple",
-          "¿Dónde",
-          "el",
-          "de",
-          "control",
           "está",
-          "house",
-          "pasaportes"
+          "indicaciones",
+          "¿Dónde",
+          "itinerario",
+          "control",
+          "mochilero",
+          "pasaportes",
+          "de",
+          "el"
         ],
         "answerTokens": [
           "¿Dónde",
@@ -24737,15 +24737,15 @@
         "question": "Ordene as palavras para formar a frase: \"Eu gostaria de uma fatia de bolo.\"",
         "sentence": "Eu gostaria de uma fatia de bolo.",
         "tokens": [
-          "gustaría",
           "porción",
-          "Me",
-          "house",
-          "apple",
-          "pastel",
-          "una",
+          "vegetariano",
+          "mesa",
+          "gustaría",
           "de",
-          "libro"
+          "una",
+          "pastel",
+          "restricción",
+          "Me"
         ],
         "answerTokens": [
           "Me",
@@ -24865,14 +24865,14 @@
         "question": "Ordene as palavras para formar a frase: \"Quais são suas expectativas salariais?\"",
         "sentence": "Quais são suas expectativas salariais?",
         "tokens": [
+          "¿Cuáles",
+          "interesada",
+          "retroalimentación",
           "sus",
           "son",
-          "¿Cuáles",
-          "house",
-          "apple",
-          "expectativas",
           "salariales",
-          "libro"
+          "turno",
+          "expectativas"
         ],
         "answerTokens": [
           "¿Cuáles",
@@ -24991,13 +24991,13 @@
         "question": "Ordene as palavras para formar a frase: \"Vamos entrar na chamada.\"",
         "sentence": "Vamos entrar na chamada.",
         "tokens": [
-          "llamada",
-          "house",
           "a",
-          "Unámonos",
+          "firmware",
           "la",
-          "libro",
-          "apple"
+          "contraseña",
+          "descargar",
+          "Unámonos",
+          "llamada"
         ],
         "answerTokens": [
           "Unámonos",
@@ -25115,15 +25115,15 @@
         "question": "Ordene as palavras para formar a frase: \"Estou me sentindo um pouco cansado hoje.\"",
         "sentence": "Estou me sentindo um pouco cansado hoje.",
         "tokens": [
-          "poco",
-          "libro",
-          "house",
+          "falto",
+          "cansado",
           "Me",
           "un",
           "hoy",
-          "apple",
-          "siento",
-          "cansado"
+          "sueño",
+          "abrumado",
+          "poco",
+          "siento"
         ],
         "answerTokens": [
           "Me",
@@ -25243,14 +25243,14 @@
         "question": "Ordene as palavras para formar a frase: \"Tenho meu cartão de embarque.\"",
         "sentence": "Tenho meu cartão de embarque.",
         "tokens": [
-          "house",
-          "mi",
-          "libro",
-          "Tengo",
           "tarjeta",
-          "apple",
-          "embarque",
-          "de"
+          "itinerario",
+          "visita",
+          "de",
+          "Tengo",
+          "retraso",
+          "mi",
+          "embarque"
         ],
         "answerTokens": [
           "Tengo",
@@ -25369,12 +25369,12 @@
         "question": "Ordene as palavras para formar a frase: \"Vocês têm leite de aveia?\"",
         "sentence": "Vocês têm leite de aveia?",
         "tokens": [
-          "house",
-          "¿Tienen",
-          "libro",
-          "de",
-          "apple",
           "avena",
+          "ingrediente",
+          "restricción",
+          "propina",
+          "¿Tienen",
+          "de",
           "leche"
         ],
         "answerTokens": [
@@ -25493,14 +25493,14 @@
         "question": "Ordene as palavras para formar a frase: \"Muito obrigado pela oportunidade.\"",
         "sentence": "Muito obrigado pela oportunidade.",
         "tokens": [
-          "oportunidad",
-          "por",
-          "apple",
-          "la",
-          "Muchas",
-          "libro",
           "gracias",
-          "house"
+          "oportunidad",
+          "trimestral",
+          "Muchas",
+          "la",
+          "interesada",
+          "por",
+          "cliente"
         ],
         "answerTokens": [
           "Muchas",
@@ -25619,14 +25619,14 @@
         "question": "Ordene as palavras para formar a frase: \"Vou te enviar um e-mail.\"",
         "sentence": "Vou te enviar um e-mail.",
         "tokens": [
-          "electrónico",
-          "enviaré",
-          "correo",
-          "Te",
-          "libro",
-          "apple",
+          "firmware",
           "un",
-          "house"
+          "teclado",
+          "enviaré",
+          "Te",
+          "correo",
+          "electrónico",
+          "de"
         ],
         "answerTokens": [
           "Te",
@@ -25745,13 +25745,13 @@
         "question": "Ordene as palavras para formar a frase: \"Preciso beber mais água.\"",
         "sentence": "Preciso beber mais água.",
         "tokens": [
-          "más",
-          "agua",
-          "tomar",
-          "house",
-          "libro",
+          "chequeo",
           "Necesito",
-          "apple"
+          "tomar",
+          "agua",
+          "lidiar",
+          "más",
+          "ansioso"
         ],
         "answerTokens": [
           "Necesito",
@@ -25869,13 +25869,13 @@
         "question": "Ordene as palavras para formar a frase: \"Meu voo está atrasado.\"",
         "sentence": "Meu voo está atrasado.",
         "tokens": [
-          "house",
-          "libro",
-          "Mi",
-          "apple",
-          "retrasado",
           "está",
-          "vuelo"
+          "Mi",
+          "ida",
+          "vuelo",
+          "hostal",
+          "retrasado",
+          "de"
         ],
         "answerTokens": [
           "Mi",
@@ -25993,13 +25993,13 @@
         "question": "Ordene as palavras para formar a frase: \"Fique com o troco.\"",
         "sentence": "Fique com o troco.",
         "tokens": [
-          "apple",
-          "house",
-          "el",
-          "libro",
-          "con",
           "cambio",
-          "Quédate"
+          "con",
+          "reservar",
+          "restricción",
+          "el",
+          "Quédate",
+          "cuenta"
         ],
         "answerTokens": [
           "Quédate",
@@ -26117,14 +26117,14 @@
         "question": "Ordene as palavras para formar a frase: \"Fale-me sobre sua experiência de trabalho.\"",
         "sentence": "Fale-me sobre sua experiência de trabalho.",
         "tokens": [
-          "su",
           "de",
-          "libro",
-          "experiencia",
+          "factura",
+          "despido",
           "Hábleme",
-          "apple",
-          "house",
-          "laboral"
+          "laboral",
+          "interesada",
+          "su",
+          "experiencia"
         ],
         "answerTokens": [
           "Hábleme",
@@ -26243,14 +26243,14 @@
         "question": "Ordene as palavras para formar a frase: \"Pode compartilhar o arquivo comigo?\"",
         "sentence": "Pode compartilhar o arquivo comigo?",
         "tokens": [
-          "house",
-          "apple",
-          "el",
-          "archivo",
           "¿Puedes",
-          "libro",
+          "teclado",
+          "el",
+          "conmigo",
+          "hackear",
           "compartir",
-          "conmigo"
+          "batería",
+          "archivo"
         ],
         "answerTokens": [
           "¿Puedes",
@@ -26369,12 +26369,12 @@
         "question": "Ordene as palavras para formar a frase: \"Você está se sentindo bem?\"",
         "sentence": "Você está se sentindo bem?",
         "tokens": [
-          "apple",
-          "libro",
+          "abrumado",
+          "vacuna",
+          "sientes",
           "bien",
-          "house",
-          "¿Te",
-          "sientes"
+          "con",
+          "¿Te"
         ],
         "answerTokens": [
           "¿Te",

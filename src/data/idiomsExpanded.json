@@ -35,6 +35,66 @@
       ],
       "region": "Brasil",
       "formality": "Informal"
+    },
+    {
+      "id": "i_pt_004",
+      "idiom": "Chutar o balde",
+      "literalTranslation": "Kick the bucket",
+      "meaning": "Desistir de manter as aparências ou o controle numa situação difícil.",
+      "examples": [
+        "Depois de tanta pressão, ele chutou o balde.",
+        "Cansei de tentar, vou chutar o balde."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_005",
+      "idiom": "Engolir sapo",
+      "literalTranslation": "Swallow a frog",
+      "meaning": "Aceitar algo desagradável sem reclamar.",
+      "examples": [
+        "Tive que engolir sapo e aceitar a decisão do chefe.",
+        "Às vezes no trabalho a gente tem que engolir sapo."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_006",
+      "idiom": "Ficar de bico calado",
+      "literalTranslation": "Keep the beak shut",
+      "meaning": "Ficar em silêncio sobre algo.",
+      "examples": [
+        "É melhor ficar de bico calado sobre isso.",
+        "Ela ficou de bico calado durante a reunião toda."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_007",
+      "idiom": "Custar os olhos da cara",
+      "literalTranslation": "Cost the eyes of the face",
+      "meaning": "Ser extremamente caro.",
+      "examples": [
+        "Esse carro custou os olhos da cara.",
+        "Viajar em dezembro custa os olhos da cara."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_pt_008",
+      "idiom": "Ter a macaca",
+      "literalTranslation": "To have the female monkey",
+      "meaning": "Estar de mau humor.",
+      "examples": [
+        "Hoje ele tá com a macaca, melhor não falar com ele.",
+        "Fica de longe, ela tá com a macaca hoje."
+      ],
+      "region": "Brasil",
+      "formality": "Informal"
     }
   ],
   "en": [
@@ -42,7 +102,7 @@
       "id": "i_en_001",
       "idiom": "Bite the bullet",
       "literalTranslation": "Morder a bala",
-      "meaning": "Enfrentar uma situação difícil com coragem.",
+      "meaning": "To face a difficult situation with courage.",
       "examples": [
         "I hate going to the dentist, but I'll just have to bite the bullet.",
         "He bit the bullet and accepted the demotion."
@@ -54,7 +114,7 @@
       "id": "i_en_002",
       "idiom": "Piece of cake",
       "literalTranslation": "Pedaço de bolo",
-      "meaning": "Algo muito fácil de fazer.",
+      "meaning": "Something very easy to do.",
       "examples": ["The exam was a piece of cake.", "Don't worry, fixing this is a piece of cake."],
       "region": "Universal",
       "formality": "Informal"
@@ -63,7 +123,7 @@
       "id": "i_en_003",
       "idiom": "Under the weather",
       "literalTranslation": "Sob o clima",
-      "meaning": "Sentir-se um pouco doente.",
+      "meaning": "Feeling slightly ill.",
       "examples": [
         "I'm feeling a bit under the weather today.",
         "He stayed home because he was under the weather."
@@ -75,8 +135,47 @@
       "id": "i_en_004",
       "idiom": "Break the ice",
       "literalTranslation": "Quebrar o gelo",
-      "meaning": "Iniciar conversa para reduzir tensão.",
+      "meaning": "To start a conversation in order to relieve tension.",
       "examples": ["He told a joke to break the ice.", "Let's play a game to break the ice."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_005",
+      "idiom": "Hit the sack",
+      "literalTranslation": "Bater no saco",
+      "meaning": "To go to bed.",
+      "examples": ["I'm exhausted, I'm going to hit the sack.", "It's late, let's hit the sack."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_006",
+      "idiom": "Spill the beans",
+      "literalTranslation": "Derramar os feijões",
+      "meaning": "To reveal a secret.",
+      "examples": ["Come on, spill the beans!", "She spilled the beans about the surprise party."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_007",
+      "idiom": "Cost an arm and a leg",
+      "literalTranslation": "Custar um braço e uma perna",
+      "meaning": "To be very expensive.",
+      "examples": ["That car cost an arm and a leg.", "Renting downtown costs an arm and a leg."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_en_008",
+      "idiom": "Get out of hand",
+      "literalTranslation": "Sair da mão",
+      "meaning": "To become uncontrollable.",
+      "examples": [
+        "The party got out of hand pretty quickly.",
+        "Things got out of hand at the meeting."
+      ],
       "region": "Universal",
       "formality": "Informal"
     }
@@ -86,7 +185,7 @@
       "id": "i_es_001",
       "idiom": "Tomar el pelo",
       "literalTranslation": "Pegar o cabelo",
-      "meaning": "Brincar com alguém ou enganar.",
+      "meaning": "Bromear con alguien o engañarlo.",
       "examples": ["¿Me estás tomando el pelo?", "Siempre me toma el pelo con esa historia."],
       "region": "Universal",
       "formality": "Informal"
@@ -95,19 +194,70 @@
       "id": "i_es_002",
       "idiom": "Estar como una cabra",
       "literalTranslation": "Estar como uma cabra",
-      "meaning": "Estar louco ou agir de forma estranha.",
+      "meaning": "Estar loco o actuar de forma extraña.",
       "examples": ["Mi vecino está como una cabra.", "Estás como una cabra si piensas eso."],
-      "region": "Espanha",
+      "region": "España",
       "formality": "Informal"
     },
     {
       "id": "i_es_003",
       "idiom": "Dar en el clavo",
       "literalTranslation": "Acertar no prego",
-      "meaning": "Acertar exatamente no ponto.",
+      "meaning": "Acertar exactamente en el punto correcto.",
       "examples": [
         "Con tu análisis, diste en el clavo.",
         "El profesor dio en el clavo con su explicación."
+      ],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_004",
+      "idiom": "Costar un ojo de la cara",
+      "literalTranslation": "Custar um olho da cara",
+      "meaning": "Ser muy caro.",
+      "examples": [
+        "Ese coche costó un ojo de la cara.",
+        "Viajar en diciembre cuesta un ojo de la cara."
+      ],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_005",
+      "idiom": "Meter la pata",
+      "literalTranslation": "Meter a pata",
+      "meaning": "Cometer un error, equivocarse.",
+      "examples": ["Metí la pata en la reunión.", "Perdón, creo que metí la pata otra vez."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_006",
+      "idiom": "Ser pan comido",
+      "literalTranslation": "Ser pão comido",
+      "meaning": "Ser algo muy fácil de hacer.",
+      "examples": ["El examen fue pan comido.", "No te preocupes, arreglar esto es pan comido."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_007",
+      "idiom": "Estar en las nubes",
+      "literalTranslation": "Estar nas nuvens",
+      "meaning": "Estar distraído, no prestar atención.",
+      "examples": ["Perdón, estaba en las nubes.", "Siempre está en las nubes en clase."],
+      "region": "Universal",
+      "formality": "Informal"
+    },
+    {
+      "id": "i_es_008",
+      "idiom": "No tener pelos en la lengua",
+      "literalTranslation": "Não ter pelos na língua",
+      "meaning": "Hablar con total franqueza, sin filtros.",
+      "examples": [
+        "Ella no tiene pelos en la lengua, dice todo lo que piensa.",
+        "Le pregunté y no tuvo pelos en la lengua para responder."
       ],
       "region": "Universal",
       "formality": "Informal"

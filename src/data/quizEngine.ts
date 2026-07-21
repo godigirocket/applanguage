@@ -138,6 +138,12 @@ export function generateGrammarQuiz(
   });
 }
 
+const IDIOM_QUIZ_PROMPT: Record<Language, (idiom: string) => string> = {
+  en: (idiom) => `What does "${idiom}" mean?`,
+  es: (idiom) => `¿Qué significa "${idiom}"?`,
+  pt: (idiom) => `O que significa "${idiom}"?`,
+};
+
 export function generateIdiomQuiz(lang: Language, count: number = 3): QuizQuestion[] {
   const data = (idiomsData as Record<string, any[]>)[lang] || [];
   if (!data.length) return [];
@@ -156,7 +162,7 @@ export function generateIdiomQuiz(lang: Language, count: number = 3): QuizQuesti
     return {
       id: `q_idiom_${item.id}`,
       type: "multiple_choice" as const,
-      prompt: `O que significa "${item.idiom}"?`,
+      prompt: IDIOM_QUIZ_PROMPT[lang](item.idiom),
       options,
       correctAnswer: item.meaning,
     };

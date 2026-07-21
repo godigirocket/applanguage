@@ -41,7 +41,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hostel\"?",
+        "question": "What is the correct translation for \"hostel\"?",
         "options": [
           "boarding pass",
           "hostel",
@@ -83,16 +83,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
+          "controle",
+          "atraso",
           "Eu",
-          "o",
-          "embarque",
-          "de",
-          "meu",
-          "house",
-          "apple",
-          "libro",
+          "lembrancinha",
           "cartão",
-          "tenho"
+          "o",
+          "meu",
+          "tenho",
+          "de",
+          "embarque"
         ],
         "answerTokens": [
           "Eu",
@@ -171,7 +171,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comida para viagem\"?",
+        "question": "What is the correct translation for \"comida para viagem\"?",
         "options": [
           "takeout",
           "refill",
@@ -213,14 +213,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "têm",
-          "apple",
-          "aveia",
-          "libro",
-          "house",
-          "de",
+          "vegetariano",
+          "água",
           "Vocês",
-          "leite"
+          "a",
+          "aveia",
+          "de",
+          "leite",
+          "têm"
         ],
         "answerTokens": [
           "Vocês",
@@ -297,7 +297,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"feedback\"?",
+        "question": "What is the correct translation for \"feedback\"?",
         "options": [
           "client",
           "promotion",
@@ -339,13 +339,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "libro",
-          "house",
-          "pela",
-          "Muito",
           "oportunidade",
-          "apple",
-          "obrigado"
+          "pela",
+          "reunião",
+          "Muito",
+          "obrigado",
+          "entrevista",
+          "(cargo)"
         ],
         "answerTokens": [
           "Muito",
@@ -421,7 +421,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sinal de wifi\"?",
+        "question": "What is the correct translation for \"sinal de wifi\"?",
         "options": [
           "to download",
           "device",
@@ -463,13 +463,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "house",
-          "libro",
+          "enviarlhe",
           "Vou",
-          "apple",
+          "de",
+          "toque",
           "um",
-          "email",
-          "enviarlhe"
+          "sensível",
+          "email"
         ],
         "answerTokens": [
           "Vou",
@@ -545,7 +545,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"grato\"?",
+        "question": "What is the correct translation for \"grato\"?",
         "options": [
           "grateful",
           "sore",
@@ -587,14 +587,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "apple",
+          "privação",
           "Preciso",
-          "beber",
-          "house",
-          "libro",
-          "água",
           "mais",
-          "de"
+          "de",
+          "esgotamento",
+          "água",
+          "beber",
+          "grato"
         ],
         "answerTokens": [
           "Preciso",
@@ -671,7 +671,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fazer check-in\"?",
+        "question": "What is the correct translation for \"fazer check-in\"?",
         "options": [
           "to check in",
           "hostel",
@@ -713,14 +713,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "está",
-          "apple",
-          "atrasado",
-          "libro",
-          "house",
-          "voo",
           "O",
-          "meu"
+          "atrasado",
+          "voo",
+          "volta",
+          "está",
+          "meu",
+          "e",
+          "de"
         ],
         "answerTokens": [
           "O",
@@ -797,7 +797,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ingrediente\"?",
+        "question": "What is the correct translation for \"ingrediente\"?",
         "options": [
           "refill",
           "grocery store",
@@ -839,14 +839,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "apple",
           "Pode",
-          "ficar",
-          "house",
+          "reforço",
+          "água",
+          "o",
+          "cardápio",
           "com",
           "troco",
-          "o",
-          "libro"
+          "ficar"
         ],
         "answerTokens": [
           "Pode",
@@ -923,7 +923,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reunião\"?",
+        "question": "What is the correct translation for \"reunião\"?",
         "options": [
           "shift",
           "meeting",
@@ -965,16 +965,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "sobre",
-          "de",
-          "house",
-          "libro",
-          "trabalho",
           "sua",
-          "experiência",
+          "reunião",
+          "sobre",
           "a",
+          "de",
+          "currículo",
+          "colega",
           "Faleme",
-          "apple"
+          "experiência",
+          "trabalho"
         ],
         "answerTokens": [
           "Faleme",
@@ -1053,7 +1053,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"dispositivo\"?",
+        "question": "What is the correct translation for \"dispositivo\"?",
         "options": [
           "device",
           "the battery died",
@@ -1095,13 +1095,13 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "ficheiro",
+          "vivo",
           "comigo",
-          "apple",
-          "partilhar",
-          "house",
+          "ficheiro",
           "o",
-          "libro",
+          "toque",
+          "partilhar",
+          "bateria",
           "Pode"
         ],
         "answerTokens": [
@@ -1179,7 +1179,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"grato\"?",
+        "question": "What is the correct translation for \"grato\"?",
         "options": [
           "grateful",
           "checkup",
@@ -1222,10 +1222,10 @@
         "sentence": "Do you feel well?",
         "tokens": [
           "Sentese",
-          "bem",
-          "libro",
-          "apple",
-          "house"
+          "receita",
+          "autocuidado",
+          "terapia",
+          "bem"
         ],
         "answerTokens": [
           "Sentese",
@@ -1299,7 +1299,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cartão de embarque\"?",
+        "question": "What is the correct translation for \"cartão de embarque\"?",
         "options": [
           "reservation",
           "delay",
@@ -1341,14 +1341,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "recolher",
+          "de",
           "bagagem",
-          "apple",
-          "posso",
-          "libro",
-          "house",
+          "Onde",
+          "recolher",
           "a",
-          "Onde"
+          "posso",
+          "passagem",
+          "fazer"
         ],
         "answerTokens": [
           "Onde",
@@ -1425,7 +1425,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sabor\"?",
+        "question": "What is the correct translation for \"sabor\"?",
         "options": [
           "flavor",
           "the check",
@@ -1467,13 +1467,13 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "apple",
+          "sabor",
+          "água",
+          "reforço",
           "favor",
-          "por",
-          "quente",
           "pedir",
-          "house",
-          "libro",
+          "quente",
+          "por",
           "um",
           "Posso",
           "café"
@@ -1555,7 +1555,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrevista de emprego\"?",
+        "question": "What is the correct translation for \"entrevista de emprego\"?",
         "options": [
           "resume",
           "meeting",
@@ -1597,15 +1597,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "apple",
           "Eu",
           "muito",
           "bem",
-          "house",
+          "em",
+          "prazo",
           "trabalho",
+          "turno",
           "equipa",
-          "libro",
-          "em"
+          "trimestral"
         ],
         "answerTokens": [
           "Eu",
@@ -1683,7 +1683,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"transmissão ao vivo\"?",
+        "question": "What is the correct translation for \"transmissão ao vivo\"?",
         "options": [
           "touchscreen",
           "the battery died",
@@ -1725,15 +1725,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "à",
-          "ligação",
-          "está",
-          "internet",
-          "house",
-          "libro",
+          "bateria",
           "A",
+          "ligação",
           "instável",
-          "apple"
+          "captura",
+          "toque",
+          "à",
+          "internet",
+          "está"
         ],
         "answerTokens": [
           "A",
@@ -1811,7 +1811,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"humor (estado)\"?",
+        "question": "What is the correct translation for \"humor (estado)\"?",
         "options": [
           "sore",
           "checkup",
@@ -1853,13 +1853,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "fundo",
-          "house",
-          "apple",
-          "relaxe",
+          "e",
+          "vacina",
+          "(estado)",
+          "consulta",
           "Respire",
-          "libro",
-          "e"
+          "relaxe",
+          "fundo"
         ],
         "answerTokens": [
           "Respire",
@@ -1935,7 +1935,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reserva\"?",
+        "question": "What is the correct translation for \"reserva\"?",
         "options": [
           "luggage",
           "to check in",
@@ -1977,15 +1977,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "house",
-          "o",
-          "passaportes",
           "fica",
-          "Onde",
+          "embarque",
           "de",
           "controle",
-          "apple",
-          "libro"
+          "Onde",
+          "passaportes",
+          "passagem",
+          "o",
+          "fazer"
         ],
         "answerTokens": [
           "Onde",
@@ -2063,7 +2063,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mercado\"?",
+        "question": "What is the correct translation for \"mercado\"?",
         "options": [
           "ingredient",
           "vegetarian",
@@ -2105,16 +2105,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "bolo",
-          "fatia",
-          "uma",
-          "de",
-          "libro",
-          "de",
-          "apple",
           "gostaria",
+          "gás",
+          "fatia",
+          "de",
+          "viagem",
           "Eu",
-          "house"
+          "uma",
+          "bolo",
+          "receita",
+          "de"
         ],
         "answerTokens": [
           "Eu",
@@ -2193,7 +2193,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "What is the correct translation for \"turno\"?",
         "options": [
           "job interview",
           "shift",
@@ -2235,15 +2235,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "house",
-          "apple",
-          "as",
-          "libro",
-          "expectativas",
-          "são",
           "salariais",
+          "entrevista",
+          "são",
+          "turno",
+          "Quais",
+          "expectativas",
           "suas",
-          "Quais"
+          "as",
+          "feedback"
         ],
         "answerTokens": [
           "Quais",
@@ -2321,7 +2321,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sinal de wifi\"?",
+        "question": "What is the correct translation for \"sinal de wifi\"?",
         "options": [
           "wifi signal",
           "device",
@@ -2363,14 +2363,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "na",
-          "reunião",
-          "apple",
-          "libro",
-          "house",
           "online",
+          "reunião",
+          "captura",
           "entrar",
-          "Vamos"
+          "Vamos",
+          "transmissão",
+          "na",
+          "sinal"
         ],
         "answerTokens": [
           "Vamos",
@@ -2447,7 +2447,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"humor (estado)\"?",
+        "question": "What is the correct translation for \"humor (estado)\"?",
         "options": [
           "grateful",
           "mood",
@@ -2489,14 +2489,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
+          "de",
+          "cansado",
+          "privação",
+          "Sintome",
           "pouco",
           "hoje",
-          "Sintome",
-          "um",
-          "house",
-          "libro",
-          "apple",
-          "cansado"
+          "esgotamento",
+          "um"
         ],
         "answerTokens": [
           "Sintome",
@@ -2573,7 +2573,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fazer check-in\"?",
+        "question": "What is the correct translation for \"fazer check-in\"?",
         "options": [
           "to check in",
           "hostel",
@@ -2615,16 +2615,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "tenho",
-          "apple",
-          "de",
-          "libro",
-          "o",
           "meu",
-          "house",
+          "tenho",
+          "reserva",
+          "o",
           "cartão",
+          "direções",
+          "check-in",
+          "embarque",
           "Eu",
-          "embarque"
+          "de"
         ],
         "answerTokens": [
           "Eu",
@@ -2703,7 +2703,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"água com gás\"?",
+        "question": "What is the correct translation for \"água com gás\"?",
         "options": [
           "ingredient",
           "recipe",
@@ -2745,14 +2745,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
+          "reforço",
+          "têm",
+          "Vocês",
+          "aveia",
           "leite",
           "de",
-          "libro",
-          "apple",
-          "aveia",
-          "house",
-          "têm",
-          "Vocês"
+          "comida",
+          "picante"
         ],
         "answerTokens": [
           "Vocês",
@@ -2829,7 +2829,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"colega de trabalho\"?",
+        "question": "What is the correct translation for \"colega de trabalho\"?",
         "options": [
           "meeting",
           "colleague",
@@ -2871,13 +2871,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "pela",
-          "Muito",
-          "apple",
-          "oportunidade",
-          "libro",
           "obrigado",
-          "house"
+          "negociar",
+          "(cargo)",
+          "Muito",
+          "oportunidade",
+          "pela",
+          "entrevista"
         ],
         "answerTokens": [
           "Muito",
@@ -2953,7 +2953,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sinal de wifi\"?",
+        "question": "What is the correct translation for \"sinal de wifi\"?",
         "options": [
           "notification",
           "wifi signal",
@@ -2995,13 +2995,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "email",
-          "apple",
           "enviarlhe",
-          "house",
-          "libro",
+          "email",
+          "sensível",
+          "Vou",
+          "wifi",
           "um",
-          "Vou"
+          "notificação"
         ],
         "answerTokens": [
           "Vou",
@@ -3077,7 +3077,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"dolorido\"?",
+        "question": "What is the correct translation for \"dolorido\"?",
         "options": [
           "fever",
           "sore",
@@ -3119,14 +3119,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "mais",
-          "beber",
-          "de",
+          "check-up",
+          "dolorido",
+          "privação",
           "água",
-          "apple",
           "Preciso",
-          "house",
-          "libro"
+          "beber",
+          "mais",
+          "de"
         ],
         "answerTokens": [
           "Preciso",
@@ -3203,7 +3203,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"direções\"?",
+        "question": "What is the correct translation for \"direções\"?",
         "options": [
           "delay",
           "hostel",
@@ -3245,14 +3245,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "voo",
-          "house",
-          "meu",
-          "está",
-          "O",
           "atrasado",
-          "libro",
-          "apple"
+          "O",
+          "marco",
+          "voo",
+          "só",
+          "cartão",
+          "meu",
+          "está"
         ],
         "answerTokens": [
           "O",
@@ -3329,7 +3329,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sabor\"?",
+        "question": "What is the correct translation for \"sabor\"?",
         "options": [
           "menu",
           "flavor",
@@ -3371,14 +3371,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "libro",
-          "Pode",
           "troco",
-          "apple",
-          "com",
+          "gás",
+          "viagem",
+          "para",
+          "Pode",
           "ficar",
           "o",
-          "house"
+          "com"
         ],
         "answerTokens": [
           "Pode",
@@ -3455,7 +3455,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"currículo\"?",
+        "question": "What is the correct translation for \"currículo\"?",
         "options": [
           "colleague",
           "shift",
@@ -3497,16 +3497,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "de",
-          "sobre",
-          "sua",
           "Faleme",
-          "a",
-          "apple",
+          "final",
+          "sua",
           "trabalho",
           "experiência",
-          "house",
-          "libro"
+          "a",
+          "currículo",
+          "sobre",
+          "de",
+          "entrevista"
         ],
         "answerTokens": [
           "Faleme",
@@ -3585,7 +3585,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"captura de tela\"?",
+        "question": "What is the correct translation for \"captura de tela\"?",
         "options": [
           "screenshot",
           "device",
@@ -3628,13 +3628,13 @@
         "sentence": "Can you share the file with me?",
         "tokens": [
           "ficheiro",
-          "Pode",
-          "partilhar",
           "o",
-          "libro",
-          "house",
+          "Pode",
+          "senha",
+          "a",
+          "bateria",
           "comigo",
-          "apple"
+          "partilhar"
         ],
         "answerTokens": [
           "Pode",
@@ -3711,7 +3711,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"humor (estado)\"?",
+        "question": "What is the correct translation for \"humor (estado)\"?",
         "options": [
           "mood",
           "grateful",
@@ -3753,11 +3753,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "libro",
+          "dolorido",
+          "check-up",
           "bem",
-          "house",
-          "apple",
-          "Sentese"
+          "Sentese",
+          "insônia"
         ],
         "answerTokens": [
           "Sentese",
@@ -3831,7 +3831,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"direções\"?",
+        "question": "What is the correct translation for \"direções\"?",
         "options": [
           "souvenir",
           "hostel",
@@ -3873,14 +3873,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "apple",
-          "bagagem",
-          "house",
-          "recolher",
-          "posso",
+          "embarque",
+          "jet",
           "Onde",
-          "libro",
-          "a"
+          "a",
+          "posso",
+          "bagagem",
+          "recolher",
+          "hostel"
         ],
         "answerTokens": [
           "Onde",
@@ -3957,7 +3957,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vegetariano\"?",
+        "question": "What is the correct translation for \"vegetariano\"?",
         "options": [
           "vegetarian",
           "menu",
@@ -3999,16 +3999,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "pedir",
-          "libro",
-          "Posso",
-          "favor",
-          "apple",
-          "por",
+          "a",
+          "receita",
           "um",
-          "café",
           "quente",
-          "house"
+          "vegetariano",
+          "Posso",
+          "pedir",
+          "café",
+          "por",
+          "favor"
         ],
         "answerTokens": [
           "Posso",
@@ -4087,7 +4087,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"promoção (cargo)\"?",
+        "question": "What is the correct translation for \"promoção (cargo)\"?",
         "options": [
           "promotion",
           "client",
@@ -4129,15 +4129,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "trabalho",
           "equipa",
-          "muito",
-          "bem",
+          "prazo",
+          "emprego",
           "Eu",
-          "apple",
+          "de",
           "em",
-          "libro",
-          "house"
+          "muito",
+          "trabalho",
+          "bem"
         ],
         "answerTokens": [
           "Eu",
@@ -4215,7 +4215,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sinal de wifi\"?",
+        "question": "What is the correct translation for \"sinal de wifi\"?",
         "options": [
           "to download",
           "screenshot",
@@ -4257,15 +4257,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "A",
-          "libro",
+          "internet",
+          "ligação",
           "instável",
           "está",
-          "ligação",
+          "A",
           "à",
-          "apple",
-          "house",
-          "internet"
+          "sensível",
+          "toque",
+          "acabou"
         ],
         "answerTokens": [
           "A",
@@ -4343,7 +4343,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"humor (estado)\"?",
+        "question": "What is the correct translation for \"humor (estado)\"?",
         "options": [
           "grateful",
           "doctor's appointment",
@@ -4385,13 +4385,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "house",
+          "relaxe",
           "Respire",
-          "fundo",
+          "grato",
           "e",
-          "apple",
-          "libro",
-          "relaxe"
+          "fundo",
+          "vacina",
+          "sobrecarregado"
         ],
         "answerTokens": [
           "Respire",
@@ -4467,7 +4467,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"direções\"?",
+        "question": "What is the correct translation for \"direções\"?",
         "options": [
           "one-way ticket",
           "reservation",
@@ -4509,15 +4509,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "libro",
+          "passaportes",
           "Onde",
-          "apple",
-          "de",
           "controle",
           "o",
-          "house",
-          "passaportes",
-          "fica"
+          "fica",
+          "de",
+          "embarque",
+          "lembrancinha",
+          "cartão"
         ],
         "answerTokens": [
           "Onde",
@@ -4595,7 +4595,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mercado\"?",
+        "question": "What is the correct translation for \"mercado\"?",
         "options": [
           "flavor",
           "sparkling water",
@@ -4637,16 +4637,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
+          "sabor",
+          "de",
           "uma",
-          "apple",
+          "de",
+          "gostaria",
+          "fatia",
+          "água",
           "Eu",
           "bolo",
-          "libro",
-          "de",
-          "de",
-          "house",
-          "gostaria",
-          "fatia"
+          "ingrediente"
         ],
         "answerTokens": [
           "Eu",
@@ -4725,7 +4725,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"promoção (cargo)\"?",
+        "question": "What is the correct translation for \"promoção (cargo)\"?",
         "options": [
           "meeting",
           "shift",
@@ -4767,15 +4767,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "libro",
           "são",
-          "salariais",
-          "Quais",
-          "house",
-          "suas",
           "as",
-          "apple",
-          "expectativas"
+          "salariais",
+          "final",
+          "expectativas",
+          "(cargo)",
+          "emprego",
+          "Quais",
+          "suas"
         ],
         "answerTokens": [
           "Quais",
@@ -4853,7 +4853,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"notificação\"?",
+        "question": "What is the correct translation for \"notificação\"?",
         "options": [
           "password",
           "device",
@@ -4895,14 +4895,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "house",
-          "entrar",
-          "libro",
-          "apple",
           "reunião",
-          "na",
+          "entrar",
+          "Vamos",
+          "notificação",
           "online",
-          "Vamos"
+          "na",
+          "wifi",
+          "acabou"
         ],
         "answerTokens": [
           "Vamos",
@@ -4979,7 +4979,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"check-up\"?",
+        "question": "What is the correct translation for \"check-up\"?",
         "options": [
           "checkup",
           "grateful",
@@ -5021,14 +5021,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "pouco",
-          "libro",
-          "apple",
-          "hoje",
+          "cansado",
+          "sobrecarregado",
+          "vacina",
           "um",
           "Sintome",
-          "house",
-          "cansado"
+          "consulta",
+          "hoje",
+          "pouco"
         ],
         "answerTokens": [
           "Sintome",
@@ -5105,7 +5105,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reserva\"?",
+        "question": "What is the correct translation for \"reserva\"?",
         "options": [
           "reservation",
           "boarding pass",
@@ -5147,16 +5147,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "house",
-          "cartão",
+          "Eu",
           "o",
+          "histórico",
+          "cartão",
+          "meu",
+          "reserva",
+          "embarque",
           "tenho",
           "de",
-          "apple",
-          "Eu",
-          "libro",
-          "meu",
-          "embarque"
+          "hostel"
         ],
         "answerTokens": [
           "Eu",
@@ -5235,7 +5235,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"água com gás\"?",
+        "question": "What is the correct translation for \"água com gás\"?",
         "options": [
           "menu",
           "refill",
@@ -5277,13 +5277,13 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "leite",
-          "house",
-          "apple",
-          "Vocês",
-          "libro",
-          "têm",
           "de",
+          "leite",
+          "têm",
+          "vegetariano",
+          "Vocês",
+          "mercado",
+          "reforço",
           "aveia"
         ],
         "answerTokens": [
@@ -5361,7 +5361,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cliente\"?",
+        "question": "What is the correct translation for \"cliente\"?",
         "options": [
           "resume",
           "colleague",
@@ -5403,13 +5403,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "apple",
-          "Muito",
+          "colega",
           "obrigado",
-          "oportunidade",
-          "house",
           "pela",
-          "libro"
+          "Muito",
+          "oportunidade",
+          "final",
+          "turno"
         ],
         "answerTokens": [
           "Muito",
@@ -5485,7 +5485,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"captura de tela\"?",
+        "question": "What is the correct translation for \"captura de tela\"?",
         "options": [
           "video call",
           "wifi signal",
@@ -5527,13 +5527,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "house",
-          "apple",
-          "enviarlhe",
-          "email",
+          "baixar",
           "Vou",
-          "libro",
-          "um"
+          "email",
+          "enviarlhe",
+          "sinal",
+          "um",
+          "a"
         ],
         "answerTokens": [
           "Vou",
@@ -5609,7 +5609,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"check-up\"?",
+        "question": "What is the correct translation for \"check-up\"?",
         "options": [
           "fever",
           "sore",
@@ -5651,14 +5651,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "água",
-          "beber",
-          "de",
-          "Preciso",
-          "house",
-          "apple",
           "mais",
-          "libro"
+          "beber",
+          "Preciso",
+          "água",
+          "consulta",
+          "de",
+          "autocuidado",
+          "esgotamento"
         ],
         "answerTokens": [
           "Preciso",
@@ -5735,7 +5735,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reserva\"?",
+        "question": "What is the correct translation for \"reserva\"?",
         "options": [
           "directions",
           "delay",
@@ -5777,14 +5777,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "O",
-          "apple",
           "voo",
+          "O",
+          "check-in",
           "meu",
-          "house",
-          "libro",
+          "lembrancinha",
           "atrasado",
-          "está"
+          "está",
+          "de"
         ],
         "answerTokens": [
           "O",
@@ -5861,7 +5861,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sabor\"?",
+        "question": "What is the correct translation for \"sabor\"?",
         "options": [
           "sparkling water",
           "vegetarian",
@@ -5903,14 +5903,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "ficar",
-          "apple",
-          "com",
-          "house",
+          "conta",
+          "troco",
           "Pode",
           "o",
-          "troco",
-          "libro"
+          "com",
+          "ficar",
+          "gás",
+          "viagem"
         ],
         "answerTokens": [
           "Pode",
@@ -5987,7 +5987,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "What is the correct translation for \"turno\"?",
         "options": [
           "shift",
           "resume",
@@ -6029,16 +6029,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
+          "feedback",
+          "final",
           "sobre",
-          "sua",
-          "a",
+          "experiência",
           "de",
-          "libro",
-          "Faleme",
-          "house",
           "trabalho",
-          "apple",
-          "experiência"
+          "(cargo)",
+          "sua",
+          "Faleme",
+          "a"
         ],
         "answerTokens": [
           "Faleme",
@@ -6117,7 +6117,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"dispositivo\"?",
+        "question": "What is the correct translation for \"dispositivo\"?",
         "options": [
           "password",
           "wifi signal",
@@ -6159,14 +6159,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "Pode",
-          "ficheiro",
+          "ao",
+          "notificação",
           "partilhar",
           "o",
-          "libro",
-          "apple",
-          "comigo",
-          "house"
+          "ficheiro",
+          "baixar",
+          "Pode",
+          "comigo"
         ],
         "answerTokens": [
           "Pode",
@@ -6243,7 +6243,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"febre\"?",
+        "question": "What is the correct translation for \"febre\"?",
         "options": [
           "mood",
           "checkup",
@@ -6285,11 +6285,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "house",
-          "Sentese",
+          "grato",
           "bem",
-          "libro",
-          "apple"
+          "Sentese",
+          "sobrecarregado",
+          "se"
         ],
         "answerTokens": [
           "Sentese",
@@ -6363,7 +6363,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hostel\"?",
+        "question": "What is the correct translation for \"hostel\"?",
         "options": [
           "boarding pass",
           "hostel",
@@ -6405,14 +6405,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "a",
-          "posso",
+          "mochileiro",
           "recolher",
-          "apple",
-          "libro",
-          "Onde",
-          "house",
-          "bagagem"
+          "fazer",
+          "de",
+          "bagagem",
+          "posso",
+          "a",
+          "Onde"
         ],
         "answerTokens": [
           "Onde",
@@ -6489,7 +6489,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"água com gás\"?",
+        "question": "What is the correct translation for \"água com gás\"?",
         "options": [
           "the check",
           "sparkling water",
@@ -6531,16 +6531,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "apple",
-          "house",
-          "Posso",
+          "favor",
+          "a",
+          "café",
+          "por",
+          "ingrediente",
           "um",
           "quente",
-          "favor",
-          "pedir",
-          "café",
-          "libro",
-          "por"
+          "Posso",
+          "picante",
+          "pedir"
         ],
         "answerTokens": [
           "Posso",
@@ -6619,7 +6619,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"colega de trabalho\"?",
+        "question": "What is the correct translation for \"colega de trabalho\"?",
         "options": [
           "shift",
           "colleague",
@@ -6661,15 +6661,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "trabalho",
-          "apple",
-          "house",
-          "equipa",
-          "muito",
-          "libro",
           "bem",
           "em",
-          "Eu"
+          "trabalho",
+          "Eu",
+          "prazo",
+          "currículo",
+          "promoção",
+          "muito",
+          "equipa"
         ],
         "answerTokens": [
           "Eu",
@@ -6747,7 +6747,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"senha\"?",
+        "question": "What is the correct translation for \"senha\"?",
         "options": [
           "streaming",
           "password",
@@ -6789,15 +6789,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "apple",
-          "internet",
-          "está",
           "à",
+          "acabou",
+          "sinal",
+          "instável",
+          "está",
+          "sensível",
           "A",
-          "libro",
-          "ligação",
-          "house",
-          "instável"
+          "internet",
+          "ligação"
         ],
         "answerTokens": [
           "A",
@@ -6875,7 +6875,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"humor (estado)\"?",
+        "question": "What is the correct translation for \"humor (estado)\"?",
         "options": [
           "mood",
           "checkup",
@@ -6917,13 +6917,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "libro",
-          "Respire",
+          "dolorido",
           "fundo",
-          "apple",
-          "relaxe",
+          "esgotamento",
           "e",
-          "house"
+          "Respire",
+          "consulta",
+          "relaxe"
         ],
         "answerTokens": [
           "Respire",
@@ -6999,7 +6999,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reserva\"?",
+        "question": "What is the correct translation for \"reserva\"?",
         "options": [
           "to check in",
           "reservation",
@@ -7041,15 +7041,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "apple",
-          "passaportes",
-          "libro",
-          "o",
-          "controle",
-          "house",
-          "de",
+          "embarque",
           "Onde",
-          "fica"
+          "de",
+          "fazer",
+          "hostel",
+          "passaportes",
+          "o",
+          "fica",
+          "controle"
         ],
         "answerTokens": [
           "Onde",
@@ -7127,7 +7127,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reforço\"?",
+        "question": "What is the correct translation for \"reforço\"?",
         "options": [
           "spicy",
           "takeout",
@@ -7170,15 +7170,15 @@
         "sentence": "I would like a slice of cake.",
         "tokens": [
           "de",
-          "Eu",
           "de",
+          "comida",
+          "água",
           "uma",
-          "gostaria",
-          "apple",
           "bolo",
-          "libro",
           "fatia",
-          "house"
+          "sabor",
+          "Eu",
+          "gostaria"
         ],
         "answerTokens": [
           "Eu",
@@ -7257,7 +7257,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrevista de emprego\"?",
+        "question": "What is the correct translation for \"entrevista de emprego\"?",
         "options": [
           "meeting",
           "job interview",
@@ -7299,15 +7299,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "libro",
           "suas",
+          "expectativas",
+          "Quais",
+          "de",
           "são",
-          "house",
           "salariais",
           "as",
-          "Quais",
-          "expectativas",
-          "apple"
+          "emprego",
+          "cliente"
         ],
         "answerTokens": [
           "Quais",
@@ -7385,7 +7385,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"dispositivo\"?",
+        "question": "What is the correct translation for \"dispositivo\"?",
         "options": [
           "notification",
           "device",
@@ -7427,14 +7427,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "na",
-          "reunião",
-          "apple",
-          "libro",
-          "online",
+          "ao",
+          "tela",
           "Vamos",
-          "house",
-          "entrar"
+          "transmissão",
+          "online",
+          "entrar",
+          "na",
+          "reunião"
         ],
         "answerTokens": [
           "Vamos",
@@ -7511,7 +7511,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"grato\"?",
+        "question": "What is the correct translation for \"grato\"?",
         "options": [
           "sore",
           "checkup",
@@ -7553,14 +7553,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "hoje",
-          "house",
-          "pouco",
-          "um",
-          "cansado",
-          "apple",
+          "dolorido",
           "Sintome",
-          "libro"
+          "cansado",
+          "esgotamento",
+          "hoje",
+          "um",
+          "pouco",
+          "grato"
         ],
         "answerTokens": [
           "Sintome",
@@ -7637,7 +7637,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"passagem só de ida\"?",
+        "question": "What is the correct translation for \"passagem só de ida\"?",
         "options": [
           "to check in",
           "one-way ticket",
@@ -7679,16 +7679,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "embarque",
-          "de",
-          "meu",
-          "libro",
-          "o",
-          "apple",
-          "tenho",
-          "Eu",
+          "casa",
           "cartão",
-          "house"
+          "de",
+          "o",
+          "embarque",
+          "Eu",
+          "fazer",
+          "tenho",
+          "meu",
+          "bagagem"
         ],
         "answerTokens": [
           "Eu",
@@ -7767,7 +7767,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sabor\"?",
+        "question": "What is the correct translation for \"sabor\"?",
         "options": [
           "flavor",
           "takeout",
@@ -7809,14 +7809,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "house",
-          "de",
-          "apple",
-          "leite",
-          "têm",
-          "libro",
+          "vegetariano",
+          "reforço",
+          "comida",
           "aveia",
-          "Vocês"
+          "têm",
+          "Vocês",
+          "de",
+          "leite"
         ],
         "answerTokens": [
           "Vocês",
@@ -7893,7 +7893,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "What is the correct translation for \"turno\"?",
         "options": [
           "meeting",
           "feedback",
@@ -7935,13 +7935,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "house",
-          "oportunidade",
+          "reunião",
+          "trabalho",
           "obrigado",
+          "prazo",
           "pela",
           "Muito",
-          "libro",
-          "apple"
+          "oportunidade"
         ],
         "answerTokens": [
           "Muito",
@@ -8017,7 +8017,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"transmissão ao vivo\"?",
+        "question": "What is the correct translation for \"transmissão ao vivo\"?",
         "options": [
           "screenshot",
           "to download",
@@ -8059,13 +8059,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "house",
-          "email",
-          "um",
-          "libro",
           "enviarlhe",
-          "Vou",
-          "apple"
+          "um",
+          "bateria",
+          "acabou",
+          "email",
+          "tela",
+          "Vou"
         ],
         "answerTokens": [
           "Vou",
@@ -8141,7 +8141,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"febre\"?",
+        "question": "What is the correct translation for \"febre\"?",
         "options": [
           "grateful",
           "sore",
@@ -8183,14 +8183,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "house",
           "beber",
-          "mais",
-          "apple",
-          "libro",
-          "Preciso",
           "água",
-          "de"
+          "Preciso",
+          "esgotamento",
+          "de",
+          "check-up",
+          "se",
+          "mais"
         ],
         "answerTokens": [
           "Preciso",
@@ -8267,7 +8267,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"passagem só de ida\"?",
+        "question": "What is the correct translation for \"passagem só de ida\"?",
         "options": [
           "to check in",
           "one-way ticket",
@@ -8309,14 +8309,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "voo",
-          "apple",
-          "libro",
-          "house",
-          "meu",
-          "atrasado",
+          "fazer",
           "está",
-          "O"
+          "atrasado",
+          "O",
+          "direções",
+          "meu",
+          "embarque",
+          "voo"
         ],
         "answerTokens": [
           "O",
@@ -8393,7 +8393,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardápio\"?",
+        "question": "What is the correct translation for \"cardápio\"?",
         "options": [
           "menu",
           "refill",
@@ -8435,14 +8435,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "o",
-          "apple",
           "ficar",
-          "house",
-          "troco",
+          "gás",
           "com",
           "Pode",
-          "libro"
+          "conta",
+          "ingrediente",
+          "o",
+          "troco"
         ],
         "answerTokens": [
           "Pode",
@@ -8519,7 +8519,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"currículo\"?",
+        "question": "What is the correct translation for \"currículo\"?",
         "options": [
           "colleague",
           "promotion",
@@ -8561,16 +8561,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "apple",
-          "de",
-          "sobre",
           "Faleme",
-          "experiência",
           "a",
+          "sobre",
+          "de",
+          "currículo",
+          "massa",
+          "experiência",
           "sua",
-          "libro",
           "trabalho",
-          "house"
+          "emprego"
         ],
         "answerTokens": [
           "Faleme",
@@ -8649,7 +8649,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"a bateria acabou\"?",
+        "question": "What is the correct translation for \"a bateria acabou\"?",
         "options": [
           "wifi signal",
           "password",
@@ -8691,14 +8691,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "house",
-          "apple",
-          "Pode",
-          "ficheiro",
           "comigo",
-          "libro",
+          "ficheiro",
+          "bateria",
+          "senha",
+          "Pode",
+          "partilhar",
           "o",
-          "partilhar"
+          "notificação"
         ],
         "answerTokens": [
           "Pode",
@@ -8775,7 +8775,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"consulta médica\"?",
+        "question": "What is the correct translation for \"consulta médica\"?",
         "options": [
           "checkup",
           "mood",
@@ -8817,11 +8817,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "Sentese",
-          "apple",
           "bem",
-          "house",
-          "libro"
+          "Sentese",
+          "humor",
+          "(estado)",
+          "privação"
         ],
         "answerTokens": [
           "Sentese",
@@ -8895,7 +8895,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"alfândega\"?",
+        "question": "What is the correct translation for \"alfândega\"?",
         "options": [
           "guided tour",
           "currency exchange",
@@ -8937,14 +8937,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "house",
-          "bagagem",
-          "apple",
-          "recolher",
           "Onde",
+          "bagagem",
+          "e",
           "a",
+          "casa",
           "posso",
-          "libro"
+          "marco",
+          "recolher"
         ],
         "answerTokens": [
           "Onde",
@@ -9021,7 +9021,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"acompanhamento\"?",
+        "question": "What is the correct translation for \"acompanhamento\"?",
         "options": [
           "to book a table",
           "side dish",
@@ -9063,16 +9063,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "apple",
-          "libro",
-          "Posso",
-          "café",
-          "um",
           "pedir",
-          "por",
-          "house",
           "favor",
-          "quente"
+          "café",
+          "por",
+          "quente",
+          "um",
+          "passado",
+          "uma",
+          "Posso",
+          "acompanhamento"
         ],
         "answerTokens": [
           "Posso",
@@ -9151,7 +9151,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"trabalho remoto\"?",
+        "question": "What is the correct translation for \"trabalho remoto\"?",
         "options": [
           "invoice",
           "remote work",
@@ -9193,15 +9193,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "trabalho",
+          "de",
+          "turno",
+          "muito",
           "Eu",
-          "libro",
-          "house",
-          "apple",
-          "equipa",
-          "em",
           "bem",
-          "muito"
+          "trabalho",
+          "(cargo)",
+          "em",
+          "equipa"
         ],
         "answerTokens": [
           "Eu",
@@ -9279,7 +9279,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atualização de software\"?",
+        "question": "What is the correct translation for \"atualização de software\"?",
         "options": [
           "storage space",
           "software update",
@@ -9322,14 +9322,14 @@
         "sentence": "The internet connection is unstable.",
         "tokens": [
           "está",
-          "house",
-          "apple",
-          "instável",
+          "tela",
+          "nuvem",
           "ligação",
-          "A",
           "internet",
-          "libro",
-          "à"
+          "à",
+          "A",
+          "instável",
+          "em"
         ],
         "answerTokens": [
           "A",
@@ -9407,7 +9407,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"receita médica\"?",
+        "question": "What is the correct translation for \"receita médica\"?",
         "options": [
           "prescription",
           "overwhelmed",
@@ -9449,13 +9449,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "Respire",
+          "terapia",
           "fundo",
-          "e",
-          "house",
-          "libro",
+          "se",
           "relaxe",
-          "apple"
+          "Respire",
+          "aliviado",
+          "e"
         ],
         "answerTokens": [
           "Respire",
@@ -9531,7 +9531,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"viagem de ida e volta\"?",
+        "question": "What is the correct translation for \"viagem de ida e volta\"?",
         "options": [
           "guided tour",
           "customs",
@@ -9573,15 +9573,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "o",
-          "passaportes",
-          "apple",
-          "fica",
-          "libro",
-          "Onde",
+          "guiada",
           "de",
+          "câmbio",
+          "ida",
+          "fica",
           "controle",
-          "house"
+          "passaportes",
+          "o",
+          "Onde"
         ],
         "answerTokens": [
           "Onde",
@@ -9659,7 +9659,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "What is the correct translation for \"gorjeta\"?",
         "options": [
           "side dish",
           "tip",
@@ -9701,16 +9701,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "de",
+          "com",
+          "reservar",
           "uma",
-          "gostaria",
-          "Eu",
-          "de",
           "fatia",
-          "apple",
-          "house",
+          "gostaria",
+          "bem",
           "bolo",
-          "libro"
+          "de",
+          "de",
+          "Eu"
         ],
         "answerTokens": [
           "Eu",
@@ -9789,7 +9789,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"trabalho remoto\"?",
+        "question": "What is the correct translation for \"trabalho remoto\"?",
         "options": [
           "remote work",
           "salary raise",
@@ -9831,15 +9831,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "as",
-          "Quais",
-          "são",
-          "libro",
-          "salariais",
           "suas",
-          "apple",
-          "expectativas",
-          "house"
+          "fatura",
+          "são",
+          "de",
+          "as",
+          "orçamento",
+          "Quais",
+          "salariais",
+          "expectativas"
         ],
         "answerTokens": [
           "Quais",
@@ -9917,7 +9917,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"backup\"?",
+        "question": "What is the correct translation for \"backup\"?",
         "options": [
           "backup",
           "the app crashed",
@@ -9961,12 +9961,12 @@
         "tokens": [
           "na",
           "reunião",
-          "house",
-          "online",
-          "apple",
-          "libro",
           "Vamos",
-          "entrar"
+          "aplicativo",
+          "entrar",
+          "online",
+          "hackear",
+          "armazenamento"
         ],
         "answerTokens": [
           "Vamos",
@@ -10043,7 +10043,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aliviado\"?",
+        "question": "What is the correct translation for \"aliviado\"?",
         "options": [
           "to recover",
           "symptom",
@@ -10085,14 +10085,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "apple",
-          "house",
-          "cansado",
-          "Sintome",
-          "libro",
+          "terapia",
+          "(estado)",
           "pouco",
+          "receita",
+          "cansado",
+          "um",
           "hoje",
-          "um"
+          "Sintome"
         ],
         "answerTokens": [
           "Sintome",
@@ -10169,7 +10169,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"visita guiada\"?",
+        "question": "What is the correct translation for \"visita guiada\"?",
         "options": [
           "layover",
           "customs",
@@ -10211,16 +10211,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "cartão",
-          "meu",
-          "house",
-          "tenho",
-          "de",
-          "libro",
-          "o",
-          "Eu",
           "embarque",
-          "apple"
+          "câmbio",
+          "Eu",
+          "o",
+          "visita",
+          "de",
+          "passaportes",
+          "cartão",
+          "tenho",
+          "meu"
         ],
         "answerTokens": [
           "Eu",
@@ -10299,7 +10299,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "What is the correct translation for \"gorjeta\"?",
         "options": [
           "to book a table",
           "side dish",
@@ -10341,14 +10341,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "Vocês",
-          "house",
-          "libro",
-          "leite",
           "de",
-          "aveia",
+          "conta",
           "têm",
-          "apple"
+          "aveia",
+          "Vocês",
+          "uma",
+          "leite",
+          "reservar"
         ],
         "answerTokens": [
           "Vocês",
@@ -10425,7 +10425,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"negociar\"?",
+        "question": "What is the correct translation for \"negociar\"?",
         "options": [
           "to negotiate",
           "invoice",
@@ -10467,13 +10467,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "libro",
+          "colega",
           "oportunidade",
-          "house",
-          "apple",
           "pela",
+          "Muito",
           "obrigado",
-          "Muito"
+          "trabalho",
+          "remoto"
         ],
         "answerTokens": [
           "Muito",
@@ -10549,7 +10549,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"assinatura\"?",
+        "question": "What is the correct translation for \"assinatura\"?",
         "options": [
           "storage space",
           "subscription",
@@ -10591,13 +10591,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "house",
-          "apple",
+          "nuvem",
+          "um",
+          "toque",
+          "algoritmo",
           "enviarlhe",
           "Vou",
-          "email",
-          "um",
-          "libro"
+          "email"
         ],
         "answerTokens": [
           "Vou",
@@ -10673,7 +10673,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"terapia\"?",
+        "question": "What is the correct translation for \"terapia\"?",
         "options": [
           "relieved",
           "self-care",
@@ -10715,14 +10715,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "libro",
+          "sobrecarregado",
+          "mais",
+          "Preciso",
+          "ansioso",
+          "beber",
           "água",
           "de",
-          "beber",
-          "house",
-          "apple",
-          "Preciso",
-          "mais"
+          "privação"
         ],
         "answerTokens": [
           "Preciso",
@@ -10799,7 +10799,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"visita guiada\"?",
+        "question": "What is the correct translation for \"visita guiada\"?",
         "options": [
           "guided tour",
           "customs",
@@ -10841,14 +10841,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "O",
-          "meu",
+          "controle",
           "está",
-          "libro",
-          "apple",
-          "house",
+          "atrasado",
+          "O",
+          "guiada",
           "voo",
-          "atrasado"
+          "meu",
+          "com"
         ],
         "answerTokens": [
           "O",
@@ -10925,7 +10925,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrada\"?",
+        "question": "What is the correct translation for \"entrada\"?",
         "options": [
           "well done (meat)",
           "side dish",
@@ -10967,14 +10967,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "ficar",
-          "libro",
           "Pode",
-          "house",
-          "com",
-          "apple",
+          "ficar",
+          "restrição",
           "o",
-          "troco"
+          "troco",
+          "gorjeta",
+          "com",
+          "para"
         ],
         "answerTokens": [
           "Pode",
@@ -11051,7 +11051,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"negociar\"?",
+        "question": "What is the correct translation for \"negociar\"?",
         "options": [
           "to negotiate",
           "remote work",
@@ -11093,16 +11093,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "apple",
-          "libro",
-          "trabalho",
-          "Faleme",
-          "a",
-          "sobre",
-          "house",
-          "sua",
           "experiência",
-          "de"
+          "entrega",
+          "de",
+          "trabalho",
+          "sobre",
+          "trimestral",
+          "fatura",
+          "sua",
+          "Faleme",
+          "a"
         ],
         "answerTokens": [
           "Faleme",
@@ -11181,7 +11181,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atualização de software\"?",
+        "question": "What is the correct translation for \"atualização de software\"?",
         "options": [
           "software update",
           "backup",
@@ -11224,13 +11224,13 @@
         "sentence": "Can you share the file with me?",
         "tokens": [
           "partilhar",
-          "house",
+          "armazenamento",
           "o",
-          "Pode",
           "comigo",
-          "libro",
-          "apple",
-          "ficheiro"
+          "tela",
+          "ficheiro",
+          "sensível",
+          "Pode"
         ],
         "answerTokens": [
           "Pode",
@@ -11307,7 +11307,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"se recuperar\"?",
+        "question": "What is the correct translation for \"se recuperar\"?",
         "options": [
           "anxious",
           "to recover",
@@ -11349,11 +11349,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "libro",
+          "terapia",
+          "autocuidado",
           "Sentese",
-          "house",
           "bem",
-          "apple"
+          "médica"
         ],
         "answerTokens": [
           "Sentese",
@@ -11427,7 +11427,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"marco histórico\"?",
+        "question": "What is the correct translation for \"marco histórico\"?",
         "options": [
           "customs",
           "currency exchange",
@@ -11469,14 +11469,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "libro",
-          "house",
-          "apple",
-          "Onde",
+          "passaportes",
+          "cartão",
           "a",
-          "bagagem",
           "recolher",
-          "posso"
+          "Onde",
+          "bagagem",
+          "posso",
+          "escala"
         ],
         "answerTokens": [
           "Onde",
@@ -11553,7 +11553,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"acompanhamento\"?",
+        "question": "What is the correct translation for \"acompanhamento\"?",
         "options": [
           "well done (meat)",
           "to book a table",
@@ -11595,16 +11595,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "pedir",
-          "favor",
-          "libro",
-          "Posso",
-          "quente",
-          "house",
-          "apple",
-          "por",
+          "ingrediente",
           "café",
-          "um"
+          "um",
+          "por",
+          "alérgico",
+          "quente",
+          "gorjeta",
+          "favor",
+          "Posso",
+          "pedir"
         ],
         "answerTokens": [
           "Posso",
@@ -11683,7 +11683,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aumento de salário\"?",
+        "question": "What is the correct translation for \"aumento de salário\"?",
         "options": [
           "salary raise",
           "remote work",
@@ -11725,15 +11725,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
+          "aumento",
+          "fatura",
+          "bem",
+          "orçamento",
           "trabalho",
-          "equipa",
-          "libro",
-          "em",
           "muito",
-          "house",
-          "apple",
           "Eu",
-          "bem"
+          "equipa",
+          "em"
         ],
         "answerTokens": [
           "Eu",
@@ -11811,7 +11811,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atualização de software\"?",
+        "question": "What is the correct translation for \"atualização de software\"?",
         "options": [
           "storage space",
           "software update",
@@ -11853,15 +11853,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "A",
+          "ligação",
           "está",
-          "apple",
-          "libro",
-          "internet",
-          "instável",
+          "nuvem",
+          "vivo",
           "à",
-          "house",
-          "ligação"
+          "instável",
+          "internet",
+          "travou",
+          "A"
         ],
         "answerTokens": [
           "A",
@@ -11939,7 +11939,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ansioso\"?",
+        "question": "What is the correct translation for \"ansioso\"?",
         "options": [
           "vaccine",
           "therapy",
@@ -11981,13 +11981,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
+          "vacina",
           "relaxe",
-          "fundo",
-          "libro",
           "e",
-          "house",
-          "apple",
-          "Respire"
+          "terapia",
+          "fundo",
+          "Respire",
+          "sono"
         ],
         "answerTokens": [
           "Respire",
@@ -12063,7 +12063,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"alfândega\"?",
+        "question": "What is the correct translation for \"alfândega\"?",
         "options": [
           "customs",
           "passport control",
@@ -12105,15 +12105,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "apple",
-          "de",
-          "fica",
-          "Onde",
-          "controle",
-          "house",
-          "libro",
           "passaportes",
-          "o"
+          "lag",
+          "fica",
+          "o",
+          "de",
+          "e",
+          "ida",
+          "controle",
+          "Onde"
         ],
         "answerTokens": [
           "Onde",
@@ -12191,7 +12191,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrada\"?",
+        "question": "What is the correct translation for \"entrada\"?",
         "options": [
           "to book a table",
           "appetizer",
@@ -12233,16 +12233,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "house",
-          "de",
-          "bolo",
-          "libro",
-          "apple",
-          "gostaria",
-          "Eu",
-          "de",
+          "entrada",
           "uma",
-          "fatia"
+          "de",
+          "Eu",
+          "acompanhamento",
+          "receita",
+          "bolo",
+          "fatia",
+          "gostaria",
+          "de"
         ],
         "answerTokens": [
           "Eu",
@@ -12321,7 +12321,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fatura\"?",
+        "question": "What is the correct translation for \"fatura\"?",
         "options": [
           "networking",
           "budget",
@@ -12363,15 +12363,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "libro",
-          "house",
           "são",
-          "suas",
-          "apple",
+          "parte",
+          "salariais",
           "as",
           "expectativas",
-          "Quais",
-          "salariais"
+          "suas",
+          "de",
+          "orçamento",
+          "Quais"
         ],
         "answerTokens": [
           "Quais",
@@ -12449,7 +12449,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"backup\"?",
+        "question": "What is the correct translation for \"backup\"?",
         "options": [
           "backup",
           "cloud storage",
@@ -12491,14 +12491,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
+          "na",
+          "o",
+          "captura",
           "reunião",
           "Vamos",
           "online",
-          "house",
-          "apple",
           "entrar",
-          "libro",
-          "na"
+          "espaço"
         ],
         "answerTokens": [
           "Vamos",
@@ -12575,7 +12575,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sintoma\"?",
+        "question": "What is the correct translation for \"sintoma\"?",
         "options": [
           "to recover",
           "anxious",
@@ -12617,13 +12617,13 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "hoje",
-          "house",
-          "apple",
-          "cansado",
-          "um",
+          "sintoma",
           "pouco",
-          "libro",
+          "autocuidado",
+          "um",
+          "sobrecarregado",
+          "hoje",
+          "cansado",
           "Sintome"
         ],
         "answerTokens": [
@@ -12701,7 +12701,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"viagem de ida e volta\"?",
+        "question": "What is the correct translation for \"viagem de ida e volta\"?",
         "options": [
           "landmark",
           "jet lag",
@@ -12743,16 +12743,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "o",
-          "de",
-          "Eu",
-          "meu",
-          "tenho",
-          "embarque",
-          "house",
-          "apple",
+          "passaportes",
           "cartão",
-          "libro"
+          "tenho",
+          "o",
+          "hostel",
+          "Eu",
+          "alfândega",
+          "meu",
+          "embarque",
+          "de"
         ],
         "answerTokens": [
           "Eu",
@@ -12831,7 +12831,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "What is the correct translation for \"sobras\"?",
         "options": [
           "side dish",
           "appetizer",
@@ -12873,14 +12873,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "têm",
-          "apple",
-          "de",
-          "Vocês",
-          "house",
-          "aveia",
+          "sobras",
           "leite",
-          "libro"
+          "Vocês",
+          "de",
+          "aveia",
+          "acompanhamento",
+          "têm",
+          "reservar"
         ],
         "answerTokens": [
           "Vocês",
@@ -12957,7 +12957,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"orçamento\"?",
+        "question": "What is the correct translation for \"orçamento\"?",
         "options": [
           "remote work",
           "invoice",
@@ -12999,13 +12999,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "libro",
-          "pela",
-          "Muito",
-          "apple",
-          "house",
+          "em",
+          "aumento",
+          "obrigado",
           "oportunidade",
-          "obrigado"
+          "negociar",
+          "pela",
+          "Muito"
         ],
         "answerTokens": [
           "Muito",
@@ -13081,7 +13081,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atualização de software\"?",
+        "question": "What is the correct translation for \"atualização de software\"?",
         "options": [
           "backup",
           "the app crashed",
@@ -13123,13 +13123,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "enviarlhe",
-          "libro",
-          "Vou",
           "um",
           "email",
-          "house",
-          "apple"
+          "em",
+          "hackear",
+          "Vou",
+          "teclado",
+          "enviarlhe"
         ],
         "answerTokens": [
           "Vou",
@@ -13205,7 +13205,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"autocuidado\"?",
+        "question": "What is the correct translation for \"autocuidado\"?",
         "options": [
           "relieved",
           "overwhelmed",
@@ -13247,14 +13247,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "apple",
-          "Preciso",
-          "água",
           "mais",
-          "beber",
-          "house",
+          "sobrecarregado",
+          "se",
+          "água",
+          "sintoma",
           "de",
-          "libro"
+          "beber",
+          "Preciso"
         ],
         "answerTokens": [
           "Preciso",
@@ -13331,7 +13331,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"viagem de ida e volta\"?",
+        "question": "What is the correct translation for \"viagem de ida e volta\"?",
         "options": [
           "currency exchange",
           "layover",
@@ -13373,14 +13373,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "O",
-          "apple",
-          "libro",
-          "house",
+          "de",
+          "voo",
+          "histórico",
           "está",
           "atrasado",
+          "lag",
           "meu",
-          "voo"
+          "O"
         ],
         "answerTokens": [
           "O",
@@ -13457,7 +13457,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "What is the correct translation for \"bem passado\"?",
         "options": [
           "allergic",
           "to book a table",
@@ -13499,13 +13499,13 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "com",
-          "o",
-          "house",
-          "apple",
           "Pode",
-          "libro",
+          "com",
           "ficar",
+          "mesa",
+          "uma",
+          "bem",
+          "o",
           "troco"
         ],
         "answerTokens": [
@@ -13583,7 +13583,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"negociar\"?",
+        "question": "What is the correct translation for \"negociar\"?",
         "options": [
           "invoice",
           "to negotiate",
@@ -13625,16 +13625,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "house",
-          "a",
-          "Faleme",
           "sobre",
-          "de",
           "experiência",
-          "libro",
-          "apple",
+          "entrega",
+          "remoto",
+          "sua",
+          "de",
+          "a",
           "trabalho",
-          "sua"
+          "Faleme",
+          "final"
         ],
         "answerTokens": [
           "Faleme",
@@ -13713,7 +13713,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"espaço de armazenamento\"?",
+        "question": "What is the correct translation for \"espaço de armazenamento\"?",
         "options": [
           "the app crashed",
           "storage space",
@@ -13755,14 +13755,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "comigo",
-          "apple",
-          "Pode",
-          "o",
-          "libro",
+          "atalho",
+          "de",
           "partilhar",
-          "house",
-          "ficheiro"
+          "Pode",
+          "em",
+          "o",
+          "ficheiro",
+          "comigo"
         ],
         "answerTokens": [
           "Pode",
@@ -13839,7 +13839,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"receita médica\"?",
+        "question": "What is the correct translation for \"receita médica\"?",
         "options": [
           "overwhelmed",
           "anxious",
@@ -13881,10 +13881,10 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "libro",
-          "apple",
-          "house",
+          "terapia",
           "bem",
+          "recuperar",
+          "autocuidado",
           "Sentese"
         ],
         "answerTokens": [
@@ -13959,7 +13959,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"viagem de ida e volta\"?",
+        "question": "What is the correct translation for \"viagem de ida e volta\"?",
         "options": [
           "passport control",
           "guided tour",
@@ -14001,14 +14001,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "house",
+          "overbooking",
           "posso",
           "recolher",
-          "apple",
-          "a",
           "bagagem",
-          "libro",
-          "Onde"
+          "câmbio",
+          "a",
+          "Onde",
+          "lag"
         ],
         "answerTokens": [
           "Onde",
@@ -14085,7 +14085,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "What is the correct translation for \"gorjeta\"?",
         "options": [
           "well done (meat)",
           "appetizer",
@@ -14127,16 +14127,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "libro",
-          "house",
-          "por",
-          "quente",
-          "pedir",
-          "Posso",
-          "favor",
-          "café",
           "um",
-          "apple"
+          "Posso",
+          "café",
+          "para",
+          "pedir",
+          "por",
+          "favor",
+          "comida",
+          "uma",
+          "quente"
         ],
         "answerTokens": [
           "Posso",
@@ -14215,7 +14215,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"orçamento\"?",
+        "question": "What is the correct translation for \"orçamento\"?",
         "options": [
           "invoice",
           "remote work",
@@ -14257,15 +14257,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "bem",
-          "apple",
-          "libro",
-          "trabalho",
           "em",
+          "bem",
+          "salário",
           "muito",
+          "final",
+          "fatura",
           "Eu",
-          "equipa",
-          "house"
+          "trabalho",
+          "equipa"
         ],
         "answerTokens": [
           "Eu",
@@ -14343,7 +14343,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"espaço de armazenamento\"?",
+        "question": "What is the correct translation for \"espaço de armazenamento\"?",
         "options": [
           "cloud storage",
           "storage space",
@@ -14385,15 +14385,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "house",
-          "instável",
-          "libro",
-          "ligação",
           "à",
-          "está",
           "internet",
-          "apple",
-          "A"
+          "senha",
+          "instável",
+          "ligação",
+          "está",
+          "sensível",
+          "A",
+          "vivo"
         ],
         "answerTokens": [
           "A",
@@ -14471,7 +14471,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sintoma\"?",
+        "question": "What is the correct translation for \"sintoma\"?",
         "options": [
           "self-care",
           "to recover",
@@ -14513,13 +14513,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "Respire",
-          "fundo",
-          "apple",
+          "e",
           "relaxe",
-          "house",
-          "libro",
-          "e"
+          "receita",
+          "fundo",
+          "sintoma",
+          "Respire",
+          "terapia"
         ],
         "answerTokens": [
           "Respire",
@@ -14595,7 +14595,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"visita guiada\"?",
+        "question": "What is the correct translation for \"visita guiada\"?",
         "options": [
           "landmark",
           "customs",
@@ -14637,15 +14637,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "de",
+          "escala",
           "controle",
-          "apple",
-          "Onde",
-          "libro",
-          "fica",
           "o",
-          "passaportes",
-          "house"
+          "visita",
+          "Onde",
+          "de",
+          "fica",
+          "volta",
+          "passaportes"
         ],
         "answerTokens": [
           "Onde",
@@ -14723,7 +14723,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrada\"?",
+        "question": "What is the correct translation for \"entrada\"?",
         "options": [
           "tip",
           "allergic",
@@ -14765,16 +14765,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "house",
-          "apple",
-          "gostaria",
-          "de",
-          "uma",
           "Eu",
+          "gostaria",
           "fatia",
-          "libro",
-          "bolo",
-          "de"
+          "de",
+          "mesa",
+          "sobras",
+          "de",
+          "bem",
+          "uma",
+          "bolo"
         ],
         "answerTokens": [
           "Eu",
@@ -14853,7 +14853,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "What is the correct translation for \"networking\"?",
         "options": [
           "budget",
           "salary raise",
@@ -14895,15 +14895,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "suas",
-          "salariais",
-          "as",
-          "Quais",
-          "são",
-          "house",
+          "em",
           "expectativas",
-          "libro",
-          "apple"
+          "as",
+          "são",
+          "salariais",
+          "networking",
+          "de",
+          "suas",
+          "Quais"
         ],
         "answerTokens": [
           "Quais",
@@ -14981,7 +14981,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"armazenamento em nuvem\"?",
+        "question": "What is the correct translation for \"armazenamento em nuvem\"?",
         "options": [
           "cloud storage",
           "subscription",
@@ -15024,13 +15024,13 @@
         "sentence": "Let's join the online meeting.",
         "tokens": [
           "na",
-          "online",
-          "entrar",
-          "Vamos",
           "reunião",
-          "house",
-          "apple",
-          "libro"
+          "Vamos",
+          "entrar",
+          "nuvem",
+          "online",
+          "software",
+          "espaço"
         ],
         "answerTokens": [
           "Vamos",
@@ -15107,7 +15107,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vacina\"?",
+        "question": "What is the correct translation for \"vacina\"?",
         "options": [
           "therapy",
           "vaccine",
@@ -15149,14 +15149,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
+          "sintoma",
+          "hoje",
+          "check-up",
           "Sintome",
           "pouco",
-          "libro",
-          "apple",
-          "hoje",
-          "house",
-          "um",
-          "cansado"
+          "autocuidado",
+          "cansado",
+          "um"
         ],
         "answerTokens": [
           "Sintome",
@@ -15233,7 +15233,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"marco histórico\"?",
+        "question": "What is the correct translation for \"marco histórico\"?",
         "options": [
           "guided tour",
           "jet lag",
@@ -15275,16 +15275,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
+          "viagem",
+          "de",
+          "meu",
+          "embarque",
           "o",
+          "visita",
+          "Eu",
           "cartão",
           "tenho",
-          "Eu",
-          "embarque",
-          "house",
-          "libro",
-          "de",
-          "apple",
-          "meu"
+          "fazer"
         ],
         "answerTokens": [
           "Eu",
@@ -15363,7 +15363,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "What is the correct translation for \"bem passado\"?",
         "options": [
           "allergic",
           "to book a table",
@@ -15405,14 +15405,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "Vocês",
+          "passado",
           "têm",
-          "aveia",
+          "Vocês",
           "de",
-          "apple",
-          "libro",
-          "house",
-          "leite"
+          "leite",
+          "bem",
+          "aveia",
+          "alimentar"
         ],
         "answerTokens": [
           "Vocês",
@@ -15489,7 +15489,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "What is the correct translation for \"networking\"?",
         "options": [
           "invoice",
           "networking",
@@ -15532,12 +15532,12 @@
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
           "obrigado",
-          "pela",
-          "libro",
-          "house",
+          "Muito",
+          "(cargo)",
           "oportunidade",
-          "apple",
-          "Muito"
+          "de",
+          "pela",
+          "emprego"
         ],
         "answerTokens": [
           "Muito",
@@ -15613,7 +15613,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"armazenamento em nuvem\"?",
+        "question": "What is the correct translation for \"armazenamento em nuvem\"?",
         "options": [
           "storage space",
           "the app crashed",
@@ -15655,13 +15655,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "um",
-          "apple",
-          "Vou",
-          "house",
-          "libro",
           "email",
-          "enviarlhe"
+          "um",
+          "Vou",
+          "algoritmo",
+          "transmissão",
+          "enviarlhe",
+          "assinatura"
         ],
         "answerTokens": [
           "Vou",
@@ -15737,7 +15737,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aliviado\"?",
+        "question": "What is the correct translation for \"aliviado\"?",
         "options": [
           "prescription",
           "relieved",
@@ -15779,14 +15779,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "apple",
-          "mais",
-          "beber",
-          "house",
-          "libro",
+          "receita",
           "Preciso",
           "água",
-          "de"
+          "terapia",
+          "beber",
+          "de",
+          "mais",
+          "sintoma"
         ],
         "answerTokens": [
           "Preciso",
@@ -15863,7 +15863,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"viagem de ida e volta\"?",
+        "question": "What is the correct translation for \"viagem de ida e volta\"?",
         "options": [
           "currency exchange",
           "landmark",
@@ -15905,14 +15905,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "house",
           "atrasado",
+          "mochileiro",
           "meu",
-          "está",
-          "libro",
-          "apple",
           "O",
-          "voo"
+          "voo",
+          "está",
+          "marco",
+          "escala"
         ],
         "answerTokens": [
           "O",
@@ -15989,7 +15989,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "What is the correct translation for \"bem passado\"?",
         "options": [
           "leftovers",
           "side dish",
@@ -16031,14 +16031,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "house",
-          "troco",
-          "libro",
-          "o",
+          "com",
+          "alimentar",
           "ficar",
+          "troco",
           "Pode",
-          "apple",
-          "com"
+          "o",
+          "sobras",
+          "ingrediente"
         ],
         "answerTokens": [
           "Pode",
@@ -16115,7 +16115,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "What is the correct translation for \"networking\"?",
         "options": [
           "invoice",
           "remote work",
@@ -16157,16 +16157,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "de",
+          "remoto",
           "Faleme",
-          "sobre",
-          "apple",
-          "experiência",
-          "house",
-          "libro",
-          "a",
+          "(cargo)",
+          "de",
           "sua",
-          "trabalho"
+          "sobre",
+          "relatório",
+          "a",
+          "trabalho",
+          "experiência"
         ],
         "answerTokens": [
           "Faleme",
@@ -16245,7 +16245,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"o aplicativo travou\"?",
+        "question": "What is the correct translation for \"o aplicativo travou\"?",
         "options": [
           "the app crashed",
           "backup",
@@ -16287,13 +16287,13 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "Pode",
-          "house",
-          "apple",
+          "comigo",
+          "assinatura",
+          "atualização",
           "partilhar",
           "o",
-          "comigo",
-          "libro",
+          "Pode",
+          "teclado",
           "ficheiro"
         ],
         "answerTokens": [
@@ -16371,7 +16371,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"terapia\"?",
+        "question": "What is the correct translation for \"terapia\"?",
         "options": [
           "prescription",
           "self-care",
@@ -16413,10 +16413,10 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
+          "sobrecarregado",
+          "vacina",
+          "check-up",
           "bem",
-          "apple",
-          "house",
-          "libro",
           "Sentese"
         ],
         "answerTokens": [
@@ -16491,7 +16491,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "What is the correct translation for \"jet lag\"?",
         "options": [
           "customs",
           "jet lag",
@@ -16533,14 +16533,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
+          "controle",
+          "atraso",
+          "a",
           "posso",
           "recolher",
-          "libro",
           "bagagem",
-          "Onde",
-          "apple",
-          "a",
-          "house"
+          "escala",
+          "Onde"
         ],
         "answerTokens": [
           "Onde",
@@ -16617,7 +16617,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reservar uma mesa\"?",
+        "question": "What is the correct translation for \"reservar uma mesa\"?",
         "options": [
           "leftovers",
           "well done (meat)",
@@ -16659,15 +16659,15 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "por",
-          "libro",
           "quente",
-          "café",
-          "house",
+          "bem",
+          "por",
           "Posso",
           "um",
-          "apple",
+          "gorjeta",
           "favor",
+          "picante",
+          "café",
           "pedir"
         ],
         "answerTokens": [
@@ -16747,7 +16747,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"trabalho remoto\"?",
+        "question": "What is the correct translation for \"trabalho remoto\"?",
         "options": [
           "invoice",
           "remote work",
@@ -16789,15 +16789,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
+          "muito",
           "trabalho",
-          "em",
-          "equipa",
-          "apple",
           "bem",
           "Eu",
-          "house",
-          "muito",
-          "libro"
+          "fatura",
+          "de",
+          "prazo",
+          "equipa",
+          "em"
         ],
         "answerTokens": [
           "Eu",
@@ -16875,7 +16875,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"backup\"?",
+        "question": "What is the correct translation for \"backup\"?",
         "options": [
           "backup",
           "cloud storage",
@@ -16917,15 +16917,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "está",
-          "instável",
-          "libro",
-          "internet",
-          "A",
-          "house",
-          "apple",
+          "armazenamento",
+          "ligação",
+          "algoritmo",
+          "assinatura",
           "à",
-          "ligação"
+          "internet",
+          "está",
+          "A",
+          "instável"
         ],
         "answerTokens": [
           "A",
@@ -17003,7 +17003,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sintoma\"?",
+        "question": "What is the correct translation for \"sintoma\"?",
         "options": [
           "symptom",
           "to recover",
@@ -17045,13 +17045,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "apple",
-          "e",
-          "libro",
+          "sintoma",
           "fundo",
+          "e",
+          "relaxe",
           "Respire",
-          "house",
-          "relaxe"
+          "aliviado",
+          "ansioso"
         ],
         "answerTokens": [
           "Respire",
@@ -17127,7 +17127,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "What is the correct translation for \"jet lag\"?",
         "options": [
           "layover",
           "jet lag",
@@ -17169,15 +17169,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
+          "escala",
           "controle",
           "fica",
-          "apple",
-          "Onde",
-          "o",
           "de",
           "passaportes",
-          "house",
-          "libro"
+          "o",
+          "Onde",
+          "alfândega",
+          "volta"
         ],
         "answerTokens": [
           "Onde",
@@ -17255,7 +17255,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "What is the correct translation for \"bem passado\"?",
         "options": [
           "tip",
           "appetizer",
@@ -17297,16 +17297,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
+          "fatia",
           "de",
           "bolo",
           "Eu",
-          "de",
-          "apple",
-          "libro",
+          "vegetariano",
           "uma",
-          "house",
-          "gostaria",
-          "fatia"
+          "reservar",
+          "de",
+          "acompanhamento",
+          "gostaria"
         ],
         "answerTokens": [
           "Eu",
@@ -17385,7 +17385,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"orçamento\"?",
+        "question": "What is the correct translation for \"orçamento\"?",
         "options": [
           "salary raise",
           "invoice",
@@ -17427,15 +17427,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "apple",
+          "salariais",
           "são",
           "expectativas",
-          "libro",
-          "salariais",
-          "house",
-          "suas",
+          "trimestral",
+          "trabalho",
+          "Quais",
           "as",
-          "Quais"
+          "orçamento",
+          "suas"
         ],
         "answerTokens": [
           "Quais",
@@ -17513,7 +17513,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"backup\"?",
+        "question": "What is the correct translation for \"backup\"?",
         "options": [
           "storage space",
           "backup",
@@ -17555,14 +17555,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "house",
-          "Vamos",
-          "entrar",
-          "na",
-          "apple",
+          "a",
+          "sinal",
+          "online",
           "reunião",
-          "libro",
-          "online"
+          "na",
+          "espaço",
+          "entrar",
+          "Vamos"
         ],
         "answerTokens": [
           "Vamos",
@@ -17639,7 +17639,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"se recuperar\"?",
+        "question": "What is the correct translation for \"se recuperar\"?",
         "options": [
           "self-care",
           "relieved",
@@ -17682,13 +17682,13 @@
         "sentence": "I feel a bit tired today.",
         "tokens": [
           "cansado",
-          "um",
-          "house",
           "hoje",
+          "terapia",
+          "um",
           "pouco",
-          "apple",
-          "Sintome",
-          "libro"
+          "vacina",
+          "aliviado",
+          "Sintome"
         ],
         "answerTokens": [
           "Sintome",
@@ -17765,7 +17765,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com overbooking\"?",
+        "question": "What is the correct translation for \"com overbooking\"?",
         "options": [
           "souvenir",
           "overbooked",
@@ -17807,16 +17807,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "house",
-          "embarque",
-          "Eu",
+          "overbooking",
           "de",
-          "apple",
           "o",
-          "tenho",
+          "Eu",
           "meu",
-          "libro",
-          "cartão"
+          "alfândega",
+          "embarque",
+          "cartão",
+          "lembrancinha",
+          "tenho"
         ],
         "answerTokens": [
           "Eu",
@@ -17895,7 +17895,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vontade\"?",
+        "question": "What is the correct translation for \"vontade\"?",
         "options": [
           "recipe",
           "dietary restriction",
@@ -17937,14 +17937,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "leite",
+          "reservar",
+          "uma",
           "têm",
-          "Vocês",
+          "conta",
           "aveia",
-          "de",
-          "house",
-          "libro",
-          "apple"
+          "Vocês",
+          "leite",
+          "de"
         ],
         "answerTokens": [
           "Vocês",
@@ -18021,7 +18021,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"parte interessada\"?",
+        "question": "What is the correct translation for \"parte interessada\"?",
         "options": [
           "stakeholder",
           "deliverable",
@@ -18063,13 +18063,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "libro",
-          "house",
-          "Muito",
+          "trimestral",
+          "pela",
+          "entrega",
           "obrigado",
           "oportunidade",
-          "apple",
-          "pela"
+          "em",
+          "Muito"
         ],
         "answerTokens": [
           "Muito",
@@ -18145,7 +18145,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "What is the correct translation for \"algoritmo\"?",
         "options": [
           "firmware",
           "keyboard shortcut",
@@ -18187,13 +18187,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "apple",
-          "libro",
-          "um",
-          "house",
+          "teclado",
           "enviarlhe",
-          "Vou",
-          "email"
+          "armazenamento",
+          "email",
+          "um",
+          "atalho",
+          "Vou"
         ],
         "answerTokens": [
           "Vou",
@@ -18269,7 +18269,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"insônia\"?",
+        "question": "What is the correct translation for \"insônia\"?",
         "options": [
           "to cope with",
           "burnout",
@@ -18311,14 +18311,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "libro",
+          "de",
           "Preciso",
           "água",
-          "beber",
-          "de",
           "mais",
-          "house",
-          "apple"
+          "dolorido",
+          "esgotamento",
+          "médica",
+          "beber"
         ],
         "answerTokens": [
           "Preciso",
@@ -18395,7 +18395,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"itinerário\"?",
+        "question": "What is the correct translation for \"itinerário\"?",
         "options": [
           "overbooked",
           "itinerary",
@@ -18437,14 +18437,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "meu",
-          "O",
+          "atraso",
+          "overbooking",
           "atrasado",
-          "voo",
-          "apple",
-          "house",
           "está",
-          "libro"
+          "O",
+          "mochileiro",
+          "meu",
+          "voo"
         ],
         "answerTokens": [
           "O",
@@ -18521,7 +18521,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "appetizer",
           "craving",
@@ -18563,13 +18563,13 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
-          "troco",
+          "viagem",
+          "alérgico",
           "com",
+          "troco",
+          "reforço",
           "o",
-          "house",
           "ficar",
-          "apple",
-          "libro",
           "Pode"
         ],
         "answerTokens": [
@@ -18647,7 +18647,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"integração\"?",
+        "question": "What is the correct translation for \"integração\"?",
         "options": [
           "stakeholder",
           "quarterly report",
@@ -18689,16 +18689,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "house",
-          "de",
-          "sobre",
-          "apple",
-          "experiência",
           "sua",
-          "libro",
-          "Faleme",
           "trabalho",
-          "a"
+          "de",
+          "demissão",
+          "experiência",
+          "relatório",
+          "a",
+          "sobre",
+          "parte",
+          "Faleme"
         ],
         "answerTokens": [
           "Faleme",
@@ -18777,7 +18777,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "What is the correct translation for \"firmware\"?",
         "options": [
           "keyboard shortcut",
           "firmware",
@@ -18819,14 +18819,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "Pode",
-          "partilhar",
-          "apple",
-          "o",
-          "ficheiro",
-          "house",
+          "atualização",
+          "tela",
           "comigo",
-          "libro"
+          "ficheiro",
+          "videochamada",
+          "partilhar",
+          "o",
+          "Pode"
         ],
         "answerTokens": [
           "Pode",
@@ -18903,7 +18903,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"insônia\"?",
+        "question": "What is the correct translation for \"insônia\"?",
         "options": [
           "to cope with",
           "sleep-deprived",
@@ -18945,11 +18945,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "apple",
-          "Sentese",
           "bem",
-          "house",
-          "libro"
+          "insônia",
+          "aliviado",
+          "recuperar",
+          "Sentese"
         ],
         "answerTokens": [
           "Sentese",
@@ -19023,7 +19023,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com overbooking\"?",
+        "question": "What is the correct translation for \"com overbooking\"?",
         "options": [
           "luggage",
           "overbooked",
@@ -19065,14 +19065,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "posso",
-          "libro",
-          "recolher",
-          "Onde",
-          "house",
+          "visita",
           "a",
           "bagagem",
-          "apple"
+          "posso",
+          "recolher",
+          "de",
+          "Onde",
+          "com"
         ],
         "answerTokens": [
           "Onde",
@@ -19149,7 +19149,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vontade\"?",
+        "question": "What is the correct translation for \"vontade\"?",
         "options": [
           "craving",
           "leftovers",
@@ -19191,16 +19191,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "por",
-          "quente",
-          "favor",
-          "um",
-          "libro",
-          "apple",
-          "café",
-          "Posso",
           "pedir",
-          "house"
+          "quente",
+          "alérgico",
+          "Posso",
+          "um",
+          "favor",
+          "restrição",
+          "por",
+          "gorjeta",
+          "café"
         ],
         "answerTokens": [
           "Posso",
@@ -19279,7 +19279,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrega\"?",
+        "question": "What is the correct translation for \"entrega\"?",
         "options": [
           "deliverable",
           "stakeholder",
@@ -19321,15 +19321,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "equipa",
-          "house",
-          "apple",
-          "libro",
-          "em",
-          "muito",
-          "bem",
           "Eu",
-          "trabalho"
+          "equipa",
+          "integração",
+          "bem",
+          "muito",
+          "entrega",
+          "trabalho",
+          "parte",
+          "em"
         ],
         "answerTokens": [
           "Eu",
@@ -19407,7 +19407,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atalho de teclado\"?",
+        "question": "What is the correct translation for \"atalho de teclado\"?",
         "options": [
           "firmware",
           "algorithm",
@@ -19449,15 +19449,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
+          "A",
           "instável",
           "internet",
-          "à",
-          "house",
-          "apple",
-          "libro",
           "está",
+          "hackear",
+          "assinatura",
           "ligação",
-          "A"
+          "à",
+          "tela"
         ],
         "answerTokens": [
           "A",
@@ -19535,7 +19535,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"esgotamento\"?",
+        "question": "What is the correct translation for \"esgotamento\"?",
         "options": [
           "burnout",
           "sleep-deprived",
@@ -19577,13 +19577,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "relaxe",
+          "consulta",
+          "vacina",
+          "(estado)",
           "e",
-          "libro",
-          "Respire",
-          "apple",
           "fundo",
-          "house"
+          "relaxe",
+          "Respire"
         ],
         "answerTokens": [
           "Respire",
@@ -19659,7 +19659,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mochileiro\"?",
+        "question": "What is the correct translation for \"mochileiro\"?",
         "options": [
           "one-way ticket",
           "itinerary",
@@ -19701,15 +19701,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
+          "só",
           "fica",
-          "passaportes",
-          "apple",
-          "libro",
-          "Onde",
-          "house",
           "o",
-          "de",
-          "controle"
+          "overbooking",
+          "passaportes",
+          "controle",
+          "Onde",
+          "direções",
+          "de"
         ],
         "answerTokens": [
           "Onde",
@@ -19787,7 +19787,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "dietary restriction",
           "craving",
@@ -19829,16 +19829,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
+          "a",
+          "fatia",
+          "de",
+          "vontade",
+          "de",
+          "cardápio",
           "Eu",
-          "de",
-          "libro",
-          "gostaria",
-          "house",
           "bolo",
-          "apple",
-          "uma",
-          "de",
-          "fatia"
+          "gostaria",
+          "uma"
         ],
         "answerTokens": [
           "Eu",
@@ -19917,7 +19917,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"demissão em massa\"?",
+        "question": "What is the correct translation for \"demissão em massa\"?",
         "options": [
           "quarterly report",
           "stakeholder",
@@ -19959,15 +19959,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "apple",
-          "as",
-          "suas",
           "salariais",
-          "Quais",
+          "em",
           "são",
-          "libro",
-          "house",
-          "expectativas"
+          "as",
+          "trimestral",
+          "Quais",
+          "expectativas",
+          "relatório",
+          "suas"
         ],
         "answerTokens": [
           "Quais",
@@ -20045,7 +20045,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hackear\"?",
+        "question": "What is the correct translation for \"hackear\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -20087,14 +20087,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "apple",
-          "online",
-          "libro",
           "na",
           "Vamos",
+          "wifi",
+          "entrar",
+          "firmware",
+          "online",
           "reunião",
-          "house",
-          "entrar"
+          "atalho"
         ],
         "answerTokens": [
           "Vamos",
@@ -20171,7 +20171,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"esgotamento\"?",
+        "question": "What is the correct translation for \"esgotamento\"?",
         "options": [
           "burnout",
           "insomnia",
@@ -20213,14 +20213,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "um",
           "pouco",
+          "de",
           "hoje",
-          "libro",
-          "Sintome",
-          "apple",
           "cansado",
-          "house"
+          "vacina",
+          "Sintome",
+          "insônia",
+          "um"
         ],
         "answerTokens": [
           "Sintome",
@@ -20297,7 +20297,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mochileiro\"?",
+        "question": "What is the correct translation for \"mochileiro\"?",
         "options": [
           "backpacker",
           "overbooked",
@@ -20339,16 +20339,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "Eu",
-          "house",
-          "apple",
-          "meu",
           "de",
+          "jet",
           "tenho",
-          "embarque",
-          "o",
+          "guiada",
+          "meu",
+          "itinerário",
+          "Eu",
           "cartão",
-          "libro"
+          "o",
+          "embarque"
         ],
         "answerTokens": [
           "Eu",
@@ -20427,7 +20427,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "dietary restriction",
           "craving",
@@ -20469,14 +20469,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "aveia",
+          "leite",
+          "vontade",
           "de",
-          "libro",
-          "apple",
-          "house",
           "têm",
+          "gás",
           "Vocês",
-          "leite"
+          "aveia",
+          "gorjeta"
         ],
         "answerTokens": [
           "Vocês",
@@ -20553,7 +20553,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrega\"?",
+        "question": "What is the correct translation for \"entrega\"?",
         "options": [
           "layoff",
           "stakeholder",
@@ -20595,13 +20595,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "house",
-          "apple",
           "pela",
-          "obrigado",
-          "libro",
+          "parte",
           "oportunidade",
-          "Muito"
+          "orçamento",
+          "Muito",
+          "relatório",
+          "obrigado"
         ],
         "answerTokens": [
           "Muito",
@@ -20677,7 +20677,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "What is the correct translation for \"algoritmo\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -20719,13 +20719,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "house",
-          "apple",
-          "um",
-          "Vou",
-          "libro",
           "enviarlhe",
-          "email"
+          "email",
+          "hackear",
+          "um",
+          "ao",
+          "assinatura",
+          "Vou"
         ],
         "answerTokens": [
           "Vou",
@@ -20801,7 +20801,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"insônia\"?",
+        "question": "What is the correct translation for \"insônia\"?",
         "options": [
           "sleep-deprived",
           "to cope with",
@@ -20843,14 +20843,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "mais",
-          "house",
-          "água",
+          "beber",
           "Preciso",
-          "apple",
+          "água",
+          "mais",
+          "insônia",
+          "com",
           "de",
-          "libro",
-          "beber"
+          "lidar"
         ],
         "answerTokens": [
           "Preciso",
@@ -20927,7 +20927,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com overbooking\"?",
+        "question": "What is the correct translation for \"com overbooking\"?",
         "options": [
           "souvenir",
           "overbooked",
@@ -20969,14 +20969,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "meu",
-          "está",
-          "voo",
-          "libro",
-          "O",
           "atrasado",
-          "apple",
-          "house"
+          "meu",
+          "overbooking",
+          "alfândega",
+          "O",
+          "voo",
+          "está",
+          "câmbio"
         ],
         "answerTokens": [
           "O",
@@ -21053,7 +21053,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "craving",
           "well done (meat)",
@@ -21096,13 +21096,13 @@
         "sentence": "You can keep the change.",
         "tokens": [
           "troco",
-          "com",
           "ficar",
           "o",
-          "apple",
-          "house",
-          "Pode",
-          "libro"
+          "vontade",
+          "com",
+          "uma",
+          "bem",
+          "Pode"
         ],
         "answerTokens": [
           "Pode",
@@ -21179,7 +21179,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"parte interessada\"?",
+        "question": "What is the correct translation for \"parte interessada\"?",
         "options": [
           "stakeholder",
           "deliverable",
@@ -21221,16 +21221,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "trabalho",
-          "sobre",
-          "house",
           "Faleme",
-          "experiência",
           "de",
-          "apple",
-          "libro",
+          "fatura",
+          "experiência",
+          "trabalho",
+          "parte",
+          "sua",
           "a",
-          "sua"
+          "demissão",
+          "sobre"
         ],
         "answerTokens": [
           "Faleme",
@@ -21309,7 +21309,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "What is the correct translation for \"algoritmo\"?",
         "options": [
           "keyboard shortcut",
           "to hack",
@@ -21351,14 +21351,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "libro",
-          "partilhar",
           "o",
-          "comigo",
+          "partilhar",
+          "algoritmo",
           "Pode",
-          "house",
+          "comigo",
+          "teclado",
           "ficheiro",
-          "apple"
+          "travou"
         ],
         "answerTokens": [
           "Pode",
@@ -21435,7 +21435,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"lidar com\"?",
+        "question": "What is the correct translation for \"lidar com\"?",
         "options": [
           "burnout",
           "insomnia",
@@ -21477,11 +21477,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "apple",
+          "consulta",
+          "insônia",
+          "(estado)",
           "Sentese",
-          "bem",
-          "house",
-          "libro"
+          "bem"
         ],
         "answerTokens": [
           "Sentese",
@@ -21555,7 +21555,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com overbooking\"?",
+        "question": "What is the correct translation for \"com overbooking\"?",
         "options": [
           "overbooked",
           "backpacker",
@@ -21597,14 +21597,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "recolher",
-          "apple",
-          "bagagem",
-          "libro",
           "a",
-          "Onde",
-          "house",
-          "posso"
+          "posso",
+          "bagagem",
+          "recolher",
+          "lag",
+          "guiada",
+          "marco",
+          "Onde"
         ],
         "answerTokens": [
           "Onde",
@@ -21681,7 +21681,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "craving",
           "dietary restriction",
@@ -21723,16 +21723,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "apple",
-          "café",
-          "pedir",
-          "por",
-          "house",
           "Posso",
-          "libro",
+          "mesa",
+          "pedir",
+          "café",
           "um",
+          "por",
+          "quente",
+          "restrição",
           "favor",
-          "quente"
+          "para"
         ],
         "answerTokens": [
           "Posso",
@@ -21811,7 +21811,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrega\"?",
+        "question": "What is the correct translation for \"entrega\"?",
         "options": [
           "layoff",
           "stakeholder",
@@ -21853,15 +21853,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "libro",
-          "muito",
-          "bem",
-          "trabalho",
           "equipa",
+          "muito",
+          "trabalho",
+          "parte",
+          "massa",
           "em",
-          "house",
-          "apple",
-          "Eu"
+          "Eu",
+          "bem",
+          "demissão"
         ],
         "answerTokens": [
           "Eu",
@@ -21939,7 +21939,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atalho de teclado\"?",
+        "question": "What is the correct translation for \"atalho de teclado\"?",
         "options": [
           "algorithm",
           "firmware",
@@ -21981,15 +21981,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "à",
-          "apple",
+          "instável",
+          "assinatura",
           "está",
+          "sinal",
           "internet",
-          "libro",
-          "house",
           "A",
-          "ligação",
-          "instável"
+          "hackear",
+          "à",
+          "ligação"
         ],
         "answerTokens": [
           "A",
@@ -22067,7 +22067,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com privação de sono\"?",
+        "question": "What is the correct translation for \"com privação de sono\"?",
         "options": [
           "insomnia",
           "burnout",
@@ -22109,13 +22109,13 @@
         "question": "Ordene as palavras para formar a frase: \"Breathe deeply and relax.\"",
         "sentence": "Breathe deeply and relax.",
         "tokens": [
-          "relaxe",
-          "libro",
-          "fundo",
+          "e",
           "Respire",
-          "apple",
-          "house",
-          "e"
+          "consulta",
+          "(estado)",
+          "relaxe",
+          "médica",
+          "fundo"
         ],
         "answerTokens": [
           "Respire",
@@ -22191,7 +22191,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mochileiro\"?",
+        "question": "What is the correct translation for \"mochileiro\"?",
         "options": [
           "itinerary",
           "overbooked",
@@ -22233,15 +22233,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "apple",
-          "fica",
-          "controle",
-          "de",
-          "libro",
-          "house",
           "o",
+          "de",
+          "volta",
+          "Onde",
+          "lag",
           "passaportes",
-          "Onde"
+          "jet",
+          "fica",
+          "controle"
         ],
         "answerTokens": [
           "Onde",
@@ -22319,7 +22319,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "dietary restriction",
           "well done (meat)",
@@ -22361,16 +22361,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "house",
-          "uma",
-          "apple",
-          "bolo",
           "de",
           "gostaria",
+          "vontade",
+          "bolo",
+          "sobras",
+          "de",
+          "uma",
           "fatia",
-          "libro",
           "Eu",
-          "de"
+          "conta"
         ],
         "answerTokens": [
           "Eu",
@@ -22449,7 +22449,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrega\"?",
+        "question": "What is the correct translation for \"entrega\"?",
         "options": [
           "quarterly report",
           "onboarding",
@@ -22491,15 +22491,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "house",
-          "libro",
-          "suas",
-          "são",
-          "apple",
+          "em",
           "salariais",
           "as",
+          "Quais",
           "expectativas",
-          "Quais"
+          "feedback",
+          "são",
+          "suas",
+          "entrevista"
         ],
         "answerTokens": [
           "Quais",
@@ -22577,7 +22577,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hackear\"?",
+        "question": "What is the correct translation for \"hackear\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -22619,14 +22619,14 @@
         "question": "Ordene as palavras para formar a frase: \"Let's join the online meeting.\"",
         "sentence": "Let's join the online meeting.",
         "tokens": [
-          "na",
-          "Vamos",
+          "captura",
           "reunião",
-          "house",
-          "libro",
-          "apple",
+          "online",
           "entrar",
-          "online"
+          "na",
+          "sinal",
+          "videochamada",
+          "Vamos"
         ],
         "answerTokens": [
           "Vamos",
@@ -22703,7 +22703,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com privação de sono\"?",
+        "question": "What is the correct translation for \"com privação de sono\"?",
         "options": [
           "insomnia",
           "burnout",
@@ -22745,14 +22745,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "um",
-          "Sintome",
           "pouco",
-          "house",
           "cansado",
-          "libro",
-          "apple",
-          "hoje"
+          "hoje",
+          "receita",
+          "um",
+          "insônia",
+          "com",
+          "Sintome"
         ],
         "answerTokens": [
           "Sintome",
@@ -22829,7 +22829,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mochileiro\"?",
+        "question": "What is the correct translation for \"mochileiro\"?",
         "options": [
           "overbooked",
           "backpacker",
@@ -22871,16 +22871,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
+          "mochileiro",
+          "e",
           "meu",
-          "tenho",
-          "house",
-          "cartão",
-          "apple",
-          "Eu",
-          "embarque",
           "de",
+          "embarque",
+          "com",
           "o",
-          "libro"
+          "Eu",
+          "cartão",
+          "tenho"
         ],
         "answerTokens": [
           "Eu",
@@ -22959,7 +22959,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "dietary restriction",
           "craving",
@@ -23001,14 +23001,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
+          "aveia",
+          "Vocês",
+          "reservar",
+          "uma",
           "têm",
           "leite",
           "de",
-          "Vocês",
-          "house",
-          "libro",
-          "aveia",
-          "apple"
+          "vontade"
         ],
         "answerTokens": [
           "Vocês",
@@ -23085,7 +23085,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"demissão em massa\"?",
+        "question": "What is the correct translation for \"demissão em massa\"?",
         "options": [
           "quarterly report",
           "stakeholder",
@@ -23127,13 +23127,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "Muito",
-          "libro",
-          "obrigado",
-          "apple",
           "pela",
-          "house",
-          "oportunidade"
+          "oportunidade",
+          "integração",
+          "negociar",
+          "Muito",
+          "massa",
+          "obrigado"
         ],
         "answerTokens": [
           "Muito",
@@ -23209,7 +23209,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "What is the correct translation for \"firmware\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -23251,13 +23251,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "apple",
           "Vou",
           "um",
-          "libro",
-          "enviarlhe",
-          "house",
-          "email"
+          "email",
+          "dispositivo",
+          "de",
+          "algoritmo",
+          "enviarlhe"
         ],
         "answerTokens": [
           "Vou",
@@ -23333,7 +23333,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"insônia\"?",
+        "question": "What is the correct translation for \"insônia\"?",
         "options": [
           "to cope with",
           "burnout",
@@ -23375,14 +23375,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "mais",
-          "apple",
-          "house",
-          "de",
-          "água",
-          "beber",
           "Preciso",
-          "libro"
+          "febre",
+          "de",
+          "mais",
+          "água",
+          "autocuidado",
+          "esgotamento",
+          "beber"
         ],
         "answerTokens": [
           "Preciso",
@@ -23459,7 +23459,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"itinerário\"?",
+        "question": "What is the correct translation for \"itinerário\"?",
         "options": [
           "backpacker",
           "itinerary",
@@ -23501,14 +23501,14 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "libro",
-          "voo",
           "meu",
-          "house",
-          "atrasado",
+          "alfândega",
           "O",
-          "apple",
-          "está"
+          "atrasado",
+          "guiada",
+          "está",
+          "voo",
+          "visita"
         ],
         "answerTokens": [
           "O",
@@ -23585,7 +23585,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "craving",
           "flavor",
@@ -23627,14 +23627,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
+          "troco",
+          "mesa",
           "com",
-          "house",
+          "vontade",
           "Pode",
-          "libro",
+          "uma",
           "o",
-          "apple",
-          "ficar",
-          "troco"
+          "ficar"
         ],
         "answerTokens": [
           "Pode",
@@ -23711,7 +23711,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"parte interessada\"?",
+        "question": "What is the correct translation for \"parte interessada\"?",
         "options": [
           "stakeholder",
           "deliverable",
@@ -23753,16 +23753,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "trabalho",
+          "sobre",
+          "turno",
           "de",
+          "interessada",
+          "Faleme",
+          "trabalho",
+          "experiência",
           "a",
           "sua",
-          "sobre",
-          "apple",
-          "libro",
-          "Faleme",
-          "experiência",
-          "house"
+          "massa"
         ],
         "answerTokens": [
           "Faleme",
@@ -23841,7 +23841,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "What is the correct translation for \"algoritmo\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -23883,14 +23883,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "house",
-          "comigo",
-          "Pode",
+          "acabou",
           "partilhar",
-          "o",
-          "libro",
-          "apple",
-          "ficheiro"
+          "baixar",
+          "ficheiro",
+          "Pode",
+          "comigo",
+          "a",
+          "o"
         ],
         "answerTokens": [
           "Pode",
@@ -23967,7 +23967,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com privação de sono\"?",
+        "question": "What is the correct translation for \"com privação de sono\"?",
         "options": [
           "insomnia",
           "sleep-deprived",
@@ -24009,11 +24009,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "apple",
+          "febre",
+          "de",
           "Sentese",
-          "bem",
-          "libro",
-          "house"
+          "ansioso",
+          "bem"
         ],
         "answerTokens": [
           "Sentese",
@@ -24087,7 +24087,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mochileiro\"?",
+        "question": "What is the correct translation for \"mochileiro\"?",
         "options": [
           "souvenir",
           "itinerary",
@@ -24129,14 +24129,14 @@
         "question": "Ordene as palavras para formar a frase: \"Where can I collect the baggage?\"",
         "sentence": "Where can I collect the baggage?",
         "tokens": [
-          "Onde",
-          "house",
-          "recolher",
-          "libro",
-          "apple",
-          "bagagem",
           "posso",
-          "a"
+          "itinerário",
+          "bagagem",
+          "overbooking",
+          "recolher",
+          "Onde",
+          "a",
+          "cartão"
         ],
         "answerTokens": [
           "Onde",
@@ -24213,7 +24213,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vontade\"?",
+        "question": "What is the correct translation for \"vontade\"?",
         "options": [
           "grocery store",
           "dietary restriction",
@@ -24255,16 +24255,16 @@
         "question": "Ordene as palavras para formar a frase: \"Can I order a hot coffee, please?\"",
         "sentence": "Can I order a hot coffee, please?",
         "tokens": [
-          "um",
-          "house",
+          "gorjeta",
           "favor",
-          "apple",
-          "café",
-          "Posso",
           "quente",
+          "um",
+          "gás",
+          "por",
+          "Posso",
           "pedir",
-          "libro",
-          "por"
+          "viagem",
+          "café"
         ],
         "answerTokens": [
           "Posso",
@@ -24343,7 +24343,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"demissão em massa\"?",
+        "question": "What is the correct translation for \"demissão em massa\"?",
         "options": [
           "quarterly report",
           "onboarding",
@@ -24385,15 +24385,15 @@
         "question": "Ordene as palavras para formar a frase: \"I work very well in a team.\"",
         "sentence": "I work very well in a team.",
         "tokens": [
-          "equipa",
-          "em",
-          "libro",
-          "trabalho",
           "bem",
-          "muito",
-          "apple",
+          "interessada",
+          "equipa",
+          "trimestral",
+          "em",
           "Eu",
-          "house"
+          "trabalho",
+          "muito",
+          "feedback"
         ],
         "answerTokens": [
           "Eu",
@@ -24471,7 +24471,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "What is the correct translation for \"algoritmo\"?",
         "options": [
           "keyboard shortcut",
           "algorithm",
@@ -24513,15 +24513,15 @@
         "question": "Ordene as palavras para formar a frase: \"The internet connection is unstable.\"",
         "sentence": "The internet connection is unstable.",
         "tokens": [
-          "apple",
-          "à",
-          "libro",
-          "ligação",
+          "software",
           "instável",
-          "A",
+          "aplicativo",
           "está",
+          "ligação",
           "internet",
-          "house"
+          "A",
+          "algoritmo",
+          "à"
         ],
         "answerTokens": [
           "A",
@@ -24599,7 +24599,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"lidar com\"?",
+        "question": "What is the correct translation for \"lidar com\"?",
         "options": [
           "insomnia",
           "burnout",
@@ -24642,12 +24642,12 @@
         "sentence": "Breathe deeply and relax.",
         "tokens": [
           "e",
-          "house",
+          "sintoma",
+          "relaxe",
+          "lidar",
           "Respire",
-          "apple",
           "fundo",
-          "libro",
-          "relaxe"
+          "sono"
         ],
         "answerTokens": [
           "Respire",
@@ -24723,7 +24723,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"itinerário\"?",
+        "question": "What is the correct translation for \"itinerário\"?",
         "options": [
           "overbooked",
           "itinerary",
@@ -24765,15 +24765,15 @@
         "question": "Ordene as palavras para formar a frase: \"Where is the passport control?\"",
         "sentence": "Where is the passport control?",
         "tokens": [
-          "Onde",
+          "só",
           "o",
-          "house",
-          "controle",
-          "apple",
+          "ida",
+          "Onde",
+          "casa",
           "de",
+          "controle",
           "passaportes",
-          "fica",
-          "libro"
+          "fica"
         ],
         "answerTokens": [
           "Onde",
@@ -24851,7 +24851,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "craving",
           "dietary restriction",
@@ -24893,16 +24893,16 @@
         "question": "Ordene as palavras para formar a frase: \"I would like a slice of cake.\"",
         "sentence": "I would like a slice of cake.",
         "tokens": [
-          "bolo",
-          "apple",
-          "house",
-          "uma",
+          "passado",
           "de",
-          "de",
-          "libro",
           "gostaria",
+          "uma",
+          "vontade",
+          "vegetariano",
+          "de",
           "Eu",
-          "fatia"
+          "fatia",
+          "bolo"
         ],
         "answerTokens": [
           "Eu",
@@ -24981,7 +24981,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"integração\"?",
+        "question": "What is the correct translation for \"integração\"?",
         "options": [
           "quarterly report",
           "deliverable",
@@ -25023,15 +25023,15 @@
         "question": "Ordene as palavras para formar a frase: \"What are your salary expectations?\"",
         "sentence": "What are your salary expectations?",
         "tokens": [
-          "house",
-          "Quais",
-          "apple",
           "as",
-          "libro",
+          "Quais",
+          "feedback",
           "suas",
-          "expectativas",
           "salariais",
-          "são"
+          "em",
+          "são",
+          "expectativas",
+          "massa"
         ],
         "answerTokens": [
           "Quais",
@@ -25109,7 +25109,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "What is the correct translation for \"firmware\"?",
         "options": [
           "to hack",
           "keyboard shortcut",
@@ -25152,12 +25152,12 @@
         "sentence": "Let's join the online meeting.",
         "tokens": [
           "entrar",
-          "apple",
-          "reunião",
-          "libro",
           "Vamos",
+          "assinatura",
+          "senha",
+          "acabou",
           "na",
-          "house",
+          "reunião",
           "online"
         ],
         "answerTokens": [
@@ -25235,7 +25235,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"insônia\"?",
+        "question": "What is the correct translation for \"insônia\"?",
         "options": [
           "sleep-deprived",
           "to cope with",
@@ -25277,14 +25277,14 @@
         "question": "Ordene as palavras para formar a frase: \"I feel a bit tired today.\"",
         "sentence": "I feel a bit tired today.",
         "tokens": [
-          "Sintome",
+          "terapia",
+          "insônia",
           "pouco",
-          "hoje",
           "um",
-          "cansado",
-          "libro",
-          "house",
-          "apple"
+          "Sintome",
+          "hoje",
+          "lidar",
+          "cansado"
         ],
         "answerTokens": [
           "Sintome",
@@ -25361,7 +25361,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com overbooking\"?",
+        "question": "What is the correct translation for \"com overbooking\"?",
         "options": [
           "backpacker",
           "luggage",
@@ -25403,16 +25403,16 @@
         "question": "Ordene as palavras para formar a frase: \"I have my boarding pass.\"",
         "sentence": "I have my boarding pass.",
         "tokens": [
-          "de",
-          "tenho",
-          "meu",
+          "Eu",
+          "escala",
           "cartão",
           "embarque",
+          "volta",
           "o",
-          "libro",
-          "Eu",
-          "apple",
-          "house"
+          "meu",
+          "tenho",
+          "check-in",
+          "de"
         ],
         "answerTokens": [
           "Eu",
@@ -25491,7 +25491,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
+        "question": "What is the correct translation for \"restrição alimentar\"?",
         "options": [
           "craving",
           "dietary restriction",
@@ -25533,14 +25533,14 @@
         "question": "Ordene as palavras para formar a frase: \"Do you have oat milk?\"",
         "sentence": "Do you have oat milk?",
         "tokens": [
-          "leite",
+          "Vocês",
           "de",
           "aveia",
-          "libro",
-          "têm",
-          "Vocês",
-          "apple",
-          "house"
+          "reforço",
+          "leite",
+          "bem",
+          "alérgico",
+          "têm"
         ],
         "answerTokens": [
           "Vocês",
@@ -25617,7 +25617,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrega\"?",
+        "question": "What is the correct translation for \"entrega\"?",
         "options": [
           "quarterly report",
           "deliverable",
@@ -25659,13 +25659,13 @@
         "question": "Ordene as palavras para formar a frase: \"Thank you very much for the opportunity.\"",
         "sentence": "Thank you very much for the opportunity.",
         "tokens": [
-          "obrigado",
-          "house",
-          "libro",
-          "oportunidade",
+          "networking",
           "pela",
-          "apple",
-          "Muito"
+          "oportunidade",
+          "obrigado",
+          "Muito",
+          "fatura",
+          "trabalho"
         ],
         "answerTokens": [
           "Muito",
@@ -25741,7 +25741,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"atalho de teclado\"?",
+        "question": "What is the correct translation for \"atalho de teclado\"?",
         "options": [
           "firmware",
           "to hack",
@@ -25783,13 +25783,13 @@
         "question": "Ordene as palavras para formar a frase: \"I will send you an email.\"",
         "sentence": "I will send you an email.",
         "tokens": [
-          "libro",
-          "apple",
-          "house",
           "Vou",
+          "atalho",
+          "atualização",
           "enviarlhe",
+          "email",
           "um",
-          "email"
+          "em"
         ],
         "answerTokens": [
           "Vou",
@@ -25865,7 +25865,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"com privação de sono\"?",
+        "question": "What is the correct translation for \"com privação de sono\"?",
         "options": [
           "insomnia",
           "burnout",
@@ -25907,14 +25907,14 @@
         "question": "Ordene as palavras para formar a frase: \"I need to drink more water.\"",
         "sentence": "I need to drink more water.",
         "tokens": [
-          "beber",
-          "libro",
-          "mais",
-          "de",
-          "house",
           "Preciso",
-          "água",
-          "apple"
+          "mais",
+          "beber",
+          "dolorido",
+          "insônia",
+          "lidar",
+          "de",
+          "água"
         ],
         "answerTokens": [
           "Preciso",
@@ -25991,7 +25991,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"itinerário\"?",
+        "question": "What is the correct translation for \"itinerário\"?",
         "options": [
           "itinerary",
           "souvenir",
@@ -26033,13 +26033,13 @@
         "question": "Ordene as palavras para formar a frase: \"My flight is delayed.\"",
         "sentence": "My flight is delayed.",
         "tokens": [
-          "libro",
-          "atrasado",
-          "meu",
-          "voo",
-          "apple",
-          "house",
           "está",
+          "câmbio",
+          "direções",
+          "hostel",
+          "meu",
+          "atrasado",
+          "voo",
           "O"
         ],
         "answerTokens": [
@@ -26117,7 +26117,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vontade\"?",
+        "question": "What is the correct translation for \"vontade\"?",
         "options": [
           "craving",
           "tip",
@@ -26159,14 +26159,14 @@
         "question": "Ordene as palavras para formar a frase: \"You can keep the change.\"",
         "sentence": "You can keep the change.",
         "tokens": [
+          "passado",
           "troco",
-          "ficar",
-          "house",
-          "apple",
-          "libro",
-          "Pode",
+          "entrada",
           "o",
-          "com"
+          "picante",
+          "com",
+          "ficar",
+          "Pode"
         ],
         "answerTokens": [
           "Pode",
@@ -26243,7 +26243,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"relatório trimestral\"?",
+        "question": "What is the correct translation for \"relatório trimestral\"?",
         "options": [
           "deliverable",
           "onboarding",
@@ -26285,16 +26285,16 @@
         "question": "Ordene as palavras para formar a frase: \"Tell me about your work experience.\"",
         "sentence": "Tell me about your work experience.",
         "tokens": [
-          "sua",
-          "experiência",
-          "sobre",
-          "house",
-          "apple",
-          "de",
           "a",
-          "libro",
+          "de",
           "trabalho",
-          "Faleme"
+          "Faleme",
+          "sua",
+          "parte",
+          "sobre",
+          "final",
+          "negociar",
+          "experiência"
         ],
         "answerTokens": [
           "Faleme",
@@ -26373,7 +26373,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hackear\"?",
+        "question": "What is the correct translation for \"hackear\"?",
         "options": [
           "to hack",
           "firmware",
@@ -26415,14 +26415,14 @@
         "question": "Ordene as palavras para formar a frase: \"Can you share the file with me?\"",
         "sentence": "Can you share the file with me?",
         "tokens": [
-          "house",
-          "o",
-          "ficheiro",
-          "apple",
+          "de",
           "comigo",
-          "Pode",
+          "aplicativo",
+          "ficheiro",
           "partilhar",
-          "libro"
+          "o",
+          "Pode",
+          "firmware"
         ],
         "answerTokens": [
           "Pode",
@@ -26499,7 +26499,7 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"lidar com\"?",
+        "question": "What is the correct translation for \"lidar com\"?",
         "options": [
           "burnout",
           "insomnia",
@@ -26541,11 +26541,11 @@
         "question": "Ordene as palavras para formar a frase: \"Do you feel well?\"",
         "sentence": "Do you feel well?",
         "tokens": [
-          "bem",
-          "libro",
-          "apple",
           "Sentese",
-          "house"
+          "humor",
+          "médica",
+          "bem",
+          "ansioso"
         ],
         "answerTokens": [
           "Sentese",

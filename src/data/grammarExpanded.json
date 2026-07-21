@@ -3,7 +3,7 @@
     {
       "id": "g_pt_001",
       "title": "Presente do Indicativo",
-      "explanation": "Used to express habitual actions, general truths, and current states. In Portuguese, verbs are conjugated differently for each person.",
+      "explanation": "Usado para expressar ações habituais, verdades gerais e estados atuais. Em português, os verbos são conjugados de forma diferente para cada pessoa.",
       "examples": [
         "Eu falo português.",
         "Ela come frutas todos os dias.",
@@ -13,14 +13,12 @@
       ],
       "level": "A1",
       "category": "verb_tenses",
-      "exceptions": [
-        "Some verbs are irregular: ser (sou, é, somos), ir (vou, vai, vamos), ter (tenho, tem, temos)."
-      ]
+      "exceptions": ["Alguns verbos são irregulares: ser (sou, é, somos), ir (vou, vai, vamos), ter (tenho, tem, temos)."]
     },
     {
       "id": "g_pt_002",
       "title": "Pretérito Perfeito",
-      "explanation": "Used for completed actions in the past. Similar to English Simple Past.",
+      "explanation": "Usado para ações concluídas no passado. Equivale ao Simple Past do inglês.",
       "examples": [
         "Eu falei com ela ontem.",
         "Nós viajamos para o Rio.",
@@ -29,12 +27,12 @@
       ],
       "level": "A2",
       "category": "verb_tenses",
-      "exceptions": ["Irregular verbs: fazer (fiz), ver (vi), ir (fui), ser (fui)."]
+      "exceptions": ["Verbos irregulares: fazer (fiz), ver (vi), ir (fui), ser (fui)."]
     },
     {
       "id": "g_pt_003",
       "title": "Subjuntivo Presente",
-      "explanation": "Used to express wishes, doubts, and hypothetical situations. Triggered by certain conjunctions and expressions.",
+      "explanation": "Usado para expressar desejos, dúvidas e situações hipotéticas. Disparado por certas conjunções e expressões.",
       "examples": [
         "Espero que você venha.",
         "Talvez ele saiba a resposta.",
@@ -42,14 +40,135 @@
       ],
       "level": "B2",
       "category": "verb_tenses",
-      "exceptions": ["The subjunctive is always triggered by a subordinate clause with 'que'."]
+      "exceptions": ["O subjuntivo é quase sempre disparado por uma oração subordinada com 'que'."]
+    },
+    {
+      "id": "g_pt_004",
+      "title": "Futuro do Presente",
+      "explanation": "Usado para ações que ainda vão acontecer. Formado com o infinitivo + terminações próprias (-ei, -á, -emos, -ão).",
+      "examples": [
+        "Eu viajarei amanhã.",
+        "Ela falará com o chefe.",
+        "Nós estudaremos juntos.",
+        "Eles chegarão mais tarde."
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["Na fala informal, usa-se 'ir' + infinitivo (vou viajar) muito mais que o futuro simples."]
+    },
+    {
+      "id": "g_pt_005",
+      "title": "Pretérito Imperfeito",
+      "explanation": "Usado para ações habituais ou contínuas no passado, e para descrever contextos e estados.",
+      "examples": [
+        "Quando eu era criança, morava em São Paulo.",
+        "Ela sempre chegava atrasada.",
+        "Nós jogávamos futebol todo domingo."
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["Diferente do pretérito perfeito, não marca um ponto específico e concluído no tempo."]
+    },
+    {
+      "id": "g_pt_006",
+      "title": "Ser vs Estar",
+      "explanation": "'Ser' é usado para características permanentes e identidade. 'Estar' é usado para estados temporários e localização.",
+      "examples": [
+        "Ela é professora.",
+        "Ele está cansado hoje.",
+        "A loja fica na esquina.",
+        "Nós somos brasileiros."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["Algumas expressões fixas usam 'estar' mesmo para algo permanente: 'estar morto'."]
+    },
+    {
+      "id": "g_pt_007",
+      "title": "Por vs Para",
+      "explanation": "'Por' indica causa, meio ou troca. 'Para' indica finalidade, destino ou destinatário.",
+      "examples": [
+        "Comprei isso por você.",
+        "Este presente é para você.",
+        "Viajamos por três dias.",
+        "Vou para o Rio amanhã."
+      ],
+      "level": "B1",
+      "category": "prepositions",
+      "exceptions": ["Muitas expressões fixas usam apenas uma delas: 'por favor', 'para sempre'."]
+    },
+    {
+      "id": "g_pt_008",
+      "title": "Pronomes Possessivos",
+      "explanation": "Indicam posse e concordam em gênero e número com o substantivo possuído, não com o dono.",
+      "examples": [
+        "Este é o meu livro.",
+        "Essa é a minha casa.",
+        "Esses são os nossos amigos.",
+        "Aquelas são as suas malas."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["'Seu/sua' pode ser ambíguo (dele, dela, de você) — o contexto costuma esclarecer."]
+    },
+    {
+      "id": "g_pt_009",
+      "title": "Voz Passiva",
+      "explanation": "Formada com 'ser' + particípio, usada quando o foco está na ação ou no receptor, não em quem a pratica.",
+      "examples": [
+        "O livro foi escrito por ela.",
+        "A casa foi construída em 1990.",
+        "Os documentos serão enviados amanhã."
+      ],
+      "level": "B1",
+      "category": "verb_tenses",
+      "exceptions": ["Na fala cotidiana, prefere-se a voz ativa; a passiva é mais comum em textos formais."]
+    },
+    {
+      "id": "g_pt_010",
+      "title": "Comparativo e Superlativo",
+      "explanation": "Usados para comparar qualidades. 'Mais...que' para comparativo, 'o mais...' para superlativo.",
+      "examples": [
+        "Ela é mais alta que eu.",
+        "Este é o restaurante mais caro da cidade.",
+        "Ele fala tão bem quanto você."
+      ],
+      "level": "A2",
+      "category": "grammar_core",
+      "exceptions": ["Alguns adjetivos têm formas irregulares: bom → melhor, mau → pior."]
+    },
+    {
+      "id": "g_pt_011",
+      "title": "Advérbios de Frequência",
+      "explanation": "Indicam com que frequência algo acontece. Geralmente vêm antes do verbo principal ou no início/fim da frase.",
+      "examples": [
+        "Eu sempre tomo café da manhã.",
+        "Ela nunca chega atrasada.",
+        "Nós às vezes saímos à noite."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["Diferente do inglês, a posição em português é mais flexível."]
+    },
+    {
+      "id": "g_pt_012",
+      "title": "Condicional (Futuro do Pretérito)",
+      "explanation": "Usado para expressar hipóteses, desejos educados e situações condicionais no passado ou presente.",
+      "examples": [
+        "Eu gostaria de um café.",
+        "Se eu tivesse dinheiro, viajaria mais.",
+        "Ela poderia nos ajudar."
+      ],
+      "level": "B1",
+      "category": "conditionals",
+      "exceptions": ["Muito usado para pedidos educados: 'Você poderia...?'"]
     }
   ],
   "en": [
     {
       "id": "g_en_001",
       "title": "Present Continuous",
-      "explanation": "Usado para ações acontecendo agora ou planos futuros confirmados. Formado com be + verbo-ing.",
+      "explanation": "Used for actions happening right now or confirmed future plans. Formed with be + verb-ing.",
       "examples": [
         "I am studying now.",
         "She is traveling tomorrow.",
@@ -59,12 +178,12 @@
       ],
       "level": "A1",
       "category": "verb_tenses",
-      "exceptions": ["Stative verbs (know, like, want) geralmente não usam continuous."]
+      "exceptions": ["Stative verbs (know, like, want) generally don't use the continuous form."]
     },
     {
       "id": "g_en_002",
       "title": "Present Perfect",
-      "explanation": "Conecta passado ao presente. Usado para experiências, ações recentes ou ações que continuam.",
+      "explanation": "Connects the past to the present. Used for experiences, recent actions, or actions that continue.",
       "examples": [
         "I have visited Paris.",
         "She has just finished.",
@@ -74,12 +193,12 @@
       ],
       "level": "B1",
       "category": "verb_tenses",
-      "exceptions": ["Com tempo específico (yesterday, last year), use Simple Past."]
+      "exceptions": ["With a specific past time (yesterday, last year), use Simple Past instead."]
     },
     {
       "id": "g_en_003",
       "title": "Conditionals (Type 2)",
-      "explanation": "Usado para situações hipotéticas no presente/futuro. If + past simple, would + infinitive.",
+      "explanation": "Used for hypothetical situations in the present or future. If + past simple, would + infinitive.",
       "examples": [
         "If I had money, I would buy a car.",
         "If she knew, she would tell us.",
@@ -88,14 +207,135 @@
       ],
       "level": "B2",
       "category": "conditionals",
-      "exceptions": ["O verbo 'to be' usa 'were' para todas as pessoas no Type 2."]
+      "exceptions": ["The verb 'to be' uses 'were' for every person in Type 2 conditionals."]
+    },
+    {
+      "id": "g_en_004",
+      "title": "Simple Past",
+      "explanation": "Used for completed actions at a specific point in the past. Regular verbs add -ed; many common verbs are irregular.",
+      "examples": [
+        "I visited my grandmother last week.",
+        "She didn't call me yesterday.",
+        "They went to the beach.",
+        "Did you finish the report?"
+      ],
+      "level": "A1",
+      "category": "verb_tenses",
+      "exceptions": ["Irregular verbs must be memorized: go → went, eat → ate, have → had."]
+    },
+    {
+      "id": "g_en_005",
+      "title": "Present Perfect Continuous",
+      "explanation": "Emphasizes the duration of an action that started in the past and continues now. Formed with have/has + been + verb-ing.",
+      "examples": [
+        "I have been studying for three hours.",
+        "She has been working here since 2020.",
+        "Have you been waiting long?"
+      ],
+      "level": "B2",
+      "category": "verb_tenses",
+      "exceptions": ["Stative verbs rarely use this form; use Present Perfect instead."]
+    },
+    {
+      "id": "g_en_006",
+      "title": "Passive Voice",
+      "explanation": "Formed with be + past participle. Used when the focus is on the action or the receiver, not who performs it.",
+      "examples": [
+        "The book was written by her.",
+        "The house was built in 1990.",
+        "The documents will be sent tomorrow."
+      ],
+      "level": "B1",
+      "category": "verb_tenses",
+      "exceptions": ["Active voice is preferred in everyday speech; passive is more common in formal writing."]
+    },
+    {
+      "id": "g_en_007",
+      "title": "Modal Verbs (can, could, must, should)",
+      "explanation": "Used to express ability, permission, obligation, or advice. Always followed by the base form of the verb.",
+      "examples": [
+        "You must wear a seatbelt.",
+        "She can speak three languages.",
+        "You should see a doctor.",
+        "Could you help me, please?"
+      ],
+      "level": "A2",
+      "category": "modals",
+      "exceptions": ["Modal verbs never take an 's' in the third person: 'she cans' is incorrect."]
+    },
+    {
+      "id": "g_en_008",
+      "title": "Comparatives and Superlatives",
+      "explanation": "Used to compare qualities. Add -er/-est to short adjectives, or use more/most with longer ones.",
+      "examples": [
+        "She is taller than me.",
+        "This is the most expensive restaurant in town.",
+        "He speaks as well as you do."
+      ],
+      "level": "A2",
+      "category": "grammar_core",
+      "exceptions": ["Some adjectives are irregular: good → better → best, bad → worse → worst."]
+    },
+    {
+      "id": "g_en_009",
+      "title": "Prepositions of Time (in, on, at)",
+      "explanation": "'In' is used for months/years, 'on' for days/dates, and 'at' for specific times.",
+      "examples": [
+        "I was born in 1995.",
+        "The meeting is on Monday.",
+        "We'll meet at 3 PM.",
+        "She arrived on July 4th."
+      ],
+      "level": "A1",
+      "category": "prepositions",
+      "exceptions": ["Exceptions exist for expressions like 'at night', 'in the morning', 'on time'."]
+    },
+    {
+      "id": "g_en_010",
+      "title": "Reported Speech",
+      "explanation": "Used to report what someone said, usually shifting the tense back one step (present → past).",
+      "examples": [
+        "She said she was tired.",
+        "He told me he would call later.",
+        "They said they had already eaten."
+      ],
+      "level": "B2",
+      "category": "grammar_core",
+      "exceptions": ["If the reported statement is still true, the tense can stay the same."]
+    },
+    {
+      "id": "g_en_011",
+      "title": "First Conditional",
+      "explanation": "Used for real, likely future situations. If + present simple, will + infinitive.",
+      "examples": [
+        "If it rains, I will stay home.",
+        "She will call you if she has time.",
+        "If you study, you will pass the exam."
+      ],
+      "level": "A2",
+      "category": "conditionals",
+      "exceptions": ["Never use 'will' in the if-clause itself."]
+    },
+    {
+      "id": "g_en_012",
+      "title": "Articles (a, an, the)",
+      "explanation": "'A/an' introduce something new or unspecified; 'the' refers to something already known or specific.",
+      "examples": [
+        "I saw a dog in the park.",
+        "The dog was very friendly.",
+        "She is an engineer.",
+        "The sun rises in the east."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["No article is used with plural or uncountable nouns in a general sense: 'I like music.'"]
     }
   ],
   "es": [
     {
       "id": "g_es_001",
       "title": "Pretérito Indefinido",
-      "explanation": "Usado para ações concluídas em momento específico do passado.",
+      "explanation": "Se usa para acciones completadas en un momento específico del pasado.",
       "examples": [
         "Ayer fui al cine.",
         "Ella comió una manzana.",
@@ -104,12 +344,12 @@
       ],
       "level": "A2",
       "category": "verb_tenses",
-      "exceptions": ["Verbos irregulares mudam a raiz: ir → fui, tener → tuve, hacer → hice."]
+      "exceptions": ["Verbos irregulares cambian la raíz: ir → fui, tener → tuve, hacer → hice."]
     },
     {
       "id": "g_es_002",
       "title": "Subjuntivo Presente",
-      "explanation": "Expressa desejos, dúvidas e hipóteses. Muito usado em espanhol.",
+      "explanation": "Expresa deseos, dudas e hipótesis. Se usa mucho en español, especialmente tras 'que'.",
       "examples": [
         "Espero que vengas.",
         "Quiero que estudies más.",
@@ -118,12 +358,12 @@
       ],
       "level": "B2",
       "category": "verb_tenses",
-      "exceptions": ["Sempre precedido de 'que' em orações subordinadas."]
+      "exceptions": ["Casi siempre va precedido de 'que' en oraciones subordinadas."]
     },
     {
       "id": "g_es_003",
       "title": "Ser vs Estar",
-      "explanation": "Ser = características permanentes. Estar = estados temporários e localização.",
+      "explanation": "'Ser' se usa para características permanentes. 'Estar' se usa para estados temporales y ubicación.",
       "examples": [
         "Yo soy brasileño.",
         "Ella es doctora.",
@@ -132,7 +372,127 @@
       ],
       "level": "A1",
       "category": "grammar_core",
-      "exceptions": ["Algumas expressões fixas: estar muerto (morto é 'permanente' mas usa estar)."]
+      "exceptions": ["Algunas expresiones fijas usan 'estar' aunque sean permanentes: 'estar muerto'."]
+    },
+    {
+      "id": "g_es_004",
+      "title": "Pretérito Imperfecto",
+      "explanation": "Se usa para acciones habituales o continuas en el pasado, y para describir contextos y estados.",
+      "examples": [
+        "Cuando era niño, vivía en Bogotá.",
+        "Ella siempre llegaba tarde.",
+        "Nosotros jugábamos fútbol los domingos."
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["A diferencia del indefinido, no marca un momento concreto y concluido."]
+    },
+    {
+      "id": "g_es_005",
+      "title": "Futuro Simple",
+      "explanation": "Se usa para acciones que ocurrirán en el futuro. Se forma con el infinitivo + terminaciones propias.",
+      "examples": [
+        "Mañana viajaré a Madrid.",
+        "Ella hablará con el jefe.",
+        "Estudiaremos juntos.",
+        "Llegarán más tarde."
+      ],
+      "level": "A2",
+      "category": "verb_tenses",
+      "exceptions": ["En el habla informal se usa mucho 'ir a' + infinitivo (voy a viajar)."]
+    },
+    {
+      "id": "g_es_006",
+      "title": "Por vs Para",
+      "explanation": "'Por' indica causa, medio o intercambio. 'Para' indica finalidad, destino o destinatario.",
+      "examples": [
+        "Lo compré por ti.",
+        "Este regalo es para ti.",
+        "Viajamos por tres días.",
+        "Voy para Madrid mañana."
+      ],
+      "level": "B1",
+      "category": "prepositions",
+      "exceptions": ["Muchas expresiones fijas usan solo una de las dos: 'por favor', 'para siempre'."]
+    },
+    {
+      "id": "g_es_007",
+      "title": "Pronombres de Objeto Directo e Indirecto",
+      "explanation": "Los pronombres de objeto reemplazan al sustantivo ya mencionado. Van antes del verbo conjugado.",
+      "examples": [
+        "Le di el libro a ella. → Se lo di.",
+        "¿Compraste el pan? Sí, lo compré.",
+        "Nos llamó ayer."
+      ],
+      "level": "B1",
+      "category": "grammar_core",
+      "exceptions": ["Cuando coinciden 'le/les' con 'lo/la/los/las', 'le/les' se convierte en 'se'."]
+    },
+    {
+      "id": "g_es_008",
+      "title": "Comparativos y Superlativos",
+      "explanation": "Se usan para comparar cualidades. 'Más...que' para comparativo, 'el/la más...' para superlativo.",
+      "examples": [
+        "Ella es más alta que yo.",
+        "Este es el restaurante más caro de la ciudad.",
+        "Él habla tan bien como tú."
+      ],
+      "level": "A2",
+      "category": "grammar_core",
+      "exceptions": ["Algunos adjetivos tienen formas irregulares: bueno → mejor, malo → peor."]
+    },
+    {
+      "id": "g_es_009",
+      "title": "Voz Pasiva",
+      "explanation": "Se forma con 'ser' + participio, usada cuando el foco está en la acción o el receptor.",
+      "examples": [
+        "El libro fue escrito por ella.",
+        "La casa fue construida en 1990.",
+        "Los documentos serán enviados mañana."
+      ],
+      "level": "B1",
+      "category": "verb_tenses",
+      "exceptions": ["En el habla cotidiana se prefiere la voz activa; la pasiva es más formal."]
+    },
+    {
+      "id": "g_es_010",
+      "title": "Condicional Simple",
+      "explanation": "Se usa para expresar hipótesis, deseos corteses y situaciones condicionales.",
+      "examples": [
+        "Me gustaría un café.",
+        "Si tuviera dinero, viajaría más.",
+        "Ella podría ayudarnos."
+      ],
+      "level": "B1",
+      "category": "conditionals",
+      "exceptions": ["Muy usado para peticiones corteses: '¿Podrías...?'"]
+    },
+    {
+      "id": "g_es_011",
+      "title": "Verbos Reflexivos",
+      "explanation": "Indican que el sujeto realiza y recibe la acción. Se usan con pronombres reflexivos (me, te, se, nos, os, se).",
+      "examples": [
+        "Me levanto a las siete.",
+        "Ella se ducha por la mañana.",
+        "Nos vestimos rápido."
+      ],
+      "level": "A2",
+      "category": "grammar_core",
+      "exceptions": ["Algunos verbos cambian de significado al ser reflexivos: ir vs irse."]
+    },
+    {
+      "id": "g_es_012",
+      "title": "Artículos (el, la, un, una)",
+      "explanation": "Los artículos concuerdan en género y número con el sustantivo. 'El/la' son definidos, 'un/una' indefinidos.",
+      "examples": [
+        "Vi un perro en el parque.",
+        "El perro era muy amigable.",
+        "Ella es una ingeniera.",
+        "El sol sale por el este."
+      ],
+      "level": "A1",
+      "category": "grammar_core",
+      "exceptions": ["Sustantivos femeninos que empiezan con 'a' tónica usan 'el': 'el agua', pero 'las aguas'."]
     }
   ]
 }

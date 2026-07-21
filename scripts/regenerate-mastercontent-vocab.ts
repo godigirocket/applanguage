@@ -40,6 +40,12 @@ const TOPIC_MAP: Record<string, LessonTopic> = {
   "pt|Saúde e Sentimentos": "health",
 };
 
+const TRANSLATION_QUIZ_PROMPT: Record<TargetLanguage, (term: string) => string> = {
+  en: (term) => `What is the correct translation for "${term}"?`,
+  es: (term) => `¿Cuál es la traducción correcta para "${term}"?`,
+  pt: (term) => `Qual é a tradução correta para "${term}"?`,
+};
+
 const LEVEL_TO_DIFFICULTY: Record<string, "beginner" | "intermediate" | "advanced"> = {
   A1: "beginner",
   A2: "beginner",
@@ -136,7 +142,8 @@ for (const lesson of lessons) {
   // the quiz step immediately following the vocab step, not any later
   // grammar/idiom quiz elsewhere in the lesson.
   const vocabIdx = lesson.steps.findIndex((s) => s.type === "vocab");
-  const quizStep = vocabIdx >= 0 ? lesson.steps.slice(vocabIdx + 1).find((s) => s.type === "quiz") : undefined;
+  const quizStep =
+    vocabIdx >= 0 ? lesson.steps.slice(vocabIdx + 1).find((s) => s.type === "quiz") : undefined;
   if (quizStep) {
     const target = vocabItems[0];
     const distractors = vocabItems.slice(1).map((v) => v.translation);
@@ -148,14 +155,43 @@ for (const lesson of lessons) {
       seed: `${lesson.id}-quiz`,
     }).find((v) => v.term !== target.term && !distractors.includes(v.translation));
     const options = shuffleWithSeed(
-      [target.translation, ...distractors, extra?.translation].filter(
-        (v, i, arr): v is string => Boolean(v) && arr.indexOf(v) === i,
-      ).slice(0, 4),
+      [target.translation, ...distractors, extra?.translation]
+        .filter((v, i, arr): v is string => Boolean(v) && arr.indexOf(v) === i)
+        .slice(0, 4),
       hashString(lesson.id),
     );
-    quizStep.question = `Qual é a tradução correta para "${target.term}"?`;
+    quizStep.question = TRANSLATION_QUIZ_PROMPT[glossLanguage](target.term);
     quizStep.options = options;
     quizStep.correct = options.indexOf(target.translation);
+  }
+
+  // Fix the drag-and-drop step: it used a fixed generic filler pool
+  // ("apple"/"house"/"libro") for distractor tokens regardless of the
+  // sentence's actual language, so every single lesson showed literal
+  // English/Spanish words mixed into e.g. a Portuguese sentence-ordering
+  // exercise. Replace distractors with real single-word terms in the
+  // correct language, drawn from this lesson's topic.
+  const dragdropStep = lesson.steps.find((s) => s.type === "dragdrop") as
+    | { tokens?: string[]; answerTokens?: string[] }
+    | undefined;
+  if (dragdropStep?.answerTokens && dragdropStep.tokens) {
+    const answerSet = new Set(dragdropStep.answerTokens.map((w) => w.toLowerCase()));
+    const distractorPool = getVocabularyForTopic(topic, lesson.language, {
+      difficulty,
+      count: 10,
+      seed: `${lesson.id}-dragdrop`,
+    })
+      .flatMap((v) => v.term.split(/\s+/))
+      .filter((w) => !answerSet.has(w.toLowerCase()));
+    const neededDistractors = dragdropStep.tokens.length - dragdropStep.answerTokens.length;
+    const realDistractors = shuffleWithSeed(
+      [...new Set(distractorPool)],
+      hashString(lesson.id + "-dd"),
+    ).slice(0, Math.max(0, neededDistractors));
+    dragdropStep.tokens = shuffleWithSeed(
+      [...dragdropStep.answerTokens, ...realDistractors],
+      hashString(lesson.id + "-dd-shuffle"),
+    );
   }
 
   // Replace the listening step, reusing the second vocab word so audioText
@@ -171,9 +207,9 @@ for (const lesson of lessons) {
       seed: `${lesson.id}-listening`,
     }).find((v) => v.term !== target.term && !distractorWords.includes(v.term));
     const options = shuffleWithSeed(
-      [target.term, ...distractorWords, extra?.term].filter(
-        (v, i, arr): v is string => Boolean(v) && arr.indexOf(v) === i,
-      ).slice(0, 4),
+      [target.term, ...distractorWords, extra?.term]
+        .filter((v, i, arr): v is string => Boolean(v) && arr.indexOf(v) === i)
+        .slice(0, 4),
       hashString(lesson.id + "-listen"),
     );
     listeningStep.audioText = target.example;
