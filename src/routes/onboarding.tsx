@@ -59,7 +59,7 @@ const STEPS = [
 function OnboardingPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage } = useStore();
+  const { interfaceLanguage, setTargetLanguage } = useStore();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [textVal, setTextVal] = useState("");
@@ -133,12 +133,20 @@ function OnboardingPage() {
     if (!user) return;
     setIsSaving(true);
 
+    // The onboarding question is "which language do you want to learn" —
+    // that's the *target* language, not the interface language. It used to be
+    // saved into the `language` column (which LanguageSwitcher.tsx treats as
+    // the interface language everywhere else) and was never applied to the
+    // local store, so the app kept using whatever targetLanguage it already
+    // had (default "en") regardless of what was picked here.
+    const chosenTargetLanguage = (finalAnswers.target_language as "pt" | "en" | "es" | undefined) || "en";
+
     try {
       const { error } = await supabase
         .from("profiles")
         .update({
           full_name: finalAnswers.full_name || "Estudante",
-          language: (finalAnswers.target_language as "pt" | "en" | undefined) || "en",
+          target_language: chosenTargetLanguage,
           level: (finalAnswers.level as any) || "beginner",
           onboarding_done: true,
           onboarding_answers: finalAnswers,
@@ -146,6 +154,8 @@ function OnboardingPage() {
         .eq("id", user.id);
 
       if (error) throw error;
+
+      setTargetLanguage(chosenTargetLanguage);
 
       toast.success(
         isPT
