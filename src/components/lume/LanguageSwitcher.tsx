@@ -37,12 +37,16 @@ export function LanguageSwitcher() {
   const handleSetTarget = async (code: "pt" | "en" | "es") => {
     setTargetLanguage(code);
     localStorage.setItem("lume_target_language", code);
+    setOpen(false);
     if (user) {
       supabase
         .from("profiles")
         .update({ target_language: code } as any)
         .eq("id", user.id)
-        .then(() => {});
+        .then(({ error }) => {
+          if (error)
+            console.warn("[LanguageSwitcher] Could not save target language:", error.message);
+        });
     }
     window.dispatchEvent(new Event("language-changed"));
   };
@@ -51,12 +55,16 @@ export function LanguageSwitcher() {
     setInterfaceLanguage(code);
     await i18n.changeLanguage(code);
     localStorage.setItem("lume_interface_language", code);
+    setOpen(false);
     if (user) {
       supabase
         .from("profiles")
         .update({ language: code } as any)
         .eq("id", user.id)
-        .then(() => {});
+        .then(({ error }) => {
+          if (error)
+            console.warn("[LanguageSwitcher] Could not save interface language:", error.message);
+        });
     }
   };
 

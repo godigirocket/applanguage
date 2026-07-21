@@ -13,24 +13,59 @@ export const Route = createFileRoute("/quiz-hub")({
 const QUIZ_TYPES = [
   {
     id: "vocab",
-    title: "Vocabulário Rápido",
-    desc: "Traduza e associe palavras sob pressão.",
+    title: { pt: "Vocabulário Rápido", en: "Quick Vocabulary" },
+    desc: { pt: "Traduza e associe palavras sob pressão.", en: "Translate and match words under pressure." },
     category: "vocabulary",
     color: "#4CAF50",
   },
   {
     id: "grammar",
-    title: "Verdadeiro ou Falso",
-    desc: "Teste suas regras gramaticais.",
+    title: { pt: "Verdadeiro ou Falso", en: "True or False" },
+    desc: { pt: "Teste suas regras gramaticais.", en: "Test your grammar rules." },
     category: "grammar",
     color: "#D4A23B",
   },
   {
-    id: "mixed",
-    title: "Desafio Misto",
-    desc: "Uma mistura de tudo para testar seus limites.",
-    category: "culture",
+    id: "listening",
+    title: { pt: "Escuta", en: "Listening" },
+    desc: { pt: "Ouça a palavra e escolha a opção certa.", en: "Listen to the word and pick the right option." },
+    category: "listening",
+    color: "#1B3A4B",
+  },
+  {
+    id: "pronunciation",
+    title: { pt: "Pronúncia", en: "Pronunciation" },
+    desc: { pt: "Fale em voz alta e receba uma nota na hora.", en: "Speak out loud and get an instant score." },
+    category: "speaking",
+    color: "#C4714A",
+  },
+  {
+    id: "review",
+    title: { pt: "Revisão", en: "Review" },
+    desc: { pt: "Revise as palavras que você salvou.", en: "Review the words you've saved." },
+    category: "all",
+    color: "#9B59B6",
+  },
+  {
+    id: "travel",
+    title: { pt: "Viagem", en: "Travel" },
+    desc: { pt: "Vocabulário de aeroporto, hotel e turismo.", en: "Airport, hotel and travel vocabulary." },
+    category: "travel",
+    color: "#2D4A3E",
+  },
+  {
+    id: "business",
+    title: { pt: "Negócios", en: "Business" },
+    desc: { pt: "Vocabulário de trabalho e entrevistas.", en: "Work and interview vocabulary." },
+    category: "professional",
     color: "#4E8FB7",
+  },
+  {
+    id: "mixed",
+    title: { pt: "Desafio Misto", en: "Mixed Challenge" },
+    desc: { pt: "Uma mistura de tudo para testar seus limites.", en: "A mix of everything to test your limits." },
+    category: "culture",
+    color: "#D4A23B",
   },
 ];
 
@@ -128,10 +163,10 @@ function QuizHubPage() {
                       marginBottom: "4px",
                     }}
                   >
-                    {quiz.title}
+                    {isPt ? quiz.title.pt : quiz.title.en}
                   </h3>
                   <p style={{ fontSize: "14px", color: "var(--text-secondary)", fontWeight: 500 }}>
-                    {quiz.desc}
+                    {isPt ? quiz.desc.pt : quiz.desc.en}
                   </p>
                 </div>
                 <div

@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
 import { getUserStats } from "@/lib/db";
@@ -25,7 +25,8 @@ import {
   Heart,
   CheckCircle,
 } from "@/components/lume/CustomIcons";
-import { generateLessons, generateQuizzes, CITIES, SIMULATED_USERS } from "@/data/contentEngine";
+import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
+import { SIMULATED_USERS } from "@/data/communityUsers";
 import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
 
@@ -47,16 +48,33 @@ function HomePage() {
 
   const isPT = interfaceLanguage === "pt";
 
-  // Generate content dynamically based on targetLanguage
-  const CONTINUE_LEARNING = useMemo(
-    () => generateLessons(targetLanguage, 8, completedLessons),
-    [targetLanguage, completedLessons]
-  );
+  // Generate content dynamically based on targetLanguage. generateLessons/
+  // generateQuizzes are async because they dynamically import() only the
+  // target language's lesson file instead of one bundle with all 3 languages.
+  const [continueLearning, setContinueLearning] = useState<any[]>([]);
+  const [dailyQuizzes, setDailyQuizzes] = useState<any[]>([]);
+  const CONTINUE_LEARNING = continueLearning;
+  const DAILY_QUIZZES = dailyQuizzes;
 
-  const DAILY_QUIZZES = useMemo(
-    () => generateQuizzes(targetLanguage, 4),
-    [targetLanguage]
-  );
+  useEffect(() => {
+    let cancelled = false;
+    generateLessons(targetLanguage, 8, completedLessons).then((lessons) => {
+      if (!cancelled) setContinueLearning(lessons);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [targetLanguage, completedLessons]);
+
+  useEffect(() => {
+    let cancelled = false;
+    generateQuizzes(targetLanguage, 4).then((quizzes) => {
+      if (!cancelled) setDailyQuizzes(quizzes);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [targetLanguage]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);

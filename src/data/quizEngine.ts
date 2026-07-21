@@ -80,14 +80,27 @@ export function generateGrammarQuiz(
   if (!filtered.length) return [];
   const selected = filtered.sort(() => 0.5 - Math.random()).slice(0, count);
 
-  return selected.map((item) => ({
-    id: `q_gram_${item.id}`,
-    type: "true_false" as const,
-    prompt: `A regra "${item.title}" diz que: ${item.explanation}`,
-    options: ["Verdadeiro", "Falso"],
-    correctAnswer: "Verdadeiro",
-    explanation: item.exceptions?.[0],
-  }));
+  return selected.map((item) => {
+    // Mix in genuinely false statements (this rule's title paired with a
+    // *different* rule's explanation) so the answer isn't always "Verdadeiro" —
+    // otherwise the quiz is gameable by always picking the same option.
+    const isFalseVariant = Math.random() < 0.5;
+    const otherItems = filtered.filter((d) => d.id !== item.id);
+    const wrongExplanation =
+      otherItems.length > 0 ? otherItems[Math.floor(Math.random() * otherItems.length)].explanation : null;
+
+    const shownExplanation = isFalseVariant && wrongExplanation ? wrongExplanation : item.explanation;
+    const isActuallyTrue = shownExplanation === item.explanation;
+
+    return {
+      id: `q_gram_${item.id}${isActuallyTrue ? "" : "_false"}`,
+      type: "true_false" as const,
+      prompt: `A regra "${item.title}" diz que: ${shownExplanation}`,
+      options: ["Verdadeiro", "Falso"],
+      correctAnswer: isActuallyTrue ? "Verdadeiro" : "Falso",
+      explanation: isActuallyTrue ? item.exceptions?.[0] : `Na verdade, "${item.title}" significa: ${item.explanation}`,
+    };
+  });
 }
 
 export function generateIdiomQuiz(lang: Language, count: number = 3): QuizQuestion[] {

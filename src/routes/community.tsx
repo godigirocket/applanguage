@@ -19,7 +19,7 @@ import {
   Video,
   Music,
 } from "@/components/lume/CustomIcons";
-import { SIMULATED_USERS } from "@/data/contentEngine";
+import { SIMULATED_USERS } from "@/data/communityUsers";
 
 export const Route = createFileRoute("/community")({
   component: CommunityPage,

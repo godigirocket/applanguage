@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { BadgeGrid } from "@/components/lume/BadgeGrid";
 import { useStore } from "@/hooks/useStore";
+import { getQuizStats } from "@/lib/language-content";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer,
@@ -130,8 +131,7 @@ function ProgressPage() {
         totalMinutes: result.stats.totalMinutes,
         streak: result.stats.streak,
         completedTopics,
-        quizzesCompleted: 0,
-        bestQuizStreak: 0,
+        ...getQuizStats(),
       });
       setBadges(badgeStatus);
       setLoaded(true);

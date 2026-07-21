@@ -214,6 +214,14 @@ function RootInner() {
     currentPath === "/onboarding" ||
     currentPath === "/pricing" ||
     currentPath === "/checkout" ||
+    currentPath === "/produto" ||
+    currentPath === "/como-usar" ||
+    currentPath === "/entrega" ||
+    currentPath === "/rastrear-pedido" ||
+    currentPath === "/faq" ||
+    currentPath === "/contato" ||
+    currentPath === "/privacidade" ||
+    currentPath === "/trocas-e-devolucoes" ||
     currentPath === "/terms" ||
     currentPath === "/support" ||
     currentPath === "/refund" ||

@@ -15,6 +15,7 @@ import { completeLesson as completeLessonDB, upsertLessonProgress, getLessonProg
 import { generateLessonCatalog } from "@/data/lessonCatalog";
 import { toast } from "sonner";
 import { PremiumGate } from "@/components/PremiumGate";
+import { PronunciationChallenge } from "@/components/PronunciationChallenge";
 import { supabase } from "@/integrations/supabase/client";
 import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
@@ -60,6 +61,7 @@ function LessonPage() {
   // of which language the user was actually learning.
   const engineVocabStep = lesson?.engineSteps?.find(s => s.type === "vocabulary");
   const engineQuizStep = lesson?.engineSteps?.find(s => s.type === "quiz");
+  const engineSpeakingStep = lesson?.engineSteps?.find(s => s.type === "speaking");
 
   const vocab = engineVocabStep?.words?.length
     ? engineVocabStep.words
@@ -79,9 +81,14 @@ function LessonPage() {
     : QUIZ_BY_TYPE[lessonType] || QUIZ_BY_TYPE.Vocabulary || [];
   const isCompleted = completedLessons.includes(id);
 
-  const [step, setStep] = useState<"intro" | "vocab" | "quiz" | "done">("intro");
+  const [step, setStep] = useState<"intro" | "vocab" | "speaking" | "quiz" | "done">("intro");
   const [vocabIdx, setVocabIdx] = useState(0);
   const [quizIdx, setQuizIdx] = useState(0);
+  const [speakingResolved, setSpeakingResolved] = useState<boolean | null>(null);
+
+  // Only offer the speaking step when there's an actual phrase to practice —
+  // it must be fully skippable, never a blocker for lessons without one.
+  const speakingPhrase = engineSpeakingStep?.targetPhrase || vocab[0]?.example;
   const [selected, setSelected] = useState<string | null>(null);
   const [answered, setAnswered] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
@@ -444,9 +451,41 @@ function LessonPage() {
                 {isPT ? "Próximo →" : "Next →"}
               </button>
             ) : (
-              <button onClick={() => setStep("quiz")} style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: `linear-gradient(135deg, ${color}, ${color}cc)`, color: "white", fontSize: "14px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+              <button onClick={() => setStep(speakingPhrase ? "speaking" : "quiz")} style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: `linear-gradient(135deg, ${color}, ${color}cc)`, color: "white", fontSize: "14px", fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                 <Brain size={18} aria-hidden="true" />
-                {isPT ? "Fazer Quiz →" : "Take Quiz →"}
+                {speakingPhrase ? (isPT ? "Praticar Pronúncia →" : "Practice Speaking →") : isPT ? "Fazer Quiz →" : "Take Quiz →"}
+              </button>
+            )}
+          </div>
+        </main>
+      )}
+
+      {/* ── SPEAKING ── */}
+      {step === "speaking" && speakingPhrase && (
+        <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}>
+            <button onClick={() => setStep("vocab")} style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--surface-raised)", border: "1px solid var(--border)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <ArrowLeft size={16} color="var(--text-secondary)" />
+            </button>
+            <h2 style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>
+              {isPT ? "Praticar Pronúncia" : "Practice Speaking"}
+            </h2>
+          </div>
+
+          <PronunciationChallenge
+            targetPhrase={speakingPhrase}
+            targetLanguage={(lesson?.language as "en" | "es" | "pt") || "en"}
+            onSuccess={() => setSpeakingResolved(true)}
+            onFailure={() => setSpeakingResolved(false)}
+          />
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            <button onClick={() => setStep("quiz")} style={{ flex: 1, padding: "14px", borderRadius: "12px", border: "2px solid var(--border)", background: "var(--card-bg)", color: "var(--text-secondary)", fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
+              {isPT ? "Pular" : "Skip"}
+            </button>
+            {speakingResolved !== null && (
+              <button onClick={() => setStep("quiz")} style={{ flex: 2, padding: "14px", borderRadius: "12px", border: "none", background: color, color: "white", fontSize: "14px", fontWeight: 800, cursor: "pointer" }}>
+                {isPT ? "Continuar →" : "Continue →"}
               </button>
             )}
           </div>
@@ -457,7 +496,7 @@ function LessonPage() {
       {step === "quiz" && (
         <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}>
-            <button onClick={() => setStep("vocab")} style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--surface-raised)", border: "1px solid var(--border)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <button onClick={() => setStep(speakingPhrase ? "speaking" : "vocab")} style={{ width: "36px", height: "36px", borderRadius: "50%", background: "var(--surface-raised)", border: "1px solid var(--border)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <ArrowLeft size={16} color="var(--text-secondary)" />
             </button>
             <div style={{ flex: 1, height: "8px", background: "var(--border)", borderRadius: "99px", overflow: "hidden" }}>

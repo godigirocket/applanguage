@@ -2,15 +2,24 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Volume2, CheckCircle, AlertTriangle, RefreshCw } from "@/components/lume/CustomIcons";
 import { toast } from "sonner";
+import { isSTTSupported } from "@/lib/language-apis/webSpeech";
+
+const SPEECH_LOCALE: Record<"en" | "es" | "pt", string> = {
+  en: "en-US",
+  es: "es-ES",
+  pt: "pt-BR",
+};
 
 interface PronunciationChallengeProps {
   targetPhrase: string;
+  targetLanguage?: "en" | "es" | "pt";
   onSuccess?: (score: number) => void;
   onFailure?: () => void;
 }
 
 export function PronunciationChallenge({
   targetPhrase,
+  targetLanguage = "en",
   onSuccess,
   onFailure,
 }: PronunciationChallengeProps) {
@@ -21,18 +30,17 @@ export function PronunciationChallenge({
   const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
-    // Initialize Web Speech API
-    const SpeechRecognition =
-      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
+    if (!isSTTSupported()) {
       setError("Seu navegador não suporta reconhecimento de fala. Tente o Chrome.");
       return;
     }
+    const SpeechRecognitionCtor =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-    const rec = new SpeechRecognition();
+    const rec = new SpeechRecognitionCtor();
     rec.continuous = false;
     rec.interimResults = false;
-    rec.lang = "en-US"; // Default language
+    rec.lang = SPEECH_LOCALE[targetLanguage];
 
     rec.onstart = () => {
       setIsRecording(true);
@@ -61,7 +69,7 @@ export function PronunciationChallenge({
     };
 
     recognitionRef.current = rec;
-  }, []);
+  }, [targetLanguage]);
 
   const calculateScore = (spoken: string) => {
     const cleanTarget = targetPhrase
@@ -113,7 +121,7 @@ export function PronunciationChallenge({
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(targetPhrase);
-    utter.lang = "en-US";
+    utter.lang = SPEECH_LOCALE[targetLanguage];
     window.speechSynthesis.speak(utter);
   };
 

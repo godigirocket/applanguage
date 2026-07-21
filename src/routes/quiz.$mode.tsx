@@ -317,6 +317,7 @@ function QuizPage() {
 
           <PronunciationChallenge
             targetPhrase={voicePhrases[voiceStep]}
+            targetLanguage={targetLanguage}
             onSuccess={() => setVoiceSuccess(true)}
           />
 
