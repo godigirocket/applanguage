@@ -35,9 +35,10 @@ interface TopicScenarioProps {
 
 /**
  * Full-bleed ambient background: three soft blurred blobs in a topic-specific
- * palette, drifting slowly. Meant to sit behind real content (position it
- * with an absolutely-positioned wrapper, inset:0, negative z-index) so each
- * lesson/topic feels visually distinct without competing with the content.
+ * palette, drifting slowly. Fixed to the viewport (not the page's full
+ * scroll height) so the percentage-based blob offsets below stay anchored to
+ * what's actually visible — on long scrolling pages an absolutely-positioned
+ * wrapper spanning the whole document pushes "top: -10%" far off-screen.
  */
 export function TopicScenario({ topic, intensity = "normal" }: TopicScenarioProps) {
   const palette = PALETTES[topic] ?? PALETTES.daily;
@@ -47,7 +48,7 @@ export function TopicScenario({ topic, intensity = "normal" }: TopicScenarioProp
     <div
       aria-hidden="true"
       style={{
-        position: "absolute",
+        position: "fixed",
         inset: 0,
         overflow: "hidden",
         zIndex: 0,

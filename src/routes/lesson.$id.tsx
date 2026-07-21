@@ -510,7 +510,7 @@ function LessonPage() {
         overflow: "hidden",
       }}
     >
-      <TopicScenario topic={scenarioTopicFor(topic || id)} />
+      <TopicScenario topic={lesson?.topic || scenarioTopicFor(topic || id)} />
 
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />

@@ -15,7 +15,7 @@ const structuredData = {
   name: "LumeLearn",
   applicationCategory: "EducationalApplication",
   operatingSystem: "Web",
-  description: "Plataforma de idiomas com 630+ lições interativas, prática de conversação com IA e gamificação.",
+  description: "Plataforma de idiomas com 700+ lições interativas, prática de conversação com IA e gamificação.",
   offers: {
     "@type": "Offer",
     price: "0",
@@ -28,7 +28,7 @@ const structuredData = {
     ratingCount: "50",
     bestRating: "5",
   },
-  featureList: "630+ lições interativas, 3 idiomas (EN/ES/PT), 6 níveis CEFR, 5 modos de jogo, IA conversacional, Gamificação com XP",
+  featureList: "700+ lições interativas, 3 idiomas (EN/ES/PT), 6 níveis CEFR, 5 modos de jogo, IA conversacional, Gamificação com XP",
   inLanguage: ["pt-BR", "en", "es"],
 };
 
@@ -39,13 +39,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Plataforma de idiomas com 630+ lições interativas, prática de conversação com IA e gamificação. 3 idiomas, 6 níveis CEFR, 5 modos de jogo. Comece grátis.",
+          "Plataforma de idiomas com 700+ lições interativas, prática de conversação com IA e gamificação. 3 idiomas, 6 níveis CEFR, 5 modos de jogo. Comece grátis.",
       },
       { property: "og:title", content: "LumeLearn — Aprenda Idiomas de Forma Inteligente" },
       {
         property: "og:description",
         content:
-          "630+ lições, conversação com IA, 5 modos de jogo. Aprenda inglês, espanhol e português com gamificação. Comece grátis.",
+          "700+ lições, conversação com IA, 5 modos de jogo. Aprenda inglês, espanhol e português com gamificação. Comece grátis.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -513,7 +513,7 @@ function Landing() {
         <section style={{ maxWidth: "1120px", margin: "clamp(48px, 10vw, 80px) auto 0", padding: "0 clamp(16px, 3vw, 24px)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))", gap: "clamp(16px, 3vw, 20px)" }}>
             {[
-              { value: "630+", label: isPT ? "Lições estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
+              { value: "700+", label: isPT ? "Lições estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
               { value: "6", label: isPT ? "Níveis CEFR" : "CEFR Levels", color: "#1B3A4B", Icon: Zap },
               { value: "5", label: isPT ? "Modos de jogo" : "Game modes", color: "#C4714A", Icon: Gamepad2 },
               { value: "3", label: isPT ? "Idiomas disponíveis" : "Available languages", color: "#9B59B6", Icon: Globe },
@@ -646,7 +646,7 @@ function Landing() {
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 120px), 1fr))", gap: "clamp(16px, 3vw, 20px)", maxWidth: "900px", margin: "0 auto" }}>
                 {[
-                  { label: isPT ? "Lições" : "Lessons", value: "630+", icon: Book },
+                  { label: isPT ? "Lições" : "Lessons", value: "700+", icon: Book },
                   { label: isPT ? "Níveis" : "Levels", value: "6", icon: Brain },
                   { label: isPT ? "Jogos" : "Games", value: "5", icon: Star },
                   { label: isPT ? "Idiomas" : "Languages", value: "3", icon: Compass },
@@ -926,8 +926,8 @@ function Landing() {
                   icon: "📚",
                   title: isPT ? "Quer estudar do básico ao avançado" : "Want to study from beginner to advanced",
                   desc: isPT 
-                    ? "630+ lições estruturadas em 6 níveis CEFR. Do A1 ao C2, com progresso salvo automaticamente." 
-                    : "630+ structured lessons across 6 CEFR levels. From A1 to C2, with progress saved automatically.",
+                    ? "700+ lições estruturadas em 6 níveis CEFR. Do A1 ao C2, com progresso salvo automaticamente." 
+                    : "700+ structured lessons across 6 CEFR levels. From A1 to C2, with progress saved automatically.",
                 },
                 {
                   icon: "🎮",

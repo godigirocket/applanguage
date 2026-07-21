@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
+import { TopicScenario } from "@/components/lume/TopicScenario";
+import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useStore } from "@/hooks/useStore";
@@ -31,7 +33,8 @@ const FEED_POSTS = [
     id: 1,
     user: SIMULATED_USERS[0],
     type: "achievement",
-    content: "Acabei de completar minha 100ª lição! Quem diria que eu conseguiria chegar tão longe? #Milestone",
+    content:
+      "Acabei de completar minha 100ª lição! Quem diria que eu conseguiria chegar tão longe? #Milestone",
     image: null,
     likes: 234,
     comments: 18,
@@ -43,7 +46,8 @@ const FEED_POSTS = [
     id: 2,
     user: SIMULATED_USERS[1],
     type: "question",
-    content: "Alguém pode me explicar a diferença entre 'por' e 'para' em espanhol? Sempre me confundo com esses dois! 😅",
+    content:
+      "Alguém pode me explicar a diferença entre 'por' e 'para' em espanhol? Sempre me confundo com esses dois! 😅",
     image: null,
     likes: 89,
     comments: 34,
@@ -67,7 +71,8 @@ const FEED_POSTS = [
     id: 4,
     user: SIMULATED_USERS[3],
     type: "tip",
-    content: "DICA: Assistir séries com legendas no idioma que você está aprendendo (não na sua língua nativa) ajuda MUITO! Comecei fazendo isso e minha compreensão melhorou 3x",
+    content:
+      "DICA: Assistir séries com legendas no idioma que você está aprendendo (não na sua língua nativa) ajuda MUITO! Comecei fazendo isso e minha compreensão melhorou 3x",
     image: null,
     likes: 312,
     comments: 42,
@@ -91,7 +96,8 @@ const FEED_POSTS = [
     id: 6,
     user: SIMULATED_USERS[0],
     type: "challenge",
-    content: "DESAFIO: Tente ter uma conversa de 5 minutos hoje usando APENAS o idioma que está aprendendo. Quem aceita? 💪",
+    content:
+      "DESAFIO: Tente ter uma conversa de 5 minutos hoje usando APENAS o idioma que está aprendendo. Quem aceita? 💪",
     image: null,
     likes: 178,
     comments: 56,
@@ -103,7 +109,8 @@ const FEED_POSTS = [
     id: 7,
     user: SIMULATED_USERS[1],
     type: "cultural",
-    content: "Acabei de visitar Tóquio e AMEI! A experiência de imersão cultural é incrível. Aprendi mais em 2 semanas do que em 6 meses estudando sozinho",
+    content:
+      "Acabei de visitar Tóquio e AMEI! A experiência de imersão cultural é incrível. Aprendi mais em 2 semanas do que em 6 meses estudando sozinho",
     image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80",
     likes: 423,
     comments: 78,
@@ -115,7 +122,8 @@ const FEED_POSTS = [
     id: 8,
     user: SIMULATED_USERS[2],
     type: "resource",
-    content: "Top 3 recursos gratuitos que estou usando:\n1. Podcasts nativos no Spotify\n2. Apps de troca de idiomas\n3. Canais do YouTube\n\nQuais vocês recomendam?",
+    content:
+      "Top 3 recursos gratuitos que estou usando:\n1. Podcasts nativos no Spotify\n2. Apps de troca de idiomas\n3. Canais do YouTube\n\nQuais vocês recomendam?",
     image: null,
     likes: 289,
     comments: 124,
@@ -170,252 +178,502 @@ function CommunityPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
-      <AppHeader />
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "var(--bg)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <TopicScenario topic={pickRotatingTopic("community")} />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <AppHeader />
 
-      {/* HEADER */}
-      <div style={{ background: "var(--surface-raised)", borderBottom: "2px solid var(--border)", padding: "24px" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-          <h1 style={{ fontSize: "32px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "8px" }}>
-            {isPT ? "Comunidade" : "Community"}
-          </h1>
-          <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
-            {isPT ? "Conecte-se com milhares de estudantes ao redor do mundo" : "Connect with thousands of learners worldwide"}
-          </p>
+        {/* HEADER */}
+        <div
+          style={{
+            background: "var(--surface-raised)",
+            borderBottom: "2px solid var(--border)",
+            padding: "24px",
+          }}
+        >
+          <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+            <h1
+              style={{
+                fontSize: "32px",
+                fontWeight: 900,
+                color: "var(--text-primary)",
+                marginBottom: "8px",
+              }}
+            >
+              {isPT ? "Comunidade" : "Community"}
+            </h1>
+            <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
+              {isPT
+                ? "Conecte-se com milhares de estudantes ao redor do mundo"
+                : "Connect with thousands of learners worldwide"}
+            </p>
 
-          {/* STATS BAR */}
-          <div style={{ display: "flex", gap: "32px", marginTop: "20px", flexWrap: "wrap" }}>
-            {[
-              { icon: Users, label: isPT ? "Membros Online" : "Members Online", value: "2,847" },
-              { icon: MessageCircle, label: isPT ? "Posts Hoje" : "Posts Today", value: "156" },
-              { icon: Globe, label: isPT ? "Países" : "Countries", value: "89" },
-            ].map((stat, i) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "var(--brand)15", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <stat.icon size={20} color="var(--brand)" />
-                </div>
-                <div>
-                  <div style={{ fontSize: "20px", fontWeight: 900, color: "var(--text-primary)" }}>{stat.value}</div>
-                  <div style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600 }}>{stat.label}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "32px" }}>
-          
-          {/* LEFT SIDEBAR - FILTERS */}
-          <aside>
-            <div style={{ background: "var(--surface-raised)", borderRadius: "16px", border: "2px solid var(--border)", padding: "20px", position: "sticky", top: "24px" }}>
-              <h3 style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "16px" }}>
-                {isPT ? "Filtros" : "Filters"}
-              </h3>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                {POST_TYPES.map((type) => (
-                  <button
-                    key={type.id}
-                    onClick={() => setActiveFilter(type.id)}
+            {/* STATS BAR */}
+            <div style={{ display: "flex", gap: "32px", marginTop: "20px", flexWrap: "wrap" }}>
+              {[
+                { icon: Users, label: isPT ? "Membros Online" : "Members Online", value: "2,847" },
+                { icon: MessageCircle, label: isPT ? "Posts Hoje" : "Posts Today", value: "156" },
+                { icon: Globe, label: isPT ? "Países" : "Countries", value: "89" },
+              ].map((stat, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div
                     style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "50%",
+                      background: "var(--brand)15",
                       display: "flex",
                       alignItems: "center",
-                      gap: "12px",
-                      padding: "12px 16px",
-                      borderRadius: "12px",
-                      border: "none",
-                      background: activeFilter === type.id ? "var(--brand)15" : "transparent",
-                      color: activeFilter === type.id ? "var(--brand)" : "var(--text-primary)",
-                      fontWeight: activeFilter === type.id ? 700 : 600,
-                      fontSize: "14px",
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                      textAlign: "left",
+                      justifyContent: "center",
                     }}
                   >
-                    <type.icon size={18} />
-                    {type.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* TRENDING TAGS */}
-              <div style={{ marginTop: "32px" }}>
-                <h3 style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "16px" }}>
-                  {isPT ? "Trending" : "Trending"}
-                </h3>
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  {["#milestone", "#grammar", "#streak", "#culture"].map((tag) => (
-                    <div key={tag} style={{ padding: "8px 12px", background: "var(--bg)", borderRadius: "8px", fontSize: "13px", fontWeight: 700, color: "var(--brand)", cursor: "pointer" }}>
-                      {tag}
+                    <stat.icon size={20} color="var(--brand)" />
+                  </div>
+                  <div>
+                    <div
+                      style={{ fontSize: "20px", fontWeight: 900, color: "var(--text-primary)" }}
+                    >
+                      {stat.value}
                     </div>
+                    <div
+                      style={{ fontSize: "12px", color: "var(--text-secondary)", fontWeight: 600 }}
+                    >
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* MAIN CONTENT */}
+        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "32px" }}>
+            {/* LEFT SIDEBAR - FILTERS */}
+            <aside>
+              <div
+                style={{
+                  background: "var(--surface-raised)",
+                  borderRadius: "16px",
+                  border: "2px solid var(--border)",
+                  padding: "20px",
+                  position: "sticky",
+                  top: "24px",
+                }}
+              >
+                <h3
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 800,
+                    color: "var(--text-secondary)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    marginBottom: "16px",
+                  }}
+                >
+                  {isPT ? "Filtros" : "Filters"}
+                </h3>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {POST_TYPES.map((type) => (
+                    <button
+                      key={type.id}
+                      onClick={() => setActiveFilter(type.id)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px",
+                        padding: "12px 16px",
+                        borderRadius: "12px",
+                        border: "none",
+                        background: activeFilter === type.id ? "var(--brand)15" : "transparent",
+                        color: activeFilter === type.id ? "var(--brand)" : "var(--text-primary)",
+                        fontWeight: activeFilter === type.id ? 700 : 600,
+                        fontSize: "14px",
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        textAlign: "left",
+                      }}
+                    >
+                      <type.icon size={18} />
+                      {type.label}
+                    </button>
                   ))}
                 </div>
-              </div>
-            </div>
-          </aside>
 
-          {/* FEED */}
-          <main>
-            {/* CREATE POST */}
-            {user && (
-              <div style={{ background: "var(--surface-raised)", borderRadius: "20px", border: "2px solid var(--border)", padding: "24px", marginBottom: "24px" }}>
-                <div style={{ display: "flex", gap: "16px" }}>
-                  <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "var(--brand)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", flexShrink: 0 }}>
-                    👤
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <textarea
-                      value={postText}
-                      onChange={(e) => setPostText(e.target.value)}
-                      placeholder={isPT ? "Compartilhe sua jornada..." : "Share your journey..."}
-                      style={{
-                        width: "100%",
-                        minHeight: "80px",
-                        padding: "16px",
-                        borderRadius: "12px",
-                        border: "2px solid var(--border)",
-                        background: "var(--bg)",
-                        color: "var(--text-primary)",
-                        fontSize: "15px",
-                        resize: "none",
-                        fontFamily: "inherit",
-                        outline: "none",
-                      }}
-                    />
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "12px" }}>
-                      <div style={{ display: "flex", gap: "8px" }}>
-                        <button style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-secondary)", fontSize: "13px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
-                          <BookOpen size={16} />
-                          {isPT ? "Imagem" : "Image"}
-                        </button>
-                        <button style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text-secondary)", fontSize: "13px", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: "6px" }}>
-                          <Sparkles size={16} />
-                          {isPT ? "Emoji" : "Emoji"}
-                        </button>
-                      </div>
-                      <button
-                        disabled={!postText.trim()}
+                {/* TRENDING TAGS */}
+                <div style={{ marginTop: "32px" }}>
+                  <h3
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: 800,
+                      color: "var(--text-secondary)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    {isPT ? "Trending" : "Trending"}
+                  </h3>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                    {["#milestone", "#grammar", "#streak", "#culture"].map((tag) => (
+                      <div
+                        key={tag}
                         style={{
-                          padding: "10px 24px",
-                          borderRadius: "12px",
-                          border: "none",
-                          background: postText.trim() ? "var(--brand)" : "var(--border)",
-                          color: "white",
-                          fontSize: "14px",
+                          padding: "8px 12px",
+                          background: "var(--bg)",
+                          borderRadius: "8px",
+                          fontSize: "13px",
                           fontWeight: 700,
-                          cursor: postText.trim() ? "pointer" : "not-allowed",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
+                          color: "var(--brand)",
+                          cursor: "pointer",
                         }}
                       >
-                        <Send size={16} />
-                        {isPT ? "Publicar" : "Post"}
-                      </button>
-                    </div>
+                        {tag}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            )}
+            </aside>
 
-            {/* POSTS FEED */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              {FEED_POSTS.map((post, i) => {
-                const PostIcon = getPostIcon(post.type);
-                const postColor = getPostColor(post.type);
-
-                return (
-                  <motion.div
-                    key={post.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    style={{
-                      background: "var(--surface-raised)",
-                      borderRadius: "20px",
-                      border: "2px solid var(--border)",
-                      overflow: "hidden",
-                    }}
-                  >
-                    {/* POST HEADER */}
-                    <div style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)" }}>
-                      <div style={{ display: "flex", alignItems: "start", gap: "12px" }}>
-                        <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "var(--brand)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", flexShrink: 0 }}>
-                          {post.user.avatar}
-                        </div>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                            <span style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>
-                              {post.user.name}
-                            </span>
-                            <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-                              {post.user.country}
-                            </span>
-                            <span style={{ fontSize: "12px", padding: "2px 8px", background: postColor + "20", color: postColor, borderRadius: "6px", fontWeight: 700 }}>
-                              Lvl {post.user.level}
-                            </span>
-                          </div>
-                          <div style={{ fontSize: "13px", color: "var(--text-secondary)", display: "flex", alignItems: "center", gap: "8px" }}>
-                            <PostIcon size={14} color={postColor} />
-                            {post.timestamp}
-                          </div>
-                        </div>
-                      </div>
+            {/* FEED */}
+            <main>
+              {/* CREATE POST */}
+              {user && (
+                <div
+                  style={{
+                    background: "var(--surface-raised)",
+                    borderRadius: "20px",
+                    border: "2px solid var(--border)",
+                    padding: "24px",
+                    marginBottom: "24px",
+                  }}
+                >
+                  <div style={{ display: "flex", gap: "16px" }}>
+                    <div
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "50%",
+                        background: "var(--brand)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "24px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      👤
                     </div>
-
-                    {/* POST CONTENT */}
-                    <div style={{ padding: "20px 24px" }}>
-                      <p style={{ fontSize: "15px", color: "var(--text-primary)", lineHeight: 1.6, marginBottom: "16px", whiteSpace: "pre-wrap" }}>
-                        {post.content}
-                      </p>
-
-                      {post.image && (
-                        <img
-                          src={post.image}
-                          alt="Post"
-                          style={{ width: "100%", borderRadius: "12px", marginBottom: "16px" }}
-                          onError={(e) => {
-                            e.currentTarget.style.display = "none";
+                    <div style={{ flex: 1 }}>
+                      <textarea
+                        value={postText}
+                        onChange={(e) => setPostText(e.target.value)}
+                        placeholder={isPT ? "Compartilhe sua jornada..." : "Share your journey..."}
+                        style={{
+                          width: "100%",
+                          minHeight: "80px",
+                          padding: "16px",
+                          borderRadius: "12px",
+                          border: "2px solid var(--border)",
+                          background: "var(--bg)",
+                          color: "var(--text-primary)",
+                          fontSize: "15px",
+                          resize: "none",
+                          fontFamily: "inherit",
+                          outline: "none",
+                        }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginTop: "12px",
+                        }}
+                      >
+                        <div style={{ display: "flex", gap: "8px" }}>
+                          <button
+                            style={{
+                              padding: "8px 12px",
+                              borderRadius: "8px",
+                              border: "1px solid var(--border)",
+                              background: "var(--bg)",
+                              color: "var(--text-secondary)",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                            }}
+                          >
+                            <BookOpen size={16} />
+                            {isPT ? "Imagem" : "Image"}
+                          </button>
+                          <button
+                            style={{
+                              padding: "8px 12px",
+                              borderRadius: "8px",
+                              border: "1px solid var(--border)",
+                              background: "var(--bg)",
+                              color: "var(--text-secondary)",
+                              fontSize: "13px",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "6px",
+                            }}
+                          >
+                            <Sparkles size={16} />
+                            {isPT ? "Emoji" : "Emoji"}
+                          </button>
+                        </div>
+                        <button
+                          disabled={!postText.trim()}
+                          style={{
+                            padding: "10px 24px",
+                            borderRadius: "12px",
+                            border: "none",
+                            background: postText.trim() ? "var(--brand)" : "var(--border)",
+                            color: "white",
+                            fontSize: "14px",
+                            fontWeight: 700,
+                            cursor: postText.trim() ? "pointer" : "not-allowed",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
                           }}
-                        />
-                      )}
-
-                      {/* TAGS */}
-                      {post.tags && (
-                        <div style={{ display: "flex", gap: "8px", marginBottom: "16px", flexWrap: "wrap" }}>
-                          {post.tags.map((tag) => (
-                            <span key={tag} style={{ padding: "4px 10px", background: "var(--brand)10", color: "var(--brand)", borderRadius: "6px", fontSize: "12px", fontWeight: 700 }}>
-                              #{tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* ACTIONS */}
-                      <div style={{ display: "flex", gap: "24px", paddingTop: "16px", borderTop: "1px solid var(--border)" }}>
-                        <button style={{ display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none", color: "var(--text-secondary)", fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "color 0.2s" }}>
-                          <Heart size={18} />
-                          {post.likes}
-                        </button>
-                        <button style={{ display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none", color: "var(--text-secondary)", fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "color 0.2s" }}>
-                          <MessageCircle size={18} />
-                          {post.comments}
-                        </button>
-                        <button style={{ display: "flex", alignItems: "center", gap: "8px", background: "none", border: "none", color: "var(--text-secondary)", fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "color 0.2s" }}>
-                          <Send size={18} />
-                          {post.shares}
+                        >
+                          <Send size={16} />
+                          {isPT ? "Publicar" : "Post"}
                         </button>
                       </div>
                     </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </main>
+                  </div>
+                </div>
+              )}
+
+              {/* POSTS FEED */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                {FEED_POSTS.map((post, i) => {
+                  const PostIcon = getPostIcon(post.type);
+                  const postColor = getPostColor(post.type);
+
+                  return (
+                    <motion.div
+                      key={post.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      style={{
+                        background: "var(--surface-raised)",
+                        borderRadius: "20px",
+                        border: "2px solid var(--border)",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {/* POST HEADER */}
+                      <div
+                        style={{ padding: "20px 24px", borderBottom: "1px solid var(--border)" }}
+                      >
+                        <div style={{ display: "flex", alignItems: "start", gap: "12px" }}>
+                          <div
+                            style={{
+                              width: "48px",
+                              height: "48px",
+                              borderRadius: "50%",
+                              background: "var(--brand)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              fontSize: "24px",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {post.user.avatar}
+                          </div>
+                          <div style={{ flex: 1 }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                marginBottom: "4px",
+                              }}
+                            >
+                              <span
+                                style={{
+                                  fontSize: "16px",
+                                  fontWeight: 800,
+                                  color: "var(--text-primary)",
+                                }}
+                              >
+                                {post.user.name}
+                              </span>
+                              <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                                {post.user.country}
+                              </span>
+                              <span
+                                style={{
+                                  fontSize: "12px",
+                                  padding: "2px 8px",
+                                  background: postColor + "20",
+                                  color: postColor,
+                                  borderRadius: "6px",
+                                  fontWeight: 700,
+                                }}
+                              >
+                                Lvl {post.user.level}
+                              </span>
+                            </div>
+                            <div
+                              style={{
+                                fontSize: "13px",
+                                color: "var(--text-secondary)",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                              }}
+                            >
+                              <PostIcon size={14} color={postColor} />
+                              {post.timestamp}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* POST CONTENT */}
+                      <div style={{ padding: "20px 24px" }}>
+                        <p
+                          style={{
+                            fontSize: "15px",
+                            color: "var(--text-primary)",
+                            lineHeight: 1.6,
+                            marginBottom: "16px",
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
+                          {post.content}
+                        </p>
+
+                        {post.image && (
+                          <img
+                            src={post.image}
+                            alt="Post"
+                            style={{ width: "100%", borderRadius: "12px", marginBottom: "16px" }}
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                            }}
+                          />
+                        )}
+
+                        {/* TAGS */}
+                        {post.tags && (
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: "8px",
+                              marginBottom: "16px",
+                              flexWrap: "wrap",
+                            }}
+                          >
+                            {post.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                style={{
+                                  padding: "4px 10px",
+                                  background: "var(--brand)10",
+                                  color: "var(--brand)",
+                                  borderRadius: "6px",
+                                  fontSize: "12px",
+                                  fontWeight: 700,
+                                }}
+                              >
+                                #{tag}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* ACTIONS */}
+                        <div
+                          style={{
+                            display: "flex",
+                            gap: "24px",
+                            paddingTop: "16px",
+                            borderTop: "1px solid var(--border)",
+                          }}
+                        >
+                          <button
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              background: "none",
+                              border: "none",
+                              color: "var(--text-secondary)",
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              transition: "color 0.2s",
+                            }}
+                          >
+                            <Heart size={18} />
+                            {post.likes}
+                          </button>
+                          <button
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              background: "none",
+                              border: "none",
+                              color: "var(--text-secondary)",
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              transition: "color 0.2s",
+                            }}
+                          >
+                            <MessageCircle size={18} />
+                            {post.comments}
+                          </button>
+                          <button
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "8px",
+                              background: "none",
+                              border: "none",
+                              color: "var(--text-secondary)",
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              cursor: "pointer",
+                              transition: "color 0.2s",
+                            }}
+                          >
+                            <Send size={18} />
+                            {post.shares}
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </main>
+          </div>
         </div>
       </div>
     </div>

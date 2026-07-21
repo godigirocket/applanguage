@@ -12,7 +12,7 @@ export const Route = createFileRoute("/pricing")({
       { title: "Planos e Preços — LumeLearn Premium" },
       {
         name: "description",
-        content: "Comece grátis ou assine o LumeLearn Premium por R$ 29,90/mês. 630+ lições, 3 idiomas, 5 modos de jogo, IA conversacional. Garantia de 7 dias.",
+        content: "Comece grátis ou assine o LumeLearn Premium por R$ 29,90/mês. 700+ lições, 3 idiomas, 5 modos de jogo, IA conversacional. Garantia de 7 dias.",
       },
     ],
   }),

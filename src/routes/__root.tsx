@@ -103,13 +103,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Aprenda idiomas de forma inteligente com 630+ lições interativas, prática de conversação com IA e gamificação. Inglês, Espanhol e Português. Comece grátis.",
+          "Aprenda idiomas de forma inteligente com 700+ lições interativas, prática de conversação com IA e gamificação. Inglês, Espanhol e Português. Comece grátis.",
       },
       { property: "og:title", content: "LumeLearn — Aprenda Idiomas com IA e Gamificação" },
       {
         property: "og:description",
         content:
-          "630+ lições interativas, 5 modos de jogo, 3 idiomas. Prática de conversação com IA que complementa suas aulas. Comece grátis.",
+          "700+ lições interativas, 5 modos de jogo, 3 idiomas. Prática de conversação com IA que complementa suas aulas. Comece grátis.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -118,7 +118,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "LumeLearn" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "LumeLearn — Aprenda Idiomas com IA" },
-      { name: "twitter:description", content: "630+ lições, 3 idiomas, 5 modos de jogo. Comece grátis." },
+      { name: "twitter:description", content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis." },
       { name: "theme-color", content: "#2D4A3E" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
