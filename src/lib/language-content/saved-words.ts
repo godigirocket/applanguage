@@ -1,4 +1,11 @@
-import type { LessonTopic, QuizQuestion, SavedWord, TargetLanguage, VocabularyItem } from "./types";
+import type {
+  InterfaceLanguage,
+  LessonTopic,
+  QuizQuestion,
+  SavedWord,
+  TargetLanguage,
+  VocabularyItem,
+} from "./types";
 import { generateQuizFromVocabulary } from "./quiz-engine";
 
 const STORAGE_KEY = "lume-saved-words";
@@ -95,12 +102,19 @@ export function markWordWrong(wordId: string): void {
 
 export function getWordsDueForReview(targetLanguage?: TargetLanguage): SavedWord[] {
   const now = Date.now();
-  return readAll()
-    .filter((w) => (!targetLanguage || w.targetLanguage === targetLanguage) && new Date(w.nextReviewAt).getTime() <= now);
+  return readAll().filter(
+    (w) =>
+      (!targetLanguage || w.targetLanguage === targetLanguage) &&
+      new Date(w.nextReviewAt).getTime() <= now,
+  );
 }
 
 /** Builds a quiz from the user's own saved/due words for spaced-repetition review. */
-export function generateReviewQuiz(targetLanguage: TargetLanguage, topic: LessonTopic = "daily"): QuizQuestion[] {
+export function generateReviewQuiz(
+  targetLanguage: TargetLanguage,
+  topic: LessonTopic = "daily",
+  interfaceLanguage: InterfaceLanguage = "pt",
+): QuizQuestion[] {
   const due = getWordsDueForReview(targetLanguage);
   if (due.length < 2) return [];
 
@@ -115,5 +129,8 @@ export function generateReviewQuiz(targetLanguage: TargetLanguage, topic: Lesson
     source: "manual",
   }));
 
-  return generateQuizFromVocabulary(vocabulary, targetLanguage, { seed: "review" });
+  return generateQuizFromVocabulary(vocabulary, targetLanguage, {
+    seed: "review",
+    interfaceLanguage,
+  });
 }

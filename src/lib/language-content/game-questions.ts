@@ -127,10 +127,11 @@ export function buildEngineChoiceQuestions(
   targetLanguage: "en" | "es" | "pt",
   count: number,
   seed: string,
+  interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
   const vocabulary = getVocabularyForTopic(topic, targetLanguage, { count, seed });
   const questions = dedupeQuestions(
-    generateQuizFromVocabulary(vocabulary, targetLanguage, { seed }),
+    generateQuizFromVocabulary(vocabulary, targetLanguage, { seed, interfaceLanguage }),
   );
   return questions.map((q) => ({
     id: q.id,
@@ -147,13 +148,20 @@ export function buildQuestionsForType(
   targetLanguage: "en" | "es" | "pt",
   recentlySeenIds: Set<string>,
   questionCount = 6,
+  interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
   const QUESTION_COUNT = questionCount;
 
   if ((ALL_TOPICS as string[]).includes(type)) {
     const topic = type as LessonTopic;
     const fresh = avoidRecentlySeenContent(
-      buildEngineChoiceQuestions(topic, targetLanguage, QUESTION_COUNT * 2, topic),
+      buildEngineChoiceQuestions(
+        topic,
+        targetLanguage,
+        QUESTION_COUNT * 2,
+        topic,
+        interfaceLanguage,
+      ),
       recentlySeenIds,
     );
     return fresh.slice(0, QUESTION_COUNT);
@@ -170,7 +178,7 @@ export function buildQuestionsForType(
   }
 
   if (type === "review") {
-    const reviewQuestions = generateReviewQuiz(targetLanguage);
+    const reviewQuestions = generateReviewQuiz(targetLanguage, "daily", interfaceLanguage);
     return reviewQuestions.map((q) => ({
       id: q.id,
       kind: "choice" as const,
@@ -221,7 +229,13 @@ export function buildQuestionsForType(
   // across real topics instead of a fixed small pool.
   const topic = pickRotatingTopic(type);
   const fresh = avoidRecentlySeenContent(
-    buildEngineChoiceQuestions(topic, targetLanguage, QUESTION_COUNT * 2, `${type}-${topic}`),
+    buildEngineChoiceQuestions(
+      topic,
+      targetLanguage,
+      QUESTION_COUNT * 2,
+      `${type}-${topic}`,
+      interfaceLanguage,
+    ),
     recentlySeenIds,
   );
   if (fresh.length > 0) return fresh.slice(0, QUESTION_COUNT);

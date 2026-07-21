@@ -100,7 +100,7 @@ export const Route = createFileRoute("/quiz/$mode")({
 
 function QuizPage() {
   const { mode } = Route.useParams();
-  const { targetLanguage, addXP } = useStore();
+  const { targetLanguage, interfaceLanguage, addXP } = useStore();
   const nav = useNavigate();
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -117,8 +117,8 @@ function QuizPage() {
   const [voiceSuccess, setVoiceSuccess] = useState(false);
   const [voiceXPAdded, setVoiceXPAdded] = useState(false);
 
-  const isPT = targetLanguage === "pt";
-  const isES = targetLanguage === "es";
+  const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
   const fallbackExplanation = isPT
     ? "Continue praticando — cada tentativa conta!"
     : isES
@@ -144,7 +144,13 @@ function QuizPage() {
 
     const recentlySeenIds = getRecentlySeenQuestionIds();
     const requestCount = mode === "survival" ? 40 : mode === "daily" ? 16 : 12;
-    const unified = buildQuestionsForType(mode, targetLanguage, recentlySeenIds, requestCount);
+    const unified = buildQuestionsForType(
+      mode,
+      targetLanguage,
+      recentlySeenIds,
+      requestCount,
+      interfaceLanguage,
+    );
     const modeQuestions = toModeQuestions(
       unified,
       mode,
@@ -155,7 +161,7 @@ function QuizPage() {
     setQuestions(modeQuestions);
     recordSeenQuestionIds(modeQuestions.map((q) => q.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, targetLanguage]);
+  }, [mode, targetLanguage, interfaceLanguage]);
 
   // Auto-play the audio once when a listening question first appears.
   useEffect(() => {

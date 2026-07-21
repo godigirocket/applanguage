@@ -40,7 +40,7 @@ function QuizPlayPage() {
 
   useEffect(() => {
     const recentIds = getRecentlySeenQuestionIds();
-    const q = buildQuestionsForType(type, targetLanguage, recentIds);
+    const q = buildQuestionsForType(type, targetLanguage, recentIds, 6, interfaceLanguage);
     setQuestions(q);
     setCurrentIndex(0);
     setScore(0);
