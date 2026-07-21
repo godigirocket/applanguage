@@ -15,9 +15,17 @@ import {
   getRecentlySeenQuestionIds,
   recordSeenQuestionIds,
   recordQuizCompletion,
+  pickRotatingTopic,
+  ALL_TOPICS,
   type UnifiedQuestion,
+  type LessonTopic,
 } from "@/lib/language-content";
 import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
+import { TopicScenario } from "@/components/lume/TopicScenario";
+
+function scenarioTopicForMode(mode: string): LessonTopic {
+  return (ALL_TOPICS as string[]).includes(mode) ? (mode as LessonTopic) : pickRotatingTopic(mode);
+}
 
 export interface Question {
   id: string;
@@ -603,8 +611,11 @@ function QuizPage() {
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
+        position: "relative",
       }}
     >
+      <TopicScenario topic={scenarioTopicForMode(mode)} intensity="subtle" />
+
       {/* Top bar */}
       <div
         style={{
@@ -615,6 +626,7 @@ function QuizPage() {
           gap: "16px",
           background: "var(--surface-raised)",
           borderBottom: "2px solid var(--border)",
+          position: "relative",
         }}
       >
         <button
@@ -708,6 +720,8 @@ function QuizPage() {
           margin: "0 auto",
           width: "100%",
           boxSizing: "border-box",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* Category + level badges */}
@@ -910,6 +924,7 @@ function QuizPage() {
             padding: "20px 24px",
             background: "var(--surface-raised)",
             borderTop: "1px solid var(--border)",
+            position: "relative",
           }}
         >
           <button

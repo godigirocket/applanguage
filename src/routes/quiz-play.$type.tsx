@@ -8,7 +8,10 @@ import {
   getRecentlySeenQuestionIds,
   recordSeenQuestionIds,
   buildQuestionsForType,
+  pickRotatingTopic,
+  ALL_TOPICS,
   type UnifiedQuestion,
+  type LessonTopic,
 } from "@/lib/language-content";
 import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
 import { useStore } from "@/hooks/useStore";
@@ -17,6 +20,11 @@ import { Trophy, ChevronRight, Volume2 } from "@/components/lume/CustomIcons";
 import { BookX } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
+import { TopicScenario } from "@/components/lume/TopicScenario";
+
+function scenarioTopicForType(type: string): LessonTopic {
+  return (ALL_TOPICS as string[]).includes(type) ? (type as LessonTopic) : pickRotatingTopic(type);
+}
 
 export const Route = createFileRoute("/quiz-play/$type")({
   component: QuizPlayPage,
@@ -147,8 +155,12 @@ function QuizPlayPage() {
         background: "var(--bg)",
         display: "flex",
         flexDirection: "column",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
+      <TopicScenario topic={scenarioTopicForType(type)} intensity="subtle" />
+
       {/* Top Bar */}
       <div
         style={{
@@ -156,6 +168,8 @@ function QuizPlayPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <button
@@ -202,6 +216,8 @@ function QuizPlayPage() {
           alignItems: "center",
           justifyContent: "center",
           padding: "24px",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         <AnimatePresence mode="wait">
