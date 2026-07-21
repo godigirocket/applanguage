@@ -158,7 +158,11 @@ function QuizPlayPage() {
         position: "relative",
       }}
     >
-      <TopicScenario topic={scenarioTopicForType(type)} intensity="subtle" />
+      <TopicScenario
+        topic={scenarioTopicForType(type)}
+        intensity="subtle"
+        seed={`${type}-${currentIndex}`}
+      />
 
       {/* Top Bar */}
       <div

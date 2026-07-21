@@ -98,7 +98,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" },
+      {
+        name: "viewport",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5",
+      },
       { title: "LumeLearn — Aprenda Inglês, Espanhol e Português com IA" },
       {
         name: "description",
@@ -118,14 +121,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:site_name", content: "LumeLearn" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "LumeLearn — Aprenda Idiomas com IA" },
-      { name: "twitter:description", content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis." },
+      {
+        name: "twitter:description",
+        content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis.",
+      },
       { name: "theme-color", content: "#2D4A3E" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { name: "format-detection", content: "telephone=no" },
       { name: "robots", content: "index, follow" },
       { name: "author", content: "LumeLearn" },
-      { name: "keywords", content: "aprender inglês, aprender espanhol, aprender português, IA, gamificação, lições interativas, conversação" },
+      {
+        name: "keywords",
+        content:
+          "aprender inglês, aprender espanhol, aprender português, IA, gamificação, lições interativas, conversação",
+      },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -179,7 +189,8 @@ function RootComponent() {
 function RootInner() {
   const { user } = useAuth();
   const interfaceLanguage = useStore((state) => state.interfaceLanguage);
-  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } = useStore();
+  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } =
+    useStore();
   const { userLevel, setUserLevel } = useUserStore();
 
   const [pinInput, setPinInput] = useState("");
@@ -235,7 +246,8 @@ function RootInner() {
     currentPath.startsWith("/conversation") ||
     currentPath === "/setup" ||
     currentPath.startsWith("/quiz-play") ||
-    currentPath.startsWith("/play/");
+    currentPath.startsWith("/play/") ||
+    currentPath.startsWith("/lesson/");
 
   // Synchronize user level from Supabase DB on auth load
   useEffect(() => {
@@ -280,7 +292,7 @@ function RootInner() {
   }, [interfaceLanguage]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("lume_theme") || "light";
+    const savedTheme = localStorage.getItem("lume_theme") || "dark";
     if (savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", "dark");
       document.documentElement.classList.add("dark");
@@ -303,7 +315,8 @@ function RootInner() {
   // Register PWA Service Worker
   useEffect(() => {
     if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/service-worker.js")
+      navigator.serviceWorker
+        .register("/service-worker.js")
         .then((reg) => {
           console.log("Lume PWA Service Worker registered:", reg.scope);
         })
@@ -414,7 +427,7 @@ function RootInner() {
     >
       {/* Scroll to top on route change */}
       <ScrollToTop />
-      
+
       <div className="grain-overlay" aria-hidden="true" />
 
       {/* Global 3D metallic and drop shadow SVG filters */}

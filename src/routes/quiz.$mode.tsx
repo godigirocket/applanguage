@@ -614,7 +614,11 @@ function QuizPage() {
         position: "relative",
       }}
     >
-      <TopicScenario topic={scenarioTopicForMode(mode)} intensity="subtle" />
+      <TopicScenario
+        topic={scenarioTopicForMode(mode)}
+        intensity="subtle"
+        seed={`${mode}-${currentIdx}`}
+      />
 
       {/* Top bar */}
       <div
@@ -660,7 +664,7 @@ function QuizPage() {
           <div
             style={{
               height: "100%",
-              background: "linear-gradient(90deg,#2D4A3E,#4A7A6A)",
+              background: "linear-gradient(90deg, var(--brand), var(--brand-2))",
               borderRadius: "99px",
               width: effectiveMode === "streak" ? "100%" : `${(currentIdx / totalQ) * 100}%`,
               transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
@@ -933,7 +937,7 @@ function QuizPage() {
               width: "100%",
               padding: "16px",
               borderRadius: "16px",
-              background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+              background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
               color: "var(--surface-raised)",
               border: "none",
               cursor: "pointer",
@@ -1173,7 +1177,7 @@ function QuizResults({
                 borderRadius: "99px",
                 background:
                   accuracy >= 80
-                    ? "linear-gradient(90deg,#2D4A3E,#4A7A6A)"
+                    ? "linear-gradient(90deg, var(--brand), var(--brand-2))"
                     : accuracy >= 60
                       ? "linear-gradient(90deg,#C9A84C,#D4A84C)"
                       : "linear-gradient(90deg,#C4714A,#D4824A)",
@@ -1239,7 +1243,7 @@ function QuizResults({
           style={{
             padding: "16px",
             borderRadius: "16px",
-            background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+            background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
             color: "var(--surface-raised)",
             border: "none",
             cursor: "pointer",
@@ -1351,7 +1355,7 @@ function QuizResults({
                 gap: "8px",
                 padding: "12px 24px",
                 borderRadius: "99px",
-                background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+                background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
                 color: "var(--surface-raised)",
                 fontSize: "15px",
                 fontWeight: 700,

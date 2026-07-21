@@ -125,7 +125,7 @@ const THEMATIC_TOPICS = {
 };
 
 const categoryColors = {
-  vocabulary: "#2D4A3E",
+  vocabulary: "#FF7A45",
   grammar: "#7850B4",
   listening: "#1B3A4B",
   speaking: "#C4714A",
@@ -154,7 +154,7 @@ for (const lang of TARGET_LANGS) {
     // Select category round-robin
     const cats = ["vocabulary", "grammar", "listening", "speaking", "idioms"];
     const category = cats[i % cats.length];
-    const color = categoryColors[category] || "#2D4A3E";
+    const color = categoryColors[category] || "#FF7A45";
 
     // Get a thematic topic
     const topics = THEMATIC_TOPICS[lang];

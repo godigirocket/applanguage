@@ -24,6 +24,8 @@ import {
   ChevronRight,
   Heart,
   CheckCircle,
+  Gamepad2,
+  BarChart2,
 } from "@/components/lume/CustomIcons";
 import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
 import { SIMULATED_USERS } from "@/data/communityUsers";
@@ -162,9 +164,9 @@ function HomePage() {
         {/* HERO GREETING */}
         <section
           style={{
-            background: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)",
+            background: "linear-gradient(135deg, var(--app-bg-2) 0%, var(--app-bg) 100%)",
             padding: "48px 24px",
-            color: "white",
+            color: "var(--text-strong)",
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
@@ -260,8 +262,18 @@ function HomePage() {
                     border: "1px solid rgba(255,255,255,0.2)",
                   }}
                 >
-                  <h3 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "12px" }}>
-                    {isPT ? "🎯 Comece em 3 passos simples" : "🎯 Get started in 3 simple steps"}
+                  <h3
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      marginBottom: "12px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                    }}
+                  >
+                    <Target size={20} />
+                    {isPT ? "Comece em 3 passos simples" : "Get started in 3 simple steps"}
                   </h3>
                   <ol
                     style={{
@@ -288,6 +300,74 @@ function HomePage() {
                 </motion.div>
               )}
             </motion.div>
+          </div>
+        </section>
+
+        {/* QUICK ACTIONS — the "what do I do now" answer, always visible above the fold */}
+        <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "24px 24px 0" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 140px), 1fr))",
+              gap: "12px",
+            }}
+          >
+            {[
+              {
+                to: "/games",
+                label: isPT ? "Jogar" : "Play",
+                Icon: Gamepad2,
+                color: "var(--brand)",
+              },
+              { to: "/culture", label: "Cultura", Icon: Globe, color: "var(--brand-2)" },
+              {
+                to: "/quiz-play/review",
+                label: isPT ? "Revisar Palavras" : "Review Words",
+                Icon: Bookmark,
+                color: "#F59E0B",
+              },
+              {
+                to: "/progress",
+                label: isPT ? "Progresso" : "Progress",
+                Icon: BarChart2,
+                color: "#22C55E",
+              },
+            ].map((action) => (
+              <Link
+                key={action.to}
+                to={action.to as any}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  padding: "16px",
+                  borderRadius: "16px",
+                  background: "var(--surface-raised)",
+                  border: "1.5px solid var(--border)",
+                  textDecoration: "none",
+                  color: "var(--text-primary)",
+                  fontWeight: 700,
+                  fontSize: "14px",
+                  transition: "transform 0.15s ease",
+                }}
+              >
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    borderRadius: "10px",
+                    background: `${action.color}20`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}
+                >
+                  <action.Icon size={18} color={action.color} />
+                </div>
+                {action.label}
+              </Link>
+            ))}
           </div>
         </section>
 

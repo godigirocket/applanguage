@@ -68,6 +68,10 @@ interface LumeState {
   // Lesson Progress
   completedLessons: string[];
   completeLesson: (lessonId: string) => void;
+
+  // Avatar
+  avatarId: string | null;
+  setAvatarId: (avatarId: string) => void;
 }
 
 type PersistedLumeState = Pick<
@@ -85,6 +89,7 @@ type PersistedLumeState = Pick<
   | "pinEnabled"
   | "learningLevel"
   | "completedLessons"
+  | "avatarId"
 >;
 
 const getLevelName = (xp: number): Level => {
@@ -167,6 +172,9 @@ export const useStore = create<LumeState>()(
           if (state.completedLessons.includes(lessonId)) return state;
           return { completedLessons: [...state.completedLessons, lessonId] };
         }),
+
+      avatarId: null,
+      setAvatarId: (avatarId) => set({ avatarId }),
     }),
     {
       name: "lume-storage",
@@ -216,6 +224,7 @@ export const useStore = create<LumeState>()(
         pinEnabled: state.pinEnabled,
         learningLevel: state.learningLevel,
         completedLessons: state.completedLessons,
+        avatarId: state.avatarId,
       }),
       onRehydrateStorage: () => (state) => {
         if (typeof window !== "undefined" && state?.interfaceLanguage) {

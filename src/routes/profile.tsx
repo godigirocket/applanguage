@@ -3,10 +3,12 @@ import { AppHeader } from "@/components/lume/AppHeader";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "@/hooks/useStore";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { UserAvatar } from "@/components/lume/UserAvatar";
+import { AvatarPicker } from "@/components/lume/AvatarPicker";
 import {
   Star,
   Flame,
@@ -28,6 +30,7 @@ import {
   Shield,
   Heart,
   Lock,
+  RefreshCw,
 } from "@/components/lume/CustomIcons";
 import {
   getLeague,
@@ -69,12 +72,30 @@ export const Route = createFileRoute("/profile")({
 function ProfilePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, xp, streak, targetLanguage } = useStore();
+  const { interfaceLanguage, xp, streak, targetLanguage, avatarId, setAvatarId } = useStore();
   const [activeTab, setActiveTab] = useState<"overview" | "achievements" | "stats" | "settings">(
     "overview",
   );
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
 
   const isPT = interfaceLanguage === "pt";
+
+  // Pull the avatar chosen on another device, so it isn't only local to this browser.
+  useEffect(() => {
+    if (!user || avatarId) return;
+    supabase
+      .from("profiles")
+      .select("avatar_url")
+      .eq("id", user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        const stored = data?.avatar_url;
+        if (stored?.startsWith("lume-avatar:")) {
+          setAvatarId(stored.replace("lume-avatar:", ""));
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   if (loading) {
     return (
@@ -210,13 +231,34 @@ function ProfilePage() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "64px",
                     border: "6px solid rgba(255,255,255,0.3)",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
+                    overflow: "hidden",
                   }}
                 >
-                  👤
+                  <UserAvatar size={128} name={user.email} />
                 </div>
+                <button
+                  onClick={() => setShowAvatarPicker(true)}
+                  aria-label={isPT ? "Trocar avatar" : "Change avatar"}
+                  style={{
+                    position: "absolute",
+                    top: "-4px",
+                    right: "-4px",
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "50%",
+                    background: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    border: "3px solid rgba(255,255,255,0.3)",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  <RefreshCw size={18} color="var(--brand)" />
+                </button>
                 <div
                   style={{
                     position: "absolute",
@@ -404,14 +446,11 @@ function ProfilePage() {
           </div>
         </section>
 
-        {/* TABS */}
+        {/* TABS — flows normally so it never fights with the header's hide/show */}
         <div
           style={{
             background: "var(--surface-raised)",
             borderBottom: "2px solid var(--border)",
-            position: "sticky",
-            top: "64px",
-            zIndex: 10,
           }}
         >
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
@@ -742,6 +781,8 @@ function ProfilePage() {
           )}
         </main>
       </div>
+
+      {showAvatarPicker && <AvatarPicker isPT={isPT} onClose={() => setShowAvatarPicker(false)} />}
 
       <style>{`
         @keyframes spin {

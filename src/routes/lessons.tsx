@@ -58,8 +58,25 @@ function LessonsPage() {
   const [selectedLevel, setSelectedLevel] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
+  const PAGE_SIZE = 30;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const isPT = interfaceLanguage === "pt";
+
+  // Debounce the search text so filtering ~700 lessons doesn't run on every
+  // keystroke — only 250ms after the user stops typing.
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedQuery(searchQuery), 250);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
+  // Rendering all ~700 lesson cards at once (each its own animated motion.div)
+  // was the main source of lag on this page — page results instead, and reset
+  // back to the first page whenever a filter changes.
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [debouncedQuery, selectedLevel, selectedCategory, targetLanguage]);
 
   // Persist filters to localStorage
   useEffect(() => {
@@ -109,9 +126,10 @@ function LessonsPage() {
 
   // Then apply user filters
   const filteredLessons = lessonsInTargetLanguage.filter((lesson) => {
+    const query = debouncedQuery.toLowerCase();
     const matchesSearch =
-      lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      lesson.description.toLowerCase().includes(searchQuery.toLowerCase());
+      lesson.title.toLowerCase().includes(query) ||
+      lesson.description.toLowerCase().includes(query);
     const matchesLevel = selectedLevel === "All" || lesson.difficulty === selectedLevel;
     const matchesCategory = selectedCategory === "all" || lesson.category === selectedCategory;
 
@@ -174,9 +192,9 @@ function LessonsPage() {
         {/* HERO */}
         <section
           style={{
-            background: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)",
+            background: "linear-gradient(135deg, var(--app-bg-2) 0%, var(--app-bg) 100%)",
             padding: "clamp(40px, 10vw, 80px) clamp(16px, 3vw, 24px)",
-            color: "white",
+            color: "var(--text-strong)",
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
@@ -348,15 +366,11 @@ function LessonsPage() {
           </div>
         </section>
 
-        {/* FILTERS */}
+        {/* FILTERS — flows normally with the page; must not stay pinned while scrolling */}
         <div
           style={{
             background: "var(--card-bg)",
-            backdropFilter: "blur(10px)",
             borderBottom: "1px solid var(--border)",
-            position: "sticky",
-            top: "0",
-            zIndex: 50,
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto", padding: "16px" }}>
@@ -561,12 +575,12 @@ function LessonsPage() {
               gap: "clamp(16px, 3vw, 24px)",
             }}
           >
-            {filteredLessons.map((lesson, i) => (
+            {filteredLessons.slice(0, visibleCount).map((lesson, i) => (
               <motion.div
                 key={lesson.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.02 }}
+                transition={{ delay: Math.min(i, 20) * 0.02 }}
                 whileHover={lesson.locked ? {} : { y: -6 }}
                 onClick={() => handleLessonClick(lesson)}
                 style={{
@@ -768,6 +782,28 @@ function LessonsPage() {
               </motion.div>
             ))}
           </div>
+
+          {filteredLessons.length > visibleCount && (
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "32px" }}>
+              <button
+                onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+                style={{
+                  padding: "14px 32px",
+                  borderRadius: "14px",
+                  border: "1.5px solid var(--border)",
+                  background: "var(--surface-raised)",
+                  color: "var(--text-primary)",
+                  fontSize: "15px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                }}
+              >
+                {isPT
+                  ? `Carregar mais (${filteredLessons.length - visibleCount} restantes)`
+                  : `Load more (${filteredLessons.length - visibleCount} remaining)`}
+              </button>
+            </div>
+          )}
 
           {/* Empty State */}
           {filteredLessons.length === 0 && (

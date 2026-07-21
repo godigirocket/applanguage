@@ -6,6 +6,8 @@ import { Logo } from "@/components/lume/Logo";
 import { Sun, Moon } from "@/components/lume/CustomIcons";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/lume/LanguageSwitcher";
+import { useHideOnScroll } from "@/hooks/useHideOnScroll";
+import { UserAvatar } from "@/components/lume/UserAvatar";
 
 // Mobile bottom-tab nav icons as inline SVG for zero dependency
 function IconHome() {
@@ -113,22 +115,20 @@ function IconUser() {
   );
 }
 
-export function AppHeader({
-  hideMobileTabs = false,
-  isGlobal = false,
-}: { hideMobileTabs?: boolean; isGlobal?: boolean } = {}) {
+export function AppHeader() {
   const { user } = useAuth();
   const [profile, setProfile] = useState<any>(null);
+  const hidden = useHideOnScroll({ threshold: 12, minScroll: 80 });
   const routerState = useRouterState();
   const currentPath = routerState.location.pathname;
   const { t } = useTranslation(["common"]);
 
   const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "light";
+    if (typeof window === "undefined") return "dark";
     try {
-      return (localStorage.getItem("lume_theme") || "light") as "light" | "dark";
+      return (localStorage.getItem("lume_theme") || "dark") as "light" | "dark";
     } catch {
-      return "light";
+      return "dark";
     }
   });
 
@@ -155,17 +155,6 @@ export function AppHeader({
     }
   }, [user]);
 
-  // If this is a child render and the global header is already active, render nothing.
-  // Must come AFTER all hooks to avoid rules-of-hooks violation.
-  if (!isGlobal && typeof window !== "undefined" && (window as any).__lumeGlobalHeaderMounted) {
-    return null;
-  }
-
-  // Set the global mount flag
-  if (isGlobal && typeof window !== "undefined") {
-    (window as any).__lumeGlobalHeaderMounted = true;
-  }
-
   const firstName = profile?.full_name?.split(" ")[0] || "";
 
   const NAV_ITEMS = [
@@ -181,17 +170,21 @@ export function AppHeader({
   return (
     <>
       {/* ── TOP HEADER ─────────────────────────────────────────── */}
+      {/* Fixed + slides away on scroll-down, back in on scroll-up (useHideOnScroll) — a spacer div right below reserves its height since fixed removes it from flow. */}
       <header
         aria-label="Site header"
         style={{
-          position: "sticky",
+          position: "fixed",
           top: 0,
+          left: 0,
+          right: 0,
           zIndex: 100,
           background: "var(--surface-raised)",
           borderBottom: "1px solid var(--border)",
           height: "58px",
           boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
-          transition: "box-shadow 0.2s ease",
+          transform: hidden ? "translateY(-100%)" : "translateY(0)",
+          transition: "transform 0.25s ease",
         }}
       >
         <div
@@ -227,7 +220,10 @@ export function AppHeader({
                     fontSize: "13px",
                     fontWeight: 700,
                     color: currentPath === item.href ? "var(--brand)" : "var(--text-secondary)",
-                    background: currentPath === item.href ? "rgba(45,74,62,0.08)" : "transparent",
+                    background:
+                      currentPath === item.href
+                        ? "color-mix(in srgb, var(--brand) 12%, transparent)"
+                        : "transparent",
                     textDecoration: "none",
                     transition: "all 0.18s",
                     whiteSpace: "nowrap",
@@ -269,32 +265,22 @@ export function AppHeader({
               {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
             </button>
 
-          {/* Avatar — desktop only */}
+            {/* Avatar — desktop only */}
             {user ? (
               <Link
                 to="/profile"
                 className="lume-desktop-only"
-                style={{ textDecoration: "none", flexShrink: 0 }}
+                style={{
+                  textDecoration: "none",
+                  flexShrink: 0,
+                  borderRadius: "50%",
+                  border: "2px solid var(--border)",
+                  overflow: "hidden",
+                  display: "block",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                }}
               >
-                <div
-                  style={{
-                    width: "34px",
-                    height: "34px",
-                    borderRadius: "50%",
-                    background: "linear-gradient(135deg, var(--brand), var(--accent-teal))",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontFamily: "var(--font-display)",
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    color: "white",
-                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                    border: "2px solid var(--border)",
-                  }}
-                >
-                  {firstName ? firstName[0].toUpperCase() : "L"}
-                </div>
+                <UserAvatar size={32} name={firstName} />
               </Link>
             ) : (
               <Link
@@ -317,59 +303,10 @@ export function AppHeader({
           </div>
         </div>
       </header>
-
-      {/* ── MOBILE BOTTOM NAVIGATION ─────────────────────────── */}
-      {isLoggedIn && !hideMobileTabs && (
-        <>
-          <div
-            className="lume-mobile-tabs glass"
-            style={{
-              position: "fixed",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: "calc(64px + env(safe-area-inset-bottom, 0px))",
-              paddingBottom: "env(safe-area-inset-bottom, 0px)",
-              zIndex: 9999,
-              borderTop: "1.5px solid var(--border)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-around",
-              background: "var(--surface-raised)",
-              boxShadow: "0 -2px 10px rgba(0,0,0,0.04)",
-            }}
-          >
-            {NAV_ITEMS.map((item) => {
-              const isActive = currentPath === item.href;
-              const Icon = item.Icon;
-              return (
-                <Link
-                  key={item.href}
-                  to={item.href as any}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    textDecoration: "none",
-                    color: isActive ? "var(--brand)" : "var(--text-secondary)",
-                    gap: "4px",
-                    flex: 1,
-                    height: "100%",
-                    transition: "color 0.2s",
-                  }}
-                >
-                  <Icon />
-                  <span style={{ fontSize: "10px", fontWeight: isActive ? 800 : 600 }}>
-                    {item.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-          <div className="lume-bottom-spacer" />
-        </>
-      )}
+      <div style={{ height: "58px" }} aria-hidden="true" />
+      {/* Bottom mobile nav lives once, globally, in __root.tsx's <BottomNav/> —
+          this component used to render its own duplicate copy here too,
+          stacking two overlapping nav bars on every non-immersive page. */}
     </>
   );
 }

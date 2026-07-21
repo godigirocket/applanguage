@@ -1,5 +1,4 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useStore } from "@/hooks/useStore";
@@ -152,7 +151,7 @@ function LessonPage() {
   const difficulty = LEVEL_TO_DIFFICULTY[lesson?.level] || "Beginner";
   const xpReward = lesson?.xp || 20;
   const duration = parseInt(lesson?.duration) || 6;
-  const color = lesson?.color || "#2D4A3E";
+  const color = lesson?.color || "#FF7A45";
   const TypeIcon = CATEGORY_ICONS[lesson?.category] || Book;
 
   const steps: any[] = lesson?.steps || [];
@@ -519,17 +518,20 @@ function LessonPage() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         background: "var(--bg)",
-        paddingBottom: "80px",
         position: "relative",
       }}
     >
-      <TopicScenario topic={lesson?.topic || scenarioTopicFor(topic || id)} />
+      <TopicScenario
+        topic={lesson?.topic || scenarioTopicFor(topic || id)}
+        seed={`${id}-${step}-${step === "vocab" ? vocabIdx : step === "quiz" ? quizIdx : 0}`}
+      />
 
+      {/* Fullscreen immersive lesson: no AppHeader/BottomNav — the per-step
+          progress bar + back button below is the only chrome, so nothing
+          fights for attention while actually doing the lesson. */}
       <div style={{ position: "relative", zIndex: 1 }}>
-        <AppHeader />
-
         {/* Premium Gate Modal */}
         <PremiumGate
           isOpen={showPremiumGate}
@@ -1357,7 +1359,7 @@ function LessonPage() {
                       padding: "16px",
                       borderRadius: "12px",
                       border: "none",
-                      background: "linear-gradient(135deg, #2D4A3E, #1B3A4B)",
+                      background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
                       color: "white",
                       fontSize: "15px",
                       fontWeight: 800,
@@ -1466,7 +1468,7 @@ function LessonPage() {
                   {
                     label: isPT ? "Completo" : "Complete",
                     value: "✓",
-                    color: "#2D4A3E",
+                    color: "#38BDF8",
                     Icon: Check,
                   },
                 ].map((s, i) => (
@@ -1510,7 +1512,7 @@ function LessonPage() {
                     padding: "16px",
                     borderRadius: "12px",
                     border: "none",
-                    background: "linear-gradient(135deg, #2D4A3E, #1B3A4B)",
+                    background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
                     color: "white",
                     fontSize: "15px",
                     fontWeight: 800,

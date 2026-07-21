@@ -3,14 +3,12 @@ import { toast } from "sonner";
 import { Sun, Moon } from "@/components/lume/CustomIcons";
 
 export function ThemeToggle() {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   useEffect(() => {
-    // Check local storage or system preference
+    // Dark premium is the default look; only an explicit saved choice opts out.
     const savedTheme = localStorage.getItem("lume_theme");
-    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    const shouldBeDark = savedTheme === "dark" || (!savedTheme && systemPrefersDark);
+    const shouldBeDark = savedTheme !== "light";
     setIsDark(shouldBeDark);
 
     if (shouldBeDark) {

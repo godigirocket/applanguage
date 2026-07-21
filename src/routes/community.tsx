@@ -4,6 +4,7 @@ import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { toast } from "sonner";
 import { useStore } from "@/hooks/useStore";
 import { useAuth } from "@/lib/auth";
 import {
@@ -146,6 +147,37 @@ function CommunityPage() {
   const { user } = useAuth();
   const [activeFilter, setActiveFilter] = useState("all");
   const [postText, setPostText] = useState("");
+  const [localPosts, setLocalPosts] = useState<typeof FEED_POSTS>([]);
+
+  function handleSubmitPost() {
+    const text = postText.trim();
+    if (!text) return;
+    setLocalPosts((prev) => [
+      {
+        id: -Date.now(),
+        user: {
+          id: -1,
+          name: user?.email?.split("@")[0] || (isPT ? "Você" : "You"),
+          avatar: "👤",
+          level: 1,
+          xp: 0,
+          country: "🌍",
+          streak: 0,
+        },
+        type: "tip" as const,
+        content: text,
+        image: null,
+        likes: 0,
+        comments: 0,
+        shares: 0,
+        timestamp: isPT ? "agora" : "just now",
+        tags: [],
+      },
+      ...prev,
+    ]);
+    setPostText("");
+    toast.success(isPT ? "Publicado!" : "Posted!");
+  }
 
   const isPT = interfaceLanguage === "pt";
 
@@ -176,6 +208,20 @@ function CommunityPage() {
     };
     return colors[type] || "#95A5A6";
   };
+
+  // Filter buttons previously updated activeFilter without ever being applied
+  // to the feed — every filter showed the exact same posts as "Tudo".
+  const FILTER_TO_POST_TYPES: Record<string, string[]> = {
+    achievements: ["achievement", "streak"],
+    questions: ["question"],
+    tips: ["tip", "resource"],
+    memes: ["meme"],
+  };
+  const allPosts = [...localPosts, ...FEED_POSTS];
+  const visiblePosts =
+    activeFilter === "all"
+      ? allPosts
+      : allPosts.filter((post) => FILTER_TO_POST_TYPES[activeFilter]?.includes(post.type));
 
   return (
     <div
@@ -255,17 +301,15 @@ function CommunityPage() {
 
         {/* MAIN CONTENT */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "250px 1fr", gap: "32px" }}>
+          <div className="community-grid">
             {/* LEFT SIDEBAR - FILTERS */}
-            <aside>
+            <aside className="community-sidebar">
               <div
                 style={{
                   background: "var(--surface-raised)",
                   borderRadius: "16px",
                   border: "2px solid var(--border)",
                   padding: "20px",
-                  position: "sticky",
-                  top: "24px",
                 }}
               >
                 <h3
@@ -440,6 +484,7 @@ function CommunityPage() {
                         </div>
                         <button
                           disabled={!postText.trim()}
+                          onClick={handleSubmitPost}
                           style={{
                             padding: "10px 24px",
                             borderRadius: "12px",
@@ -465,7 +510,26 @@ function CommunityPage() {
 
               {/* POSTS FEED */}
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                {FEED_POSTS.map((post, i) => {
+                {visiblePosts.length === 0 && (
+                  <div
+                    style={{
+                      textAlign: "center",
+                      padding: "48px 24px",
+                      background: "var(--surface-raised)",
+                      borderRadius: "20px",
+                      border: "2px solid var(--border)",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    <MessageCircle size={32} style={{ marginBottom: "12px", opacity: 0.6 }} />
+                    <p style={{ fontSize: "15px", fontWeight: 600 }}>
+                      {isPT
+                        ? "Nenhum post nessa categoria ainda."
+                        : "No posts in this category yet."}
+                    </p>
+                  </div>
+                )}
+                {visiblePosts.map((post, i) => {
                   const PostIcon = getPostIcon(post.type);
                   const postColor = getPostColor(post.type);
 

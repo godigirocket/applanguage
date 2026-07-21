@@ -52,7 +52,7 @@ const TOPIC_TITLE_TO_TOPIC: Record<string, LessonTopic> = {
 };
 
 const categoryColors: Record<string, string> = {
-  vocabulary: "#2D4A3E",
+  vocabulary: "#FF7A45",
   grammar: "#7850B4",
   listening: "#1B3A4B",
   speaking: "#C4714A",
@@ -217,7 +217,7 @@ function generateTopicLessons(topic: LessonTopic, lang: TargetLanguage): RawLess
     const difficulty: "beginner" | "intermediate" | "advanced" =
       level <= "A2" ? "beginner" : level <= "B2" ? "intermediate" : "advanced";
     const category = CATEGORIES[i % CATEGORIES.length];
-    const color = categoryColors[category] || "#2D4A3E";
+    const color = categoryColors[category] || "#FF7A45";
     const icon = category === "listening" ? "🎧" : category === "grammar" ? "📖" : "🗣️";
 
     const vocabItems = getVocabularyForTopic(topic, lang, {
