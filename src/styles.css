@@ -1198,6 +1198,14 @@ h6 {
 
 /* ---- Grid breakpoints: override auto-fit on mobile ---- */
 @media (max-width: 480px) {
+  /* Header: logo + language switcher + theme toggle + sign-in button don't
+     all fit on one row on narrow phones — the sign-in button was getting
+     clipped against the viewport edge. Drop the logo's tagline first since
+     it's the least essential piece. */
+  .lume-logo-tagline {
+    display: none !important;
+  }
+
   /* Play stats cards: 2x2 grid */
   [style*="minmax(200px, 1fr)"] {
     grid-template-columns: repeat(2, 1fr) !important;

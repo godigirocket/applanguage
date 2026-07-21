@@ -41,7 +41,7 @@ export const Route = createFileRoute("/")({
         content:
           "Plataforma de idiomas com 630+ lições interativas, prática de conversação com IA e gamificação. 3 idiomas, 6 níveis CEFR, 5 modos de jogo. Comece grátis.",
       },
-      { property: "og:title", content: "LumeLearn â€” Aprenda Idiomas de Forma Inteligente" },
+      { property: "og:title", content: "LumeLearn — Aprenda Idiomas de Forma Inteligente" },
       {
         property: "og:description",
         content:
@@ -96,7 +96,7 @@ function Landing() {
             alignItems: "center",
           }}
         >
-          {/* LEFT â€” text */}
+          {/* LEFT — text */}
           <div style={{ paddingRight: "0", maxWidth: "100%" }}>
             <div
               style={{
@@ -173,7 +173,7 @@ function Landing() {
             </p>
           </div>
 
-          {/* RIGHT â€” live conversation preview card */}
+          {/* RIGHT — live conversation preview card */}
           <div
             style={{ 
               position: "relative", 
@@ -317,7 +317,7 @@ function Landing() {
                     border: "1.5px solid var(--border)",
                   }}
                 >
-                  What did you do last weekend? Tell me â€” no pressure.
+                  What did you do last weekend? Tell me — no pressure.
                 </div>
                 <div
                   style={{
@@ -346,7 +346,7 @@ function Landing() {
                     border: "1.5px solid var(--border)",
                   }}
                 >
-                  Love it! Small tip: "she <strong>invited</strong> me" â€” past tense. But your
+                  Love it! Small tip: "she <strong>invited</strong> me" — past tense. But your
                   meaning was totally clear. What kind of music?
                 </div>
               </div>
@@ -439,7 +439,7 @@ function Landing() {
               </div>
             </motion.div>
 
-            {/* Floating streak â€” anchored to the main card, not leaking over word card */}
+            {/* Floating streak — anchored to the main card, not leaking over word card */}
             <motion.div
               whileHover={{ scale: 1.05, rotate: "-3deg" }}
               style={{

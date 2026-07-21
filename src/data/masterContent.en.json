@@ -17739,7 +17739,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"overbooked\"?",
         "options": [
-          "atraso",
+          "bagagem",
           "itinerário",
           "mochileiro",
           "com overbooking"
@@ -17752,7 +17752,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "The trail is popular with backpackers in the summer.",
         "options": [
-          "hostel",
+          "passport control",
           "itinerary",
           "backpacker",
           "overbooked"
@@ -17844,31 +17844,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "side dish",
-            "meaning": "acompanhamento",
-            "example": "What side dish comes with the steak?"
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "refill",
-            "meaning": "reforço",
-            "example": "Could I get a refill on my coffee?"
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "sparkling water",
-            "meaning": "água com gás",
-            "example": "I'll have sparkling water with lemon."
+            "word": "leftovers",
+            "meaning": "sobras",
+            "example": "I'll have the leftovers for lunch tomorrow."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"side dish\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "reforço",
-          "acompanhamento",
-          "água com gás",
-          "bem passado"
+          "vontade",
+          "restrição alimentar",
+          "sobras",
+          "sabor"
         ],
         "correct": 1
       },
@@ -17876,12 +17876,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Could I get a refill on my coffee?",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "well done (meat)",
-          "refill",
           "side dish",
-          "sparkling water"
+          "craving",
+          "dietary restriction",
+          "leftovers"
         ],
         "correct": 1
       },
@@ -18375,7 +18375,7 @@
         "options": [
           "mochileiro",
           "itinerário",
-          "viagem de ida e volta",
+          "passagem só de ida",
           "com overbooking"
         ],
         "correct": 0
@@ -18386,7 +18386,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "The flight was overbooked, so they asked for volunteers.",
         "options": [
-          "hostel",
+          "round trip",
           "backpacker",
           "overbooked",
           "itinerary"
@@ -18476,31 +18476,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "refill",
-            "meaning": "reforço",
-            "example": "Could I get a refill on my coffee?"
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "well done (meat)",
-            "meaning": "bem passado",
-            "example": "I'd like my steak well done, please."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "allergic",
-            "meaning": "alérgico",
-            "example": "I'm allergic to shellfish, so no shrimp for me."
+            "word": "the check",
+            "meaning": "a conta",
+            "example": "Can we get the check, please?"
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"refill\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "reforço",
-          "bem passado",
-          "alérgico",
-          "reservar uma mesa"
+          "restrição alimentar",
+          "vontade",
+          "a conta",
+          "reforço"
         ],
         "correct": 0
       },
@@ -18508,12 +18508,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I'd like my steak well done, please.",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "allergic",
-          "refill",
-          "leftovers",
-          "well done (meat)"
+          "the check",
+          "dietary restriction",
+          "vegetarian",
+          "craving"
         ],
         "correct": 3
       },
@@ -19002,7 +19002,7 @@
           "com overbooking",
           "itinerário",
           "mochileiro",
-          "fazer check-in"
+          "atraso"
         ],
         "correct": 2
       },
@@ -19015,7 +19015,7 @@
           "itinerary",
           "overbooked",
           "backpacker",
-          "currency exchange"
+          "to check in"
         ],
         "correct": 0
       },
@@ -19102,31 +19102,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "grocery store",
-            "meaning": "mercado",
-            "example": "I need to stop by the grocery store after work."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "well done (meat)",
-            "meaning": "bem passado",
-            "example": "I'd like my steak well done, please."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "vegetarian",
-            "meaning": "vegetariano",
-            "example": "This restaurant has great vegetarian options."
+            "word": "allergic",
+            "meaning": "alérgico",
+            "example": "I'm allergic to shellfish, so no shrimp for me."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"grocery store\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
-          "vegetariano",
-          "bem passado",
-          "picante",
-          "mercado"
+          "alérgico",
+          "restrição alimentar",
+          "reservar uma mesa",
+          "vontade"
         ],
         "correct": 3
       },
@@ -19134,12 +19134,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I'd like my steak well done, please.",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
-          "grocery store",
-          "vegetarian",
-          "well done (meat)",
-          "to book a table"
+          "craving",
+          "allergic",
+          "dietary restriction",
+          "leftovers"
         ],
         "correct": 2
       },
@@ -19633,7 +19633,7 @@
         "options": [
           "itinerário",
           "mochileiro",
-          "marco histórico",
+          "fazer check-in",
           "com overbooking"
         ],
         "correct": 0
@@ -19646,7 +19646,7 @@
         "options": [
           "itinerary",
           "overbooked",
-          "customs",
+          "hostel",
           "backpacker"
         ],
         "correct": 3
@@ -19736,31 +19736,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "the check",
-            "meaning": "a conta",
-            "example": "Can we get the check, please?"
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "allergic",
-            "meaning": "alérgico",
-            "example": "I'm allergic to shellfish, so no shrimp for me."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "well done (meat)",
-            "meaning": "bem passado",
-            "example": "I'd like my steak well done, please."
+            "word": "spicy",
+            "meaning": "picante",
+            "example": "Be careful, this sauce is really spicy."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"the check\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
-          "entrada",
-          "bem passado",
-          "a conta",
-          "alérgico"
+          "ingrediente",
+          "picante",
+          "vontade",
+          "restrição alimentar"
         ],
         "correct": 2
       },
@@ -19768,12 +19768,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I'm allergic to shellfish, so no shrimp for me.",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
+          "spicy",
           "well done (meat)",
-          "grocery store",
-          "the check",
-          "allergic"
+          "craving",
+          "dietary restriction"
         ],
         "correct": 3
       },
@@ -20267,7 +20267,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"itinerary\"?",
         "options": [
-          "marco histórico",
+          "hostel",
           "itinerário",
           "mochileiro",
           "com overbooking"
@@ -20282,7 +20282,7 @@
         "options": [
           "backpacker",
           "itinerary",
-          "hostel",
+          "one-way ticket",
           "overbooked"
         ],
         "correct": 3
@@ -20372,14 +20372,14 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "leftovers",
-            "meaning": "sobras",
-            "example": "I'll have the leftovers for lunch tomorrow."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "takeout",
-            "meaning": "comida para viagem",
-            "example": "We ordered takeout instead of cooking tonight."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
             "word": "spicy",
@@ -20391,12 +20391,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"leftovers\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
           "picante",
-          "comida para viagem",
           "restrição alimentar",
-          "sobras"
+          "gorjeta",
+          "vontade"
         ],
         "correct": 3
       },
@@ -20404,12 +20404,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "We ordered takeout instead of cooking tonight.",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
           "spicy",
-          "takeout",
-          "leftovers",
-          "vegetarian"
+          "dietary restriction",
+          "craving",
+          "well done (meat)"
         ],
         "correct": 1
       },
@@ -20902,7 +20902,7 @@
         "question": "Qual é a tradução correta para \"overbooked\"?",
         "options": [
           "mochileiro",
-          "casa de câmbio",
+          "fazer check-in",
           "itinerário",
           "com overbooking"
         ],
@@ -20914,7 +20914,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "The trail is popular with backpackers in the summer.",
         "options": [
-          "hostel",
+          "reservation",
           "backpacker",
           "itinerary",
           "overbooked"
@@ -21004,31 +21004,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "craving",
-            "meaning": "vontade",
-            "example": "I've had a craving for chocolate all day."
-          },
-          {
             "word": "dietary restriction",
             "meaning": "restrição alimentar",
             "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "spicy",
-            "meaning": "picante",
-            "example": "Be careful, this sauce is really spicy."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
+          },
+          {
+            "word": "recipe",
+            "meaning": "receita",
+            "example": "This recipe only needs five ingredients."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"craving\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "picante",
-          "vontade",
+          "receita",
           "restrição alimentar",
-          "mercado"
+          "vontade",
+          "comida para viagem"
         ],
         "correct": 1
       },
@@ -21036,12 +21036,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Please let us know about any dietary restrictions.",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "craving",
-          "well done (meat)",
-          "spicy",
-          "dietary restriction"
+          "dietary restriction",
+          "menu",
+          "recipe",
+          "craving"
         ],
         "correct": 3
       },
@@ -21528,7 +21528,7 @@
         "question": "Qual é a tradução correta para \"backpacker\"?",
         "options": [
           "mochileiro",
-          "jet lag",
+          "cartão de embarque",
           "itinerário",
           "com overbooking"
         ],
@@ -21540,7 +21540,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "She planned every detail of our itinerary.",
         "options": [
-          "round trip",
+          "boarding pass",
           "itinerary",
           "backpacker",
           "overbooked"
@@ -21630,9 +21630,9 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "flavor",
-            "meaning": "sabor",
-            "example": "This ice cream has an amazing flavor."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
             "word": "craving",
@@ -21649,11 +21649,11 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"flavor\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
           "vontade",
           "picante",
-          "sabor",
+          "restrição alimentar",
           "bem passado"
         ],
         "correct": 2
@@ -21664,10 +21664,10 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "menu",
+          "spicy",
           "craving",
           "well done (meat)",
-          "flavor"
+          "dietary restriction"
         ],
         "correct": 1
       },
@@ -22159,7 +22159,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"backpacker\"?",
         "options": [
-          "casa de câmbio",
+          "passagem só de ida",
           "itinerário",
           "mochileiro",
           "com overbooking"
@@ -22173,7 +22173,7 @@
         "audioText": "She planned every detail of our itinerary.",
         "options": [
           "backpacker",
-          "layover",
+          "round trip",
           "overbooked",
           "itinerary"
         ],
@@ -22264,31 +22264,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "sparkling water",
-            "meaning": "água com gás",
-            "example": "I'll have sparkling water with lemon."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "side dish",
-            "meaning": "acompanhamento",
-            "example": "What side dish comes with the steak?"
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "leftovers",
-            "meaning": "sobras",
-            "example": "I'll have the leftovers for lunch tomorrow."
+            "word": "refill",
+            "meaning": "reforço",
+            "example": "Could I get a refill on my coffee?"
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sparkling water\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "mercado",
-          "acompanhamento",
-          "água com gás",
-          "sobras"
+          "sobras",
+          "vontade",
+          "restrição alimentar",
+          "reforço"
         ],
         "correct": 2
       },
@@ -22296,12 +22296,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "What side dish comes with the steak?",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
+          "craving",
+          "dietary restriction",
           "side dish",
-          "sparkling water",
-          "allergic",
-          "leftovers"
+          "refill"
         ],
         "correct": 0
       },
@@ -22798,7 +22798,7 @@
           "mochileiro",
           "itinerário",
           "com overbooking",
-          "controle de passaportes"
+          "reserva"
         ],
         "correct": 1
       },
@@ -22808,7 +22808,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "The trail is popular with backpackers in the summer.",
         "options": [
-          "to check in",
+          "delay",
           "backpacker",
           "overbooked",
           "itinerary"
@@ -22900,31 +22900,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "leftovers",
-            "meaning": "sobras",
-            "example": "I'll have the leftovers for lunch tomorrow."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "menu",
-            "meaning": "cardápio",
-            "example": "Could I see the menu, please?"
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "sparkling water",
-            "meaning": "água com gás",
-            "example": "I'll have sparkling water with lemon."
+            "word": "recipe",
+            "meaning": "receita",
+            "example": "This recipe only needs five ingredients."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"leftovers\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
-          "água com gás",
-          "cardápio",
-          "acompanhamento",
-          "sobras"
+          "receita",
+          "restrição alimentar",
+          "reforço",
+          "vontade"
         ],
         "correct": 3
       },
@@ -22932,12 +22932,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Could I see the menu, please?",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
-          "leftovers",
-          "recipe",
-          "menu",
-          "sparkling water"
+          "craving",
+          "the check",
+          "dietary restriction",
+          "recipe"
         ],
         "correct": 2
       },
@@ -23431,7 +23431,7 @@
         "options": [
           "mochileiro",
           "itinerário",
-          "escala",
+          "marco histórico",
           "com overbooking"
         ],
         "correct": 1
@@ -23445,7 +23445,7 @@
           "itinerary",
           "backpacker",
           "overbooked",
-          "guided tour"
+          "customs"
         ],
         "correct": 2
       },
@@ -23532,31 +23532,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
+          },
+          {
             "word": "craving",
             "meaning": "vontade",
             "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "the check",
-            "meaning": "a conta",
-            "example": "Can we get the check, please?"
-          },
-          {
-            "word": "spicy",
-            "meaning": "picante",
-            "example": "Be careful, this sauce is really spicy."
+            "word": "takeout",
+            "meaning": "comida para viagem",
+            "example": "We ordered takeout instead of cooking tonight."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"craving\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "a conta",
-          "cardápio",
           "vontade",
-          "picante"
+          "sabor",
+          "restrição alimentar",
+          "comida para viagem"
         ],
         "correct": 2
       },
@@ -23564,12 +23564,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Can we get the check, please?",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "the check",
-          "spicy",
-          "ingredient",
-          "craving"
+          "craving",
+          "takeout",
+          "sparkling water",
+          "dietary restriction"
         ],
         "correct": 0
       },
@@ -24057,7 +24057,7 @@
         "options": [
           "com overbooking",
           "itinerário",
-          "escala",
+          "hostel",
           "mochileiro"
         ],
         "correct": 3
@@ -24069,7 +24069,7 @@
         "audioText": "The flight was overbooked, so they asked for volunteers.",
         "options": [
           "backpacker",
-          "layover",
+          "reservation",
           "itinerary",
           "overbooked"
         ],
@@ -24158,31 +24158,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "recipe",
-            "meaning": "receita",
-            "example": "This recipe only needs five ingredients."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "appetizer",
-            "meaning": "entrada",
-            "example": "Let's share an appetizer before the main course."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "the check",
-            "meaning": "a conta",
-            "example": "Can we get the check, please?"
+            "word": "tip",
+            "meaning": "gorjeta",
+            "example": "We left a generous tip for the waiter."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"recipe\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
-          "vegetariano",
-          "a conta",
-          "receita",
-          "entrada"
+          "picante",
+          "gorjeta",
+          "vontade",
+          "restrição alimentar"
         ],
         "correct": 2
       },
@@ -24190,12 +24190,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Let's share an appetizer before the main course.",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
-          "recipe",
+          "craving",
           "leftovers",
-          "appetizer",
-          "the check"
+          "dietary restriction",
+          "tip"
         ],
         "correct": 2
       },
@@ -24690,7 +24690,7 @@
           "mochileiro",
           "itinerário",
           "com overbooking",
-          "direções"
+          "bagagem"
         ],
         "correct": 1
       },
@@ -24702,7 +24702,7 @@
         "options": [
           "backpacker",
           "overbooked",
-          "one-way ticket",
+          "round trip",
           "itinerary"
         ],
         "correct": 0
@@ -24792,31 +24792,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
+          },
+          {
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
+          },
+          {
             "word": "leftovers",
             "meaning": "sobras",
             "example": "I'll have the leftovers for lunch tomorrow."
-          },
-          {
-            "word": "ingredient",
-            "meaning": "ingrediente",
-            "example": "Garlic is the key ingredient in this dish."
-          },
-          {
-            "word": "spicy",
-            "meaning": "picante",
-            "example": "Be careful, this sauce is really spicy."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"leftovers\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
-          "alérgico",
-          "ingrediente",
-          "sobras",
-          "picante"
+          "reservar uma mesa",
+          "vontade",
+          "restrição alimentar",
+          "sobras"
         ],
         "correct": 2
       },
@@ -24824,12 +24824,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Garlic is the key ingredient in this dish.",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "ingredient",
-          "spicy",
+          "craving",
           "leftovers",
-          "side dish"
+          "dietary restriction",
+          "allergic"
         ],
         "correct": 0
       },
@@ -25323,7 +25323,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"overbooked\"?",
         "options": [
-          "cartão de embarque",
+          "lembrancinha",
           "mochileiro",
           "com overbooking",
           "itinerário"
@@ -25428,31 +25428,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "flavor",
-            "meaning": "sabor",
-            "example": "This ice cream has an amazing flavor."
-          },
-          {
             "word": "dietary restriction",
             "meaning": "restrição alimentar",
             "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "appetizer",
-            "meaning": "entrada",
-            "example": "Let's share an appetizer before the main course."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
+          },
+          {
+            "word": "recipe",
+            "meaning": "receita",
+            "example": "This recipe only needs five ingredients."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"flavor\"?",
+        "question": "Qual é a tradução correta para \"dietary restriction\"?",
         "options": [
+          "vontade",
           "restrição alimentar",
-          "sabor",
-          "reforço",
-          "entrada"
+          "reservar uma mesa",
+          "receita"
         ],
         "correct": 1
       },
@@ -25460,12 +25460,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Please let us know about any dietary restrictions.",
+        "audioText": "I've had a craving for chocolate all day.",
         "options": [
-          "appetizer",
-          "ingredient",
-          "dietary restriction",
-          "flavor"
+          "recipe",
+          "spicy",
+          "craving",
+          "dietary restriction"
         ],
         "correct": 2
       },
@@ -25957,7 +25957,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"overbooked\"?",
         "options": [
-          "casa de câmbio",
+          "reserva",
           "mochileiro",
           "itinerário",
           "com overbooking"
@@ -25970,7 +25970,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "The trail is popular with backpackers in the summer.",
         "options": [
-          "layover",
+          "directions",
           "itinerary",
           "overbooked",
           "backpacker"
@@ -26060,31 +26060,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "takeout",
-            "meaning": "comida para viagem",
-            "example": "We ordered takeout instead of cooking tonight."
+            "word": "craving",
+            "meaning": "vontade",
+            "example": "I've had a craving for chocolate all day."
           },
           {
-            "word": "well done (meat)",
-            "meaning": "bem passado",
-            "example": "I'd like my steak well done, please."
+            "word": "dietary restriction",
+            "meaning": "restrição alimentar",
+            "example": "Please let us know about any dietary restrictions."
           },
           {
-            "word": "side dish",
-            "meaning": "acompanhamento",
-            "example": "What side dish comes with the steak?"
+            "word": "flavor",
+            "meaning": "sabor",
+            "example": "This ice cream has an amazing flavor."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"takeout\"?",
+        "question": "Qual é a tradução correta para \"craving\"?",
         "options": [
-          "acompanhamento",
-          "bem passado",
-          "sobras",
-          "comida para viagem"
+          "sabor",
+          "restrição alimentar",
+          "picante",
+          "vontade"
         ],
         "correct": 3
       },
@@ -26092,12 +26092,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I'd like my steak well done, please.",
+        "audioText": "Please let us know about any dietary restrictions.",
         "options": [
-          "well done (meat)",
-          "takeout",
-          "appetizer",
-          "side dish"
+          "dietary restriction",
+          "craving",
+          "recipe",
+          "flavor"
         ],
         "correct": 0
       },

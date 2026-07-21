@@ -17767,7 +17767,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"com overbooking\"?",
         "options": [
-          "delay",
+          "souvenir",
           "overbooked",
           "itinerary",
           "backpacker"
@@ -17783,7 +17783,7 @@
           "itinerário",
           "com overbooking",
           "mochileiro",
-          "cartão de embarque"
+          "direções"
         ],
         "correct": 0
       },
@@ -17876,31 +17876,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "sabor",
-            "meaning": "flavor",
-            "example": "Esse sorvete tem um sabor incrível."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "alérgico",
-            "meaning": "allergic",
-            "example": "Sou alérgico a frutos do mar, então nada de camarão pra mim."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "entrada",
-            "meaning": "appetizer",
-            "example": "Vamos dividir uma entrada antes do prato principal."
+            "word": "receita",
+            "meaning": "recipe",
+            "example": "Essa receita só precisa de cinco ingredientes."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sabor\"?",
+        "question": "Qual é a tradução correta para \"vontade\"?",
         "options": [
-          "appetizer",
-          "allergic",
+          "recipe",
           "dietary restriction",
-          "flavor"
+          "vegetarian",
+          "craving"
         ],
         "correct": 3
       },
@@ -17908,12 +17908,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Sou alérgico a frutos do mar, então nada de camarão pra mim.",
+        "audioText": "Por favor nos avise sobre qualquer restrição alimentar.",
         "options": [
-          "sabor",
-          "entrada",
-          "alérgico",
-          "bem passado"
+          "vontade",
+          "receita",
+          "restrição alimentar",
+          "acompanhamento"
         ],
         "correct": 2
       },
@@ -18399,7 +18399,7 @@
         "options": [
           "overbooked",
           "itinerary",
-          "boarding pass",
+          "customs",
           "backpacker"
         ],
         "correct": 1
@@ -18411,7 +18411,7 @@
         "audioText": "O voo estava com overbooking, então pediram voluntários.",
         "options": [
           "mochileiro",
-          "bagagem",
+          "passagem só de ida",
           "itinerário",
           "com overbooking"
         ],
@@ -18502,31 +18502,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "gorjeta",
-            "meaning": "tip",
-            "example": "Deixamos uma gorjeta generosa para o garçom."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "água com gás",
-            "meaning": "sparkling water",
-            "example": "Vou querer água com gás com limão."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "ingrediente",
-            "meaning": "ingredient",
-            "example": "O alho é o ingrediente principal desse prato."
+            "word": "mercado",
+            "meaning": "grocery store",
+            "example": "Preciso passar no mercado depois do trabalho."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "side dish",
-          "sparkling water",
-          "tip",
-          "ingredient"
+          "appetizer",
+          "craving",
+          "dietary restriction",
+          "grocery store"
         ],
         "correct": 2
       },
@@ -18534,12 +18534,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Vou querer água com gás com limão.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "picante",
-          "gorjeta",
-          "água com gás",
-          "ingrediente"
+          "bem passado",
+          "restrição alimentar",
+          "vontade",
+          "mercado"
         ],
         "correct": 2
       },
@@ -19025,7 +19025,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"com overbooking\"?",
         "options": [
-          "one-way ticket",
+          "luggage",
           "overbooked",
           "itinerary",
           "backpacker"
@@ -19039,7 +19039,7 @@
         "audioText": "Ela planejou cada detalhe do nosso itinerário.",
         "options": [
           "com overbooking",
-          "marco histórico",
+          "fazer check-in",
           "itinerário",
           "mochileiro"
         ],
@@ -19130,31 +19130,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "gorjeta",
-            "meaning": "tip",
-            "example": "Deixamos uma gorjeta generosa para o garçom."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "bem passado",
-            "meaning": "well done (meat)",
-            "example": "Eu gostaria do meu bife bem passado, por favor."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "sabor",
-            "meaning": "flavor",
-            "example": "Esse sorvete tem um sabor incrível."
+            "word": "mercado",
+            "meaning": "grocery store",
+            "example": "Preciso passar no mercado depois do trabalho."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "Qual é a tradução correta para \"vontade\"?",
         "options": [
-          "tip",
           "craving",
-          "flavor",
-          "well done (meat)"
+          "leftovers",
+          "grocery store",
+          "dietary restriction"
         ],
         "correct": 0
       },
@@ -19162,12 +19162,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Eu gostaria do meu bife bem passado, por favor.",
+        "audioText": "Por favor nos avise sobre qualquer restrição alimentar.",
         "options": [
-          "gorjeta",
-          "sabor",
-          "bem passado",
-          "cardápio"
+          "vontade",
+          "mercado",
+          "restrição alimentar",
+          "alérgico"
         ],
         "correct": 2
       },
@@ -19661,7 +19661,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"mochileiro\"?",
         "options": [
-          "passport control",
+          "one-way ticket",
           "itinerary",
           "backpacker",
           "overbooked"
@@ -19674,7 +19674,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "Ela planejou cada detalhe do nosso itinerário.",
         "options": [
-          "casa de câmbio",
+          "hostel",
           "itinerário",
           "com overbooking",
           "mochileiro"
@@ -19768,31 +19768,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "a conta",
-            "meaning": "the check",
-            "example": "Você pode trazer a conta, por favor?"
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "receita",
-            "meaning": "recipe",
-            "example": "Essa receita só precisa de cinco ingredientes."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "vegetariano",
-            "meaning": "vegetarian",
-            "example": "Esse restaurante tem ótimas opções vegetarianas."
+            "word": "alérgico",
+            "meaning": "allergic",
+            "example": "Sou alérgico a frutos do mar, então nada de camarão pra mim."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"a conta\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "the check",
-          "recipe",
-          "side dish",
-          "vegetarian"
+          "dietary restriction",
+          "craving",
+          "takeout",
+          "allergic"
         ],
         "correct": 0
       },
@@ -19800,12 +19800,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Essa receita só precisa de cinco ingredientes.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "mercado",
-          "a conta",
-          "vegetariano",
-          "receita"
+          "cardápio",
+          "restrição alimentar",
+          "alérgico",
+          "vontade"
         ],
         "correct": 3
       },
@@ -20314,7 +20314,7 @@
         "options": [
           "com overbooking",
           "itinerário",
-          "casa de câmbio",
+          "viagem de ida e volta",
           "mochileiro"
         ],
         "correct": 1
@@ -20408,31 +20408,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "comida para viagem",
-            "meaning": "takeout",
-            "example": "Pedimos comida para viagem em vez de cozinhar hoje."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "mercado",
-            "meaning": "grocery store",
-            "example": "Preciso passar no mercado depois do trabalho."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "água com gás",
-            "meaning": "sparkling water",
-            "example": "Vou querer água com gás com limão."
+            "word": "sabor",
+            "meaning": "flavor",
+            "example": "Esse sorvete tem um sabor incrível."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comida para viagem\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "takeout",
-          "grocery store",
-          "refill",
-          "sparkling water"
+          "dietary restriction",
+          "craving",
+          "allergic",
+          "flavor"
         ],
         "correct": 0
       },
@@ -20440,12 +20440,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Preciso passar no mercado depois do trabalho.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "comida para viagem",
-          "água com gás",
-          "mercado",
-          "entrada"
+          "restrição alimentar",
+          "sabor",
+          "vontade",
+          "reservar uma mesa"
         ],
         "correct": 2
       },
@@ -20929,7 +20929,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"com overbooking\"?",
         "options": [
-          "to check in",
+          "souvenir",
           "overbooked",
           "itinerary",
           "backpacker"
@@ -20943,7 +20943,7 @@
         "audioText": "Ela planejou cada detalhe do nosso itinerário.",
         "options": [
           "mochileiro",
-          "alfândega",
+          "viagem de ida e volta",
           "itinerário",
           "com overbooking"
         ],
@@ -21034,31 +21034,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "bem passado",
-            "meaning": "well done (meat)",
-            "example": "Eu gostaria do meu bife bem passado, por favor."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "mercado",
-            "meaning": "grocery store",
-            "example": "Preciso passar no mercado depois do trabalho."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "gorjeta",
-            "meaning": "tip",
-            "example": "Deixamos uma gorjeta generosa para o garçom."
+            "word": "receita",
+            "meaning": "recipe",
+            "example": "Essa receita só precisa de cinco ingredientes."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "grocery store",
-          "refill",
+          "craving",
           "well done (meat)",
-          "tip"
+          "dietary restriction",
+          "recipe"
         ],
         "correct": 2
       },
@@ -21066,12 +21066,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Preciso passar no mercado depois do trabalho.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "bem passado",
-          "gorjeta",
-          "mercado",
-          "alérgico"
+          "restrição alimentar",
+          "receita",
+          "vontade",
+          "gorjeta"
         ],
         "correct": 2
       },
@@ -21559,7 +21559,7 @@
         "options": [
           "overbooked",
           "backpacker",
-          "landmark",
+          "customs",
           "itinerary"
         ],
         "correct": 0
@@ -21571,7 +21571,7 @@
         "audioText": "Ela planejou cada detalhe do nosso itinerário.",
         "options": [
           "mochileiro",
-          "escala",
+          "jet lag",
           "com overbooking",
           "itinerário"
         ],
@@ -21662,31 +21662,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "gorjeta",
-            "meaning": "tip",
-            "example": "Deixamos uma gorjeta generosa para o garçom."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "alérgico",
-            "meaning": "allergic",
-            "example": "Sou alérgico a frutos do mar, então nada de camarão pra mim."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "acompanhamento",
-            "meaning": "side dish",
-            "example": "Qual acompanhamento vem com o bife?"
+            "word": "a conta",
+            "meaning": "the check",
+            "example": "Você pode trazer a conta, por favor?"
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gorjeta\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "allergic",
-          "tip",
-          "leftovers",
-          "side dish"
+          "craving",
+          "dietary restriction",
+          "side dish",
+          "the check"
         ],
         "correct": 1
       },
@@ -21694,12 +21694,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Sou alérgico a frutos do mar, então nada de camarão pra mim.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "gorjeta",
           "restrição alimentar",
-          "alérgico",
-          "acompanhamento"
+          "ingrediente",
+          "vontade",
+          "a conta"
         ],
         "correct": 2
       },
@@ -22195,7 +22195,7 @@
         "options": [
           "itinerary",
           "overbooked",
-          "customs",
+          "luggage",
           "backpacker"
         ],
         "correct": 3
@@ -22208,7 +22208,7 @@
         "options": [
           "itinerário",
           "com overbooking",
-          "atraso",
+          "bagagem",
           "mochileiro"
         ],
         "correct": 1
@@ -22305,14 +22305,14 @@
             "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "entrada",
-            "meaning": "appetizer",
-            "example": "Vamos dividir uma entrada antes do prato principal."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "água com gás",
-            "meaning": "sparkling water",
-            "example": "Vou querer água com gás com limão."
+            "word": "bem passado",
+            "meaning": "well done (meat)",
+            "example": "Eu gostaria do meu bife bem passado, por favor."
           }
         ]
       },
@@ -22322,9 +22322,9 @@
         "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
           "dietary restriction",
-          "sparkling water",
-          "appetizer",
-          "spicy"
+          "well done (meat)",
+          "craving",
+          "grocery store"
         ],
         "correct": 0
       },
@@ -22332,12 +22332,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Vamos dividir uma entrada antes do prato principal.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
           "restrição alimentar",
-          "água com gás",
-          "entrada",
-          "alérgico"
+          "bem passado",
+          "vontade",
+          "mercado"
         ],
         "correct": 2
       },
@@ -22834,7 +22834,7 @@
           "overbooked",
           "backpacker",
           "itinerary",
-          "layover"
+          "hostel"
         ],
         "correct": 1
       },
@@ -22847,7 +22847,7 @@
           "mochileiro",
           "itinerário",
           "com overbooking",
-          "visita guiada"
+          "reserva"
         ],
         "correct": 1
       },
@@ -22940,31 +22940,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "reservar uma mesa",
-            "meaning": "to book a table",
-            "example": "Reservei uma mesa para quatro às 20h."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "mercado",
-            "meaning": "grocery store",
-            "example": "Preciso passar no mercado depois do trabalho."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "a conta",
-            "meaning": "the check",
-            "example": "Você pode trazer a conta, por favor?"
+            "word": "água com gás",
+            "meaning": "sparkling water",
+            "example": "Vou querer água com gás com limão."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reservar uma mesa\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "to book a table",
-          "grocery store",
-          "takeout",
-          "the check"
+          "dietary restriction",
+          "craving",
+          "leftovers",
+          "sparkling water"
         ],
         "correct": 0
       },
@@ -22972,12 +22972,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Preciso passar no mercado depois do trabalho.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "reservar uma mesa",
-          "a conta",
-          "mercado",
-          "ingrediente"
+          "restrição alimentar",
+          "água com gás",
+          "vontade",
+          "reservar uma mesa"
         ],
         "correct": 2
       },
@@ -23464,7 +23464,7 @@
           "backpacker",
           "itinerary",
           "overbooked",
-          "landmark"
+          "one-way ticket"
         ],
         "correct": 1
       },
@@ -23477,7 +23477,7 @@
           "mochileiro",
           "itinerário",
           "com overbooking",
-          "jet lag"
+          "escala"
         ],
         "correct": 0
       },
@@ -23566,31 +23566,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "acompanhamento",
-            "meaning": "side dish",
-            "example": "Qual acompanhamento vem com o bife?"
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "cardápio",
-            "meaning": "menu",
-            "example": "Poderia me trazer o cardápio, por favor?"
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "sobras",
-            "meaning": "leftovers",
-            "example": "Vou comer as sobras amanhã no almoço."
+            "word": "sabor",
+            "meaning": "flavor",
+            "example": "Esse sorvete tem um sabor incrível."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"acompanhamento\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "menu",
-          "leftovers",
-          "side dish",
-          "allergic"
+          "craving",
+          "flavor",
+          "dietary restriction",
+          "well done (meat)"
         ],
         "correct": 2
       },
@@ -23598,12 +23598,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Poderia me trazer o cardápio, por favor?",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "água com gás",
-          "acompanhamento",
-          "cardápio",
-          "sobras"
+          "mercado",
+          "restrição alimentar",
+          "vontade",
+          "sabor"
         ],
         "correct": 2
       },
@@ -24089,7 +24089,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"mochileiro\"?",
         "options": [
-          "directions",
+          "souvenir",
           "itinerary",
           "backpacker",
           "overbooked"
@@ -24105,7 +24105,7 @@
           "itinerário",
           "mochileiro",
           "com overbooking",
-          "marco histórico"
+          "cartão de embarque"
         ],
         "correct": 0
       },
@@ -24194,31 +24194,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
+          },
+          {
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
+          },
+          {
             "word": "mercado",
             "meaning": "grocery store",
             "example": "Preciso passar no mercado depois do trabalho."
-          },
-          {
-            "word": "a conta",
-            "meaning": "the check",
-            "example": "Você pode trazer a conta, por favor?"
-          },
-          {
-            "word": "sabor",
-            "meaning": "flavor",
-            "example": "Esse sorvete tem um sabor incrível."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mercado\"?",
+        "question": "Qual é a tradução correta para \"vontade\"?",
         "options": [
-          "flavor",
-          "the check",
-          "spicy",
-          "grocery store"
+          "grocery store",
+          "dietary restriction",
+          "appetizer",
+          "craving"
         ],
         "correct": 3
       },
@@ -24226,12 +24226,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Você pode trazer a conta, por favor?",
+        "audioText": "Por favor nos avise sobre qualquer restrição alimentar.",
         "options": [
+          "vontade",
           "mercado",
-          "sabor",
-          "a conta",
-          "acompanhamento"
+          "restrição alimentar",
+          "sobras"
         ],
         "correct": 2
       },
@@ -24727,7 +24727,7 @@
         "options": [
           "overbooked",
           "itinerary",
-          "hostel",
+          "to check in",
           "backpacker"
         ],
         "correct": 1
@@ -24740,7 +24740,7 @@
         "options": [
           "itinerário",
           "com overbooking",
-          "marco histórico",
+          "viagem de ida e volta",
           "mochileiro"
         ],
         "correct": 1
@@ -24832,31 +24832,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "bem passado",
-            "meaning": "well done (meat)",
-            "example": "Eu gostaria do meu bife bem passado, por favor."
-          },
-          {
-            "word": "a conta",
-            "meaning": "the check",
-            "example": "Você pode trazer a conta, por favor?"
-          },
-          {
             "word": "restrição alimentar",
             "meaning": "dietary restriction",
             "example": "Por favor nos avise sobre qualquer restrição alimentar."
+          },
+          {
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
+          },
+          {
+            "word": "bem passado",
+            "meaning": "well done (meat)",
+            "example": "Eu gostaria do meu bife bem passado, por favor."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bem passado\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "the check",
-          "well done (meat)",
-          "recipe",
-          "dietary restriction"
+          "craving",
+          "dietary restriction",
+          "to book a table",
+          "well done (meat)"
         ],
         "correct": 1
       },
@@ -24864,12 +24864,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Você pode trazer a conta, por favor?",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
-          "sabor",
-          "bem passado",
-          "a conta",
-          "restrição alimentar"
+          "mercado",
+          "restrição alimentar",
+          "vontade",
+          "bem passado"
         ],
         "correct": 2
       },
@@ -25364,7 +25364,7 @@
         "question": "Qual é a tradução correta para \"com overbooking\"?",
         "options": [
           "backpacker",
-          "guided tour",
+          "luggage",
           "itinerary",
           "overbooked"
         ],
@@ -25376,7 +25376,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "A trilha é popular entre mochileiros no verão.",
         "options": [
-          "alfândega",
+          "escala",
           "mochileiro",
           "itinerário",
           "com overbooking"
@@ -25472,31 +25472,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "acompanhamento",
-            "meaning": "side dish",
-            "example": "Qual acompanhamento vem com o bife?"
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "comida para viagem",
-            "meaning": "takeout",
-            "example": "Pedimos comida para viagem em vez de cozinhar hoje."
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "receita",
-            "meaning": "recipe",
-            "example": "Essa receita só precisa de cinco ingredientes."
+            "word": "água com gás",
+            "meaning": "sparkling water",
+            "example": "Vou querer água com gás com limão."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"acompanhamento\"?",
+        "question": "Qual é a tradução correta para \"restrição alimentar\"?",
         "options": [
-          "takeout",
-          "side dish",
-          "recipe",
-          "leftovers"
+          "craving",
+          "dietary restriction",
+          "sparkling water",
+          "takeout"
         ],
         "correct": 1
       },
@@ -25504,12 +25504,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Pedimos comida para viagem em vez de cozinhar hoje.",
+        "audioText": "Estou com vontade de chocolate o dia inteiro.",
         "options": [
+          "restrição alimentar",
+          "vontade",
           "acompanhamento",
-          "comida para viagem",
-          "a conta",
-          "receita"
+          "água com gás"
         ],
         "correct": 1
       },
@@ -25994,7 +25994,7 @@
         "question": "Qual é a tradução correta para \"itinerário\"?",
         "options": [
           "itinerary",
-          "passport control",
+          "souvenir",
           "backpacker",
           "overbooked"
         ],
@@ -26007,7 +26007,7 @@
         "audioText": "O voo estava com overbooking, então pediram voluntários.",
         "options": [
           "mochileiro",
-          "alfândega",
+          "viagem de ida e volta",
           "itinerário",
           "com overbooking"
         ],
@@ -26098,31 +26098,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "acompanhamento",
-            "meaning": "side dish",
-            "example": "Qual acompanhamento vem com o bife?"
+            "word": "vontade",
+            "meaning": "craving",
+            "example": "Estou com vontade de chocolate o dia inteiro."
           },
           {
-            "word": "mercado",
-            "meaning": "grocery store",
-            "example": "Preciso passar no mercado depois do trabalho."
+            "word": "restrição alimentar",
+            "meaning": "dietary restriction",
+            "example": "Por favor nos avise sobre qualquer restrição alimentar."
           },
           {
-            "word": "reforço",
-            "meaning": "refill",
-            "example": "Você pode completar meu café, por favor?"
+            "word": "gorjeta",
+            "meaning": "tip",
+            "example": "Deixamos uma gorjeta generosa para o garçom."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"acompanhamento\"?",
+        "question": "Qual é a tradução correta para \"vontade\"?",
         "options": [
+          "craving",
+          "tip",
           "side dish",
-          "refill",
-          "spicy",
-          "grocery store"
+          "dietary restriction"
         ],
         "correct": 0
       },
@@ -26130,12 +26130,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Preciso passar no mercado depois do trabalho.",
+        "audioText": "Por favor nos avise sobre qualquer restrição alimentar.",
         "options": [
-          "restrição alimentar",
-          "acompanhamento",
-          "reforço",
-          "mercado"
+          "mercado",
+          "vontade",
+          "gorjeta",
+          "restrição alimentar"
         ],
         "correct": 3
       },

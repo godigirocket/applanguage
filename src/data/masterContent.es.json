@@ -17656,7 +17656,7 @@
         "question": "Qual é a tradução correta para \"itinerario\"?",
         "options": [
           "itinerário",
-          "reserva",
+          "hostel",
           "com overbooking",
           "mochileiro"
         ],
@@ -17668,7 +17668,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "El vuelo estaba sobrevendido, así que pidieron voluntarios.",
         "options": [
-          "jet lag",
+          "boleto de ida",
           "sobrevendido",
           "mochilero",
           "itinerario"
@@ -17760,31 +17760,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "agua con gas",
-            "meaning": "água com gás",
-            "example": "Voy a tomar agua con gas con limón."
-          },
-          {
             "word": "restricción alimentaria",
             "meaning": "restrição alimentar",
             "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "guarnición",
-            "meaning": "acompanhamento",
-            "example": "¿Qué guarnición viene con el bistec?"
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
+          },
+          {
+            "word": "reservar una mesa",
+            "meaning": "reservar uma mesa",
+            "example": "Reservé una mesa para cuatro a las 8pm."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"agua con gas\"?",
+        "question": "Qual é a tradução correta para \"restricción alimentaria\"?",
         "options": [
+          "vontade",
           "restrição alimentar",
-          "água com gás",
-          "acompanhamento",
-          "entrada"
+          "reservar uma mesa",
+          "receita"
         ],
         "correct": 1
       },
@@ -17792,12 +17792,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
+        "audioText": "He tenido un antojo de chocolate todo el día.",
         "options": [
-          "restricción alimentaria",
-          "guarnición",
-          "comida para llevar",
-          "agua con gas"
+          "antojo",
+          "reservar una mesa",
+          "recarga",
+          "restricción alimentaria"
         ],
         "correct": 0
       },
@@ -18282,7 +18282,7 @@
         "question": "Qual é a tradução correta para \"sobrevendido\"?",
         "options": [
           "mochileiro",
-          "visita guiada",
+          "viagem de ida e volta",
           "itinerário",
           "com overbooking"
         ],
@@ -18295,7 +18295,7 @@
         "audioText": "El sendero es popular entre mochileros en el verano.",
         "options": [
           "mochilero",
-          "casa de cambio",
+          "boleto de ida",
           "itinerario",
           "sobrevendido"
         ],
@@ -18384,31 +18384,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "menú",
-            "meaning": "cardápio",
-            "example": "¿Podría ver el menú, por favor?"
-          },
-          {
-            "word": "picante",
-            "meaning": "picante",
-            "example": "Ten cuidado, esta salsa es muy picante."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
             "word": "antojo",
             "meaning": "vontade",
             "example": "He tenido un antojo de chocolate todo el día."
+          },
+          {
+            "word": "menú",
+            "meaning": "cardápio",
+            "example": "¿Podría ver el menú, por favor?"
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"menú\"?",
+        "question": "Qual é a tradução correta para \"restricción alimentaria\"?",
         "options": [
-          "picante",
-          "cardápio",
-          "reforço",
-          "vontade"
+          "vontade",
+          "restrição alimentar",
+          "mercado",
+          "cardápio"
         ],
         "correct": 1
       },
@@ -18416,12 +18416,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ten cuidado, esta salsa es muy picante.",
+        "audioText": "He tenido un antojo de chocolate todo el día.",
         "options": [
-          "picante",
           "antojo",
           "menú",
-          "sobras"
+          "restricción alimentaria",
+          "entrante"
         ],
         "correct": 0
       },
@@ -18903,7 +18903,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"sobrevendido\"?",
         "options": [
-          "hostel",
+          "marco histórico",
           "itinerário",
           "com overbooking",
           "mochileiro"
@@ -18916,7 +18916,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "Ella planeó cada detalle de nuestro itinerario.",
         "options": [
-          "tarjeta de embarque",
+          "escala",
           "mochilero",
           "itinerario",
           "sobrevendido"
@@ -19008,14 +19008,14 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "recarga",
-            "meaning": "reforço",
-            "example": "¿Me puede rellenar el café, por favor?"
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "tienda de comestibles",
-            "meaning": "mercado",
-            "example": "Necesito pasar por la tienda de comestibles después del trabajo."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
             "word": "guarnición",
@@ -19027,12 +19027,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"recarga\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "reforço",
-          "restrição alimentar",
+          "vontade",
+          "vegetariano",
           "acompanhamento",
-          "mercado"
+          "restrição alimentar"
         ],
         "correct": 0
       },
@@ -19040,12 +19040,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Necesito pasar por la tienda de comestibles después del trabajo.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "reservar una mesa",
-          "tienda de comestibles",
+          "propina",
+          "restricción alimentaria",
           "guarnición",
-          "recarga"
+          "antojo"
         ],
         "correct": 1
       },
@@ -19537,7 +19537,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"itinerario\"?",
         "options": [
-          "controle de passaportes",
+          "bagagem",
           "itinerário",
           "com overbooking",
           "mochileiro"
@@ -19551,7 +19551,7 @@
         "audioText": "El vuelo estaba sobrevendido, así que pidieron voluntarios.",
         "options": [
           "mochilero",
-          "control de pasaportes",
+          "recuerdo",
           "sobrevendido",
           "itinerario"
         ],
@@ -19644,31 +19644,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "bien cocido",
-            "meaning": "bem passado",
-            "example": "Quisiera mi bistec bien cocido, por favor."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "guarnición",
-            "meaning": "acompanhamento",
-            "example": "¿Qué guarnición viene con el bistec?"
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "comida para llevar",
-            "meaning": "comida para viagem",
-            "example": "Pedimos comida para llevar en vez de cocinar hoy."
+            "word": "vegetariano",
+            "meaning": "vegetariano",
+            "example": "Este restaurante tiene excelentes opciones vegetarianas."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bien cocido\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "comida para viagem",
-          "sabor",
-          "acompanhamento",
-          "bem passado"
+          "vegetariano",
+          "sobras",
+          "restrição alimentar",
+          "vontade"
         ],
         "correct": 3
       },
@@ -19676,12 +19676,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "¿Qué guarnición viene con el bistec?",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "sobras",
-          "bien cocido",
-          "comida para llevar",
-          "guarnición"
+          "alérgico",
+          "antojo",
+          "vegetariano",
+          "restricción alimentaria"
         ],
         "correct": 3
       },
@@ -20184,7 +20184,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "Ella planeó cada detalle de nuestro itinerario.",
         "options": [
-          "recuerdo",
+          "retraso",
           "itinerario",
           "mochilero",
           "sobrevendido"
@@ -20276,14 +20276,14 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "bien cocido",
-            "meaning": "bem passado",
-            "example": "Quisiera mi bistec bien cocido, por favor."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "propina",
-            "meaning": "gorjeta",
-            "example": "Dejamos una propina generosa para el mesero."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
             "word": "vegetariano",
@@ -20295,12 +20295,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"bien cocido\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "bem passado",
-          "ingrediente",
+          "vontade",
+          "comida para viagem",
           "vegetariano",
-          "gorjeta"
+          "restrição alimentar"
         ],
         "correct": 0
       },
@@ -20308,12 +20308,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Dejamos una propina generosa para el mesero.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "sobras",
+          "agua con gas",
           "vegetariano",
-          "bien cocido",
-          "propina"
+          "antojo",
+          "restricción alimentaria"
         ],
         "correct": 3
       },
@@ -20797,7 +20797,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"itinerario\"?",
         "options": [
-          "escala",
+          "marco histórico",
           "itinerário",
           "mochileiro",
           "com overbooking"
@@ -20812,7 +20812,7 @@
         "options": [
           "sobrevendido",
           "itinerario",
-          "casa de cambio",
+          "control de pasaportes",
           "mochilero"
         ],
         "correct": 3
@@ -20900,31 +20900,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "comida para llevar",
-            "meaning": "comida para viagem",
-            "example": "Pedimos comida para llevar en vez de cocinar hoy."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "ingrediente",
-            "meaning": "ingrediente",
-            "example": "El ajo es el ingrediente clave de este plato."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "sabor",
-            "meaning": "sabor",
-            "example": "Este helado tiene un sabor increíble."
+            "word": "sobras",
+            "meaning": "sobras",
+            "example": "Voy a comer las sobras mañana en el almuerzo."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comida para llevar\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "ingrediente",
-          "sabor",
-          "bem passado",
-          "comida para viagem"
+          "restrição alimentar",
+          "sobras",
+          "a conta",
+          "vontade"
         ],
         "correct": 3
       },
@@ -20932,12 +20932,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El ajo es el ingrediente clave de este plato.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
+          "agua con gas",
           "restricción alimentaria",
-          "ingrediente",
-          "comida para llevar",
-          "sabor"
+          "antojo",
+          "sobras"
         ],
         "correct": 1
       },
@@ -21419,7 +21419,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"sobrevendido\"?",
         "options": [
-          "fazer check-in",
+          "escala",
           "mochileiro",
           "com overbooking",
           "itinerário"
@@ -21432,7 +21432,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "Ella planeó cada detalle de nuestro itinerario.",
         "options": [
-          "monumento",
+          "tarjeta de embarque",
           "sobrevendido",
           "mochilero",
           "itinerario"
@@ -21524,14 +21524,14 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "sobras",
-            "meaning": "sobras",
-            "example": "Voy a comer las sobras mañana en el almuerzo."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "agua con gas",
-            "meaning": "água com gás",
-            "example": "Voy a tomar agua con gas con limón."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
             "word": "menú",
@@ -21543,12 +21543,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "sabor",
+          "picante",
           "cardápio",
-          "água com gás",
-          "sobras"
+          "restrição alimentar",
+          "vontade"
         ],
         "correct": 3
       },
@@ -21556,11 +21556,11 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Voy a tomar agua con gas con limón.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "agua con gas",
-          "recarga",
-          "sobras",
+          "restricción alimentaria",
+          "alérgico",
+          "antojo",
           "menú"
         ],
         "correct": 0
@@ -22053,7 +22053,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"sobrevendido\"?",
         "options": [
-          "hostel",
+          "bagagem",
           "itinerário",
           "com overbooking",
           "mochileiro"
@@ -22069,7 +22069,7 @@
           "mochilero",
           "sobrevendido",
           "itinerario",
-          "control de pasaportes"
+          "monumento"
         ],
         "correct": 2
       },
@@ -22160,31 +22160,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "guarnición",
-            "meaning": "acompanhamento",
-            "example": "¿Qué guarnición viene con el bistec?"
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "receta",
-            "meaning": "receita",
-            "example": "Esta receta solo necesita cinco ingredientes."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "propina",
-            "meaning": "gorjeta",
-            "example": "Dejamos una propina generosa para el mesero."
+            "word": "menú",
+            "meaning": "cardápio",
+            "example": "¿Podría ver el menú, por favor?"
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"guarnición\"?",
+        "question": "Qual é a tradução correta para \"restricción alimentaria\"?",
         "options": [
-          "receita",
-          "gorjeta",
-          "acompanhamento",
-          "vontade"
+          "vontade",
+          "cardápio",
+          "restrição alimentar",
+          "entrada"
         ],
         "correct": 2
       },
@@ -22192,12 +22192,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Esta receta solo necesita cinco ingredientes.",
+        "audioText": "He tenido un antojo de chocolate todo el día.",
         "options": [
-          "receta",
-          "comida para llevar",
-          "propina",
-          "guarnición"
+          "antojo",
+          "la cuenta",
+          "menú",
+          "restricción alimentaria"
         ],
         "correct": 0
       },
@@ -22690,7 +22690,7 @@
           "mochileiro",
           "com overbooking",
           "itinerário",
-          "controle de passaportes"
+          "bagagem"
         ],
         "correct": 0
       },
@@ -22701,7 +22701,7 @@
         "audioText": "Ella planeó cada detalle de nuestro itinerario.",
         "options": [
           "itinerario",
-          "viaje de ida y vuelta",
+          "hostal",
           "sobrevendido",
           "mochilero"
         ],
@@ -22792,31 +22792,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "sobras",
-            "meaning": "sobras",
-            "example": "Voy a comer las sobras mañana en el almuerzo."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
+          },
+          {
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
             "word": "propina",
             "meaning": "gorjeta",
             "example": "Dejamos una propina generosa para el mesero."
-          },
-          {
-            "word": "ingrediente",
-            "meaning": "ingrediente",
-            "example": "El ajo es el ingrediente clave de este plato."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "Qual é a tradução correta para \"restricción alimentaria\"?",
         "options": [
-          "sobras",
-          "gorjeta",
-          "reservar uma mesa",
-          "ingrediente"
+          "restrição alimentar",
+          "vontade",
+          "vegetariano",
+          "gorjeta"
         ],
         "correct": 0
       },
@@ -22824,12 +22824,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Dejamos una propina generosa para el mesero.",
+        "audioText": "He tenido un antojo de chocolate todo el día.",
         "options": [
-          "ingrediente",
-          "sobras",
-          "menú",
-          "propina"
+          "propina",
+          "restricción alimentaria",
+          "la cuenta",
+          "antojo"
         ],
         "correct": 3
       },
@@ -23313,7 +23313,7 @@
         "title": "Desafio de Tradução",
         "question": "Qual é a tradução correta para \"itinerario\"?",
         "options": [
-          "atraso",
+          "marco histórico",
           "itinerário",
           "mochileiro",
           "com overbooking"
@@ -23326,7 +23326,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "El sendero es popular entre mochileros en el verano.",
         "options": [
-          "control de pasaportes",
+          "reserva",
           "mochilero",
           "sobrevendido",
           "itinerario"
@@ -23416,31 +23416,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "sobras",
-            "meaning": "sobras",
-            "example": "Voy a comer las sobras mañana en el almuerzo."
-          },
-          {
-            "word": "ingrediente",
-            "meaning": "ingrediente",
-            "example": "El ajo es el ingrediente clave de este plato."
-          },
-          {
             "word": "antojo",
             "meaning": "vontade",
             "example": "He tenido un antojo de chocolate todo el día."
+          },
+          {
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
+          },
+          {
+            "word": "sobras",
+            "meaning": "sobras",
+            "example": "Voy a comer las sobras mañana en el almuerzo."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "sobras",
           "vontade",
-          "a conta",
-          "ingrediente"
+          "sobras",
+          "sabor",
+          "restrição alimentar"
         ],
         "correct": 0
       },
@@ -23448,12 +23448,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El ajo es el ingrediente clave de este plato.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "ingrediente",
-          "bien cocido",
-          "antojo",
-          "sobras"
+          "restricción alimentaria",
+          "entrante",
+          "sobras",
+          "antojo"
         ],
         "correct": 0
       },
@@ -23937,7 +23937,7 @@
         "options": [
           "itinerário",
           "com overbooking",
-          "reserva",
+          "alfândega",
           "mochileiro"
         ],
         "correct": 3
@@ -23948,7 +23948,7 @@
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
         "audioText": "El vuelo estaba sobrevendido, así que pidieron voluntarios.",
         "options": [
-          "hacer el check-in",
+          "reserva",
           "itinerario",
           "mochilero",
           "sobrevendido"
@@ -24040,31 +24040,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "guarnición",
-            "meaning": "acompanhamento",
-            "example": "¿Qué guarnición viene con el bistec?"
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "propina",
-            "meaning": "gorjeta",
-            "example": "Dejamos una propina generosa para el mesero."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "ingrediente",
-            "meaning": "ingrediente",
-            "example": "El ajo es el ingrediente clave de este plato."
+            "word": "bien cocido",
+            "meaning": "bem passado",
+            "example": "Quisiera mi bistec bien cocido, por favor."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"guarnición\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "ingrediente",
-          "gorjeta",
-          "comida para viagem",
-          "acompanhamento"
+          "bem passado",
+          "restrição alimentar",
+          "acompanhamento",
+          "vontade"
         ],
         "correct": 3
       },
@@ -24072,12 +24072,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Dejamos una propina generosa para el mesero.",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "ingrediente",
-          "guarnición",
-          "propina",
-          "recarga"
+          "bien cocido",
+          "antojo",
+          "restricción alimentaria",
+          "propina"
         ],
         "correct": 2
       },
@@ -24571,7 +24571,7 @@
         "options": [
           "mochileiro",
           "itinerário",
-          "passagem só de ida",
+          "hostel",
           "com overbooking"
         ],
         "correct": 1
@@ -24583,7 +24583,7 @@
         "audioText": "El vuelo estaba sobrevendido, así que pidieron voluntarios.",
         "options": [
           "itinerario",
-          "hostal",
+          "casa de cambio",
           "sobrevendido",
           "mochilero"
         ],
@@ -24676,31 +24676,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "la cuenta",
-            "meaning": "a conta",
-            "example": "¿Nos trae la cuenta, por favor?"
-          },
-          {
-            "word": "guarnición",
-            "meaning": "acompanhamento",
-            "example": "¿Qué guarnición viene con el bistec?"
-          },
-          {
             "word": "antojo",
             "meaning": "vontade",
             "example": "He tenido un antojo de chocolate todo el día."
+          },
+          {
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
+          },
+          {
+            "word": "alérgico",
+            "meaning": "alérgico",
+            "example": "Soy alérgico a los mariscos, así que nada de camarones para mí."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"la cuenta\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "receita",
-          "acompanhamento",
-          "vontade",
-          "a conta"
+          "reforço",
+          "restrição alimentar",
+          "alérgico",
+          "vontade"
         ],
         "correct": 3
       },
@@ -24708,12 +24708,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "¿Qué guarnición viene con el bistec?",
+        "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
-          "menú",
-          "antojo",
-          "guarnición",
-          "la cuenta"
+          "comida para llevar",
+          "alérgico",
+          "restricción alimentaria",
+          "antojo"
         ],
         "correct": 2
       },
@@ -25205,7 +25205,7 @@
         "options": [
           "itinerário",
           "mochileiro",
-          "viagem de ida e volta",
+          "casa de câmbio",
           "com overbooking"
         ],
         "correct": 0
@@ -25219,7 +25219,7 @@
           "sobrevendido",
           "itinerario",
           "mochilero",
-          "casa de cambio"
+          "jet lag"
         ],
         "correct": 2
       },
@@ -25308,31 +25308,31 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "entrante",
-            "meaning": "entrada",
-            "example": "Compartamos un entrante antes del plato principal."
+            "word": "restricción alimentaria",
+            "meaning": "restrição alimentar",
+            "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "la cuenta",
-            "meaning": "a conta",
-            "example": "¿Nos trae la cuenta, por favor?"
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
-            "word": "sabor",
-            "meaning": "sabor",
-            "example": "Este helado tiene un sabor increíble."
+            "word": "agua con gas",
+            "meaning": "água com gás",
+            "example": "Voy a tomar agua con gas con limón."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"entrante\"?",
+        "question": "Qual é a tradução correta para \"restricción alimentaria\"?",
         "options": [
-          "a conta",
-          "picante",
-          "entrada",
-          "sabor"
+          "vontade",
+          "vegetariano",
+          "restrição alimentar",
+          "água com gás"
         ],
         "correct": 2
       },
@@ -25340,12 +25340,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "¿Nos trae la cuenta, por favor?",
+        "audioText": "He tenido un antojo de chocolate todo el día.",
         "options": [
-          "entrante",
-          "sabor",
-          "la cuenta",
-          "sobras"
+          "restricción alimentaria",
+          "agua con gas",
+          "antojo",
+          "receta"
         ],
         "correct": 2
       },
@@ -25831,7 +25831,7 @@
         "options": [
           "com overbooking",
           "itinerário",
-          "direções",
+          "cartão de embarque",
           "mochileiro"
         ],
         "correct": 3
@@ -25845,7 +25845,7 @@
           "itinerario",
           "mochilero",
           "sobrevendido",
-          "visita guiada"
+          "reserva"
         ],
         "correct": 2
       },
@@ -25932,9 +25932,9 @@
         "title": "Vocabulário do Dia",
         "words": [
           {
-            "word": "reservar una mesa",
-            "meaning": "reservar uma mesa",
-            "example": "Reservé una mesa para cuatro a las 8pm."
+            "word": "antojo",
+            "meaning": "vontade",
+            "example": "He tenido un antojo de chocolate todo el día."
           },
           {
             "word": "restricción alimentaria",
@@ -25942,20 +25942,20 @@
             "example": "Por favor avísenos de cualquier restricción alimentaria."
           },
           {
-            "word": "menú",
-            "meaning": "cardápio",
-            "example": "¿Podría ver el menú, por favor?"
+            "word": "tienda de comestibles",
+            "meaning": "mercado",
+            "example": "Necesito pasar por la tienda de comestibles después del trabajo."
           }
         ]
       },
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reservar una mesa\"?",
+        "question": "Qual é a tradução correta para \"antojo\"?",
         "options": [
-          "reservar uma mesa",
-          "ingrediente",
+          "vontade",
           "cardápio",
+          "mercado",
           "restrição alimentar"
         ],
         "correct": 0
@@ -25967,9 +25967,9 @@
         "audioText": "Por favor avísenos de cualquier restricción alimentaria.",
         "options": [
           "restricción alimentaria",
-          "menú",
-          "reservar una mesa",
-          "agua con gas"
+          "tienda de comestibles",
+          "antojo",
+          "propina"
         ],
         "correct": 0
       },

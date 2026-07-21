@@ -126,7 +126,7 @@ function PricingPage() {
           <h1
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "48px",
+              fontSize: "clamp(28px, 6vw, 48px)",
               fontWeight: 900,
               color: "var(--text-primary)",
               marginBottom: "16px",
@@ -138,7 +138,7 @@ function PricingPage() {
 
           <p
             style={{
-              fontSize: "18px",
+              fontSize: "clamp(15px, 3vw, 18px)",
               color: "var(--text-secondary)",
               maxWidth: "600px",
               margin: "0 auto 40px",

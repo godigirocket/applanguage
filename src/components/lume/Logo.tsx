@@ -50,6 +50,7 @@ export function Logo({ size = 40, className = "", withText = true }: LogoProps) 
           </span>
           {size >= 32 && (
             <span
+              className="lume-logo-tagline"
               style={{
                 fontFamily: "DM Sans, sans-serif",
                 fontSize: Math.max(8, Math.round(size * 0.2)),
