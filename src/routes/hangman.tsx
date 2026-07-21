@@ -520,7 +520,7 @@ function HangmanGamePage() {
                     background: !isUsed
                       ? "var(--bg)"
                       : isMatch
-                        ? "rgba(45,74,62,0.1)"
+                        ? "rgba(255,122,69,0.1)"
                         : "var(--border)",
                     color: !isUsed
                       ? "var(--text-primary)"
@@ -618,7 +618,7 @@ function HangmanGamePage() {
                     height: "72px",
                     borderRadius: "50%",
                     background:
-                      showModal === "victory" ? "rgba(45,74,62,0.1)" : "rgba(196,113,74,0.1)",
+                      showModal === "victory" ? "rgba(255,122,69,0.1)" : "rgba(196,113,74,0.1)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -755,8 +755,8 @@ function HangmanGamePage() {
                         style={{
                           padding: "8px 16px",
                           borderRadius: "12px",
-                          background: "rgba(45,74,62,0.06)",
-                          border: "1px solid rgba(45,74,62,0.15)",
+                          background: "rgba(255,122,69,0.06)",
+                          border: "1px solid rgba(255,122,69,0.15)",
                           color: "var(--brand)",
                           fontSize: "13px",
                           fontWeight: 800,
@@ -795,7 +795,7 @@ function HangmanGamePage() {
                     cursor: "pointer",
                     fontSize: "15px",
                     fontWeight: 700,
-                    boxShadow: "0 4px 16px rgba(45,74,62,0.25)",
+                    boxShadow: "0 4px 16px rgba(255,122,69,0.25)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

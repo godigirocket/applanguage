@@ -33,6 +33,7 @@ import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
+import { Mascot } from "@/components/lume/Mascot";
 
 export const Route = createFileRoute("/home")({
   component: HomePage,
@@ -164,23 +165,38 @@ function HomePage() {
         {/* HERO GREETING */}
         <section
           style={{
-            background: "linear-gradient(135deg, var(--app-bg-2) 0%, var(--app-bg) 100%)",
+            // Fixed dark band regardless of light/dark theme — the badges and
+            // overlays inside assume a dark backdrop (white text, translucent
+            // white pills), which went invisible when this tracked the light
+            // theme's near-white background.
+            background: "linear-gradient(135deg, #111827 0%, #0b1020 100%)",
             padding: "48px 24px",
-            color: "var(--text-strong)",
+            color: "#fff",
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <h1
+              <div
                 style={{
-                  fontSize: "clamp(28px, 4vw, 42px)",
-                  fontWeight: 900,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "16px",
+                  flexWrap: "wrap",
                   marginBottom: "12px",
-                  letterSpacing: "-0.02em",
                 }}
               >
-                {getGreeting()}
-              </h1>
+                <Mascot state={isNewUser ? "happy" : "idle"} size={72} />
+                <h1
+                  style={{
+                    fontSize: "clamp(28px, 4vw, 42px)",
+                    fontWeight: 900,
+                    letterSpacing: "-0.02em",
+                    margin: 0,
+                  }}
+                >
+                  {getGreeting()}
+                </h1>
+              </div>
               <p style={{ fontSize: "18px", opacity: 0.9, marginBottom: "32px" }}>
                 {isNewUser
                   ? isPT

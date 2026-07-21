@@ -231,7 +231,7 @@ function SkillsPage() {
       style={{
         minHeight: "100vh",
         background:
-          "radial-gradient(circle at 10% 20%, rgba(45,74,62,0.05), transparent), var(--bg)",
+          "radial-gradient(circle at 10% 20%, rgba(255,122,69,0.05), transparent), var(--bg)",
       }}
     >
       <AppHeader />
@@ -659,7 +659,7 @@ function SkillNode({ skill }: { skill: (typeof SKILLS)[0] }) {
   const [hovered, setHovered] = useState(false);
 
   const bg = skill.completed
-    ? "linear-gradient(135deg, #2D4A3E, #1B3A4B)"
+    ? "linear-gradient(135deg, #ff7a45, #2f80ed)"
     : skill.locked
       ? "var(--surface)"
       : "var(--surface-raised)";
@@ -705,7 +705,7 @@ function SkillNode({ skill }: { skill: (typeof SKILLS)[0] }) {
           border: `2px ${borderStyle} ${borderColor}`,
           position: "relative",
           flexShrink: 0,
-          boxShadow: skill.completed ? "0 8px 24px rgba(45,74,62,0.2)" : "none",
+          boxShadow: skill.completed ? "0 8px 24px rgba(255,122,69,0.2)" : "none",
           transition: "all 0.3s ease",
         }}
       >

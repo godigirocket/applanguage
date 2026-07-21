@@ -165,7 +165,7 @@ export function LanguageSwitcher() {
                     gap: "10px",
                     padding: "10px 12px",
                     borderRadius: "10px",
-                    background: targetLanguage === code ? "rgba(45,74,62,0.08)" : "transparent",
+                    background: targetLanguage === code ? "rgba(255,122,69,0.08)" : "transparent",
                     border: "none",
                     cursor: "pointer",
                     transition: "all 0.15s",

@@ -53,7 +53,7 @@ export function ThemeToggle() {
       }}
       className="hover:scale-110 active:scale-95 group relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[#2D4A3E]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute inset-0 bg-[#ff7a45]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
       <span className="relative z-10 transition-transform duration-300 group-hover:rotate-12 flex items-center justify-center">
         {isDark ? (
           <Moon size={18} style={{ color: "#FFD700" }} />

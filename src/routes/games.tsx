@@ -71,7 +71,7 @@ function PlayPage() {
         ? "Um desafio temático especial disponível apenas hoje."
         : "One special themed challenge available today.",
       xp: isPT ? "Bônus 200 XP" : "200 XP Bonus",
-      color: "#1B3A4B",
+      color: "#2f80ed",
       tag: isPT ? "HOJE" : "TODAY",
     },
     {
@@ -534,7 +534,7 @@ function PlayPage() {
               {
                 label: isPT ? "precisão" : "accuracy",
                 value: `${stats.accuracy}%`,
-                color: "#C9A84C",
+                color: "var(--brand-yellow)",
                 icon: <Star size={18} />,
               },
               {
@@ -546,7 +546,7 @@ function PlayPage() {
               {
                 label: "XP",
                 value: stats.xpFromQuizzes,
-                color: "#1B3A4B",
+                color: "var(--brand-blue)",
                 icon: <Zap size={18} />,
               },
             ].map((stat, i) => (
@@ -566,7 +566,6 @@ function PlayPage() {
                     justifyContent: "center",
                     color: stat.color,
                     marginBottom: "8px",
-                    opacity: 0.6,
                   }}
                 >
                   {stat.icon}

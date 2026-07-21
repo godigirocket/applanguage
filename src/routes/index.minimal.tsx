@@ -26,7 +26,7 @@ function MinimalLanding() {
             href="/signup" 
             style={{
               padding: "16px 32px",
-              background: "#2D4A3E",
+              background: "#ff7a45",
               color: "white",
               textDecoration: "none",
               borderRadius: "99px",
@@ -40,11 +40,11 @@ function MinimalLanding() {
             style={{
               padding: "16px 32px",
               background: "white",
-              color: "#2D4A3E",
+              color: "#ff7a45",
               textDecoration: "none",
               borderRadius: "99px",
               fontWeight: "700",
-              border: "2px solid #2D4A3E"
+              border: "2px solid #ff7a45"
             }}
           >
             Entrar

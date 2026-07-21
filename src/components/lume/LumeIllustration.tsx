@@ -96,7 +96,7 @@ export function LumeIllustration({ className }: { className?: string }) {
             gradientUnits="userSpaceOnUse"
           >
             <stop stopColor="var(--accent-green)" />
-            <stop offset="1" stopColor="#1B3A4B" />
+            <stop offset="1" stopColor="#2f80ed" />
           </linearGradient>
         </defs>
       </motion.svg>

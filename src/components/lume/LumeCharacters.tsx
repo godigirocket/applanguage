@@ -296,7 +296,7 @@ export function CharacterThinking({ size = 220, animated = true, style }: Charac
             y="65"
             fontSize="16"
             fontWeight="900"
-            fill="#2D4A3E"
+            fill="#ff7a45"
             textAnchor="middle"
             animate={{ opacity: [0, 1, 0] }}
             transition={{ duration: 2.5, repeat: Infinity }}
@@ -454,7 +454,7 @@ export function CharacterReading({ size = 220, animated = true, style }: Charact
       )}
 
       {/* Shorts/pants */}
-      <path d="M85 188 Q120 192 155 188 L156 215 Q120 220 84 215 Z" fill="#1B3A4B" />
+      <path d="M85 188 Q120 192 155 188 L156 215 Q120 220 84 215 Z" fill="#2f80ed" />
 
       {/* Legs */}
       <ellipse cx="105" cy="225" rx="13" ry="8" fill="#FF6B6B" />

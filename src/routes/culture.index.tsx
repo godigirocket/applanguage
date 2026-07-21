@@ -87,10 +87,10 @@ function CulturePage() {
               alignItems: "center",
               gap: "8px",
               padding: "6px 14px",
-              background: "rgba(45,74,62,0.06)",
+              background: "rgba(255,122,69,0.06)",
               borderRadius: "99px",
               marginBottom: "20px",
-              border: "1px solid rgba(45,74,62,0.1)",
+              border: "1px solid rgba(255,122,69,0.1)",
             }}
           >
             <Globe size={14} color="var(--brand)" />

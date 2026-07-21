@@ -69,7 +69,7 @@ function Login() {
       <div style={{ width: "100%", maxWidth: "380px" }}>
         {/* Brand */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#2D4A3E", letterSpacing: "-0.02em" }}>LangLume</h1>
+          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#ff7a45", letterSpacing: "-0.02em" }}>LangLume</h1>
           <p style={{ fontSize: "14px", color: "#6B6B63", marginTop: "4px" }}>
             {isPT ? "Aprenda idiomas praticando" : "Learn languages by practicing"}
           </p>
@@ -117,13 +117,13 @@ function Login() {
             )}
 
             <button type="submit" disabled={loading}
-              style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#2D4A3E", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}>
+              style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#ff7a45", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}>
               {loading ? "..." : isPT ? "Entrar" : "Sign in"}
             </button>
           </form>
 
           <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <a href="/forgot-password" style={{ fontSize: "13px", color: "#2D4A3E", fontWeight: 600, textDecoration: "none" }}>
+            <a href="/forgot-password" style={{ fontSize: "13px", color: "#ff7a45", fontWeight: 600, textDecoration: "none" }}>
               {isPT ? "Esqueceu a senha?" : "Forgot password?"}
             </a>
           </div>

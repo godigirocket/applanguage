@@ -85,7 +85,7 @@ function SuccessPage() {
             width: "80px",
             height: "80px",
             borderRadius: "50%",
-            background: "linear-gradient(135deg, #4CAF50, #2D4A3E)",
+            background: "linear-gradient(135deg, #4CAF50, #ff7a45)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",

@@ -48,7 +48,7 @@ const LEVELS = [
     label: "C2 — Proficiente",
     emoji: "⚡",
     description: "Domínio nativo. Quero desafios complexos de vocabulário e cultura.",
-    color: "#1B3A4B",
+    color: "#2f80ed",
     bg: "rgba(27,58,75,0.08)",
   },
 ];
@@ -228,7 +228,7 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
                 padding: "16px",
                 borderRadius: "16px",
                 background: selected
-                  ? "linear-gradient(135deg, var(--accent-green), #2D4A3E)"
+                  ? "linear-gradient(135deg, var(--accent-green), #ff7a45)"
                   : "var(--border)",
                 color: selected ? "white" : "var(--text-secondary)",
                 border: "none",
@@ -236,7 +236,7 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
                 fontSize: "16px",
                 fontWeight: 800,
                 transition: "all 0.3s ease",
-                boxShadow: selected ? "0 8px 24px rgba(45,74,62,0.3)" : "none",
+                boxShadow: selected ? "0 8px 24px rgba(255,122,69,0.3)" : "none",
               }}
             >
               {selected ? `✓ Confirmar nível ${selected}` : "Selecione seu nível para continuar"}

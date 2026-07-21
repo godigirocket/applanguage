@@ -113,9 +113,9 @@ function CancelPage() {
         <div
           style={{
             padding: "20px",
-            background: "rgba(45, 74, 62, 0.1)",
+            background: "rgba(255,122,69, 0.1)",
             borderRadius: "12px",
-            border: "1px solid rgba(45, 74, 62, 0.3)",
+            border: "1px solid rgba(255,122,69, 0.3)",
             marginBottom: "40px",
           }}
         >

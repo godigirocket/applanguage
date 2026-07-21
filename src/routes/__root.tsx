@@ -125,7 +125,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis.",
       },
-      { name: "theme-color", content: "#2D4A3E" },
+      { name: "theme-color", content: "#ff7a45" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
       { name: "format-detection", content: "telephone=no" },
@@ -403,7 +403,7 @@ function RootInner() {
   const getLevelGradient = (level: string) => {
     const baseBg = "var(--bg)";
     if (level === "A1" || level === "A2") {
-      return `radial-gradient(circle at 10% 20%, rgba(45, 74, 62, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.07) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%), ${baseBg}`;
+      return `radial-gradient(circle at 10% 20%, rgba(255,122,69, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.07) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%), ${baseBg}`;
     }
     if (level === "B1" || level === "B2") {
       return `radial-gradient(circle at 10% 20%, rgba(27, 58, 75, 0.12) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(120, 80, 180, 0.08) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(78, 143, 183, 0.06) 0%, transparent 60%), ${baseBg}`;
@@ -538,12 +538,12 @@ function RootInner() {
                 width: "64px",
                 height: "64px",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, var(--brand), #1B3A4B)",
+                background: "linear-gradient(135deg, var(--brand), #2f80ed)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 margin: "0 auto 24px",
-                boxShadow: "0 8px 24px rgba(45,74,62,0.15)",
+                boxShadow: "0 8px 24px rgba(255,122,69,0.15)",
               }}
             >
               <Logo size={42} withText={false} />

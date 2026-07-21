@@ -38,7 +38,7 @@ const QUIZ_TYPES = [
       en: "Listen to the word and pick the right option.",
     },
     category: "listening",
-    color: "#1B3A4B",
+    color: "#2f80ed",
   },
   {
     id: "pronunciation",
@@ -65,7 +65,7 @@ const QUIZ_TYPES = [
       en: "Airport, hotel and travel vocabulary.",
     },
     category: "travel",
-    color: "#2D4A3E",
+    color: "#ff7a45",
   },
   {
     id: "business",

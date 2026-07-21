@@ -315,7 +315,7 @@ function ProgressPage() {
                 icon: "Clock",
                 label: isPT ? "Minutos Praticados" : "Minutes Practiced",
                 value: totalMin,
-                color: "#1B3A4B",
+                color: "#2f80ed",
               },
               {
                 icon: "BookOpen",
@@ -447,11 +447,11 @@ function ProgressPage() {
                   style={{
                     padding: "10px 20px",
                     borderRadius: "16px",
-                    background: "rgba(45,74,62,0.1)",
+                    background: "rgba(255,122,69,0.1)",
                     color: "var(--accent-green)",
                     fontSize: "14px",
                     fontWeight: 800,
-                    border: "1px solid rgba(45,74,62,0.1)",
+                    border: "1px solid rgba(255,122,69,0.1)",
                   }}
                 >
                   {confidencePercent}% {isPT ? "fluente" : "fluent"}
@@ -544,11 +544,11 @@ function ProgressPage() {
                     width: "40px",
                     height: "40px",
                     borderRadius: "12px",
-                    background: "#1B3A4B10",
+                    background: "#2f80ed10",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: "#1B3A4B",
+                    color: "#2f80ed",
                   }}
                 >
                   <Calendar size={20} />
@@ -586,7 +586,7 @@ function ProgressPage() {
                             width: "44px",
                             height: "44px",
                             borderRadius: "12px",
-                            background: "#2D4A3E10",
+                            background: "#ff7a4510",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",

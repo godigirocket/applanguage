@@ -77,30 +77,42 @@
   --leading-tight: 1.2;
   --leading-normal: 1.5;
 
-  /* Lume Premium Theme Tokens — dark-neutral brand, no forest green */
-  --bg-primary: #f6f7fb;
+  /* Lume Premium Theme Tokens — warm sophisticated light, no forest green,
+     no flat white/gray. app-bg and app-bg-2 are deliberately different hues
+     (cream vs. light blue) so hero gradients read as an actual gradient
+     instead of two near-identical grays. */
+  --bg-primary: #f7f3ea;
   --bg-secondary: #ffffff;
-  --text-primary: #10131f;
-  --text-secondary: #5b6272;
+  --text-primary: #172033;
+  --text-secondary: #56627a;
   --brand: #ff7a45;
-  --accent: #38bdf8;
+  --accent: #2f80ed;
   --card-bg: #ffffff;
   --overlay-bg: rgba(255, 255, 255, 0.94);
-  --border: #e3e6ee;
+  --border: rgba(23, 32, 51, 0.12);
 
   /* New premium tokens (also defined for dark below) */
+  --bg-soft: #fffaf2;
+  --bg-game: #eef6ff;
   --app-bg: var(--bg-primary);
-  --app-bg-2: #eef0f6;
-  --surface-strong: rgba(16, 19, 31, 0.06);
+  --app-bg-2: var(--bg-game);
+  --surface-strong: #fff7eb;
   --surface-solid: #ffffff;
-  --text-strong: #05070d;
+  --surface-glass: rgba(255, 255, 255, 0.82);
+  --text-strong: #070b14;
   --text-muted: var(--text-secondary);
-  --text-soft: #7c8394;
+  --text-soft: #6b7690;
   --brand-2: var(--accent);
+  --brand-dark: #e85f2a;
+  --brand-blue: #2f80ed;
+  --brand-green: #27c770;
+  --brand-yellow: #ffcc33;
+  --brand-purple: #8b5cf6;
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
-  --shadow-soft: 0 16px 50px rgba(16, 19, 31, 0.1);
+  --shadow-soft: 0 16px 44px rgba(20, 30, 50, 0.12);
+  --shadow-float: 0 22px 70px rgba(20, 30, 50, 0.18);
 
   /* Legacy Mapping for Seamless Downstream Compatibility */
   --bg: var(--bg-primary);
@@ -418,6 +430,27 @@ h6 {
     scroll-behavior: smooth;
   }
 
+  /* Mascot idle sway + celebration bounce — respects the reduced-motion
+     override above since that rule clamps animation-duration globally. */
+  @keyframes mascot-idle {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-4px) rotate(-2deg);
+    }
+  }
+  @keyframes mascot-bounce {
+    0%,
+    100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(-10px) scale(1.05);
+    }
+  }
+
   /* Better selection color */
   ::selection {
     background: color-mix(in srgb, var(--brand) 30%, transparent);
@@ -443,16 +476,28 @@ h6 {
     border-radius: 6px;
   }
 
-  /* Premium Glassmorphism */
+  /* Premium Glassmorphism — 0.84 opacity (not 0.65) so text over a busy
+     background stays legible instead of just looking hazy. */
   .glass {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.84);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(23, 32, 51, 0.1);
+    color: var(--text-primary);
     box-shadow:
       0 10px 30px rgba(0, 0, 0, 0.02),
       inset 0 1px 1px rgba(255, 255, 255, 0.8),
       inset 0 -1px 1px rgba(0, 0, 0, 0.01);
+  }
+
+  /* Protects text placed directly over an ambient scenario/illustration —
+     a solid-ish scrim so it never depends on the background being calm. */
+  .readable-layer {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.82));
+    border-radius: inherit;
+  }
+  .dark .readable-layer {
+    background: linear-gradient(180deg, rgba(11, 16, 32, 0.92), rgba(11, 16, 32, 0.82));
   }
 
   .glass-dark {

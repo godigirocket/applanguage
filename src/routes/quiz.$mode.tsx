@@ -22,6 +22,7 @@ import {
 } from "@/lib/language-content";
 import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
 import { TopicScenario } from "@/components/lume/TopicScenario";
+import { Mascot } from "@/components/lume/Mascot";
 
 function scenarioTopicForMode(mode: string): LessonTopic {
   return (ALL_TOPICS as string[]).includes(mode) ? (mode as LessonTopic) : pickRotatingTopic(mode);
@@ -362,7 +363,7 @@ function QuizPage() {
                 fontWeight: 800,
                 fontSize: "15px",
                 cursor: "pointer",
-                boxShadow: "0 8px 24px rgba(45, 74, 62, 0.2)",
+                boxShadow: "0 8px 24px rgba(255,122,69, 0.2)",
               }}
             >
               Voltar aos Jogos
@@ -473,7 +474,7 @@ function QuizPage() {
                   alignItems: "center",
                   justifyContent: "center",
                   gap: "8px",
-                  boxShadow: "0 8px 24px rgba(45,74,62,0.2)",
+                  boxShadow: "0 8px 24px rgba(255,122,69,0.2)",
                 }}
               >
                 <span>Avançar</span>
@@ -668,7 +669,7 @@ function QuizPage() {
               borderRadius: "99px",
               width: effectiveMode === "streak" ? "100%" : `${(currentIdx / totalQ) * 100}%`,
               transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-              boxShadow: "0 0 8px rgba(45,74,62,0.4)",
+              boxShadow: "0 0 8px rgba(255,122,69,0.4)",
             }}
           />
         </div>
@@ -734,7 +735,7 @@ function QuizPage() {
             style={{
               padding: "5px 12px",
               borderRadius: "99px",
-              background: "rgba(45,74,62,0.1)",
+              background: "rgba(255,122,69,0.1)",
               color: "var(--accent-green)",
               fontSize: "12px",
               fontWeight: 700,
@@ -758,7 +759,7 @@ function QuizPage() {
                 q.level === "advanced"
                   ? "var(--accent-terra)"
                   : q.level === "intermediate"
-                    ? "#1B3A4B"
+                    ? "#2f80ed"
                     : "#4A7A5A",
               fontSize: "12px",
               fontWeight: 700,
@@ -892,15 +893,13 @@ function QuizPage() {
               marginTop: "20px",
               padding: "20px",
               borderRadius: "16px",
-              background: selected === q.correct ? "rgba(45,74,62,0.08)" : "rgba(196,113,74,0.08)",
-              border: `1px solid ${selected === q.correct ? "rgba(45,74,62,0.2)" : "rgba(196,113,74,0.2)"}`,
+              background: selected === q.correct ? "rgba(34,197,94,0.08)" : "rgba(196,113,74,0.08)",
+              border: `1px solid ${selected === q.correct ? "rgba(34,197,94,0.25)" : "rgba(196,113,74,0.2)"}`,
               animation: "bounceIn 0.4s ease",
             }}
           >
             <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-              <span style={{ fontSize: "20px", flexShrink: 0 }}>
-                {selected === q.correct ? "🎉" : "💡"}
-              </span>
+              <Mascot state={selected === q.correct ? "celebrating" : "wrong"} size={40} />
               <div>
                 <div
                   style={{
@@ -944,7 +943,7 @@ function QuizPage() {
               fontSize: "16px",
               fontWeight: 700,
               letterSpacing: "0.02em",
-              boxShadow: "0 4px 16px rgba(45,74,62,0.35)",
+              boxShadow: "0 4px 16px rgba(255,122,69,0.35)",
               transition: "transform 0.15s, box-shadow 0.15s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")}
@@ -996,7 +995,7 @@ function QuizResults({
 
   const confettiParticles = Array.from({ length: 40 }).map(() => ({
     x: Math.random() * 100,
-    color: ["#FF6B35", "#C9A84C", "var(--accent-green)", "#1B3A4B"][Math.floor(Math.random() * 4)],
+    color: ["#FF6B35", "#C9A84C", "var(--accent-green)", "#2f80ed"][Math.floor(Math.random() * 4)],
     delay: Math.random() * 2,
     duration: 3 + Math.random() * 2,
     rotation: Math.random() * 360,
@@ -1183,7 +1182,7 @@ function QuizResults({
                       : "linear-gradient(90deg,#C4714A,#D4824A)",
                 width: `${accuracy}%`,
                 transition: "width 1s ease",
-                boxShadow: "0 0 8px rgba(45,74,62,0.3)",
+                boxShadow: "0 0 8px rgba(255,122,69,0.3)",
               }}
             />
           </div>
@@ -1249,7 +1248,7 @@ function QuizResults({
             cursor: "pointer",
             fontSize: "16px",
             fontWeight: 700,
-            boxShadow: "0 4px 20px rgba(45,74,62,0.35)",
+            boxShadow: "0 4px 20px rgba(255,122,69,0.35)",
           }}
         >
           🔄 Play Again
@@ -1359,7 +1358,7 @@ function QuizResults({
                 color: "var(--surface-raised)",
                 fontSize: "15px",
                 fontWeight: 700,
-                boxShadow: "0 4px 20px rgba(45,74,62,0.35)",
+                boxShadow: "0 4px 20px rgba(255,122,69,0.35)",
                 marginBottom: "24px",
               }}
             >

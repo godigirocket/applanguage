@@ -180,7 +180,7 @@ function LessonsPage() {
       style={{
         minHeight: "100vh",
         background:
-          "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
+          "radial-gradient(ellipse at 20% 20%, rgba(255,122,69,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
         paddingBottom: "80px",
         position: "relative",
       }}
@@ -192,9 +192,10 @@ function LessonsPage() {
         {/* HERO */}
         <section
           style={{
-            background: "linear-gradient(135deg, var(--app-bg-2) 0%, var(--app-bg) 100%)",
+            // Fixed dark band regardless of light/dark theme — see home.tsx for why.
+            background: "linear-gradient(135deg, #111827 0%, #0b1020 100%)",
             padding: "clamp(40px, 10vw, 80px) clamp(16px, 3vw, 24px)",
-            color: "var(--text-strong)",
+            color: "#fff",
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
@@ -230,10 +231,12 @@ function LessonsPage() {
                     style={{
                       padding: "8px 16px",
                       borderRadius: "12px",
-                      border: "2px solid rgba(255,255,255,0.3)",
-                      background:
-                        targetLanguage === lang.code ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.2)",
-                      color: "white",
+                      border:
+                        targetLanguage === lang.code
+                          ? "2px solid var(--brand)"
+                          : "2px solid rgba(255,255,255,0.35)",
+                      background: targetLanguage === lang.code ? "var(--brand)" : "rgba(255,255,255,0.14)",
+                      color: "#fff",
                       fontSize: "14px",
                       fontWeight: 800,
                       cursor: "pointer",
@@ -241,7 +244,6 @@ function LessonsPage() {
                       display: "flex",
                       alignItems: "center",
                       gap: "8px",
-                      backdropFilter: "blur(10px)",
                     }}
                   >
                     <span style={{ fontSize: "18px" }}>{lang.flag}</span>

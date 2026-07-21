@@ -36,9 +36,9 @@ export function DailyQuest() {
   const getQuestDetails = (questId: string) => {
     if (questId.includes("lesson") || questId.includes("li")) {
       return {
-        icon: <Book size={18} color="#2D4A3E" />,
-        bgColor: "rgba(45, 74, 62, 0.1)",
-        borderColor: "rgba(45, 74, 62, 0.2)",
+        icon: <Book size={18} color="#ff7a45" />,
+        bgColor: "rgba(255,122,69, 0.1)",
+        borderColor: "rgba(255,122,69, 0.2)",
       };
     }
     if (
@@ -218,7 +218,7 @@ export function DailyQuest() {
                         fontSize: "11px",
                         fontWeight: 800,
                         cursor: "pointer",
-                        boxShadow: "0 2px 6px rgba(45, 74, 62, 0.2)",
+                        boxShadow: "0 2px 6px rgba(255,122,69, 0.2)",
                       }}
                     >
                       Resgatar

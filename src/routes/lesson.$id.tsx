@@ -35,6 +35,7 @@ import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
 import type { VocabularyItem, LessonTopic } from "@/lib/language-content/types";
 import { TopicScenario } from "@/components/lume/TopicScenario";
+import { Mascot } from "@/components/lume/Mascot";
 
 // Maps this lesson's title to a scenery topic for the ambient background.
 // Falls back to a hash-based rotation for any title not in this list, so
@@ -1317,37 +1318,42 @@ function LessonPage() {
                       marginBottom: "20px",
                     }}
                   >
-                    <div
-                      style={{
-                        fontWeight: 700,
-                        color: selected === quiz[quizIdx].correct ? "#4CAF50" : "#E74C3C",
-                        marginBottom: "4px",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "6px",
-                      }}
-                    >
-                      {selected === quiz[quizIdx].correct ? (
-                        <>
-                          <CheckCircle size={16} /> {isPT ? "Correto!" : "Correct!"}
-                        </>
-                      ) : (
-                        <>
-                          <span style={{ fontSize: "16px" }}>✕</span>{" "}
-                          {isPT ? "Incorreto" : "Incorrect"}
-                        </>
-                      )}
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                      <Mascot state={selected === quiz[quizIdx].correct ? "correct" : "wrong"} size={44} />
+                      <div style={{ flex: 1 }}>
+                        <div
+                          style={{
+                            fontWeight: 700,
+                            color: selected === quiz[quizIdx].correct ? "#4CAF50" : "#E74C3C",
+                            marginBottom: "4px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                          }}
+                        >
+                          {selected === quiz[quizIdx].correct ? (
+                            <>
+                              <CheckCircle size={16} /> {isPT ? "Correto!" : "Correct!"}
+                            </>
+                          ) : (
+                            <>
+                              <span style={{ fontSize: "16px" }}>✕</span>{" "}
+                              {isPT ? "Incorreto" : "Incorrect"}
+                            </>
+                          )}
+                        </div>
+                        <p
+                          style={{
+                            fontSize: "13px",
+                            color: "var(--text-primary)",
+                            lineHeight: 1.6,
+                            margin: 0,
+                          }}
+                        >
+                          {quiz[quizIdx].explanation}
+                        </p>
+                      </div>
                     </div>
-                    <p
-                      style={{
-                        fontSize: "13px",
-                        color: "var(--text-primary)",
-                        lineHeight: 1.6,
-                        margin: 0,
-                      }}
-                    >
-                      {quiz[quizIdx].explanation}
-                    </p>
                   </motion.div>
                 )}
 
@@ -1364,7 +1370,7 @@ function LessonPage() {
                       fontSize: "15px",
                       fontWeight: 800,
                       cursor: "pointer",
-                      boxShadow: "0 4px 16px rgba(45,74,62,0.3)",
+                      boxShadow: "0 4px 16px rgba(255,122,69,0.3)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1401,6 +1407,9 @@ function LessonPage() {
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", bounce: 0.45 }}
             >
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: "8px" }}>
+                <Mascot state={quizScore >= quiz.length * 0.6 ? "celebrating" : "happy"} size={88} />
+              </div>
               <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
                 {quizScore === quiz.length ? (
                   <Trophy
@@ -1517,7 +1526,7 @@ function LessonPage() {
                     fontSize: "15px",
                     fontWeight: 800,
                     cursor: "pointer",
-                    boxShadow: "0 4px 16px rgba(45,74,62,0.3)",
+                    boxShadow: "0 4px 16px rgba(255,122,69,0.3)",
                   }}
                 >
                   {isPT ? "Próxima Lição →" : "Next Lesson →"}

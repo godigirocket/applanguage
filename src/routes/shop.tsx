@@ -46,8 +46,8 @@ function ShopPage() {
           ? "Una apariencia oscura exclusiva de alta sofisticación para tu tutor de IA."
           : "An exclusive high-end dark aesthetic for your AI language tutor.",
       price: 100,
-      color: "#1B3A4B",
-      icon: <Moon size={32} color="#1B3A4B" />,
+      color: "#2f80ed",
+      icon: <Moon size={32} color="#2f80ed" />,
     },
     {
       id: "avatar-crown",
@@ -333,7 +333,7 @@ function ShopPage() {
                       fontWeight: 800,
                       fontSize: "14px",
                       transition: "all 0.2s",
-                      boxShadow: canBuy ? "0 4px 12px rgba(45,74,62,0.15)" : "none",
+                      boxShadow: canBuy ? "0 4px 12px rgba(255,122,69,0.15)" : "none",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",

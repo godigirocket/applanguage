@@ -32,7 +32,7 @@ function ForgotPassword() {
     <div style={{ minHeight: "100vh", background: "#F7F4EF", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
       <div style={{ width: "100%", maxWidth: "380px" }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#2D4A3E" }}>LangLume</h1>
+          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#ff7a45" }}>LangLume</h1>
         </div>
 
         <div style={{ background: "#fff", borderRadius: "20px", padding: "32px 28px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid #E8E6E1" }}>
@@ -54,7 +54,7 @@ function ForgotPassword() {
                   />
                 </div>
                 <button type="submit" disabled={loading}
-                  style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#2D4A3E", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
+                  style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#ff7a45", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
                   {loading ? "..." : isPT ? "Enviar link" : "Send link"}
                 </button>
               </form>
@@ -72,7 +72,7 @@ function ForgotPassword() {
           )}
 
           <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <Link to="/login" style={{ fontSize: "13px", color: "#2D4A3E", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/login" style={{ fontSize: "13px", color: "#ff7a45", fontWeight: 600, textDecoration: "none" }}>
               ← {isPT ? "Voltar ao login" : "Back to login"}
             </Link>
           </div>

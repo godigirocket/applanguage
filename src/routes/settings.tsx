@@ -204,7 +204,7 @@ function SettingsPage() {
                       padding: "10px",
                       borderRadius: "10px",
                       border: `2px solid ${targetLanguage === lang ? "var(--brand)" : "var(--border)"}`,
-                      background: targetLanguage === lang ? "rgba(45,74,62,0.08)" : "transparent",
+                      background: targetLanguage === lang ? "rgba(255,122,69,0.08)" : "transparent",
                       color: targetLanguage === lang ? "var(--brand)" : "var(--text-secondary)",
                       fontSize: "13px",
                       fontWeight: 800,
@@ -238,7 +238,7 @@ function SettingsPage() {
                       borderRadius: "10px",
                       border: `2px solid ${interfaceLanguage === lang ? "var(--brand)" : "var(--border)"}`,
                       background:
-                        interfaceLanguage === lang ? "rgba(45,74,62,0.08)" : "transparent",
+                        interfaceLanguage === lang ? "rgba(255,122,69,0.08)" : "transparent",
                       color: interfaceLanguage === lang ? "var(--brand)" : "var(--text-secondary)",
                       fontSize: "13px",
                       fontWeight: 800,

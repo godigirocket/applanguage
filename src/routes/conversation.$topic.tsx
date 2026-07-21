@@ -795,7 +795,7 @@ function ConversationPage() {
                 flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                background: "radial-gradient(circle at center, #1B3A4B 0%, #0F202B 100%)",
+                background: "radial-gradient(circle at center, #2f80ed 0%, #0F202B 100%)",
                 color: "var(--surface-raised)",
                 padding: "40px 24px",
                 textAlign: "center",
@@ -948,12 +948,12 @@ function ConversationPage() {
                         ? "radial-gradient(circle, #D4834A 0%, #C4714A 100%)"
                         : isLoading
                           ? "radial-gradient(circle, #E5C365 0%, #C9A84C 100%)"
-                          : "radial-gradient(circle, #4A7A5A 0%, #2D4A3E 100%)",
+                          : "radial-gradient(circle, #4A7A5A 0%, #ff7a45 100%)",
                       boxShadow: isListening
                         ? "0 12px 48px rgba(196,113,74,0.45)"
                         : isLoading
                           ? "0 12px 48px rgba(201,168,76,0.35)"
-                          : "0 12px 48px rgba(45,74,62,0.35)",
+                          : "0 12px 48px rgba(255,122,69,0.35)",
                       display: "flex",
                       flexDirection: "column",
                       alignItems: "center",
@@ -1063,7 +1063,7 @@ function ConversationPage() {
                           height: "32px",
                           borderRadius: "50%",
                           flexShrink: 0,
-                          background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+                          background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -1079,14 +1079,14 @@ function ConversationPage() {
                           padding: "14px 18px",
                           background:
                             msg.role === "user"
-                              ? "linear-gradient(135deg,#2D4A3E,#1B3A4B)"
+                              ? "linear-gradient(135deg,#ff7a45,#2f80ed)"
                               : "var(--bg)",
                           color: msg.role === "user" ? "white" : "var(--text-primary)",
                           borderRadius:
                             msg.role === "user" ? "20px 20px 4px 20px" : "4px 20px 20px 20px",
                           boxShadow:
                             msg.role === "user"
-                              ? "0 4px 16px rgba(45,74,62,0.25)"
+                              ? "0 4px 16px rgba(255,122,69,0.25)"
                               : "0 2px 12px rgba(0,0,0,0.07)",
                           border:
                             msg.role === "assistant" ? "1px solid rgba(224,221,214,0.5)" : "none",
@@ -1103,7 +1103,7 @@ function ConversationPage() {
                             style={{
                               padding: "3px 10px",
                               borderRadius: "99px",
-                              background: "rgba(45,74,62,0.08)",
+                              background: "rgba(255,122,69,0.08)",
                               border: "none",
                               cursor: "pointer",
                               fontSize: "11px",
@@ -1152,7 +1152,7 @@ function ConversationPage() {
                         width: "32px",
                         height: "32px",
                         borderRadius: "50%",
-                        background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+                        background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1407,9 +1407,9 @@ function ConversationPage() {
           <div
             style={{
               padding: "12px",
-              background: "rgba(45,74,62,0.06)",
+              background: "rgba(255,122,69,0.06)",
               borderRadius: "14px",
-              border: "1px solid rgba(45,74,62,0.1)",
+              border: "1px solid rgba(255,122,69,0.1)",
             }}
           >
             <p
@@ -1516,7 +1516,7 @@ function ConversationPage() {
                     label: "Duration",
                   },
                   {
-                    icon: <MessageSquare size={20} color="#2D4A3E" />,
+                    icon: <MessageSquare size={20} color="#ff7a45" />,
                     value: sessionSummary.messages,
                     label: "Messages",
                   },
@@ -1598,7 +1598,7 @@ function ConversationPage() {
                     width: "100%",
                     padding: "16px",
                     borderRadius: "16px",
-                    background: "linear-gradient(135deg,#2D4A3E,#1B3A4B)",
+                    background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
                     color: "var(--surface-raised)",
                     border: "none",
                     cursor: "pointer",
@@ -1608,7 +1608,7 @@ function ConversationPage() {
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
-                    boxShadow: "0 4px 20px rgba(45,74,62,0.35)",
+                    boxShadow: "0 4px 20px rgba(255,122,69,0.35)",
                   }}
                 >
                   <ChevronLeft size={20} /> Voltar ao Início

@@ -90,7 +90,7 @@ export function MarketingSection() {
       description: t("landing:mktCultureDesc"),
       cta: t("landing:mktCultureCta"),
       href: "/culture",
-      accentColor: "#1B3A4B",
+      accentColor: "#2f80ed",
       delay: 0.08,
     },
     {
@@ -132,7 +132,7 @@ export function MarketingSection() {
         }}
       >
         {/* Dark overlay for readability */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(45,74,62,0.93) 0%, rgba(27,58,75,0.90) 100%)", zIndex: 0 }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(255,122,69,0.93) 0%, rgba(27,58,75,0.90) 100%)", zIndex: 0 }} />
         
         <div style={{ position: "relative", zIndex: 1 }}>
           <div

@@ -235,7 +235,7 @@ function PricingPage() {
                   padding: "40px 32px",
                   border: isPopular ? "2px solid var(--brand)" : "1.5px solid var(--border)",
                   boxShadow: isPopular
-                    ? "0 20px 60px rgba(45,74,62,0.15)"
+                    ? "0 20px 60px rgba(255,122,69,0.15)"
                     : "0 4px 20px rgba(0,0,0,0.02)",
                   transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
                 }}
@@ -259,7 +259,7 @@ function PricingPage() {
                       display: "flex",
                       alignItems: "center",
                       gap: "6px",
-                      boxShadow: "0 4px 12px rgba(45,74,62,0.3)",
+                      boxShadow: "0 4px 12px rgba(255,122,69,0.3)",
                     }}
                   >
                     <Sparkles size={14} />
@@ -274,7 +274,7 @@ function PricingPage() {
                     height: "64px",
                     borderRadius: "20px",
                     background: isPremium
-                      ? "linear-gradient(135deg, var(--brand), #1B3A4B)"
+                      ? "linear-gradient(135deg, var(--brand), #2f80ed)"
                       : "var(--bg)",
                     border: "1px solid var(--border)",
                     display: "flex",
@@ -376,7 +376,7 @@ function PricingPage() {
                             height: "20px",
                             borderRadius: "50%",
                             background: isPremium
-                              ? "rgba(45,74,62,0.1)"
+                              ? "rgba(255,122,69,0.1)"
                               : "rgba(0,0,0,0.05)",
                             display: "flex",
                             alignItems: "center",
@@ -408,7 +408,7 @@ function PricingPage() {
                     cursor: "pointer",
                     transition: "all 0.2s",
                     boxShadow: isPremium
-                      ? "0 4px 16px rgba(45,74,62,0.25)"
+                      ? "0 4px 16px rgba(255,122,69,0.25)"
                       : "0 2px 8px rgba(0,0,0,0.05)",
                   }}
                 >
@@ -433,7 +433,7 @@ function PricingPage() {
         >
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <Check size={28} color="#2D4A3E" />
+              <Check size={28} color="#ff7a45" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.moneyBack}
@@ -441,7 +441,7 @@ function PricingPage() {
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <Lock size={28} color="#2D4A3E" />
+              <Lock size={28} color="#ff7a45" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.securePayment}
@@ -449,7 +449,7 @@ function PricingPage() {
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <RefreshCw size={28} color="#2D4A3E" />
+              <RefreshCw size={28} color="#ff7a45" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.cancelAnytime}

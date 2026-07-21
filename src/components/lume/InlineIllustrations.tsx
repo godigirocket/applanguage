@@ -20,7 +20,7 @@ export function IllustrationABC({ size = 120 }: { size?: number }) {
       <defs>
         <linearGradient id="abc-grad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#4CAF50" />
-          <stop offset="100%" stopColor="#2D4A3E" />
+          <stop offset="100%" stopColor="#ff7a45" />
         </linearGradient>
       </defs>
       <circle cx="60" cy="60" r="50" fill="url(#abc-grad)" opacity="0.1" />

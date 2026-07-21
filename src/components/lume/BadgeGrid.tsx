@@ -57,7 +57,7 @@ const ALL_BADGES: Badge[] = [
     descEN: "Complete Professional topic",
     descPT: "Complete o tópico Corporativo",
     icon: "Briefcase",
-    color: "#1B3A4B",
+    color: "#2f80ed",
   },
   {
     id: "confidence-builder",

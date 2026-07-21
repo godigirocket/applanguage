@@ -72,7 +72,7 @@ function Landing() {
     <div
       style={{
         minHeight: "100vh",
-        background: "radial-gradient(ellipse at 20% 20%, rgba(45,74,62,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
+        background: "radial-gradient(ellipse at 20% 20%, rgba(255,122,69,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(196,113,74,0.06) 0%, transparent 60%), var(--bg)",
         overflow: "hidden",
       }}
     >
@@ -103,14 +103,14 @@ function Landing() {
                 display: "inline-block",
                 padding: "6px 16px",
                 borderRadius: "99px",
-                background: "rgba(45,74,62,0.08)",
+                background: "rgba(255,122,69,0.08)",
                 fontSize: "11px",
                 fontWeight: 800,
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
                 color: "var(--accent-green)",
                 marginBottom: "24px",
-                border: "1px solid rgba(45,74,62,0.1)",
+                border: "1px solid rgba(255,122,69,0.1)",
               }}
             >
               Lume Platform
@@ -202,7 +202,7 @@ function Landing() {
                   borderRadius: "99px",
                   background: "var(--card-bg)",
                   backdropFilter: "blur(10px)",
-                  border: "2px solid rgba(45,74,62,0.15)",
+                  border: "2px solid rgba(255,122,69,0.15)",
                   boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
                 }}
               >
@@ -266,7 +266,7 @@ function Landing() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    boxShadow: "0 4px 12px rgba(45,74,62,0.2)",
+                    boxShadow: "0 4px 12px rgba(255,122,69,0.2)",
                   }}
                 >
                   <MessageCircle size={18} color="white" />
@@ -329,7 +329,7 @@ function Landing() {
                     color: "white",
                     maxWidth: "88%",
                     alignSelf: "flex-end",
-                    boxShadow: "0 4px 12px rgba(45,74,62,0.15)",
+                    boxShadow: "0 4px 12px rgba(255,122,69,0.15)",
                   }}
                 >
                   I go to... a concert? My friend, she invite me last Saturday.
@@ -513,8 +513,8 @@ function Landing() {
         <section style={{ maxWidth: "1120px", margin: "clamp(48px, 10vw, 80px) auto 0", padding: "0 clamp(16px, 3vw, 24px)" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 160px), 1fr))", gap: "clamp(16px, 3vw, 20px)" }}>
             {[
-              { value: "700+", label: isPT ? "Lições estruturadas" : "Structured lessons", color: "#2D4A3E", Icon: BookOpen },
-              { value: "6", label: isPT ? "Níveis CEFR" : "CEFR Levels", color: "#1B3A4B", Icon: Zap },
+              { value: "700+", label: isPT ? "Lições estruturadas" : "Structured lessons", color: "#ff7a45", Icon: BookOpen },
+              { value: "6", label: isPT ? "Níveis CEFR" : "CEFR Levels", color: "#2f80ed", Icon: Zap },
               { value: "5", label: isPT ? "Modos de jogo" : "Game modes", color: "#C4714A", Icon: Gamepad2 },
               { value: "3", label: isPT ? "Idiomas disponíveis" : "Available languages", color: "#9B59B6", Icon: Globe },
             ].map((stat, i) => (
@@ -561,7 +561,7 @@ function Landing() {
             {[
               {
                 step: "01",
-                color: "#2D4A3E",
+                color: "#ff7a45",
                 icon: (
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 ),
@@ -570,7 +570,7 @@ function Landing() {
               },
               {
                 step: "02",
-                color: "#1B3A4B",
+                color: "#2f80ed",
                 icon: (
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 ),
@@ -625,7 +625,7 @@ function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             style={{
-              background: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)",
+              background: "linear-gradient(135deg, #2f80ed 0%, #ff7a45 100%)",
               borderRadius: "clamp(20px, 4vw, 32px)",
               padding: "clamp(32px, 6vw, 60px) clamp(20px, 4vw, 48px)",
               color: "white",
@@ -703,7 +703,7 @@ function Landing() {
                     width: "64px",
                     height: "64px",
                     borderRadius: "22px",
-                    background: "rgba(45,74,62,0.12)",
+                    background: "rgba(255,122,69,0.12)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",

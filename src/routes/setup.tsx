@@ -298,7 +298,7 @@ function SetupPage() {
             textDecoration: "none",
             fontWeight: 700,
             fontSize: "15px",
-            boxShadow: "0 4px 15px rgba(45,74,62,0.2)",
+            boxShadow: "0 4px 15px rgba(255,122,69,0.2)",
             transition: "transform 0.2s",
           }}
           className="hover:scale-[1.02] active:scale-[0.98]"

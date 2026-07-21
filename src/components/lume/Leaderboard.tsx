@@ -23,9 +23,9 @@ interface Player {
 }
 
 const BASE_PLAYERS: Omit<Player, "delta">[] = [
-  { id: "u", name: "Você", xp: 450, isCurrentUser: true, avatarColor: "linear-gradient(135deg,#2D4A3E,#4A7A6A)", flag: "🇧🇷", character: "celebrating" },
+  { id: "u", name: "Você", xp: 450, isCurrentUser: true, avatarColor: "linear-gradient(135deg,#ff7a45,#4A7A6A)", flag: "🇧🇷", character: "celebrating" },
   { id: "2", name: "Ana Silva", xp: 920, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#FF6B35,#C4714A)", flag: "🇧🇷", character: "runner" },
-  { id: "3", name: "Carlos M.", xp: 870, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#1B3A4B,#3B7A8C)", flag: "🇵🇹", character: "thinking" },
+  { id: "3", name: "Carlos M.", xp: 870, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#2f80ed,#3B7A8C)", flag: "🇵🇹", character: "thinking" },
   { id: "4", name: "Priya K.", xp: 810, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#7B4FB0,#A97AE8)", flag: "🇮🇳", character: "reading" },
   { id: "5", name: "Lena W.", xp: 760, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#2E4BC4,#6080E8)", flag: "🇩🇪", character: "speaking" },
   { id: "6", name: "Julia R.", xp: 710, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#D49E3B,#F3C66F)", flag: "🇧🇷", character: "waving" },
@@ -126,7 +126,7 @@ export function Leaderboard() {
             const rank = index + 1;
             const isTop3 = rank <= 3;
             return (
-              <motion.div key={player.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "16px", background: player.isCurrentUser ? "rgba(45,74,62,0.09)" : "var(--bg)", border: "2px solid", borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)" }}>
+              <motion.div key={player.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "16px", background: player.isCurrentUser ? "rgba(255,122,69,0.09)" : "var(--bg)", border: "2px solid", borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                   {getRankBadge(rank)}
                   <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: player.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid rgba(255,255,255,0.15)" }}>
