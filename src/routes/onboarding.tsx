@@ -139,7 +139,14 @@ function OnboardingPage() {
     // the interface language everywhere else) and was never applied to the
     // local store, so the app kept using whatever targetLanguage it already
     // had (default "en") regardless of what was picked here.
-    const chosenTargetLanguage = (finalAnswers.target_language as "pt" | "en" | "es" | undefined) || "en";
+    const chosenTargetLanguage =
+      (finalAnswers.target_language as "pt" | "en" | "es" | undefined) || "en";
+
+    // Apply locally first — this is what actually drives which lessons/quizzes/
+    // content the app shows, and it must not depend on the Supabase write
+    // succeeding (the same way LanguageSwitcher.tsx and settings.tsx already
+    // update local state before attempting to persist it remotely).
+    setTargetLanguage(chosenTargetLanguage);
 
     try {
       const { error } = await supabase
@@ -153,9 +160,11 @@ function OnboardingPage() {
         } as any)
         .eq("id", user.id);
 
-      if (error) throw error;
-
-      setTargetLanguage(chosenTargetLanguage);
+      if (error) {
+        // Don't block onboarding on a remote persistence failure — the local
+        // choice above already took effect, so the session still works.
+        console.warn("[Onboarding] Could not save profile to Supabase:", error.message);
+      }
 
       toast.success(
         isPT
@@ -178,10 +187,28 @@ function OnboardingPage() {
   const currentStepData = STEPS[step];
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F7F4EF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#F7F4EF",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "24px",
+      }}
+    >
       <main style={{ width: "100%", maxWidth: "440px" }}>
         {/* Onboarding Card */}
-        <div style={{ background: "#fff", padding: "32px 28px", borderRadius: "20px", border: "1px solid #E8E6E1", boxShadow: "0 2px 12px rgba(0,0,0,0.04)" }}>
+        <div
+          style={{
+            background: "#fff",
+            padding: "32px 28px",
+            borderRadius: "20px",
+            border: "1px solid #E8E6E1",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+          }}
+        >
           {/* Header navigation (Back button + progress bar) */}
           <div className="flex items-center justify-between gap-4 mb-6">
             {step > 0 ? (
@@ -385,7 +412,15 @@ function OnboardingPage() {
           </AnimatePresence>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: "11px", color: "#8B8B83", marginTop: "20px", fontWeight: 600 }}>
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "11px",
+            color: "#8B8B83",
+            marginTop: "20px",
+            fontWeight: 600,
+          }}
+        >
           LangLume — Aprenda praticando
         </p>
       </main>
