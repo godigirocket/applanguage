@@ -6,3 +6,4 @@ export * from "./sentence-engine";
 export * from "./content-engine";
 export * from "./saved-words";
 export * from "./quiz-progress";
+export * from "./game-questions";

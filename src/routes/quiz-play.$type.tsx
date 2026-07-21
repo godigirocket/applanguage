@@ -3,18 +3,12 @@ import { useState, useEffect, useMemo } from "react";
 import { MultipleChoice } from "@/components/quiz/MultipleChoice";
 import { TrueFalse } from "@/components/quiz/TrueFalse";
 import { PronunciationChallenge } from "@/components/PronunciationChallenge";
-import { generateVocabQuiz, generateGrammarQuiz, generateMixedQuiz } from "@/data/quizEngine";
 import {
-  getVocabularyForTopic,
-  generateQuizFromVocabulary,
-  dedupeQuestions,
-  avoidRecentlySeenContent,
-  generateReviewQuiz,
   recordQuizCompletion,
   getRecentlySeenQuestionIds,
   recordSeenQuestionIds,
-  ALL_TOPICS,
-  type LessonTopic,
+  buildQuestionsForType,
+  type UnifiedQuestion,
 } from "@/lib/language-content";
 import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
 import { useStore } from "@/hooks/useStore";
@@ -27,170 +21,6 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/quiz-play/$type")({
   component: QuizPlayPage,
 });
-
-// Topics used for "vocab"/"translation"/"listening"/"pronunciation" quizzes,
-// which aren't tied to one specific topic — rotated so the same handful of
-// topics don't show up every single time.
-const ROTATION_TOPICS: LessonTopic[] = [
-  "daily", "travel", "food", "business", "sports",
-  "fitness", "health", "technology", "family", "work", "shopping", "culture",
-];
-
-function hashString(s: string): number {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
-  return h;
-}
-
-// Deterministic per day+type so the topic mix feels fresh across days without
-// being jarring/random within a single play-through.
-function pickRotatingTopic(seedKey: string): LessonTopic {
-  const day = new Date().toISOString().slice(0, 10);
-  const idx = Math.abs(hashString(day + seedKey)) % ROTATION_TOPICS.length;
-  return ROTATION_TOPICS[idx];
-}
-
-type UnifiedQuestion =
-  | { id: string; kind: "choice"; prompt: string; options: string[]; correctAnswer: string; explanation?: string }
-  | { id: string; kind: "truefalse"; prompt: string; correctAnswer: string; explanation?: string }
-  | { id: string; kind: "listening"; audioText: string; options: string[]; correctAnswer: string }
-  | { id: string; kind: "pronunciation"; targetPhrase: string };
-
-function seededShuffle<T>(arr: T[], seed: number): T[] {
-  let a = seed;
-  const rand = () => {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-  const out = [...arr];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(rand() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
-
-function buildListeningQuestions(topic: LessonTopic, targetLanguage: "en" | "es" | "pt", count: number): UnifiedQuestion[] {
-  const items = getVocabularyForTopic(topic, targetLanguage, { count: count * 2, seed: `listening-${topic}` });
-  return items.slice(0, count).map((item, i) => {
-    const distractors = items.filter((v) => v.id !== item.id).slice(0, 3).map((v) => v.term);
-    const options = seededShuffle([item.term, ...distractors], hashString(item.id) + i);
-    return {
-      id: `listening-${item.id}`,
-      kind: "listening" as const,
-      audioText: item.term,
-      options,
-      correctAnswer: item.term,
-    };
-  });
-}
-
-function buildPronunciationQuestions(topic: LessonTopic, targetLanguage: "en" | "es" | "pt", count: number): UnifiedQuestion[] {
-  const items = getVocabularyForTopic(topic, targetLanguage, { count, seed: `pronunciation-${topic}` });
-  return items.map((item) => ({
-    id: `pronunciation-${item.id}`,
-    kind: "pronunciation" as const,
-    targetPhrase: item.example,
-  }));
-}
-
-function buildEngineChoiceQuestions(
-  topic: LessonTopic,
-  targetLanguage: "en" | "es" | "pt",
-  count: number,
-  seed: string,
-): UnifiedQuestion[] {
-  const vocabulary = getVocabularyForTopic(topic, targetLanguage, { count, seed });
-  const questions = dedupeQuestions(generateQuizFromVocabulary(vocabulary, targetLanguage, { seed }));
-  return questions.map((q) => ({
-    id: q.id,
-    kind: "choice" as const,
-    prompt: q.prompt,
-    options: q.options,
-    correctAnswer: q.correctAnswer,
-    explanation: q.explanation,
-  }));
-}
-
-function buildQuestionsForType(
-  type: string,
-  targetLanguage: "en" | "es" | "pt",
-  recentlySeenIds: Set<string>,
-): UnifiedQuestion[] {
-  const QUESTION_COUNT = 6;
-
-  if ((ALL_TOPICS as string[]).includes(type)) {
-    const topic = type as LessonTopic;
-    const fresh = avoidRecentlySeenContent(
-      buildEngineChoiceQuestions(topic, targetLanguage, QUESTION_COUNT * 2, topic),
-      recentlySeenIds,
-    );
-    return fresh.slice(0, QUESTION_COUNT);
-  }
-
-  if (type === "listening") {
-    const topic = pickRotatingTopic("listening");
-    return buildListeningQuestions(topic, targetLanguage, QUESTION_COUNT);
-  }
-
-  if (type === "pronunciation") {
-    const topic = pickRotatingTopic("pronunciation");
-    return buildPronunciationQuestions(topic, targetLanguage, 5);
-  }
-
-  if (type === "review") {
-    const reviewQuestions = generateReviewQuiz(targetLanguage);
-    return reviewQuestions.map((q) => ({
-      id: q.id,
-      kind: "choice" as const,
-      prompt: q.prompt,
-      options: q.options,
-      correctAnswer: q.correctAnswer,
-      explanation: q.explanation,
-    }));
-  }
-
-  if (type === "grammar") {
-    return generateGrammarQuiz(targetLanguage, "all", QUESTION_COUNT).map((q) => ({
-      id: q.id,
-      kind: "truefalse" as const,
-      prompt: q.prompt,
-      correctAnswer: q.correctAnswer as string,
-      explanation: q.explanation,
-    }));
-  }
-
-  if (type === "mixed") {
-    return generateMixedQuiz(targetLanguage, "all", QUESTION_COUNT).map((q) =>
-      q.type === "true_false"
-        ? { id: q.id, kind: "truefalse" as const, prompt: q.prompt, correctAnswer: q.correctAnswer as string, explanation: q.explanation }
-        : { id: q.id, kind: "choice" as const, prompt: q.prompt, options: q.options ?? [], correctAnswer: q.correctAnswer as string, explanation: q.explanation },
-    );
-  }
-
-  // "vocab" / "vocabulary" / "translation" / unrecognized types fall back here,
-  // rotating across real topics instead of the old fixed 15-word pool.
-  const topic = pickRotatingTopic(type);
-  const fresh = avoidRecentlySeenContent(
-    buildEngineChoiceQuestions(topic, targetLanguage, QUESTION_COUNT * 2, `${type}-${topic}`),
-    recentlySeenIds,
-  );
-  if (fresh.length > 0) return fresh.slice(0, QUESTION_COUNT);
-
-  // Last-resort fallback: the legacy vocabularyExpanded-based generator, in
-  // case a target language somehow has no engine content at all.
-  return generateVocabQuiz(targetLanguage, "all", QUESTION_COUNT).map((q) => ({
-    id: q.id,
-    kind: "choice" as const,
-    prompt: q.prompt,
-    options: q.options ?? [],
-    correctAnswer: q.correctAnswer as string,
-    explanation: q.explanation,
-  }));
-}
 
 function QuizPlayPage() {
   const { type } = Route.useParams();
@@ -395,8 +225,10 @@ function QuizPlayPage() {
               {currentQ.kind === "truefalse" && (
                 <TrueFalse
                   question={currentQ.prompt}
+                  options={currentQ.options}
                   correctAnswer={currentQ.correctAnswer}
                   explanation={currentQ.explanation}
+                  explanationLabel={isPT ? "Explicação:" : "Explanation:"}
                   onAnswer={handleAnswer}
                 />
               )}
@@ -413,7 +245,9 @@ function QuizPlayPage() {
               )}
 
               {currentQ.kind === "pronunciation" && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%" }}
+                >
                   <PronunciationChallenge
                     targetPhrase={currentQ.targetPhrase}
                     targetLanguage={targetLanguage}

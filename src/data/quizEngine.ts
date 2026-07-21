@@ -68,6 +68,35 @@ export function generateFillBlankQuiz(
   });
 }
 
+const GRAMMAR_QUIZ_STRINGS: Record<
+  Language,
+  {
+    true: string;
+    false: string;
+    prompt: (title: string, explanation: string) => string;
+    actualExplanation: (title: string, explanation: string) => string;
+  }
+> = {
+  en: {
+    true: "True",
+    false: "False",
+    prompt: (title, explanation) => `The rule "${title}" says: ${explanation}`,
+    actualExplanation: (title, explanation) => `Actually, "${title}" means: ${explanation}`,
+  },
+  es: {
+    true: "Verdadero",
+    false: "Falso",
+    prompt: (title, explanation) => `La regla "${title}" dice que: ${explanation}`,
+    actualExplanation: (title, explanation) => `En realidad, "${title}" significa: ${explanation}`,
+  },
+  pt: {
+    true: "Verdadeiro",
+    false: "Falso",
+    prompt: (title, explanation) => `A regra "${title}" diz que: ${explanation}`,
+    actualExplanation: (title, explanation) => `Na verdade, "${title}" significa: ${explanation}`,
+  },
+};
+
 export function generateGrammarQuiz(
   lang: Language,
   level: string,
@@ -79,26 +108,32 @@ export function generateGrammarQuiz(
   const filtered = data.filter((item) => item.level === level || level === "all");
   if (!filtered.length) return [];
   const selected = filtered.sort(() => 0.5 - Math.random()).slice(0, count);
+  const strings = GRAMMAR_QUIZ_STRINGS[lang];
 
   return selected.map((item) => {
     // Mix in genuinely false statements (this rule's title paired with a
-    // *different* rule's explanation) so the answer isn't always "Verdadeiro" —
+    // *different* rule's explanation) so the answer isn't always "true" —
     // otherwise the quiz is gameable by always picking the same option.
     const isFalseVariant = Math.random() < 0.5;
     const otherItems = filtered.filter((d) => d.id !== item.id);
     const wrongExplanation =
-      otherItems.length > 0 ? otherItems[Math.floor(Math.random() * otherItems.length)].explanation : null;
+      otherItems.length > 0
+        ? otherItems[Math.floor(Math.random() * otherItems.length)].explanation
+        : null;
 
-    const shownExplanation = isFalseVariant && wrongExplanation ? wrongExplanation : item.explanation;
+    const shownExplanation =
+      isFalseVariant && wrongExplanation ? wrongExplanation : item.explanation;
     const isActuallyTrue = shownExplanation === item.explanation;
 
     return {
       id: `q_gram_${item.id}${isActuallyTrue ? "" : "_false"}`,
       type: "true_false" as const,
-      prompt: `A regra "${item.title}" diz que: ${shownExplanation}`,
-      options: ["Verdadeiro", "Falso"],
-      correctAnswer: isActuallyTrue ? "Verdadeiro" : "Falso",
-      explanation: isActuallyTrue ? item.exceptions?.[0] : `Na verdade, "${item.title}" significa: ${item.explanation}`,
+      prompt: strings.prompt(item.title, shownExplanation),
+      options: [strings.true, strings.false],
+      correctAnswer: isActuallyTrue ? strings.true : strings.false,
+      explanation: isActuallyTrue
+        ? item.exceptions?.[0]
+        : strings.actualExplanation(item.title, item.explanation),
     };
   });
 }

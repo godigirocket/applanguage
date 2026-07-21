@@ -1,9 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useStore } from "@/hooks/useStore";
-import { QUESTIONS, Question } from "@/lib/questions";
 import { motion, AnimatePresence } from "framer-motion";
-import { BookX } from "lucide-react";
+import { BookX, Volume2 } from "lucide-react";
 // @ts-ignore
 import confetti from "canvas-confetti";
 import { Flashcards } from "@/components/lume/Flashcards";
@@ -11,6 +10,89 @@ import { PronunciationChallenge } from "@/components/PronunciationChallenge";
 import { LumeMatch } from "@/components/lume/Games/LumeMatch";
 import { SpeedTranslator } from "@/components/lume/Games/SpeedTranslator";
 import { CulturalTrivia } from "@/components/lume/Games/CulturalTrivia";
+import {
+  buildQuestionsForType,
+  getRecentlySeenQuestionIds,
+  recordSeenQuestionIds,
+  recordQuizCompletion,
+  type UnifiedQuestion,
+} from "@/lib/language-content";
+import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
+
+export interface Question {
+  id: string;
+  language: "en" | "es" | "pt";
+  level: "beginner" | "intermediate" | "advanced";
+  category: string;
+  type: "multiple_choice" | "true_false";
+  question: string;
+  options?: string[];
+  correct: string;
+  explanation: string;
+  xp: number;
+  audioText?: string;
+}
+
+const MODE_LABELS: Record<string, string> = {
+  quick: "Quick Quiz",
+  race: "Speed Round",
+  daily: "Daily Challenge",
+  survival: "Streak Master",
+  grammar: "Grammar",
+  verbs: "Verbs",
+  slang: "Slang",
+  listening: "Listening",
+  prepositions: "Prepositions",
+  idioms: "Idioms",
+  synonyms: "Synonyms",
+  errors: "Spot the Error",
+  culture: "Culture",
+  dialogue: "Dialogue",
+  words: "Vocabulary",
+};
+
+function levelForIndex(i: number): "beginner" | "intermediate" | "advanced" {
+  const levels: Array<"beginner" | "intermediate" | "advanced"> = [
+    "beginner",
+    "intermediate",
+    "advanced",
+  ];
+  return levels[i % levels.length];
+}
+
+// Converts the shared engine's UnifiedQuestion shape into this screen's
+// existing Question shape, so the polished quiz UI below (lives, streak,
+// progress bar, results) doesn't need to change — only the content source.
+function toModeQuestions(
+  unified: UnifiedQuestion[],
+  mode: string,
+  targetLanguage: "en" | "es" | "pt",
+  fallbackExplanation: string,
+  listeningPrompt: string,
+): Question[] {
+  const category = MODE_LABELS[mode] || mode;
+  return unified
+    .filter(
+      (q): q is Extract<UnifiedQuestion, { kind: "choice" | "truefalse" | "listening" }> =>
+        q.kind !== "pronunciation",
+    )
+    .map((q, i) => {
+      const isTrueFalse = q.kind === "truefalse";
+      return {
+        id: q.id,
+        language: targetLanguage,
+        level: levelForIndex(i),
+        category,
+        type: isTrueFalse ? ("true_false" as const) : ("multiple_choice" as const),
+        question: q.kind === "listening" ? listeningPrompt : q.prompt,
+        options: q.options,
+        correct: q.correctAnswer,
+        explanation: "explanation" in q && q.explanation ? q.explanation : fallbackExplanation,
+        xp: 8,
+        audioText: q.kind === "listening" ? q.audioText : undefined,
+      };
+    });
+}
 
 export const Route = createFileRoute("/quiz/$mode")({
   component: QuizPage,
@@ -35,19 +117,54 @@ function QuizPage() {
   const [voiceSuccess, setVoiceSuccess] = useState(false);
   const [voiceXPAdded, setVoiceXPAdded] = useState(false);
 
+  const isPT = targetLanguage === "pt";
+  const isES = targetLanguage === "es";
+  const fallbackExplanation = isPT
+    ? "Continue praticando — cada tentativa conta!"
+    : isES
+      ? "¡Sigue practicando — cada intento cuenta!"
+      : "Keep practicing — every attempt counts!";
+  const listeningPrompt = isPT
+    ? "Ouça e escolha a palavra correta:"
+    : isES
+      ? "Escucha y elige la palabra correcta:"
+      : "Listen and choose the correct word:";
+
   // Render Flashcards mode separately — MUST be after all hooks
   useEffect(() => {
-    if (mode === "flashcards") return; // skip question loading for flashcards mode
-    let q = QUESTIONS.filter((q) => q.language === targetLanguage);
-    if (mode === "quick") q = q.sort(() => 0.5 - Math.random()).slice(0, 10);
-    else if (mode === "daily") {
-      const day = new Date().getDate();
-      q = q
-        .sort((a, b) => a.id.charCodeAt(day % a.id.length) - b.id.charCodeAt(day % b.id.length))
-        .slice(0, 15);
-    } else q = q.sort(() => 0.5 - Math.random());
-    setQuestions(q);
+    const noLoadModes = [
+      "flashcards",
+      "lumematch",
+      "speedtranslator",
+      "culturaltrivia",
+      "pronunciation",
+      "speak",
+    ];
+    if (noLoadModes.includes(mode)) return;
+
+    const recentlySeenIds = getRecentlySeenQuestionIds();
+    const requestCount = mode === "survival" ? 40 : mode === "daily" ? 16 : 12;
+    const unified = buildQuestionsForType(mode, targetLanguage, recentlySeenIds, requestCount);
+    const modeQuestions = toModeQuestions(
+      unified,
+      mode,
+      targetLanguage,
+      fallbackExplanation,
+      listeningPrompt,
+    );
+    setQuestions(modeQuestions);
+    recordSeenQuestionIds(modeQuestions.map((q) => q.id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, targetLanguage]);
+
+  // Auto-play the audio once when a listening question first appears.
+  useEffect(() => {
+    const current = questions[currentIdx];
+    if (current?.audioText && isTTSSupported()) {
+      speak(current.audioText, targetLanguage);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIdx, questions]);
 
   // survival = old streak mode, race = speed mode with timer
   const effectiveMode = mode === "survival" ? "streak" : mode === "race" ? "speed" : mode;
@@ -425,7 +542,6 @@ function QuizPage() {
   }
 
   if (!questions.length) {
-    const isPT = targetLanguage === "pt";
     return (
       <div
         style={{
@@ -649,12 +765,35 @@ function QuizPage() {
             fontSize: "clamp(22px,3.5vw,32px)",
             color: "var(--text-primary)",
             lineHeight: 1.4,
-            marginBottom: "36px",
+            marginBottom: q.audioText ? "16px" : "36px",
             fontWeight: 600,
           }}
         >
           {q.question}
         </h1>
+
+        {q.audioText && isTTSSupported() && (
+          <button
+            onClick={() => speak(q.audioText!, targetLanguage)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              padding: "14px 20px",
+              borderRadius: "16px",
+              background: "var(--surface-raised)",
+              border: "2px solid var(--brand)",
+              color: "var(--brand)",
+              fontWeight: 700,
+              fontSize: "15px",
+              cursor: "pointer",
+              marginBottom: "28px",
+            }}
+          >
+            <Volume2 size={20} />
+            {isPT ? "Ouvir novamente" : isES ? "Escuchar de nuevo" : "Play audio"}
+          </button>
+        )}
 
         <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
           {(q.options || []).map((option, i) => {
@@ -822,10 +961,12 @@ function QuizResults({
   const [showLevelUp, setShowLevelUp] = useState(false);
 
   useEffect(() => {
+    recordQuizCompletion(score, total);
     if (score > 0) {
       addXP(earnedXP);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const confettiParticles = Array.from({ length: 40 }).map(() => ({

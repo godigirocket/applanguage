@@ -22,7 +22,19 @@ import {
 type SentenceItem = {
   en: string;
   pt: string;
+  es: string;
 };
+
+type Lang = "en" | "es" | "pt";
+
+// The sentence is shown in whichever language the user actually reads
+// (their interface language) and must be assembled in the language they're
+// learning. If those happen to be the same, fall back to a different source
+// so there's always a real translation to perform.
+function sourceLanguageFor(interfaceLanguage: Lang, targetLanguage: Lang): Lang {
+  if (interfaceLanguage !== targetLanguage) return interfaceLanguage;
+  return targetLanguage === "en" ? "pt" : "en";
+}
 
 export function SpeedTranslator() {
   const nav = useNavigate();
@@ -37,11 +49,11 @@ export function SpeedTranslator() {
   const [timeLeft, setTimeLeft] = useState(15);
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
-  
+
   // Word pills states
   const [pills, setPills] = useState<string[]>([]);
   const [assembled, setAsassembled] = useState<string[]>([]);
-  
+
   const [isGameOver, setIsGameOver] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [shakeTrigger, setShakeTrigger] = useState(false);
@@ -88,14 +100,14 @@ export function SpeedTranslator() {
     // Collect all sentences from BANK
     const allSentences = Object.values(SENTENCE_BANK).flat();
     const shuffled = [...allSentences].sort(() => Math.random() - 0.5);
-    
+
     setSentences(shuffled);
     setCurrentIdx(0);
     setScore(0);
     setStreak(0);
     setTimeLeft(20); // start with 20 seconds
     setIsGameOver(false);
-    
+
     loadSentence(shuffled[0]);
     startTimer();
   };
@@ -129,7 +141,7 @@ export function SpeedTranslator() {
       confetti({
         particleCount: 100,
         spread: 60,
-        origin: { y: 0.6 }
+        origin: { y: 0.6 },
       });
     }
   };
@@ -137,13 +149,11 @@ export function SpeedTranslator() {
   const loadSentence = (item: SentenceItem) => {
     if (!item) return;
 
-    // Define display language and target translation
-    const displayPhrase = targetLanguage === "en" ? item.pt : item.en;
-    const targetPhrase = targetLanguage === "en" ? item.en : item.pt;
+    const targetPhrase = item[targetLanguage as Lang];
 
     // Split target phrase into words, filtering out punctuation
     const targetWords = targetPhrase
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
       .split(/\s+/)
       .filter((w) => w.length > 0);
 
@@ -152,9 +162,9 @@ export function SpeedTranslator() {
     const distractors = allSentences
       .filter((s) => s.en !== item.en)
       .slice(0, 3)
-      .map((s) => (targetLanguage === "en" ? s.en : s.pt))
+      .map((s) => s[targetLanguage as Lang])
       .join(" ")
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
       .split(/\s+/)
       .filter((w) => w.length > 0)
       .slice(0, 3);
@@ -170,7 +180,8 @@ export function SpeedTranslator() {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = targetLanguage === "en" ? "en-US" : "pt-BR";
+      utterance.lang =
+        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -203,17 +214,15 @@ export function SpeedTranslator() {
     const currentItem = sentences[currentIdx];
     if (!currentItem) return;
 
-    const targetPhrase = targetLanguage === "en" ? currentItem.en : currentItem.pt;
+    const targetPhrase = currentItem[targetLanguage as Lang];
     const targetNorm = targetPhrase
-      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?]/g, "")
+      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
       .toLowerCase()
       .split(/\s+/)
       .filter((w) => w.length > 0)
       .join(" ");
 
-    const assembledNorm = assembled
-      .join(" ")
-      .toLowerCase();
+    const assembledNorm = assembled.join(" ").toLowerCase();
 
     if (assembledNorm === targetNorm) {
       // CORRECT
@@ -248,7 +257,8 @@ export function SpeedTranslator() {
   };
 
   const currentItem = sentences[currentIdx];
-  const displayPhrase = currentItem ? (targetLanguage === "en" ? currentItem.pt : currentItem.en) : "";
+  const sourceLanguage = sourceLanguageFor(interfaceLanguage as Lang, targetLanguage as Lang);
+  const displayPhrase = currentItem ? currentItem[sourceLanguage] : "";
 
   // Calculate percentage of timer circle
   const strokeDashoffset = 251.2 - (251.2 * timeLeft) / 30;
@@ -347,7 +357,14 @@ export function SpeedTranslator() {
         </header>
 
         {/* Dashboard: Timer and Streaks */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "16px",
+          }}
+        >
           {/* Streak indicator */}
           <div
             className="glass"
@@ -363,7 +380,14 @@ export function SpeedTranslator() {
           >
             <span style={{ fontSize: "16px" }}>🔥</span>
             <div>
-              <div style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
+              <div
+                style={{
+                  fontSize: "9px",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                }}
+              >
                 {t.streak}
               </div>
               <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)" }}>
@@ -373,9 +397,30 @@ export function SpeedTranslator() {
           </div>
 
           {/* Circular Countdown Timer */}
-          <div style={{ position: "relative", width: "70px", height: "70px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg width="70" height="70" viewBox="0 0 100 100" style={{ transform: "rotate(-90deg)" }}>
-              <circle cx="50" cy="50" r="40" stroke="var(--border)" strokeWidth="6" fill="transparent" />
+          <div
+            style={{
+              position: "relative",
+              width: "70px",
+              height: "70px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg
+              width="70"
+              height="70"
+              viewBox="0 0 100 100"
+              style={{ transform: "rotate(-90deg)" }}
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                stroke="var(--border)"
+                strokeWidth="6"
+                fill="transparent"
+              />
               <circle
                 cx="50"
                 cy="50"
@@ -418,7 +463,14 @@ export function SpeedTranslator() {
           >
             <span style={{ fontSize: "16px" }}>✅</span>
             <div>
-              <div style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
+              <div
+                style={{
+                  fontSize: "9px",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                }}
+              >
                 {t.score}
               </div>
               <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)" }}>
@@ -479,7 +531,9 @@ export function SpeedTranslator() {
                 minHeight: "80px",
                 padding: "16px",
                 borderRadius: "24px",
-                border: shakeTrigger ? "2px solid var(--accent-terra)" : "1.5px solid var(--border)",
+                border: shakeTrigger
+                  ? "2px solid var(--accent-terra)"
+                  : "1.5px solid var(--border)",
                 background: "rgba(255,255,255,0.2)",
                 display: "flex",
                 flexWrap: "wrap",
@@ -586,7 +640,10 @@ export function SpeedTranslator() {
                   padding: "14px",
                   fontSize: "14.5px",
                   fontWeight: 700,
-                  background: assembled.length === 0 ? "var(--border)" : "linear-gradient(135deg, var(--brand), var(--accent-teal))",
+                  background:
+                    assembled.length === 0
+                      ? "var(--border)"
+                      : "linear-gradient(135deg, var(--brand), var(--accent-teal))",
                   opacity: assembled.length === 0 ? 0.5 : 1,
                   cursor: assembled.length === 0 ? "not-allowed" : "pointer",
                 }}
@@ -644,18 +701,40 @@ export function SpeedTranslator() {
                   gap: "20px",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      margin: 0,
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {t.helpTitle}
                   </h3>
                   <button
                     onClick={() => setShowHelp(false)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "var(--text-secondary)" }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: "20px",
+                      color: "var(--text-secondary)",
+                    }}
                   >
                     ×
                   </button>
                 </div>
-                <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
                   {t.helpText}
                 </p>
                 <button
@@ -724,10 +803,24 @@ export function SpeedTranslator() {
                 </div>
 
                 <div>
-                  <h2 style={{ fontSize: "26px", fontWeight: 800, margin: "0 0 6px", color: "var(--text-primary)" }}>
+                  <h2
+                    style={{
+                      fontSize: "26px",
+                      fontWeight: 800,
+                      margin: "0 0 6px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {t.gameOver}
                   </h2>
-                  <p style={{ fontSize: "14.5px", color: "var(--text-secondary)", lineHeight: 1.5, margin: 0 }}>
+                  <p
+                    style={{
+                      fontSize: "14.5px",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.5,
+                      margin: 0,
+                    }}
+                  >
                     {t.gameOverDesc}
                   </p>
                 </div>
@@ -748,10 +841,24 @@ export function SpeedTranslator() {
                       border: "1px solid var(--border)",
                     }}
                   >
-                    <div style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
+                    <div
+                      style={{
+                        fontSize: "9px",
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
                       {t.score}
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginTop: "4px" }}>
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 800,
+                        color: "var(--text-primary)",
+                        marginTop: "4px",
+                      }}
+                    >
                       {score}
                     </div>
                   </div>
@@ -764,17 +871,39 @@ export function SpeedTranslator() {
                       border: "1px solid var(--border)",
                     }}
                   >
-                    <div style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
+                    <div
+                      style={{
+                        fontSize: "9px",
+                        fontWeight: 900,
+                        textTransform: "uppercase",
+                        color: "var(--text-secondary)",
+                      }}
+                    >
                       XP {isPT ? "Ganho" : "Earned"}
                     </div>
-                    <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--brand)", marginTop: "4px" }}>
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        fontWeight: 800,
+                        color: "var(--brand)",
+                        marginTop: "4px",
+                      }}
+                    >
                       +{Math.min(100, score * 15)} XP
                     </div>
                   </div>
                 </div>
 
                 <div style={{ width: "100%" }}>
-                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", color: "var(--text-secondary)", marginBottom: "8px" }}>
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 800,
+                      textTransform: "uppercase",
+                      color: "var(--text-secondary)",
+                      marginBottom: "8px",
+                    }}
+                  >
                     {t.rewardText}
                   </div>
                   <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>

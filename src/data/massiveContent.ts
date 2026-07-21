@@ -390,104 +390,143 @@ export const SENTENCE_BANK = {
     {
       en: "Where is the check-in counter for Lume Airlines?",
       pt: "Onde fica o balcão de check-in da Lume Airlines?",
+      es: "¿Dónde está el mostrador de check-in de Lume Airlines?",
     },
     {
       en: "I would like a window seat, please.",
       pt: "Eu gostaria de um assento na janela, por favor.",
+      es: "Me gustaría un asiento junto a la ventana, por favor.",
     },
     {
       en: "Is my luggage within the weight limit?",
       pt: "Minha bagagem está dentro do limite de peso?",
+      es: "¿Mi equipaje está dentro del límite de peso?",
     },
-    { en: "Where can I find the duty-free shop?", pt: "Onde posso encontrar a loja do freeshop?" },
-    { en: "My flight has been delayed by two hours.", pt: "Meu voo foi atrasado em duas horas." },
+    {
+      en: "Where can I find the duty-free shop?",
+      pt: "Onde posso encontrar a loja do freeshop?",
+      es: "¿Dónde puedo encontrar la tienda libre de impuestos?",
+    },
+    {
+      en: "My flight has been delayed by two hours.",
+      pt: "Meu voo foi atrasado em duas horas.",
+      es: "Mi vuelo se retrasó dos horas.",
+    },
     {
       en: "What gate does the flight to London depart from?",
       pt: "De qual portão sai o voo para Londres?",
+      es: "¿Desde qué puerta sale el vuelo a Londres?",
     },
     {
       en: "Can I bring this liquid bottle in my carry-on bag?",
       pt: "Posso levar esta garrafa de líquido na minha bagagem de mão?",
+      es: "¿Puedo llevar esta botella de líquido en mi equipaje de mano?",
     },
   ],
   restaurant: [
     {
       en: "Could we have a table for four near the window?",
       pt: "Poderíamos ter uma mesa para quatro perto da janela?",
+      es: "¿Podríamos tener una mesa para cuatro cerca de la ventana?",
     },
     {
       en: "What do you recommend from the chef's specials?",
       pt: "O que você recomenda dos pratos especiais do chef?",
+      es: "¿Qué recomienda de los especiales del chef?",
     },
     {
       en: "Excuse me, I am allergic to peanuts. Does this contain any?",
       pt: "Com licença, sou alérgico a amendoim. Isso contém algum?",
+      es: "Disculpe, soy alérgico al maní. ¿Esto contiene algo?",
     },
-    { en: "Could we have the bill, please?", pt: "Poderíamos receber a conta, por favor?" },
+    {
+      en: "Could we have the bill, please?",
+      pt: "Poderíamos receber a conta, por favor?",
+      es: "¿Podríamos tener la cuenta, por favor?",
+    },
     {
       en: "Is the service charge included in the bill?",
       pt: "A taxa de serviço está incluída na conta?",
+      es: "¿El cargo por servicio está incluido en la cuenta?",
     },
     {
       en: "This dish is absolutely delicious, compliments to the chef!",
       pt: "Este prato está absolutamente maravilhoso, parabéns ao chef!",
+      es: "¡Este plato está absolutamente delicioso, felicidades al chef!",
     },
     {
       en: "I'll have the steak cooked medium-rare, please.",
       pt: "Eu vou querer o bife ao ponto para malpassado, por favor.",
+      es: "Quiero el bistec término medio, por favor.",
     },
   ],
   hotel: [
-    { en: "I have a reservation under the name Lume.", pt: "Tenho uma reserva sob o nome Lume." },
+    {
+      en: "I have a reservation under the name Lume.",
+      pt: "Tenho uma reserva sob o nome Lume.",
+      es: "Tengo una reserva a nombre de Lume.",
+    },
     {
       en: "What time is checkout tomorrow morning?",
       pt: "Que horas é o checkout amanhã de manhã?",
+      es: "¿A qué hora es el checkout mañana por la mañana?",
     },
     {
       en: "Is breakfast included in our room rate?",
       pt: "O café da manhã está incluído na nossa tarifa de quarto?",
+      es: "¿El desayuno está incluido en la tarifa de la habitación?",
     },
     {
       en: "Could we get extra pillows and towels sent to room 302?",
       pt: "Poderíamos receber travesseiros e toalhas extras no quarto 302?",
+      es: "¿Podrían enviar almohadas y toallas extra a la habitación 302?",
     },
     {
       en: "Does the room have a stable Wi-Fi connection?",
       pt: "O quarto tem uma conexão Wi-Fi estável?",
+      es: "¿La habitación tiene una conexión Wi-Fi estable?",
     },
     {
       en: "Can you recommend any good local restaurants nearby?",
       pt: "Você pode recomendar algum restaurante local bom aqui perto?",
+      es: "¿Puede recomendar buenos restaurantes locales cerca de aquí?",
     },
     {
       en: "We would like to leave our luggage here until our departure.",
       pt: "Gostaríamos de deixar nossa bagagem aqui até nossa partida.",
+      es: "Nos gustaría dejar nuestro equipaje aquí hasta nuestra salida.",
     },
   ],
   job_interview: [
     {
       en: "Can you tell me about a time you resolved a conflict within a team?",
       pt: "Você pode me falar sobre uma vez em que resolveu um conflito em equipe?",
+      es: "¿Puede contarme sobre una vez que resolvió un conflicto en equipo?",
     },
     {
       en: "What are your main professional strengths and weaknesses?",
       pt: "Quais são seus principais pontos fortes e fracos profissionais?",
+      es: "¿Cuáles son sus principales fortalezas y debilidades profesionales?",
     },
     {
       en: "I look forward to contributing my technical skills to Lume's mission.",
       pt: "Estou ansioso para contribuir com minhas habilidades técnicas na missão da Lume.",
+      es: "Espero poder aportar mis habilidades técnicas a la misión de Lume.",
     },
     {
       en: "How do you handle working under tight deadlines?",
       pt: "Como você lida com prazos apertados?",
+      es: "¿Cómo maneja el trabajo bajo plazos ajustados?",
     },
     {
       en: "What are the opportunities for career growth within this role?",
       pt: "Quais são as oportunidades de crescimento profissional nesta vaga?",
+      es: "¿Cuáles son las oportunidades de crecimiento profesional en este puesto?",
     },
     {
       en: "I am passionate about continuous learning and cross-cultural environments.",
       pt: "Sou apaixonado por aprendizado contínuo e ambientes multiculturais.",
+      es: "Me apasiona el aprendizaje continuo y los entornos multiculturales.",
     },
   ],
 };

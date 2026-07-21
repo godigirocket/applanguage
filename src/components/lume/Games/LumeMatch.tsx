@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import { useStore } from "@/hooks/useStore";
 import { AppHeader } from "@/components/lume/AppHeader";
-import vocData from "@/data/vocabularyExpanded.json";
+import { getVocabularyForTopic, ALL_TOPICS } from "@/lib/language-content";
 import { sounds } from "@/lib/soundEffects";
 // @ts-ignore
 import confetti from "canvas-confetti";
@@ -34,13 +34,13 @@ export function LumeMatch() {
   // Game States
   const [leftCards, setLeftCards] = useState<VocItem[]>([]);
   const [rightCards, setRightCards] = useState<VocItem[]>([]);
-  
+
   const [selectedLeft, setSelectedLeft] = useState<VocItem | null>(null);
   const [selectedRight, setSelectedRight] = useState<VocItem | null>(null);
-  
+
   const [matchedIds, setMatchedIds] = useState<Set<string>>(new Set());
   const [incorrectIds, setIncorrectIds] = useState<Set<string>>(new Set());
-  
+
   const [round, setRound] = useState(1);
   const [attempts, setAttempts] = useState(0);
   const [showHelp, setShowHelp] = useState(false);
@@ -56,7 +56,11 @@ export function LumeMatch() {
         : "Match each expression to its correct meaning.",
     round: isPT ? "Rodada" : isES ? "Ronda" : "Round",
     attempts: isPT ? "Erros" : isES ? "Errores" : "Mistakes",
-    victoryTitle: isPT ? "Combinação Perfeita!" : isES ? "¡Combinación Perfecta!" : "Perfect Match!",
+    victoryTitle: isPT
+      ? "Combinação Perfeita!"
+      : isES
+        ? "¡Combinación Perfecta!"
+        : "Perfect Match!",
     victoryDesc: isPT
       ? "Você dominou as associações desta rodada!"
       : isES
@@ -85,15 +89,22 @@ export function LumeMatch() {
   };
 
   const loadRound = (currentRound: number) => {
-    // Read vocabulary based on target language
-    const currentLang = targetLanguage === "en" ? "en" : "pt";
-    const rawList = (vocData as any)[currentLang] || vocData.pt;
-    
+    // Rotate topic per round so each round feels distinct, and pull real,
+    // properly localized vocabulary (en/es/pt) from the content engine
+    // instead of the old 15-word-per-language static bank.
+    const topic = ALL_TOPICS[(currentRound - 1) % ALL_TOPICS.length];
+    const rawList = getVocabularyForTopic(topic, targetLanguage, {
+      count: 4,
+      seed: `lumematch-${currentRound}`,
+    });
+
     if (!rawList || rawList.length < 4) return;
 
-    // Shuffle and pick 4 random words
-    const shuffledList = [...rawList].sort(() => Math.random() - 0.5);
-    const selectedWords: VocItem[] = shuffledList.slice(0, 4);
+    const selectedWords: VocItem[] = rawList.map((item) => ({
+      id: item.id,
+      word: item.term,
+      translation: item.translation,
+    }));
 
     // Shuffle left column and right column separately
     const leftCols = [...selectedWords].sort(() => Math.random() - 0.5);
@@ -101,7 +112,7 @@ export function LumeMatch() {
 
     setLeftCards(leftCols);
     setRightCards(rightCols);
-    
+
     setSelectedLeft(null);
     setSelectedRight(null);
     setMatchedIds(new Set());
@@ -112,7 +123,8 @@ export function LumeMatch() {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = targetLanguage === "en" ? "en-US" : "pt-BR";
+      utterance.lang =
+        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
       window.speechSynthesis.speak(utterance);
     }
   };
@@ -125,7 +137,7 @@ export function LumeMatch() {
         const newMatched = new Set(matchedIds);
         newMatched.add(selectedLeft.id);
         setMatchedIds(newMatched);
-        
+
         sounds.playClick();
         handleSpeak(selectedLeft.word);
 
@@ -145,7 +157,7 @@ export function LumeMatch() {
               confetti({
                 particleCount: 150,
                 spread: 80,
-                origin: { y: 0.6 }
+                origin: { y: 0.6 },
               });
               setShowVictory(true);
             }
@@ -156,7 +168,7 @@ export function LumeMatch() {
         const newIncorrect = new Set<string>();
         newIncorrect.add(selectedLeft.id);
         setIncorrectIds(newIncorrect);
-        
+
         setAttempts((a) => a + 1);
         sounds.playClick(); // play generic feedback
 
@@ -277,7 +289,14 @@ export function LumeMatch() {
               gap: "2px",
             }}
           >
-            <span style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
+            <span
+              style={{
+                fontSize: "9px",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                color: "var(--text-secondary)",
+              }}
+            >
               {t.round}
             </span>
             <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-primary)" }}>
@@ -298,7 +317,14 @@ export function LumeMatch() {
               gap: "2px",
             }}
           >
-            <span style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--accent-terra)" }}>
+            <span
+              style={{
+                fontSize: "9px",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                color: "var(--accent-terra)",
+              }}
+            >
               {t.attempts}
             </span>
             <span style={{ fontSize: "18px", fontWeight: 800, color: "var(--accent-terra)" }}>
@@ -380,7 +406,11 @@ export function LumeMatch() {
             {rightCards.map((card) => {
               const isMatched = matchedIds.has(card.id);
               const isSelected = selectedRight?.id === card.id;
-              const isIncorrect = selectedLeft && selectedRight && selectedLeft.id !== selectedRight.id && selectedRight.id === card.id;
+              const isIncorrect =
+                selectedLeft &&
+                selectedRight &&
+                selectedLeft.id !== selectedRight.id &&
+                selectedRight.id === card.id;
 
               let cardBg = "var(--surface-raised)";
               let cardBorder = "1.5px solid var(--border)";
@@ -482,18 +512,40 @@ export function LumeMatch() {
                   gap: "20px",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <h3 style={{ fontSize: "20px", fontWeight: 800, margin: 0, color: "var(--text-primary)" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: 800,
+                      margin: 0,
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {t.helpTitle}
                   </h3>
                   <button
                     onClick={() => setShowHelp(false)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "20px", color: "var(--text-secondary)" }}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: "20px",
+                      color: "var(--text-secondary)",
+                    }}
                   >
                     ×
                   </button>
                 </div>
-                <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.6, margin: 0 }}>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.6,
+                    margin: 0,
+                  }}
+                >
                   {t.helpText}
                 </p>
                 <button
@@ -562,16 +614,38 @@ export function LumeMatch() {
                 </div>
 
                 <div>
-                  <h2 style={{ fontSize: "26px", fontWeight: 800, margin: "0 0 6px", color: "var(--text-primary)" }}>
+                  <h2
+                    style={{
+                      fontSize: "26px",
+                      fontWeight: 800,
+                      margin: "0 0 6px",
+                      color: "var(--text-primary)",
+                    }}
+                  >
                     {t.victoryTitle}
                   </h2>
-                  <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.5, margin: 0 }}>
+                  <p
+                    style={{
+                      fontSize: "14px",
+                      color: "var(--text-secondary)",
+                      lineHeight: 1.5,
+                      margin: 0,
+                    }}
+                  >
                     {t.victoryDesc}
                   </p>
                 </div>
 
                 <div style={{ width: "100%" }}>
-                  <div style={{ fontSize: "11px", fontWeight: 800, textTransform: "uppercase", color: "var(--text-secondary)", marginBottom: "8px" }}>
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      fontWeight: 800,
+                      textTransform: "uppercase",
+                      color: "var(--text-secondary)",
+                      marginBottom: "8px",
+                    }}
+                  >
                     {t.rewardText}
                   </div>
                   <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>

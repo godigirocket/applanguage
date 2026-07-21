@@ -4,12 +4,21 @@ import { CheckCircle, AlertTriangle } from "../lume/CustomIcons";
 
 interface TrueFalseProps {
   question: string;
-  correctAnswer: "Verdadeiro" | "Falso" | string;
+  correctAnswer: string;
+  options?: string[];
+  explanationLabel?: string;
   explanation?: string;
   onAnswer: (isCorrect: boolean) => void;
 }
 
-export function TrueFalse({ question, correctAnswer, explanation, onAnswer }: TrueFalseProps) {
+export function TrueFalse({
+  question,
+  correctAnswer,
+  options: optionsProp,
+  explanationLabel = "Explicação:",
+  explanation,
+  onAnswer,
+}: TrueFalseProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
 
@@ -23,7 +32,7 @@ export function TrueFalse({ question, correctAnswer, explanation, onAnswer }: Tr
     }, 2000); // give time to read explanation
   };
 
-  const options = ["Verdadeiro", "Falso"];
+  const options = optionsProp && optionsProp.length === 2 ? optionsProp : ["Verdadeiro", "Falso"];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}>
@@ -106,7 +115,7 @@ export function TrueFalse({ question, correctAnswer, explanation, onAnswer }: Tr
           <p
             style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.5, margin: 0 }}
           >
-            <strong style={{ color: "var(--text-primary)" }}>Explicação: </strong>
+            <strong style={{ color: "var(--text-primary)" }}>{explanationLabel} </strong>
             {explanation}
           </p>
         </motion.div>
