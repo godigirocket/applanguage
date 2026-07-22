@@ -28,10 +28,10 @@ function SettingsPage() {
 
   const copy = {
     back: isPT ? "Voltar" : isES ? "Volver" : "Back",
-    title: isPT ? "Configuracoes" : isES ? "Configuracion" : "Settings",
+    title: isPT ? "Configurações" : isES ? "Configuración" : "Settings",
     account: isPT ? "Conta" : isES ? "Cuenta" : "Account",
-    signOut: isPT ? "Sair da conta" : isES ? "Cerrar sesion" : "Sign out",
-    signedOut: isPT ? "Ate logo!" : isES ? "Hasta luego!" : "See you!",
+    signOut: isPT ? "Sair da conta" : isES ? "Cerrar sesión" : "Sign out",
+    signedOut: isPT ? "Até logo!" : isES ? "¡Hasta luego!" : "See you!",
     languages: isPT ? "Idiomas" : isES ? "Idiomas" : "Languages",
     target: isPT
       ? "Idioma alvo (aprendendo)"

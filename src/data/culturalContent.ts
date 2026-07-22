@@ -48,7 +48,7 @@ export const CULTURAL_CITIES: CityContent[] = [
       { word: "Pub", meaning: "Bar/Taverna", example: "Let's meet at the pub tonight." }
     ],
     culturalTip: "British people value queuing (forming lines) - always wait your turn! Also, saying 'please' and 'thank you' frequently is essential in British culture.",
-    gradient: "linear-gradient(135deg, #1B3A4B 0%, #2D4A3E 100%)",
+    gradient: "linear-gradient(135deg, #1B3A6B 0%, #8B1E3F 100%)",
     relatedLessonIds: ["lesson-en-1", "lesson-en-5", "lesson-en-10"]
   },
   {
