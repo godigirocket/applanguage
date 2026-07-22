@@ -1,4 +1,10 @@
-import type { Difficulty, InterfaceLanguage, LessonTopic, TargetLanguage, VocabularyItem } from "./types";
+import type {
+  Difficulty,
+  InterfaceLanguage,
+  LessonTopic,
+  TargetLanguage,
+  VocabularyItem,
+} from "./types";
 import { CONCEPTS_BY_TOPIC } from "./fallback-content";
 
 // Deterministic PRNG (mulberry32) so the same seed always produces the same
@@ -50,7 +56,25 @@ export function getVocabularyForTopic(
     seed?: number | string;
   } = {},
 ): VocabularyItem[] {
-  const { difficulty, interfaceLanguage = "pt", count = 5, seed = topic } = opts;
+  const {
+    difficulty,
+    interfaceLanguage: requestedInterfaceLanguage = "pt",
+    count = 5,
+    seed = topic,
+  } = opts;
+
+  // Learning a language whose gloss is shown in that *same* language makes
+  // every question and its own answer identical text (e.g. "What does X
+  // mean?" with X itself listed as the correct option) — this happens
+  // whenever the user's interface language and target language coincide
+  // (a valid combination the UI doesn't block). Fall back to a different
+  // gloss language rather than ever rendering a degenerate quiz like that.
+  const interfaceLanguage: InterfaceLanguage =
+    requestedInterfaceLanguage === targetLanguage
+      ? targetLanguage === "pt"
+        ? "en"
+        : "pt"
+      : requestedInterfaceLanguage;
 
   const concepts = CONCEPTS_BY_TOPIC[topic] ?? [];
   if (concepts.length === 0) return [];

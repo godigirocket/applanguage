@@ -1,4 +1,5 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -109,9 +110,11 @@ function LessonsPage() {
   const [lessonsInTargetLanguage, setLessonsInTargetLanguage] = useState<any[]>([]);
   useEffect(() => {
     let cancelled = false;
-    generateLessons(targetLanguage, Infinity, completedLessons).then((lessons) => {
-      if (!cancelled) setLessonsInTargetLanguage(lessons);
-    });
+    generateLessons(targetLanguage, Infinity, completedLessons, { progressiveLock: true }).then(
+      (lessons) => {
+        if (!cancelled) setLessonsInTargetLanguage(lessons);
+      },
+    );
     return () => {
       cancelled = true;
     };
@@ -137,7 +140,14 @@ function LessonsPage() {
   });
 
   const handleLessonClick = (lesson: any) => {
-    if (lesson.locked) return;
+    if (lesson.locked) {
+      toast.info(
+        isPT
+          ? "Complete a lição anterior para desbloquear esta."
+          : "Finish the previous lesson to unlock this one.",
+      );
+      return;
+    }
     nav({ to: `/lesson/${lesson.id}` as any });
   };
 
@@ -235,7 +245,8 @@ function LessonsPage() {
                         targetLanguage === lang.code
                           ? "2px solid var(--brand)"
                           : "2px solid rgba(255,255,255,0.35)",
-                      background: targetLanguage === lang.code ? "var(--brand)" : "rgba(255,255,255,0.14)",
+                      background:
+                        targetLanguage === lang.code ? "var(--brand)" : "rgba(255,255,255,0.14)",
                       color: "#fff",
                       fontSize: "14px",
                       fontWeight: 800,
@@ -607,7 +618,7 @@ function LessonsPage() {
                       left: 0,
                       right: 0,
                       bottom: 0,
-                      background: "rgba(250,250,250,0.7)",
+                      background: "var(--overlay-bg)",
                       backdropFilter: "blur(1px)",
                       display: "flex",
                       alignItems: "center",
@@ -616,8 +627,15 @@ function LessonsPage() {
                     }}
                   >
                     <div style={{ textAlign: "center", padding: "20px" }}>
-                      <Lock size={32} color="#999" style={{ marginBottom: "8px" }} />
-                      <p style={{ fontSize: "12px", fontWeight: 700, color: "#666", margin: 0 }}>
+                      <Lock size={32} color="var(--text-muted)" style={{ marginBottom: "8px" }} />
+                      <p
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "var(--text-secondary)",
+                          margin: 0,
+                        }}
+                      >
                         {isPT ? "Complete a lição anterior" : "Complete previous lesson"}
                       </p>
                     </div>

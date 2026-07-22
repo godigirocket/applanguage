@@ -280,7 +280,9 @@ export async function generateLessons(
   targetLanguage: TargetLang,
   count: number,
   completedLessons: string[] = [],
+  options: { progressiveLock?: boolean } = {},
 ) {
+  const { progressiveLock = false } = options;
   let lessonsInLanguage = lessonsCache[targetLanguage];
   if (!lessonsInLanguage) {
     lessonsInLanguage = await loadLessonsForLanguage(targetLanguage);
@@ -298,6 +300,11 @@ export async function generateLessons(
 
   return lessonsInLanguage.slice(0, count).map((lesson, i) => {
     const isCompleted = completedLessons.includes(lesson.id);
+    // Duolingo-style progression: lesson N only unlocks once lesson N-1 (in
+    // curriculum order) is completed. Callers that want quick access to
+    // anything (e.g. the /home dashboard) opt out via progressiveLock=false.
+    const locked =
+      progressiveLock && i > 0 && !completedLessons.includes(lessonsInLanguage[i - 1].id);
     return {
       id: lesson.id,
       lessonNumber: i + 1,
@@ -311,7 +318,7 @@ export async function generateLessons(
       duration: parseInt(lesson.duration) || 6,
       xp: lesson.xp || 20,
       completed: isCompleted,
-      locked: false, // Home lessons are always unlocked for quick access
+      locked,
       progress: isCompleted ? 100 : 0,
       language: lesson.language,
       level: lesson.level,

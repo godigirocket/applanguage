@@ -148,7 +148,11 @@ export function buildEngineChoiceQuestions(
   seed: string,
   interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
-  const vocabulary = getVocabularyForTopic(topic, targetLanguage, { count, seed });
+  const vocabulary = getVocabularyForTopic(topic, targetLanguage, {
+    count,
+    seed,
+    interfaceLanguage,
+  });
   const questions = dedupeQuestions(
     generateQuizFromVocabulary(vocabulary, targetLanguage, { seed, interfaceLanguage }),
   );

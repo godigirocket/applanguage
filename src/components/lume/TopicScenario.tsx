@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { LessonTopic } from "@/lib/language-content";
 
 interface Palette {
@@ -145,6 +145,12 @@ interface TopicScenarioProps {
  */
 export function TopicScenario({ topic, intensity = "normal", seed = topic }: TopicScenarioProps) {
   const isDark = useIsDarkMode();
+  // framer-motion's `animate` prop runs its own rAF loop — it isn't a CSS
+  // @keyframes animation, so the global prefers-reduced-motion override in
+  // styles.css can't touch it. Respect it explicitly, and it doubles as a
+  // real perf win: three permanently-animating large blur filters is
+  // meaningful, continuous compositing cost on lower-end phones.
+  const reduceMotion = useReducedMotion();
   const basePalette = PALETTES[topic] ?? PALETTES.daily;
   const palette = isDark
     ? {
@@ -187,10 +193,11 @@ export function TopicScenario({ topic, intensity = "normal", seed = topic }: Top
           maxHeight: "560px",
           borderRadius: "50%",
           background: palette.a,
-          filter: "blur(70px)",
+          filter: "blur(48px)",
           opacity,
+          willChange: reduceMotion ? undefined : "transform",
         }}
-        animate={{ x: [0, 30, -10, 0], y: [0, 20, -20, 0] }}
+        animate={reduceMotion ? undefined : { x: [0, 30, -10, 0], y: [0, 20, -20, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: phase }}
       />
       <motion.div
@@ -204,10 +211,11 @@ export function TopicScenario({ topic, intensity = "normal", seed = topic }: Top
           maxHeight: "480px",
           borderRadius: "50%",
           background: palette.b,
-          filter: "blur(80px)",
+          filter: "blur(52px)",
           opacity,
+          willChange: reduceMotion ? undefined : "transform",
         }}
-        animate={{ x: [0, -25, 15, 0], y: [0, -15, 15, 0] }}
+        animate={reduceMotion ? undefined : { x: [0, -25, 15, 0], y: [0, -15, 15, 0] }}
         transition={{ duration: 32, repeat: Infinity, ease: "easeInOut", delay: phase }}
       />
       <motion.div
@@ -221,10 +229,11 @@ export function TopicScenario({ topic, intensity = "normal", seed = topic }: Top
           maxHeight: "420px",
           borderRadius: "50%",
           background: palette.c,
-          filter: "blur(75px)",
+          filter: "blur(50px)",
           opacity,
+          willChange: reduceMotion ? undefined : "transform",
         }}
-        animate={{ x: [0, 20, -20, 0], y: [0, -10, 10, 0] }}
+        animate={reduceMotion ? undefined : { x: [0, 20, -20, 0], y: [0, -10, 10, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut", delay: phase }}
       />
     </div>

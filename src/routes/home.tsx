@@ -26,6 +26,10 @@ import {
   CheckCircle,
   Gamepad2,
   BarChart2,
+  Coffee,
+  Briefcase,
+  Plane,
+  Sparkles,
 } from "@/components/lume/CustomIcons";
 import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
 import { SIMULATED_USERS } from "@/data/communityUsers";
@@ -386,6 +390,101 @@ function HomePage() {
             ))}
           </div>
         </section>
+
+        {/* STARTER TRACKS — a new user facing 710 lessons has no idea where
+            to start; offer 4 approachable, low-commitment entry points that
+            teach through play (quiz-play) instead of a raw lesson list. */}
+        {isNewUser && (
+          <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "32px 24px 0" }}>
+            <h2
+              style={{
+                fontSize: "20px",
+                fontWeight: 900,
+                color: "var(--text-primary)",
+                marginBottom: "16px",
+              }}
+            >
+              {isPT ? "Por onde você quer começar?" : "Where do you want to start?"}
+            </h2>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 220px), 1fr))",
+                gap: "16px",
+              }}
+            >
+              {[
+                {
+                  to: "/quiz-play/daily",
+                  Icon: Coffee,
+                  color: "#F59E0B",
+                  title: isPT ? "Palavras do dia a dia" : "Everyday words",
+                  desc: isPT
+                    ? "Objetos e rotina, no seu ritmo."
+                    : "Objects and routine, at your pace.",
+                },
+                {
+                  to: "/quiz/slang",
+                  Icon: Sparkles,
+                  color: "#8B5CF6",
+                  title: isPT ? "Gírias e expressões" : "Slang & expressions",
+                  desc: isPT ? "Como as pessoas falam de verdade." : "How people actually talk.",
+                },
+                {
+                  to: "/quiz-play/business",
+                  Icon: Briefcase,
+                  color: "var(--brand-blue)",
+                  title: isPT ? "Conversação formal" : "Formal conversation",
+                  desc: isPT ? "Trabalho, reuniões, e-mails." : "Work, meetings, emails.",
+                },
+                {
+                  to: "/quiz-play/travel",
+                  Icon: Plane,
+                  color: "var(--brand)",
+                  title: isPT ? "Viagem e cultura" : "Travel & culture",
+                  desc: isPT
+                    ? "O essencial para se virar por aí."
+                    : "The essentials to get around.",
+                },
+              ].map((track) => (
+                <Link
+                  key={track.to}
+                  to={track.to as any}
+                  style={{
+                    display: "block",
+                    padding: "20px",
+                    borderRadius: "18px",
+                    background: "var(--surface-raised)",
+                    border: "1.5px solid var(--border)",
+                    textDecoration: "none",
+                    color: "var(--text-primary)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "12px",
+                      background: `${track.color}20`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    <track.Icon size={22} color={track.color} />
+                  </div>
+                  <div style={{ fontWeight: 800, fontSize: "15px", marginBottom: "4px" }}>
+                    {track.title}
+                  </div>
+                  <div style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
+                    {track.desc}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* MAIN FEED */}
         <main style={{ maxWidth: "1400px", margin: "0 auto", padding: "40px 24px" }}>
