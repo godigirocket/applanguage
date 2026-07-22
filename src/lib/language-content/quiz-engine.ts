@@ -35,10 +35,7 @@ function hashString(s: string): number {
   return h;
 }
 
-const PROMPTS: Record<
-  QuizQuestionType,
-  { en: string; es: string; pt: string }
-> = {
+const PROMPTS: Record<QuizQuestionType, { en: string; es: string; pt: string }> = {
   translation: {
     en: 'What is the translation of "{term}"?',
     es: '¿Cuál es la traducción de "{term}"?',
@@ -122,10 +119,26 @@ export function generateQuizFromVocabulary(
   if (vocabulary.length < 2) return [];
 
   const seedNum = typeof seed === "number" ? seed : hashString(String(seed));
-  const types: QuizQuestionType[] = ["word-to-translation", "meaning", "fill-blank", "choose-example"];
+  const types: QuizQuestionType[] = [
+    "word-to-translation",
+    "meaning",
+    "fill-blank",
+    "choose-example",
+  ];
 
   return vocabulary.map((item, idx) => {
-    const type = types[idx % types.length];
+    // Some vocabulary is a cognate/loanword — identical spelling in the
+    // target and gloss language (e.g. "backup", "cliente", "reserva" read
+    // the same in Portuguese and Spanish). Asking "what does X mean?" with
+    // X itself as the only sensible answer gives the question away, so
+    // those items always get a sentence-context question type instead of
+    // the term/translation ones.
+    const isCognate = item.term.trim().toLowerCase() === item.translation.trim().toLowerCase();
+    const type = isCognate
+      ? idx % 2 === 0
+        ? "fill-blank"
+        : "choose-example"
+      : types[idx % types.length];
     const distractorPool = vocabulary.filter((v) => v.id !== item.id);
     const distractors = seededShuffle(distractorPool, seedNum + idx)
       .slice(0, 3)
@@ -140,7 +153,10 @@ export function generateQuizFromVocabulary(
         "{blank}",
         blankOutTerm(item.example, item.term),
       );
-      options = seededShuffle([item.term, ...distractorPool.slice(0, 3).map((v) => v.term)], seedNum + idx);
+      options = seededShuffle(
+        [item.term, ...distractorPool.slice(0, 3).map((v) => v.term)],
+        seedNum + idx,
+      );
       correctAnswer = item.term;
     } else if (type === "choose-example") {
       const wrongExamples = seededShuffle(distractorPool, seedNum + idx + 100)

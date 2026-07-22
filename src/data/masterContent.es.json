@@ -54,14 +54,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Hice una reserva para dos noches.",
+        "audioText": "Compré un pequeño recuerdo para mi hermana.",
         "options": [
-          "reserva",
-          "recuerdo",
           "hostal",
-          "boleto de ida"
+          "equipaje",
+          "recuerdo",
+          "reserva"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -168,27 +168,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vegetariano\"?",
+        "question": "Qual é a tradução correta para \"menú\"?",
         "options": [
-          "ingrediente",
-          "reforço",
+          "vegetariano",
+          "água com gás",
           "cardápio",
-          "vegetariano"
+          "reforço"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El ajo es el ingrediente clave de este plato.",
+        "audioText": "¿Podría ver el menú, por favor?",
         "options": [
-          "picante",
           "menú",
+          "agua con gas",
           "ingrediente",
           "vegetariano"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -810,14 +810,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Este helado tiene un sabor increíble.",
+        "audioText": "¿Nos trae la cuenta, por favor?",
         "options": [
-          "menú",
           "la cuenta",
-          "ingrediente",
-          "sabor"
+          "sabor",
+          "recarga",
+          "ingrediente"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -1312,14 +1312,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Hice una reserva para dos noches.",
+        "audioText": "Ten tu tarjeta de embarque lista en la puerta.",
         "options": [
-          "equipaje",
+          "hacer el check-in",
+          "reserva",
           "tarjeta de embarque",
-          "hostal",
-          "reserva"
+          "hostal"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -1426,25 +1426,25 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ingrediente\"?",
+        "question": "Qual é a tradução correta para \"la cuenta\"?",
         "options": [
-          "ingrediente",
+          "mercado",
           "a conta",
-          "reforço",
-          "vegetariano"
+          "receita",
+          "cardápio"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Este restaurante tiene excelentes opciones vegetarianas.",
+        "audioText": "¿Nos trae la cuenta, por favor?",
         "options": [
-          "picante",
-          "la cuenta",
+          "sabor",
+          "vegetariano",
           "ingrediente",
-          "vegetariano"
+          "la cuenta"
         ],
         "correct": 3
       },
@@ -2080,14 +2080,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Este helado tiene un sabor increíble.",
+        "audioText": "Necesito pasar por la tienda de comestibles después del trabajo.",
         "options": [
           "tienda de comestibles",
+          "agua con gas",
           "sabor",
-          "comida para llevar",
-          "agua con gas"
+          "menú"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -2196,14 +2196,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "Qual é a tradução correta para \"entrevista de trabajo\"?",
         "options": [
-          "cliente",
-          "turno",
-          "prazo final",
-          "entrevista de emprego"
+          "entrevista de emprego",
+          "currículo",
+          "reunião",
+          "feedback"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -3835,14 +3835,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reserva\"?",
+        "question": "Qual é a tradução correta para \"hacer el check-in\"?",
         "options": [
-          "reserva",
-          "atraso",
+          "cartão de embarque",
           "fazer check-in",
-          "cartão de embarque"
+          "direções",
+          "reserva"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -4093,14 +4093,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cliente\"?",
+        "question": "Qual é a tradução correta para \"fecha límite\"?",
         "options": [
           "feedback",
-          "promoção (cargo)",
           "prazo final",
-          "cliente"
+          "colega de trabalho",
+          "entrevista de emprego"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -4487,14 +4487,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Hice una reserva para dos noches.",
+        "audioText": "Ten tu tarjeta de embarque lista en la puerta.",
         "options": [
           "hostal",
+          "retraso",
           "reserva",
-          "tarjeta de embarque",
-          "indicaciones"
+          "tarjeta de embarque"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -4603,14 +4603,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"vegetariano\"?",
+        "question": "Qual é a tradução correta para \"la cuenta\"?",
         "options": [
-          "vegetariano",
-          "ingrediente",
+          "reforço",
           "a conta",
-          "sabor"
+          "ingrediente",
+          "picante"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -4872,14 +4872,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Esta cuenta funciona en hasta cinco dispositivos.",
+        "audioText": "Hagamos una videollamada en vez de escribirnos.",
         "options": [
-          "transmisión en vivo",
-          "dispositivo",
+          "videollamada",
           "descargar",
-          "videollamada"
+          "transmisión en vivo",
+          "dispositivo"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -5882,14 +5882,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El ajo es el ingrediente clave de este plato.",
+        "audioText": "Esta receta solo necesita cinco ingredientes.",
         "options": [
           "menú",
-          "comida para llevar",
           "ingrediente",
+          "tienda de comestibles",
           "receta"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -6121,14 +6121,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"dispositivo\"?",
+        "question": "Qual é a tradução correta para \"transmisión en vivo\"?",
         "options": [
-          "dispositivo",
-          "senha",
           "sinal de wifi",
-          "transmissão ao vivo"
+          "transmissão ao vivo",
+          "senha",
+          "tela sensível ao toque"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -6629,14 +6629,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "Qual é a tradução correta para \"currículum\"?",
         "options": [
-          "colega de trabalho",
           "turno",
-          "prazo final",
-          "currículo"
+          "cliente",
+          "currículo",
+          "promoção (cargo)"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "listening",
@@ -7139,14 +7139,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ingrediente\"?",
+        "question": "Qual é a tradução correta para \"comida para llevar\"?",
         "options": [
-          "ingrediente",
-          "água com gás",
-          "vegetariano",
+          "reforço",
+          "a conta",
+          "mercado",
           "comida para viagem"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -7281,14 +7281,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Trabajo el turno de noche esta semana.",
+        "audioText": "Mi colega me ayudó a terminar el informe.",
         "options": [
+          "currículum",
           "colega",
           "cliente",
-          "fecha límite",
           "turno"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -7776,14 +7776,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ingrediente\"?",
+        "question": "Qual é a tradução correta para \"tienda de comestibles\"?",
         "options": [
+          "sabor",
+          "comida para viagem",
           "receita",
-          "ingrediente",
-          "mercado",
-          "reforço"
+          "mercado"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -7901,25 +7901,25 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "Qual é a tradução correta para \"ascenso\"?",
         "options": [
-          "turno",
-          "promoção (cargo)",
           "reunião",
+          "promoção (cargo)",
+          "prazo final",
           "cliente"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Nuestro cliente más importante llamó esta mañana.",
+        "audioText": "Él consiguió un ascenso después de dos años.",
         "options": [
           "turno",
-          "retroalimentación",
           "cliente",
-          "ascenso"
+          "ascenso",
+          "reunión"
         ],
         "correct": 2
       },
@@ -8405,14 +8405,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ingrediente\"?",
+        "question": "Qual é a tradução correta para \"tienda de comestibles\"?",
         "options": [
-          "picante",
+          "ingrediente",
+          "água com gás",
           "mercado",
-          "reforço",
-          "ingrediente"
+          "comida para viagem"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
@@ -8530,14 +8530,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"turno\"?",
+        "question": "Qual é a tradução correta para \"retroalimentación\"?",
         "options": [
-          "reunião",
-          "feedback",
-          "turno",
-          "promoção (cargo)"
+          "entrevista de emprego",
+          "cliente",
+          "prazo final",
+          "feedback"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -9047,12 +9047,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Voy a comer las sobras mañana en el almuerzo.",
+        "audioText": "Dejamos una propina generosa para el mesero.",
         "options": [
           "entrante",
+          "bien cocido",
           "propina",
-          "sobras",
-          "alérgico"
+          "sobras"
         ],
         "correct": 2
       },
@@ -9421,14 +9421,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"terapia\"?",
+        "question": "Qual é a tradução correta para \"síntoma\"?",
         "options": [
-          "sobrecarregado",
+          "sintoma",
+          "vacina",
           "terapia",
-          "autocuidado",
           "aliviado"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -10056,12 +10056,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aliviado\"?",
+        "question": "Qual é a tradução correta para \"abrumado\"?",
         "options": [
-          "sintoma",
-          "aliviado",
           "terapia",
-          "sobrecarregado"
+          "sobrecarregado",
+          "se recuperar",
+          "vacina"
         ],
         "correct": 1
       },
@@ -10312,14 +10312,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"alérgico\"?",
+        "question": "Qual é a tradução correta para \"entrante\"?",
         "options": [
-          "entrada",
-          "bem passado",
+          "reservar uma mesa",
           "alérgico",
-          "gorjeta"
+          "gorjeta",
+          "entrada"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -10691,12 +10691,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aliviado\"?",
+        "question": "Qual é a tradução correta para \"vacuna\"?",
         "options": [
+          "receita médica",
+          "sobrecarregado",
           "vacina",
-          "autocuidado",
-          "aliviado",
-          "sobrecarregado"
+          "autocuidado"
         ],
         "correct": 2
       },
@@ -10816,12 +10816,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "Qual é a tradução correta para \"viaje de ida y vuelta\"?",
         "options": [
-          "viagem de ida e volta",
           "controle de passaportes",
-          "jet lag",
-          "visita guiada"
+          "casa de câmbio",
+          "viagem de ida e volta",
+          "jet lag"
         ],
         "correct": 2
       },
@@ -11079,14 +11079,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Negociamos un mejor precio con el proveedor.",
+        "audioText": "Necesitamos mantenernos dentro del presupuesto de marketing.",
         "options": [
           "presupuesto",
           "aumento de sueldo",
           "factura",
           "negociar"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -11320,12 +11320,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"autocuidado\"?",
+        "question": "Qual é a tradução correta para \"recuperarse\"?",
         "options": [
-          "se recuperar",
-          "sintoma",
-          "sobrecarregado",
-          "autocuidado"
+          "vacina",
+          "receita médica",
+          "autocuidado",
+          "se recuperar"
         ],
         "correct": 3
       },
@@ -11443,14 +11443,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"visita guiada\"?",
+        "question": "Qual é a tradução correta para \"aduana\"?",
         "options": [
+          "casa de câmbio",
+          "visita guiada",
           "alfândega",
-          "controle de passaportes",
-          "marco histórico",
-          "visita guiada"
+          "marco histórico"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
@@ -11570,14 +11570,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "Qual é a tradução correta para \"entrante\"?",
         "options": [
           "sobras",
-          "reservar uma mesa",
-          "acompanhamento",
-          "entrada"
+          "entrada",
+          "bem passado",
+          "acompanhamento"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -11957,12 +11957,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"aliviado\"?",
+        "question": "Qual é a tradução correta para \"abrumado\"?",
         "options": [
-          "ansioso",
-          "sobrecarregado",
-          "se recuperar",
-          "aliviado"
+          "aliviado",
+          "sintoma",
+          "terapia",
+          "sobrecarregado"
         ],
         "correct": 3
       },
@@ -12340,14 +12340,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"negociar\"?",
+        "question": "Qual é a tradução correta para \"aumento de sueldo\"?",
         "options": [
-          "negociar",
+          "fatura",
+          "trabalho remoto",
           "aumento de salário",
-          "orçamento",
-          "fatura"
+          "negociar"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -12592,27 +12592,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ansioso\"?",
+        "question": "Qual é a tradução correta para \"vacuna\"?",
         "options": [
+          "sintoma",
+          "ansioso",
           "vacina",
-          "aliviado",
-          "se recuperar",
-          "ansioso"
+          "receita médica"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me sentí muy aliviado cuando los resultados fueron normales.",
+        "audioText": "La vacuna contra la gripe está disponible en la mayoría de farmacias.",
         "options": [
-          "vacuna",
-          "aliviado",
           "ansioso",
-          "receta médica"
+          "aliviado",
+          "recuperarse",
+          "vacuna"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -12721,12 +12721,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"escala\"?",
+        "question": "Qual é a tradução correta para \"control de pasaportes\"?",
         "options": [
-          "controle de passaportes",
+          "casa de câmbio",
           "visita guiada",
-          "jet lag",
-          "escala"
+          "alfândega",
+          "controle de passaportes"
         ],
         "correct": 3
       },
@@ -12973,14 +12973,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"negociar\"?",
+        "question": "Qual é a tradução correta para \"trabajo remoto\"?",
         "options": [
+          "networking",
+          "trabalho remoto",
           "fatura",
-          "aumento de salário",
-          "negociar",
-          "trabalho remoto"
+          "orçamento"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -13227,27 +13227,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ansioso\"?",
+        "question": "Qual é a tradução correta para \"vacuna\"?",
         "options": [
-          "se recuperar",
           "vacina",
-          "terapia",
-          "ansioso"
+          "se recuperar",
+          "sobrecarregado",
+          "sintoma"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La terapia le ha ayudado a manejar su ansiedad.",
+        "audioText": "La vacuna contra la gripe está disponible en la mayoría de farmacias.",
         "options": [
+          "terapia",
           "ansioso",
-          "síntoma",
           "vacuna",
-          "terapia"
+          "síntoma"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -14106,14 +14106,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"alérgico\"?",
+        "question": "Qual é a tradução correta para \"guarnición\"?",
         "options": [
-          "gorjeta",
           "bem passado",
-          "alérgico",
-          "acompanhamento"
+          "acompanhamento",
+          "entrada",
+          "sobras"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -14250,14 +14250,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Negociamos un mejor precio con el proveedor.",
+        "audioText": "Ella consiguió el trabajo estableciendo contactos.",
         "options": [
+          "trabajo remoto",
+          "presupuesto",
           "negociar",
-          "establecer contactos",
-          "factura",
-          "trabajo remoto"
+          "establecer contactos"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -14889,14 +14889,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Negociamos un mejor precio con el proveedor.",
+        "audioText": "Ella le pidió a su jefe un aumento de sueldo.",
         "options": [
-          "presupuesto",
           "aumento de sueldo",
+          "negociar",
           "factura",
-          "negociar"
+          "establecer contactos"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -15141,12 +15141,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Salir a caminar es parte de su rutina de autocuidado.",
+        "audioText": "La vacuna contra la gripe está disponible en la mayoría de farmacias.",
         "options": [
-          "autocuidado",
           "vacuna",
           "receta médica",
-          "aliviado"
+          "autocuidado",
+          "abrumado"
         ],
         "correct": 0
       },
@@ -15257,12 +15257,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"visita guiada\"?",
+        "question": "Qual é a tradução correta para \"casa de cambio\"?",
         "options": [
-          "visita guiada",
           "casa de câmbio",
+          "alfândega",
           "escala",
-          "jet lag"
+          "visita guiada"
         ],
         "correct": 0
       },
@@ -15270,14 +15270,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre tengo mal jet lag después de vuelos largos.",
+        "audioText": "Hay una casa de cambio en el aeropuerto.",
         "options": [
-          "casa de cambio",
           "jet lag",
-          "control de pasaportes",
+          "viaje de ida y vuelta",
+          "casa de cambio",
           "visita guiada"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -15397,12 +15397,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Voy a comer las sobras mañana en el almuerzo.",
+        "audioText": "Reservé una mesa para cuatro a las 8pm.",
         "options": [
-          "entrante",
-          "sobras",
           "guarnición",
-          "reservar una mesa"
+          "reservar una mesa",
+          "sobras",
+          "entrante"
         ],
         "correct": 1
       },
@@ -15776,12 +15776,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me sentí muy aliviado cuando los resultados fueron normales.",
+        "audioText": "El dolor de garganta es un síntoma común de resfriado.",
         "options": [
-          "aliviado",
           "síntoma",
           "recuperarse",
-          "autocuidado"
+          "aliviado",
+          "vacuna"
         ],
         "correct": 0
       },
@@ -16405,14 +16405,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre me siento ansioso antes de un examen grande.",
+        "audioText": "El doctor me escribió una receta para antibióticos.",
         "options": [
-          "terapia",
+          "aliviado",
           "receta médica",
-          "vacuna",
-          "ansioso"
+          "ansioso",
+          "terapia"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -16515,14 +16515,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "Qual é a tradução correta para \"control de pasaportes\"?",
         "options": [
+          "visita guiada",
+          "casa de câmbio",
           "escala",
-          "jet lag",
-          "controle de passaportes",
-          "marco histórico"
+          "controle de passaportes"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -16642,12 +16642,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"sobras\"?",
+        "question": "Qual é a tradução correta para \"entrante\"?",
         "options": [
-          "sobras",
-          "reservar uma mesa",
+          "entrada",
           "acompanhamento",
-          "entrada"
+          "alérgico",
+          "bem passado"
         ],
         "correct": 0
       },
@@ -16786,14 +16786,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Negociamos un mejor precio con el proveedor.",
+        "audioText": "Por favor envía la factura a contabilidad.",
         "options": [
+          "presupuesto",
           "negociar",
           "factura",
-          "presupuesto",
-          "establecer contactos"
+          "trabajo remoto"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -17029,12 +17029,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"autocuidado\"?",
+        "question": "Qual é a tradução correta para \"abrumado\"?",
         "options": [
+          "aliviado",
+          "se recuperar",
           "sobrecarregado",
-          "ansioso",
-          "autocuidado",
-          "terapia"
+          "receita médica"
         ],
         "correct": 2
       },
@@ -17042,12 +17042,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre me siento ansioso antes de un examen grande.",
+        "audioText": "Me siento abrumado con todo este trabajo.",
         "options": [
           "autocuidado",
-          "receta médica",
-          "ansioso",
-          "abrumado"
+          "vacuna",
+          "abrumado",
+          "ansioso"
         ],
         "correct": 2
       },
@@ -17154,27 +17154,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"escala\"?",
+        "question": "Qual é a tradução correta para \"aduana\"?",
         "options": [
-          "escala",
+          "viagem de ida e volta",
           "alfândega",
-          "jet lag",
-          "visita guiada"
+          "casa de câmbio",
+          "marco histórico"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La visita guiada recorre la ciudad vieja en dos horas.",
+        "audioText": "Tuvimos que declarar fruta en la aduana.",
         "options": [
           "visita guiada",
           "monumento",
           "escala",
           "aduana"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -17296,14 +17296,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Voy a comer las sobras mañana en el almuerzo.",
+        "audioText": "¿Qué guarnición viene con el bistec?",
         "options": [
-          "reservar una mesa",
-          "sobras",
           "alérgico",
+          "sobras",
+          "entrante",
           "guarnición"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -18172,12 +18172,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
-          "firmware",
-          "atalho de teclado",
+          "algoritmo",
           "hackear",
-          "algoritmo"
+          "firmware",
+          "atalho de teclado"
         ],
         "correct": 3
       },
@@ -18814,14 +18814,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El router necesitaba una actualización de firmware.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
+          "hackear",
           "firmware",
           "algoritmo",
-          "atajo de teclado",
-          "hackear"
+          "atajo de teclado"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -19436,14 +19436,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
           "atalho de teclado",
           "hackear",
-          "firmware",
-          "algoritmo"
+          "algoritmo",
+          "firmware"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -20075,12 +20075,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
-          "hackear",
-          "atalho de teclado",
+          "firmware",
           "algoritmo",
-          "firmware"
+          "atalho de teclado",
+          "hackear"
         ],
         "correct": 2
       },
@@ -20721,14 +20721,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El algoritmo de recomendaciones aprende de tus clics.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
-          "hackear",
           "atajo de teclado",
-          "firmware",
-          "algoritmo"
+          "algoritmo",
+          "hackear",
+          "firmware"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -21350,12 +21350,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El algoritmo de recomendaciones aprende de tus clics.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
-          "atajo de teclado",
           "hackear",
           "firmware",
-          "algoritmo"
+          "algoritmo",
+          "atajo de teclado"
         ],
         "correct": 3
       },
@@ -21972,14 +21972,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
-          "algoritmo",
           "atalho de teclado",
+          "algoritmo",
           "firmware",
           "hackear"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -22611,12 +22611,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
+          "firmware",
           "hackear",
-          "atalho de teclado",
           "algoritmo",
-          "firmware"
+          "atalho de teclado"
         ],
         "correct": 3
       },
@@ -23257,14 +23257,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El router necesitaba una actualización de firmware.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
-          "atajo de teclado",
-          "hackear",
           "algoritmo",
-          "firmware"
+          "atajo de teclado",
+          "firmware",
+          "hackear"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -23886,12 +23886,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El router necesitaba una actualización de firmware.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
-          "atajo de teclado",
+          "hackear",
           "algoritmo",
-          "firmware",
-          "hackear"
+          "atajo de teclado",
+          "firmware"
         ],
         "correct": 2
       },
@@ -24508,14 +24508,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hackear\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
-          "hackear",
-          "atalho de teclado",
+          "firmware",
           "algoritmo",
-          "firmware"
+          "atalho de teclado",
+          "hackear"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -25147,14 +25147,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"algoritmo\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
-          "firmware",
-          "algoritmo",
           "atalho de teclado",
-          "hackear"
+          "algoritmo",
+          "hackear",
+          "firmware"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -25780,11 +25780,11 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hackear\"?",
+        "question": "Qual é a tradução correta para \"atajo de teclado\"?",
         "options": [
+          "atalho de teclado",
           "hackear",
           "firmware",
-          "atalho de teclado",
           "algoritmo"
         ],
         "correct": 0
@@ -26422,14 +26422,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El algoritmo de recomendaciones aprende de tus clics.",
+        "audioText": "Este atajo de teclado ahorra mucho tiempo.",
         "options": [
           "algoritmo",
           "firmware",
-          "atajo de teclado",
-          "hackear"
+          "hackear",
+          "atajo de teclado"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -26660,14 +26660,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"despertador\"?",
+        "question": "Qual é a tradução correta para \"quehaceres\"?",
         "options": [
-          "tarefa (do dia a dia)",
-          "compras do mercado",
-          "despertador",
-          "trânsito"
+          "deslocamento diário",
+          "tarefas domésticas",
+          "fila",
+          "cochilo"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -26793,14 +26793,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fila\"?",
+        "question": "Qual é a tradução correta para \"rutina\"?",
         "options": [
-          "fila",
+          "deslocamento diário",
           "rotina",
-          "tirar o lixo",
-          "tarefas domésticas"
+          "hábito",
+          "dia de folga"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -27051,14 +27051,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fila\"?",
+        "question": "Qual é a tradução correta para \"quehaceres\"?",
         "options": [
-          "vizinho",
-          "fila",
-          "rotina",
-          "deslocamento diário"
+          "dia de folga",
+          "hábito",
+          "tarefas domésticas",
+          "vizinho"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "listening",
@@ -27330,12 +27330,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Esperamos en la fila veinte minutos.",
+        "audioText": "Hago las compras del supermercado todos los sábados.",
         "options": [
-          "despertador",
-          "fila",
           "hábito",
-          "compras del supermercado"
+          "compras del supermercado",
+          "fila",
+          "trayecto al trabajo"
         ],
         "correct": 1
       },
@@ -27837,14 +27837,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fila\"?",
+        "question": "Qual é a tradução correta para \"compras del supermercado\"?",
         "options": [
-          "tarefas domésticas",
-          "despertador",
+          "hábito",
+          "compras do mercado",
           "deslocamento diário",
-          "fila"
+          "despertador"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -28234,14 +28234,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"despertador\"?",
+        "question": "Qual é a tradução correta para \"trayecto al trabajo\"?",
         "options": [
+          "deslocamento diário",
+          "rotina",
           "cochilo",
-          "compras do mercado",
-          "despertador",
           "dia de folga"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -28369,12 +28369,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fila\"?",
+        "question": "Qual é a tradução correta para \"compras del supermercado\"?",
         "options": [
+          "dia de folga",
           "deslocamento diário",
-          "hábito",
-          "fila",
-          "dia de folga"
+          "compras do mercado",
+          "rotina"
         ],
         "correct": 2
       },
@@ -28631,14 +28631,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"fila\"?",
+        "question": "Qual é a tradução correta para \"siesta\"?",
         "options": [
-          "tarefas domésticas",
-          "fila",
           "cochilo",
-          "rotina"
+          "dia de folga",
+          "hábito",
+          "fila"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -31132,14 +31132,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
+          "dormir até tarde",
           "se acostumar com",
-          "deslocamento diário",
-          "procrastinar",
-          "fila"
+          "tarefa (do dia a dia)",
+          "procrastinar"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -31274,14 +31274,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "hábito",
-          "sacar la basura",
           "procrastinar",
-          "acostumbrarse a"
+          "acostumbrarse a",
+          "hábito",
+          "llegar tarde"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -31392,14 +31392,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
-          "tirar o lixo",
+          "vizinho",
+          "estar atrasado",
           "procrastinar",
-          "tarefas domésticas",
           "se acostumar com"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -31534,14 +31534,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
+          "quehaceres",
           "procrastinar",
-          "acostumbrarse a",
-          "rutina",
-          "tráfico"
+          "tráfico",
+          "acostumbrarse a"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -31665,14 +31665,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "compras del supermercado",
           "procrastinar",
+          "fila",
           "acostumbrarse a",
-          "hábito"
+          "compras del supermercado"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -31783,14 +31783,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
+          "estar atrasado",
           "procrastinar",
           "se acostumar com",
-          "fila",
-          "dormir até tarde"
+          "deslocamento diário"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -31912,14 +31912,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
-          "cochilo",
-          "deslocamento diário",
+          "dormir até tarde",
           "procrastinar",
+          "despertador",
           "se acostumar com"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -32054,12 +32054,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "acostumbrarse a",
-          "hábito",
           "trayecto al trabajo",
-          "procrastinar"
+          "despertador",
+          "procrastinar",
+          "acostumbrarse a"
         ],
         "correct": 3
       },
@@ -32185,14 +32185,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
           "procrastinar",
-          "despertador",
-          "llegar tarde",
-          "acostumbrarse a"
+          "tiempo libre",
+          "acostumbrarse a",
+          "despertador"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -32303,14 +32303,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
-          "hábito",
           "se acostumar com",
-          "compras do mercado",
-          "procrastinar"
+          "rotina",
+          "procrastinar",
+          "trânsito"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -32432,14 +32432,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
-          "hábito",
           "procrastinar",
-          "cochilo",
-          "se acostumar com"
+          "compras do mercado",
+          "se acostumar com",
+          "tempo livre"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "listening",
@@ -32574,14 +32574,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "hábito",
           "acostumbrarse a",
+          "hábito",
           "procrastinar",
-          "vecino"
+          "compras del supermercado"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -32692,14 +32692,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
-          "compras do mercado",
           "procrastinar",
-          "tirar o lixo",
+          "vizinho",
+          "compras do mercado",
           "se acostumar com"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -32821,14 +32821,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"procrastinar\"?",
+        "question": "Qual é a tradução correta para \"acostumbrarse a\"?",
         "options": [
+          "fila",
+          "compras do mercado",
           "procrastinar",
-          "tempo livre",
-          "se acostumar com",
-          "hábito"
+          "se acostumar com"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -32963,14 +32963,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "hábito",
+          "mandado",
           "acostumbrarse a",
           "procrastinar",
-          "sacar la basura"
+          "hábito"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -33094,14 +33094,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Siempre procrastino los domingos por la noche.",
+        "audioText": "Finalmente me acostumbré a despertarme temprano.",
         "options": [
-          "procrastinar",
-          "día libre",
           "compras del supermercado",
-          "acostumbrarse a"
+          "acostumbrarse a",
+          "trayecto al trabajo",
+          "procrastinar"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -33472,14 +33472,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"gol\"?",
+        "question": "Qual é a tradução correta para \"marcador\"?",
         "options": [
-          "time da casa",
-          "técnico",
           "gol",
-          "torcedor"
+          "companheiro de time",
+          "aquecimento",
+          "placar"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -33614,14 +33614,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El árbitro le sacó tarjeta amarilla.",
+        "audioText": "La sesión de entrenamiento empieza a las 6am.",
         "options": [
-          "calentamiento",
           "árbitro",
-          "sesión de entrenamiento",
-          "equipo local"
+          "calentamiento",
+          "aficionado",
+          "sesión de entrenamiento"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -33743,14 +33743,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ella marcó el gol de la victoria.",
+        "audioText": "El estadio estaba lleno para la final.",
         "options": [
-          "marcador",
-          "entrenador",
           "gol",
-          "estadio"
+          "estadio",
+          "marcador",
+          "calentamiento"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -34907,14 +34907,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"árbitro\"?",
+        "question": "Qual é a tradução correta para \"entrenador\"?",
         "options": [
-          "árbitro",
-          "estádio",
-          "gol",
-          "sessão de treino"
+          "companheiro de time",
+          "sessão de treino",
+          "técnico",
+          "gol"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -35047,14 +35047,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El árbitro le sacó tarjeta amarilla.",
+        "audioText": "Soy aficionado de este equipo desde niño.",
         "options": [
+          "aficionado",
           "sesión de entrenamiento",
-          "marcador",
-          "árbitro",
-          "aficionado"
+          "gol",
+          "árbitro"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -35685,12 +35685,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"campeonato\"?",
+        "question": "Qual é a tradução correta para \"lesión\"?",
         "options": [
-          "reserva (jogador)",
           "pênalti",
-          "lesão",
-          "campeonato"
+          "empate",
+          "reserva (jogador)",
+          "lesão"
         ],
         "correct": 3
       },
@@ -35835,14 +35835,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ganaron el campeonato el año pasado.",
+        "audioText": "Está fuera de temporada por una lesión en la rodilla.",
         "options": [
-          "suplente",
           "empate",
+          "campeonato",
           "lesión",
-          "campeonato"
+          "penal"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -36088,12 +36088,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"empate\"?",
+        "question": "Qual é a tradução correta para \"suplente\"?",
         "options": [
-          "reserva (jogador)",
           "empate",
-          "campeonato",
-          "pênalti"
+          "reserva (jogador)",
+          "pênalti",
+          "lesão"
         ],
         "correct": 1
       },
@@ -36219,12 +36219,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"campeonato\"?",
+        "question": "Qual é a tradução correta para \"suplente\"?",
         "options": [
           "empate",
-          "reserva (jogador)",
           "pênalti",
-          "campeonato"
+          "lesão",
+          "reserva (jogador)"
         ],
         "correct": 3
       },
@@ -36618,27 +36618,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"campeonato\"?",
+        "question": "Qual é a tradução correta para \"lesión\"?",
         "options": [
           "lesão",
-          "pênalti",
-          "empate",
-          "campeonato"
+          "campeonato",
+          "reserva (jogador)",
+          "pênalti"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El partido terminó en empate.",
+        "audioText": "Está fuera de temporada por una lesión en la rodilla.",
         "options": [
-          "campeonato",
           "lesión",
-          "suplente",
+          "penal",
+          "campeonato",
           "empate"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -36876,14 +36876,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"campeonato\"?",
+        "question": "Qual é a tradução correta para \"lesión\"?",
         "options": [
-          "reserva (jogador)",
           "pênalti",
+          "campeonato",
           "lesão",
-          "campeonato"
+          "empate"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
@@ -37013,14 +37013,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"campeonato\"?",
+        "question": "Qual é a tradução correta para \"penal\"?",
         "options": [
-          "lesão",
-          "reserva (jogador)",
+          "pênalti",
           "campeonato",
-          "pênalti"
+          "lesão",
+          "empate"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -37668,14 +37668,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"invicto\"?",
+        "question": "Qual é a tradução correta para \"equipo desfavorito\"?",
         "options": [
           "playoffs",
-          "invicto",
           "espírito esportivo",
+          "invicto",
           "time azarão"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -37810,14 +37810,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo se mantuvo invicto toda la temporada.",
+        "audioText": "El equipo desfavorito sorprendió a todos.",
         "options": [
-          "equipo desfavorito",
           "playoffs",
-          "deportividad",
-          "invicto"
+          "invicto",
+          "equipo desfavorito",
+          "deportividad"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -37943,14 +37943,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo no llega a los playoffs hace años.",
+        "audioText": "Mostró mucha deportividad después de perder.",
         "options": [
           "invicto",
-          "playoffs",
           "equipo desfavorito",
-          "deportividad"
+          "deportividad",
+          "playoffs"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -38065,14 +38065,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"playoffs\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
           "espírito esportivo",
           "invicto",
           "time azarão",
           "playoffs"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -38452,27 +38452,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"invicto\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
-          "playoffs",
           "espírito esportivo",
           "time azarão",
+          "playoffs",
           "invicto"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo no llega a los playoffs hace años.",
+        "audioText": "Mostró mucha deportividad después de perder.",
         "options": [
-          "equipo desfavorito",
-          "playoffs",
           "invicto",
-          "deportividad"
+          "equipo desfavorito",
+          "deportividad",
+          "playoffs"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -38600,14 +38600,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo se mantuvo invicto toda la temporada.",
+        "audioText": "El equipo desfavorito sorprendió a todos.",
         "options": [
           "invicto",
-          "deportividad",
+          "equipo desfavorito",
           "playoffs",
-          "equipo desfavorito"
+          "deportividad"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -38862,14 +38862,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo se mantuvo invicto toda la temporada.",
+        "audioText": "El equipo desfavorito sorprendió a todos.",
         "options": [
-          "playoffs",
-          "equipo desfavorito",
           "invicto",
-          "deportividad"
+          "deportividad",
+          "playoffs",
+          "equipo desfavorito"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -39111,27 +39111,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"invicto\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
           "invicto",
           "playoffs",
           "espírito esportivo",
           "time azarão"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo no llega a los playoffs hace años.",
+        "audioText": "Mostró mucha deportividad después de perder.",
         "options": [
-          "invicto",
-          "equipo desfavorito",
           "playoffs",
-          "deportividad"
+          "deportividad",
+          "equipo desfavorito",
+          "invicto"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -39259,14 +39259,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo se mantuvo invicto toda la temporada.",
+        "audioText": "Mostró mucha deportividad después de perder.",
         "options": [
           "invicto",
-          "playoffs",
+          "equipo desfavorito",
           "deportividad",
-          "equipo desfavorito"
+          "playoffs"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -39379,14 +39379,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"playoffs\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
-          "playoffs",
-          "invicto",
           "time azarão",
-          "espírito esportivo"
+          "invicto",
+          "espírito esportivo",
+          "playoffs"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -39508,14 +39508,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"playoffs\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
           "playoffs",
+          "espírito esportivo",
           "invicto",
-          "time azarão",
-          "espírito esportivo"
+          "time azarão"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -39637,27 +39637,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"invicto\"?",
+        "question": "Qual é a tradução correta para \"deportividad\"?",
         "options": [
+          "time azarão",
           "invicto",
           "playoffs",
-          "time azarão",
           "espírito esportivo"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El equipo no llega a los playoffs hace años.",
+        "audioText": "Mostró mucha deportividad después de perder.",
         "options": [
-          "deportividad",
           "invicto",
+          "deportividad",
           "equipo desfavorito",
           "playoffs"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -40176,12 +40176,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Hago cardio tres veces por semana.",
+        "audioText": "El domingo siempre es mi día de descanso.",
         "options": [
+          "cardio",
           "hidratación",
           "día de descanso",
-          "cardio",
-          "entrenador personal"
+          "estar adolorido"
         ],
         "correct": 2
       },
@@ -40425,14 +40425,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardio\"?",
+        "question": "Qual é a tradução correta para \"estirar\"?",
         "options": [
-          "dia de descanso",
-          "alongar",
           "cardio",
-          "matrícula da academia"
+          "alongar",
+          "matrícula da academia",
+          "treino"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -41351,14 +41351,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Hago cardio tres veces por semana.",
+        "audioText": "Estoy muy adolorido después del día de piernas.",
         "options": [
           "estar adolorido",
           "día de descanso",
-          "membresía del gimnasio",
-          "cardio"
+          "cardio",
+          "estirar"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -41993,14 +41993,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"postura\"?",
+        "question": "Qual é a tradução correta para \"resistencia\"?",
         "options": [
-          "postura",
+          "constância",
           "dor muscular",
           "resistência",
-          "flexibilidade"
+          "postura"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -42264,12 +42264,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Intenta mantener una buena postura al levantar peso.",
+        "audioText": "Correr mejora tu resistencia.",
         "options": [
-          "postura",
-          "levantamiento de pesas",
           "resistencia",
-          "quemar calorías"
+          "quemar calorías",
+          "postura",
+          "levantamiento de pesas"
         ],
         "correct": 0
       },
@@ -42905,14 +42905,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Intenta mantener una buena postura al levantar peso.",
+        "audioText": "El yoga mejoró mucho mi flexibilidad.",
         "options": [
-          "dolor muscular",
-          "series y repeticiones",
+          "constancia",
           "flexibilidad",
+          "series y repeticiones",
           "postura"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -43150,14 +43150,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"postura\"?",
+        "question": "Qual é a tradução correta para \"flexibilidad\"?",
         "options": [
-          "constância",
-          "resistência",
+          "séries e repetições",
           "postura",
+          "levantamento de peso",
           "flexibilidade"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -43670,14 +43670,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"postura\"?",
+        "question": "Qual é a tradução correta para \"quemar calorías\"?",
         "options": [
-          "postura",
+          "flexibilidade",
+          "séries e repetições",
           "resistência",
-          "constância",
-          "dor muscular"
+          "queimar calorias"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -43924,12 +43924,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"postura\"?",
+        "question": "Qual é a tradução correta para \"dolor muscular\"?",
         "options": [
-          "levantamento de peso",
-          "queimar calorias",
           "postura",
-          "resistência"
+          "queimar calorias",
+          "dor muscular",
+          "levantamento de peso"
         ],
         "correct": 2
       },
@@ -44057,14 +44057,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"postura\"?",
+        "question": "Qual é a tradução correta para \"flexibilidad\"?",
         "options": [
-          "postura",
           "queimar calorias",
-          "resistência",
-          "dor muscular"
+          "flexibilidade",
+          "levantamento de peso",
+          "resistência"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -46602,14 +46602,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"tradición\"?",
         "options": [
-          "cumprimento",
+          "tradição",
           "feriado",
-          "hino nacional",
-          "festival"
+          "festival",
+          "hino nacional"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -47020,14 +47020,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El festival de música ocurre cada verano.",
+        "audioText": "Es una tradición en mi familia cocinar juntos los domingos.",
         "options": [
-          "saludo",
           "tradición",
           "himno nacional",
+          "día festivo",
           "festival"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -47275,14 +47275,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"tradición\"?",
         "options": [
           "tradição",
-          "cumprimento",
-          "festival",
-          "hino nacional"
+          "feriado",
+          "hino nacional",
+          "festival"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -47954,14 +47954,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"saludo\"?",
         "options": [
-          "festival",
-          "feriado",
           "tradição",
+          "feriado",
+          "hino nacional",
           "cumprimento"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -48224,12 +48224,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"tradición\"?",
         "options": [
-          "feriado",
           "cumprimento",
-          "festival",
-          "tradição"
+          "feriado",
+          "tradição",
+          "festival"
         ],
         "correct": 2
       },
@@ -48640,14 +48640,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El monumento fue construido hace más de doscientos años.",
+        "audioText": "La etiqueta de las propinas varía mucho entre países.",
         "options": [
-          "artesanía",
-          "danza folclórica",
+          "monumento",
+          "gastronomía",
           "etiqueta (normas sociales)",
-          "monumento"
+          "danza folclórica"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -48910,14 +48910,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El monumento fue construido hace más de doscientos años.",
+        "audioText": "Hay un viejo refrán sobre la paciencia.",
         "options": [
-          "monumento",
-          "danza folclórica",
           "gastronomía",
-          "refrán"
+          "refrán",
+          "monumento",
+          "danza folclórica"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -49546,14 +49546,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"monumento\"?",
+        "question": "Qual é a tradução correta para \"danza folclórica\"?",
         "options": [
-          "artesanato",
           "dança folclórica",
+          "hospitalidade",
           "monumento",
-          "etiqueta (normas sociais)"
+          "provérbio"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -49806,14 +49806,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"monumento\"?",
+        "question": "Qual é a tradução correta para \"refrán\"?",
         "options": [
-          "dança folclórica",
+          "artesanato",
           "culinária",
-          "monumento",
+          "dança folclórica",
           "provérbio"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -50327,14 +50327,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El monumento fue construido hace más de doscientos años.",
+        "audioText": "La gastronomía local está muy influenciada por la costa.",
         "options": [
-          "monumento",
-          "hospitalidad",
+          "refrán",
           "gastronomía",
-          "danza folclórica"
+          "danza folclórica",
+          "monumento"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -50462,14 +50462,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El monumento fue construido hace más de doscientos años.",
+        "audioText": "Interpretaron una danza folclórica tradicional en el festival.",
         "options": [
+          "etiqueta (normas sociales)",
+          "danza folclórica",
           "gastronomía",
-          "refrán",
-          "monumento",
-          "danza folclórica"
+          "monumento"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -50850,14 +50850,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"crisol de culturas\"?",
         "options": [
           "folclore",
+          "caldeirão cultural",
           "patrimônio",
-          "superstição",
-          "caldeirão cultural"
+          "superstição"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -51112,12 +51112,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"crisol de culturas\"?",
         "options": [
+          "diferença geracional",
           "superstição",
-          "dialeto",
-          "folclore",
-          "caldeirão cultural"
+          "caldeirão cultural",
+          "dialeto"
         ],
         "correct": 2
       },
@@ -51243,12 +51243,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"crisol de culturas\"?",
         "options": [
+          "caldeirão cultural",
           "folclore",
           "diferença geracional",
-          "superstição",
-          "caldeirão cultural"
+          "patrimônio"
         ],
         "correct": 0
       },
@@ -51374,12 +51374,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"crisol de culturas\"?",
         "options": [
-          "diferença geracional",
-          "dialeto",
           "folclore",
-          "superstição"
+          "patrimônio",
+          "caldeirão cultural",
+          "diferença geracional"
         ],
         "correct": 2
       },
@@ -51505,11 +51505,11 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"brecha generacional\"?",
         "options": [
-          "folclore",
-          "dialeto",
           "diferença geracional",
+          "caldeirão cultural",
+          "patrimônio",
           "superstição"
         ],
         "correct": 0
@@ -52051,14 +52051,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"folclore\"?",
+        "question": "Qual é a tradução correta para \"brecha generacional\"?",
         "options": [
-          "caldeirão cultural",
-          "superstição",
-          "folclore",
-          "patrimônio"
+          "patrimônio",
+          "diferença geracional",
+          "dialeto",
+          "superstição"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -52469,14 +52469,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La historia viene del folclore local.",
+        "audioText": "La ciudad es un crisol de culturas.",
         "options": [
+          "dialecto",
           "folclore",
-          "patrimonio",
-          "brecha generacional",
-          "crisol de culturas"
+          "crisol de culturas",
+          "brecha generacional"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -53127,14 +53127,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"adjetivo\"?",
+        "question": "Qual é a tradução correta para \"tiempo verbal\"?",
         "options": [
-          "tempo passado",
-          "adjetivo",
+          "tempo verbal",
+          "comparativo",
           "pronome sujeito",
-          "tempo verbal"
+          "adjetivo"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -53655,14 +53655,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comparativo\"?",
+        "question": "Qual é a tradução correta para \"preposición\"?",
         "options": [
+          "preposição",
+          "tempo passado",
           "tempo verbal",
-          "comparativo",
-          "adjetivo",
-          "tempo passado"
+          "comparativo"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -53786,14 +53786,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"adjetivo\"?",
+        "question": "Qual é a tradução correta para \"tiempo pasado\"?",
         "options": [
-          "adjetivo",
           "comparativo",
-          "pronome sujeito",
-          "tempo verbal"
+          "tempo verbal",
+          "preposição",
+          "tempo passado"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -53917,14 +53917,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comparativo\"?",
+        "question": "Qual é a tradução correta para \"tiempo pasado\"?",
         "options": [
+          "preposição",
           "comparativo",
           "tempo verbal",
-          "tempo passado",
-          "adjetivo"
+          "tempo passado"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -54048,14 +54048,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"comparativo\"?",
+        "question": "Qual é a tradução correta para \"tiempo pasado\"?",
         "options": [
-          "tempo verbal",
-          "preposição",
+          "tempo passado",
+          "pronome sujeito",
           "comparativo",
-          "tempo passado"
+          "preposição"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -54192,12 +54192,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Este es más grande que aquel.",
+        "audioText": "\"Ella\" es el pronombre sujeto en esta oración.",
         "options": [
-          "pronombre sujeto",
           "comparativo",
-          "tiempo pasado",
-          "adjetivo"
+          "pronombre sujeto",
+          "adjetivo",
+          "tiempo pasado"
         ],
         "correct": 1
       },
@@ -54583,14 +54583,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Este es más grande que aquel.",
+        "audioText": "\"Ella\" es el pronombre sujeto en esta oración.",
         "options": [
+          "tiempo verbal",
+          "comparativo",
           "pronombre sujeto",
-          "preposición",
-          "adjetivo",
-          "comparativo"
+          "adjetivo"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -55227,27 +55227,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"verbo irregular\"?",
+        "question": "Qual é a tradução correta para \"gerundio\"?",
         "options": [
-          "verbo irregular",
+          "pretérito perfeito composto",
           "verbo modal",
           "superlativo",
-          "pretérito perfeito composto"
+          "gerúndio"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Poder\", \"deber\" son verbos modales.",
+        "audioText": "Nadando es mi actividad favorita.",
         "options": [
-          "gerundio",
-          "verbo irregular",
           "superlativo",
-          "verbo modal"
+          "gerundio",
+          "verbo modal",
+          "verbo irregular"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -55354,14 +55354,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"superlativo\"?",
+        "question": "Qual é a tradução correta para \"pretérito perfecto\"?",
         "options": [
-          "gerúndio",
-          "superlativo",
+          "pretérito perfeito composto",
+          "verbo modal",
           "verbo irregular",
-          "pretérito perfeito composto"
+          "gerúndio"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -55481,14 +55481,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"superlativo\"?",
+        "question": "Qual é a tradução correta para \"gerundio\"?",
         "options": [
-          "superlativo",
-          "gerúndio",
+          "verbo irregular",
           "pretérito perfeito composto",
-          "verbo modal"
+          "verbo modal",
+          "gerúndio"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -55621,14 +55621,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Poder\", \"deber\" son verbos modales.",
+        "audioText": "He estudiado inglés durante cinco años.",
         "options": [
-          "superlativo",
-          "gerundio",
+          "verbo modal",
           "pretérito perfecto",
-          "verbo modal"
+          "verbo irregular",
+          "gerundio"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -55875,14 +55875,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"El mejor\" es un superlativo.",
+        "audioText": "Nadando es mi actividad favorita.",
         "options": [
-          "superlativo",
+          "verbo irregular",
           "gerundio",
-          "pretérito perfecto",
+          "superlativo",
           "verbo modal"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -56002,12 +56002,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Poder\", \"deber\" son verbos modales.",
+        "audioText": "Nadando es mi actividad favorita.",
         "options": [
-          "gerundio",
+          "verbo irregular",
           "superlativo",
-          "verbo modal",
-          "verbo irregular"
+          "gerundio",
+          "verbo modal"
         ],
         "correct": 2
       },
@@ -56129,14 +56129,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Ir\" se convierte en \"fui\", un verbo irregular.",
+        "audioText": "He estudiado inglés durante cinco años.",
         "options": [
-          "superlativo",
-          "pretérito perfecto",
+          "gerundio",
           "verbo irregular",
-          "gerundio"
+          "superlativo",
+          "pretérito perfecto"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -56378,14 +56378,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"superlativo\"?",
+        "question": "Qual é a tradução correta para \"gerundio\"?",
         "options": [
-          "gerúndio",
           "pretérito perfeito composto",
-          "superlativo",
+          "gerúndio",
+          "verbo irregular",
           "verbo modal"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -56505,14 +56505,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"verbo modal\"?",
+        "question": "Qual é a tradução correta para \"pretérito perfecto\"?",
         "options": [
-          "pretérito perfeito composto",
           "gerúndio",
-          "verbo modal",
-          "superlativo"
+          "verbo irregular",
+          "superlativo",
+          "pretérito perfeito composto"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -56634,12 +56634,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"verbo irregular\"?",
+        "question": "Qual é a tradução correta para \"pretérito perfecto\"?",
         "options": [
-          "superlativo",
           "verbo modal",
           "verbo irregular",
-          "gerúndio"
+          "pretérito perfeito composto",
+          "superlativo"
         ],
         "correct": 2
       },
@@ -56647,14 +56647,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"El mejor\" es un superlativo.",
+        "audioText": "He estudiado inglés durante cinco años.",
         "options": [
-          "pretérito perfecto",
-          "superlativo",
           "verbo irregular",
-          "gerundio"
+          "gerundio",
+          "superlativo",
+          "pretérito perfecto"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -56890,27 +56890,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"superlativo\"?",
+        "question": "Qual é a tradução correta para \"pretérito perfecto\"?",
         "options": [
-          "verbo modal",
+          "pretérito perfeito composto",
           "superlativo",
-          "verbo irregular",
-          "pretérito perfeito composto"
+          "gerúndio",
+          "verbo irregular"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Ir\" se convierte en \"fui\", un verbo irregular.",
+        "audioText": "He estudiado inglés durante cinco años.",
         "options": [
-          "pretérito perfecto",
+          "superlativo",
           "verbo irregular",
-          "gerundio",
-          "superlativo"
+          "verbo modal",
+          "pretérito perfecto"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -57023,14 +57023,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"verbo modal\"?",
+        "question": "Qual é a tradução correta para \"pretérito perfecto\"?",
         "options": [
-          "pretérito perfeito composto",
           "verbo modal",
           "gerúndio",
-          "superlativo"
+          "superlativo",
+          "pretérito perfeito composto"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -57165,14 +57165,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"El mejor\" es un superlativo.",
+        "audioText": "He estudiado inglés durante cinco años.",
         "options": [
-          "verbo modal",
-          "pretérito perfecto",
+          "verbo irregular",
           "superlativo",
-          "verbo irregular"
+          "gerundio",
+          "pretérito perfecto"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -57292,14 +57292,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "\"Ir\" se convierte en \"fui\", un verbo irregular.",
+        "audioText": "Nadando es mi actividad favorita.",
         "options": [
-          "verbo modal",
-          "verbo irregular",
           "pretérito perfecto",
+          "verbo irregular",
+          "superlativo",
           "gerundio"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -57412,14 +57412,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
-          "voz passiva",
-          "subjuntivo",
           "condicional",
-          "objeto direto"
+          "objeto direto",
+          "subjuntivo",
+          "voz passiva"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -57541,27 +57541,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"objeto directo\"?",
         "options": [
-          "condicional",
-          "subjuntivo",
+          "voz passiva",
           "objeto direto",
-          "voz passiva"
+          "condicional",
+          "subjuntivo"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ojalá yo fuera más alto.",
+        "audioText": "En \"leo el libro\", \"el libro\" es el objeto directo.",
         "options": [
-          "condicional",
+          "subjuntivo",
           "objeto directo",
-          "voz pasiva",
-          "subjuntivo"
+          "condicional",
+          "voz pasiva"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -57681,14 +57681,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ojalá yo fuera más alto.",
+        "audioText": "En \"leo el libro\", \"el libro\" es el objeto directo.",
         "options": [
           "objeto directo",
-          "subjuntivo",
           "voz pasiva",
+          "subjuntivo",
           "condicional"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -57945,12 +57945,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Si tuviera tiempo, viajaría más.",
+        "audioText": "En \"leo el libro\", \"el libro\" es el objeto directo.",
         "options": [
-          "objeto directo",
-          "voz pasiva",
           "subjuntivo",
-          "condicional"
+          "voz pasiva",
+          "condicional",
+          "objeto directo"
         ],
         "correct": 3
       },
@@ -58209,14 +58209,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Si tuviera tiempo, viajaría más.",
+        "audioText": "En \"leo el libro\", \"el libro\" es el objeto directo.",
         "options": [
-          "condicional",
           "subjuntivo",
+          "condicional",
           "voz pasiva",
           "objeto directo"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -58336,12 +58336,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Si tuviera tiempo, viajaría más.",
+        "audioText": "El libro fue escrito por ella.",
         "options": [
-          "voz pasiva",
           "subjuntivo",
+          "condicional",
           "objeto directo",
-          "condicional"
+          "voz pasiva"
         ],
         "correct": 3
       },
@@ -58579,14 +58579,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
           "condicional",
           "objeto direto",
           "voz passiva",
           "subjuntivo"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -58845,14 +58845,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
           "voz passiva",
           "subjuntivo",
           "objeto direto",
           "condicional"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -58987,14 +58987,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ojalá yo fuera más alto.",
+        "audioText": "En \"leo el libro\", \"el libro\" es el objeto directo.",
         "options": [
-          "objeto directo",
           "subjuntivo",
-          "condicional",
-          "voz pasiva"
+          "voz pasiva",
+          "objeto directo",
+          "condicional"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -59101,14 +59101,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"subjuntivo\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
           "voz passiva",
+          "objeto direto",
           "subjuntivo",
-          "condicional",
-          "objeto direto"
+          "condicional"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -59230,27 +59230,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
-          "condicional",
-          "voz passiva",
+          "objeto direto",
           "subjuntivo",
-          "objeto direto"
+          "condicional",
+          "voz passiva"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ojalá yo fuera más alto.",
+        "audioText": "El libro fue escrito por ella.",
         "options": [
-          "objeto directo",
           "subjuntivo",
-          "voz pasiva",
-          "condicional"
+          "condicional",
+          "objeto directo",
+          "voz pasiva"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -59357,12 +59357,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"condicional\"?",
+        "question": "Qual é a tradução correta para \"voz pasiva\"?",
         "options": [
-          "voz passiva",
           "subjuntivo",
-          "condicional",
-          "objeto direto"
+          "objeto direto",
+          "voz passiva",
+          "condicional"
         ],
         "correct": 2
       },
@@ -59370,14 +59370,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ojalá yo fuera más alto.",
+        "audioText": "El libro fue escrito por ella.",
         "options": [
           "condicional",
-          "objeto directo",
+          "subjuntivo",
           "voz pasiva",
-          "subjuntivo"
+          "objeto directo"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -59755,14 +59755,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ella ha viajado por todo el mundo.",
+        "audioText": "El brócoli es mi verdura favorita.",
         "options": [
-          "mundo",
-          "verdura",
           "isla",
-          "cómodo"
+          "mundo",
+          "cómodo",
+          "verdura"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -60017,14 +60017,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ella ha viajado por todo el mundo.",
+        "audioText": "Pasamos una semana en una isla pequeña.",
         "options": [
-          "ropa",
+          "cómodo",
           "verdura",
           "mundo",
           "isla"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -60135,12 +60135,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"mundo\"?",
+        "question": "Qual é a tradução correta para \"ropa\"?",
         "options": [
-          "vegetal",
-          "mundo",
+          "ilha",
           "roupas",
-          "confortável"
+          "mundo",
+          "vegetal"
         ],
         "correct": 1
       },
@@ -60539,14 +60539,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ella ha viajado por todo el mundo.",
+        "audioText": "Pasamos una semana en una isla pequeña.",
         "options": [
-          "isla",
+          "cómodo",
           "mundo",
-          "verdura",
-          "cómodo"
+          "ropa",
+          "isla"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -61190,14 +61190,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Ella ha viajado por todo el mundo.",
+        "audioText": "Esta silla es muy cómoda.",
         "options": [
           "ropa",
+          "mundo",
           "cómodo",
-          "verdura",
-          "mundo"
+          "verdura"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -61839,14 +61839,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "¿Puedes ser más específico sobre la hora?",
+        "audioText": "Pensé en ti ayer.",
         "options": [
-          "pensamiento",
-          "específico",
           "coro",
-          "receta"
+          "miércoles",
+          "específico",
+          "pensamiento"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -63130,14 +63130,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"específico\"?",
+        "question": "Qual é a tradução correta para \"pensamiento\"?",
         "options": [
           "pensamento",
-          "específico",
           "através de",
-          "quarta-feira"
+          "específico",
+          "receita"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -63268,14 +63268,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "¿Puedes ser más específico sobre la hora?",
+        "audioText": "Ella canta en el coro de la iglesia.",
         "options": [
           "específico",
-          "a través de",
-          "miércoles",
-          "coro"
+          "coro",
+          "receta",
+          "miércoles"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -63386,11 +63386,11 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"específico\"?",
+        "question": "Qual é a tradução correta para \"coro\"?",
         "options": [
-          "pensamento",
-          "específico",
           "através de",
+          "coral",
+          "pensamento",
           "receita"
         ],
         "correct": 1
@@ -64052,12 +64052,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El coronel dio las órdenes.",
+        "audioText": "Ella se convirtió en emprendedora a los veintidós años.",
         "options": [
+          "coronel",
           "ritmo",
           "cola (fila)",
-          "emprendedor",
-          "coronel"
+          "emprendedor"
         ],
         "correct": 3
       },
@@ -64166,27 +64166,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"cola (fila)\"?",
         "options": [
-          "ritmo",
-          "empreendedor",
+          "coronel",
           "fila",
-          "coronel"
+          "ritmo",
+          "empreendedor"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El coronel dio las órdenes.",
+        "audioText": "La cola afuera de la tienda era muy larga.",
         "options": [
-          "emprendedor",
-          "cola (fila)",
+          "coronel",
           "ritmo",
-          "coronel"
+          "cola (fila)",
+          "emprendedor"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -64306,14 +64306,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La canción tiene un gran ritmo.",
+        "audioText": "Ella se convirtió en emprendedora a los veintidós años.",
         "options": [
-          "cola (fila)",
-          "ritmo",
           "emprendedor",
-          "coronel"
+          "coronel",
+          "ritmo",
+          "cola (fila)"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -64422,14 +64422,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"coronel\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
-          "ritmo",
+          "fila",
           "coronel",
           "empreendedor",
-          "fila"
+          "ritmo"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "listening",
@@ -64557,12 +64557,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"coronel\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
-          "ritmo",
-          "empreendedor",
+          "fila",
           "coronel",
-          "fila"
+          "empreendedor",
+          "ritmo"
         ],
         "correct": 2
       },
@@ -64570,14 +64570,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La canción tiene un gran ritmo.",
+        "audioText": "Ella se convirtió en emprendedora a los veintidós años.",
         "options": [
           "coronel",
           "emprendedor",
           "ritmo",
           "cola (fila)"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -64686,27 +64686,27 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"cola (fila)\"?",
         "options": [
-          "coronel",
-          "empreendedor",
           "fila",
-          "ritmo"
+          "ritmo",
+          "coronel",
+          "empreendedor"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El coronel dio las órdenes.",
+        "audioText": "La cola afuera de la tienda era muy larga.",
         "options": [
-          "ritmo",
           "cola (fila)",
           "coronel",
-          "emprendedor"
+          "emprendedor",
+          "ritmo"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -64813,14 +64813,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"cola (fila)\"?",
         "options": [
-          "fila",
           "coronel",
-          "empreendedor",
-          "ritmo"
+          "fila",
+          "ritmo",
+          "empreendedor"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -64961,12 +64961,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La canción tiene un gran ritmo.",
+        "audioText": "La cola afuera de la tienda era muy larga.",
         "options": [
+          "emprendedor",
           "coronel",
           "cola (fila)",
-          "ritmo",
-          "emprendedor"
+          "ritmo"
         ],
         "correct": 2
       },
@@ -65077,14 +65077,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
+          "empreendedor",
           "coronel",
           "ritmo",
-          "empreendedor",
           "fila"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -65212,14 +65212,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
-          "ritmo",
           "coronel",
           "empreendedor",
+          "ritmo",
           "fila"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -65347,14 +65347,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
-          "empreendedor",
-          "fila",
+          "coronel",
           "ritmo",
-          "coronel"
+          "fila",
+          "empreendedor"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -65495,14 +65495,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El coronel dio las órdenes.",
+        "audioText": "La cola afuera de la tienda era muy larga.",
         "options": [
           "ritmo",
           "cola (fila)",
           "emprendedor",
           "coronel"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -65609,12 +65609,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"ritmo\"?",
+        "question": "Qual é a tradução correta para \"emprendedor\"?",
         "options": [
-          "empreendedor",
-          "fila",
           "coronel",
-          "ritmo"
+          "fila",
+          "ritmo",
+          "empreendedor"
         ],
         "correct": 3
       },
@@ -65757,12 +65757,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "El coronel dio las órdenes.",
+        "audioText": "La cola afuera de la tienda era muy larga.",
         "options": [
           "emprendedor",
           "ritmo",
-          "cola (fila)",
-          "coronel"
+          "coronel",
+          "cola (fila)"
         ],
         "correct": 3
       },
@@ -65884,14 +65884,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "La canción tiene un gran ritmo.",
+        "audioText": "Ella se convirtió en emprendedora a los veintidós años.",
         "options": [
-          "cola (fila)",
           "emprendedor",
+          "cola (fila)",
           "coronel",
           "ritmo"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -66013,14 +66013,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Escucho un podcast durante mi trayecto al trabajo.",
+        "audioText": "Escucho un audiolibro en mi trayecto al trabajo.",
         "options": [
-          "podcast",
-          "¿Puedes repetir eso?",
           "subtítulo",
-          "audiolibro"
+          "audiolibro",
+          "¿Puedes hablar más despacio?",
+          "podcast"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -66133,14 +66133,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"¿Puedes hablar más despacio?\"?",
         "options": [
           "Você pode falar mais devagar?",
-          "audiolivro",
           "legenda",
-          "podcast"
+          "Você pode repetir?",
+          "audiolivro"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -66663,14 +66663,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"¿Puedes hablar más despacio?\"?",
         "options": [
           "Você pode falar mais devagar?",
           "podcast",
-          "Você pode repetir?",
-          "legenda"
+          "legenda",
+          "Você pode repetir?"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -66938,14 +66938,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Escucho un podcast durante mi trayecto al trabajo.",
+        "audioText": "Veo películas con subtítulos para mejorar mi inglés.",
         "options": [
-          "podcast",
-          "subtítulo",
+          "¿Puedes hablar más despacio?",
           "¿Puedes repetir eso?",
-          "audiolibro"
+          "podcast",
+          "subtítulo"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -67457,14 +67457,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"¿Puedes repetir eso?\"?",
         "options": [
+          "legenda",
           "podcast",
-          "audiolivro",
-          "Você pode falar mais devagar?",
-          "legenda"
+          "Você pode repetir?",
+          "audiolivro"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -67590,14 +67590,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"¿Puedes repetir eso?\"?",
         "options": [
           "Você pode falar mais devagar?",
-          "audiolivro",
           "Você pode repetir?",
+          "audiolivro",
           "podcast"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -67989,14 +67989,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"audiolibro\"?",
         "options": [
-          "Você pode repetir?",
-          "podcast",
+          "Você pode falar mais devagar?",
+          "legenda",
           "audiolivro",
-          "legenda"
+          "Você pode repetir?"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "listening",
@@ -68122,14 +68122,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"subtítulo\"?",
         "options": [
           "legenda",
           "Você pode falar mais devagar?",
           "podcast",
-          "Você pode repetir?"
+          "audiolivro"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "listening",
@@ -72745,14 +72745,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"recibo\"?",
+        "question": "Qual é a tradução correta para \"descuento\"?",
         "options": [
-          "recibo",
+          "etiqueta de preço",
+          "tamanho",
           "desconto",
-          "atendimento ao cliente",
-          "etiqueta de preço"
+          "devolver um item"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -74086,12 +74086,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Guarda el recibo por si necesitas devolverlo.",
+        "audioText": "Su servicio al cliente es muy útil.",
         "options": [
-          "recibo",
+          "servicio al cliente",
           "probador",
-          "caja (fila para pagar)",
-          "servicio al cliente"
+          "recibo",
+          "caja (fila para pagar)"
         ],
         "correct": 0
       },
@@ -74749,12 +74749,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Guarda el recibo por si necesitas devolverlo.",
+        "audioText": "Su servicio al cliente es muy útil.",
         "options": [
-          "servicio al cliente",
-          "cajero",
+          "talla",
           "recibo",
-          "talla"
+          "servicio al cliente",
+          "cajero"
         ],
         "correct": 2
       },
@@ -74867,14 +74867,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reembolso\"?",
+        "question": "Qual é a tradução correta para \"probarse\"?",
         "options": [
+          "pechincha",
           "fora de estoque",
           "esgotado",
-          "reembolso",
           "experimentar (roupa)"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -75269,14 +75269,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me gustaría un reembolso por este artículo.",
+        "audioText": "Encontré una verdadera ganga en el mercado de pulgas.",
         "options": [
           "reembolso",
-          "probarse",
+          "ganga",
           "agotado",
-          "ganga"
+          "probarse"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -75525,14 +75525,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me gustaría un reembolso por este artículo.",
+        "audioText": "Encontré una verdadera ganga en el mercado de pulgas.",
         "options": [
           "reembolso",
+          "probarse",
           "ganga",
-          "agotado",
-          "probarse"
+          "agotado"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -76057,14 +76057,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me gustaría un reembolso por este artículo.",
+        "audioText": "Ese talle está sin existencias ahora mismo.",
         "options": [
-          "reembolso",
           "ganga",
           "sin existencias",
+          "reembolso",
           "probarse"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -76313,14 +76313,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Me gustaría un reembolso por este artículo.",
+        "audioText": "Ese modelo está agotado hasta el próximo mes.",
         "options": [
           "agotado",
           "reembolso",
           "probarse",
           "sin existencias"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -76431,14 +76431,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reembolso\"?",
+        "question": "Qual é a tradução correta para \"probarse\"?",
         "options": [
-          "reembolso",
           "esgotado",
           "experimentar (roupa)",
-          "fora de estoque"
+          "fora de estoque",
+          "reembolso"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -76556,14 +76556,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"reembolso\"?",
+        "question": "Qual é a tradução correta para \"probarse\"?",
         "options": [
-          "esgotado",
           "fora de estoque",
-          "reembolso",
-          "pechincha"
+          "experimentar (roupa)",
+          "pechincha",
+          "reembolso"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -85891,14 +85891,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"horario de oficina\"?",
         "options": [
-          "local de trabalho",
-          "bater o ponto",
+          "tarefa",
+          "colega de trabalho",
           "supervisor",
-          "tarefa"
+          "horário de expediente"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -86026,14 +86026,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"tarea\"?",
         "options": [
+          "local de trabalho",
+          "bater o ponto",
           "horário de expediente",
-          "colega de trabalho",
-          "supervisor",
-          "bater o ponto"
+          "tarefa"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -86155,14 +86155,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"fichar (entrada)\"?",
         "options": [
           "bater o ponto",
-          "tarefa",
           "horário de expediente",
-          "supervisor"
+          "colega de trabalho",
+          "tarefa"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -86299,14 +86299,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Mi supervisor aprobó la solicitud.",
+        "audioText": "Este es un lugar de trabajo abierto y agradable.",
         "options": [
-          "fichar (entrada)",
-          "compañero de trabajo",
+          "supervisor",
           "lugar de trabajo",
-          "supervisor"
+          "tarea",
+          "compañero de trabajo"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -86544,12 +86544,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"horario de oficina\"?",
         "options": [
-          "bater o ponto",
-          "colega de trabalho",
+          "tarefa",
           "supervisor",
-          "tarefa"
+          "horário de expediente",
+          "bater o ponto"
         ],
         "correct": 2
       },
@@ -86692,14 +86692,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Mi supervisor aprobó la solicitud.",
+        "audioText": "Todavía me quedan tres tareas hoy.",
         "options": [
-          "fichar (entrada)",
-          "horario de oficina",
           "supervisor",
-          "tarea"
+          "tarea",
+          "compañero de trabajo",
+          "fichar (entrada)"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -87465,14 +87465,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"lugar de trabajo\"?",
         "options": [
-          "tarefa",
           "bater o ponto",
+          "tarefa",
           "local de trabalho",
-          "supervisor"
+          "colega de trabalho"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
@@ -87748,14 +87748,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Mi supervisor aprobó la solicitud.",
+        "audioText": "Almorcé con un compañero de trabajo hoy.",
         "options": [
-          "tarea",
-          "compañero de trabajo",
           "supervisor",
-          "horario de oficina"
+          "fichar (entrada)",
+          "tarea",
+          "compañero de trabajo"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",

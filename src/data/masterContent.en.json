@@ -680,14 +680,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hostel\"?",
+        "question": "Qual é a tradução correta para \"boarding pass\"?",
         "options": [
+          "lembrancinha",
+          "passagem só de ida",
           "hostel",
-          "cartão de embarque",
-          "reserva",
-          "bagagem"
+          "cartão de embarque"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "listening",
@@ -2602,14 +2602,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "We stayed in a cheap hostel near the station.",
+        "audioText": "Could you give me directions to the museum?",
         "options": [
           "hostel",
           "to check in",
           "directions",
-          "reservation"
+          "delay"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -2843,14 +2843,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"feedback\"?",
+        "question": "Qual é a tradução correta para \"job interview\"?",
         "options": [
-          "feedback",
-          "prazo final",
+          "turno",
           "entrevista de emprego",
-          "reunião"
+          "feedback",
+          "cliente"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -3228,14 +3228,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hostel\"?",
+        "question": "Qual é a tradução correta para \"directions\"?",
         "options": [
-          "bagagem",
           "direções",
-          "passagem só de ida",
-          "hostel"
+          "atraso",
+          "fazer check-in",
+          "cartão de embarque"
         ],
-        "correct": 3
+        "correct": 0
       },
       {
         "type": "listening",
@@ -3476,14 +3476,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"feedback\"?",
+        "question": "Qual é a tradução correta para \"deadline\"?",
         "options": [
-          "prazo final",
-          "feedback",
           "entrevista de emprego",
-          "cliente"
+          "currículo",
+          "promoção (cargo)",
+          "prazo final"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -5789,14 +5789,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "We stayed in a cheap hostel near the station.",
+        "audioText": "Please have your boarding pass ready at the gate.",
         "options": [
-          "hostel",
+          "to check in",
+          "one-way ticket",
           "boarding pass",
-          "souvenir",
-          "to check in"
+          "hostel"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -6024,12 +6024,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"feedback\"?",
+        "question": "Qual é a tradução correta para \"colleague\"?",
         "options": [
           "currículo",
-          "colega de trabalho",
-          "prazo final",
-          "feedback"
+          "entrevista de emprego",
+          "feedback",
+          "colega de trabalho"
         ],
         "correct": 3
       },
@@ -8324,12 +8324,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"hostel\"?",
+        "question": "Qual é a tradução correta para \"reservation\"?",
         "options": [
-          "hostel",
-          "atraso",
           "reserva",
-          "bagagem"
+          "fazer check-in",
+          "passagem só de ida",
+          "direções"
         ],
         "correct": 0
       },
@@ -9863,14 +9863,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "She found the job through networking.",
+        "audioText": "Remote work gave her more flexibility.",
         "options": [
-          "remote work",
           "networking",
           "budget",
-          "salary raise"
+          "invoice",
+          "remote work"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -10487,12 +10487,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "Qual é a tradução correta para \"salary raise\"?",
         "options": [
+          "orçamento",
+          "trabalho remoto",
           "aumento de salário",
-          "negociar",
-          "networking",
-          "orçamento"
+          "networking"
         ],
         "correct": 2
       },
@@ -10872,14 +10872,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "Qual é a tradução correta para \"currency exchange\"?",
         "options": [
           "casa de câmbio",
-          "jet lag",
-          "escala",
-          "marco histórico"
+          "visita guiada",
+          "marco histórico",
+          "viagem de ida e volta"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -11503,11 +11503,11 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"jet lag\"?",
+        "question": "Qual é a tradução correta para \"passport control\"?",
         "options": [
-          "alfândega",
-          "jet lag",
+          "casa de câmbio",
           "controle de passaportes",
+          "visita guiada",
           "escala"
         ],
         "correct": 1
@@ -11759,12 +11759,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "Qual é a tradução correta para \"to negotiate\"?",
         "options": [
-          "networking",
-          "trabalho remoto",
+          "negociar",
           "aumento de salário",
-          "negociar"
+          "networking",
+          "fatura"
         ],
         "correct": 0
       },
@@ -12411,11 +12411,11 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "She found the job through networking.",
+        "audioText": "Please send the invoice to accounting.",
         "options": [
-          "networking",
-          "to negotiate",
           "invoice",
+          "networking",
+          "budget",
           "salary raise"
         ],
         "correct": 0
@@ -12525,14 +12525,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"backup\"?",
+        "question": "Qual é a tradução correta para \"subscription\"?",
         "options": [
-          "backup",
+          "atualização de software",
           "assinatura",
-          "armazenamento em nuvem",
-          "atualização de software"
+          "o aplicativo travou",
+          "armazenamento em nuvem"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -13175,14 +13175,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Always keep a backup of your important files.",
+        "audioText": "I'm out of storage space on my phone.",
         "options": [
-          "the app crashed",
+          "backup",
+          "software update",
           "storage space",
-          "cloud storage",
-          "backup"
+          "cloud storage"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -13808,12 +13808,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Always keep a backup of your important files.",
+        "audioText": "The app crashed right when I was about to save.",
         "options": [
           "storage space",
-          "the app crashed",
+          "backup",
           "software update",
-          "backup"
+          "the app crashed"
         ],
         "correct": 3
       },
@@ -14959,14 +14959,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "She found the job through networking.",
+        "audioText": "Please send the invoice to accounting.",
         "options": [
-          "salary raise",
-          "networking",
+          "remote work",
+          "to negotiate",
           "invoice",
-          "to negotiate"
+          "networking"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -15086,12 +15086,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "Always keep a backup of your important files.",
+        "audioText": "I cancelled my streaming subscription.",
         "options": [
           "storage space",
-          "subscription",
           "the app crashed",
-          "backup"
+          "backup",
+          "subscription"
         ],
         "correct": 3
       },
@@ -16855,12 +16855,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"networking\"?",
+        "question": "Qual é a tradução correta para \"invoice\"?",
         "options": [
           "aumento de salário",
           "trabalho remoto",
-          "networking",
-          "fatura"
+          "fatura",
+          "negociar"
         ],
         "correct": 2
       },
@@ -19532,14 +19532,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"firmware\"?",
+        "question": "Qual é a tradução correta para \"to hack\"?",
         "options": [
-          "algoritmo",
+          "atalho de teclado",
           "firmware",
-          "hackear",
-          "atalho de teclado"
+          "algoritmo",
+          "hackear"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -22093,12 +22093,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The router needed a firmware update.",
+        "audioText": "Someone tried to hack into her account.",
         "options": [
-          "keyboard shortcut",
-          "to hack",
+          "algorithm",
           "firmware",
-          "algorithm"
+          "to hack",
+          "keyboard shortcut"
         ],
         "correct": 2
       },
@@ -23367,14 +23367,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The router needed a firmware update.",
+        "audioText": "Someone tried to hack into her account.",
         "options": [
-          "algorithm",
-          "firmware",
+          "to hack",
           "keyboard shortcut",
-          "to hack"
+          "firmware",
+          "algorithm"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -38323,14 +38323,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The team hasn't made the playoffs in years.",
+        "audioText": "The underdog team surprised everyone.",
         "options": [
           "underdog",
+          "sportsmanship",
           "undefeated",
-          "playoffs",
-          "sportsmanship"
+          "playoffs"
         ],
-        "correct": 2
+        "correct": 0
       },
       {
         "type": "speaking",
@@ -38443,14 +38443,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"playoffs\"?",
+        "question": "Qual é a tradução correta para \"undefeated\"?",
         "options": [
-          "invicto",
+          "time azarão",
           "espírito esportivo",
           "playoffs",
-          "time azarão"
+          "invicto"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "listening",
@@ -38830,14 +38830,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"playoffs\"?",
+        "question": "Qual é a tradução correta para \"underdog\"?",
         "options": [
-          "espírito esportivo",
-          "invicto",
           "playoffs",
-          "time azarão"
+          "time azarão",
+          "espírito esportivo",
+          "invicto"
         ],
-        "correct": 2
+        "correct": 1
       },
       {
         "type": "listening",
@@ -39099,14 +39099,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The team hasn't made the playoffs in years.",
+        "audioText": "The team remained undefeated all season.",
         "options": [
-          "playoffs",
           "sportsmanship",
+          "undefeated",
           "underdog",
-          "undefeated"
+          "playoffs"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -39361,14 +39361,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The team hasn't made the playoffs in years.",
+        "audioText": "He showed great sportsmanship after losing.",
         "options": [
-          "undefeated",
-          "sportsmanship",
           "playoffs",
-          "underdog"
+          "underdog",
+          "undefeated",
+          "sportsmanship"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -39879,14 +39879,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My personal trainer designed a new plan.",
+        "audioText": "Always stretch before exercising.",
         "options": [
-          "rest day",
-          "to stretch",
+          "cardio",
           "personal trainer",
-          "workout"
+          "workout",
+          "to stretch"
         ],
-        "correct": 2
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -40010,14 +40010,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My personal trainer designed a new plan.",
+        "audioText": "Sunday is always my rest day.",
         "options": [
           "to be sore",
           "personal trainer",
-          "cardio",
-          "rest day"
+          "rest day",
+          "workout"
         ],
-        "correct": 1
+        "correct": 2
       },
       {
         "type": "speaking",
@@ -40141,12 +40141,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My personal trainer designed a new plan.",
+        "audioText": "Always stretch before exercising.",
         "options": [
-          "personal trainer",
           "to stretch",
-          "gym membership",
-          "rest day"
+          "personal trainer",
+          "cardio",
+          "gym membership"
         ],
         "correct": 0
       },
@@ -40259,14 +40259,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardio\"?",
+        "question": "Qual é a tradução correta para \"to be sore\"?",
         "options": [
-          "estar dolorido",
           "alongar",
           "matrícula da academia",
-          "cardio"
+          "estar dolorido",
+          "dia de descanso"
         ],
-        "correct": 3
+        "correct": 2
       },
       {
         "type": "listening",
@@ -40652,14 +40652,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardio\"?",
+        "question": "Qual é a tradução correta para \"to be sore\"?",
         "options": [
-          "matrícula da academia",
-          "cardio",
-          "personal trainer",
-          "dia de descanso"
+          "estar dolorido",
+          "alongar",
+          "treino",
+          "matrícula da academia"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -40906,14 +40906,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardio\"?",
+        "question": "Qual é a tradução correta para \"gym membership\"?",
         "options": [
-          "personal trainer",
-          "estar dolorido",
+          "alongar",
           "matrícula da academia",
-          "cardio"
+          "estar dolorido",
+          "dia de descanso"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -41177,14 +41177,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My personal trainer designed a new plan.",
+        "audioText": "I do a short workout every morning.",
         "options": [
-          "hydration",
+          "to be sore",
           "personal trainer",
-          "workout",
-          "rest day"
+          "rest day",
+          "workout"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -41295,14 +41295,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"cardio\"?",
+        "question": "Qual é a tradução correta para \"to stretch\"?",
         "options": [
-          "personal trainer",
-          "dia de descanso",
+          "hidratação",
+          "alongar",
           "estar dolorido",
-          "cardio"
+          "matrícula da academia"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -41558,11 +41558,11 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I do cardio three times a week.",
+        "audioText": "I'm so sore after leg day.",
         "options": [
-          "to be sore",
-          "personal trainer",
+          "workout",
           "cardio",
+          "to be sore",
           "gym membership"
         ],
         "correct": 2
@@ -41818,14 +41818,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My personal trainer designed a new plan.",
+        "audioText": "Sunday is always my rest day.",
         "options": [
+          "to be sore",
+          "to stretch",
           "personal trainer",
-          "rest day",
-          "hydration",
-          "to stretch"
+          "rest day"
         ],
-        "correct": 0
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -46489,14 +46489,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"tradition\"?",
         "options": [
-          "hino nacional",
-          "festival",
+          "feriado",
           "cumprimento",
+          "hino nacional",
           "tradição"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -47801,12 +47801,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"festival\"?",
+        "question": "Qual é a tradução correta para \"national anthem\"?",
         "options": [
+          "hino nacional",
           "festival",
-          "tradição",
-          "cumprimento",
-          "feriado"
+          "feriado",
+          "cumprimento"
         ],
         "correct": 0
       },
@@ -48344,14 +48344,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The music festival happens every summer.",
+        "audioText": "Everyone stood for the national anthem.",
         "options": [
-          "greeting",
           "festival",
-          "national anthem",
-          "holiday"
+          "holiday",
+          "greeting",
+          "national anthem"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "speaking",
@@ -48473,14 +48473,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "The music festival happens every summer.",
+        "audioText": "It's a tradition in my family to cook together on Sundays.",
         "options": [
-          "holiday",
+          "festival",
           "tradition",
-          "national anthem",
-          "festival"
+          "greeting",
+          "holiday"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -66104,12 +66104,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I listen to a podcast during my commute.",
+        "audioText": "I listen to an audiobook on my commute.",
         "options": [
-          "audiobook",
-          "Could you repeat that?",
+          "subtitle",
           "podcast",
-          "subtitle"
+          "audiobook",
+          "Could you repeat that?"
         ],
         "correct": 2
       },
@@ -66492,12 +66492,12 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"Could you slow down?\"?",
         "options": [
+          "Você pode repetir?",
           "Você pode falar mais devagar?",
           "podcast",
-          "audiolivro",
-          "Você pode repetir?"
+          "legenda"
         ],
         "correct": 1
       },
@@ -66636,14 +66636,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I listen to a podcast during my commute.",
+        "audioText": "Sorry, could you repeat that a bit slower?",
         "options": [
-          "podcast",
           "audiobook",
-          "Could you slow down?",
-          "Could you repeat that?"
+          "Could you repeat that?",
+          "podcast",
+          "subtitle"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -66889,14 +66889,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"audiobook\"?",
         "options": [
-          "Você pode repetir?",
-          "podcast",
           "audiolivro",
-          "legenda"
+          "legenda",
+          "Você pode repetir?",
+          "podcast"
         ],
-        "correct": 1
+        "correct": 0
       },
       {
         "type": "listening",
@@ -67022,14 +67022,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"Could you slow down?\"?",
         "options": [
           "podcast",
           "audiolivro",
           "Você pode falar mais devagar?",
-          "legenda"
+          "Você pode repetir?"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -67419,14 +67419,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"Could you slow down?\"?",
         "options": [
           "audiolivro",
+          "legenda",
           "podcast",
-          "Você pode repetir?",
-          "legenda"
+          "Você pode falar mais devagar?"
         ],
-        "correct": 1
+        "correct": 3
       },
       {
         "type": "listening",
@@ -67696,14 +67696,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "I listen to a podcast during my commute.",
+        "audioText": "I listen to an audiobook on my commute.",
         "options": [
-          "podcast",
+          "Could you slow down?",
           "audiobook",
           "subtitle",
-          "Could you slow down?"
+          "podcast"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -68082,14 +68082,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"podcast\"?",
+        "question": "Qual é a tradução correta para \"Could you slow down?\"?",
         "options": [
           "podcast",
-          "legenda",
+          "Você pode falar mais devagar?",
           "Você pode repetir?",
-          "Você pode falar mais devagar?"
+          "audiolivro"
         ],
-        "correct": 0
+        "correct": 1
       },
       {
         "type": "listening",
@@ -85783,14 +85783,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"workplace\"?",
         "options": [
+          "tarefa",
           "supervisor",
-          "colega de trabalho",
           "local de trabalho",
-          "tarefa"
+          "horário de expediente"
         ],
-        "correct": 0
+        "correct": 2
       },
       {
         "type": "listening",
@@ -86176,14 +86176,14 @@
       {
         "type": "quiz",
         "title": "Desafio de Tradução",
-        "question": "Qual é a tradução correta para \"supervisor\"?",
+        "question": "Qual é a tradução correta para \"office hours\"?",
         "options": [
+          "local de trabalho",
           "horário de expediente",
-          "tarefa",
           "colega de trabalho",
           "supervisor"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "listening",
@@ -86320,14 +86320,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My supervisor approved the request.",
+        "audioText": "I grabbed lunch with a coworker today.",
         "options": [
-          "task",
+          "supervisor",
           "coworker",
           "office hours",
-          "supervisor"
+          "task"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
@@ -86578,11 +86578,11 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My supervisor approved the request.",
+        "audioText": "I clock in at 9am every day.",
         "options": [
-          "to clock in",
-          "task",
           "supervisor",
+          "office hours",
+          "to clock in",
           "coworker"
         ],
         "correct": 2
@@ -86836,12 +86836,12 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My supervisor approved the request.",
+        "audioText": "This is a friendly and open workplace.",
         "options": [
-          "workplace",
           "supervisor",
-          "to clock in",
-          "task"
+          "workplace",
+          "task",
+          "office hours"
         ],
         "correct": 1
       },
@@ -87356,14 +87356,14 @@
         "type": "listening",
         "title": "Desafio de Compreensão Auditiva",
         "question": "Ouça a frase com atenção e selecione a palavra correta pronunciada.",
-        "audioText": "My supervisor approved the request.",
+        "audioText": "I still have three tasks left today.",
         "options": [
           "coworker",
-          "to clock in",
           "task",
+          "office hours",
           "supervisor"
         ],
-        "correct": 3
+        "correct": 1
       },
       {
         "type": "speaking",
