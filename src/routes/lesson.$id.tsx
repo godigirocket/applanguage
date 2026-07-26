@@ -97,6 +97,16 @@ const CATEGORY_ICONS: Record<string, any> = {
   writing: Target,
 };
 
+// Same category palette as /lessons, so a lesson's color identity is
+// consistent whether you're browsing the catalog or inside the lesson.
+const CATEGORY_COLORS: Record<string, string> = {
+  vocabulary: "#AC5CF6",
+  grammar: "#1CB0F6",
+  listening: "#14B8A6",
+  speaking: "#FF4B4B",
+  idioms: "#2FBB52",
+};
+
 const LEVEL_TO_DIFFICULTY: Record<string, string> = {
   A1: "Beginner",
   A2: "Beginner",
@@ -152,7 +162,7 @@ function LessonPage() {
   const difficulty = LEVEL_TO_DIFFICULTY[lesson?.level] || "Beginner";
   const xpReward = lesson?.xp || 20;
   const duration = parseInt(lesson?.duration) || 6;
-  const color = lesson?.color || "#FF7A45";
+  const color = CATEGORY_COLORS[lesson?.category] || lesson?.color || "#1CB0F6";
   const TypeIcon = CATEGORY_ICONS[lesson?.category] || Book;
 
   const steps: any[] = lesson?.steps || [];
@@ -328,19 +338,17 @@ function LessonPage() {
       getLessonProgress(user.id, id)
         .then((progress) => {
           if (progress && progress.status === "in_progress") {
-            // current_step is shared between the vocab and quiz phases (see the save
-            // effect below), so use the saved `progress` percentage to tell which
-            // phase it belongs to and resume into that phase, instead of always
-            // restoring it as vocabIdx and reopening the lesson on the intro screen.
             const savedStep = progress.current_step;
             if (savedStep !== undefined && savedStep !== null) {
-              if (progress.progress >= 60) {
+              if (progress.progress >= 60 && quiz.length > 0) {
                 setStep("quiz");
-                setQuizIdx(Math.min(savedStep, Math.max(quiz.length - 1, 0)));
-              } else if (progress.progress >= 30) {
+                setQuizIdx(Math.min(savedStep, quiz.length - 1));
+              } else if (progress.progress >= 30 && vocab.length > 0) {
                 setStep("vocab");
-                setVocabIdx(Math.min(savedStep, Math.max(vocab.length - 1, 0)));
+                setVocabIdx(Math.min(savedStep, vocab.length - 1));
               }
+              // If quiz is empty but progress was >=60, stay on intro
+              // so the user can redo vocab and complete naturally.
             }
           }
         })
@@ -364,6 +372,12 @@ function LessonPage() {
 
   // Auto-play the audio once when a listening question first appears.
   useEffect(() => {
+    // Safety: if we're on the quiz step but there are no questions, complete the lesson
+    if (step === "quiz" && quiz.length === 0) {
+      setStep("done");
+      handleLessonComplete();
+      return;
+    }
     const current = quiz[quizIdx];
     if (step === "quiz" && current?.audioText && isTTSSupported()) {
       speak(current.audioText, (lesson?.language as "en" | "es" | "pt") || "en");
@@ -415,6 +429,12 @@ function LessonPage() {
   }
 
   async function nextQuiz() {
+    if (quiz.length === 0) {
+      // No quiz questions available — complete the lesson directly
+      setStep("done");
+      await handleLessonComplete();
+      return;
+    }
     if (quizIdx + 1 < quiz.length) {
       setQuizIdx((q) => q + 1);
       setSelected(null);
@@ -1025,7 +1045,15 @@ function LessonPage() {
                 </button>
               ) : (
                 <button
-                  onClick={() => setStep(speakingPhrase ? "speaking" : "quiz")}
+                  onClick={() => {
+                    if (quiz.length === 0 && !speakingPhrase) {
+                      // No quiz and no speaking — complete lesson directly
+                      setStep("done");
+                      handleLessonComplete();
+                    } else {
+                      setStep(speakingPhrase ? "speaking" : "quiz");
+                    }
+                  }}
                   style={{
                     width: "100%",
                     padding: "14px",
@@ -1047,9 +1075,13 @@ function LessonPage() {
                     ? isPT
                       ? "Praticar Pronúncia →"
                       : "Practice Speaking →"
-                    : isPT
-                      ? "Fazer Quiz →"
-                      : "Take Quiz →"}
+                    : quiz.length > 0
+                      ? isPT
+                        ? "Fazer Quiz →"
+                        : "Take Quiz →"
+                      : isPT
+                        ? "Concluir Lição →"
+                        : "Complete Lesson →"}
                 </button>
               )}
             </div>
@@ -1058,7 +1090,16 @@ function LessonPage() {
 
         {/* ── SPEAKING ── */}
         {step === "speaking" && speakingPhrase && (
-          <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
+          <main
+            style={{
+              maxWidth: "720px",
+              margin: "0 auto",
+              padding: "40px 24px",
+              minHeight: "calc(100dvh - 64px)",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <div
               style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
             >
@@ -1083,6 +1124,15 @@ function LessonPage() {
               </h2>
             </div>
 
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}
+            >
+              <Mascot state={speakingResolved === true ? "correct" : speakingResolved === false ? "wrong" : "speaking"} size={72} />
+            </motion.div>
+
             <PronunciationChallenge
               targetPhrase={speakingPhrase}
               targetLanguage={(lesson?.language as "en" | "es" | "pt") || "en"}
@@ -1092,7 +1142,14 @@ function LessonPage() {
 
             <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
               <button
-                onClick={() => setStep("quiz")}
+                onClick={() => {
+                  if (quiz.length === 0) {
+                    setStep("done");
+                    handleLessonComplete();
+                  } else {
+                    setStep("quiz");
+                  }
+                }}
                 style={{
                   flex: 1,
                   padding: "14px",
@@ -1109,7 +1166,14 @@ function LessonPage() {
               </button>
               {speakingResolved !== null && (
                 <button
-                  onClick={() => setStep("quiz")}
+                  onClick={() => {
+                    if (quiz.length === 0) {
+                      setStep("done");
+                      handleLessonComplete();
+                    } else {
+                      setStep("quiz");
+                    }
+                  }}
                   style={{
                     flex: 2,
                     padding: "14px",
@@ -1126,12 +1190,22 @@ function LessonPage() {
                 </button>
               )}
             </div>
+            </div>
           </main>
         )}
 
         {/* ── QUIZ ── */}
-        {step === "quiz" && (
-          <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
+        {step === "quiz" && quiz.length > 0 && quiz[quizIdx] && (
+          <main
+            style={{
+              maxWidth: "720px",
+              margin: "0 auto",
+              padding: "40px 24px",
+              minHeight: "calc(100dvh - 64px)",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <div
               style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
             >
@@ -1163,7 +1237,7 @@ function LessonPage() {
                 <div
                   style={{
                     height: "100%",
-                    background: "#F39C12",
+                    background: color,
                     width: `${((quizIdx + 1) / quiz.length) * 100}%`,
                     transition: "width 0.3s",
                     borderRadius: "99px",
@@ -1182,6 +1256,7 @@ function LessonPage() {
               </span>
             </div>
 
+            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={quizIdx}
@@ -1189,11 +1264,30 @@ function LessonPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -16 }}
               >
+                {!answered && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}
+                  >
+                    <Mascot state="thinking" size={72} />
+                  </motion.div>
+                )}
+                <div
+                  style={{
+                    background: "var(--card-bg)",
+                    borderRadius: "24px",
+                    padding: "clamp(20px, 4vw, 32px)",
+                    border: `1.5px solid color-mix(in srgb, ${color} 25%, var(--border))`,
+                    borderTop: `5px solid ${color}`,
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                  }}
+                >
                 <div
                   style={{
                     fontSize: "12px",
                     fontWeight: 700,
-                    color: "var(--text-secondary)",
+                    color,
                     textTransform: "uppercase",
                     letterSpacing: "0.08em",
                     marginBottom: "8px",
@@ -1253,12 +1347,17 @@ function LessonPage() {
                           : "neutral"
                       : "default";
                     return (
-                      <button
+                      <motion.button
                         key={i}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.05 + i * 0.06 }}
+                        whileHover={answered ? undefined : { scale: 1.015 }}
+                        whileTap={answered ? undefined : { scale: 0.98 }}
                         onClick={() => handleAnswer(opt)}
                         style={{
                           padding: "16px 20px",
-                          borderRadius: "12px",
+                          borderRadius: "14px",
                           textAlign: "left",
                           fontSize: "15px",
                           fontWeight: 600,
@@ -1268,7 +1367,7 @@ function LessonPage() {
                               ? "2px solid #4CAF50"
                               : state === "wrong"
                                 ? "2px solid #E74C3C"
-                                : "2px solid var(--border)",
+                                : `2px solid color-mix(in srgb, ${color} 20%, var(--border))`,
                           background:
                             state === "correct"
                               ? "rgba(76,175,80,0.1)"
@@ -1298,7 +1397,7 @@ function LessonPage() {
                         {state === "wrong" && (
                           <span style={{ fontSize: "18px", color: "#E74C3C" }}>✕</span>
                         )}
-                      </button>
+                      </motion.button>
                     );
                   })}
                 </div>
@@ -1387,8 +1486,10 @@ function LessonPage() {
                     )}
                   </button>
                 )}
+                </div>
               </motion.div>
             </AnimatePresence>
+            </div>
           </main>
         )}
 

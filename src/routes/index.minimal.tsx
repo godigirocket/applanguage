@@ -11,14 +11,14 @@ function MinimalLanding() {
       display: "flex", 
       alignItems: "center", 
       justifyContent: "center",
-      background: "#F7F4EF",
+      background: "var(--bg)",
       fontFamily: "system-ui, -apple-system, sans-serif"
     }}>
       <div style={{ textAlign: "center", maxWidth: "600px", padding: "40px" }}>
-        <h1 style={{ fontSize: "48px", fontWeight: "800", marginBottom: "20px", color: "#1C1C1A" }}>
+        <h1 style={{ fontSize: "48px", fontWeight: "800", marginBottom: "20px", color: "var(--text-primary)" }}>
           Lume
         </h1>
-        <p style={{ fontSize: "18px", color: "#6B6B63", marginBottom: "40px" }}>
+        <p style={{ fontSize: "18px", color: "var(--text-secondary)", marginBottom: "40px" }}>
           Um parceiro de conversação paciente, calmo e artístico.
         </p>
         <div style={{ display: "flex", gap: "16px", justifyContent: "center" }}>
@@ -26,7 +26,7 @@ function MinimalLanding() {
             href="/signup" 
             style={{
               padding: "16px 32px",
-              background: "#ff7a45",
+              background: "var(--brand)",
               color: "white",
               textDecoration: "none",
               borderRadius: "99px",
@@ -39,18 +39,18 @@ function MinimalLanding() {
             href="/login" 
             style={{
               padding: "16px 32px",
-              background: "white",
-              color: "#ff7a45",
+              background: "var(--card-bg)",
+              color: "var(--brand)",
               textDecoration: "none",
               borderRadius: "99px",
               fontWeight: "700",
-              border: "2px solid #ff7a45"
+              border: "2px solid var(--brand)"
             }}
           >
             Entrar
           </a>
         </div>
-        <p style={{ marginTop: "60px", fontSize: "14px", color: "#A8A8A0" }}>
+        <p style={{ marginTop: "60px", fontSize: "14px", color: "var(--text-soft)" }}>
           🔧 Modo de depuração SSR ativado
         </p>
       </div>

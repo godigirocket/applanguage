@@ -29,32 +29,32 @@ function ForgotPassword() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F7F4EF", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
       <div style={{ width: "100%", maxWidth: "380px" }}>
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#ff7a45" }}>LangLume</h1>
+          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "var(--brand)" }}>LangLume</h1>
         </div>
 
-        <div style={{ background: "#fff", borderRadius: "20px", padding: "32px 28px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid #E8E6E1" }}>
+        <div style={{ background: "var(--card-bg)", borderRadius: "20px", padding: "32px 28px", boxShadow: "var(--shadow-soft)", border: "1px solid var(--border)" }}>
           {!sent ? (
             <>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#1C1C1A", marginBottom: "4px" }}>
+              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
                 {isPT ? "Recuperar senha" : "Reset password"}
               </h2>
-              <p style={{ fontSize: "13px", color: "#8B8B83", marginBottom: "24px" }}>
+              <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
                 {isPT ? "Enviaremos um link de recuperação" : "We'll send you a reset link"}
               </p>
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div>
-                  <label style={{ fontSize: "12px", fontWeight: 700, color: "#4A4A45", display: "block", marginBottom: "6px" }}>Email</label>
+                  <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
                   <input
                     required type="email" placeholder="seu@email.com"
                     value={email} onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid #E5E5E3", background: "#FAFAF9", fontSize: "15px", outline: "none" }}
+                    style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
                   />
                 </div>
                 <button type="submit" disabled={loading}
-                  style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#ff7a45", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
+                  style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "linear-gradient(135deg, var(--brand), var(--brand-2))", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
                   {loading ? "..." : isPT ? "Enviar link" : "Send link"}
                 </button>
               </form>
@@ -62,17 +62,17 @@ function ForgotPassword() {
           ) : (
             <div style={{ textAlign: "center", padding: "20px 0" }}>
               <div style={{ fontSize: "48px", marginBottom: "16px" }}>✉️</div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#1C1C1A", marginBottom: "8px" }}>
+              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "8px" }}>
                 {isPT ? "Verifique seu email" : "Check your email"}
               </h2>
-              <p style={{ fontSize: "14px", color: "#6B6B63" }}>
+              <p style={{ fontSize: "14px", color: "var(--text-secondary)" }}>
                 {isPT ? "Enviamos um link de recuperação para" : "We sent a reset link to"} <strong>{email}</strong>
               </p>
             </div>
           )}
 
           <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <Link to="/login" style={{ fontSize: "13px", color: "#ff7a45", fontWeight: 600, textDecoration: "none" }}>
+            <Link to="/login" style={{ fontSize: "13px", color: "var(--brand)", fontWeight: 600, textDecoration: "none" }}>
               ← {isPT ? "Voltar ao login" : "Back to login"}
             </Link>
           </div>

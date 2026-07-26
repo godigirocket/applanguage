@@ -65,71 +65,71 @@ function Login() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#F7F4EF", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
+    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
       <div style={{ width: "100%", maxWidth: "380px" }}>
         {/* Brand */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "#ff7a45", letterSpacing: "-0.02em" }}>LangLume</h1>
-          <p style={{ fontSize: "14px", color: "#6B6B63", marginTop: "4px" }}>
+          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "var(--brand)", letterSpacing: "-0.02em" }}>LangLume</h1>
+          <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "4px" }}>
             {isPT ? "Aprenda idiomas praticando" : "Learn languages by practicing"}
           </p>
         </div>
 
         {/* Card */}
-        <div style={{ background: "#fff", borderRadius: "20px", padding: "32px 28px", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", border: "1px solid #E8E6E1" }}>
-          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "#1C1C1A", marginBottom: "4px" }}>
+        <div style={{ background: "var(--card-bg)", borderRadius: "20px", padding: "32px 28px", boxShadow: "var(--shadow-soft)", border: "1px solid var(--border)" }}>
+          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
             {isPT ? "Entrar" : "Sign in"}
           </h2>
-          <p style={{ fontSize: "13px", color: "#8B8B83", marginBottom: "24px" }}>
+          <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
             {isPT ? "Email e senha para continuar" : "Email and password to continue"}
           </p>
 
           <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <div>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "#4A4A45", display: "block", marginBottom: "6px" }}>Email</label>
+              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
               <input
                 required type="email" autoComplete="email" placeholder="seu@email.com"
                 value={email} onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid #E5E5E3", background: "#FAFAF9", fontSize: "15px", outline: "none" }}
+                style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
               />
             </div>
             <div>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "#4A4A45", display: "block", marginBottom: "6px" }}>
+              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>
                 {isPT ? "Senha" : "Password"}
               </label>
               <div style={{ position: "relative" }}>
                 <input
                   required type={showPassword ? "text" : "password"} autoComplete="current-password" placeholder="••••••••"
                   value={password} onChange={(e) => setPassword(e.target.value)}
-                  style={{ width: "100%", padding: "12px 44px 12px 14px", borderRadius: "10px", border: "1.5px solid #E5E5E3", background: "#FAFAF9", fontSize: "15px", outline: "none" }}
+                  style={{ width: "100%", padding: "12px 44px 12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
-                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "#8B8B83", cursor: "pointer", padding: "4px" }}>
+                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-soft)", cursor: "pointer", padding: "4px" }}>
                   {showPassword ? "🙈" : "👁"}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div style={{ padding: "10px 14px", borderRadius: "8px", background: "#FEF2F2", border: "1px solid #FECACA", color: "#DC2626", fontSize: "13px", fontWeight: 600 }}>
+              <div style={{ padding: "10px 14px", borderRadius: "8px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", color: "var(--danger)", fontSize: "13px", fontWeight: 600 }}>
                 {error}
               </div>
             )}
 
             <button type="submit" disabled={loading}
-              style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "#ff7a45", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}>
+              style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "linear-gradient(135deg, var(--brand), var(--brand-2))", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}>
               {loading ? "..." : isPT ? "Entrar" : "Sign in"}
             </button>
           </form>
 
           <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <a href="/forgot-password" style={{ fontSize: "13px", color: "#ff7a45", fontWeight: 600, textDecoration: "none" }}>
+            <a href="/forgot-password" style={{ fontSize: "13px", color: "var(--brand)", fontWeight: 600, textDecoration: "none" }}>
               {isPT ? "Esqueceu a senha?" : "Forgot password?"}
             </a>
           </div>
         </div>
 
-        <p style={{ textAlign: "center", fontSize: "12px", color: "#A0A098", marginTop: "20px" }}>
+        <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-soft)", marginTop: "20px" }}>
           {isPT ? "Ao entrar, você concorda com nossos Termos" : "By signing in you agree to our Terms"}
         </p>
       </div>

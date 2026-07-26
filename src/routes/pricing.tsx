@@ -433,7 +433,7 @@ function PricingPage() {
         >
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <Check size={28} color="#ff7a45" />
+              <Check size={28} color="var(--brand)" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.moneyBack}
@@ -441,7 +441,7 @@ function PricingPage() {
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <Lock size={28} color="#ff7a45" />
+              <Lock size={28} color="var(--brand)" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.securePayment}
@@ -449,7 +449,7 @@ function PricingPage() {
           </div>
           <div style={{ textAlign: "center" }}>
             <div style={{ fontSize: "24px", marginBottom: "8px" }}>
-              <RefreshCw size={28} color="#ff7a45" />
+              <RefreshCw size={28} color="var(--brand)" />
             </div>
             <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
               {t.cancelAnytime}

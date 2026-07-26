@@ -84,12 +84,14 @@
   --bg-primary: #f7f3ea;
   --bg-secondary: #ffffff;
   --text-primary: #172033;
-  --text-secondary: #56627a;
-  --brand: #ff7a45;
-  --accent: #2f80ed;
+  --text-secondary: #3d4a63;
+  /* Single Action Blue accent (Apple design system) — one deliberate color
+     for interactive/brand elements instead of the old orange+blue duo. */
+  --brand: #0066cc;
+  --accent: #86868b;
   --card-bg: #ffffff;
   --overlay-bg: rgba(255, 255, 255, 0.94);
-  --border: rgba(23, 32, 51, 0.12);
+  --border: rgba(23, 32, 51, 0.14);
 
   /* New premium tokens (also defined for dark below) */
   --bg-soft: #fffaf2;
@@ -101,13 +103,23 @@
   --surface-glass: rgba(255, 255, 255, 0.82);
   --text-strong: #070b14;
   --text-muted: var(--text-secondary);
-  --text-soft: #6b7690;
-  --brand-2: var(--accent);
-  --brand-dark: #e85f2a;
-  --brand-blue: #2f80ed;
-  --brand-green: #27c770;
-  --brand-yellow: #ffcc33;
-  --brand-purple: #8b5cf6;
+  --text-soft: #4f5d78;
+  /* Monochromatic gradient partner for --brand — same hue family so
+     gradients (avatar rings, progress fills, celebratory cards) read as one
+     deliberate color, not a second competing brand color. */
+  --brand-2: #4da3ff;
+  --brand-dark: #0052a3;
+  /* Curated category-color palette — distinct from --brand (which stays the
+     one color used for primary actions/CTAs/active nav). Used to color-code
+     categories, quiz types and cards so the app doesn't read as flat/gray,
+     while still being a deliberate, limited set instead of a random hex per
+     card. */
+  --brand-blue: #1cb0f6;
+  --brand-green: #2fbb52;
+  --brand-yellow: #ffc200;
+  --brand-purple: #ac5cf6;
+  --brand-red: #ff4b4b;
+  --brand-teal: #14b8a6;
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
@@ -118,9 +130,12 @@
   --bg: var(--bg-primary);
   --surface: var(--bg-primary);
   --surface-raised: var(--bg-secondary);
-  --accent-green: var(--brand);
+  --accent-green: var(--brand-green);
   --accent-teal: #0f6d94;
-  --accent-terra: var(--accent);
+  /* Was aliased to --accent (the muted gray secondary token) — that made
+     every "wrong answer" state and every card using --accent-terra render
+     gray instead of the warm terracotta the name promises. */
+  --accent-terra: #c4714a;
   --accent-sand: var(--bg-primary);
   --accent-gold: #d4a23b;
 
@@ -234,11 +249,13 @@ h6 {
   --bg-secondary: #151c2f;
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --brand: #ff7a45;
-  --accent: #38bdf8;
+  /* Apple's dark-mode Action Blue — brighter than the light-mode #0066cc so
+     it still reads clearly against the navy background. */
+  --brand: #0a84ff;
+  --accent: #98989d;
   --card-bg: #151c2f;
   --overlay-bg: rgba(11, 16, 32, 0.92);
-  --border: rgba(255, 255, 255, 0.14);
+  --border: rgba(255, 255, 255, 0.18);
 
   /* New premium tokens */
   --app-bg: var(--bg-primary);
@@ -247,8 +264,15 @@ h6 {
   --surface-solid: var(--bg-secondary);
   --text-strong: #ffffff;
   --text-muted: var(--text-secondary);
-  --text-soft: #94a3b8;
-  --brand-2: var(--accent);
+  --text-soft: #a8b5c8;
+  --brand-2: #5ac8fa;
+  --brand-dark: #409cff;
+  --brand-blue: #3dc2ff;
+  --brand-green: #3ecf63;
+  --brand-yellow: #ffd23d;
+  --brand-purple: #b980ff;
+  --brand-red: #ff6161;
+  --brand-teal: #2dd4bf;
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
@@ -258,9 +282,9 @@ h6 {
   --bg: var(--bg-primary);
   --surface: rgba(255, 255, 255, 0.08);
   --surface-raised: var(--bg-secondary);
-  --accent-green: var(--brand);
+  --accent-green: var(--brand-green);
   --accent-teal: #38bdf8;
-  --accent-terra: var(--accent);
+  --accent-terra: #e8956b;
   --accent-sand: var(--bg-primary);
   --accent-gold: #f59e0b;
 
@@ -559,7 +583,7 @@ h6 {
   .dark textarea,
   .dark select {
     background: var(--surface);
-    border-color: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.12);
     color: var(--text-primary);
   }
 
@@ -593,6 +617,16 @@ h6 {
   input:focus + label,
   input:focus ~ label {
     color: var(--accent-green);
+  }
+
+  /* Placeholder styling for better visibility */
+  ::placeholder {
+    color: var(--text-soft);
+    opacity: 0.7;
+  }
+  .dark ::placeholder {
+    color: var(--text-soft);
+    opacity: 0.6;
   }
 
   /* Custom Premium Buttons */

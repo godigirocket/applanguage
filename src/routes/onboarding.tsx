@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { safeQuery, supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { useStore } from "@/hooks/useStore";
+import { useUserStore, UserLevel } from "@/store/userStore";
 import { toast } from "sonner";
 import { LumeIllustration } from "@/components/lume/LumeIllustration";
 import {
@@ -59,7 +60,8 @@ const STEPS = [
 function OnboardingPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, setTargetLanguage } = useStore();
+  const { interfaceLanguage, setTargetLanguage, setLearningLevel } = useStore();
+  const { setUserLevel } = useUserStore();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [textVal, setTextVal] = useState("");
@@ -148,13 +150,26 @@ function OnboardingPage() {
     // update local state before attempting to persist it remotely).
     setTargetLanguage(chosenTargetLanguage);
 
+    // The "level" step is a 3-tier self-assessment (Iniciante/Intermediário/
+    // Avançado) — map it to a CEFR anchor and apply it to both level stores
+    // right away, so the curriculum starts at an appropriate point and the
+    // separate A1-C2 level modal (shown when no level is set yet) doesn't
+    // immediately ask the same question again.
+    const chosenLevel = (finalAnswers.level as string) || "beginner";
+    const cefrAnchor: UserLevel =
+      chosenLevel === "advanced" ? "C1" : chosenLevel === "intermediate" ? "B1" : "A1";
+    setLearningLevel(cefrAnchor);
+    setUserLevel(cefrAnchor);
+    localStorage.setItem("lume_user_level", cefrAnchor);
+    localStorage.setItem("lume_level", cefrAnchor);
+
     try {
       const { error } = await supabase
         .from("profiles")
         .update({
           full_name: finalAnswers.full_name || "Estudante",
           target_language: chosenTargetLanguage,
-          level: (finalAnswers.level as any) || "beginner",
+          level: chosenLevel,
           onboarding_done: true,
           onboarding_answers: finalAnswers,
         } as any)
@@ -190,7 +205,7 @@ function OnboardingPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#F7F4EF",
+        background: "var(--bg)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -202,11 +217,11 @@ function OnboardingPage() {
         {/* Onboarding Card */}
         <div
           style={{
-            background: "#fff",
+            background: "var(--card-bg)",
             padding: "32px 28px",
             borderRadius: "20px",
-            border: "1px solid #E8E6E1",
-            boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+            border: "1px solid var(--border)",
+            boxShadow: "var(--shadow-soft)",
           }}
         >
           {/* Header navigation (Back button + progress bar) */}
@@ -416,7 +431,7 @@ function OnboardingPage() {
           style={{
             textAlign: "center",
             fontSize: "11px",
-            color: "#8B8B83",
+            color: "var(--text-soft)",
             marginTop: "20px",
             fontWeight: 600,
           }}
