@@ -31,10 +31,37 @@ const supabaseAdmin = createClient(
   }
 );
 
+// In-memory rate limiter for webhook endpoint (per-IP, per serverless instance)
+const webhookRateLimits = new Map<string, { count: number; resetAt: number }>();
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Only allow POST
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed. Use POST." });
+  }
+
+  // Rate limiting: max 30 webhook calls per minute per IP
+  const clientIp = (req.headers["x-forwarded-for"] as string)?.split(",")[0]?.trim() || "unknown";
+  const now = Date.now();
+  const windowMs = 60_000;
+  const maxRequests = 30;
+  const key = `webhook:${clientIp}`;
+  
+  if (!webhookRateLimits.has(key) || now > webhookRateLimits.get(key)!.resetAt) {
+    webhookRateLimits.set(key, { count: 1, resetAt: now + windowMs });
+  } else {
+    const entry = webhookRateLimits.get(key)!;
+    entry.count++;
+    if (entry.count > maxRequests) {
+      console.warn(`[Cakto Webhook] Rate limit exceeded for IP: ${clientIp}`);
+      return res.status(429).json({ error: "Too many requests" });
+    }
+  }
+  // Evict old entries to prevent memory leak
+  if (webhookRateLimits.size > 1000) {
+    for (const [k, v] of webhookRateLimits) {
+      if (now > v.resetAt) webhookRateLimits.delete(k);
+    }
   }
 
   try {
@@ -65,9 +92,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
     
     console.log("[Cakto Webhook] Received:", {
-      type: eventData.eventType,
-      email: eventData.customerEmail,
-      status: eventData.status,
+      type: String(eventData.eventType).slice(0, 50),
+      email: eventData.customerEmail ? eventData.customerEmail.slice(0, 100) : "",
+      status: String(eventData.status).slice(0, 30),
     });
     
     // 3. Save event to payment_events (idempotency check)

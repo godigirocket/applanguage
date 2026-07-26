@@ -45,9 +45,10 @@ export default async function handler(req, res) {
     res.statusCode = 500;
     res.setHeader("content-type", "text/html; charset=utf-8");
 
-    // Detailed error trace directly in browser for easy diagnostics
-    const errorDetails = error
-      ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${error.stack || error.message}</pre>`
+    // Only show error details in development — never expose stack traces in production
+    const isDev = process.env.NODE_ENV === "development" || process.env.VERCEL_ENV === "development";
+    const errorDetails = isDev && error
+      ? `<pre style="text-align: left; background: #fee2e2; color: #991b1b; padding: 1rem; border-radius: 0.5rem; overflow: auto; font-family: monospace; font-size: 0.85rem; margin-top: 1.5rem; max-height: 25rem; border: 1px solid #fca5a5;">${String(error.stack || error.message).replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`
       : "";
 
     res.end(`<!doctype html>
