@@ -44,10 +44,11 @@ function ForgotPassword() {
               <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
                 {isPT ? "Enviaremos um link de recuperação" : "We'll send you a reset link"}
               </p>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }} aria-label={isPT ? "Recuperar senha" : "Reset password"}>
                 <div>
-                  <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
+                  <label htmlFor="reset-email" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
                   <input
+                    id="reset-email"
                     required type="email" placeholder="seu@email.com"
                     value={email} onChange={(e) => setEmail(e.target.value)}
                     style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}

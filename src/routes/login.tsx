@@ -84,26 +84,29 @@ function Login() {
             {isPT ? "Email e senha para continuar" : "Email and password to continue"}
           </p>
 
-          <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }} aria-label={isPT ? "Formulário de login" : "Login form"}>
             <div>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
+              <label htmlFor="login-email" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
               <input
+                id="login-email"
                 required type="email" autoComplete="email" placeholder="seu@email.com"
                 value={email} onChange={(e) => setEmail(e.target.value)}
                 style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
               />
             </div>
             <div>
-              <label style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>
+              <label htmlFor="login-password" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>
                 {isPT ? "Senha" : "Password"}
               </label>
               <div style={{ position: "relative" }}>
                 <input
+                  id="login-password"
                   required type={showPassword ? "text" : "password"} autoComplete="current-password" placeholder="••••••••"
                   value={password} onChange={(e) => setPassword(e.target.value)}
                   style={{ width: "100%", padding: "12px 44px 12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
                 />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? (isPT ? "Ocultar senha" : "Hide password") : (isPT ? "Mostrar senha" : "Show password")}
                   style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-soft)", cursor: "pointer", padding: "4px" }}>
                   {showPassword ? "🙈" : "👁"}
                 </button>
@@ -111,7 +114,7 @@ function Login() {
             </div>
 
             {error && (
-              <div style={{ padding: "10px 14px", borderRadius: "8px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", color: "var(--danger)", fontSize: "13px", fontWeight: 600 }}>
+              <div role="alert" style={{ padding: "10px 14px", borderRadius: "8px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", color: "var(--danger)", fontSize: "13px", fontWeight: 600 }}>
                 {error}
               </div>
             )}

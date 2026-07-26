@@ -425,6 +425,11 @@ function RootInner() {
         transition: "background 0.5s ease-in-out",
       }}
     >
+      {/* Skip to content link for keyboard/screen-reader users */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to content
+      </a>
+
       {/* Scroll to top on route change */}
       <ScrollToTop />
 
@@ -474,6 +479,8 @@ function RootInner() {
 
       {/* Main Content Area */}
       <div
+        id="main-content"
+        role="main"
         style={{
           flex: 1,
           display: "flex",
