@@ -44,16 +44,31 @@ function Login() {
         return;
       }
       if (signInError.message.includes("Invalid login credentials")) {
-        const { error: signUpError } = await supabase.auth.signUp({
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email: email.trim().toLowerCase(),
           password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/home`,
+          },
         });
         if (signUpError) {
           setError(signUpError.message);
           return;
         }
-        toast.success(isPT ? "Conta criada!" : "Account created!");
-        nav({ to: "/onboarding" });
+        // If email confirmation is required, the session will be null
+        if (signUpData.session) {
+          toast.success(isPT ? "Conta criada!" : "Account created!");
+          nav({ to: "/onboarding" });
+        } else {
+          // Email confirmation required — inform user
+          toast.success(isPT ? "Conta criada! Verifique seu email para confirmar." : "Account created! Check your email to confirm.");
+          setError(isPT ? "Verifique seu email para confirmar a conta e depois faça login." : "Check your email to confirm your account, then log in.");
+        }
+        return;
+      }
+      // Handle "Email not confirmed" error gracefully
+      if (signInError.message.includes("Email not confirmed")) {
+        setError(isPT ? "Email não confirmado. Verifique sua caixa de entrada (e spam)." : "Email not confirmed. Check your inbox (and spam folder).");
         return;
       }
       setError(signInError.message);

@@ -8,7 +8,7 @@ Disallow: /settings
 Disallow: /checkout
 
 # Sitemap
-Sitemap: https://applanguage.vercel.app/sitemap.xml
+Sitemap: https://langlume.vercel.app/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 1

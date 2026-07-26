@@ -26,6 +26,7 @@ import { LevelSelectionModal } from "@/components/LevelSelectionModal";
 import { DifficultyPopup } from "@/components/DifficultyPopup";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
 
 import appCss from "../styles.css?url";
 
@@ -125,6 +126,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         name: "twitter:description",
         content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis.",
       },
+      { name: "twitter:image", content: "https://langlume.vercel.app/og-image.svg" },
+      { property: "og:image", content: "https://langlume.vercel.app/og-image.svg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "theme-color", content: "#ff7a45" },
       { name: "apple-mobile-web-app-capable", content: "yes" },
       { name: "apple-mobile-web-app-status-bar-style", content: "default" },
@@ -312,19 +317,8 @@ function RootInner() {
     }
   }, [user]);
 
-  // Register PWA Service Worker
-  useEffect(() => {
-    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/service-worker.js")
-        .then((reg) => {
-          console.log("Lume PWA Service Worker registered:", reg.scope);
-        })
-        .catch((err) => {
-          console.error("Lume PWA Service Worker registration failed:", err);
-        });
-    }
-  }, []);
+  // PWA Service Worker — handled by vite-plugin-pwa with registerType: "autoUpdate"
+  // No manual registration needed; the plugin injects its own register script.
 
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
@@ -509,6 +503,9 @@ function RootInner() {
 
       {/* Global Toaster */}
       <Toaster position="bottom-right" richColors />
+
+      {/* Vercel Analytics */}
+      <Analytics />
 
       {/* Inactivity Glassmorphic Lockscreen */}
       {isLocked && pinEnabled && (
