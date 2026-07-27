@@ -34,6 +34,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
 import { startTrial, isTrialActive } from "@/lib/trial";
+import { resolveGlossLanguage } from "@/lib/language-content/vocabulary-engine";
 import type { VocabularyItem, LessonTopic } from "@/lib/language-content/types";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { Mascot } from "@/components/lume/Mascot";
@@ -173,7 +174,30 @@ function LessonPage() {
   const grammarQuizStep = steps.filter((s) => s.type === "quiz")[1];
   const speakingStep = steps.find((s) => s.type === "speaking");
 
-  const vocab: Array<{ word: string; meaning: string; example: string }> = vocabStep?.words || [];
+  // Vocab meaning is stored per-gloss-language (e.g. { en, es, pt }) rather
+  // than a single hardcoded string, so it can be shown in whichever language
+  // the learner actually reads, not just Portuguese/English regardless of
+  // their interfaceLanguage setting.
+  const glossLanguage = resolveGlossLanguage(targetLanguage, interfaceLanguage);
+  const COGNATE_NOTE: Record<string, string> = {
+    en: " (same word)",
+    es: " (misma palabra)",
+    pt: " (mesma palavra)",
+  };
+  const vocab: Array<{ word: string; meaning: string; example: string }> = (vocabStep?.words || []).map(
+    (w: { word: string; meaning: string | Partial<Record<"en" | "es" | "pt", string>>; example: string }) => {
+      const rawMeaning =
+        typeof w.meaning === "string"
+          ? w.meaning
+          : w.meaning[glossLanguage] ?? w.meaning.pt ?? w.meaning.en ?? w.meaning.es ?? "";
+      const isCognate = rawMeaning.trim().toLowerCase() === w.word.trim().toLowerCase();
+      return {
+        word: w.word,
+        example: w.example,
+        meaning: isCognate ? `${rawMeaning}${COGNATE_NOTE[interfaceLanguage] || ""}` : rawMeaning,
+      };
+    },
+  );
 
   const quiz: QuizItem[] = [];
   if (translationQuizStep?.options?.length) {
