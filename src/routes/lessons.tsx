@@ -53,6 +53,9 @@ const CATEGORIES = [
   { id: "speaking", label: "Speaking", icon: Mic },
   { id: "idioms", label: "Idioms", icon: BookOpen },
 ];
+// Kid accounts (4-10) only get simple word/listening practice — no slang,
+// business idioms, or free-form speaking content.
+const KID_SAFE_CATEGORIES = ["vocabulary", "listening"];
 
 // One deliberate color + icon per category, so the catalog reads as a set of
 // distinct subjects (Duolingo-style) instead of an undifferentiated list.
@@ -68,8 +71,15 @@ const DEFAULT_CATEGORY_STYLE = { color: "var(--brand)", icon: Book };
 function LessonsPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, targetLanguage, completedLessons, completeLesson, addXP, learningLevel } =
-    useStore();
+  const {
+    interfaceLanguage,
+    targetLanguage,
+    completedLessons,
+    completeLesson,
+    addXP,
+    learningLevel,
+    isKidAccount,
+  } = useStore();
   const { userLevel } = useUserStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("All");
@@ -168,8 +178,13 @@ function LessonsPage() {
       lesson.description.toLowerCase().includes(query);
     const matchesLevel = selectedLevel === "All" || lesson.difficulty === selectedLevel;
     const matchesCategory = selectedCategory === "all" || lesson.category === selectedCategory;
+    // Kid Mode floor: regardless of whatever filter is selected in the UI,
+    // never surface non-kid-safe categories or anything past Beginner.
+    const matchesKidSafety =
+      !isKidAccount ||
+      (KID_SAFE_CATEGORIES.includes(lesson.category) && lesson.difficulty === "Beginner");
 
-    return matchesSearch && matchesLevel && matchesCategory;
+    return matchesSearch && matchesLevel && matchesCategory && matchesKidSafety;
   });
 
   const handleLessonClick = (lesson: any) => {
@@ -523,7 +538,9 @@ function LessonsPage() {
                         {isPT ? "Nível" : "Level"}
                       </div>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                        {LEVELS.map((level) => (
+                        {LEVELS.filter(
+                          (level) => !isKidAccount || level === "All" || level === "Beginner",
+                        ).map((level) => (
                           <button
                             key={level}
                             onClick={() => {
@@ -563,7 +580,10 @@ function LessonsPage() {
                         {isPT ? "Categoria" : "Category"}
                       </div>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                        {CATEGORIES.map((cat) => {
+                        {CATEGORIES.filter(
+                          (cat) =>
+                            !isKidAccount || cat.id === "all" || KID_SAFE_CATEGORIES.includes(cat.id),
+                        ).map((cat) => {
                           const catColor = CATEGORY_STYLE[cat.id]?.color || "var(--brand)";
                           const isActive = selectedCategory === cat.id;
                           return (

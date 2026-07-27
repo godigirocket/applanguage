@@ -1,12 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useStore } from "@/hooks/useStore";
 import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Heart,
   MessageCircle,
@@ -134,6 +135,30 @@ const FEED_POSTS = [
   },
 ];
 
+interface FeedPost {
+  id: number | string;
+  user: { id: number | string; name: string; avatar: string; level: number; xp: number; country: string; streak: number };
+  type: string;
+  content: string;
+  image: string | null;
+  likes: number;
+  comments: number;
+  shares: number;
+  timestamp: string;
+  tags: string[];
+}
+
+function formatRelativeTime(isoDate: string, isPT: boolean): string {
+  const diffMs = Date.now() - new Date(isoDate).getTime();
+  const mins = Math.floor(diffMs / 60000);
+  if (mins < 1) return isPT ? "agora" : "just now";
+  if (mins < 60) return isPT ? `${mins}min atrás` : `${mins}min ago`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return isPT ? `${hours}h atrás` : `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return isPT ? `${days}d atrás` : `${days}d ago`;
+}
+
 const POST_TYPES = [
   { id: "all", label: "Tudo", icon: Globe },
   { id: "achievements", label: "Conquistas", icon: Trophy },
@@ -143,28 +168,107 @@ const POST_TYPES = [
 ];
 
 function CommunityPage() {
-  const { interfaceLanguage } = useStore();
+  const { interfaceLanguage, isKidAccount } = useStore();
   const { user } = useAuth();
+  const nav = useNavigate();
   const [activeFilter, setActiveFilter] = useState("all");
   const [postText, setPostText] = useState("");
-  const [localPosts, setLocalPosts] = useState<typeof FEED_POSTS>([]);
+  const [realPosts, setRealPosts] = useState<FeedPost[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isPT = interfaceLanguage === "pt";
 
-  function handleSubmitPost() {
+  // Kid accounts don't get the unmoderated adult social feed — bounce them
+  // back to Home rather than just hiding the nav link, since the route
+  // itself is otherwise reachable by typing the URL directly.
+  useEffect(() => {
+    if (isKidAccount) {
+      nav({ to: "/home" });
+    }
+  }, [isKidAccount, nav]);
+
+  // Real, shared feed — previously this only wrote to local component state,
+  // so a post vanished on refresh and no other user ever saw it despite the
+  // UI looking like a live social feed.
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from("community_posts")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(50)
+      .then(({ data, error }) => {
+        if (cancelled || error || !data) return;
+        setRealPosts(
+          data.map((row: any) => ({
+            id: row.id,
+            user: {
+              id: row.user_id,
+              name: row.author_name,
+              avatar: "👤",
+              level: 1,
+              xp: 0,
+              country: "🌍",
+              streak: 0,
+            },
+            type: row.post_type,
+            content: row.content,
+            image: null,
+            likes: row.likes,
+            comments: row.comments,
+            shares: row.shares,
+            timestamp: formatRelativeTime(row.created_at, isPT),
+            tags: row.tags || [],
+          })),
+        );
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function handleSubmitPost() {
     const text = postText.trim();
-    if (!text) return;
-    setLocalPosts((prev) => [
+    if (!text || !user || isSubmitting) return;
+
+    // A simple client-side cooldown — this goes straight to Supabase from
+    // the browser (no server function in front of it to rate-limit), so a
+    // per-device cooldown is the only guard against rapid-fire spam posting.
+    const lastPostKey = "lume_last_post_at";
+    const lastPostAt = Number(localStorage.getItem(lastPostKey) || 0);
+    if (Date.now() - lastPostAt < 10_000) {
+      toast.info(
+        isPT ? "Aguarde alguns segundos antes de postar de novo." : "Wait a few seconds before posting again.",
+      );
+      return;
+    }
+
+    setIsSubmitting(true);
+    const authorName = user.email?.split("@")[0] || (isPT ? "Você" : "You");
+    const { data, error } = await supabase
+      .from("community_posts")
+      .insert({
+        user_id: user.id,
+        author_name: authorName,
+        content: text,
+        post_type: "tip",
+        tags: [],
+      })
+      .select()
+      .single();
+    setIsSubmitting(false);
+
+    if (error || !data) {
+      toast.error(isPT ? "Não foi possível publicar. Tente novamente." : "Couldn't post. Please try again.");
+      return;
+    }
+
+    localStorage.setItem(lastPostKey, String(Date.now()));
+    setRealPosts((prev) => [
       {
-        id: -Date.now(),
-        user: {
-          id: -1,
-          name: user?.email?.split("@")[0] || (isPT ? "Você" : "You"),
-          avatar: "👤",
-          level: 1,
-          xp: 0,
-          country: "🌍",
-          streak: 0,
-        },
-        type: "tip" as const,
+        id: data.id,
+        user: { id: user.id, name: authorName, avatar: "👤", level: 1, xp: 0, country: "🌍", streak: 0 },
+        type: "tip",
         content: text,
         image: null,
         likes: 0,
@@ -178,8 +282,6 @@ function CommunityPage() {
     setPostText("");
     toast.success(isPT ? "Publicado!" : "Posted!");
   }
-
-  const isPT = interfaceLanguage === "pt";
 
   const getPostIcon = (type: string) => {
     const icons: Record<string, any> = {
@@ -217,11 +319,16 @@ function CommunityPage() {
     tips: ["tip", "resource"],
     memes: ["meme"],
   };
-  const allPosts = [...localPosts, ...FEED_POSTS];
+  const allPosts = [...realPosts, ...FEED_POSTS];
   const visiblePosts =
     activeFilter === "all"
       ? allPosts
       : allPosts.filter((post) => FILTER_TO_POST_TYPES[activeFilter]?.includes(post.type));
+
+  // Placed after every hook above (never conditionally skip a hook) — the
+  // effect on mount already redirects; this just avoids flashing the adult
+  // feed for the one render before that redirect takes effect.
+  if (isKidAccount) return null;
 
   return (
     <div
@@ -483,24 +590,24 @@ function CommunityPage() {
                           </button>
                         </div>
                         <button
-                          disabled={!postText.trim()}
+                          disabled={!postText.trim() || isSubmitting}
                           onClick={handleSubmitPost}
                           style={{
                             padding: "10px 24px",
                             borderRadius: "12px",
                             border: "none",
-                            background: postText.trim() ? "var(--brand)" : "var(--border)",
+                            background: postText.trim() && !isSubmitting ? "var(--brand)" : "var(--border)",
                             color: "white",
                             fontSize: "14px",
                             fontWeight: 700,
-                            cursor: postText.trim() ? "pointer" : "not-allowed",
+                            cursor: postText.trim() && !isSubmitting ? "pointer" : "not-allowed",
                             display: "flex",
                             alignItems: "center",
                             gap: "8px",
                           }}
                         >
                           <Send size={16} />
-                          {isPT ? "Publicar" : "Post"}
+                          {isSubmitting ? (isPT ? "Publicando..." : "Posting...") : isPT ? "Publicar" : "Post"}
                         </button>
                       </div>
                     </div>

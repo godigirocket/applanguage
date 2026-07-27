@@ -2,12 +2,14 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
 import { Home, BookOpen, Play, Globe, User, MessageCircle } from "lucide-react";
+import { useStore } from "@/hooks/useStore";
 
 export function BottomNav() {
   const router = useRouterState();
   const currentPath = router.location.pathname;
   const { user } = useAuth();
   const { t, i18n } = useTranslation();
+  const isKidAccount = useStore((s) => s.isKidAccount);
 
   const getNavLabel = (key: string, fallback: string) => {
     const translated = t(key);
@@ -31,14 +33,23 @@ export function BottomNav() {
       ),
       Icon: BookOpen,
     },
-    {
-      href: "/community",
-      label: getNavLabel(
-        "navCommunity",
-        i18n.language === "en" ? "Community" : i18n.language === "es" ? "Comunidad" : "Comunidade",
-      ),
-      Icon: MessageCircle,
-    },
+    // Kid accounts never see the (unmoderated, adult) social feed.
+    ...(isKidAccount
+      ? []
+      : [
+          {
+            href: "/community",
+            label: getNavLabel(
+              "navCommunity",
+              i18n.language === "en"
+                ? "Community"
+                : i18n.language === "es"
+                  ? "Comunidad"
+                  : "Comunidade",
+            ),
+            Icon: MessageCircle,
+          },
+        ]),
     {
       href: "/games",
       label: getNavLabel(

@@ -3,6 +3,7 @@ import { AppHeader } from "@/components/lume/AppHeader";
 import { motion } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
 import { getCityBySlug } from "@/data/culturalContent";
+import { FlagByEmoji } from "@/components/lume/Flags";
 import {
   ArrowLeft,
   MapPin,
@@ -87,7 +88,9 @@ function CityDetailPage() {
             {isPT ? "Voltar" : "Back"}
           </button>
 
-          <div style={{ fontSize: "64px", marginBottom: "16px" }}>{city.flag}</div>
+          <div style={{ marginBottom: "16px" }}>
+            <FlagByEmoji emoji={city.flag} size={64} />
+          </div>
 
           <h1 style={{ fontSize: "clamp(32px, 6vw, 56px)", fontWeight: 900, marginBottom: "12px", letterSpacing: "-0.02em" }}>
             {city.name}

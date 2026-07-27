@@ -3,9 +3,12 @@
  * Blocks premium content for free users and shows upgrade modal
  */
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Lock, Sparkles, Check } from "@/components/lume/CustomIcons";
+import { useEffect, useId, useRef } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Lock, X } from "@/components/lume/CustomIcons";
 import { useStore } from "@/hooks/useStore";
+import { Portal } from "@/components/lume/Portal";
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 interface PremiumGateProps {
   isOpen: boolean;
@@ -16,6 +19,48 @@ interface PremiumGateProps {
 export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProps) {
   const { interfaceLanguage } = useStore();
   const isPT = interfaceLanguage === "pt";
+  const reduceMotion = useReducedMotion();
+  const titleId = useId();
+  const dialogRef = useRef<HTMLElement>(null);
+  const triggerRef = useRef<Element | null>(null);
+
+  useScrollLock(isOpen);
+
+  // Escape to close, focus trap, and initial focus — plus returning focus to
+  // whatever triggered the modal once it closes, per standard dialog a11y.
+  useEffect(() => {
+    if (!isOpen) return;
+    triggerRef.current = document.activeElement;
+
+    const dialog = dialogRef.current;
+    const focusable = dialog?.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    );
+    focusable?.[0]?.focus();
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab" || !focusable || focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      (triggerRef.current as HTMLElement | null)?.focus?.();
+    };
+  }, [isOpen, onClose]);
 
   const monthlyUrl = import.meta.env.VITE_CAKTO_CHECKOUT_MONTHLY;
   const annualUrl = import.meta.env.VITE_CAKTO_CHECKOUT_ANNUAL;
@@ -54,71 +99,68 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
   ];
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <>
-          {/* Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0, 0, 0, 0.7)",
-              backdropFilter: "blur(4px)",
-              zIndex: 9998,
-            }}
-          />
-
-          {/* Modal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "calc(100% - 48px)",
-              maxWidth: "560px",
-              maxHeight: "90vh",
-              overflowY: "auto",
-              background: "var(--bg)",
-              borderRadius: "24px",
-              border: "2px solid var(--border)",
-              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.4)",
-              zIndex: 9999,
-              padding: "32px",
-            }}
-          >
-            {/* Close button */}
-            <button
+    <Portal>
+      <AnimatePresence>
+        {isOpen && (
+          <div className="premium-gate-layer">
+            {/* Backdrop — a real button (not a div) so it's keyboard reachable
+                and doesn't need a redundant role/tabIndex. */}
+            <motion.button
+              type="button"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.2 }}
               onClick={onClose}
-              style={{
-                position: "absolute",
-                top: "16px",
-                right: "16px",
-                width: "32px",
-                height: "32px",
-                borderRadius: "50%",
-                background: "var(--surface-raised)",
-                border: "1px solid var(--border)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-                transition: "all 0.2s",
-                fontSize: "20px",
-                color: "var(--text-secondary)",
-              }}
-              aria-label={isPT ? "Fechar" : "Close"}
+              aria-hidden="true"
+              tabIndex={-1}
+              className="premium-gate-backdrop"
+            />
+
+            {/* Modal — centering comes entirely from the parent's `grid;
+                place-items: center` (see .premium-gate-layer below). It must
+                NOT also set top/left/transform for centering: framer-motion
+                takes full ownership of the `transform` CSS property the
+                moment `animate` includes a transform-affecting key like `y`
+                or `scale`, silently discarding any transform set via the
+                `style` prop. That's what caused the modal to render with its
+                top-left corner (not its center) pinned to the viewport
+                center — pushing most of it off-screen to the right/bottom. */}
+            <motion.section
+              ref={dialogRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={titleId}
+              initial={{ opacity: 0, y: reduceMotion ? 0 : 24, scale: reduceMotion ? 1 : 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: reduceMotion ? 0 : 16, scale: reduceMotion ? 1 : 0.99 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="premium-gate-modal"
             >
-              ✕
-            </button>
+              {/* Close button */}
+              <button
+                onClick={onClose}
+                style={{
+                  position: "absolute",
+                  top: "16px",
+                  right: "16px",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "50%",
+                  background: "var(--surface-raised)",
+                  border: "1px solid var(--border)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  color: "var(--text-secondary)",
+                  flexShrink: 0,
+                }}
+                aria-label={isPT ? "Fechar" : "Close"}
+              >
+                <X size={18} />
+              </button>
 
             {/* Header */}
             <div style={{ textAlign: "center", marginBottom: "24px" }}>
@@ -138,11 +180,13 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
                 <Lock size={32} color="white" />
               </div>
               <h2
+                id={titleId}
                 style={{
-                  fontSize: "28px",
+                  fontSize: "clamp(22px, 6vw, 28px)",
                   fontWeight: 900,
                   color: "var(--text-primary)",
                   marginBottom: "8px",
+                  overflowWrap: "anywhere",
                 }}
               >
                 {isPT ? "Desbloqueie o Premium" : "Unlock Premium"}
@@ -367,9 +411,72 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
             >
               {isPT ? "Continuar com 10 lições grátis" : "Continue with 10 free lessons"}
             </button>
-          </motion.div>
-        </>
-      )}
-    </AnimatePresence>
+            </motion.section>
+          </div>
+        )}
+      </AnimatePresence>
+      <style>{`
+        .premium-gate-layer {
+          position: fixed;
+          inset: 0;
+          z-index: 9999;
+          display: grid;
+          place-items: center;
+          padding:
+            max(16px, env(safe-area-inset-top))
+            max(16px, env(safe-area-inset-right))
+            max(16px, env(safe-area-inset-bottom))
+            max(16px, env(safe-area-inset-left));
+          overflow: hidden;
+          isolation: isolate;
+        }
+        .premium-gate-backdrop {
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          border: 0;
+          padding: 0;
+          background: rgba(0, 0, 0, 0.68);
+          backdrop-filter: blur(4px);
+          -webkit-backdrop-filter: blur(4px);
+          cursor: pointer;
+        }
+        .premium-gate-modal {
+          position: relative;
+          z-index: 1;
+          width: min(100%, 560px);
+          max-width: 100%;
+          max-height: min(88dvh, 760px);
+          overflow-x: hidden;
+          overflow-y: auto;
+          overscroll-behavior: contain;
+          -webkit-overflow-scrolling: touch;
+          box-sizing: border-box;
+          background: var(--bg);
+          border-radius: 24px;
+          border: 2px solid var(--border);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+          padding: 32px;
+        }
+        @media (max-width: 640px) {
+          .premium-gate-layer {
+            place-items: end center;
+            padding:
+              max(12px, env(safe-area-inset-top))
+              max(10px, env(safe-area-inset-right))
+              max(10px, env(safe-area-inset-bottom))
+              max(10px, env(safe-area-inset-left));
+          }
+          .premium-gate-modal {
+            width: 100%;
+            max-width: none;
+            max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            border-radius: 24px 24px 16px 16px;
+            padding: clamp(18px, 5vw, 32px);
+          }
+        }
+      `}</style>
+    </Portal>
   );
 }

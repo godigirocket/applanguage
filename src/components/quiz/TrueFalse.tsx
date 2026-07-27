@@ -9,6 +9,7 @@ interface TrueFalseProps {
   explanationLabel?: string;
   explanation?: string;
   onAnswer: (isCorrect: boolean) => void;
+  accentColor?: string;
 }
 
 export function TrueFalse({
@@ -18,6 +19,7 @@ export function TrueFalse({
   explanationLabel = "Explicação:",
   explanation,
   onAnswer,
+  accentColor = "var(--brand)",
 }: TrueFalseProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -35,7 +37,22 @@ export function TrueFalse({
   const options = optionsProp && optionsProp.length === 2 ? optionsProp : ["Verdadeiro", "Falso"];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "24px",
+        width: "100%",
+        background: "var(--card-bg)",
+        borderRadius: "24px",
+        padding: "clamp(20px, 4vw, 32px)",
+        border: `1.5px solid color-mix(in srgb, ${accentColor} 25%, var(--border))`,
+        borderTop: `5px solid ${accentColor}`,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+      }}
+    >
       <h3
         style={{
           fontSize: "20px",
@@ -54,8 +71,8 @@ export function TrueFalse({
           const isCorrect = isAnswered && opt === correctAnswer;
           const isWrong = isAnswered && isSelected && opt !== correctAnswer;
 
-          let bgColor = "var(--surface)";
-          let borderColor = "var(--border)";
+          let bgColor = "var(--card-bg)";
+          let borderColor = `color-mix(in srgb, ${accentColor} 25%, var(--border))`;
           let color = "var(--text-primary)";
 
           if (isCorrect) {
@@ -71,6 +88,9 @@ export function TrueFalse({
           return (
             <motion.button
               key={idx}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.05 + idx * 0.08 }}
               whileHover={!isAnswered ? { scale: 1.05 } : {}}
               whileTap={!isAnswered ? { scale: 0.95 } : {}}
               onClick={() => handleSelect(opt)}
@@ -120,6 +140,6 @@ export function TrueFalse({
           </p>
         </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

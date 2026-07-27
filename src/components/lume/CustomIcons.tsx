@@ -12,7 +12,7 @@ export const Sun: React.FC<IconProps> = ({ size = 20, color = "currentColor", ..
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -29,7 +29,7 @@ export const Moon: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -45,7 +45,7 @@ export const Compass: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -62,7 +62,7 @@ export const Coffee: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -81,7 +81,7 @@ export const Palette: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -100,7 +100,7 @@ export const Briefcase: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -121,7 +121,7 @@ export const MessageCircle: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -141,7 +141,7 @@ export const MessageSquare: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -157,7 +157,7 @@ export const Brain: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -178,7 +178,7 @@ export const CheckCircle: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -199,7 +199,7 @@ export const ChevronLeft: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="2"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -219,7 +219,7 @@ export const ChevronRight: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="2"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -235,7 +235,7 @@ export const Play: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -251,7 +251,7 @@ export const Pause: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -268,7 +268,7 @@ export const Star: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -285,7 +285,7 @@ export const Flame: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -302,7 +302,7 @@ export const Trophy: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -323,7 +323,7 @@ export const Award: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -341,7 +341,7 @@ export const Lock: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -358,7 +358,7 @@ export const Unlock: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -375,7 +375,7 @@ export const Heart: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -392,7 +392,7 @@ export const Book: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -409,7 +409,7 @@ export const BookOpen: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -426,7 +426,7 @@ export const Sparkles: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -444,7 +444,7 @@ export const Sparkle: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -461,7 +461,7 @@ export const Clock: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -479,7 +479,7 @@ export const Bookmark: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -496,7 +496,7 @@ export const Volume2: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -513,7 +513,7 @@ export const Mic: React.FC<IconProps> = ({ size = 20, color = "currentColor", ..
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -530,7 +530,7 @@ export const Search: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -551,7 +551,7 @@ export const HelpCircle: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -569,7 +569,7 @@ export const Map: React.FC<IconProps> = ({ size = 20, color = "currentColor", ..
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -587,7 +587,7 @@ export const RefreshCw: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -605,7 +605,7 @@ export const Sprout: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -621,7 +621,7 @@ export const Music: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -639,7 +639,7 @@ export const Film: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -656,7 +656,7 @@ export const Video: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -673,7 +673,7 @@ export const User: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -690,7 +690,7 @@ export const Users: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -709,7 +709,7 @@ export const Home: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -726,7 +726,7 @@ export const Target: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -748,7 +748,7 @@ export const SpacingSpacer: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     {...props}
   >
     <path d="M8 3v18M16 3v18" />
@@ -762,7 +762,7 @@ export const VolumeX: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -780,7 +780,7 @@ export const Save: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -799,7 +799,7 @@ export const Send: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -816,7 +816,7 @@ export const Zap: React.FC<IconProps> = ({ size = 20, color = "currentColor", ..
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -832,7 +832,7 @@ export const Layers: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -850,7 +850,7 @@ export const BarChart2: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -872,7 +872,7 @@ export const AlertTriangle: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -890,7 +890,7 @@ export const Sliders: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -914,7 +914,7 @@ export const Library: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -933,7 +933,7 @@ export const Plane: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -949,7 +949,7 @@ export const Leaf: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -966,7 +966,7 @@ export const Check: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -986,7 +986,7 @@ export const ShieldAlert: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1005,7 +1005,7 @@ export const Gamepad2: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1029,7 +1029,7 @@ export const GraduationCap: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1046,7 +1046,7 @@ export const Coins: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1065,7 +1065,7 @@ export const ArrowLeft: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1086,7 +1086,7 @@ export const ArrowRight: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1103,7 +1103,7 @@ export const Lightbulb: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1124,7 +1124,7 @@ export const TrendingUp: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1141,7 +1141,7 @@ export const Calendar: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1160,7 +1160,7 @@ export const Eye: React.FC<IconProps> = ({ size = 20, color = "currentColor", ..
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1177,7 +1177,7 @@ export const LogOut: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1195,7 +1195,7 @@ export const Settings: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1212,7 +1212,7 @@ export const Bell: React.FC<IconProps> = ({ size = 20, color = "currentColor", .
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1228,7 +1228,7 @@ export const Shield: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1244,7 +1244,7 @@ export const Trash2: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1260,7 +1260,7 @@ export const Download: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1276,7 +1276,7 @@ export const RotateCcw: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1297,7 +1297,7 @@ export const ChevronDown: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="2"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1317,7 +1317,7 @@ export const Smartphone: React.FC<IconProps> = ({
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1334,7 +1334,7 @@ export const MapPin: React.FC<IconProps> = ({ size = 20, color = "currentColor",
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1351,7 +1351,7 @@ export const Utensils: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1367,7 +1367,7 @@ export const Landmark: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1388,7 +1388,7 @@ export const Globe: React.FC<IconProps> = ({ size = 20, color = "currentColor", 
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1406,7 +1406,7 @@ export const Volume1: React.FC<IconProps> = ({ size = 20, color = "currentColor"
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1423,7 +1423,7 @@ export const ChevronUp: React.FC<IconProps> = ({ size = 20, color = "currentColo
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="2"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1439,7 +1439,7 @@ export const Dumbbell: React.FC<IconProps> = ({ size = 20, color = "currentColor
     viewBox="0 0 24 24"
     fill="none"
     stroke={color}
-    strokeWidth="1.75"
+    strokeWidth="2.5"
     strokeLinecap="round"
     strokeLinejoin="round"
     {...props}
@@ -1452,14 +1452,14 @@ export const Dumbbell: React.FC<IconProps> = ({ size = 20, color = "currentColor
 
 // Fallback dynamic icon component if needed
 export const Crown: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M2 4l3 12h14l3-12-5 4-5-4-5 4-1 0z"/>
     <path d="M5 16h14v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2z"/>
   </svg>
 );
 
 export const X: React.FC<IconProps> = ({ size = 20, color = "currentColor", ...props }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <line x1="18" y1="6" x2="6" y2="18"/>
     <line x1="6" y1="6" x2="18" y2="18"/>
   </svg>

@@ -38,6 +38,28 @@ function hashString(s: string): number {
   return h;
 }
 
+// Learning a language whose gloss is shown in that *same* language makes
+// every question and its own answer identical text (e.g. "What does X mean?"
+// with X itself listed as the correct option) — this happens whenever the
+// user's interface language and target language coincide (a valid combo the
+// UI doesn't block). Exported so every caller that builds a quiz prompt
+// (which itself is looked up by interface language) uses the SAME resolved
+// value as the one used to pick the vocabulary's gloss/example — previously
+// only getVocabularyForTopic applied this swap, so the answer *options*
+// correctly showed the swapped-language gloss while the *question template*
+// (built separately, by a sibling function receiving the raw un-swapped
+// value) stayed in the original language — a visible mismatch.
+export function resolveGlossLanguage(
+  targetLanguage: TargetLanguage,
+  requestedInterfaceLanguage: InterfaceLanguage,
+): InterfaceLanguage {
+  return requestedInterfaceLanguage === targetLanguage
+    ? targetLanguage === "pt"
+      ? "en"
+      : "pt"
+    : requestedInterfaceLanguage;
+}
+
 /**
  * Returns real, topic-matched vocabulary for a target language.
  *
@@ -63,18 +85,7 @@ export function getVocabularyForTopic(
     seed = topic,
   } = opts;
 
-  // Learning a language whose gloss is shown in that *same* language makes
-  // every question and its own answer identical text (e.g. "What does X
-  // mean?" with X itself listed as the correct option) — this happens
-  // whenever the user's interface language and target language coincide
-  // (a valid combination the UI doesn't block). Fall back to a different
-  // gloss language rather than ever rendering a degenerate quiz like that.
-  const interfaceLanguage: InterfaceLanguage =
-    requestedInterfaceLanguage === targetLanguage
-      ? targetLanguage === "pt"
-        ? "en"
-        : "pt"
-      : requestedInterfaceLanguage;
+  const interfaceLanguage = resolveGlossLanguage(targetLanguage, requestedInterfaceLanguage);
 
   const concepts = CONCEPTS_BY_TOPIC[topic] ?? [];
   if (concepts.length === 0) return [];

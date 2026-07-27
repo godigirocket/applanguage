@@ -72,6 +72,11 @@ interface LumeState {
   // Avatar
   avatarId: string | null;
   setAvatarId: (avatarId: string) => void;
+
+  // Kid Mode — set at onboarding, restricts content/community for ages 4-10
+  isKidAccount: boolean;
+  kidAge: number | null;
+  setKidAccount: (isKid: boolean, age?: number | null) => void;
 }
 
 type PersistedLumeState = Pick<
@@ -90,6 +95,8 @@ type PersistedLumeState = Pick<
   | "learningLevel"
   | "completedLessons"
   | "avatarId"
+  | "isKidAccount"
+  | "kidAge"
 >;
 
 const getLevelName = (xp: number): Level => {
@@ -175,6 +182,10 @@ export const useStore = create<LumeState>()(
 
       avatarId: null,
       setAvatarId: (avatarId) => set({ avatarId }),
+
+      isKidAccount: false,
+      kidAge: null,
+      setKidAccount: (isKid, age = null) => set({ isKidAccount: isKid, kidAge: isKid ? age : null }),
     }),
     {
       name: "lume-storage",
@@ -225,6 +236,8 @@ export const useStore = create<LumeState>()(
         learningLevel: state.learningLevel,
         completedLessons: state.completedLessons,
         avatarId: state.avatarId,
+        isKidAccount: state.isKidAccount,
+        kidAge: state.kidAge,
       }),
       onRehydrateStorage: () => (state) => {
         if (typeof window !== "undefined" && state?.interfaceLanguage) {

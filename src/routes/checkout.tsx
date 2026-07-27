@@ -21,7 +21,7 @@ const CHECKOUT_URL_BY_PLAN: Partial<Record<SubscriptionPlan, string | undefined>
 
 function CheckoutPage() {
   const nav = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { interfaceLanguage } = useStore();
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -32,10 +32,13 @@ function CheckoutPage() {
   const checkoutUrl = CHECKOUT_URL_BY_PLAN[planId];
 
   useEffect(() => {
-    if (!user) {
+    // Wait for the auth check to resolve — on a fresh page load (deep link,
+    // refresh, bookmark) `user` starts out null before the session loads,
+    // which was kicking out already-logged-in users straight to /login.
+    if (!authLoading && !user) {
       nav({ to: "/login", search: { redirect: "/pricing" } });
     }
-  }, [user, nav]);
+  }, [user, authLoading, nav]);
 
   const planName = plan ? (isPT ? plan.namePT : isES ? plan.nameES : plan.name) : planId;
 

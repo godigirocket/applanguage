@@ -36,9 +36,9 @@ export function DailyQuest() {
   const getQuestDetails = (questId: string) => {
     if (questId.includes("lesson") || questId.includes("li")) {
       return {
-        icon: <Book size={18} color="#ff7a45" />,
-        bgColor: "rgba(255,122,69, 0.1)",
-        borderColor: "rgba(255,122,69, 0.2)",
+        icon: <Book size={18} color="var(--brand)" />,
+        bgColor: "color-mix(in srgb, var(--brand) 10%, transparent)",
+        borderColor: "color-mix(in srgb, var(--brand) 20%, transparent)",
       };
     }
     if (
@@ -48,15 +48,15 @@ export function DailyQuest() {
       questId.includes("xp")
     ) {
       return {
-        icon: <Mic size={18} color="#C4714A" />,
-        bgColor: "rgba(196, 113, 74, 0.1)",
-        borderColor: "rgba(196, 113, 74, 0.2)",
+        icon: <Mic size={18} color="var(--brand-2)" />,
+        bgColor: "color-mix(in srgb, var(--brand-2) 10%, transparent)",
+        borderColor: "color-mix(in srgb, var(--brand-2) 20%, transparent)",
       };
     }
     return {
-      icon: <Bookmark size={18} color="#D4A23B" />,
-      bgColor: "rgba(212, 162, 59, 0.1)",
-      borderColor: "rgba(212, 162, 59, 0.2)",
+      icon: <Bookmark size={18} color="var(--accent)" />,
+      bgColor: "color-mix(in srgb, var(--accent) 10%, transparent)",
+      borderColor: "color-mix(in srgb, var(--accent) 20%, transparent)",
     };
   };
 

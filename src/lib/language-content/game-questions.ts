@@ -1,5 +1,5 @@
 import { generateVocabQuiz, generateGrammarQuiz, generateMixedQuiz } from "@/data/quizEngine";
-import { getVocabularyForTopic } from "./vocabulary-engine";
+import { getVocabularyForTopic, resolveGlossLanguage } from "./vocabulary-engine";
 import {
   generateQuizFromVocabulary,
   dedupeQuestions,
@@ -103,9 +103,10 @@ export function buildListeningQuestions(
   count: number,
   interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
+  const resolvedInterfaceLanguage = resolveGlossLanguage(targetLanguage, interfaceLanguage);
   const items = getVocabularyForTopic(topic, targetLanguage, {
     count: count * 2,
-    interfaceLanguage,
+    interfaceLanguage: resolvedInterfaceLanguage,
     seed: `listening-${topic}`,
   });
   return items.slice(0, count).map((item, i) => {
@@ -120,7 +121,7 @@ export function buildListeningQuestions(
       audioText: item.term,
       options,
       correctAnswer: item.term,
-      explanation: LISTENING_EXPLANATION[interfaceLanguage](item.term, item.translation),
+      explanation: LISTENING_EXPLANATION[resolvedInterfaceLanguage](item.term, item.translation),
     };
   });
 }
@@ -148,13 +149,24 @@ export function buildEngineChoiceQuestions(
   seed: string,
   interfaceLanguage: "en" | "es" | "pt" = "pt",
 ): UnifiedQuestion[] {
+  // Resolve once so the question template (built here) and the vocabulary's
+  // gloss/example (resolved again inside getVocabularyForTopic) always agree
+  // — previously each function computed this independently, and since
+  // getVocabularyForTopic received the raw un-swapped value under the hood
+  // while this prompt-building step used its own copy, a same-language combo
+  // (e.g. target=pt, interface=pt) produced English answer content under a
+  // Portuguese question template inconsistently, or vice versa.
+  const resolvedInterfaceLanguage = resolveGlossLanguage(targetLanguage, interfaceLanguage);
   const vocabulary = getVocabularyForTopic(topic, targetLanguage, {
     count,
     seed,
-    interfaceLanguage,
+    interfaceLanguage: resolvedInterfaceLanguage,
   });
   const questions = dedupeQuestions(
-    generateQuizFromVocabulary(vocabulary, targetLanguage, { seed, interfaceLanguage }),
+    generateQuizFromVocabulary(vocabulary, targetLanguage, {
+      seed,
+      interfaceLanguage: resolvedInterfaceLanguage,
+    }),
   );
   return questions.map((q) => ({
     id: q.id,

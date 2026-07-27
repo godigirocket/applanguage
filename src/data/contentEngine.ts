@@ -275,14 +275,41 @@ export const CITIES = [
 // CACHE per language
 const lessonsCache: Partial<Record<TargetLang, any[]>> = {};
 
+const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const TIER_TO_CEFR: Record<string, string> = {
+  beginner: "A1",
+  intermediate: "B1",
+  advanced: "C1",
+};
+
+// Onboarding stores a 3-tier word ("beginner"/"intermediate"/"advanced"),
+// while the in-app level modal/auto-adjust popup store a 6-tier CEFR code
+// ("A1".."C2") under the same `learningLevel`/`userLevel` fields — normalize
+// either shape to a CEFR anchor used to pick where a user's curriculum starts.
+export function normalizeStartLevel(rawLevel: string | undefined | null): string | undefined {
+  if (!rawLevel) return undefined;
+  const lower = rawLevel.toLowerCase();
+  if (TIER_TO_CEFR[lower]) return TIER_TO_CEFR[lower];
+  const upper = rawLevel.toUpperCase();
+  return CEFR_LEVELS.includes(upper) ? upper : undefined;
+}
+
+export function cefrToTier(cefr: string | undefined): string {
+  if (!cefr) return "All";
+  if (cefr.startsWith("A")) return "Beginner";
+  if (cefr.startsWith("B")) return "Intermediate";
+  if (cefr.startsWith("C")) return "Advanced";
+  return "All";
+}
+
 // Generate lessons filtered by target language from REAL masterContent
 export async function generateLessons(
   targetLanguage: TargetLang,
   count: number,
   completedLessons: string[] = [],
-  options: { progressiveLock?: boolean } = {},
+  options: { progressiveLock?: boolean; startLevel?: string } = {},
 ) {
-  const { progressiveLock = false } = options;
+  const { progressiveLock = false, startLevel } = options;
   let lessonsInLanguage = lessonsCache[targetLanguage];
   if (!lessonsInLanguage) {
     lessonsInLanguage = await loadLessonsForLanguage(targetLanguage);
@@ -298,13 +325,27 @@ export async function generateLessons(
     C2: "Advanced",
   };
 
+  // A user who picked "Advanced" at onboarding shouldn't have to grind through
+  // hundreds of A1 lessons first — find where their chosen level first shows
+  // up in the curriculum and treat everything before that as already unlocked
+  // (freely available for review), applying the strict sequential lock only
+  // from that point on.
+  const startIndex = startLevel
+    ? Math.max(
+        0,
+        lessonsInLanguage.findIndex((lesson) => lesson.level === startLevel),
+      )
+    : 0;
+
   return lessonsInLanguage.slice(0, count).map((lesson, i) => {
     const isCompleted = completedLessons.includes(lesson.id);
     // Duolingo-style progression: lesson N only unlocks once lesson N-1 (in
     // curriculum order) is completed. Callers that want quick access to
     // anything (e.g. the /home dashboard) opt out via progressiveLock=false.
     const locked =
-      progressiveLock && i > 0 && !completedLessons.includes(lessonsInLanguage[i - 1].id);
+      progressiveLock &&
+      i > startIndex &&
+      !completedLessons.includes(lessonsInLanguage[i - 1].id);
     return {
       id: lesson.id,
       lessonNumber: i + 1,

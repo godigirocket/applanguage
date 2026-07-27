@@ -8,6 +8,45 @@ export type Database = {
   };
   public: {
     Tables: {
+      community_posts: {
+        Row: {
+          id: string;
+          user_id: string;
+          author_name: string;
+          content: string;
+          post_type: string;
+          tags: string[];
+          likes: number;
+          comments: number;
+          shares: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          author_name: string;
+          content: string;
+          post_type?: string;
+          tags?: string[];
+          likes?: number;
+          comments?: number;
+          shares?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          author_name?: string;
+          content?: string;
+          post_type?: string;
+          tags?: string[];
+          likes?: number;
+          comments?: number;
+          shares?: number;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
       conversations: {
         Row: {
           created_at: string;
@@ -72,6 +111,8 @@ export type Database = {
           cakto_order_id: string | null;
           cakto_subscription_id: string | null;
           last_payment_status: string | null;
+          is_kid_account: boolean;
+          kid_age: number | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -97,6 +138,8 @@ export type Database = {
           cakto_order_id?: string | null;
           cakto_subscription_id?: string | null;
           last_payment_status?: string | null;
+          is_kid_account?: boolean;
+          kid_age?: number | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -122,6 +165,8 @@ export type Database = {
           cakto_order_id?: string | null;
           cakto_subscription_id?: string | null;
           last_payment_status?: string | null;
+          is_kid_account?: boolean;
+          kid_age?: number | null;
         };
         Relationships: [];
       };

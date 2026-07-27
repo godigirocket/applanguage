@@ -727,8 +727,30 @@ function QuizPage() {
           boxSizing: "border-box",
           position: "relative",
           zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
+        {!isAnswered && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{ display: "flex", justifyContent: "center", marginBottom: "8px" }}
+          >
+            <Mascot state="thinking" size={64} />
+          </motion.div>
+        )}
+        <div
+          style={{
+            background: "var(--card-bg)",
+            borderRadius: "24px",
+            padding: "clamp(20px, 4vw, 32px)",
+            border: "1.5px solid color-mix(in srgb, var(--brand) 22%, var(--border))",
+            borderTop: "5px solid var(--brand)",
+            boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+          }}
+        >
         {/* Category + level badges */}
         <div style={{ display: "flex", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
           <span
@@ -831,8 +853,13 @@ function QuizPage() {
               : "default";
 
             return (
-              <button
+              <motion.button
                 key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05 + i * 0.06 }}
+                whileHover={!isAnswered ? { scale: 1.015 } : {}}
+                whileTap={!isAnswered ? { scale: 0.98 } : {}}
                 onClick={() => !isAnswered && handleAnswer(option)}
                 style={{
                   padding: "18px 24px",
@@ -881,7 +908,7 @@ function QuizPage() {
                 <span>{option}</span>
                 {state === "correct" && <span style={{ fontSize: "20px" }}>✅</span>}
                 {state === "wrong" && <span style={{ fontSize: "20px" }}>❌</span>}
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -917,6 +944,7 @@ function QuizPage() {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Bottom continue button */}

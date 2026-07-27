@@ -159,7 +159,8 @@ function QuizHubPage() {
                   style={{
                     padding: "24px",
                     borderRadius: "24px",
-                    border: "1.5px solid var(--border)",
+                    border: `1.5px solid color-mix(in srgb, ${quiz.color} 30%, var(--border))`,
+                    borderLeft: `5px solid ${quiz.color}`,
                     background: "var(--surface-raised)",
                     display: "flex",
                     alignItems: "center",
@@ -171,10 +172,11 @@ function QuizHubPage() {
                       width: "64px",
                       height: "64px",
                       borderRadius: "18px",
-                      background: `rgba(0,0,0,0.03)`,
+                      background: `color-mix(in srgb, ${quiz.color} 16%, transparent)`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
+                      flexShrink: 0,
                     }}
                   >
                     <CategoryIllustration category={quiz.category as any} size={36} />

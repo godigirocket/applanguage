@@ -52,7 +52,8 @@ const ACTIVE_FRIENDS = SIMULATED_USERS.slice(0, 6);
 function HomePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, xp, streak, targetLanguage, completedLessons } = useStore();
+  const { interfaceLanguage, xp, streak, targetLanguage, completedLessons, isKidAccount } =
+    useStore();
   const [profile, setProfile] = useState<any>(null);
   const [loadingData, setLoadingData] = useState(true);
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -951,7 +952,9 @@ function HomePage() {
             </div>
           </section>
 
-          {/* ACTIVE FRIENDS - Social */}
+          {/* ACTIVE FRIENDS - Social (hidden entirely for Kid accounts — no
+              social feed exposure) */}
+          {!isKidAccount && (
           <section style={{ marginBottom: "64px" }}>
             <div
               style={{
@@ -1069,6 +1072,7 @@ function HomePage() {
               ))}
             </div>
           </section>
+          )}
         </main>
       </div>
 

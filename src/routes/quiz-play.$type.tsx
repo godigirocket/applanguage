@@ -21,9 +21,17 @@ import { BookX } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import { TopicScenario } from "@/components/lume/TopicScenario";
+import { Mascot } from "@/components/lume/Mascot";
 
 function scenarioTopicForType(type: string): LessonTopic {
   return (ALL_TOPICS as string[]).includes(type) ? (type as LessonTopic) : pickRotatingTopic(type);
+}
+
+const QUIZ_ACCENT_COLORS = ["#AC5CF6", "#1CB0F6", "#14B8A6", "#FF4B4B", "#2FBB52", "#FFC200"];
+function accentColorForType(type: string): string {
+  let h = 0;
+  for (let i = 0; i < type.length; i++) h = (Math.imul(31, h) + type.charCodeAt(i)) | 0;
+  return QUIZ_ACCENT_COLORS[Math.abs(h) % QUIZ_ACCENT_COLORS.length];
 }
 
 export const Route = createFileRoute("/quiz-play/$type")({
@@ -35,6 +43,7 @@ function QuizPlayPage() {
   const nav = useNavigate();
   const { targetLanguage, interfaceLanguage, addXP } = useStore();
   const isPT = interfaceLanguage === "pt";
+  const accentColor = accentColorForType(type);
 
   const [questions, setQuestions] = useState<UnifiedQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -202,7 +211,7 @@ function QuizPlayPage() {
             style={{
               width: `${isFinished ? 100 : progress}%`,
               height: "100%",
-              background: "var(--accent-green)",
+              background: accentColor,
               transition: "width 0.3s ease",
             }}
           />
@@ -232,6 +241,16 @@ function QuizPlayPage() {
               exit={{ opacity: 0, x: -20 }}
               style={{ width: "100%", maxWidth: "500px" }}
             >
+              {currentQ.kind !== "pronunciation" && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}
+                >
+                  <Mascot state="thinking" size={64} />
+                </motion.div>
+              )}
+
               {currentQ.kind === "choice" && (
                 <MultipleChoice
                   question={currentQ.prompt}
@@ -240,6 +259,7 @@ function QuizPlayPage() {
                   explanation={currentQ.explanation}
                   explanationLabel={isPT ? "Explicação:" : "Explanation:"}
                   onAnswer={handleAnswer}
+                  accentColor={accentColor}
                 />
               )}
 
@@ -251,6 +271,7 @@ function QuizPlayPage() {
                   explanation={currentQ.explanation}
                   explanationLabel={isPT ? "Explicação:" : "Explanation:"}
                   onAnswer={handleAnswer}
+                  accentColor={accentColor}
                 />
               )}
 
@@ -263,6 +284,7 @@ function QuizPlayPage() {
                   targetLanguage={targetLanguage}
                   isPT={isPT}
                   onAnswer={handleAnswer}
+                  accentColor={accentColor}
                 />
               )}
 
@@ -368,6 +390,7 @@ function ListeningQuestion({
   targetLanguage,
   isPT,
   onAnswer,
+  accentColor = "var(--brand)",
 }: {
   audioText: string;
   options: string[];
@@ -376,6 +399,7 @@ function ListeningQuestion({
   targetLanguage: "en" | "es" | "pt";
   isPT: boolean;
   onAnswer: (isCorrect: boolean) => void;
+  accentColor?: string;
 }) {
   const ttsSupported = isTTSSupported();
 
@@ -395,7 +419,7 @@ function ListeningQuestion({
             height: "64px",
             borderRadius: "50%",
             border: "none",
-            background: "var(--brand)",
+            background: accentColor,
             color: "#fff",
             display: "flex",
             alignItems: "center",
@@ -423,6 +447,7 @@ function ListeningQuestion({
         explanation={explanation}
         explanationLabel={isPT ? "Explicação:" : "Explanation:"}
         onAnswer={onAnswer}
+        accentColor={accentColor}
       />
     </div>
   );

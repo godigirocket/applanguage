@@ -25,7 +25,7 @@ export const Route = createFileRoute("/onboarding")({
   component: OnboardingPage,
 });
 
-const STEPS = [
+const BASE_STEPS = [
   {
     id: 1,
     question: "Qual idioma você quer aprender?",
@@ -48,19 +48,45 @@ const STEPS = [
       { label: "Avançado", val: "advanced", icon: <Flame size={20} /> },
     ],
   },
+  {
+    id: 3,
+    question: "Para quem é essa conta?",
+    field: "account_type",
+    type: "options",
+    options: [
+      { label: "Para mim", val: "adult", icon: <Star size={20} /> },
+      { label: "Para uma criança (4-10 anos)", val: "kid", icon: <Heart size={20} /> },
+    ],
+  },
 ];
+
+const KID_AGE_STEP = {
+  id: 4,
+  question: "Qual a idade da criança?",
+  field: "kid_age",
+  type: "options",
+  options: [
+    { label: "4-6 anos", val: "5", icon: <Sprout size={20} /> },
+    { label: "7-8 anos", val: "7", icon: <Star size={20} /> },
+    { label: "9-10 anos", val: "9", icon: <Flame size={20} /> },
+  ],
+};
+
+function getSteps(answers: Record<string, string>) {
+  return answers.account_type === "kid" ? [...BASE_STEPS, KID_AGE_STEP] : BASE_STEPS;
+}
 
 function OnboardingPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, setTargetLanguage, setLearningLevel } = useStore();
+  const { interfaceLanguage, setTargetLanguage, setLearningLevel, setKidAccount } = useStore();
   const { setUserLevel } = useUserStore();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [textVal, setTextVal] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
   const isPT = interfaceLanguage === "pt";
+  const steps = getSteps(answers);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -68,56 +94,15 @@ function OnboardingPage() {
     }
   }, [user, loading, nav]);
 
-  // Load name/email from profile if already available to pre-fill
-  useEffect(() => {
-    if (user) {
-      supabase
-        .from("profiles")
-        .select("full_name")
-        .eq("id", user.id)
-        .maybeSingle()
-        .then(
-          ({ data }) => {
-            if (data?.full_name) {
-              setTextVal(data.full_name);
-            }
-          },
-          (err: unknown) => {
-            // Non-critical prefill; a network failure here must not surface as an
-            // unhandled promise rejection / blank screen.
-            console.warn("[Onboarding] Could not prefill profile:", err);
-          },
-        );
-    }
-  }, [user]);
-
-  const handleNextText = () => {
-    if (!textVal.trim()) {
-      toast.error(
-        isPT
-          ? "Por favor, preencha o campo antes de continuar!"
-          : "Please fill in the field before continuing!",
-      );
-      return;
-    }
-    const currentField = STEPS[step].field;
-    const newAnswers = { ...answers, [currentField]: textVal };
-    setAnswers(newAnswers);
-    setTextVal(""); // Reset text value for the next input step
-
-    if (step < STEPS.length - 1) {
-      setStep(step + 1);
-    } else {
-      finish(newAnswers);
-    }
-  };
-
   const handleSelect = async (val: string) => {
-    const currentField = STEPS[step].field;
+    const currentField = steps[step].field;
     const newAnswers = { ...answers, [currentField]: val };
     setAnswers(newAnswers);
 
-    if (step < STEPS.length - 1) {
+    // Recompute against the *new* answers — selecting "kid" for account_type
+    // inserts an extra age step that doesn't exist in the step list yet.
+    const nextSteps = getSteps(newAnswers);
+    if (step < nextSteps.length - 1) {
       setStep(step + 1);
     } else {
       await finish(newAnswers);
@@ -156,6 +141,14 @@ function OnboardingPage() {
     localStorage.setItem("lume_user_level", cefrAnchor);
     localStorage.setItem("lume_level", cefrAnchor);
 
+    // Kid Mode: gates Community access and simplifies the lesson catalog
+    // (see community.tsx / lessons.tsx) — applied locally first, same as
+    // every other onboarding choice, so it works even if the profile write
+    // below fails.
+    const isKid = finalAnswers.account_type === "kid";
+    const kidAge = isKid ? parseInt(finalAnswers.kid_age || "5", 10) : null;
+    setKidAccount(isKid, kidAge);
+
     try {
       const { error } = await supabase
         .from("profiles")
@@ -165,6 +158,8 @@ function OnboardingPage() {
           level: chosenLevel,
           onboarding_done: true,
           onboarding_answers: finalAnswers,
+          is_kid_account: isKid,
+          kid_age: kidAge,
         } as any)
         .eq("id", user.id);
 
@@ -192,7 +187,7 @@ function OnboardingPage() {
     }
   };
 
-  const currentStepData = STEPS[step];
+  const currentStepData = steps[step];
 
   return (
     <div
@@ -266,8 +261,8 @@ function OnboardingPage() {
                 }}
               >
                 {isPT
-                  ? `Passo ${step + 1} de ${STEPS.length}`
-                  : `Step ${step + 1} of ${STEPS.length}`}
+                  ? `Passo ${step + 1} de ${steps.length}`
+                  : `Step ${step + 1} of ${steps.length}`}
               </span>
             </div>
 
@@ -288,7 +283,7 @@ function OnboardingPage() {
               style={{
                 height: "100%",
                 background: "linear-gradient(90deg, var(--accent-green), #40A878)",
-                width: `${((step + 1) / STEPS.length) * 100}%`,
+                width: `${((step + 1) / steps.length) * 100}%`,
                 transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
@@ -310,67 +305,7 @@ function OnboardingPage() {
                 {currentStepData.question}
               </h2>
 
-              {currentStepData.type === "text" || currentStepData.type === "number" ? (
-                <div className="space-y-4">
-                  <input
-                    type={currentStepData.type}
-                    placeholder={currentStepData.placeholder}
-                    value={textVal}
-                    onChange={(e) => setTextVal(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleNextText()}
-                    autoFocus
-                    style={{
-                      width: "100%",
-                      textAlign: "center",
-                      fontSize: "18px",
-                      padding: "14px 18px",
-                      borderRadius: "16px",
-                      border: "1.5px solid var(--border)",
-                      background: "var(--bg)",
-                      color: "var(--text-primary)",
-                      outline: "none",
-                    }}
-                    className="focus:border-accent-green"
-                  />
-
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={handleNextText}
-                    style={{
-                      width: "100%",
-                      padding: "14px",
-                      borderRadius: "16px",
-                      background: "var(--accent-green)",
-                      color: "var(--surface-raised)",
-                      border: "none",
-                      fontWeight: 700,
-                      fontSize: "15px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "8px",
-                      cursor: "pointer",
-                      boxShadow: "0 4px 12px rgba(45,106,79,0.15)",
-                    }}
-                  >
-                    <span>{isPT ? "Avançar" : "Continue"}</span>
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                    >
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </motion.button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2.5">
+              <div className="flex flex-col gap-2.5">
                   {currentStepData.options?.map((opt) => (
                     <motion.button
                       key={opt.val}
@@ -415,7 +350,6 @@ function OnboardingPage() {
                     </motion.button>
                   ))}
                 </div>
-              )}
             </motion.div>
           </AnimatePresence>
         </div>

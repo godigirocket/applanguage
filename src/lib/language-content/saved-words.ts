@@ -7,6 +7,7 @@ import type {
   VocabularyItem,
 } from "./types";
 import { generateQuizFromVocabulary } from "./quiz-engine";
+import { resolveGlossLanguage } from "./vocabulary-engine";
 
 const STORAGE_KEY = "lume-saved-words";
 
@@ -131,6 +132,6 @@ export function generateReviewQuiz(
 
   return generateQuizFromVocabulary(vocabulary, targetLanguage, {
     seed: "review",
-    interfaceLanguage,
+    interfaceLanguage: resolveGlossLanguage(targetLanguage, interfaceLanguage),
   });
 }

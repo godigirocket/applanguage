@@ -9,6 +9,7 @@ interface MultipleChoiceProps {
   explanation?: string;
   explanationLabel?: string;
   onAnswer: (isCorrect: boolean) => void;
+  accentColor?: string;
 }
 
 export function MultipleChoice({
@@ -18,6 +19,7 @@ export function MultipleChoice({
   explanation,
   explanationLabel = "Explicação:",
   onAnswer,
+  accentColor = "var(--brand)",
 }: MultipleChoiceProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -36,7 +38,22 @@ export function MultipleChoice({
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%" }}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "24px",
+        width: "100%",
+        background: "var(--card-bg)",
+        borderRadius: "24px",
+        padding: "clamp(20px, 4vw, 32px)",
+        border: `1.5px solid color-mix(in srgb, ${accentColor} 25%, var(--border))`,
+        borderTop: `5px solid ${accentColor}`,
+        boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+      }}
+    >
       <h3
         style={{
           fontSize: "22px",
@@ -54,8 +71,8 @@ export function MultipleChoice({
           const isCorrect = isAnswered && opt === correctAnswer;
           const isWrong = isAnswered && isSelected && opt !== correctAnswer;
 
-          let bgColor = "var(--surface)";
-          let borderColor = "var(--border)";
+          let bgColor = "var(--card-bg)";
+          let borderColor = `color-mix(in srgb, ${accentColor} 25%, var(--border))`;
           let color = "var(--text-primary)";
 
           if (isCorrect) {
@@ -74,6 +91,9 @@ export function MultipleChoice({
           return (
             <motion.button
               key={idx}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.05 + idx * 0.06 }}
               whileHover={!isAnswered ? { scale: 1.02 } : {}}
               whileTap={!isAnswered ? { scale: 0.98 } : {}}
               onClick={() => handleSelect(opt)}
@@ -121,6 +141,6 @@ export function MultipleChoice({
           </p>
         </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

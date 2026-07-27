@@ -11,6 +11,7 @@ import {
   ArrowRight,
   MessageCircle,
 } from "@/components/lume/CustomIcons";
+import { FlagByEmoji } from "@/components/lume/Flags";
 
 export const Route = createFileRoute("/culture/")({
   head: () => ({
@@ -198,42 +199,61 @@ function CulturePage() {
               style={{
                 background: "var(--surface-raised)",
                 borderRadius: "20px",
-                padding: "24px",
+                overflow: "hidden",
                 border: "1.5px solid var(--border)",
                 cursor: "pointer",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease",
                 position: "relative",
-                overflow: "hidden",
               }}
               whileHover={{
                 y: -4,
                 boxShadow: "0 12px 32px rgba(0,0,0,0.08)",
               }}
             >
-              {/* Top row: flag + country */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: "16px",
-                }}
-              >
-                <div style={{ fontSize: "40px", lineHeight: 1 }}>{city.flag}</div>
+              {/* Themed banner strip, same gradient as the city's detail page */}
+              <div style={{ background: city.gradient, height: "56px" }} />
+
+              <div style={{ padding: "24px", position: "relative" }}>
+                {/* Top row: flag + country */}
                 <div
                   style={{
-                    padding: "4px 10px",
-                    background: "var(--bg)",
-                    borderRadius: "8px",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "var(--text-secondary)",
-                    border: "1px solid var(--border)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginBottom: "16px",
+                    marginTop: "-46px",
                   }}
                 >
-                  {city.language}
+                  <div
+                    style={{
+                      width: "56px",
+                      height: "56px",
+                      borderRadius: "16px",
+                      background: "var(--surface-raised)",
+                      border: "3px solid var(--surface-raised)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                    }}
+                  >
+                    <FlagByEmoji emoji={city.flag} size={34} />
+                  </div>
+                  <div
+                    style={{
+                      padding: "4px 10px",
+                      background: "var(--bg)",
+                      borderRadius: "8px",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      color: "var(--text-secondary)",
+                      border: "1px solid var(--border)",
+                      marginTop: "46px",
+                    }}
+                  >
+                    {city.language}
+                  </div>
                 </div>
-              </div>
 
               {/* City name */}
               <h3
@@ -317,6 +337,7 @@ function CulturePage() {
                 >
                   <ArrowRight size={14} color="var(--text-secondary)" />
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}
