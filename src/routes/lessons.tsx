@@ -23,9 +23,12 @@ import {
   ChevronRight,
   Lock,
 } from "@/components/lume/CustomIcons";
-import { generateLessons } from "@/data/contentEngine";
+import { generateLessons, normalizeStartLevel, cefrToTier } from "@/data/contentEngine";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
+import { useUserStore } from "@/store/userStore";
+import { FlagBR, FlagUS, FlagES } from "@/components/lume/Flags";
+import { LessonPath } from "@/components/lume/LessonPath";
 
 export const Route = createFileRoute("/lessons")({
   head: () => ({
@@ -51,18 +54,35 @@ const CATEGORIES = [
   { id: "idioms", label: "Idioms", icon: BookOpen },
 ];
 
+// One deliberate color + icon per category, so the catalog reads as a set of
+// distinct subjects (Duolingo-style) instead of an undifferentiated list.
+const CATEGORY_STYLE: Record<string, { color: string; icon: typeof Sparkles }> = {
+  vocabulary: { color: "var(--brand-purple)", icon: Sparkles },
+  grammar: { color: "var(--brand-blue)", icon: Book },
+  listening: { color: "var(--brand-teal)", icon: Volume2 },
+  speaking: { color: "var(--brand-red)", icon: Mic },
+  idioms: { color: "var(--brand-green)", icon: BookOpen },
+};
+const DEFAULT_CATEGORY_STYLE = { color: "var(--brand)", icon: Book };
+
 function LessonsPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const { interfaceLanguage, targetLanguage, completedLessons, completeLesson, addXP } = useStore();
+  const { interfaceLanguage, targetLanguage, completedLessons, completeLesson, addXP, learningLevel } =
+    useStore();
+  const { userLevel } = useUserStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLevel, setSelectedLevel] = useState("All");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showFilters, setShowFilters] = useState(false);
+  const [levelFilterExplicit, setLevelFilterExplicit] = useState(false);
   const PAGE_SIZE = 30;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const isPT = interfaceLanguage === "pt";
+  // Whichever level system set a value (onboarding's 3-tier word or the
+  // in-app A1-C2 modal) — normalized to a CEFR anchor for the curriculum.
+  const startLevel = normalizeStartLevel(userLevel || learningLevel);
 
   // Debounce the search text so filtering ~700 lessons doesn't run on every
   // keystroke — only 250ms after the user stops typing.
@@ -96,7 +116,10 @@ function LessonsPage() {
       if (saved) {
         const filters = JSON.parse(saved);
         setSearchQuery(filters.searchQuery || "");
-        setSelectedLevel(filters.selectedLevel || "All");
+        if (filters.selectedLevel) {
+          setSelectedLevel(filters.selectedLevel);
+          setLevelFilterExplicit(true);
+        }
         setSelectedCategory(filters.selectedCategory || "all");
       }
     } catch (e) {
@@ -104,21 +127,31 @@ function LessonsPage() {
     }
   }, []);
 
+  // Once the user's chosen level (onboarding or the A1-C2 modal) is known,
+  // default the level filter to it — unless they've already picked one
+  // explicitly (from localStorage or by clicking a pill this session).
+  useEffect(() => {
+    if (!levelFilterExplicit && startLevel) {
+      setSelectedLevel(cefrToTier(startLevel));
+    }
+  }, [startLevel, levelFilterExplicit]);
+
   // Real lessons for the current target language, loaded from the same
   // masterContent source /home uses — previously this page (and the lesson
   // viewer it links to) used a separate, disconnected legacy catalog.
   const [lessonsInTargetLanguage, setLessonsInTargetLanguage] = useState<any[]>([]);
   useEffect(() => {
     let cancelled = false;
-    generateLessons(targetLanguage, Infinity, completedLessons, { progressiveLock: true }).then(
-      (lessons) => {
-        if (!cancelled) setLessonsInTargetLanguage(lessons);
-      },
-    );
+    generateLessons(targetLanguage, Infinity, completedLessons, {
+      progressiveLock: true,
+      startLevel,
+    }).then((lessons) => {
+      if (!cancelled) setLessonsInTargetLanguage(lessons);
+    });
     return () => {
       cancelled = true;
     };
-  }, [targetLanguage, completedLessons]);
+  }, [targetLanguage, completedLessons, startLevel]);
 
   const contentCounts = {
     lessons: lessonsInTargetLanguage.length,
@@ -225,9 +258,9 @@ function LessonsPage() {
                   {isPT ? "Estudando:" : "Studying:"}
                 </div>
                 {[
-                  { code: "en" as const, label: isPT ? "Inglês" : "English", flag: "🇬🇧" },
-                  { code: "es" as const, label: isPT ? "Espanhol" : "Spanish", flag: "🇪🇸" },
-                  { code: "pt" as const, label: isPT ? "Português" : "Portuguese", flag: "🇧🇷" },
+                  { code: "en" as const, label: isPT ? "Inglês" : "English", Flag: FlagUS },
+                  { code: "es" as const, label: isPT ? "Espanhol" : "Spanish", Flag: FlagES },
+                  { code: "pt" as const, label: isPT ? "Português" : "Portuguese", Flag: FlagBR },
                 ].map((lang) => (
                   <button
                     key={lang.code}
@@ -237,6 +270,7 @@ function LessonsPage() {
                       setSearchQuery("");
                       setSelectedLevel("All");
                       setSelectedCategory("all");
+                      setLevelFilterExplicit(false);
                     }}
                     style={{
                       padding: "8px 16px",
@@ -257,7 +291,7 @@ function LessonsPage() {
                       gap: "8px",
                     }}
                   >
-                    <span style={{ fontSize: "18px" }}>{lang.flag}</span>
+                    <lang.Flag size={20} />
                     {lang.label}
                   </button>
                 ))}
@@ -328,25 +362,25 @@ function LessonsPage() {
                     icon: Book,
                     label: isPT ? "Lições" : "Lessons",
                     value: contentCounts.lessons.toLocaleString(),
-                    color: "#FFD700",
+                    color: "#FFC200",
                   },
                   {
                     icon: Globe,
                     label: isPT ? "Idiomas" : "Languages",
                     value: contentCounts.languages,
-                    color: "#FF6B35",
+                    color: "#1CB0F6",
                   },
                   {
                     icon: Star,
                     label: isPT ? "Níveis" : "Levels",
                     value: contentCounts.levels,
-                    color: "#4CAF50",
+                    color: "#2FBB52",
                   },
                   {
                     icon: Target,
                     label: isPT ? "Categorias" : "Categories",
                     value: contentCounts.categories,
-                    color: "#3498DB",
+                    color: "#AC5CF6",
                   },
                 ].map((stat, i) => (
                   <motion.div
@@ -363,7 +397,7 @@ function LessonsPage() {
                       textAlign: "center",
                     }}
                   >
-                    <stat.icon size={24} color="white" style={{ marginBottom: "8px" }} />
+                    <stat.icon size={24} color={stat.color} style={{ marginBottom: "8px" }} />
                     <div style={{ fontSize: "clamp(20px, 4vw, 28px)", fontWeight: 900 }}>
                       {stat.value}
                     </div>
@@ -492,7 +526,10 @@ function LessonsPage() {
                         {LEVELS.map((level) => (
                           <button
                             key={level}
-                            onClick={() => setSelectedLevel(level)}
+                            onClick={() => {
+                              setSelectedLevel(level);
+                              setLevelFilterExplicit(true);
+                            }}
                             style={{
                               padding: "6px 14px",
                               borderRadius: "99px",
@@ -526,7 +563,10 @@ function LessonsPage() {
                         {isPT ? "Categoria" : "Category"}
                       </div>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                        {CATEGORIES.map((cat) => (
+                        {CATEGORIES.map((cat) => {
+                          const catColor = CATEGORY_STYLE[cat.id]?.color || "var(--brand)";
+                          const isActive = selectedCategory === cat.id;
+                          return (
                           <button
                             key={cat.id}
                             onClick={() => setSelectedCategory(cat.id)}
@@ -536,10 +576,11 @@ function LessonsPage() {
                               gap: "6px",
                               padding: "6px 14px",
                               borderRadius: "99px",
-                              border: "1.5px solid var(--border)",
-                              background:
-                                selectedCategory === cat.id ? "var(--brand)" : "var(--bg)",
-                              color: selectedCategory === cat.id ? "white" : "var(--text-primary)",
+                              border: `1.5px solid ${isActive ? catColor : "var(--border)"}`,
+                              background: isActive
+                                ? catColor
+                                : "var(--bg)",
+                              color: isActive ? "white" : "var(--text-primary)",
                               fontSize: "13px",
                               fontWeight: 700,
                               cursor: "pointer",
@@ -549,7 +590,8 @@ function LessonsPage() {
                             <cat.icon size={14} />
                             {cat.label}
                           </button>
-                        ))}
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -581,6 +623,20 @@ function LessonsPage() {
             padding: "clamp(24px, 5vw, 40px) clamp(16px, 3vw, 24px)",
           }}
         >
+          {/* PROGRESS PATH — Duolingo-style vertical lesson tree (shows when no filters active) */}
+          {selectedCategory === "all" && selectedLevel !== "All" && !debouncedQuery && (
+            <section style={{ marginBottom: "40px" }}>
+              <h2 style={{ fontSize: "20px", fontWeight: 900, color: "var(--text-primary)", textAlign: "center", marginBottom: "8px" }}>
+                {isPT ? "Seu Caminho" : "Your Path"}
+              </h2>
+              <p style={{ fontSize: "14px", color: "var(--text-secondary)", textAlign: "center", marginBottom: "16px" }}>
+                {isPT ? "Complete as lições em ordem para desbloquear a próxima" : "Complete lessons in order to unlock the next one"}
+              </p>
+              <LessonPath lessons={filteredLessons} maxVisible={15} />
+            </section>
+          )}
+
+          {/* GRID VIEW — full catalog */}
           <div
             style={{
               display: "grid",
@@ -588,7 +644,10 @@ function LessonsPage() {
               gap: "clamp(16px, 3vw, 24px)",
             }}
           >
-            {filteredLessons.slice(0, visibleCount).map((lesson, i) => (
+            {filteredLessons.slice(0, visibleCount).map((lesson, i) => {
+              const categoryStyle = CATEGORY_STYLE[lesson.category] || DEFAULT_CATEGORY_STYLE;
+              const CategoryIcon = categoryStyle.icon;
+              return (
               <motion.div
                 key={lesson.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -596,17 +655,14 @@ function LessonsPage() {
                 transition={{ delay: Math.min(i, 20) * 0.02 }}
                 whileHover={lesson.locked ? {} : { y: -6 }}
                 onClick={() => handleLessonClick(lesson)}
+                className="card-duo"
                 style={{
-                  background: "var(--card-bg)",
-                  borderRadius: "20px",
                   overflow: "hidden",
-                  border: "1.5px solid",
-                  borderColor: lesson.locked ? "rgba(0,0,0,0.05)" : "rgba(0,0,0,0.08)",
+                  borderTop: `4px solid ${lesson.locked ? "var(--border)" : categoryStyle.color}`,
                   cursor: lesson.locked ? "not-allowed" : "pointer",
-                  transition: "all 0.3s ease",
-                  boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
                   opacity: lesson.locked ? 0.75 : 1,
                   position: "relative",
+                  padding: 0,
                 }}
               >
                 {/* Lock overlay */}
@@ -648,7 +704,7 @@ function LessonsPage() {
                     <div
                       style={{
                         height: "100%",
-                        background: lesson.completed ? "#4CAF50" : "var(--brand)",
+                        background: lesson.completed ? "#2FBB52" : categoryStyle.color,
                         width: `${lesson.progress}%`,
                         transition: "width 0.3s",
                       }}
@@ -657,6 +713,20 @@ function LessonsPage() {
                 )}
 
                 <div style={{ padding: "24px" }}>
+                  <div
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "12px",
+                      background: `color-mix(in srgb, ${categoryStyle.color} 16%, transparent)`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: "14px",
+                    }}
+                  >
+                    <CategoryIcon size={22} color={categoryStyle.color} />
+                  </div>
                   <div
                     style={{
                       display: "flex",
@@ -711,11 +781,11 @@ function LessonsPage() {
                     <span
                       style={{
                         padding: "4px 10px",
-                        background: "rgba(52,152,219,0.1)",
+                        background: `color-mix(in srgb, ${categoryStyle.color} 12%, transparent)`,
                         borderRadius: "6px",
                         fontSize: "11px",
                         fontWeight: 800,
-                        color: "#3498DB",
+                        color: categoryStyle.color,
                       }}
                     >
                       {lesson.type}
@@ -800,7 +870,8 @@ function LessonsPage() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </div>
 
           {filteredLessons.length > visibleCount && (

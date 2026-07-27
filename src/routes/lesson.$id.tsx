@@ -782,20 +782,14 @@ function LessonPage() {
 
               <button
                 onClick={() => setStep("vocab")}
+                className="btn-3d btn-3d-green"
                 style={{
                   width: "100%",
-                  padding: "16px",
-                  borderRadius: "14px",
-                  background: `linear-gradient(135deg, ${color}, ${color}cc)`,
-                  color: "white",
-                  border: "none",
+                  padding: "18px",
                   fontSize: "16px",
-                  fontWeight: 800,
-                  cursor: "pointer",
-                  boxShadow: `0 6px 20px ${color}44`,
                 }}
               >
-                {isPT ? "Iniciar Lição →" : "Start Lesson →"}
+                {isPT ? "INICIAR LIÇÃO" : "START LESSON"}
               </button>
             </motion.div>
           </main>
@@ -1353,50 +1347,24 @@ function LessonPage() {
                         initial={{ opacity: 0, x: -12 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.05 + i * 0.06 }}
-                        whileHover={answered ? undefined : { scale: 1.015 }}
-                        whileTap={answered ? undefined : { scale: 0.98 }}
                         onClick={() => handleAnswer(opt)}
+                        className={`quiz-option ${state === "correct" ? "quiz-option-correct animate-celebrate" : state === "wrong" ? "quiz-option-wrong animate-shake" : ""}`}
                         style={{
-                          padding: "16px 20px",
-                          borderRadius: "14px",
-                          textAlign: "left",
-                          fontSize: "15px",
-                          fontWeight: 600,
                           cursor: answered ? "default" : "pointer",
-                          border:
-                            state === "correct"
-                              ? "2px solid #4CAF50"
-                              : state === "wrong"
-                                ? "2px solid #E74C3C"
-                                : `2px solid color-mix(in srgb, ${color} 20%, var(--border))`,
-                          background:
-                            state === "correct"
-                              ? "rgba(76,175,80,0.1)"
-                              : state === "wrong"
-                                ? "rgba(231,76,60,0.1)"
-                                : "var(--card-bg)",
-                          color:
-                            state === "correct"
-                              ? "#4CAF50"
-                              : state === "wrong"
-                                ? "#E74C3C"
-                                : "var(--text-primary)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          transition: "all 0.15s",
+                          pointerEvents: answered ? "none" : "auto",
                         }}
                       >
-                        <span>{opt}</span>
+                        <span className="quiz-option-number">{i + 1}</span>
+                        <span style={{ flex: 1 }}>{opt}</span>
                         {state === "correct" && (
                           <CheckCircle
-                            size={18}
-                            color="#4CAF50"
+                            size={20}
+                            color="#58CC02"
                             aria-label={isPT ? "Correto" : "Correct"}
                           />
                         )}
                         {state === "wrong" && (
-                          <span style={{ fontSize: "18px", color: "#E74C3C" }}>✕</span>
+                          <span style={{ fontSize: "20px", color: "#FF4B4B", fontWeight: 900 }}>✕</span>
                         )}
                       </motion.button>
                     );
@@ -1460,29 +1428,18 @@ function LessonPage() {
                 {answered && (
                   <button
                     onClick={nextQuiz}
+                    className="btn-3d btn-3d-green"
                     style={{
                       width: "100%",
                       padding: "16px",
-                      borderRadius: "12px",
-                      border: "none",
-                      background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
-                      color: "white",
-                      fontSize: "15px",
-                      fontWeight: 800,
-                      cursor: "pointer",
-                      boxShadow: "0 4px 16px rgba(255,122,69,0.3)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "8px",
                     }}
                   >
                     {quizIdx + 1 < quiz.length ? (
-                      <>{isPT ? "Próxima →" : "Next →"}</>
+                      <>{isPT ? "CONTINUAR" : "CONTINUE"}</>
                     ) : (
                       <>
                         <Trophy size={18} aria-hidden="true" />{" "}
-                        {isPT ? "Ver Resultado →" : "See Results →"}
+                        {isPT ? "VER RESULTADO" : "SEE RESULTS"}
                       </>
                     )}
                   </button>
@@ -1618,20 +1575,13 @@ function LessonPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 <button
                   onClick={handleNextLesson}
+                  className="btn-3d btn-3d-green"
                   style={{
                     width: "100%",
-                    padding: "16px",
-                    borderRadius: "12px",
-                    border: "none",
-                    background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
-                    color: "white",
-                    fontSize: "15px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                    boxShadow: "0 4px 16px rgba(255,122,69,0.3)",
+                    padding: "18px",
                   }}
                 >
-                  {isPT ? "Próxima Lição →" : "Next Lesson →"}
+                  {isPT ? "PRÓXIMA LIÇÃO" : "NEXT LESSON"}
                 </button>
                 <button
                   onClick={() => {
@@ -1645,39 +1595,25 @@ function LessonPage() {
                       toast.success(isPT ? "Copiado!" : "Copied!");
                     }
                   }}
+                  className="btn-3d btn-3d-blue"
                   style={{
                     width: "100%",
                     padding: "14px",
-                    borderRadius: "12px",
-                    border: "2px solid var(--brand-green)",
-                    background: "rgba(47,187,82,0.08)",
-                    color: "var(--brand-green)",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
+                    fontSize: "13px",
                   }}
                 >
-                  🏆 {isPT ? "Compartilhar Resultado" : "Share Result"}
+                  🏆 {isPT ? "COMPARTILHAR" : "SHARE RESULT"}
                 </button>
                 <button
                   onClick={() => nav({ to: "/lessons" })}
+                  className="btn-3d btn-3d-white"
                   style={{
                     width: "100%",
                     padding: "14px",
-                    borderRadius: "12px",
-                    border: "2px solid var(--border)",
-                    background: "var(--card-bg)",
-                    color: "var(--text-primary)",
-                    fontSize: "14px",
-                    fontWeight: 700,
-                    cursor: "pointer",
+                    fontSize: "13px",
                   }}
                 >
-                  {isPT ? "← Catálogo de Lições" : "← Lesson Catalog"}
+                  {isPT ? "← CATÁLOGO" : "← CATALOG"}
                 </button>
               </div>
             </motion.div>

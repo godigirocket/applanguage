@@ -1720,3 +1720,474 @@ section:not(:first-of-type) {
     position: static;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DUOLINGO-STYLE VISUAL SYSTEM
+   3D buttons, vibrant cards, micro-animations, progress path, bold UI
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 3D BUTTON SYSTEM ── */
+.btn-3d {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: transform 0.1s, box-shadow 0.1s;
+  transform: translateY(0);
+  text-decoration: none;
+}
+.btn-3d:active {
+  transform: translateY(4px) !important;
+  box-shadow: none !important;
+}
+
+.btn-3d-green {
+  background: #58CC02;
+  color: #fff;
+  box-shadow: 0 5px 0 #46a302, 0 8px 16px rgba(88, 204, 2, 0.25);
+}
+.btn-3d-green:hover {
+  background: #61d606;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 0 #46a302, 0 10px 20px rgba(88, 204, 2, 0.3);
+}
+.btn-3d-green:active {
+  background: #4eb802;
+  box-shadow: 0 1px 0 #46a302 !important;
+}
+
+.btn-3d-blue {
+  background: #1CB0F6;
+  color: #fff;
+  box-shadow: 0 5px 0 #1499d6, 0 8px 16px rgba(28, 176, 246, 0.25);
+}
+.btn-3d-blue:hover {
+  background: #2db8f8;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 0 #1499d6, 0 10px 20px rgba(28, 176, 246, 0.3);
+}
+.btn-3d-blue:active {
+  background: #18a3e0;
+  box-shadow: 0 1px 0 #1499d6 !important;
+}
+
+.btn-3d-purple {
+  background: #AC5CF6;
+  color: #fff;
+  box-shadow: 0 5px 0 #8b3fd4, 0 8px 16px rgba(172, 92, 246, 0.25);
+}
+.btn-3d-purple:active {
+  box-shadow: 0 1px 0 #8b3fd4 !important;
+}
+
+.btn-3d-orange {
+  background: #FF9600;
+  color: #fff;
+  box-shadow: 0 5px 0 #d47e00, 0 8px 16px rgba(255, 150, 0, 0.25);
+}
+.btn-3d-orange:active {
+  box-shadow: 0 1px 0 #d47e00 !important;
+}
+
+.btn-3d-red {
+  background: #FF4B4B;
+  color: #fff;
+  box-shadow: 0 5px 0 #d63030, 0 8px 16px rgba(255, 75, 75, 0.25);
+}
+.btn-3d-red:active {
+  box-shadow: 0 1px 0 #d63030 !important;
+}
+
+.btn-3d-white {
+  background: #fff;
+  color: #4B4B4B;
+  border: 2.5px solid #E5E5E5;
+  box-shadow: 0 5px 0 #e0e0e0;
+}
+.btn-3d-white:hover {
+  background: #F7F7F7;
+}
+.btn-3d-white:active {
+  box-shadow: 0 1px 0 #e0e0e0 !important;
+  border-color: #d0d0d0;
+}
+
+.dark .btn-3d-white {
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ── VIBRANT CARD SYSTEM ── */
+.card-duo {
+  background: var(--card-bg);
+  border-radius: 20px;
+  border: 2.5px solid var(--border);
+  border-bottom-width: 5px;
+  padding: 24px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-duo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.card-duo-green {
+  border-color: #58CC02;
+  border-bottom-color: #46a302;
+}
+.card-duo-blue {
+  border-color: #1CB0F6;
+  border-bottom-color: #1499d6;
+}
+.card-duo-purple {
+  border-color: #AC5CF6;
+  border-bottom-color: #8b3fd4;
+}
+.card-duo-orange {
+  border-color: #FF9600;
+  border-bottom-color: #d47e00;
+}
+.card-duo-gold {
+  border-color: #FFC200;
+  border-bottom-color: #d4a100;
+}
+
+/* ── QUIZ OPTION BUTTONS (Duolingo-style) ── */
+.quiz-option {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 16px;
+  border: 2.5px solid var(--border);
+  border-bottom-width: 5px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: transform 0.1s, border-color 0.15s, background 0.15s;
+}
+.quiz-option:hover {
+  background: color-mix(in srgb, var(--brand) 5%, var(--card-bg));
+  border-color: color-mix(in srgb, var(--brand) 30%, var(--border));
+}
+.quiz-option:active {
+  transform: translateY(3px);
+  border-bottom-width: 2.5px;
+}
+.quiz-option-correct {
+  border-color: #58CC02 !important;
+  border-bottom-color: #46a302 !important;
+  background: rgba(88, 204, 2, 0.1) !important;
+  color: #46a302 !important;
+}
+.quiz-option-wrong {
+  border-color: #FF4B4B !important;
+  border-bottom-color: #d63030 !important;
+  background: rgba(255, 75, 75, 0.1) !important;
+  color: #d63030 !important;
+}
+.quiz-option-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── PROGRESS PATH (Duolingo lesson tree) ── */
+.progress-path {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 16px;
+  gap: 0;
+  position: relative;
+}
+.progress-path::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  bottom: 80px;
+  width: 4px;
+  background: var(--border);
+  border-radius: 4px;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.path-node {
+  position: relative;
+  z-index: 1;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 4px solid transparent;
+}
+.path-node:hover {
+  transform: scale(1.1);
+}
+
+.path-node-active {
+  background: #58CC02;
+  color: white;
+  border-color: #46a302;
+  box-shadow: 0 6px 0 #3d8c02, 0 8px 20px rgba(88, 204, 2, 0.3);
+  animation: path-pulse 2s infinite;
+}
+.path-node-completed {
+  background: #FFC200;
+  color: white;
+  border-color: #d4a100;
+  box-shadow: 0 4px 0 #b38900;
+}
+.path-node-locked {
+  background: var(--border);
+  color: var(--text-soft);
+  border-color: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.path-connector {
+  width: 4px;
+  height: 40px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.path-connector-done {
+  background: #FFC200;
+}
+.path-connector-active {
+  background: linear-gradient(to bottom, #FFC200, var(--border));
+}
+.path-connector-locked {
+  background: var(--border);
+}
+
+@keyframes path-pulse {
+  0%, 100% { box-shadow: 0 6px 0 #3d8c02, 0 8px 20px rgba(88, 204, 2, 0.3); }
+  50% { box-shadow: 0 6px 0 #3d8c02, 0 8px 28px rgba(88, 204, 2, 0.5); }
+}
+
+/* ── MICRO-ANIMATIONS ── */
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes slide-up-bounce {
+  0% { transform: translateY(20px); opacity: 0; }
+  60% { transform: translateY(-5px); }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes celebrate-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+@keyframes shake-wrong {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-4px); }
+  30%, 70% { transform: translateX(4px); }
+}
+@keyframes float-up {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-40px); opacity: 0; }
+}
+@keyframes star-burst {
+  0% { transform: scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.5) rotate(180deg); opacity: 0; }
+}
+
+.animate-bounce-in { animation: bounce-in 0.5s cubic-bezier(0.36, 1.1, 0.5, 1) forwards; }
+.animate-slide-up { animation: slide-up-bounce 0.4s ease forwards; }
+.animate-celebrate { animation: celebrate-pop 0.4s cubic-bezier(0.36, 1.5, 0.5, 1) forwards; }
+.animate-shake { animation: shake-wrong 0.4s ease; }
+.animate-float-up { animation: float-up 1s ease forwards; }
+
+/* ── XP FLOATING POPUP ── */
+.xp-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  font-weight: 900;
+  color: #FFC200;
+  text-shadow: 0 2px 8px rgba(255, 194, 0, 0.4);
+  pointer-events: none;
+  z-index: 9999;
+  animation: float-up 1.5s ease forwards;
+}
+
+/* ── STREAK FIRE BADGE ── */
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, #FF9600, #FF4B4B);
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 3px 0 #d47e00, 0 4px 12px rgba(255, 150, 0, 0.3);
+}
+
+/* ── LESSON COMPLETE CELEBRATION ── */
+.celebration-card {
+  background: linear-gradient(135deg, #58CC02 0%, #2FBB52 100%);
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 0 #3d8c02, 0 12px 32px rgba(88, 204, 2, 0.3);
+}
+
+/* ── BOLD STAT PILL (home page) ── */
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 16px;
+  border-radius: 18px;
+  border: 2.5px solid var(--border);
+  border-bottom-width: 5px;
+  background: var(--card-bg);
+  min-width: 100px;
+}
+.stat-pill-value {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.stat-pill-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+}
+
+/* ── PROGRESS RING (SVG-based circular progress) ── */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+.progress-ring-track {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 8;
+}
+.progress-ring-fill {
+  fill: none;
+  stroke: #58CC02;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+/* ── MASCOT REACTIONS (bigger, more visible) ── */
+.mascot-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.mascot-speech {
+  position: relative;
+  background: var(--card-bg);
+  border: 2.5px solid var(--border);
+  border-radius: 18px;
+  border-bottom-width: 5px;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  max-width: 280px;
+  text-align: center;
+}
+.mascot-speech::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid var(--card-bg);
+}
+
+/* ── DARK MODE ADJUSTMENTS for Duo-style elements ── */
+.dark .quiz-option {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+.dark .quiz-option:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.dark .card-duo {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.dark .stat-pill {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.dark .path-node-locked {
+  background: rgba(255, 255, 255, 0.08);
+}
+.dark .mascot-speech {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* ── OVERRIDE: make all primary CTA buttons use 3D style globally ── */
+.btn-premium {
+  background: #58CC02 !important;
+  color: white !important;
+  box-shadow: 0 5px 0 #46a302, 0 8px 16px rgba(88, 204, 2, 0.25) !important;
+  border: none !important;
+  border-radius: 16px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  transition: transform 0.1s, box-shadow 0.1s !important;
+}
+.btn-premium:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 0 #46a302, 0 10px 20px rgba(88, 204, 2, 0.3) !important;
+}
+.btn-premium:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 1px 0 #46a302 !important;
+}

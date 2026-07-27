@@ -191,17 +191,24 @@ function HomePage() {
                   marginBottom: "12px",
                 }}
               >
-                <Mascot state={isNewUser ? "happy" : "idle"} size={72} />
-                <h1
-                  style={{
-                    fontSize: "clamp(28px, 4vw, 42px)",
-                    fontWeight: 900,
-                    letterSpacing: "-0.02em",
-                    margin: 0,
-                  }}
-                >
-                  {getGreeting()}
-                </h1>
+                <Mascot state={isNewUser ? "happy" : "idle"} size={88} />
+                <div>
+                  <h1
+                    style={{
+                      fontSize: "clamp(24px, 4vw, 36px)",
+                      fontWeight: 900,
+                      letterSpacing: "-0.02em",
+                      margin: 0,
+                    }}
+                  >
+                    {getGreeting()}
+                  </h1>
+                  {streak > 0 && !isNewUser && (
+                    <p style={{ fontSize: "15px", opacity: 0.9, marginTop: "4px", margin: 0 }}>
+                      {isPT ? "Continue assim! Você tá arrasando 💪" : "Keep it up! You're doing great 💪"}
+                    </p>
+                  )}
+                </div>
               </div>
               <p style={{ fontSize: "18px", opacity: 0.9, marginBottom: "32px" }}>
                 {isNewUser
@@ -213,13 +220,13 @@ function HomePage() {
                     : "Continue your learning journey"}
               </p>
 
-              {/* Quick Stats */}
+              {/* Quick Stats — Duolingo-style bold pills */}
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-                  gap: "16px",
-                  maxWidth: "800px",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+                  gap: "12px",
+                  maxWidth: "500px",
                 }}
               >
                 {[
@@ -227,14 +234,14 @@ function HomePage() {
                   {
                     icon: Flame,
                     label: isPT ? "Ofensiva" : "Streak",
-                    value: `${streak} ${isPT ? "dias" : "days"}`,
+                    value: `${streak}`,
                     color: "#FF6B35",
                   },
                   {
                     icon: Trophy,
                     label: isPT ? "Nível" : "Level",
                     value: currentLevel,
-                    color: "#2FBB52",
+                    color: "#58CC02",
                   },
                   {
                     icon: Target,
@@ -245,29 +252,32 @@ function HomePage() {
                 ].map((stat, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.1 }}
-                    style={{
-                      background: "rgba(255,255,255,0.1)",
-                      borderRadius: "16px",
-                      padding: "20px",
-                      backdropFilter: "blur(10px)",
-                      border: "1px solid rgba(255,255,255,0.2)",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "8px",
-                    }}
+                    transition={{ delay: i * 0.08, type: "spring", bounce: 0.4 }}
+                    className="stat-pill"
+                    style={{ borderColor: `${stat.color}33`, borderBottomColor: `${stat.color}55` }}
                   >
-                    <stat.icon size={24} color={stat.color} />
-                    <div style={{ fontSize: "24px", fontWeight: 900 }}>{stat.value}</div>
-                    <div style={{ fontSize: "12px", opacity: 0.8, fontWeight: 600 }}>
-                      {stat.label}
-                    </div>
+                    <stat.icon size={22} color={stat.color} />
+                    <div className="stat-pill-value" style={{ color: stat.color }}>{stat.value}</div>
+                    <div className="stat-pill-label">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
+
+              {/* Streak badge — prominent when streak > 0 */}
+              {streak > 0 && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.4, type: "spring", bounce: 0.5 }}
+                  style={{ marginTop: "20px" }}
+                >
+                  <div className="streak-badge">
+                    🔥 {streak} {isPT ? "dias seguidos!" : "day streak!"}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Welcome message for new users */}
               {isNewUser && (
@@ -384,53 +394,55 @@ function HomePage() {
                 to: "/games",
                 label: isPT ? "Jogar" : "Play",
                 Icon: Gamepad2,
-                color: "var(--brand-green)",
+                color: "#58CC02",
               },
-              { to: "/culture", label: "Cultura", Icon: Globe, color: "var(--brand-blue)" },
+              { to: "/culture", label: "Cultura", Icon: Globe, color: "#1CB0F6" },
               {
                 to: "/quiz-play/review",
-                label: isPT ? "Revisar Palavras" : "Review Words",
+                label: isPT ? "Revisar" : "Review",
                 Icon: Bookmark,
-                color: "var(--brand-yellow)",
+                color: "#FFC200",
               },
               {
                 to: "/progress",
                 label: isPT ? "Progresso" : "Progress",
                 Icon: BarChart2,
-                color: "var(--brand-purple)",
+                color: "#AC5CF6",
               },
             ].map((action) => (
               <Link
                 key={action.to}
                 to={action.to as any}
+                className="card-duo"
                 style={{
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  gap: "10px",
-                  padding: "16px",
-                  borderRadius: "16px",
-                  background: "var(--surface-raised)",
-                  border: "1.5px solid var(--border)",
+                  gap: "8px",
+                  padding: "18px 12px",
                   textDecoration: "none",
                   color: "var(--text-primary)",
-                  fontWeight: 700,
-                  fontSize: "14px",
-                  transition: "transform 0.15s ease",
+                  fontWeight: 800,
+                  fontSize: "12px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.04em",
+                  borderColor: `${action.color}33`,
+                  borderBottomColor: `${action.color}55`,
                 }}
               >
                 <div
                   style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "10px",
-                    background: `color-mix(in srgb, ${action.color} 16%, transparent)`,
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    background: `${action.color}18`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
-                  <action.Icon size={18} color={action.color} />
+                  <action.Icon size={22} color={action.color} />
                 </div>
                 {action.label}
               </Link>
