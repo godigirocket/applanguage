@@ -27,6 +27,8 @@ import { DifficultyPopup } from "@/components/DifficultyPopup";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AnimatePresence } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
+import { requestNotificationPermission, scheduleStreakReminder, trackActivity } from "@/lib/notifications";
+import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
 
 import appCss from "../styles.css?url";
 
@@ -314,6 +316,19 @@ function RootInner() {
     if (!tutorialShown) {
       setTimeout(() => startTutorial(), 500);
       localStorage.setItem("tutorial_shown", "true");
+    }
+  }, [user]);
+
+  // Track user activity and schedule streak reminders
+  useEffect(() => {
+    if (!user) return;
+    trackActivity();
+    // Request notification permission after user has completed at least 1 lesson
+    const completed = localStorage.getItem("lume-storage");
+    if (completed && completed.includes("completedLessons")) {
+      requestNotificationPermission().then(() => {
+        scheduleStreakReminder();
+      });
     }
   }, [user]);
 

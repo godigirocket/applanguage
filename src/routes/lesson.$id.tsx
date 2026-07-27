@@ -33,6 +33,7 @@ import { PronunciationChallenge } from "@/components/PronunciationChallenge";
 import { supabase } from "@/integrations/supabase/client";
 import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
+import { startTrial, isTrialActive } from "@/lib/trial";
 import type { VocabularyItem, LessonTopic } from "@/lib/language-content/types";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { Mascot } from "@/components/lume/Mascot";
@@ -310,13 +311,13 @@ function LessonPage() {
     checkPremium();
   }, [user]);
 
-  // Block premium lessons for free users
+  // Block premium lessons for free users (but allow during 24h trial)
   const lessonNumber = parseInt(id.replace(/\D/g, "")) || 1;
   const isPremiumLesson = lessonNumber > 10;
 
   useEffect(() => {
-    // If premium lesson and user is free, show gate
-    if (isPremiumLesson && userPlan === "free") {
+    // If premium lesson and user is free AND trial is not active, show gate
+    if (isPremiumLesson && userPlan === "free" && !isTrialActive()) {
       setShowPremiumGate(true);
     }
   }, [isPremiumLesson, userPlan]);
@@ -1631,6 +1632,36 @@ function LessonPage() {
                   }}
                 >
                   {isPT ? "Próxima Lição →" : "Next Lesson →"}
+                </button>
+                <button
+                  onClick={() => {
+                    const text = isPT
+                      ? `Completei a lição "${topic}" no LumeLearn! ${quizScore}/${quiz.length} corretas, +${xpReward} XP 🎉`
+                      : `Completed "${topic}" on LumeLearn! ${quizScore}/${quiz.length} correct, +${xpReward} XP 🎉`;
+                    if (navigator.share) {
+                      navigator.share({ title: "LumeLearn", text, url: "https://langlume.vercel.app" }).catch(() => {});
+                    } else {
+                      navigator.clipboard.writeText(text + " https://langlume.vercel.app");
+                      toast.success(isPT ? "Copiado!" : "Copied!");
+                    }
+                  }}
+                  style={{
+                    width: "100%",
+                    padding: "14px",
+                    borderRadius: "12px",
+                    border: "2px solid var(--brand-green)",
+                    background: "rgba(47,187,82,0.08)",
+                    color: "var(--brand-green)",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "8px",
+                  }}
+                >
+                  🏆 {isPT ? "Compartilhar Resultado" : "Share Result"}
                 </button>
                 <button
                   onClick={() => nav({ to: "/lessons" })}

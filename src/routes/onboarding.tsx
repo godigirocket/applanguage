@@ -28,13 +28,6 @@ export const Route = createFileRoute("/onboarding")({
 const STEPS = [
   {
     id: 1,
-    question: "Como podemos te chamar?",
-    field: "full_name",
-    type: "text",
-    placeholder: "Seu nome...",
-  },
-  {
-    id: 2,
     question: "Qual idioma você quer aprender?",
     field: "target_language",
     type: "options",
@@ -45,7 +38,7 @@ const STEPS = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     question: "Qual é o seu nível?",
     field: "level",
     type: "options",

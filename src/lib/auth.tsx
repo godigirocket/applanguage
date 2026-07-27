@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { startTrial } from "@/lib/trial";
 
 interface AuthCtx {
   user: User | null;
@@ -26,6 +27,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       // After sign up or sign in, claim any pending payments for this email
       if (s?.user && (event === "SIGNED_IN" || event === "INITIAL_SESSION")) {
+        // Start 24h trial for new users on first sign-in
+        startTrial();
+
         try {
           const { data, error } = await supabase.rpc("claim_pending_payments", {
             user_email: s.user.email || "",

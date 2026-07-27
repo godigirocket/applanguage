@@ -38,6 +38,8 @@ import { Leaderboard } from "@/components/lume/Leaderboard";
 import { TopicScenario } from "@/components/lume/TopicScenario";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { Mascot } from "@/components/lume/Mascot";
+import { getReviewCount } from "@/lib/spaced-repetition";
+import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
 
 export const Route = createFileRoute("/home")({
   component: HomePage,
@@ -221,7 +223,7 @@ function HomePage() {
                 }}
               >
                 {[
-                  { icon: Star, label: "XP", value: xp.toLocaleString(), color: "#FFD700" },
+                  { icon: Star, label: "XP", value: xp.toLocaleString(), color: "#FFC200" },
                   {
                     icon: Flame,
                     label: isPT ? "Ofensiva" : "Streak",
@@ -232,13 +234,13 @@ function HomePage() {
                     icon: Trophy,
                     label: isPT ? "Nível" : "Level",
                     value: currentLevel,
-                    color: "#4CAF50",
+                    color: "#2FBB52",
                   },
                   {
                     icon: Target,
-                    label: isPT ? "Próximo" : "Next",
-                    value: xp === 0 ? "100 XP" : `${xpToNextLevel} XP`,
-                    color: "#3498DB",
+                    label: isPT ? "Lições" : "Lessons",
+                    value: `${completedLessons.length}`,
+                    color: "#1CB0F6",
                   },
                 ].map((stat, i) => (
                   <motion.div
@@ -323,6 +325,51 @@ function HomePage() {
           </div>
         </section>
 
+        {/* TRIAL BANNER — show remaining time for users on 24h trial */}
+        {isTrialActive() && (
+          <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "16px 24px 0" }}>
+            <div
+              style={{
+                background: "linear-gradient(135deg, rgba(10,132,255,0.12), rgba(90,200,250,0.08))",
+                border: "1.5px solid rgba(10,132,255,0.3)",
+                borderRadius: "16px",
+                padding: "16px 20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: "12px",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <span style={{ fontSize: "24px" }}>⏱️</span>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>
+                    {isPT ? "Trial Premium Ativo" : "Premium Trial Active"}
+                  </div>
+                  <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
+                    {isPT ? `Restam ${getTrialRemainingFormatted()} — acesso total!` : `${getTrialRemainingFormatted()} remaining — full access!`}
+                  </div>
+                </div>
+              </div>
+              <Link
+                to="/pricing"
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "8px",
+                  background: "var(--brand)",
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  textDecoration: "none",
+                }}
+              >
+                {isPT ? "Ver Planos" : "See Plans"}
+              </Link>
+            </div>
+          </section>
+        )}
+
         {/* QUICK ACTIONS — the "what do I do now" answer, always visible above the fold */}
         <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "24px 24px 0" }}>
           <div
@@ -337,20 +384,20 @@ function HomePage() {
                 to: "/games",
                 label: isPT ? "Jogar" : "Play",
                 Icon: Gamepad2,
-                color: "var(--brand)",
+                color: "var(--brand-green)",
               },
-              { to: "/culture", label: "Cultura", Icon: Globe, color: "var(--brand-2)" },
+              { to: "/culture", label: "Cultura", Icon: Globe, color: "var(--brand-blue)" },
               {
                 to: "/quiz-play/review",
                 label: isPT ? "Revisar Palavras" : "Review Words",
                 Icon: Bookmark,
-                color: "#F59E0B",
+                color: "var(--brand-yellow)",
               },
               {
                 to: "/progress",
                 label: isPT ? "Progresso" : "Progress",
                 Icon: BarChart2,
-                color: "#22C55E",
+                color: "var(--brand-purple)",
               },
             ].map((action) => (
               <Link
@@ -376,7 +423,7 @@ function HomePage() {
                     width: "36px",
                     height: "36px",
                     borderRadius: "10px",
-                    background: `${action.color}20`,
+                    background: `color-mix(in srgb, ${action.color} 16%, transparent)`,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -417,7 +464,7 @@ function HomePage() {
                 {
                   to: "/quiz-play/daily",
                   Icon: Coffee,
-                  color: "#F59E0B",
+                  color: "var(--brand-yellow)",
                   title: isPT ? "Palavras do dia a dia" : "Everyday words",
                   desc: isPT
                     ? "Objetos e rotina, no seu ritmo."
@@ -426,7 +473,7 @@ function HomePage() {
                 {
                   to: "/quiz/slang",
                   Icon: Sparkles,
-                  color: "#8B5CF6",
+                  color: "var(--brand-purple)",
                   title: isPT ? "Gírias e expressões" : "Slang & expressions",
                   desc: isPT ? "Como as pessoas falam de verdade." : "How people actually talk.",
                 },
@@ -440,7 +487,7 @@ function HomePage() {
                 {
                   to: "/quiz-play/travel",
                   Icon: Plane,
-                  color: "var(--brand)",
+                  color: "var(--brand-green)",
                   title: isPT ? "Viagem e cultura" : "Travel & culture",
                   desc: isPT
                     ? "O essencial para se virar por aí."
@@ -465,7 +512,7 @@ function HomePage() {
                       width: "44px",
                       height: "44px",
                       borderRadius: "12px",
-                      background: `${track.color}20`,
+                      background: `color-mix(in srgb, ${track.color} 16%, transparent)`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -707,7 +754,7 @@ function HomePage() {
                   gap: "12px",
                 }}
               >
-                <Globe size={28} color="#3498DB" />
+                <Globe size={28} color="var(--brand-blue)" />
                 {isPT ? "Explore Cidades" : "Explore Cities"}
               </h2>
               <Link
@@ -800,7 +847,7 @@ function HomePage() {
                   gap: "12px",
                 }}
               >
-                <Zap size={28} color="#F39C12" />
+                <Zap size={28} color="var(--brand-yellow)" />
                 {isPT ? "Quiz Rápido" : "Quick Quizzes"}
               </h2>
             </div>
@@ -821,7 +868,7 @@ function HomePage() {
                   whileHover={{ scale: 1.03 }}
                   onClick={() => nav({ to: "/quiz/quick" as any })}
                   style={{
-                    background: "linear-gradient(135deg, #F39C12 0%, #E67E22 100%)",
+                    background: "linear-gradient(135deg, var(--brand-yellow) 0%, #E68A00 100%)",
                     borderRadius: "20px",
                     padding: "24px",
                     color: "white",
@@ -912,7 +959,7 @@ function HomePage() {
                   gap: "12px",
                 }}
               >
-                <Users size={28} color="#9B59B6" />
+                <Users size={28} color="var(--brand-purple)" />
                 {isPT ? "Amigos Ativos" : "Active Friends"}
               </h2>
               <Link
