@@ -8,10 +8,17 @@
  *
  * This splits each language file into:
  *   - src/data/lessons/index.<lang>.json   — lightweight metadata only
- *     (~210KB instead of ~2MB), used for lists and id/order lookups.
- *   - src/data/lessons/detail/<lang>/<id>.json — one ~3KB file per lesson,
- *     containing the full `steps` array, loaded only when that specific
- *     lesson is opened.
+ *     (~215KB instead of ~2MB), used for lists and id/order lookups. Each
+ *     entry also carries a `chunkIndex` pointing at the detail chunk that
+ *     has its full `steps`.
+ *   - src/data/lessons/detail/<lang>/chunk-<n>.json — lessons grouped into
+ *     chunks of CHUNK_SIZE (full `steps` included), so opening one lesson
+ *     only loads its ~60KB chunk instead of the full 2MB file.
+ *
+ * An earlier version of this script wrote one file per lesson (2130 files
+ * total), which pushed the project over Vercel's 15000-file upload limit
+ * on `vercel --prod` — chunking keeps the same lazy-loading win with a
+ * couple hundred files instead of thousands.
  *
  * Run with: node scripts/split-master-content.mjs
  */
@@ -23,6 +30,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 const DATA_DIR = path.join(ROOT, "src", "data");
 const OUT_DIR = path.join(DATA_DIR, "lessons");
+const CHUNK_SIZE = 25;
 
 const LANGS = ["en", "es", "pt"];
 
@@ -36,16 +44,27 @@ for (const lang of LANGS) {
   fs.mkdirSync(detailDir, { recursive: true });
 
   const index = [];
-  for (const lesson of lessons) {
-    const { steps, ...meta } = lesson;
-    index.push(meta);
-    fs.writeFileSync(path.join(detailDir, `${lesson.id}.json`), JSON.stringify(lesson) + "\n", "utf8");
+  const chunks = [];
+  for (let i = 0; i < lessons.length; i += CHUNK_SIZE) {
+    chunks.push(lessons.slice(i, i + CHUNK_SIZE));
   }
 
-  fs.writeFileSync(path.join(OUT_DIR, `index.${lang}.json`), JSON.stringify(index) + "\n", "utf8");
+  chunks.forEach((chunk, chunkIndex) => {
+    fs.writeFileSync(
+      path.join(detailDir, `chunk-${chunkIndex}.json`),
+      JSON.stringify(chunk) + "\n",
+      "utf8",
+    );
+    for (const lesson of chunk) {
+      const { steps, ...meta } = lesson;
+      index.push({ ...meta, chunkIndex });
+    }
+  });
+
+  fs.writeFileSync(path.join(OUT_DIR, `index.${lang}.json`), JSON.stringify(index, null, 2) + "\n", "utf8");
 
   const indexBytes = fs.statSync(path.join(OUT_DIR, `index.${lang}.json`)).size;
   console.log(
-    `[${lang}] ${lessons.length} lessons -> index.${lang}.json (${(indexBytes / 1024).toFixed(0)} KB) + ${lessons.length} detail files`,
+    `[${lang}] ${lessons.length} lessons -> index.${lang}.json (${(indexBytes / 1024).toFixed(0)} KB) + ${chunks.length} chunk files (~${CHUNK_SIZE} lessons each)`,
   );
 }

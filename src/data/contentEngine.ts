@@ -10,9 +10,14 @@
  * biggest source of load-time lag in the app.
  *
  * scripts/split-master-content.mjs pre-splits each language's content into:
- *   - lessons/index.<lang>.json — lightweight metadata only (~210KB vs ~2MB)
- *   - lessons/detail/<lang>/<id>.json — one ~3KB file per lesson with the
- *     full `steps` array, fetched only when that lesson is actually opened.
+ *   - lessons/index.<lang>.json — lightweight metadata only (~280KB vs ~2MB),
+ *     each entry carrying a `chunkIndex` pointing at its detail chunk.
+ *   - lessons/detail/<lang>/chunk-<n>.json — lessons grouped ~25 per file
+ *     (full `steps` included, ~60KB/chunk), fetched only for the chunk that
+ *     contains the lesson actually being opened. (An earlier version wrote
+ *     one file per lesson — 2130 files — which pushed the project over
+ *     Vercel's 15000-file upload limit on `vercel --prod`; chunking keeps
+ *     the same lazy-loading win with ~90 files instead.)
  */
 
 type TargetLang = "en" | "es" | "pt";
@@ -31,14 +36,19 @@ async function loadIndexForLanguage(targetLanguage: TargetLang): Promise<any[]> 
 }
 
 // Vite code-splits each matched file into its own lazily-loaded chunk, so
-// this registers 2130 tiny import()s without eagerly loading any of them.
-const lessonDetailLoaders = import.meta.glob("./lessons/detail/*/*.json", {
+// this registers ~90 tiny import()s without eagerly loading any of them.
+const lessonChunkLoaders = import.meta.glob("./lessons/detail/*/chunk-*.json", {
   import: "default",
-}) as Record<string, () => Promise<any>>;
+}) as Record<string, () => Promise<any[]>>;
 
 async function loadLessonDetail(targetLanguage: TargetLang, id: string): Promise<any | undefined> {
-  const loader = lessonDetailLoaders[`./lessons/detail/${targetLanguage}/${id}.json`];
-  return loader ? loader() : undefined;
+  const index = await getIndex(targetLanguage);
+  const entry = index.find((l) => l.id === id);
+  if (!entry) return undefined;
+  const loader = lessonChunkLoaders[`./lessons/detail/${targetLanguage}/chunk-${entry.chunkIndex}.json`];
+  if (!loader) return undefined;
+  const chunk = await loader();
+  return chunk.find((l) => l.id === id);
 }
 
 // 50 CITIES DATA (kept for cultural content)
