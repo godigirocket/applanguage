@@ -132,6 +132,11 @@ function LessonPage() {
   const { user } = useAuth();
   const { interfaceLanguage, targetLanguage, completedLessons, completeLesson, addXP } = useStore();
   const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
+  // Chrome text used to be a binary pt/en switch, so an es-interface user
+  // saw English UI copy around correctly-Spanish lesson content — this
+  // picks a real 3-way translation instead.
+  const t = (pt: string, en: string, es: string) => (isPT ? pt : isES ? es : en);
 
   // Real lesson content, loaded from the same masterContent source that
   // generates the /home and /lessons cards — previously this route read from
@@ -212,12 +217,8 @@ function LessonPage() {
       options: translationQuizStep.options,
       correct,
       explanation: term
-        ? isPT
-          ? `"${term}" significa "${correct}".`
-          : `"${term}" means "${correct}".`
-        : isPT
-          ? `A resposta correta é "${correct}".`
-          : `The correct answer is "${correct}".`,
+        ? t(`"${term}" significa "${correct}".`, `"${term}" means "${correct}".`, `"${term}" significa "${correct}".`)
+        : t(`A resposta correta é "${correct}".`, `The correct answer is "${correct}".`, `La respuesta correcta es "${correct}".`),
     });
   }
   if (listeningStep?.options?.length) {
@@ -226,16 +227,12 @@ function LessonPage() {
     quiz.push({
       q:
         listeningStep.question ||
-        (isPT ? "Ouça e escolha a palavra correta:" : "Listen and choose the correct word:"),
+        t("Ouça e escolha a palavra correta:", "Listen and choose the correct word:", "Escucha y elige la palabra correcta:"),
       options: listeningStep.options,
       correct,
       explanation: meaning
-        ? isPT
-          ? `"${correct}" significa "${meaning}".`
-          : `"${correct}" means "${meaning}".`
-        : isPT
-          ? `A palavra correta é "${correct}".`
-          : `The correct word is "${correct}".`,
+        ? t(`"${correct}" significa "${meaning}".`, `"${correct}" means "${meaning}".`, `"${correct}" significa "${meaning}".`)
+        : t(`A palavra correta é "${correct}".`, `The correct word is "${correct}".`, `La palabra correcta es "${correct}".`),
       audioText: listeningStep.audioText,
     });
   }
@@ -245,9 +242,7 @@ function LessonPage() {
       q: grammarQuizStep.question || "",
       options: grammarQuizStep.options,
       correct,
-      explanation: isPT
-        ? `A resposta correta é "${correct}".`
-        : `The correct answer is "${correct}".`,
+      explanation: t(`A resposta correta é "${correct}".`, `The correct answer is "${correct}".`, `La respuesta correcta es "${correct}".`),
     });
   }
 
@@ -427,20 +422,20 @@ function LessonPage() {
         const result = await completeLessonDB(user.id, id, xpReward, duration * 60);
         if (!result.alreadyCompleted && !alreadyCompletedLocally) {
           addXP(xpReward);
-          toast.success(isPT ? `+${xpReward} XP ganhos!` : `+${xpReward} XP earned!`);
+          toast.success(t(`+${xpReward} XP ganhos!`, `+${xpReward} XP earned!`, `¡+${xpReward} XP ganados!`));
         } else {
-          toast.info(isPT ? "Lição já concluída anteriormente" : "Lesson already completed");
+          toast.info(t("Lição já concluída anteriormente", "Lesson already completed", "Lección ya completada anteriormente"));
         }
       } catch (error) {
         console.error("Failed to save lesson completion:", error);
         if (!alreadyCompletedLocally) addXP(xpReward);
-        toast.warning(isPT ? "Progresso salvo localmente" : "Progress saved locally");
+        toast.warning(t("Progresso salvo localmente", "Progress saved locally", "Progreso guardado localmente"));
       }
     } else if (!alreadyCompletedLocally) {
       addXP(xpReward);
-      toast.success(isPT ? `+${xpReward} XP ganhos!` : `+${xpReward} XP earned!`);
+      toast.success(t(`+${xpReward} XP ganhos!`, `+${xpReward} XP earned!`, `¡+${xpReward} XP ganados!`));
     } else {
-      toast.info(isPT ? "Lição já concluída anteriormente" : "Lesson already completed");
+      toast.info(t("Lição já concluída anteriormente", "Lesson already completed", "Lección ya completada anteriormente"));
     }
 
     setSaving(false);
@@ -477,9 +472,11 @@ function LessonPage() {
       nav({ to: `/lesson/${nextLesson.id}` as any });
     } else {
       toast.info(
-        isPT
-          ? "Você completou todas as lições disponíveis!"
-          : "You've completed all available lessons!",
+        t(
+          "Você completou todas as lições disponíveis!",
+          "You've completed all available lessons!",
+          "¡Completaste todas las lecciones disponibles!",
+        ),
       );
       nav({ to: "/lessons" });
     }
@@ -534,12 +531,14 @@ function LessonPage() {
               marginBottom: "12px",
             }}
           >
-            {isPT ? "Lição não encontrada" : "Lesson not found"}
+            {t("Lição não encontrada", "Lesson not found", "Lección no encontrada")}
           </h2>
           <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "24px" }}>
-            {isPT
-              ? "Esta lição não está disponível no idioma atual."
-              : "This lesson isn't available in the current language."}
+            {t(
+              "Esta lição não está disponível no idioma atual.",
+              "This lesson isn't available in the current language.",
+              "Esta lección no está disponible en el idioma actual.",
+            )}
           </p>
           <button
             onClick={() => nav({ to: "/lessons" })}
@@ -554,7 +553,7 @@ function LessonPage() {
               cursor: "pointer",
             }}
           >
-            {isPT ? "← Voltar ao Catálogo" : "← Back to Catalog"}
+            {t("← Voltar ao Catálogo", "← Back to Catalog", "← Volver al Catálogo")}
           </button>
         </div>
       </div>
@@ -610,7 +609,7 @@ function LessonPage() {
                 padding: 0,
               }}
             >
-              <ArrowLeft size={16} /> {isPT ? "Voltar" : "Back"}
+              <ArrowLeft size={16} /> {t("Voltar", "Back", "Volver")}
             </button>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -700,7 +699,7 @@ function LessonPage() {
                             color: "#4CAF50",
                           }}
                         >
-                          <CheckCircle size={12} /> {isPT ? "Completo" : "Done"}
+                          <CheckCircle size={12} /> {t("Completo", "Done", "Completo")}
                         </span>
                       )}
                     </div>
@@ -733,13 +732,13 @@ function LessonPage() {
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                     <BookOpen size={16} color="var(--text-secondary)" />
                     <span>
-                      {vocab.length} {isPT ? "conceitos" : "concepts"}
+                      {vocab.length} {t("conceitos", "concepts", "conceptos")}
                     </span>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                     <Brain size={16} color="var(--text-secondary)" />
                     <span>
-                      {quiz.length} {isPT ? "questões" : "questions"}
+                      {quiz.length} {t("questões", "questions", "preguntas")}
                     </span>
                   </div>
                 </div>
@@ -762,7 +761,7 @@ function LessonPage() {
                     marginBottom: "16px",
                   }}
                 >
-                  {isPT ? "O que você vai aprender" : "What you will learn"}
+                  {t("O que você vai aprender", "What you will learn", "Lo que vas a aprender")}
                 </h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                   {vocab.map((v, i) => (
@@ -813,7 +812,7 @@ function LessonPage() {
                   fontSize: "16px",
                 }}
               >
-                {isPT ? "INICIAR LIÇÃO" : "START LESSON"}
+                {t("INICIAR LIÇÃO", "START LESSON", "INICIAR LECCIÓN")}
               </button>
             </motion.div>
           </main>
@@ -914,7 +913,7 @@ function LessonPage() {
                       marginBottom: "10px",
                     }}
                   >
-                    {isPT ? "Conceito" : "Concept"} {vocabIdx + 1}
+                    {t("Conceito", "Concept", "Concepto")} {vocabIdx + 1}
                   </div>
                   <h2
                     style={{
@@ -937,7 +936,7 @@ function LessonPage() {
                     {isTTSSupported() && (
                       <button
                         onClick={() => handleSpeakWord(vocab[vocabIdx].word)}
-                        aria-label={isPT ? "Ouvir" : "Listen"}
+                        aria-label={t("Ouvir", "Listen", "Escuchar")}
                         style={{
                           width: "32px",
                           height: "32px",
@@ -955,7 +954,7 @@ function LessonPage() {
                     )}
                     <button
                       onClick={() => handleToggleSaveWord(vocabIdx)}
-                      aria-label={isPT ? "Salvar palavra" : "Save word"}
+                      aria-label={t("Salvar palavra", "Save word", "Guardar palabra")}
                       style={{
                         width: "32px",
                         height: "32px",
@@ -1006,7 +1005,7 @@ function LessonPage() {
                         marginBottom: "4px",
                       }}
                     >
-                      {isPT ? "Exemplo" : "Example"}
+                      {t("Exemplo", "Example", "Ejemplo")}
                     </div>
                     <p
                       style={{
@@ -1043,7 +1042,7 @@ function LessonPage() {
                   opacity: vocabIdx === 0 ? 0.4 : 1,
                 }}
               >
-                ← {isPT ? "Anterior" : "Back"}
+                ← {t("Anterior", "Back", "Anterior")}
               </button>
               {vocabIdx < vocab.length - 1 ? (
                 <button
@@ -1060,7 +1059,7 @@ function LessonPage() {
                     cursor: "pointer",
                   }}
                 >
-                  {isPT ? "Próximo →" : "Next →"}
+                  {t("Próximo →", "Next →", "Siguiente →")}
                 </button>
               ) : (
                 <button
@@ -1091,16 +1090,10 @@ function LessonPage() {
                 >
                   <Brain size={18} aria-hidden="true" />
                   {speakingPhrase
-                    ? isPT
-                      ? "Praticar Pronúncia →"
-                      : "Practice Speaking →"
+                    ? t("Praticar Pronúncia →", "Practice Speaking →", "Practicar Pronunciación →")
                     : quiz.length > 0
-                      ? isPT
-                        ? "Fazer Quiz →"
-                        : "Take Quiz →"
-                      : isPT
-                        ? "Concluir Lição →"
-                        : "Complete Lesson →"}
+                      ? t("Fazer Quiz →", "Take Quiz →", "Hacer Quiz →")
+                      : t("Concluir Lição →", "Complete Lesson →", "Completar Lección →")}
                 </button>
               )}
             </div>
@@ -1139,7 +1132,7 @@ function LessonPage() {
                 <ArrowLeft size={16} color="var(--text-secondary)" />
               </button>
               <h2 style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>
-                {isPT ? "Praticar Pronúncia" : "Practice Speaking"}
+                {t("Praticar Pronúncia", "Practice Speaking", "Practicar Pronunciación")}
               </h2>
             </div>
 
@@ -1181,7 +1174,7 @@ function LessonPage() {
                   cursor: "pointer",
                 }}
               >
-                {isPT ? "Pular" : "Skip"}
+                {t("Pular", "Skip", "Saltar")}
               </button>
               {speakingResolved !== null && (
                 <button
@@ -1205,7 +1198,7 @@ function LessonPage() {
                     cursor: "pointer",
                   }}
                 >
-                  {isPT ? "Continuar →" : "Continue →"}
+                  {t("Continuar →", "Continue →", "Continuar →")}
                 </button>
               )}
             </div>
@@ -1312,7 +1305,7 @@ function LessonPage() {
                     marginBottom: "8px",
                   }}
                 >
-                  {isPT ? "Questão" : "Question"} {quizIdx + 1}
+                  {t("Questão", "Question", "Pregunta")} {quizIdx + 1}
                 </div>
                 <h2
                   style={{
@@ -1345,7 +1338,7 @@ function LessonPage() {
                     }}
                   >
                     <Volume2 size={18} />
-                    {isPT ? "Ouvir novamente" : "Play audio"}
+                    {t("Ouvir novamente", "Play audio", "Reproducir audio")}
                   </button>
                 )}
 
@@ -1384,7 +1377,7 @@ function LessonPage() {
                           <CheckCircle
                             size={20}
                             color="#58CC02"
-                            aria-label={isPT ? "Correto" : "Correct"}
+                            aria-label={t("Correto", "Correct", "Correcto")}
                           />
                         )}
                         {state === "wrong" && (
@@ -1425,12 +1418,12 @@ function LessonPage() {
                         >
                           {selected === quiz[quizIdx].correct ? (
                             <>
-                              <CheckCircle size={16} /> {isPT ? "Correto!" : "Correct!"}
+                              <CheckCircle size={16} /> {t("Correto!", "Correct!", "¡Correcto!")}
                             </>
                           ) : (
                             <>
                               <span style={{ fontSize: "16px" }}>✕</span>{" "}
-                              {isPT ? "Incorreto" : "Incorrect"}
+                              {t("Incorreto", "Incorrect", "Incorrecto")}
                             </>
                           )}
                         </div>
@@ -1459,11 +1452,11 @@ function LessonPage() {
                     }}
                   >
                     {quizIdx + 1 < quiz.length ? (
-                      <>{isPT ? "CONTINUAR" : "CONTINUE"}</>
+                      <>{t("CONTINUAR", "CONTINUE", "CONTINUAR")}</>
                     ) : (
                       <>
                         <Trophy size={18} aria-hidden="true" />{" "}
-                        {isPT ? "VER RESULTADO" : "SEE RESULTS"}
+                        {t("VER RESULTADO", "SEE RESULTS", "VER RESULTADO")}
                       </>
                     )}
                   </button>
@@ -1499,21 +1492,21 @@ function LessonPage() {
                     size={80}
                     color="#FFD700"
                     strokeWidth={1.5}
-                    aria-label={isPT ? "Troféu" : "Trophy"}
+                    aria-label={t("Troféu", "Trophy", "Trofeo")}
                   />
                 ) : quizScore >= 2 ? (
                   <Award
                     size={80}
                     color="#FFD700"
                     strokeWidth={1.5}
-                    aria-label={isPT ? "Medalha de ouro" : "Gold medal"}
+                    aria-label={t("Medalha de ouro", "Gold medal", "Medalla de oro")}
                   />
                 ) : (
                   <Award
                     size={80}
                     color="#C0C0C0"
                     strokeWidth={1.5}
-                    aria-label={isPT ? "Medalha de prata" : "Silver medal"}
+                    aria-label={t("Medalha de prata", "Silver medal", "Medalla de plata")}
                   />
                 )}
               </div>
@@ -1526,19 +1519,13 @@ function LessonPage() {
                 }}
               >
                 {quizScore === quiz.length
-                  ? isPT
-                    ? "Perfeito!"
-                    : "Perfect!"
+                  ? t("Perfeito!", "Perfect!", "¡Perfecto!")
                   : quizScore >= 2
-                    ? isPT
-                      ? "Muito bem!"
-                      : "Well done!"
-                    : isPT
-                      ? "Continue praticando!"
-                      : "Keep practicing!"}
+                    ? t("Muito bem!", "Well done!", "¡Muy bien!")
+                    : t("Continue praticando!", "Keep practicing!", "¡Sigue practicando!")}
               </h1>
               <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "36px" }}>
-                {quizScore}/{quiz.length} {isPT ? "questões corretas" : "correct answers"}
+                {quizScore}/{quiz.length} {t("questões corretas", "correct answers", "respuestas correctas")}
               </p>
 
               <div
@@ -1552,13 +1539,13 @@ function LessonPage() {
                 {[
                   { label: "XP", value: `+${xpReward}`, color: "#F39C12", Icon: Zap },
                   {
-                    label: isPT ? "Precisão" : "Accuracy",
+                    label: t("Precisão", "Accuracy", "Precisión"),
                     value: `${Math.round((quizScore / quiz.length) * 100)}%`,
                     color: "#4CAF50",
                     Icon: Target,
                   },
                   {
-                    label: isPT ? "Completo" : "Complete",
+                    label: t("Completo", "Complete", "Completo"),
                     value: "✓",
                     color: "#38BDF8",
                     Icon: Check,
@@ -1605,18 +1592,20 @@ function LessonPage() {
                     padding: "18px",
                   }}
                 >
-                  {isPT ? "PRÓXIMA LIÇÃO" : "NEXT LESSON"}
+                  {t("PRÓXIMA LIÇÃO", "NEXT LESSON", "PRÓXIMA LECCIÓN")}
                 </button>
                 <button
                   onClick={() => {
-                    const text = isPT
-                      ? `Completei a lição "${topic}" no LumeLearn! ${quizScore}/${quiz.length} corretas, +${xpReward} XP 🎉`
-                      : `Completed "${topic}" on LumeLearn! ${quizScore}/${quiz.length} correct, +${xpReward} XP 🎉`;
+                    const text = t(
+                      `Completei a lição "${topic}" no LumeLearn! ${quizScore}/${quiz.length} corretas, +${xpReward} XP 🎉`,
+                      `Completed "${topic}" on LumeLearn! ${quizScore}/${quiz.length} correct, +${xpReward} XP 🎉`,
+                      `¡Completé la lección "${topic}" en LumeLearn! ${quizScore}/${quiz.length} correctas, +${xpReward} XP 🎉`,
+                    );
                     if (navigator.share) {
                       navigator.share({ title: "LumeLearn", text, url: "https://langlume.vercel.app" }).catch(() => {});
                     } else {
                       navigator.clipboard.writeText(text + " https://langlume.vercel.app");
-                      toast.success(isPT ? "Copiado!" : "Copied!");
+                      toast.success(t("Copiado!", "Copied!", "¡Copiado!"));
                     }
                   }}
                   className="btn-3d btn-3d-blue"
@@ -1626,7 +1615,7 @@ function LessonPage() {
                     fontSize: "13px",
                   }}
                 >
-                  🏆 {isPT ? "COMPARTILHAR" : "SHARE RESULT"}
+                  🏆 {t("COMPARTILHAR", "SHARE RESULT", "COMPARTIR")}
                 </button>
                 <button
                   onClick={() => nav({ to: "/lessons" })}
@@ -1637,7 +1626,7 @@ function LessonPage() {
                     fontSize: "13px",
                   }}
                 >
-                  {isPT ? "← CATÁLOGO" : "← CATALOG"}
+                  {t("← CATÁLOGO", "← CATALOG", "← CATÁLOGO")}
                 </button>
               </div>
             </motion.div>

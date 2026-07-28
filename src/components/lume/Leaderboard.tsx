@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Award } from "@/components/lume/CustomIcons";
 import { useStore } from "@/hooks/useStore";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 import {
   CharacterCelebrating,
   CharacterRunner,
@@ -15,62 +17,98 @@ interface Player {
   id: string;
   name: string;
   xp: number;
-  delta: number;
   isCurrentUser: boolean;
   avatarColor: string;
-  flag: string;
   character: "celebrating" | "runner" | "thinking" | "reading" | "speaking" | "waving";
 }
 
-const BASE_PLAYERS: Omit<Player, "delta">[] = [
-  { id: "u", name: "Você", xp: 450, isCurrentUser: true, avatarColor: "linear-gradient(135deg,#ff7a45,#4A7A6A)", flag: "🇧🇷", character: "celebrating" },
-  { id: "2", name: "Ana Silva", xp: 920, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#FF6B35,#C4714A)", flag: "🇧🇷", character: "runner" },
-  { id: "3", name: "Carlos M.", xp: 870, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#2f80ed,#3B7A8C)", flag: "🇵🇹", character: "thinking" },
-  { id: "4", name: "Priya K.", xp: 810, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#7B4FB0,#A97AE8)", flag: "🇮🇳", character: "reading" },
-  { id: "5", name: "Lena W.", xp: 760, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#2E4BC4,#6080E8)", flag: "🇩🇪", character: "speaking" },
-  { id: "6", name: "Julia R.", xp: 710, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#D49E3B,#F3C66F)", flag: "🇧🇷", character: "waving" },
-  { id: "7", name: "Marcos T.", xp: 690, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#C44A4A,#E87A7A)", flag: "🇲🇽", character: "runner" },
-  { id: "8", name: "Sophie B.", xp: 650, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#C4714A,#E8A07A)", flag: "🇫🇷", character: "celebrating" },
-  { id: "9", name: "Hiroshi N.", xp: 620, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#B03060,#E06090)", flag: "🇯🇵", character: "thinking" },
-  { id: "10", name: "Elena V.", xp: 590, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#1B6B4B,#3B9B7B)", flag: "🇷🇺", character: "reading" },
-  { id: "11", name: "Pedro K.", xp: 570, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#4A7A6A,#6ABAAA)", flag: "🇦🇷", character: "speaking" },
-  { id: "12", name: "Amara D.", xp: 540, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#8B4513,#C47A50)", flag: "🇳🇬", character: "waving" },
-  { id: "13", name: "Lars H.", xp: 520, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#2E6090,#4E90C0)", flag: "🇸🇪", character: "runner" },
-  { id: "14", name: "Fatima A.", xp: 500, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#6B3A6B,#9B6A9B)", flag: "🇲🇦", character: "celebrating" },
-  { id: "15", name: "Ben C.", xp: 480, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#3B5B8B,#6B8BBB)", flag: "🇦🇺", character: "thinking" },
-  { id: "16", name: "Yuki S.", xp: 460, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#9B4040,#CB7070)", flag: "🇯🇵", character: "reading" },
-  { id: "17", name: "Isabella M.", xp: 430, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#5B8B3B,#8BBB6B)", flag: "🇮🇹", character: "speaking" },
-  { id: "18", name: "Kwame A.", xp: 410, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#8B6B1B,#BBA050)", flag: "🇬🇭", character: "waving" },
-  { id: "19", name: "Sven L.", xp: 390, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#1B4B6B,#4B80A0)", flag: "🇳🇴", character: "runner" },
-  { id: "20", name: "Clara N.", xp: 370, isCurrentUser: false, avatarColor: "linear-gradient(135deg,#8B1B6B,#BB509B)", flag: "🇧🇪", character: "celebrating" },
+const AVATAR_COLORS = [
+  "linear-gradient(135deg,#ff7a45,#4A7A6A)",
+  "linear-gradient(135deg,#FF6B35,#C4714A)",
+  "linear-gradient(135deg,#2f80ed,#3B7A8C)",
+  "linear-gradient(135deg,#7B4FB0,#A97AE8)",
+  "linear-gradient(135deg,#2E4BC4,#6080E8)",
+  "linear-gradient(135deg,#D49E3B,#F3C66F)",
+  "linear-gradient(135deg,#C44A4A,#E87A7A)",
+  "linear-gradient(135deg,#1B6B4B,#3B9B7B)",
+];
+const CHARACTERS: Player["character"][] = [
+  "celebrating",
+  "runner",
+  "thinking",
+  "reading",
+  "speaking",
+  "waving",
 ];
 
-function simulateLive(players: Player[]): Player[] {
-  return players.map((p) => {
-    if (p.isCurrentUser) return { ...p, delta: 0 };
-    const bump = Math.random() < 0.55 ? Math.floor(Math.random() * 22) : 0;
-    return { ...p, xp: p.xp + bump, delta: bump };
-  });
+// Cosmetic-only, deterministic per user id so the same person always gets
+// the same avatar color/pose — not a claim about who they are, just style.
+function hashPick<T>(id: string, options: T[]): T {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return options[hash % options.length];
+}
+
+interface LeaderboardRow {
+  id: string;
+  full_name: string | null;
+  xp: number;
+  avatar_url: string | null;
 }
 
 export function Leaderboard() {
   const { xp, interfaceLanguage } = useStore();
+  const { user } = useAuth();
   const isPT = interfaceLanguage === "pt";
-
-  const [players, setPlayers] = useState<Player[]>(
-    BASE_PLAYERS.map((p) => ({ ...p, xp: p.isCurrentUser ? xp : p.xp, delta: 0 })).sort((a, b) => b.xp - a.xp)
-  );
+  const [players, setPlayers] = useState<Player[] | null>(null);
 
   useEffect(() => {
-    setPlayers((prev) => prev.map((p) => (p.isCurrentUser ? { ...p, xp } : p)).sort((a, b) => b.xp - a.xp));
+    let cancelled = false;
+    supabase
+      .rpc("get_leaderboard", { limit_count: 20 })
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          setPlayers([]);
+          return;
+        }
+        const rows: LeaderboardRow[] = data || [];
+        const mapped: Player[] = rows.map((row) => ({
+          id: row.id,
+          name: row.full_name || (isPT ? "Estudante" : "Learner"),
+          xp: row.xp,
+          isCurrentUser: user?.id === row.id,
+          avatarColor: hashPick(row.id, AVATAR_COLORS),
+          character: hashPick(row.id, CHARACTERS),
+        }));
+        // The logged-in user might not be in the top 20 (or might have 0 XP,
+        // which get_leaderboard excludes) — show them anyway, using the XP
+        // already known client-side, so they always see where they stand.
+        if (user && !mapped.some((p) => p.isCurrentUser)) {
+          mapped.push({
+            id: user.id,
+            name: isPT ? "Você" : "You",
+            xp,
+            isCurrentUser: true,
+            avatarColor: hashPick(user.id, AVATAR_COLORS),
+            character: hashPick(user.id, CHARACTERS),
+          });
+        }
+        setPlayers(mapped.sort((a, b) => b.xp - a.xp));
+      });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
+
+  // Keep the current user's row's XP live as they earn more this session,
+  // without waiting for a re-fetch of the whole leaderboard.
+  useEffect(() => {
+    setPlayers((prev) =>
+      prev ? prev.map((p) => (p.isCurrentUser ? { ...p, xp } : p)).sort((a, b) => b.xp - a.xp) : prev,
+    );
   }, [xp]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlayers((prev) => simulateLive(prev).sort((a, b) => b.xp - a.xp));
-    }, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   const getRankBadge = (rank: number) => {
     const badges: Record<number, { bg: string; icon: React.ReactNode; glow: string }> = {
@@ -109,44 +147,46 @@ export function Leaderboard() {
         </span>
       </div>
 
-      {/* Demo notice for new users with 0 XP */}
-      {xp === 0 && (
-        <div style={{ padding: "12px 16px", background: "rgba(241,196,15,0.1)", borderRadius: "12px", border: "1px solid rgba(241,196,15,0.3)" }}>
-          <p style={{ fontSize: "12px", color: "var(--text-secondary)", margin: 0, lineHeight: 1.5 }}>
-            {isPT
-              ? "🎮 Esta é uma prévia do ranking. Complete atividades para entrar na competição!"
-              : "🎮 This is a preview of the ranking. Complete activities to join the competition!"}
-          </p>
-        </div>
+      {players === null && (
+        <p style={{ fontSize: "13px", color: "var(--text-secondary)", textAlign: "center", padding: "24px 0" }}>
+          {isPT ? "Carregando ranking..." : "Loading leaderboard..."}
+        </p>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "480px", overflowY: "auto" }} className="no-scrollbar">
-        <AnimatePresence mode="popLayout">
-          {players.map((player, index) => {
-            const rank = index + 1;
-            const isTop3 = rank <= 3;
-            return (
-              <motion.div key={player.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "16px", background: player.isCurrentUser ? "rgba(255,122,69,0.09)" : "var(--bg)", border: "2px solid", borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                  {getRankBadge(rank)}
-                  <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: player.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid rgba(255,255,255,0.15)" }}>
-                    {getCharacterComponent(player.character, 28)}
-                  </div>
-                  <div>
-                    <span style={{ fontSize: "14.5px", fontWeight: 800, color: player.isCurrentUser ? "var(--brand)" : "var(--text-primary)", display: "block" }}>
+      {players !== null && players.length === 0 && (
+        <p style={{ fontSize: "13px", color: "var(--text-secondary)", textAlign: "center", padding: "24px 0" }}>
+          {isPT
+            ? "Ninguém pontuou ainda esta semana. Seja o primeiro!"
+            : "No one has scored yet this week. Be the first!"}
+        </p>
+      )}
+
+      {players !== null && players.length > 0 && (
+        <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "480px", overflowY: "auto" }} className="no-scrollbar">
+          <AnimatePresence mode="popLayout">
+            {players.map((player, index) => {
+              const rank = index + 1;
+              const isTop3 = rank <= 3;
+              return (
+                <motion.div key={player.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "16px", background: player.isCurrentUser ? "rgba(255,122,69,0.09)" : "var(--bg)", border: "2px solid", borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    {getRankBadge(rank)}
+                    <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: player.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid rgba(255,255,255,0.15)" }}>
+                      {getCharacterComponent(player.character, 28)}
+                    </div>
+                    <span style={{ fontSize: "14.5px", fontWeight: 800, color: player.isCurrentUser ? "var(--brand)" : "var(--text-primary)" }}>
                       {player.name}
                     </span>
-                    <span style={{ fontSize: "11px", color: "var(--text-secondary)" }}>{player.flag}</span>
                   </div>
-                </div>
-                <span style={{ fontSize: "15px", fontWeight: 900, color: isTop3 ? "#D4A23B" : "var(--text-primary)" }}>
-                  {player.xp.toLocaleString()}
-                </span>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
+                  <span style={{ fontSize: "15px", fontWeight: 900, color: isTop3 ? "#D4A23B" : "var(--text-primary)" }}>
+                    {player.xp.toLocaleString()}
+                  </span>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      )}
     </div>
   );
 }

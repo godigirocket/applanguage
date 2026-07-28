@@ -32,7 +32,6 @@ import {
   Sparkles,
 } from "@/components/lume/CustomIcons";
 import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
-import { SIMULATED_USERS } from "@/data/communityUsers";
 import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
 import { TopicScenario } from "@/components/lume/TopicScenario";
@@ -47,7 +46,6 @@ export const Route = createFileRoute("/home")({
 
 // NO MORE STATIC GENERATION - Will use targetLanguage dynamically
 const TRENDING_CITIES = CITIES.slice(0, 8);
-const ACTIVE_FRIENDS = SIMULATED_USERS.slice(0, 6);
 
 function HomePage() {
   const { user, loading } = useAuth();
@@ -952,127 +950,6 @@ function HomePage() {
             </div>
           </section>
 
-          {/* ACTIVE FRIENDS - Social (hidden entirely for Kid accounts — no
-              social feed exposure) */}
-          {!isKidAccount && (
-          <section style={{ marginBottom: "64px" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "24px",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 900,
-                  color: "var(--text-primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
-                <Users size={28} color="var(--brand-purple)" />
-                {isPT ? "Amigos Ativos" : "Active Friends"}
-              </h2>
-              <Link
-                to="/community"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  color: "var(--brand)",
-                  fontWeight: 700,
-                  textDecoration: "none",
-                  fontSize: "14px",
-                }}
-              >
-                {isPT ? "Ver comunidade" : "See community"}
-                <ChevronRight size={18} />
-              </Link>
-            </div>
-
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                gap: "16px",
-              }}
-            >
-              {ACTIVE_FRIENDS.map((friend, i) => (
-                <motion.div
-                  key={friend.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  whileHover={{ y: -4 }}
-                  style={{
-                    background: "var(--surface-raised)",
-                    borderRadius: "16px",
-                    padding: "20px",
-                    border: "2px solid var(--border)",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    <div style={{ fontSize: "40px" }}>{friend.avatar}</div>
-                    <div style={{ flex: 1 }}>
-                      <div
-                        style={{
-                          fontSize: "14px",
-                          fontWeight: 800,
-                          color: "var(--text-primary)",
-                          marginBottom: "4px",
-                        }}
-                      >
-                        {friend.name}
-                      </div>
-                      <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                        {friend.country} • Lvl {friend.level}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingTop: "12px",
-                      borderTop: "1px solid var(--border)",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px",
-                        fontSize: "12px",
-                        color: "var(--text-secondary)",
-                      }}
-                    >
-                      <Flame size={14} color="#FF6B35" />
-                      {friend.streak}
-                    </div>
-                    <div style={{ fontSize: "13px", fontWeight: 800, color: "var(--brand)" }}>
-                      {friend.xp.toLocaleString()} XP
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-          )}
         </main>
       </div>
 

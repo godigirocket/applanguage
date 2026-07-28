@@ -449,6 +449,14 @@ export type Database = {
         Args: { user_email: string; user_id: string };
         Returns: number;
       };
+      get_leaderboard: {
+        Args: { limit_count?: number };
+        Returns: { id: string; full_name: string | null; xp: number; avatar_url: string | null }[];
+      };
+      get_community_stats: {
+        Args: Record<PropertyKey, never>;
+        Returns: { member_count: number; posts_today: number; lessons_completed: number }[];
+      };
     };
     Enums: {
       app_language: "pt" | "en" | "es";

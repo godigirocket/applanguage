@@ -1,24 +1,44 @@
 /**
  * CONTENT ENGINE - Real Lesson Integration
  *
- * masterContent.json used to be one ~2MB file with all 3 languages' lessons,
- * loaded in full any time a single-language user visited /home. It's split
- * into masterContent.en.json / .es.json / .pt.json, and only the target
- * language's file is dynamically imported — roughly a 3x smaller download
- * for a typical single-language session.
+ * masterContent.json used to be one ~2MB-per-language file with all 710
+ * lessons' full content (vocab, quiz, listening steps included), and
+ * getAllMasterLessons()/generateLessons()/generateQuizzes() all loaded that
+ * entire file — even /home and /lessons, which only render title/level/
+ * category/xp/duration, and even opening ONE lesson by id, which loaded
+ * all 710 lessons' full steps just to find one. That was the single
+ * biggest source of load-time lag in the app.
+ *
+ * scripts/split-master-content.mjs pre-splits each language's content into:
+ *   - lessons/index.<lang>.json — lightweight metadata only (~210KB vs ~2MB)
+ *   - lessons/detail/<lang>/<id>.json — one ~3KB file per lesson with the
+ *     full `steps` array, fetched only when that lesson is actually opened.
  */
 
 type TargetLang = "en" | "es" | "pt";
 
-async function loadLessonsForLanguage(targetLanguage: TargetLang): Promise<any[]> {
+// Metadata-only listing (no `steps`) for every lesson in a language —
+// what /home, /lessons, and id/order lookups actually need.
+async function loadIndexForLanguage(targetLanguage: TargetLang): Promise<any[]> {
   switch (targetLanguage) {
     case "en":
-      return (await import("./masterContent.en.json")).default as any[];
+      return (await import("./lessons/index.en.json")).default as any[];
     case "es":
-      return (await import("./masterContent.es.json")).default as any[];
+      return (await import("./lessons/index.es.json")).default as any[];
     case "pt":
-      return (await import("./masterContent.pt.json")).default as any[];
+      return (await import("./lessons/index.pt.json")).default as any[];
   }
+}
+
+// Vite code-splits each matched file into its own lazily-loaded chunk, so
+// this registers 2130 tiny import()s without eagerly loading any of them.
+const lessonDetailLoaders = import.meta.glob("./lessons/detail/*/*.json", {
+  import: "default",
+}) as Record<string, () => Promise<any>>;
+
+async function loadLessonDetail(targetLanguage: TargetLang, id: string): Promise<any | undefined> {
+  const loader = lessonDetailLoaders[`./lessons/detail/${targetLanguage}/${id}.json`];
+  return loader ? loader() : undefined;
 }
 
 // 50 CITIES DATA (kept for cultural content)
@@ -272,8 +292,17 @@ export const CITIES = [
   },
 ];
 
-// CACHE per language
-const lessonsCache: Partial<Record<TargetLang, any[]>> = {};
+// CACHE per language — holds only the lightweight index (no `steps`)
+const lessonsIndexCache: Partial<Record<TargetLang, any[]>> = {};
+
+async function getIndex(targetLanguage: TargetLang): Promise<any[]> {
+  let index = lessonsIndexCache[targetLanguage];
+  if (!index) {
+    index = await loadIndexForLanguage(targetLanguage);
+    lessonsIndexCache[targetLanguage] = index;
+  }
+  return index;
+}
 
 const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const TIER_TO_CEFR: Record<string, string> = {
@@ -310,11 +339,7 @@ export async function generateLessons(
   options: { progressiveLock?: boolean; startLevel?: string } = {},
 ) {
   const { progressiveLock = false, startLevel } = options;
-  let lessonsInLanguage = lessonsCache[targetLanguage];
-  if (!lessonsInLanguage) {
-    lessonsInLanguage = await loadLessonsForLanguage(targetLanguage);
-    lessonsCache[targetLanguage] = lessonsInLanguage;
-  }
+  const lessonsInLanguage = await getIndex(targetLanguage);
 
   const difficultyMap: Record<string, string> = {
     A1: "Beginner",
@@ -368,37 +393,26 @@ export async function generateLessons(
   });
 }
 
-// Raw, full-fidelity lesson list (all `steps`, not the trimmed card shape
-// generateLessons() returns) for the given language, cached alongside it.
+// Metadata-only lesson list (no `steps`) for the given language — used for
+// id/order lookups (e.g. "what's the next lesson after this one") that
+// don't need any lesson's full vocab/quiz/listening content.
 export async function getAllMasterLessons(targetLanguage: TargetLang): Promise<any[]> {
-  let lessonsInLanguage = lessonsCache[targetLanguage];
-  if (!lessonsInLanguage) {
-    lessonsInLanguage = await loadLessonsForLanguage(targetLanguage);
-    lessonsCache[targetLanguage] = lessonsInLanguage;
-  }
-  return lessonsInLanguage;
+  return getIndex(targetLanguage);
 }
 
-// Fetches one full lesson (all its `steps`) by id, from the same
-// masterContent source that generateLessons() uses for the /home and
-// /lessons card listings — so clicking a card always opens the lesson it
-// actually advertised, instead of an unrelated lesson from a different
-// legacy content system.
+// Fetches one full lesson (all its `steps`) by id — the only place that
+// actually loads a lesson's full content, and only for the one lesson
+// being opened, not the other 709 in that language.
 export async function getMasterLessonById(
   id: string,
   targetLanguage: TargetLang,
 ): Promise<any | undefined> {
-  const lessonsInLanguage = await getAllMasterLessons(targetLanguage);
-  return lessonsInLanguage.find((l) => l.id === id);
+  return loadLessonDetail(targetLanguage, id);
 }
 
 // Generate quiz content filtered by target language
 export async function generateQuizzes(targetLanguage: TargetLang, count: number) {
-  let lessonsInLanguage = lessonsCache[targetLanguage];
-  if (!lessonsInLanguage) {
-    lessonsInLanguage = await loadLessonsForLanguage(targetLanguage);
-    lessonsCache[targetLanguage] = lessonsInLanguage;
-  }
+  const lessonsInLanguage = await getIndex(targetLanguage);
 
   const quizzes = [];
   for (let i = 0; i < Math.min(count, lessonsInLanguage.length); i++) {
@@ -421,9 +435,6 @@ export async function generateQuizzes(targetLanguage: TargetLang, count: number)
 
   return quizzes;
 }
-
-// SIMULATED_USERS moved to ./communityUsers.ts so routes that only need the
-// user list (e.g. community.tsx) don't have to load masterContent too.
 
 // getLessonDetail / getLessonByLanguageAndIndex removed — dead code (never
 // called from anywhere in the app) that routed through the also-dead

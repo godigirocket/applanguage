@@ -23,121 +23,14 @@ import {
   Video,
   Music,
 } from "@/components/lume/CustomIcons";
-import { SIMULATED_USERS } from "@/data/communityUsers";
 
 export const Route = createFileRoute("/community")({
   component: CommunityPage,
 });
 
-// 100+ SIMULATED FEED POSTS
-const FEED_POSTS = [
-  {
-    id: 1,
-    user: SIMULATED_USERS[0],
-    type: "achievement",
-    content:
-      "Acabei de completar minha 100ª lição! Quem diria que eu conseguiria chegar tão longe? #Milestone",
-    image: null,
-    likes: 234,
-    comments: 18,
-    shares: 5,
-    timestamp: "2h atrás",
-    tags: ["milestone", "achievement"],
-  },
-  {
-    id: 2,
-    user: SIMULATED_USERS[1],
-    type: "question",
-    content:
-      "Alguém pode me explicar a diferença entre 'por' e 'para' em espanhol? Sempre me confundo com esses dois! 😅",
-    image: null,
-    likes: 89,
-    comments: 34,
-    shares: 2,
-    timestamp: "3h atrás",
-    tags: ["grammar", "help"],
-  },
-  {
-    id: 3,
-    user: SIMULATED_USERS[2],
-    type: "streak",
-    content: "200 DIAS DE OFENSIVA! A consistência é tudo. Quem mais está mantendo a chama acesa?",
-    image: null,
-    likes: 456,
-    comments: 67,
-    shares: 12,
-    timestamp: "5h atrás",
-    tags: ["streak", "motivation"],
-  },
-  {
-    id: 4,
-    user: SIMULATED_USERS[3],
-    type: "tip",
-    content:
-      "DICA: Assistir séries com legendas no idioma que você está aprendendo (não na sua língua nativa) ajuda MUITO! Comecei fazendo isso e minha compreensão melhorou 3x",
-    image: null,
-    likes: 312,
-    comments: 42,
-    shares: 89,
-    timestamp: "7h atrás",
-    tags: ["tip", "listening"],
-  },
-  {
-    id: 5,
-    user: SIMULATED_USERS[4],
-    type: "meme",
-    content: "POV: Você tentando usar uma nova palavra que aprendeu em uma conversa real 😂",
-    image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&q=80",
-    likes: 567,
-    comments: 93,
-    shares: 234,
-    timestamp: "10h atrás",
-    tags: ["meme", "relatable"],
-  },
-  {
-    id: 6,
-    user: SIMULATED_USERS[0],
-    type: "challenge",
-    content:
-      "DESAFIO: Tente ter uma conversa de 5 minutos hoje usando APENAS o idioma que está aprendendo. Quem aceita? 💪",
-    image: null,
-    likes: 178,
-    comments: 56,
-    shares: 23,
-    timestamp: "12h atrás",
-    tags: ["challenge", "speaking"],
-  },
-  {
-    id: 7,
-    user: SIMULATED_USERS[1],
-    type: "cultural",
-    content:
-      "Acabei de visitar Tóquio e AMEI! A experiência de imersão cultural é incrível. Aprendi mais em 2 semanas do que em 6 meses estudando sozinho",
-    image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80",
-    likes: 423,
-    comments: 78,
-    shares: 45,
-    timestamp: "1d atrás",
-    tags: ["travel", "culture"],
-  },
-  {
-    id: 8,
-    user: SIMULATED_USERS[2],
-    type: "resource",
-    content:
-      "Top 3 recursos gratuitos que estou usando:\n1. Podcasts nativos no Spotify\n2. Apps de troca de idiomas\n3. Canais do YouTube\n\nQuais vocês recomendam?",
-    image: null,
-    likes: 289,
-    comments: 124,
-    shares: 67,
-    timestamp: "1d atrás",
-    tags: ["resources", "tips"],
-  },
-];
-
 interface FeedPost {
   id: number | string;
-  user: { id: number | string; name: string; avatar: string; level: number; xp: number; country: string; streak: number };
+  user: { id: number | string; name: string; avatar: string };
   type: string;
   content: string;
   image: string | null;
@@ -175,6 +68,9 @@ function CommunityPage() {
   const [postText, setPostText] = useState("");
   const [realPosts, setRealPosts] = useState<FeedPost[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [stats, setStats] = useState<{ memberCount: number; postsToday: number; lessonsCompleted: number } | null>(
+    null,
+  );
   const isPT = interfaceLanguage === "pt";
 
   // Kid accounts don't get the unmoderated adult social feed — bounce them
@@ -205,10 +101,6 @@ function CommunityPage() {
               id: row.user_id,
               name: row.author_name,
               avatar: "👤",
-              level: 1,
-              xp: 0,
-              country: "🌍",
-              streak: 0,
             },
             type: row.post_type,
             content: row.content,
@@ -225,6 +117,28 @@ function CommunityPage() {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Real platform-wide stats via a SECURITY DEFINER RPC — profiles/
+  // lesson_progress are locked to owner-only SELECT, so a plain client
+  // query would only ever see the current user's own row/count.
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .rpc("get_community_stats")
+      .then(({ data, error }) => {
+        if (cancelled || error || !data) return;
+        const row = Array.isArray(data) ? data[0] : data;
+        if (!row) return;
+        setStats({
+          memberCount: Number(row.member_count) || 0,
+          postsToday: Number(row.posts_today) || 0,
+          lessonsCompleted: Number(row.lessons_completed) || 0,
+        });
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function handleSubmitPost() {
@@ -267,7 +181,7 @@ function CommunityPage() {
     setRealPosts((prev) => [
       {
         id: data.id,
-        user: { id: user.id, name: authorName, avatar: "👤", level: 1, xp: 0, country: "🌍", streak: 0 },
+        user: { id: user.id, name: authorName, avatar: "👤" },
         type: "tip",
         content: text,
         image: null,
@@ -319,7 +233,7 @@ function CommunityPage() {
     tips: ["tip", "resource"],
     memes: ["meme"],
   };
-  const allPosts = [...realPosts, ...FEED_POSTS];
+  const allPosts = realPosts;
   const visiblePosts =
     activeFilter === "all"
       ? allPosts
@@ -367,12 +281,24 @@ function CommunityPage() {
                 : "Connect with thousands of learners worldwide"}
             </p>
 
-            {/* STATS BAR */}
+            {/* STATS BAR — real counts from get_community_stats(), not hardcoded */}
             <div style={{ display: "flex", gap: "32px", marginTop: "20px", flexWrap: "wrap" }}>
               {[
-                { icon: Users, label: isPT ? "Membros Online" : "Members Online", value: "2,847" },
-                { icon: MessageCircle, label: isPT ? "Posts Hoje" : "Posts Today", value: "156" },
-                { icon: Globe, label: isPT ? "Países" : "Countries", value: "89" },
+                {
+                  icon: Users,
+                  label: isPT ? "Membros" : "Members",
+                  value: stats ? stats.memberCount.toLocaleString() : "—",
+                },
+                {
+                  icon: MessageCircle,
+                  label: isPT ? "Posts Hoje" : "Posts Today",
+                  value: stats ? stats.postsToday.toLocaleString() : "—",
+                },
+                {
+                  icon: Globe,
+                  label: isPT ? "Lições Concluídas" : "Lessons Completed",
+                  value: stats ? stats.lessonsCompleted.toLocaleString() : "—",
+                },
               ].map((stat, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                   <div
@@ -690,21 +616,6 @@ function CommunityPage() {
                                 }}
                               >
                                 {post.user.name}
-                              </span>
-                              <span style={{ fontSize: "13px", color: "var(--text-secondary)" }}>
-                                {post.user.country}
-                              </span>
-                              <span
-                                style={{
-                                  fontSize: "12px",
-                                  padding: "2px 8px",
-                                  background: postColor + "20",
-                                  color: postColor,
-                                  borderRadius: "6px",
-                                  fontWeight: 700,
-                                }}
-                              >
-                                Lvl {post.user.level}
                               </span>
                             </div>
                             <div

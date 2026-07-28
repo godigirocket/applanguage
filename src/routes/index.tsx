@@ -22,12 +22,6 @@ const structuredData = {
     priceCurrency: "BRL",
     description: "Plano gratuito com lições limitadas",
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.8",
-    ratingCount: "50",
-    bestRating: "5",
-  },
   featureList: "700+ lições interativas, 3 idiomas (EN/ES/PT), 6 níveis CEFR, 5 modos de jogo, IA conversacional, Gamificação com XP",
   inLanguage: ["pt-BR", "en", "es"],
 };
