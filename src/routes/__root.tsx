@@ -174,6 +174,17 @@ function RootShell({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" dir="ltr">
       <head>
+        {/* Applies the saved theme before first paint — without this, the
+            page always renders light-theme CSS first (the default with no
+            data-theme attribute) and only flips to the user's actual dark
+            preference once React hydrates and the theme useEffect runs,
+            causing a visible flash on every load. A blocking inline script
+            is the standard fix (same approach Next.js/Tailwind docs use). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('lume_theme')||'dark';if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();`,
+          }}
+        />
         <HeadContent />
       </head>
       <body>
@@ -559,12 +570,12 @@ function RootInner() {
                 width: "64px",
                 height: "64px",
                 borderRadius: "20px",
-                background: "linear-gradient(135deg, var(--brand), #2f80ed)",
+                background: "linear-gradient(135deg, var(--brand), var(--brand-2))",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 margin: "0 auto 24px",
-                boxShadow: "0 8px 24px rgba(255,122,69,0.15)",
+                boxShadow: "0 8px 24px color-mix(in srgb, var(--brand) 25%, transparent)",
               }}
             >
               <Logo size={42} withText={false} />

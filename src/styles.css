@@ -389,7 +389,13 @@ h6 {
   }
   html,
   body {
-    height: 100%;
+    /* min-height, not height: a fixed height:100% caps the document at
+       exactly the viewport's height regardless of content, so any page
+       taller than one screen (e.g. the landing page) has its overflow
+       silently clipped by any descendant's overflow:hidden instead of
+       being scrollable — the page becomes stuck, unable to scroll past
+       the first viewport at all. */
+    min-height: 100%;
   }
   body {
     background:

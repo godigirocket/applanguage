@@ -625,7 +625,7 @@ function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             style={{
-              background: "linear-gradient(135deg, #2f80ed 0%, #ff7a45 100%)",
+              background: "linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%)",
               borderRadius: "clamp(20px, 4vw, 32px)",
               padding: "clamp(32px, 6vw, 60px) clamp(20px, 4vw, 48px)",
               color: "white",

@@ -659,7 +659,7 @@ function SkillNode({ skill }: { skill: (typeof SKILLS)[0] }) {
   const [hovered, setHovered] = useState(false);
 
   const bg = skill.completed
-    ? "linear-gradient(135deg, #ff7a45, #2f80ed)"
+    ? "linear-gradient(135deg, var(--brand), var(--brand-2))"
     : skill.locked
       ? "var(--surface)"
       : "var(--surface-raised)";

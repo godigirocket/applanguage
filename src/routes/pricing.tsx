@@ -274,7 +274,7 @@ function PricingPage() {
                     height: "64px",
                     borderRadius: "20px",
                     background: isPremium
-                      ? "linear-gradient(135deg, var(--brand), #2f80ed)"
+                      ? "linear-gradient(135deg, var(--brand), var(--brand-2))"
                       : "var(--bg)",
                     border: "1px solid var(--border)",
                     display: "flex",

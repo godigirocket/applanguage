@@ -1063,7 +1063,7 @@ function ConversationPage() {
                           height: "32px",
                           borderRadius: "50%",
                           flexShrink: 0,
-                          background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
+                          background: "linear-gradient(135deg,var(--brand),var(--brand-2))",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -1079,7 +1079,7 @@ function ConversationPage() {
                           padding: "14px 18px",
                           background:
                             msg.role === "user"
-                              ? "linear-gradient(135deg,#ff7a45,#2f80ed)"
+                              ? "linear-gradient(135deg,var(--brand),var(--brand-2))"
                               : "var(--bg)",
                           color: msg.role === "user" ? "white" : "var(--text-primary)",
                           borderRadius:
@@ -1152,7 +1152,7 @@ function ConversationPage() {
                         width: "32px",
                         height: "32px",
                         borderRadius: "50%",
-                        background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
+                        background: "linear-gradient(135deg,var(--brand),var(--brand-2))",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -1598,7 +1598,7 @@ function ConversationPage() {
                     width: "100%",
                     padding: "16px",
                     borderRadius: "16px",
-                    background: "linear-gradient(135deg,#ff7a45,#2f80ed)",
+                    background: "linear-gradient(135deg,var(--brand),var(--brand-2))",
                     color: "var(--surface-raised)",
                     border: "none",
                     cursor: "pointer",
