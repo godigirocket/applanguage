@@ -16,6 +16,7 @@ import { sounds } from "@/lib/soundEffects";
 import { useStore } from "@/hooks/useStore";
 import { useUserStore } from "@/store/userStore";
 import "@/i18n/config";
+import { Sentry } from "@/lib/sentry-client";
 import i18n from "i18next";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { BottomNav } from "@/components/lume/BottomNav";
@@ -51,6 +52,7 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
+  Sentry.captureException(error);
   const router = useRouter();
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { Sentry } from "./lib/sentry-server";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -65,6 +66,7 @@ async function normalizeCatastrophicSsrResponse(response: Response): Promise<Res
   const capturedError =
     (consumeLastCapturedError() as any) ?? new Error(`h3 swallowed SSR error: ${body}`);
   console.error(capturedError);
+  Sentry.captureException(capturedError);
   return brandedErrorResponse(capturedError);
 }
 
@@ -76,7 +78,9 @@ export default {
       return await normalizeCatastrophicSsrResponse(response);
     } catch (error) {
       console.error(error);
-      return brandedErrorResponse(error instanceof Error ? error : new Error(String(error)));
+      const normalizedError = error instanceof Error ? error : new Error(String(error));
+      Sentry.captureException(normalizedError);
+      return brandedErrorResponse(normalizedError);
     }
   },
 };
