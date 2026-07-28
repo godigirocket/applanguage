@@ -450,7 +450,7 @@ function CommunityPage() {
                     >
                       👤
                     </div>
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
                       <textarea
                         value={postText}
                         onChange={(e) => setPostText(e.target.value)}
@@ -599,7 +599,7 @@ function CommunityPage() {
                           >
                             {post.user.avatar}
                           </div>
-                          <div style={{ flex: 1 }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
                             <div
                               style={{
                                 display: "flex",

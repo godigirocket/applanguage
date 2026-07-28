@@ -17,7 +17,16 @@ export function LanguageSwitcher() {
   const { targetLanguage, setTargetLanguage, interfaceLanguage, setInterfaceLanguage } = useStore();
   const { user } = useAuth();
 
-  const currentTarget = TARGETS.find((l) => l.code === targetLanguage) || TARGETS[0];
+  // The visible trigger shows the INTERFACE language (what the whole app's
+  // text is in) rather than the target language (what's being learned) —
+  // it previously showed the target language's flag/code, which reads as
+  // "the site is in X" to anyone glancing at the header, even though it
+  // only meant "you're learning X" while the UI stayed in whatever
+  // interfaceLanguage was actually set.
+  const currentInterface = TARGETS.find((l) => l.code === interfaceLanguage) || TARGETS[0];
+  const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
+  const t = (pt: string, en: string, es: string) => (isPT ? pt : isES ? es : en);
 
   const handleOutside = useCallback((e: MouseEvent | TouchEvent) => {
     if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -95,9 +104,9 @@ export function LanguageSwitcher() {
         aria-label="Language settings"
         aria-expanded={open}
       >
-        <currentTarget.Flag size={20} />
+        <currentInterface.Flag size={20} />
         <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.06em" }}>
-          {currentTarget.label}
+          {currentInterface.label}
         </span>
         <svg
           width="10"
@@ -148,7 +157,7 @@ export function LanguageSwitcher() {
                 marginBottom: "8px",
               }}
             >
-              Quero Aprender (Alvo)
+              {t("Quero Aprender (Alvo)", "I Want to Learn (Target)", "Quiero Aprender (Objetivo)")}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
               {TARGETS.map(({ code, label, name, Flag }) => (
@@ -213,7 +222,7 @@ export function LanguageSwitcher() {
                 marginBottom: "8px",
               }}
             >
-              Idioma do App (Interface)
+              {t("Idioma do App (Interface)", "App Language (Interface)", "Idioma de la App (Interfaz)")}
             </div>
             <div style={{ display: "flex", gap: "6px" }}>
               {TARGETS.map(({ code, label }) => (

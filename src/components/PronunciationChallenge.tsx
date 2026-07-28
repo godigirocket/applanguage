@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Volume2, CheckCircle, AlertTriangle, RefreshCw } from "@/components/lume/CustomIcons";
 import { toast } from "sonner";
 import { isSTTSupported } from "@/lib/language-apis/webSpeech";
+import { useStore } from "@/hooks/useStore";
 
 const SPEECH_LOCALE: Record<"en" | "es" | "pt", string> = {
   en: "en-US",
@@ -23,6 +24,11 @@ export function PronunciationChallenge({
   onSuccess,
   onFailure,
 }: PronunciationChallengeProps) {
+  const { interfaceLanguage } = useStore();
+  const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
+  const t = (pt: string, en: string, es: string) => (isPT ? pt : isES ? es : en);
+
   const [isRecording, setIsRecording] = useState(false);
   const [spokenText, setSpokenText] = useState("");
   const [score, setScore] = useState<number | null>(null);
@@ -31,7 +37,18 @@ export function PronunciationChallenge({
 
   useEffect(() => {
     if (!isSTTSupported()) {
-      setError("Seu navegador não suporta reconhecimento de fala. Tente o Chrome.");
+      // Not just a Chrome-vs-Safari thing — iOS (all browsers, WebKit
+      // engine-wide) has no speech recognition API at all, so "try Chrome"
+      // is actively wrong advice there. Point at a device switch instead of
+      // a specific browser, and don't frame it as scary/broken — this step
+      // already has a Skip button.
+      setError(
+        t(
+          "Reconhecimento de voz não disponível neste navegador/dispositivo. Você pode pular esta etapa.",
+          "Speech recognition isn't available on this browser/device. You can skip this step.",
+          "El reconocimiento de voz no está disponible en este navegador/dispositivo. Puedes saltar este paso.",
+        ),
+      );
       return;
     }
     const SpeechRecognitionCtor =
@@ -56,9 +73,23 @@ export function PronunciationChallenge({
       console.error(e);
       setIsRecording(false);
       if (e.error === "no-speech") {
-        toast.error("Nenhuma fala detectada. Fale mais perto do microfone.");
+        toast.error(
+          t(
+            "Nenhuma fala detectada. Fale mais perto do microfone.",
+            "No speech detected. Speak closer to the microphone.",
+            "No se detectó voz. Habla más cerca del micrófono.",
+          ),
+        );
+      } else if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+        toast.error(
+          t(
+            "Permissão de microfone negada. Ative o microfone nas configurações do navegador.",
+            "Microphone permission denied. Enable microphone access in your browser settings.",
+            "Permiso de micrófono denegado. Habilita el micrófono en la configuración del navegador.",
+          ),
+        );
       } else {
-        toast.error("Erro no reconhecimento de voz.");
+        toast.error(t("Erro no reconhecimento de voz.", "Speech recognition error.", "Error de reconocimiento de voz."));
       }
     };
 
@@ -95,10 +126,22 @@ export function PronunciationChallenge({
     setScore(calculatedScore);
 
     if (calculatedScore >= 70) {
-      toast.success(`Excelente pronúncia! Nota: ${calculatedScore}% 🎉`);
+      toast.success(
+        t(
+          `Excelente pronúncia! Nota: ${calculatedScore}% 🎉`,
+          `Excellent pronunciation! Score: ${calculatedScore}% 🎉`,
+          `¡Excelente pronunciación! Nota: ${calculatedScore}% 🎉`,
+        ),
+      );
       if (onSuccess) onSuccess(calculatedScore);
     } else {
-      toast.warning(`Sua pronúncia teve ${calculatedScore}% de precisão. Tente novamente!`);
+      toast.warning(
+        t(
+          `Sua pronúncia teve ${calculatedScore}% de precisão. Tente novamente!`,
+          `Your pronunciation was ${calculatedScore}% accurate. Try again!`,
+          `Tu pronunciación tuvo ${calculatedScore}% de precisión. ¡Inténtalo de nuevo!`,
+        ),
+      );
       if (onFailure) onFailure();
     }
   };
@@ -156,7 +199,7 @@ export function PronunciationChallenge({
             textTransform: "uppercase",
           }}
         >
-          Desafio de Voz
+          {t("Desafio de Voz", "Voice Challenge", "Desafío de Voz")}
         </span>
         <button
           onClick={speakTarget}
@@ -173,7 +216,7 @@ export function PronunciationChallenge({
           }}
         >
           <Volume2 size={16} />
-          Ouvir Pronúncia
+          {t("Ouvir Pronúncia", "Hear Pronunciation", "Escuchar Pronunciación")}
         </button>
       </div>
 
@@ -264,7 +307,9 @@ export function PronunciationChallenge({
           </div>
 
           <span style={{ fontSize: "13px", color: "var(--text-secondary)", fontWeight: 600 }}>
-            {isRecording ? "Gravando... Solte para finalizar" : "Segure para falar"}
+            {isRecording
+              ? t("Gravando... Solte para finalizar", "Recording... Release to finish", "Grabando... Suelta para terminar")
+              : t("Segure para falar", "Hold to speak", "Mantén presionado para hablar")}
           </span>
 
           {spokenText && (
@@ -279,7 +324,7 @@ export function PronunciationChallenge({
               }}
             >
               <span style={{ fontSize: "11px", color: "var(--text-secondary)", fontWeight: 700 }}>
-                Você falou:
+                {t("Você falou:", "You said:", "Dijiste:")}
               </span>
               <p
                 style={{
@@ -323,7 +368,7 @@ export function PronunciationChallenge({
                   color: score >= 70 ? "#4A7A5B" : "var(--accent)",
                 }}
               >
-                Precisão: {score}%
+                {t("Precisão", "Accuracy", "Precisión")}: {score}%
               </span>
             </motion.div>
           )}

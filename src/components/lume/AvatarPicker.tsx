@@ -80,7 +80,7 @@ export function AvatarPicker({ isPT, onClose }: AvatarPickerProps) {
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(72px, 1fr))",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(72px, 100%), 1fr))",
             gap: "12px",
           }}
         >

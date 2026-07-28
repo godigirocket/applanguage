@@ -85,9 +85,11 @@
   --bg-secondary: #ffffff;
   --text-primary: #172033;
   --text-secondary: #3d4a63;
-  /* Single Action Blue accent (Apple design system) — one deliberate color
-     for interactive/brand elements instead of the old orange+blue duo. */
-  --brand: #0066cc;
+  /* Duolingo-style green primary, matching the app's existing
+     --brand-green so CTAs/wordmark/nav-highlight read as the same color
+     family as "correct answer" states elsewhere — not the Apple Action
+     Blue this was set to in an earlier minimalist pass. */
+  --brand: #2fbb52;
   --accent: #86868b;
   --card-bg: #ffffff;
   --overlay-bg: rgba(255, 255, 255, 0.94);
@@ -107,8 +109,8 @@
   /* Monochromatic gradient partner for --brand — same hue family so
      gradients (avatar rings, progress fills, celebratory cards) read as one
      deliberate color, not a second competing brand color. */
-  --brand-2: #4da3ff;
-  --brand-dark: #0052a3;
+  --brand-2: #4cd868;
+  --brand-dark: #1f9440;
   /* Curated category-color palette — distinct from --brand (which stays the
      one color used for primary actions/CTAs/active nav). Used to color-code
      categories, quiz types and cards so the app doesn't read as flat/gray,
@@ -249,9 +251,9 @@ h6 {
   --bg-secondary: #151c2f;
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  /* Apple's dark-mode Action Blue — brighter than the light-mode #0066cc so
-     it still reads clearly against the navy background. */
-  --brand: #0a84ff;
+  /* Matches this theme's own --brand-green below (brighter than the
+     light theme's, for contrast against the navy background). */
+  --brand: #3ecf63;
   --accent: #98989d;
   --card-bg: #151c2f;
   --overlay-bg: rgba(11, 16, 32, 0.92);
@@ -265,8 +267,8 @@ h6 {
   --text-strong: #ffffff;
   --text-muted: var(--text-secondary);
   --text-soft: #a8b5c8;
-  --brand-2: #5ac8fa;
-  --brand-dark: #409cff;
+  --brand-2: #6ae085;
+  --brand-dark: #2a9c4a;
   --brand-blue: #3dc2ff;
   --brand-green: #3ecf63;
   --brand-yellow: #ffd23d;
@@ -1710,6 +1712,13 @@ section:not(:first-of-type) {
 .community-sidebar {
   position: sticky;
   top: 74px;
+  min-width: 0;
+}
+/* Grid items default to min-width:auto, so without this the feed column
+   (an unstyled <main>, no class to target directly) won't shrink below its
+   content's intrinsic width — e.g. a post's action row — forcing the
+   whole grid ~120px wider than its container and clipping the sidebar. */
+.community-grid > main {
   min-width: 0;
 }
 @media (max-width: 860px) {

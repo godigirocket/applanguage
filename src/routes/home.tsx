@@ -223,7 +223,7 @@ function HomePage() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(100px, 1fr))",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(min(100px, 100%), 1fr))",
                   gap: "12px",
                   maxWidth: "500px",
                 }}
@@ -589,7 +589,7 @@ function HomePage() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
                 gap: "20px",
               }}
             >
@@ -734,7 +734,11 @@ function HomePage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
+              // minmax(min(400px, 100%), 1fr) forced a 400px-minimum column even on
+              // viewports narrower than that (e.g. any phone <430px wide),
+              // guaranteeing horizontal overflow. min(400px, 100%) caps the
+              // minimum at whatever width is actually available.
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(400px, 100%), 1fr))",
               gap: "24px",
               marginBottom: "64px",
             }}
@@ -788,7 +792,7 @@ function HomePage() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(min(160px, 100%), 1fr))",
                 gap: "16px",
               }}
             >
@@ -866,7 +870,7 @@ function HomePage() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(min(240px, 100%), 1fr))",
                 gap: "20px",
               }}
             >

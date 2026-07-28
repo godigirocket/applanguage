@@ -105,7 +105,7 @@ export function BadgeGrid({ unlockedIds = [] }: { unlockedIds?: string[] }) {
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(min(130px, 100%), 1fr))",
         gap: "16px",
         marginTop: "16px",
       }}

@@ -161,8 +161,8 @@ export function AppHeader() {
     { href: "/home", label: t("practice"), Icon: IconHome },
     { href: "/lessons", label: t("lessons"), Icon: IconBook },
     { href: "/games", label: t("play"), Icon: IconPlay },
-    { href: "/culture", label: "Cultura", Icon: IconGlobe },
-    { href: "/profile", label: "Perfil", Icon: IconUser },
+    { href: "/culture", label: t("culture"), Icon: IconGlobe },
+    { href: "/profile", label: t("profile"), Icon: IconUser },
   ];
 
   const isLoggedIn = user && profile?.onboarding_done;

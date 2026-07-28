@@ -497,7 +497,7 @@ function ProfilePage() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))",
                   gap: "20px",
                   marginBottom: "40px",
                 }}
@@ -689,7 +689,7 @@ function ProfilePage() {
               <div
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
                   gap: "20px",
                 }}
               >
