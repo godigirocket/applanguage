@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { TopicScenario } from "@/components/lume/TopicScenario";
+import { Mascot } from "@/components/lume/Mascot";
 import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -544,23 +545,46 @@ function CommunityPage() {
               {/* POSTS FEED */}
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 {visiblePosts.length === 0 && (
-                  <div
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
                     style={{
                       textAlign: "center",
                       padding: "48px 24px",
                       background: "var(--surface-raised)",
                       borderRadius: "20px",
-                      border: "2px solid var(--border)",
-                      color: "var(--text-muted)",
+                      border: `2px dashed var(--border)`,
                     }}
                   >
-                    <MessageCircle size={32} style={{ marginBottom: "12px", opacity: 0.6 }} />
-                    <p style={{ fontSize: "15px", fontWeight: 600 }}>
-                      {isPT
-                        ? "Nenhum post nessa categoria ainda."
-                        : "No posts in this category yet."}
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+                      <Mascot state="happy" size={72} />
+                    </div>
+                    <p
+                      style={{
+                        fontSize: "17px",
+                        fontWeight: 800,
+                        color: "var(--text-primary)",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      {activeFilter === "all"
+                        ? isPT
+                          ? "Ainda ninguém postou por aqui"
+                          : "No one's posted here yet"
+                        : isPT
+                          ? "Nenhum post nessa categoria ainda"
+                          : "No posts in this category yet"}
                     </p>
-                  </div>
+                    <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: 0 }}>
+                      {activeFilter === "all"
+                        ? isPT
+                          ? "Seja o primeiro a compartilhar sua conquista ou fazer uma pergunta!"
+                          : "Be the first to share a win or ask a question!"
+                        : isPT
+                          ? "Que tal escrever o primeiro?"
+                          : "Why not write the first one?"}
+                    </p>
+                  </motion.div>
                 )}
                 {visiblePosts.map((post, i) => {
                   const PostIcon = getPostIcon(post.type);

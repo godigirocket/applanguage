@@ -73,9 +73,7 @@ function ProfilePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
   const { interfaceLanguage, xp, streak, targetLanguage, avatarId, setAvatarId } = useStore();
-  const [activeTab, setActiveTab] = useState<"overview" | "achievements" | "stats" | "settings">(
-    "overview",
-  );
+  const [activeTab, setActiveTab] = useState<"overview" | "achievements">("overview");
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
 
   const isPT = interfaceLanguage === "pt";
@@ -402,7 +400,7 @@ function ProfilePage() {
               {/* Actions */}
               <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 <button
-                  onClick={() => setActiveTab("settings")}
+                  onClick={() => nav({ to: "/settings" })}
                   style={{
                     padding: "12px 24px",
                     borderRadius: "12px",
@@ -458,12 +456,16 @@ function ProfilePage() {
               {[
                 { id: "overview", label: isPT ? "Visão Geral" : "Overview", icon: TrendingUp },
                 { id: "achievements", label: isPT ? "Conquistas" : "Achievements", icon: Trophy },
-                { id: "stats", label: isPT ? "Estatísticas" : "Statistics", icon: BarChart2 },
-                { id: "settings", label: isPT ? "Ajustes" : "Settings", icon: Settings },
+                // "Estatísticas" duplicated the Overview tab's own stat
+                // cards (never had distinct content) and "Ajustes" had no
+                // content block at all — both looked like dead/blank tabs.
+                // Settings already has a full dedicated page; link there
+                // instead of trying to cram it into an already-long profile.
+                { id: "settings", label: isPT ? "Ajustes" : "Settings", icon: Settings, isLink: true },
               ].map((tab: any) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => (tab.isLink ? nav({ to: "/settings" }) : setActiveTab(tab.id))}
                   style={{
                     padding: "20px 0",
                     border: "none",
@@ -790,25 +792,5 @@ function ProfilePage() {
         }
       `}</style>
     </div>
-  );
-}
-
-// Fix BarChart2 import
-function BarChart2({ size, color }: { size: number; color?: string }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={color || "currentColor"}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-    </svg>
   );
 }

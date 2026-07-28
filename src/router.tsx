@@ -8,7 +8,11 @@ export const getRouter = () => {
   const router = createRouter({
     routeTree,
     context: { queryClient },
-    scrollRestoration: true,
+    // The router's own scroll restoration was racing against
+    // <ScrollToTop/> (root.tsx), which always scrolls to top on route
+    // change — whichever won made pages open at an inconsistent scroll
+    // position (sometimes still scrolled down from the previous page).
+    scrollRestoration: false,
     defaultPreloadStaleTime: 0,
   });
 
