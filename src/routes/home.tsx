@@ -137,7 +137,7 @@ function HomePage() {
               margin: "0 auto 16px",
             }}
           />
-          <p style={{ color: "var(--text-secondary)" }}>Carregando...</p>
+          <p style={{ color: "var(--text-secondary)" }}>{isPT ? "Carregando..." : "Loading..."}</p>
         </div>
       </div>
     );
