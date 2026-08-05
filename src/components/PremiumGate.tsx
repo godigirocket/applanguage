@@ -305,7 +305,7 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
                     marginBottom: "4px",
                   }}
                 >
-                  R$ 47
+                  R$ 9,90
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
                   {isPT ? "por mês" : "per month"}
@@ -375,7 +375,7 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
                     marginBottom: "4px",
                   }}
                 >
-                  R$ 297
+                  R$ 79,90
                 </div>
                 <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
                   {isPT ? "por ano" : "per year"}

@@ -139,13 +139,20 @@ function LessonsPage() {
   // masterContent source /home uses — previously this page (and the lesson
   // viewer it links to) used a separate, disconnected legacy catalog.
   const [lessonsInTargetLanguage, setLessonsInTargetLanguage] = useState<any[]>([]);
+  const [lessonsLoading, setLessonsLoading] = useState(true);
   useEffect(() => {
     let cancelled = false;
+    setLessonsLoading(true);
     generateLessons(targetLanguage, Infinity, completedLessons, {
       progressiveLock: true,
       startLevel,
     }).then((lessons) => {
-      if (!cancelled) setLessonsInTargetLanguage(lessons);
+      if (!cancelled) {
+        setLessonsInTargetLanguage(lessons);
+        setLessonsLoading(false);
+      }
+    }).catch(() => {
+      if (!cancelled) setLessonsLoading(false);
     });
     return () => {
       cancelled = true;
@@ -657,7 +664,7 @@ function LessonsPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 300px), 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 160px), 1fr))",
               gap: "clamp(16px, 3vw, 24px)",
             }}
           >
@@ -914,7 +921,7 @@ function LessonsPage() {
           )}
 
           {/* Empty State */}
-          {filteredLessons.length === 0 && (
+          {!lessonsLoading && filteredLessons.length === 0 && (
             <div style={{ textAlign: "center", padding: "80px 24px" }}>
               <Search size={48} color="var(--border)" style={{ marginBottom: "16px" }} />
               <h3

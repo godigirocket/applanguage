@@ -42,11 +42,7 @@ function PlayPage() {
     xpFromQuizzes: xp,
   };
 
-  const livePlayers = [
-    { name: "Maya", mode: "Accent Mimic", score: "980 XP", color: "#1CB0F6" },
-    { name: "Leo", mode: "Speed Round", score: "12 combo", color: "#FF4B4B" },
-    { name: "Ana", mode: "Lume Match", score: "Pro", color: "#2FBB52" },
-  ];
+  const livePlayers: any[] = [];
 
   const MODES_18 = [
     {
@@ -57,7 +53,7 @@ function PlayPage() {
         ? "10 perguntas dinâmicas sobre temas variados."
         : "10 dynamic general knowledge questions.",
       xp: isPT ? "Até 100 XP" : "Up to 100 XP",
-      color: "var(--accent-green)",
+      color: "#58CC02",
       tag: null,
     },
     {
@@ -65,10 +61,10 @@ function PlayPage() {
       icon: "Zap",
       title: isPT ? "Contra o Tempo" : "Speed Round",
       desc: isPT
-        ? "Responda rápido! Os pontos diminuem com o tempo."
-        : "Answer fast! Points decay as timer runs down.",
+        ? "Responda rápido! Pontos diminuem com o tempo."
+        : "Answer fast! Points decay as timer runs.",
       xp: isPT ? "Até 150 XP" : "Up to 150 XP",
-      color: "#C9A84C",
+      color: "#FF9600",
       tag: null,
     },
     {
@@ -76,10 +72,10 @@ function PlayPage() {
       icon: "Target",
       title: isPT ? "Desafio Diário" : "Daily Challenge",
       desc: isPT
-        ? "Um desafio temático especial disponível apenas hoje."
-        : "One special themed challenge available today.",
+        ? "Desafio especial disponível apenas hoje."
+        : "Special challenge available only today.",
       xp: isPT ? "Bônus 200 XP" : "200 XP Bonus",
-      color: "#2f80ed",
+      color: "#1CB0F6",
       tag: isPT ? "HOJE" : "TODAY",
     },
     {
@@ -87,197 +83,32 @@ function PlayPage() {
       icon: "Flame",
       title: isPT ? "Sobrevivência" : "Streak Master",
       desc: isPT
-        ? "Responda as perguntas consecutivamente até errar."
-        : "Answer consecutive questions until you miss one.",
+        ? "Responda até errar. Quanto mais longe, mais XP."
+        : "Answer until you miss. The further, the more XP.",
       xp: isPT ? "10 XP por acerto" : "10 XP per correct",
-      color: "var(--accent-terra)",
-      tag: null,
-    },
-    {
-      slug: "grammar",
-      icon: "BookOpen",
-      title: isPT ? "Construtor Gramatical" : "Grammar Builder",
-      desc: isPT
-        ? "Aprenda regras de estrutura gramatical profunda."
-        : "Master structural rules and grammar layouts.",
-      xp: isPT ? "Até 120 XP" : "Up to 120 XP",
-      color: "#9B59B6",
-      tag: null,
-    },
-    {
-      slug: "speak",
-      icon: "Mic",
-      title: isPT ? "Imitador de Sotaque" : "Accent Mimic",
-      desc: isPT
-        ? "Grave sua pronúncia e compare com modelos nativos."
-        : "Record your speech and match phonetic audio models.",
-      xp: isPT ? "Até 180 XP" : "Up to 180 XP",
-      color: "#E67E22",
-      tag: null,
-    },
-    {
-      slug: "verbs",
-      icon: "Sliders",
-      title: isPT ? "Conjugador de Verbos" : "Verb Conjugator",
-      desc: isPT
-        ? "Treine tempos verbais regulares e irregulares."
-        : "Speed-train regular & irregular verb tenses.",
-      xp: isPT ? "Até 80 XP" : "Up to 80 XP",
-      color: "#1ABC9C",
-      tag: null,
-    },
-    {
-      slug: "slang",
-      icon: "MessageCircle",
-      title: isPT ? "Decifrador de Gírias" : "Slang Decrypter",
-      desc: isPT
-        ? "Entenda expressões informais e jargões urbanos."
-        : "Master street idioms and colloquial phrases.",
-      xp: isPT ? "Até 90 XP" : "Up to 90 XP",
-      color: "#8B5A2B",
-      tag: null,
-    },
-    {
-      slug: "listening",
-      icon: "Volume2",
-      title: isPT ? "Bússola de Audição" : "Listening Compass",
-      desc: isPT
-        ? "Aprimore sua escuta com sotaques realistas."
-        : "Refine audio comprehension in dynamic settings.",
-      xp: isPT ? "Até 130 XP" : "Up to 130 XP",
-      color: "#34495E",
-      tag: null,
-    },
-    {
-      slug: "prepositions",
-      icon: "Compass",
-      title: isPT ? "Caça-Preposições" : "Preposition Hunt",
-      desc: isPT
-        ? "Preencha lacunas com a preposição gramatical correta."
-        : "Find and fill gaps with correct prepositions.",
-      xp: isPT ? "Até 70 XP" : "Up to 70 XP",
-      color: "#E74C3C",
-      tag: null,
-    },
-    {
-      slug: "idioms",
-      icon: "Palette",
-      title: isPT ? "Explorador de Idiomas" : "Idiom Explorer",
-      desc: isPT
-        ? "Mergulhe em figuras de linguagem e expressões regionais."
-        : "Discover local figures of speech and curious lines.",
-      xp: isPT ? "Até 110 XP" : "Up to 110 XP",
-      color: "#8E44AD",
+      color: "#FF4B4B",
       tag: null,
     },
     {
       slug: "flashcards",
       icon: "Library",
-      title: isPT ? "Flash de Vocabulário" : "Vocab Blast",
+      title: isPT ? "Flashcards" : "Vocab Blast",
       desc: isPT
         ? "Associe termos a significados em alta velocidade."
-        : "High-speed matching of vocabulary words.",
+        : "Match words to meanings at high speed.",
       xp: isPT ? "Até 100 XP" : "Up to 100 XP",
-      color: "#27AE60",
+      color: "#2FBB52",
       tag: null,
     },
     {
-      slug: "synonyms",
-      icon: "Layers",
-      title: isPT ? "Par de Sinônimos" : "Synonym Matcher",
+      slug: "listening",
+      icon: "Volume2",
+      title: isPT ? "Escuta Ativa" : "Listening",
       desc: isPT
-        ? "Conecte termos com significados equivalentes."
-        : "Match synonyms to expand vocabulary breadth.",
-      xp: isPT ? "Até 80 XP" : "Up to 80 XP",
-      color: "#2980B9",
-      tag: null,
-    },
-    {
-      slug: "errors",
-      icon: "AlertTriangle",
-      title: isPT ? "Caçador de Erros" : "Error Buster",
-      desc: isPT
-        ? "Identifique e corrija erros gramaticais em frases."
-        : "Identify and repair errors in complex sentences.",
-      xp: isPT ? "Até 110 XP" : "Up to 110 XP",
-      color: "#D35400",
-      tag: null,
-    },
-    {
-      slug: "culture",
-      icon: "Map",
-      title: isPT ? "Sabedoria Cultural" : "Cultural Wisdom",
-      desc: isPT
-        ? "Responda quiz sobre culinária, história e geografia."
-        : "Test your trivia on cuisine, history and geography.",
-      xp: isPT ? "Até 150 XP" : "Up to 150 XP",
-      color: "#16A085",
-      tag: null,
-    },
-    {
-      slug: "dialogue",
-      icon: "Send",
-      title: isPT ? "Organizador de Diálogos" : "Dialogue Builder",
-      desc: isPT
-        ? "Ordene falas para criar conversações naturais."
-        : "Order dialogues for conversational natural flow.",
-      xp: isPT ? "Até 120 XP" : "Up to 120 XP",
-      color: "#2C3E50",
-      tag: null,
-    },
-    {
-      slug: "words",
-      icon: "Leaf",
-      title: isPT ? "Formador de Palavras" : "Word Builder",
-      desc: isPT
-        ? "Junte blocos de sílabas para soletrar termos."
-        : "Join syllable blocks to form complete words.",
-      xp: isPT ? "Até 90 XP" : "Up to 90 XP",
-      color: "#27AE60",
-      tag: null,
-    },
-    {
-      slug: "pronunciation",
-      icon: "Dumbbell",
-      title: isPT ? "Laboratório de Voz" : "Pronunciation Lab",
-      desc: isPT
-        ? "Supere fonemas difíceis e consoantes complexas."
-        : "Conquer complex consonants and hard phonemes.",
-      xp: isPT ? "Até 160 XP" : "Up to 160 XP",
-      color: "#C0392B",
-      tag: null,
-    },
-    {
-      slug: "lumematch",
-      icon: "Layers",
-      title: isPT ? "Lume Match" : "Lume Match",
-      desc: isPT
-        ? "Associe palavras às imagens correspondentes."
-        : "Match words to their corresponding images.",
-      xp: isPT ? "Até 120 XP" : "Up to 120 XP",
-      color: "#F39C12",
-      tag: null,
-    },
-    {
-      slug: "speedtranslator",
-      icon: "Zap",
-      title: isPT ? "Speed Translator" : "Speed Translator",
-      desc: isPT
-        ? "Tradução super rápida contra o relógio!"
-        : "Super fast translation against the clock!",
-      xp: isPT ? "Até 150 XP" : "Up to 150 XP",
-      color: "#E74C3C",
-      tag: null,
-    },
-    {
-      slug: "culturaltrivia",
-      icon: "Globe",
-      title: isPT ? "Trivia Cultural" : "Cultural Trivia",
-      desc: isPT
-        ? "Teste seus conhecimentos com fatos do Atlas Cultural."
-        : "Test your knowledge with Cultural Atlas facts.",
-      xp: isPT ? "Até 200 XP" : "Up to 200 XP",
-      color: "#2980B9",
+        ? "Ouça e identifique palavras e frases."
+        : "Listen and identify words and phrases.",
+      xp: isPT ? "Até 130 XP" : "Up to 130 XP",
+      color: "#AC5CF6",
       tag: null,
     },
   ];
@@ -286,7 +117,7 @@ function PlayPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "transparent",
+        background: "var(--bg)",
         position: "relative",
       }}
       className="lume-games-page"
@@ -547,8 +378,8 @@ function PlayPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "16px",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "12px",
               marginBottom: "48px",
             }}
             className="play-stats-grid"
@@ -679,8 +510,8 @@ function PlayPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
-              gap: "24px",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: "12px",
             }}
           >
             {MODES_18.map((mode, i) => (
