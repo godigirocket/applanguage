@@ -27,6 +27,8 @@ import {
   Gamepad2,
   BarChart2,
   Coffee,
+  Sun,
+  Moon,
   Briefcase,
   Plane,
   Sparkles,
@@ -39,6 +41,7 @@ import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { Mascot } from "@/components/lume/Mascot";
 import { getReviewCount } from "@/lib/spaced-repetition";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
+import { FlagByEmoji } from "@/components/lume/Flags";
 
 export const Route = createFileRoute("/home")({
   component: HomePage,
@@ -99,16 +102,23 @@ function HomePage() {
 
     async function loadHomeData() {
       if (!user) return;
-      const result = await getUserStats(user.id);
-      const p = result.profile as any;
-      if (p) {
-        setProfile(p);
+      try {
+        const result = await getUserStats(user.id);
+        const p = result.profile as any;
+        if (p) {
+          setProfile(p);
+        }
+      } catch (e) {
+        console.error("[Home] Failed to load profile:", e);
+      } finally {
+        setLoadingData(false);
       }
-      setLoadingData(false);
     }
 
     if (user) {
       loadHomeData();
+    } else if (!loading) {
+      setLoadingData(false);
     }
   }, [user, loading, nav]);
 
@@ -154,11 +164,18 @@ function HomePage() {
     return isPT ? `Boa noite, ${firstName}!` : `Good evening, ${firstName}!`;
   };
 
+  const GreetingIcon = (() => {
+    const hr = currentTime.getHours();
+    if (hr < 12) return Coffee;
+    if (hr < 18) return Sun;
+    return Moon;
+  })();
+
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: "var(--bg)",
+        background: "transparent",
         paddingBottom: "80px",
         position: "relative",
       }}
@@ -169,14 +186,14 @@ function HomePage() {
 
         {/* HERO GREETING */}
         <section
+          className="home-hero-premium"
           style={{
             // Fixed dark band regardless of light/dark theme — the badges and
             // overlays inside assume a dark backdrop (white text, translucent
             // white pills), which went invisible when this tracked the light
             // theme's near-white background.
-            background: "linear-gradient(135deg, #111827 0%, #0b1020 100%)",
             padding: "48px 24px",
-            color: "#fff",
+            color: "var(--text-primary)",
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
@@ -190,7 +207,12 @@ function HomePage() {
                   marginBottom: "12px",
                 }}
               >
-                <Mascot state={isNewUser ? "happy" : "idle"} size={88} />
+                <div style={{ position: "relative", flexShrink: 0 }}>
+                  <Mascot state={isNewUser ? "happy" : "idle"} size={96} />
+                  <span className="home-greeting-orb" aria-hidden="true">
+                    <GreetingIcon size={18} />
+                  </span>
+                </div>
                 <div>
                   <h1
                     style={{
@@ -204,7 +226,7 @@ function HomePage() {
                   </h1>
                   {streak > 0 && !isNewUser && (
                     <p style={{ fontSize: "15px", opacity: 0.9, marginTop: "4px", margin: 0 }}>
-                      {isPT ? "Continue assim! Você tá arrasando 💪" : "Keep it up! You're doing great 💪"}
+                      {isPT ? "Continue assim! Voce esta arrasando." : "Keep it up! You're doing great."}
                     </p>
                   )}
                 </div>
@@ -273,7 +295,8 @@ function HomePage() {
                   style={{ marginTop: "20px" }}
                 >
                   <div className="streak-badge">
-                    🔥 {streak} {isPT ? "dias seguidos!" : "day streak!"}
+                    <Flame size={18} />
+                    {streak} {isPT ? "dias seguidos!" : "day streak!"}
                   </div>
                 </motion.div>
               )}
@@ -351,13 +374,15 @@ function HomePage() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <span style={{ fontSize: "24px" }}>⏱️</span>
+                <span className="lume-icon-orb" style={{ width: 44, height: 44 }}>
+                  <Clock size={20} />
+                </span>
                 <div>
                   <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>
                     {isPT ? "Trial Premium Ativo" : "Premium Trial Active"}
                   </div>
                   <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                    {isPT ? `Restam ${getTrialRemainingFormatted()} — acesso total!` : `${getTrialRemainingFormatted()} remaining — full access!`}
+                    {isPT ? `Restam ${getTrialRemainingFormatted()} - acesso total!` : `${getTrialRemainingFormatted()} remaining - full access!`}
                   </div>
                 </div>
               </div>
@@ -814,7 +839,9 @@ function HomePage() {
                     transition: "all 0.3s ease",
                   }}
                 >
-                  <div style={{ fontSize: "48px", marginBottom: "12px" }}>{city.flag}</div>
+                  <div className="city-flag-orb" style={{ marginBottom: "12px" }}>
+                    <FlagByEmoji emoji={city.flag} size={42} />
+                  </div>
                   <h3
                     style={{
                       fontSize: "16px",
