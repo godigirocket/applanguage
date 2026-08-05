@@ -72,8 +72,8 @@ function PricingPage() {
       return;
     }
 
-    // Navigate to checkout
-    navigate({ to: "/checkout", search: { plan: planId } });
+    // Navigate directly to Cakto checkout (all plans on one page)
+    window.open("https://cakto.app/AmYjYgH/", "_blank");
   };
 
   const visiblePlans = PLANS.filter((plan) => {

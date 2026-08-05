@@ -62,8 +62,8 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
     };
   }, [isOpen, onClose]);
 
-  const monthlyUrl = import.meta.env.VITE_CAKTO_CHECKOUT_MONTHLY;
-  const annualUrl = import.meta.env.VITE_CAKTO_CHECKOUT_ANNUAL;
+  const monthlyUrl = "https://cakto.app/AmYjYgH/";
+  const annualUrl = "https://cakto.app/AmYjYgH/";
 
   const features = [
     {
@@ -252,145 +252,36 @@ export function PremiumGate({ isOpen, onClose, onContinueFree }: PremiumGateProp
               ))}
             </div>
 
-            {/* Pricing */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px",
-                marginBottom: "20px",
-              }}
-            >
-              {/* Monthly */}
+            {/* Pricing — single CTA to checkout page with all plans */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginBottom: "20px" }}>
+              <div style={{ textAlign: "center", marginBottom: "8px" }}>
+                <div style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "4px" }}>
+                  {isPT ? "A partir de" : "Starting at"}
+                </div>
+                <div style={{ fontSize: "36px", fontWeight: 900, color: "var(--text-primary)" }}>
+                  R$ 9,90<span style={{ fontSize: "14px", fontWeight: 600, color: "var(--text-secondary)" }}>/mês</span>
+                </div>
+              </div>
+
               <a
-                href={monthlyUrl}
+                href="https://cakto.app/AmYjYgH/"
                 target="_blank"
                 rel="noopener noreferrer"
+                className="btn-3d btn-3d-green"
                 style={{
-                  display: "block",
-                  padding: "16px",
-                  borderRadius: "14px",
-                  border: "2px solid var(--border)",
-                  background: "var(--card-bg)",
+                  width: "100%",
+                  padding: "18px",
                   textDecoration: "none",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
                   textAlign: "center",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--brand)";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--border)";
-                  e.currentTarget.style.transform = "translateY(0)";
+                  fontSize: "16px",
                 }}
               >
-                <div
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    color: "var(--text-secondary)",
-                    textTransform: "uppercase",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {isPT ? "Mensal" : "Monthly"}
-                </div>
-                <div
-                  style={{
-                    fontSize: "28px",
-                    fontWeight: 900,
-                    color: "var(--text-primary)",
-                    marginBottom: "4px",
-                  }}
-                >
-                  R$ 9,90
-                </div>
-                <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                  {isPT ? "por mês" : "per month"}
-                </div>
+                {isPT ? "VER PLANOS E ASSINAR" : "SEE PLANS & SUBSCRIBE"}
               </a>
 
-              {/* Annual - Best Value */}
-              <a
-                href={annualUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "block",
-                  padding: "16px",
-                  borderRadius: "14px",
-                  border: "2px solid #C9A84C",
-                  background: "linear-gradient(135deg, rgba(201, 168, 76, 0.1), rgba(184, 150, 46, 0.05))",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  textAlign: "center",
-                  position: "relative",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(201, 168, 76, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "none";
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "-10px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    padding: "3px 12px",
-                    background: "#C9A84C",
-                    color: "white",
-                    borderRadius: "99px",
-                    fontSize: "10px",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {isPT ? "Melhor Custo" : "Best Value"}
-                </div>
-                <div
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    color: "#C9A84C",
-                    textTransform: "uppercase",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {isPT ? "Anual" : "Annual"}
-                </div>
-                <div
-                  style={{
-                    fontSize: "28px",
-                    fontWeight: 900,
-                    color: "var(--text-primary)",
-                    marginBottom: "4px",
-                  }}
-                >
-                  R$ 79,90
-                </div>
-                <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                  {isPT ? "por ano" : "per year"}
-                </div>
-                <div
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    color: "#4CAF50",
-                    marginTop: "8px",
-                  }}
-                >
-                  {isPT ? "Economize 47%" : "Save 47%"}
-                </div>
-              </a>
+              <div style={{ textAlign: "center", fontSize: "12px", color: "var(--text-secondary)" }}>
+                {isPT ? "Mensal R$9,90 · Trimestral R$25,90 · Anual R$65,90 · Vitalício R$110" : "Monthly R$9.90 · Quarterly R$25.90 · Annual R$65.90 · Lifetime R$110"}
+              </div>
             </div>
 
             {/* Continue free button */}

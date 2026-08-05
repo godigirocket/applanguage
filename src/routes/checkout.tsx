@@ -14,9 +14,10 @@ export const Route = createFileRoute("/checkout")({
 });
 
 const CHECKOUT_URL_BY_PLAN: Partial<Record<SubscriptionPlan, string | undefined>> = {
-  premium_monthly: import.meta.env.VITE_CAKTO_CHECKOUT_MONTHLY,
-  premium_annual: import.meta.env.VITE_CAKTO_CHECKOUT_ANNUAL,
-  premium_lifetime: import.meta.env.VITE_CAKTO_CHECKOUT_LIFETIME,
+  premium_monthly: "https://cakto.app/AmYjYgH/",
+  premium_quarterly: "https://cakto.app/AmYjYgH/",
+  premium_annual: "https://cakto.app/AmYjYgH/",
+  premium_lifetime: "https://cakto.app/AmYjYgH/",
 };
 
 function CheckoutPage() {
