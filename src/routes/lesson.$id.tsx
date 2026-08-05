@@ -35,54 +35,8 @@ import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
 import { isTrialActive } from "@/lib/trial";
 import { resolveGlossLanguage } from "@/lib/language-content/vocabulary-engine";
-import type { VocabularyItem, LessonTopic } from "@/lib/language-content/types";
-import { TopicScenario } from "@/components/lume/TopicScenario";
+import type { VocabularyItem } from "@/lib/language-content/types";
 import { Mascot } from "@/components/lume/Mascot";
-
-// Maps this lesson's title to a scenery topic for the ambient background.
-// Falls back to a hash-based rotation for any title not in this list, so
-// every lesson still gets a distinct, consistent scenario.
-const TITLE_TOPIC_MAP: Record<string, LessonTopic> = {
-  "At the Airport": "travel",
-  "En el Aeropuerto": "travel",
-  "No Aeroporto": "travel",
-  "Ordering Coffee": "food",
-  "Pidiendo un Café": "food",
-  "Pedindo um Café": "food",
-  "Job Interview Prep": "business",
-  "Entrevista de Trabajo": "business",
-  "Entrevista de Emprego": "business",
-  "Digital Communication": "technology",
-  "Vida Digital": "technology",
-  "Comunicação Digital": "technology",
-  "Feelings & Health": "health",
-  "Salud y Sentimientos": "health",
-  "Saúde e Sentimentos": "health",
-};
-const SCENARIO_TOPICS: LessonTopic[] = [
-  "daily",
-  "travel",
-  "food",
-  "business",
-  "sports",
-  "fitness",
-  "culture",
-  "grammar",
-  "pronunciation",
-  "listening",
-  "shopping",
-  "health",
-  "technology",
-  "family",
-  "work",
-];
-function scenarioTopicFor(title: string): LessonTopic {
-  const base = title.replace(/\s*-\s*Volume\d*$/i, "").trim();
-  if (TITLE_TOPIC_MAP[base]) return TITLE_TOPIC_MAP[base];
-  let h = 0;
-  for (let i = 0; i < title.length; i++) h = (Math.imul(31, h) + title.charCodeAt(i)) | 0;
-  return SCENARIO_TOPICS[Math.abs(h) % SCENARIO_TOPICS.length];
-}
 
 function getLegacyLessonRequest(id: string) {
   const match = id.match(/^lesson-(en|es|pt)-(\d+)$/);
@@ -612,10 +566,7 @@ function LessonPage() {
       }}
       className="lume-lesson-play-page"
     >
-      <TopicScenario
-        topic={lesson?.topic || scenarioTopicFor(topic || id)}
-        seed={id}
-      />
+      
 
       {/* Fullscreen immersive lesson: no AppHeader/BottomNav — the per-step
           progress bar + back button below is the only chrome, so nothing

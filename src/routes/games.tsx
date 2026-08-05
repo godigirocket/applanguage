@@ -1,7 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight,
@@ -122,7 +120,7 @@ function PlayPage() {
       }}
       className="lume-games-page"
     >
-      <TopicScenario topic={pickRotatingTopic("games")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 

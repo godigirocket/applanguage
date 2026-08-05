@@ -20,7 +20,6 @@ import { Trophy, ChevronRight, Volume2 } from "@/components/lume/CustomIcons";
 import { BookX } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
-import { TopicScenario } from "@/components/lume/TopicScenario";
 import { Mascot } from "@/components/lume/Mascot";
 
 function scenarioTopicForType(type: string): LessonTopic {
@@ -167,11 +166,7 @@ function QuizPlayPage() {
         position: "relative",
       }}
     >
-      <TopicScenario
-        topic={scenarioTopicForType(type)}
-        intensity="subtle"
-        seed={`${type}-${currentIndex}`}
-      />
+      
 
       {/* Top Bar */}
       <div

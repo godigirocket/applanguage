@@ -36,8 +36,6 @@ import {
 import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
 import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { Mascot } from "@/components/lume/Mascot";
 import { getReviewCount } from "@/lib/spaced-repetition";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
@@ -180,7 +178,7 @@ function HomePage() {
         position: "relative",
       }}
     >
-      <TopicScenario topic={pickRotatingTopic("home")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 

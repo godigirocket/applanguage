@@ -8,8 +8,6 @@ import { AppHeader } from "@/components/lume/AppHeader";
 import { BadgeGrid } from "@/components/lume/BadgeGrid";
 import { useStore } from "@/hooks/useStore";
 import { getQuizStats } from "@/lib/language-content";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import {
   ResponsiveContainer,
@@ -166,7 +164,7 @@ function ProgressPage() {
         position: "relative",
       }}
     >
-      <TopicScenario topic={pickRotatingTopic("progress")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
         <main

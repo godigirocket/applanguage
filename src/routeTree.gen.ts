@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VocabularyListsRouteImport } from './routes/vocabulary-lists'
-import { Route as TestRouteImport } from './routes/test'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SuccessRouteImport } from './routes/success'
@@ -43,18 +42,12 @@ import { Route as CultureIndexRouteImport } from './routes/culture.index'
 import { Route as QuizModeRouteImport } from './routes/quiz.$mode'
 import { Route as QuizPlayTypeRouteImport } from './routes/quiz-play.$type'
 import { Route as LessonIdRouteImport } from './routes/lesson.$id'
-import { Route as IndexMinimalRouteImport } from './routes/index.minimal'
 import { Route as CultureCityIdRouteImport } from './routes/culture.$cityId'
 import { Route as ConversationTopicRouteImport } from './routes/conversation.$topic'
 
 const VocabularyListsRoute = VocabularyListsRouteImport.update({
   id: '/vocabulary-lists',
   path: '/vocabulary-lists',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TestRoute = TestRouteImport.update({
-  id: '/test',
-  path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TermsRoute = TermsRouteImport.update({
@@ -217,11 +210,6 @@ const LessonIdRoute = LessonIdRouteImport.update({
   path: '/lesson/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexMinimalRoute = IndexMinimalRouteImport.update({
-  id: '/index/minimal',
-  path: '/index/minimal',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CultureCityIdRoute = CultureCityIdRouteImport.update({
   id: '/$cityId',
   path: '/$cityId',
@@ -262,11 +250,9 @@ export interface FileRoutesByFullPath {
   '/success': typeof SuccessRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
-  '/test': typeof TestRoute
   '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
   '/culture/$cityId': typeof CultureCityIdRoute
-  '/index/minimal': typeof IndexMinimalRoute
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
@@ -300,11 +286,9 @@ export interface FileRoutesByTo {
   '/success': typeof SuccessRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
-  '/test': typeof TestRoute
   '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
   '/culture/$cityId': typeof CultureCityIdRoute
-  '/index/minimal': typeof IndexMinimalRoute
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
@@ -340,11 +324,9 @@ export interface FileRoutesById {
   '/success': typeof SuccessRoute
   '/support': typeof SupportRoute
   '/terms': typeof TermsRoute
-  '/test': typeof TestRoute
   '/vocabulary-lists': typeof VocabularyListsRoute
   '/conversation/$topic': typeof ConversationTopicRoute
   '/culture/$cityId': typeof CultureCityIdRoute
-  '/index/minimal': typeof IndexMinimalRoute
   '/lesson/$id': typeof LessonIdRoute
   '/quiz-play/$type': typeof QuizPlayTypeRoute
   '/quiz/$mode': typeof QuizModeRoute
@@ -381,11 +363,9 @@ export interface FileRouteTypes {
     | '/success'
     | '/support'
     | '/terms'
-    | '/test'
     | '/vocabulary-lists'
     | '/conversation/$topic'
     | '/culture/$cityId'
-    | '/index/minimal'
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
@@ -419,11 +399,9 @@ export interface FileRouteTypes {
     | '/success'
     | '/support'
     | '/terms'
-    | '/test'
     | '/vocabulary-lists'
     | '/conversation/$topic'
     | '/culture/$cityId'
-    | '/index/minimal'
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
@@ -458,11 +436,9 @@ export interface FileRouteTypes {
     | '/success'
     | '/support'
     | '/terms'
-    | '/test'
     | '/vocabulary-lists'
     | '/conversation/$topic'
     | '/culture/$cityId'
-    | '/index/minimal'
     | '/lesson/$id'
     | '/quiz-play/$type'
     | '/quiz/$mode'
@@ -498,10 +474,8 @@ export interface RootRouteChildren {
   SuccessRoute: typeof SuccessRoute
   SupportRoute: typeof SupportRoute
   TermsRoute: typeof TermsRoute
-  TestRoute: typeof TestRoute
   VocabularyListsRoute: typeof VocabularyListsRoute
   ConversationTopicRoute: typeof ConversationTopicRoute
-  IndexMinimalRoute: typeof IndexMinimalRoute
   LessonIdRoute: typeof LessonIdRoute
   QuizPlayTypeRoute: typeof QuizPlayTypeRoute
   QuizModeRoute: typeof QuizModeRoute
@@ -514,13 +488,6 @@ declare module '@tanstack/react-router' {
       path: '/vocabulary-lists'
       fullPath: '/vocabulary-lists'
       preLoaderRoute: typeof VocabularyListsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/test': {
-      id: '/test'
-      path: '/test'
-      fullPath: '/test'
-      preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/terms': {
@@ -747,13 +714,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LessonIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/index/minimal': {
-      id: '/index/minimal'
-      path: '/index/minimal'
-      fullPath: '/index/minimal'
-      preLoaderRoute: typeof IndexMinimalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/culture/$cityId': {
       id: '/culture/$cityId'
       path: '/$cityId'
@@ -813,10 +773,8 @@ const rootRouteChildren: RootRouteChildren = {
   SuccessRoute: SuccessRoute,
   SupportRoute: SupportRoute,
   TermsRoute: TermsRoute,
-  TestRoute: TestRoute,
   VocabularyListsRoute: VocabularyListsRoute,
   ConversationTopicRoute: ConversationTopicRoute,
-  IndexMinimalRoute: IndexMinimalRoute,
   LessonIdRoute: LessonIdRoute,
   QuizPlayTypeRoute: QuizPlayTypeRoute,
   QuizModeRoute: QuizModeRoute,

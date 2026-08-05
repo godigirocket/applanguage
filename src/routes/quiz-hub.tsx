@@ -5,8 +5,6 @@ import { CategoryIllustration } from "@/components/lume/Illustrations";
 import { Brain, Star, CheckCircle, ChevronRight } from "@/components/lume/CustomIcons";
 import { motion } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 
 export const Route = createFileRoute("/quiz-hub")({
   component: QuizHubPage,
@@ -98,7 +96,7 @@ function QuizHubPage() {
         position: "relative",
       }}
     >
-      <TopicScenario topic={pickRotatingTopic("quiz-hub")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
         <main style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 24px 40px" }}>

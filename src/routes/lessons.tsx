@@ -24,8 +24,6 @@ import {
   Lock,
 } from "@/components/lume/CustomIcons";
 import { generateLessons, normalizeStartLevel, cefrToTier } from "@/data/contentEngine";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { useUserStore } from "@/store/userStore";
 import { FlagBR, FlagUS, FlagES } from "@/components/lume/Flags";
 import { LessonPath } from "@/components/lume/LessonPath";
@@ -245,7 +243,7 @@ function LessonsPage() {
       }}
       className="lume-lessons-page"
     >
-      <TopicScenario topic={pickRotatingTopic("lessons")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 

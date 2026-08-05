@@ -422,19 +422,6 @@ function RootInner() {
     }
   };
 
-  const getLevelGradient = (level: string) => {
-    const baseBg = "var(--bg)";
-    if (level === "A1" || level === "A2") {
-      return `radial-gradient(circle at 10% 20%, rgba(255,122,69, 0.08) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(196, 113, 74, 0.07) 0%, transparent 40%), radial-gradient(circle at 50% 50%, rgba(201, 168, 76, 0.04) 0%, transparent 50%), ${baseBg}`;
-    }
-    if (level === "B1" || level === "B2") {
-      return `radial-gradient(circle at 10% 20%, rgba(27, 58, 75, 0.12) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(120, 80, 180, 0.08) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(78, 143, 183, 0.06) 0%, transparent 60%), ${baseBg}`;
-    }
-    return `radial-gradient(circle at 10% 20%, rgba(196, 113, 74, 0.12) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(212, 162, 59, 0.1) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.05) 0%, transparent 60%), ${baseBg}`;
-  };
-
-  const backgroundStyle = getLevelGradient(userLevel || "A1");
-
   return (
     <div
       style={{
@@ -443,8 +430,7 @@ function RootInner() {
         minHeight: "100vh",
         boxSizing: "border-box",
         position: "relative",
-        background: backgroundStyle,
-        transition: "background 0.5s ease-in-out",
+        background: "var(--bg)",
       }}
     >
       {/* Skip to content link for keyboard/screen-reader users */}
@@ -454,50 +440,6 @@ function RootInner() {
 
       {/* Scroll to top on route change */}
       <ScrollToTop />
-
-      <div className="grain-overlay" aria-hidden="true" />
-
-      {/* Global 3D metallic and drop shadow SVG filters */}
-      <svg
-        style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }}
-        aria-hidden="true"
-      >
-        <defs>
-          <filter id="lume-3d-emboss" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur in="SourceAlpha" stdDeviation="0.8" result="blur" />
-            <feSpecularLighting
-              in="blur"
-              surfaceScale={3}
-              specularConstant={1.2}
-              specularExponent={16}
-              lightingColor="#ffffff"
-              result="specOut"
-            >
-              <feDistantLight azimuth={225} elevation={60} />
-            </feSpecularLighting>
-            <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specColor" />
-            <feComposite
-              in="SourceGraphic"
-              in2="specColor"
-              operator="arithmetic"
-              k1={0}
-              k2={1}
-              k3={0.7}
-              k4={0}
-              result="litGraphic"
-            />
-          </filter>
-          <filter id="lume-premium-shadow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow
-              dx={0}
-              dy={2.5}
-              stdDeviation={2.5}
-              floodColor="#000000"
-              floodOpacity={0.18}
-            />
-          </filter>
-        </defs>
-      </svg>
 
       {/* Main Content Area */}
       <div

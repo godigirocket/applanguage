@@ -1,7 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
-import { TopicScenario } from "@/components/lume/TopicScenario";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useStore } from "@/hooks/useStore";
@@ -184,7 +182,7 @@ function ProfilePage() {
       }}
       className="lume-profile-page"
     >
-      <TopicScenario topic={pickRotatingTopic("profile")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 

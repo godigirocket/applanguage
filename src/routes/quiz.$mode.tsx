@@ -21,7 +21,6 @@ import {
   type LessonTopic,
 } from "@/lib/language-content";
 import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
-import { TopicScenario } from "@/components/lume/TopicScenario";
 import { Mascot } from "@/components/lume/Mascot";
 
 function scenarioTopicForMode(mode: string): LessonTopic {
@@ -615,11 +614,7 @@ function QuizPage() {
         position: "relative",
       }}
     >
-      <TopicScenario
-        topic={scenarioTopicForMode(mode)}
-        intensity="subtle"
-        seed={`${mode}-${currentIdx}`}
-      />
+      
 
       {/* Top bar */}
       <div

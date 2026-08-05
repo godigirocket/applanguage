@@ -1,8 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
-import { TopicScenario } from "@/components/lume/TopicScenario";
 import { Mascot } from "@/components/lume/Mascot";
-import { pickRotatingTopic } from "@/lib/language-content/game-questions";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -319,7 +317,7 @@ function CommunityPage() {
       }}
       className="lume-community-page"
     >
-      <TopicScenario topic={pickRotatingTopic("community")} />
+      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
