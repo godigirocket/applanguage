@@ -123,14 +123,16 @@ export function AppHeader() {
   const currentPath = routerState.location.pathname;
   const { t } = useTranslation(["common"]);
 
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window === "undefined") return "dark";
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
     try {
-      return (localStorage.getItem("lume_theme") || "dark") as "light" | "dark";
+      const savedTheme = localStorage.getItem("lume_theme");
+      if (savedTheme === "dark" || savedTheme === "light") setTheme(savedTheme);
     } catch {
-      return "dark";
+      setTheme("light");
     }
-  });
+  }, []);
 
   useEffect(() => {
     if (theme === "dark") {
@@ -173,16 +175,18 @@ export function AppHeader() {
       {/* Fixed + slides away on scroll-down, back in on scroll-up (useHideOnScroll) — a spacer div right below reserves its height since fixed removes it from flow. */}
       <header
         aria-label="Site header"
+        className="lume-app-header"
         style={{
           position: "fixed",
           top: 0,
           left: 0,
           right: 0,
           zIndex: 100,
-          background: "var(--surface-raised)",
-          borderBottom: "1px solid var(--border)",
+          background: "var(--header-bg, rgba(255,255,255,0.86))",
+          backdropFilter: "blur(18px) saturate(1.25)",
+          borderBottom: "1px solid var(--header-border, rgba(15,23,42,0.08))",
           height: "58px",
-          boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
+          boxShadow: "var(--header-shadow, 0 1px 8px rgba(0,0,0,0.04))",
           transform: hidden ? "translateY(-100%)" : "translateY(0)",
           transition: "transform 0.25s ease",
         }}
@@ -214,12 +218,16 @@ export function AppHeader() {
                 <Link
                   key={item.href}
                   to={item.href as any}
+                  className="hover-underline"
                   style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "7px",
                     padding: "7px 12px",
                     borderRadius: "10px",
                     fontSize: "13px",
                     fontWeight: 700,
-                    color: currentPath === item.href ? "var(--brand)" : "var(--text-secondary)",
+                    color: currentPath === item.href ? "var(--brand)" : "var(--header-link, var(--text-secondary))",
                     background:
                       currentPath === item.href
                         ? "color-mix(in srgb, var(--brand) 12%, transparent)"
@@ -229,6 +237,7 @@ export function AppHeader() {
                     whiteSpace: "nowrap",
                   }}
                 >
+                  <item.Icon />
                   {item.label}
                 </Link>
               ))}
@@ -285,16 +294,12 @@ export function AppHeader() {
             ) : (
               <Link
                 to="/login"
+                className="btn-gold"
                 style={{
                   padding: "7px 16px",
-                  borderRadius: "99px",
-                  background: "var(--brand)",
-                  color: "white",
                   textDecoration: "none",
                   fontSize: "13px",
-                  fontWeight: 700,
                   whiteSpace: "nowrap",
-                  transition: "opacity 0.2s",
                 }}
               >
                 {t("signIn")}

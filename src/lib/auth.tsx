@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           });
 
           if (error) {
-            console.error("[Auth] Failed to claim pending payments:", error);
+            console.warn("[Auth] Pending payment claim skipped:", error.message || error);
           } else if (data && data > 0) {
             console.log(`[Auth] ✅ Claimed ${data} pending payment(s) for ${s.user.email}`);
             // Optional: Show toast notification

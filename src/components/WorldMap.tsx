@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { CountryData, CityInfo } from "@/lib/cultureData";
 
@@ -11,245 +10,116 @@ interface WorldMapProps {
 
 export function WorldMap({ countries, selectedCountry, selectedCity, onSelect }: WorldMapProps) {
   return (
-    <div
-      style={{
-        width: "100%",
-        minWidth: "760px", // Prevent map from shrinking too small, enabling horizontal scroll on mobile
-        aspectRatio: "2 / 1",
-        background: "var(--bg-secondary)",
-        border: "1px solid var(--border)",
-        borderRadius: "24px",
-        padding: "24px",
-        position: "relative",
-        overflow: "hidden",
-        boxShadow: "var(--shadow-md)",
-      }}
-    >
-      {/* Decorative Grid Lines */}
-      <svg
-        viewBox="0 0 1000 500"
-        className="w-full h-full select-none"
-        style={{ display: "block" }}
-      >
+    <div className="lume-world-map">
+      <svg viewBox="0 0 1000 520" className="w-full h-full select-none" style={{ display: "block" }}>
         <defs>
-          <radialGradient id="oceanGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--bg-primary)" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="var(--bg-secondary)" stopOpacity="1" />
+          <radialGradient id="lumeOceanGlow" cx="42%" cy="35%" r="70%">
+            <stop offset="0%" stopColor="#f6fbff" />
+            <stop offset="48%" stopColor="#dff2ff" />
+            <stop offset="100%" stopColor="#f8f4ea" />
           </radialGradient>
-          <radialGradient id="pinGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
-          </radialGradient>
+          <linearGradient id="lumeLand" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="55%" stopColor="#eef7ff" />
+            <stop offset="100%" stopColor="#fff0c8" />
+          </linearGradient>
+          <linearGradient id="lumeRoute" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#0f6bff" />
+            <stop offset="45%" stopColor="#14b8a6" />
+            <stop offset="100%" stopColor="#f5b700" />
+          </linearGradient>
+          <filter id="mapSoftShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="16" stdDeviation="16" floodColor="#07101f" floodOpacity="0.14" />
+          </filter>
         </defs>
 
-        {/* Ocean Background */}
-        <rect width="1000" height="500" fill="url(#oceanGlow)" />
+        <rect width="1000" height="520" fill="url(#lumeOceanGlow)" />
 
-        {/* Lat/Long Gridlines */}
+        <g opacity="0.34" stroke="#0f6bff" strokeWidth="1" strokeDasharray="5 12">
+          <path d="M 0 130 C 200 100 330 160 500 128 S 800 104 1000 132" />
+          <path d="M 0 260 C 220 230 330 292 500 260 S 790 232 1000 262" />
+          <path d="M 0 390 C 190 360 360 420 500 390 S 790 362 1000 392" />
+          <path d="M 190 0 C 160 120 230 210 190 520" />
+          <path d="M 410 0 C 380 120 450 250 410 520" />
+          <path d="M 630 0 C 590 130 670 250 630 520" />
+          <path d="M 840 0 C 800 130 880 250 840 520" />
+        </g>
+
+        <g filter="url(#mapSoftShadow)" fill="url(#lumeLand)" stroke="rgba(15,107,255,0.22)" strokeWidth="2">
+          <path d="M52 122 C90 58 175 48 247 78 C320 110 360 174 323 232 C290 284 213 310 143 278 C80 248 18 183 52 122Z" />
+          <path d="M245 284 C298 274 363 314 389 365 C416 418 371 493 314 504 C270 510 236 454 230 405 C224 360 203 301 245 284Z" />
+          <path d="M405 116 C450 79 526 86 558 132 C591 181 548 224 492 218 C436 211 369 165 405 116Z" />
+          <path d="M480 224 C543 194 619 232 635 302 C650 370 606 455 542 457 C494 458 462 387 444 326 C429 275 437 245 480 224Z" />
+          <path d="M556 118 C628 64 789 66 904 125 C963 155 959 242 894 278 C819 318 712 314 641 260 C577 212 505 156 556 118Z" />
+          <path d="M774 362 C833 326 929 343 958 398 C984 448 920 490 846 480 C781 471 724 397 774 362Z" />
+          <path d="M270 42 C292 18 328 20 344 45 C359 69 334 95 300 88 C271 82 250 65 270 42Z" />
+        </g>
+
+        <motion.path
+          d="M106 374 C244 106 401 432 527 194 S782 80 914 348"
+          fill="none"
+          stroke="url(#lumeRoute)"
+          strokeWidth="8"
+          strokeLinecap="round"
+          strokeDasharray="18 18"
+          animate={{ strokeDashoffset: [0, -72] }}
+          transition={{ repeat: Infinity, duration: 4.8, ease: "linear" }}
+          opacity="0.84"
+        />
         <path
-          d="M 0,100 L 1000,100 M 0,200 L 1000,200 M 0,300 L 1000,300 M 0,400 L 1000,400"
-          stroke="var(--border)"
-          strokeWidth="0.5"
-          strokeDasharray="4 6"
-          opacity="0.3"
-        />
-        <path
-          d="M 200,0 L 200,500 M 400,0 L 400,500 M 600,0 L 600,500 M 800,0 L 800,500"
-          stroke="var(--border)"
-          strokeWidth="0.5"
-          strokeDasharray="4 6"
-          opacity="0.3"
+          d="M106 374 C244 106 401 432 527 194 S782 80 914 348"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          opacity="0.7"
         />
 
-        {/* Stylized Continent Silhouettes (High-Contrast Premium Laser-Etched Style) */}
-        {/* Greenland */}
-        <polygon
-          points="270,15 320,15 315,55 265,40"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* North America */}
-        <polygon
-          points="50,40 330,40 340,165 260,250 250,285 160,285 120,225 50,150"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* South America */}
-        <polygon
-          points="220,290 325,290 435,355 425,405 375,495 295,495 220,355"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* Europe */}
-        <polygon
-          points="410,80 540,80 560,195 420,195"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* Africa */}
-        <polygon
-          points="450,200 590,210 620,300 565,450 480,300"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* Asia */}
-        <polygon
-          points="540,80 910,80 930,240 680,320 570,190"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-        {/* Oceania */}
-        <polygon
-          points="790,340 950,340 935,460 790,460"
-          fill="var(--border)"
-          stroke="var(--text-secondary)"
-          strokeWidth="0.75"
-          opacity="0.9"
-        />
-
-        {/* Country Labels (Light decoration) */}
-        <text
-          x="160"
-          y="110"
-          fill="var(--text-secondary)"
-          fontSize="10"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="2"
-        >
-          AMÉRICA DO NORTE
-        </text>
-        <text
-          x="290"
-          y="360"
-          fill="var(--text-secondary)"
-          fontSize="10"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="2"
-        >
-          AMÉRICA DO SUL
-        </text>
-        <text
-          x="475"
-          y="105"
-          fill="var(--text-secondary)"
-          fontSize="9"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="1"
-        >
-          EUROPA
-        </text>
-        <text
-          x="525"
-          y="290"
-          fill="var(--text-secondary)"
-          fontSize="10"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="2"
-        >
-          ÁFRICA
-        </text>
-        <text
-          x="730"
-          y="140"
-          fill="var(--text-secondary)"
-          fontSize="10"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="2"
-        >
-          ÁSIA
-        </text>
-        <text
-          x="830"
-          y="400"
-          fill="var(--text-secondary)"
-          fontSize="9"
-          fontWeight="800"
-          opacity="0.55"
-          letterSpacing="1"
-        >
-          OCEANIA
-        </text>
-
-        {/* Country/City Interactive Pins */}
-        {countries.map((c) => {
-          return c.cities.map((city) => {
+        {countries.flatMap((country) =>
+          country.cities.map((city, index) => {
             const isSelected = selectedCity?.id === city.id;
-            const isCurrentCountry = selectedCountry.id === c.id;
+            const isCurrentCountry = selectedCountry.id === country.id;
+            const fill = isCurrentCountry ? "#f5b700" : "#0f6bff";
 
             return (
-              <g key={city.id} style={{ cursor: "pointer" }} onClick={() => onSelect(c, city)}>
-                {/* Glowing backdrop aura */}
-                <circle
-                  cx={city.coords.x}
-                  cy={city.coords.y}
-                  r={isSelected ? 20 : isCurrentCountry ? 13 : 8}
-                  fill={isCurrentCountry ? "var(--accent)" : "var(--brand)"}
-                  opacity={isSelected ? 0.35 : isCurrentCountry ? 0.2 : 0.08}
-                />
-
-                {/* Pin Dot */}
-                <circle
-                  cx={city.coords.x}
-                  cy={city.coords.y}
-                  r={isSelected ? 6 : isCurrentCountry ? 4.5 : 3.5}
-                  fill={isCurrentCountry ? "var(--accent)" : "var(--brand)"}
-                  style={{ transition: "all 0.2s ease" }}
-                />
-
-                {/* Tiny pulsing indicator */}
+              <motion.g
+                key={city.id}
+                style={{ cursor: "pointer" }}
+                onClick={() => onSelect(country, city)}
+                animate={{ y: [0, index % 2 === 0 ? -4 : 4, 0] }}
+                transition={{ repeat: Infinity, duration: 2.8 + (index % 4) * 0.28, ease: "easeInOut" }}
+              >
+                <circle cx={city.coords.x} cy={city.coords.y} r={isSelected ? 22 : 14} fill={fill} opacity={isSelected ? 0.24 : 0.12} />
                 {isSelected && (
                   <motion.circle
                     cx={city.coords.x}
                     cy={city.coords.y}
-                    r={16}
+                    r={20}
                     fill="transparent"
-                    stroke="var(--accent)"
-                    strokeWidth="1.5"
-                    animate={{ scale: [1, 1.4, 1], opacity: [0.8, 0, 0.8] }}
+                    stroke={fill}
+                    strokeWidth="2"
+                    animate={{ scale: [1, 1.45, 1], opacity: [0.85, 0.08, 0.85] }}
                     transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
                   />
                 )}
-
-                {/* Tooltip Label (Shows on selected or country match) */}
+                <circle cx={city.coords.x} cy={city.coords.y} r={isSelected ? 7 : isCurrentCountry ? 5 : 4} fill={fill} stroke="white" strokeWidth="3" />
                 {(isSelected || isCurrentCountry) && (
                   <text
                     x={city.coords.x}
-                    y={city.coords.y - 12}
+                    y={city.coords.y - 15}
                     textAnchor="middle"
-                    fill="var(--text-primary)"
+                    fill="#07101f"
                     fontSize="10"
-                    fontWeight="700"
-                    style={{
-                      paintOrder: "stroke",
-                      stroke: "var(--bg-secondary)",
-                      strokeWidth: 3,
-                      strokeLinejoin: "round",
-                    }}
+                    fontWeight="800"
+                    style={{ paintOrder: "stroke", stroke: "white", strokeWidth: 5, strokeLinejoin: "round" }}
                   >
                     {city.namePT}
                   </text>
                 )}
-              </g>
+              </motion.g>
             );
-          });
-        })}
+          }),
+        )}
       </svg>
     </div>
   );

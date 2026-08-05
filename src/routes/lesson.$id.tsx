@@ -33,7 +33,7 @@ import { PronunciationChallenge } from "@/components/PronunciationChallenge";
 import { supabase } from "@/integrations/supabase/client";
 import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
 import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
-import { startTrial, isTrialActive } from "@/lib/trial";
+import { isTrialActive } from "@/lib/trial";
 import { resolveGlossLanguage } from "@/lib/language-content/vocabulary-engine";
 import type { VocabularyItem, LessonTopic } from "@/lib/language-content/types";
 import { TopicScenario } from "@/components/lume/TopicScenario";
@@ -84,6 +84,15 @@ function scenarioTopicFor(title: string): LessonTopic {
   return SCENARIO_TOPICS[Math.abs(h) % SCENARIO_TOPICS.length];
 }
 
+function getLegacyLessonRequest(id: string) {
+  const match = id.match(/^lesson-(en|es|pt)-(\d+)$/);
+  if (!match) return null;
+  return {
+    language: match[1] as "en" | "es" | "pt",
+    index: Math.max(0, Number(match[2]) - 1),
+  };
+}
+
 export const Route = createFileRoute("/lesson/$id")({
   component: LessonPage,
 });
@@ -102,7 +111,7 @@ const CATEGORY_ICONS: Record<string, any> = {
 // Same category palette as /lessons, so a lesson's color identity is
 // consistent whether you're browsing the catalog or inside the lesson.
 const CATEGORY_COLORS: Record<string, string> = {
-  vocabulary: "#AC5CF6",
+  vocabulary: "#0F6BFF",
   grammar: "#1CB0F6",
   listening: "#14B8A6",
   speaking: "#FF4B4B",
@@ -149,18 +158,25 @@ function LessonPage() {
   useEffect(() => {
     let cancelled = false;
     setLesson(null);
+    const legacy = getLegacyLessonRequest(id);
+    const lookupLanguage = legacy?.language || targetLanguage;
     Promise.all([
-      getMasterLessonById(id, targetLanguage),
-      getAllMasterLessons(targetLanguage),
-    ]).then(([found, all]) => {
+      getAllMasterLessons(lookupLanguage),
+      getMasterLessonById(id, lookupLanguage),
+    ]).then(([all, found]) => {
       if (cancelled) return;
-      setLesson(found);
       setAllLessons(all);
+      const canonicalLegacyLesson = legacy ? all[legacy.index] : null;
+      if (!found && canonicalLegacyLesson?.id) {
+        nav({ to: `/lesson/${canonicalLegacyLesson.id}` as any, replace: true });
+        return;
+      }
+      setLesson(found);
     });
     return () => {
       cancelled = true;
     };
-  }, [id, targetLanguage]);
+  }, [id, targetLanguage, nav]);
 
   const lessonType = lesson?.category
     ? lesson.category.charAt(0).toUpperCase() + lesson.category.slice(1)
@@ -260,12 +276,28 @@ function LessonPage() {
   const [answered, setAnswered] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
   const [saving, setSaving] = useState(false);
+  const quizAccuracy = quiz.length > 0 ? Math.round((quizScore / quiz.length) * 100) : 100;
 
   // Track completion - only once
   const [hasCompletedThisSession, setHasCompletedThisSession] = useState(false);
 
   // Saved-word bookmarks for the vocab step (spaced-repetition review pool)
   const [savedWordIds, setSavedWordIds] = useState<Set<string>>(new Set());
+
+  function getNextLearningStep() {
+    if (vocab.length > 0) return "vocab";
+    if (speakingPhrase) return "speaking";
+    if (quiz.length > 0) return "quiz";
+    return "done";
+  }
+
+  function startLesson() {
+    const nextStep = getNextLearningStep();
+    setStep(nextStep);
+    if (nextStep === "done") {
+      handleLessonComplete();
+    }
+  }
 
   function vocabAsVocabularyItem(
     v: { word: string; meaning: string; example: string },
@@ -351,6 +383,17 @@ function LessonPage() {
     setSavedWordIds(saved);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  useEffect(() => {
+    setStep("intro");
+    setVocabIdx(0);
+    setQuizIdx(0);
+    setSelected(null);
+    setAnswered(false);
+    setQuizScore(0);
+    setSpeakingResolved(null);
+    setHasCompletedThisSession(false);
+  }, [id, targetLanguage]);
 
   // Load progress on mount
   useEffect(() => {
@@ -442,7 +485,7 @@ function LessonPage() {
   }
 
   function handleAnswer(opt: string) {
-    if (answered) return;
+    if (answered || !quiz[quizIdx]) return;
     setSelected(opt);
     setAnswered(true);
     if (opt === quiz[quizIdx].correct) setQuizScore((s) => s + 1);
@@ -567,10 +610,11 @@ function LessonPage() {
         background: "var(--bg)",
         position: "relative",
       }}
+      className="lume-lesson-play-page"
     >
       <TopicScenario
         topic={lesson?.topic || scenarioTopicFor(topic || id)}
-        seed={`${id}-${step}-${step === "vocab" ? vocabIdx : step === "quiz" ? quizIdx : 0}`}
+        seed={id}
       />
 
       {/* Fullscreen immersive lesson: no AppHeader/BottomNav — the per-step
@@ -592,7 +636,7 @@ function LessonPage() {
 
         {/* ── INTRO ── */}
         {step === "intro" && (
-          <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
+          <main className="lesson-stage lesson-intro-stage" style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
             <button
               onClick={() => nav({ to: "/lessons" })}
               style={{
@@ -804,8 +848,8 @@ function LessonPage() {
               </div>
 
               <button
-                onClick={() => setStep("vocab")}
-                className="btn-3d btn-3d-green"
+                onClick={startLesson}
+                className="btn-gold animated-container"
                 style={{
                   width: "100%",
                   padding: "18px",
@@ -819,8 +863,8 @@ function LessonPage() {
         )}
 
         {/* ── VOCAB FLASHCARDS ── */}
-        {step === "vocab" && (
-          <main style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
+        {step === "vocab" && vocab.length > 0 && vocab[vocabIdx] && (
+          <main className="lesson-stage" style={{ maxWidth: "720px", margin: "0 auto" }}>
             <div
               style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
             >
@@ -853,7 +897,7 @@ function LessonPage() {
                   style={{
                     height: "100%",
                     background: color,
-                    width: `${((vocabIdx + 1) / vocab.length) * 100}%`,
+                    width: `${vocab.length > 0 ? ((vocabIdx + 1) / vocab.length) * 100 : 100}%`,
                     transition: "width 0.3s",
                     borderRadius: "99px",
                   }}
@@ -1103,10 +1147,10 @@ function LessonPage() {
         {/* ── SPEAKING ── */}
         {step === "speaking" && speakingPhrase && (
           <main
+            className="lesson-stage"
             style={{
               maxWidth: "720px",
               margin: "0 auto",
-              padding: "40px 24px",
               minHeight: "calc(100dvh - 64px)",
               display: "flex",
               flexDirection: "column",
@@ -1209,10 +1253,10 @@ function LessonPage() {
         {/* ── QUIZ ── */}
         {step === "quiz" && quiz.length > 0 && quiz[quizIdx] && (
           <main
+            className="lesson-stage"
             style={{
               maxWidth: "720px",
               margin: "0 auto",
-              padding: "40px 24px",
               minHeight: "calc(100dvh - 64px)",
               display: "flex",
               flexDirection: "column",
@@ -1540,7 +1584,7 @@ function LessonPage() {
                   { label: "XP", value: `+${xpReward}`, color: "#F39C12", Icon: Zap },
                   {
                     label: t("Precisão", "Accuracy", "Precisión"),
-                    value: `${Math.round((quizScore / quiz.length) * 100)}%`,
+                    value: `${quizAccuracy}%`,
                     color: "#4CAF50",
                     Icon: Target,
                   },

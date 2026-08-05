@@ -191,9 +191,9 @@ function OnboardingPage() {
 
   return (
     <div
+      className="lume-auth-page lume-onboarding-page"
       style={{
         minHeight: "100vh",
-        background: "var(--bg)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -201,15 +201,12 @@ function OnboardingPage() {
         padding: "24px",
       }}
     >
-      <main style={{ width: "100%", maxWidth: "440px" }}>
+      <main className="lume-onboarding-shell" style={{ width: "100%", maxWidth: "440px" }}>
         {/* Onboarding Card */}
         <div
+          className="lume-auth-card"
           style={{
-            background: "var(--card-bg)",
             padding: "32px 28px",
-            borderRadius: "20px",
-            border: "1px solid var(--border)",
-            boxShadow: "var(--shadow-soft)",
           }}
         >
           {/* Header navigation (Back button + progress bar) */}

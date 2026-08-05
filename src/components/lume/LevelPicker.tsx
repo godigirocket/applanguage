@@ -1,61 +1,62 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
+import { Award, Brain, CheckCircle, Sparkles, Star, Target } from "@/components/lume/CustomIcons";
 
 const LEVELS = [
   {
     id: "A1",
-    label: "A1 — Iniciante",
-    emoji: "🌱",
-    description: "Mal comecei! Conheço poucas palavras e frases básicas.",
-    color: "#4A7A5A",
-    bg: "rgba(74,122,90,0.08)",
+    label: "A1 - Iniciante",
+    Icon: Sparkles,
+    description: "Mal comecei. Conheco poucas palavras e frases basicas.",
+    color: "#0f6bff",
+    bg: "rgba(15,107,255,0.08)",
   },
   {
     id: "A2",
-    label: "A2 — Básico",
-    emoji: "🌿",
+    label: "A2 - Basico",
+    Icon: Star,
     description: "Consigo me apresentar e entender frases simples do dia a dia.",
-    color: "#5A8A6A",
-    bg: "rgba(90,138,106,0.08)",
+    color: "#14b8a6",
+    bg: "rgba(20,184,166,0.08)",
   },
   {
     id: "B1",
-    label: "B1 — Intermediário",
-    emoji: "🪴",
-    description: "Me viro em situações comuns, mas ainda erro bastante.",
-    color: "#C9A84C",
-    bg: "rgba(201,168,76,0.08)",
+    label: "B1 - Intermediario",
+    Icon: Brain,
+    description: "Me viro em situacoes comuns, mas ainda erro bastante.",
+    color: "#f5a524",
+    bg: "rgba(245,165,36,0.1)",
   },
   {
     id: "B2",
-    label: "B2 — Intermediário Alto",
-    emoji: "🌳",
-    description: "Consigo conversar com fluência na maioria das situações.",
-    color: "#E67E22",
-    bg: "rgba(230,126,34,0.08)",
+    label: "B2 - Intermediario Alto",
+    Icon: Target,
+    description: "Consigo conversar com fluencia na maioria das situacoes.",
+    color: "#ff6b5a",
+    bg: "rgba(255,107,90,0.1)",
   },
   {
     id: "C1",
-    label: "C1 — Avançado",
-    emoji: "🔥",
-    description: "Falo com naturalidade e entendo expressões idiomáticas.",
-    color: "#C4714A",
-    bg: "rgba(196,113,74,0.08)",
+    label: "C1 - Avancado",
+    Icon: Award,
+    description: "Falo com naturalidade e entendo expressoes idiomaticas.",
+    color: "#8b5cf6",
+    bg: "rgba(139,92,246,0.1)",
   },
   {
     id: "C2",
-    label: "C2 — Proficiente",
-    emoji: "⚡",
-    description: "Domínio nativo. Quero desafios complexos de vocabulário e cultura.",
-    color: "#2f80ed",
-    bg: "rgba(27,58,75,0.08)",
+    label: "C2 - Proficiente",
+    Icon: CheckCircle,
+    description: "Dominio nativo. Quero desafios complexos de vocabulario e cultura.",
+    color: "#07101f",
+    bg: "rgba(7,16,31,0.08)",
   },
 ];
 
 interface LevelPickerProps {
   onClose?: () => void;
-  forced?: boolean; // if true, cannot be dismissed
+  forced?: boolean;
 }
 
 export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
@@ -68,9 +69,7 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
     setLearningLevel(selected as any);
     localStorage.setItem("lume_level", selected);
     setConfirmed(true);
-    setTimeout(() => {
-      onClose?.();
-    }, 1200);
+    setTimeout(() => onClose?.(), 1200);
   };
 
   return (
@@ -82,8 +81,8 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
         position: "fixed",
         inset: 0,
         zIndex: 10000,
-        background: "rgba(0,0,0,0.6)",
-        backdropFilter: "blur(8px)",
+        background: "rgba(7,16,31,0.45)",
+        backdropFilter: "blur(14px)",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -92,22 +91,12 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
       onClick={forced ? undefined : onClose}
     >
       <motion.div
+        className="lume-modal-shell"
         initial={{ scale: 0.92, opacity: 0, y: 24 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 16 }}
         transition={{ type: "spring", stiffness: 300, damping: 28 }}
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "var(--surface-raised)",
-          borderRadius: "28px",
-          padding: "36px 32px",
-          maxWidth: "560px",
-          width: "100%",
-          border: "1.5px solid var(--border)",
-          boxShadow: "0 24px 80px rgba(0,0,0,0.2)",
-          maxHeight: "90vh",
-          overflowY: "auto",
-        }}
       >
         {confirmed ? (
           <motion.div
@@ -115,131 +104,78 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
             animate={{ scale: 1, opacity: 1 }}
             style={{ textAlign: "center", padding: "32px 0" }}
           >
-            <div style={{ fontSize: "56px", marginBottom: "16px" }}>🎯</div>
-            <h2
-              style={{
-                fontSize: "24px",
-                fontWeight: 800,
-                color: "var(--text-primary)",
-                marginBottom: "8px",
-              }}
-            >
-              Nível {selected} definido!
+            <div className="lume-icon-orb" style={{ margin: "0 auto 16px" }}>
+              <CheckCircle size={34} />
+            </div>
+            <h2 style={{ fontSize: "24px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "8px" }}>
+              Nivel {selected} definido
             </h2>
             <p style={{ color: "var(--text-secondary)", fontSize: "15px" }}>
-              Seu conteúdo foi personalizado. Vamos começar!
+              Seu conteudo foi personalizado. Vamos comecar.
             </p>
           </motion.div>
         ) : (
           <>
             <div style={{ textAlign: "center", marginBottom: "28px" }}>
-              <div style={{ fontSize: "40px", marginBottom: "12px" }}>🌟</div>
-              <h2
-                style={{
-                  fontSize: "22px",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  marginBottom: "8px",
-                }}
-              >
-                Qual é o seu nível atual?
+              <div className="lume-icon-orb" style={{ margin: "0 auto 12px" }}>
+                <Sparkles size={30} />
+              </div>
+              <h2 style={{ fontSize: "22px", fontWeight: 900, color: "var(--text-primary)", marginBottom: "8px" }}>
+                Qual e o seu nivel atual?
               </h2>
               <p style={{ color: "var(--text-secondary)", fontSize: "14px", lineHeight: 1.6 }}>
-                Isso personaliza seu conteúdo. Você pode alterar a qualquer momento no perfil.
+                Isso personaliza seu conteudo. Voce pode alterar a qualquer momento no perfil.
               </p>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-                marginBottom: "24px",
-              }}
-            >
-              {LEVELS.map((level) => (
-                <motion.button
-                  key={level.id}
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  onClick={() => setSelected(level.id)}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    padding: "14px 18px",
-                    borderRadius: "16px",
-                    border:
-                      selected === level.id
-                        ? `2px solid ${level.color}`
-                        : "2px solid var(--border)",
-                    background: selected === level.id ? level.bg : "transparent",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    transition: "all 0.2s ease",
-                  }}
-                >
-                  <span style={{ fontSize: "26px", flexShrink: 0 }}>{level.emoji}</span>
-                  <div style={{ flex: 1 }}>
-                    <div
-                      style={{
-                        fontWeight: 800,
-                        fontSize: "14px",
-                        color: selected === level.id ? level.color : "var(--text-primary)",
-                      }}
-                    >
-                      {level.label}
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "24px" }}>
+              {LEVELS.map((level) => {
+                const Icon = level.Icon;
+                const isSelected = selected === level.id;
+                return (
+                  <motion.button
+                    key={level.id}
+                    className="animated-container"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    onClick={() => setSelected(level.id)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "14px",
+                      padding: "14px 16px",
+                      borderRadius: "16px",
+                      border: isSelected ? `2px solid ${level.color}` : "2px solid var(--border)",
+                      background: isSelected ? level.bg : "rgba(255,255,255,0.7)",
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    <span className="lume-level-icon" style={{ color: level.color }}>
+                      <Icon size={24} />
+                    </span>
+                    <div style={{ flex: 1 }}>
+                      <div
+                        style={{
+                          fontWeight: 900,
+                          fontSize: "14px",
+                          color: isSelected ? level.color : "var(--text-primary)",
+                        }}
+                      >
+                        {level.label}
+                      </div>
+                      <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "2px" }}>
+                        {level.description}
+                      </div>
                     </div>
-                    <div
-                      style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "2px" }}
-                    >
-                      {level.description}
-                    </div>
-                  </div>
-                  {selected === level.id && (
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      style={{
-                        width: "22px",
-                        height: "22px",
-                        borderRadius: "50%",
-                        background: level.color,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                        fontSize: "12px",
-                        color: "white",
-                      }}
-                    >
-                      ✓
-                    </motion.span>
-                  )}
-                </motion.button>
-              ))}
+                    {isSelected && <CheckCircle size={22} color={level.color} />}
+                  </motion.button>
+                );
+              })}
             </div>
 
-            <button
-              onClick={handleConfirm}
-              disabled={!selected}
-              style={{
-                width: "100%",
-                padding: "16px",
-                borderRadius: "16px",
-                background: selected
-                  ? "linear-gradient(135deg, var(--accent-green), #ff7a45)"
-                  : "var(--border)",
-                color: selected ? "white" : "var(--text-secondary)",
-                border: "none",
-                cursor: selected ? "pointer" : "not-allowed",
-                fontSize: "16px",
-                fontWeight: 800,
-                transition: "all 0.3s ease",
-                boxShadow: selected ? "0 8px 24px rgba(255,122,69,0.3)" : "none",
-              }}
-            >
-              {selected ? `✓ Confirmar nível ${selected}` : "Selecione seu nível para continuar"}
+            <button onClick={handleConfirm} disabled={!selected} className="btn-gold" style={{ width: "100%" }}>
+              {selected ? `Confirmar nivel ${selected}` : "Selecione seu nivel para continuar"}
             </button>
 
             {!forced && (
@@ -254,7 +190,7 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
                   cursor: "pointer",
                   color: "var(--text-secondary)",
                   fontSize: "13px",
-                  fontWeight: 600,
+                  fontWeight: 700,
                 }}
               >
                 Mais tarde
@@ -267,7 +203,6 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
   );
 }
 
-// Adaptive difficulty popup — shown after completing activities
 interface DifficultyFeedbackProps {
   onAdjust: (direction: "easier" | "harder" | "ok") => void;
 }
@@ -275,87 +210,24 @@ interface DifficultyFeedbackProps {
 export function DifficultyFeedback({ onAdjust }: DifficultyFeedbackProps) {
   return (
     <motion.div
+      className="lume-feedback-pop"
       initial={{ y: 80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: 80, opacity: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
-      style={{
-        position: "fixed",
-        bottom: "90px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        zIndex: 9000,
-        background: "var(--surface-raised)",
-        borderRadius: "20px",
-        padding: "16px 20px",
-        border: "1.5px solid var(--border)",
-        boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-        display: "flex",
-        flexDirection: "column",
-        gap: "12px",
-        minWidth: "280px",
-        maxWidth: "340px",
-        width: "90%",
-      }}
     >
-      <p
-        style={{
-          fontSize: "14px",
-          fontWeight: 700,
-          color: "var(--text-primary)",
-          textAlign: "center",
-        }}
-      >
+      <p style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)", textAlign: "center" }}>
         Como foi essa atividade?
       </p>
       <div style={{ display: "flex", gap: "8px" }}>
-        <button
-          onClick={() => onAdjust("easier")}
-          style={{
-            flex: 1,
-            padding: "10px 6px",
-            borderRadius: "12px",
-            background: "rgba(74,122,90,0.08)",
-            border: "1.5px solid rgba(74,122,90,0.2)",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontWeight: 700,
-            color: "#4A7A5A",
-          }}
-        >
-          😅 Muito difícil
+        <button onClick={() => onAdjust("easier")} className="btn-outline-premium" style={{ flex: 1, padding: "10px 6px", fontSize: 12 }}>
+          Muito dificil
         </button>
-        <button
-          onClick={() => onAdjust("ok")}
-          style={{
-            flex: 1,
-            padding: "10px 6px",
-            borderRadius: "12px",
-            background: "rgba(201,168,76,0.08)",
-            border: "1.5px solid rgba(201,168,76,0.2)",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontWeight: 700,
-            color: "#C9A84C",
-          }}
-        >
-          👌 Perfeito
+        <button onClick={() => onAdjust("ok")} className="btn-outline-premium" style={{ flex: 1, padding: "10px 6px", fontSize: 12 }}>
+          Perfeito
         </button>
-        <button
-          onClick={() => onAdjust("harder")}
-          style={{
-            flex: 1,
-            padding: "10px 6px",
-            borderRadius: "12px",
-            background: "rgba(196,113,74,0.08)",
-            border: "1.5px solid rgba(196,113,74,0.2)",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontWeight: 700,
-            color: "#C4714A",
-          }}
-        >
-          🚀 Muito fácil
+        <button onClick={() => onAdjust("harder")} className="btn-outline-premium" style={{ flex: 1, padding: "10px 6px", fontSize: 12 }}>
+          Muito facil
         </button>
       </div>
     </motion.div>

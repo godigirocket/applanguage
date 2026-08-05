@@ -16,6 +16,8 @@ import {
   Library,
   Palette,
   Briefcase,
+  Crown,
+  Users,
 } from "@/components/lume/CustomIcons";
 import { useStore } from "@/hooks/useStore";
 import { useState } from "react";
@@ -39,6 +41,12 @@ function PlayPage() {
     bestStreak: Math.max(streak, 1),
     xpFromQuizzes: xp,
   };
+
+  const livePlayers = [
+    { name: "Maya", mode: "Accent Mimic", score: "980 XP", color: "#1CB0F6" },
+    { name: "Leo", mode: "Speed Round", score: "12 combo", color: "#FF4B4B" },
+    { name: "Ana", mode: "Lume Match", score: "Pro", color: "#2FBB52" },
+  ];
 
   const MODES_18 = [
     {
@@ -281,6 +289,7 @@ function PlayPage() {
         background: "transparent",
         position: "relative",
       }}
+      className="lume-games-page"
     >
       <TopicScenario topic={pickRotatingTopic("games")} />
       <div style={{ position: "relative", zIndex: 1 }}>
@@ -514,6 +523,26 @@ function PlayPage() {
             </p>
           </header>
 
+          <section className="lume-arena-live" aria-label={isPT ? "Arena ao vivo" : "Live arena"}>
+            <div className="lume-arena-live-title">
+              <span className="lume-live-dot" />
+              <Users size={18} />
+              <strong>{isPT ? "Arena Pro ao vivo" : "Live Pro arena"}</strong>
+            </div>
+            <div className="lume-arena-players">
+              {livePlayers.map((player) => (
+                <div key={player.name} className="lume-arena-player" style={{ ["--chip-color" as any]: player.color }}>
+                  <span>{player.name.slice(0, 2).toUpperCase()}</span>
+                  <div>
+                    <strong>{player.name}</strong>
+                    <small>{player.mode} - {player.score}</small>
+                  </div>
+                  <Crown size={15} />
+                </div>
+              ))}
+            </div>
+          </section>
+
           {/* Stats Grid ── 4 cols on desktop, 2x2 on mobile */}
           <div
             style={{
@@ -675,7 +704,7 @@ function GameModeCard({ mode, index }: { mode: any; index: number }) {
         transition={{ delay: index * 0.1, duration: 0.5 }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className="glass premium-shadow"
+        className="glass premium-shadow lume-game-card"
         style={{
           borderRadius: "32px",
           padding: "32px",

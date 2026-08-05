@@ -1,5 +1,3 @@
-import React from "react";
-
 interface LogoProps {
   size?: number;
   className?: string;
@@ -12,21 +10,19 @@ export function Logo({ size = 40, className = "", withText = true }: LogoProps) 
       className={`flex items-center gap-2 ${className}`}
       style={{ textDecoration: "none", flexShrink: 0 }}
     >
-      {/* Watercolor globe image */}
       <img
-        src="/logo.png"
+        src="/brand/lume-logo-mark.png"
         alt="Lume"
+        className="lume-logo-mark"
         style={{
           width: size,
           height: size,
           objectFit: "contain",
-          borderRadius: "12px",
           flexShrink: 0,
           display: "block",
         }}
       />
 
-      {/* Wordmark */}
       {withText && (
         <div
           style={{
@@ -39,9 +35,9 @@ export function Logo({ size = 40, className = "", withText = true }: LogoProps) 
           <span
             style={{
               fontFamily: "var(--font-sans)",
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: Math.round(size * 0.5),
-              letterSpacing: "0.04em",
+              letterSpacing: 0,
               color: "var(--brand)",
               lineHeight: 1.1,
             }}
@@ -52,17 +48,17 @@ export function Logo({ size = 40, className = "", withText = true }: LogoProps) 
             <span
               className="lume-logo-tagline"
               style={{
-                fontFamily: "DM Sans, sans-serif",
-                fontSize: Math.max(8, Math.round(size * 0.2)),
+                fontFamily: "var(--font-sans)",
+                fontSize: Math.max(8, Math.round(size * 0.18)),
                 color: "var(--text-secondary)",
-                letterSpacing: "0.1em",
+                letterSpacing: 0,
                 textTransform: "uppercase",
-                fontWeight: 700,
+                fontWeight: 800,
                 lineHeight: 1,
                 marginTop: "2px",
               }}
             >
-              Learn · Play · Grow
+              Learn. Play. Grow.
             </span>
           )}
         </div>

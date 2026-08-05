@@ -9,9 +9,19 @@
  * Method: POST
  */
 
-import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { createClient } from "@supabase/supabase-js";
 import { timingSafeEqual } from "crypto";
+
+type VercelRequest = {
+  method?: string;
+  headers: Record<string, string | string[] | undefined>;
+  body?: Record<string, unknown>;
+};
+
+type VercelResponse = {
+  status: (code: number) => VercelResponse;
+  json: (body: unknown) => VercelResponse;
+};
 
 function safeCompare(a: string, b: string): boolean {
   const bufA = Buffer.from(a);
@@ -65,7 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const body = req.body;
+    const body = req.body ?? {};
     
     // 1. Validate webhook secret (Cakto sends it in the body as "secret")
     // Fail closed: an unconfigured secret must reject every request, not skip validation.

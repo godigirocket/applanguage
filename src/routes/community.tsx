@@ -21,8 +21,8 @@ import {
   TrendingUp,
   Users,
   Globe,
-  Video,
-  Music,
+  Crown,
+  User,
 } from "@/components/lume/CustomIcons";
 
 export const Route = createFileRoute("/community")({
@@ -61,6 +61,24 @@ const POST_TYPES = [
   { id: "memes", label: "Memes", icon: Sparkles },
 ];
 
+const PRO_LEARNERS = [
+  { name: "Maya", level: "C1", action: "Speaking Lab", color: "#1CB0F6" },
+  { name: "Leo", level: "B2", action: "18 streak", color: "#FF4B4B" },
+  { name: "Ana", level: "A2", action: "Quiz rapido", color: "#2FBB52" },
+  { name: "Noah", level: "C2", action: "Cultura", color: "#AC5CF6" },
+];
+
+function avatarInitials(name: string) {
+  return (
+    name
+      .split(/[.\s_-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") || "LU"
+  );
+}
+
 function CommunityPage() {
   const { interfaceLanguage, isKidAccount } = useStore();
   const { user } = useAuth();
@@ -68,6 +86,12 @@ function CommunityPage() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [postText, setPostText] = useState("");
   const [realPosts, setRealPosts] = useState<FeedPost[]>([]);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(() => {
+    if (typeof window === "undefined") return new Set();
+    return new Set(JSON.parse(localStorage.getItem("lume_liked_posts") || "[]"));
+  });
+  const [commentingPostId, setCommentingPostId] = useState<string | number | null>(null);
+  const [quickComment, setQuickComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [stats, setStats] = useState<{ memberCount: number; postsToday: number; lessonsCompleted: number } | null>(
     null,
@@ -240,6 +264,47 @@ function CommunityPage() {
       ? allPosts
       : allPosts.filter((post) => FILTER_TO_POST_TYPES[activeFilter]?.includes(post.type));
 
+  function updatePostCount(postId: string | number, field: "likes" | "comments" | "shares", delta = 1) {
+    setRealPosts((prev) =>
+      prev.map((post) =>
+        post.id === postId ? { ...post, [field]: Math.max(0, post[field] + delta) } : post,
+      ),
+    );
+  }
+
+  function handleLike(postId: string | number) {
+    const key = String(postId);
+    setLikedPosts((prev) => {
+      const next = new Set(prev);
+      const liked = next.has(key);
+      if (liked) next.delete(key);
+      else next.add(key);
+      localStorage.setItem("lume_liked_posts", JSON.stringify([...next]));
+      updatePostCount(postId, "likes", liked ? -1 : 1);
+      return next;
+    });
+  }
+
+  function handleQuickComment(postId: string | number) {
+    const text = quickComment.trim();
+    if (!text) return;
+    updatePostCount(postId, "comments", 1);
+    setQuickComment("");
+    setCommentingPostId(null);
+    toast.success(isPT ? "Comentario adicionado nesta sessao." : "Comment added for this session.");
+  }
+
+  async function handleSharePost(post: FeedPost) {
+    updatePostCount(post.id, "shares", 1);
+    const text = `${post.user.name} no Lume: ${post.content}`;
+    if (navigator.share) {
+      await navigator.share({ title: "Lume", text, url: "https://langlume.vercel.app/community" }).catch(() => {});
+    } else {
+      await navigator.clipboard.writeText(`${text} https://langlume.vercel.app/community`);
+      toast.success(isPT ? "Link copiado." : "Link copied.");
+    }
+  }
+
   // Placed after every hook above (never conditionally skip a hook) — the
   // effect on mount already redirects; this just avoids flashing the adult
   // feed for the one render before that redirect takes effect.
@@ -252,6 +317,7 @@ function CommunityPage() {
         background: "var(--bg)",
         position: "relative",
       }}
+      className="lume-community-page"
     >
       <TopicScenario topic={pickRotatingTopic("community")} />
       <div style={{ position: "relative", zIndex: 1 }}>
@@ -259,6 +325,7 @@ function CommunityPage() {
 
         {/* HEADER */}
         <div
+          className="lume-community-hero"
           style={{
             background: "var(--surface-raised)",
             borderBottom: "2px solid var(--border)",
@@ -335,10 +402,37 @@ function CommunityPage() {
 
         {/* MAIN CONTENT */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
+          <section className="lume-live-strip" aria-label={isPT ? "Usuarios Pro ativos" : "Active Pro users"}>
+            <div>
+              <span className="lume-live-dot" />
+              <strong>{isPT ? "Ao vivo agora" : "Live now"}</strong>
+              <p>{isPT ? "Estudantes Pro treinando em tempo real" : "Pro learners practicing right now"}</p>
+            </div>
+            <div className="lume-pro-row">
+              {PRO_LEARNERS.map((learner) => (
+                <div
+                  key={learner.name}
+                  className="lume-pro-chip"
+                  style={{ ["--chip-color" as any]: learner.color }}
+                >
+                  <span>{avatarInitials(learner.name)}</span>
+                  <div>
+                    <strong>{learner.name}</strong>
+                    <small>
+                      {learner.level} - {learner.action}
+                    </small>
+                  </div>
+                  <Crown size={15} />
+                </div>
+              ))}
+            </div>
+          </section>
+
           <div className="community-grid">
             {/* LEFT SIDEBAR - FILTERS */}
             <aside className="community-sidebar">
               <div
+                className="lume-community-panel"
                 style={{
                   background: "var(--surface-raised)",
                   borderRadius: "16px",
@@ -363,6 +457,7 @@ function CommunityPage() {
                   {POST_TYPES.map((type) => (
                     <button
                       key={type.id}
+                      className="lume-filter-button"
                       onClick={() => setActiveFilter(type.id)}
                       style={{
                         display: "flex",
@@ -404,6 +499,10 @@ function CommunityPage() {
                     {["#milestone", "#grammar", "#streak", "#culture"].map((tag) => (
                       <div
                         key={tag}
+                        onClick={() => {
+                          setActiveFilter("all");
+                          setPostText((current) => (current ? current : `${tag} `));
+                        }}
                         style={{
                           padding: "8px 12px",
                           background: "var(--bg)",
@@ -427,6 +526,7 @@ function CommunityPage() {
               {/* CREATE POST */}
               {user && (
                 <div
+                  className="lume-create-post"
                   style={{
                     background: "var(--surface-raised)",
                     borderRadius: "20px",
@@ -437,11 +537,12 @@ function CommunityPage() {
                 >
                   <div style={{ display: "flex", gap: "16px" }}>
                     <div
+                      className="lume-avatar-token"
                       style={{
                         width: "48px",
                         height: "48px",
                         borderRadius: "50%",
-                        background: "var(--brand)",
+                        background: "linear-gradient(145deg, var(--brand), var(--brand-blue))",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -480,6 +581,9 @@ function CommunityPage() {
                       >
                         <div style={{ display: "flex", gap: "8px" }}>
                           <button
+                            onClick={() =>
+                              toast.info(isPT ? "Upload de imagem entra na proxima versao." : "Image upload is coming next.")
+                            }
                             style={{
                               padding: "8px 12px",
                               borderRadius: "8px",
@@ -498,6 +602,7 @@ function CommunityPage() {
                             {isPT ? "Imagem" : "Image"}
                           </button>
                           <button
+                            onClick={() => setPostText((current) => `${current}${current ? " " : ""}#brilho`)}
                             style={{
                               padding: "8px 12px",
                               borderRadius: "8px",
@@ -593,6 +698,7 @@ function CommunityPage() {
                   return (
                     <motion.div
                       key={post.id}
+                      className="lume-post-card"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
@@ -609,11 +715,12 @@ function CommunityPage() {
                       >
                         <div style={{ display: "flex", alignItems: "start", gap: "12px" }}>
                           <div
+                            className="lume-avatar-token"
                             style={{
                               width: "48px",
                               height: "48px",
                               borderRadius: "50%",
-                              background: "var(--brand)",
+                              background: `linear-gradient(145deg, ${postColor}, var(--brand-blue))`,
                               display: "flex",
                               alignItems: "center",
                               justifyContent: "center",
@@ -621,7 +728,7 @@ function CommunityPage() {
                               flexShrink: 0,
                             }}
                           >
-                            {post.user.avatar}
+                            <User size={22} color="white" />
                           </div>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div
@@ -721,23 +828,27 @@ function CommunityPage() {
                           }}
                         >
                           <button
+                            onClick={() => handleLike(post.id)}
+                            className={likedPosts.has(String(post.id)) ? "lume-social-action is-active" : "lume-social-action"}
                             style={{
                               display: "flex",
                               alignItems: "center",
                               gap: "8px",
                               background: "none",
                               border: "none",
-                              color: "var(--text-secondary)",
+                              color: likedPosts.has(String(post.id)) ? "#FF4B4B" : "var(--text-secondary)",
                               fontSize: "14px",
                               fontWeight: 700,
                               cursor: "pointer",
                               transition: "color 0.2s",
                             }}
                           >
-                            <Heart size={18} />
+                            <Heart size={18} fill={likedPosts.has(String(post.id)) ? "#FF4B4B" : "none"} />
                             {post.likes}
                           </button>
                           <button
+                            onClick={() => setCommentingPostId(commentingPostId === post.id ? null : post.id)}
+                            className="lume-social-action"
                             style={{
                               display: "flex",
                               alignItems: "center",
@@ -755,6 +866,8 @@ function CommunityPage() {
                             {post.comments}
                           </button>
                           <button
+                            onClick={() => handleSharePost(post)}
+                            className="lume-social-action"
                             style={{
                               display: "flex",
                               alignItems: "center",
@@ -772,6 +885,19 @@ function CommunityPage() {
                             {post.shares}
                           </button>
                         </div>
+                        {commentingPostId === post.id && (
+                          <div className="lume-comment-box">
+                            <input
+                              value={quickComment}
+                              onChange={(event) => setQuickComment(event.target.value)}
+                              placeholder={isPT ? "Escreva uma resposta rapida..." : "Write a quick reply..."}
+                            />
+                            <button onClick={() => handleQuickComment(post.id)} className="btn-gold">
+                              <Send size={15} />
+                              {isPT ? "Enviar" : "Send"}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   );

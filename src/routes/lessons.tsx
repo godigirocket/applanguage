@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
@@ -75,17 +75,24 @@ function LessonsPage() {
     interfaceLanguage,
     targetLanguage,
     completedLessons,
-    completeLesson,
-    addXP,
     learningLevel,
     isKidAccount,
   } = useStore();
   const { userLevel } = useUserStore();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLevel, setSelectedLevel] = useState("All");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [initialFilters] = useState(() => {
+    if (typeof window === "undefined") return null;
+    try {
+      const saved = window.localStorage.getItem("lesson_filters");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [searchQuery, setSearchQuery] = useState(initialFilters?.searchQuery || "");
+  const [selectedLevel, setSelectedLevel] = useState(initialFilters?.selectedLevel || "All");
+  const [selectedCategory, setSelectedCategory] = useState(initialFilters?.selectedCategory || "all");
   const [showFilters, setShowFilters] = useState(false);
-  const [levelFilterExplicit, setLevelFilterExplicit] = useState(false);
+  const [levelFilterExplicit, setLevelFilterExplicit] = useState(Boolean(initialFilters?.selectedLevel));
   const PAGE_SIZE = 30;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -118,24 +125,6 @@ function LessonsPage() {
       console.warn("Could not save filters", e);
     }
   }, [searchQuery, selectedLevel, selectedCategory]);
-
-  // Load filters from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("lesson_filters");
-      if (saved) {
-        const filters = JSON.parse(saved);
-        setSearchQuery(filters.searchQuery || "");
-        if (filters.selectedLevel) {
-          setSelectedLevel(filters.selectedLevel);
-          setLevelFilterExplicit(true);
-        }
-        setSelectedCategory(filters.selectedCategory || "all");
-      }
-    } catch (e) {
-      console.warn("Could not load filters", e);
-    }
-  }, []);
 
   // Once the user's chosen level (onboarding or the A1-C2 modal) is known,
   // default the level filter to it — unless they've already picked one
@@ -199,6 +188,12 @@ function LessonsPage() {
     nav({ to: `/lesson/${lesson.id}` as any });
   };
 
+  useEffect(() => {
+    if (!loading && !user) {
+      nav({ to: "/login" });
+    }
+  }, [loading, user, nav]);
+
   if (loading) {
     return (
       <div
@@ -229,7 +224,6 @@ function LessonsPage() {
   }
 
   if (!user) {
-    nav({ to: "/login" });
     return null;
   }
 
@@ -242,6 +236,7 @@ function LessonsPage() {
         paddingBottom: "80px",
         position: "relative",
       }}
+      className="lume-lessons-page"
     >
       <TopicScenario topic={pickRotatingTopic("lessons")} />
       <div style={{ position: "relative", zIndex: 1 }}>
@@ -249,6 +244,7 @@ function LessonsPage() {
 
         {/* HERO */}
         <section
+          className="lume-lessons-hero"
           style={{
             // Fixed dark band regardless of light/dark theme — see home.tsx for why.
             background: "linear-gradient(135deg, #111827 0%, #0b1020 100%)",
@@ -430,6 +426,7 @@ function LessonsPage() {
 
         {/* FILTERS — flows normally with the page; must not stay pinned while scrolling */}
         <div
+          className="lume-lessons-filters"
           style={{
             background: "var(--card-bg)",
             borderBottom: "1px solid var(--border)",
@@ -499,7 +496,7 @@ function LessonsPage() {
                 }}
               >
                 <Sliders size={18} />
-                <span style={{ display: window.innerWidth < 400 ? "none" : "inline" }}>
+                <span className="lesson-filter-label">
                   {isPT ? "Filtros" : "Filters"}
                 </span>
               </button>
@@ -675,7 +672,7 @@ function LessonsPage() {
                 transition={{ delay: Math.min(i, 20) * 0.02 }}
                 whileHover={lesson.locked ? {} : { y: -6 }}
                 onClick={() => handleLessonClick(lesson)}
-                className="card-duo"
+                className="card-duo lume-lesson-card"
                 style={{
                   overflow: "hidden",
                   borderTop: `4px solid ${lesson.locked ? "var(--border)" : categoryStyle.color}`,
@@ -943,6 +940,11 @@ function LessonsPage() {
       <style>{`
         @keyframes spin {
           to { transform: rotate(360deg); }
+        }
+        @media (max-width: 399px) {
+          .lesson-filter-label {
+            display: none;
+          }
         }
       `}</style>
     </div>

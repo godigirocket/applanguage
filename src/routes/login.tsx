@@ -1,13 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { useStore } from "@/hooks/useStore";
 import { toast } from "sonner";
+import { ChevronRight, Eye, EyeOff, LockKeyhole, Mail, Sparkles } from "lucide-react";
+import { Logo } from "@/components/lume/Logo";
+import { useStore } from "@/hooks/useStore";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Entrar — LangLume" },
+      { title: "Entrar - Lume" },
       { name: "description", content: "Faça login para aprender idiomas com IA." },
     ],
   }),
@@ -28,21 +30,25 @@ function Login() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
     if (password.length < 6) {
       setError(isPT ? "Senha precisa ter no mínimo 6 caracteres" : "Password must be at least 6 characters");
       return;
     }
+
     setLoading(true);
     try {
       const { error: signInError } = await supabase.auth.signInWithPassword({
         email: email.trim().toLowerCase(),
         password,
       });
+
       if (!signInError) {
         toast.success(isPT ? "Bem-vindo!" : "Welcome!");
         nav({ to: "/home" });
         return;
       }
+
       if (signInError.message.includes("Invalid login credentials")) {
         const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
           email: email.trim().toLowerCase(),
@@ -51,26 +57,27 @@ function Login() {
             emailRedirectTo: `${window.location.origin}/home`,
           },
         });
+
         if (signUpError) {
           setError(signUpError.message);
           return;
         }
-        // If email confirmation is required, the session will be null
+
         if (signUpData.session) {
           toast.success(isPT ? "Conta criada!" : "Account created!");
           nav({ to: "/onboarding" });
         } else {
-          // Email confirmation required — inform user
           toast.success(isPT ? "Conta criada! Verifique seu email para confirmar." : "Account created! Check your email to confirm.");
           setError(isPT ? "Verifique seu email para confirmar a conta e depois faça login." : "Check your email to confirm your account, then log in.");
         }
         return;
       }
-      // Handle "Email not confirmed" error gracefully
+
       if (signInError.message.includes("Email not confirmed")) {
-        setError(isPT ? "Email não confirmado. Verifique sua caixa de entrada (e spam)." : "Email not confirmed. Check your inbox (and spam folder).");
+        setError(isPT ? "Email não confirmado. Verifique sua caixa de entrada e spam." : "Email not confirmed. Check your inbox and spam folder.");
         return;
       }
+
       setError(signInError.message);
     } catch {
       setError(isPT ? "Erro de conexão. Verifique sua internet." : "Connection error.");
@@ -80,75 +87,87 @@ function Login() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
-      <div style={{ width: "100%", maxWidth: "380px" }}>
-        {/* Brand */}
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "var(--brand)", letterSpacing: "-0.02em" }}>LangLume</h1>
-          <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "4px" }}>
-            {isPT ? "Aprenda idiomas praticando" : "Learn languages by practicing"}
+    <div className="lume-auth-page">
+      <div className="lume-auth-shell">
+        <section className="lume-auth-copy" aria-label="Lume">
+          <Logo size={64} />
+          <div className="lume-auth-kicker">
+            <Sparkles size={16} />
+            <span>{isPT ? "Rotina inteligente de idiomas" : "Smarter language routine"}</span>
+          </div>
+          <h1>{isPT ? "Entre e continue de onde parou." : "Sign in and keep your streak alive."}</h1>
+          <p>
+            {isPT
+              ? "Lições curtas, IA, jogos e progresso em um app com a nova identidade Lume."
+              : "Short lessons, AI practice, games and progress in the new Lume identity."}
           </p>
-        </div>
+        </section>
 
-        {/* Card */}
-        <div style={{ background: "var(--card-bg)", borderRadius: "20px", padding: "32px 28px", boxShadow: "var(--shadow-soft)", border: "1px solid var(--border)" }}>
-          <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
-            {isPT ? "Entrar" : "Sign in"}
-          </h2>
-          <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
-            {isPT ? "Email e senha para continuar" : "Email and password to continue"}
-          </p>
+        <section className="lume-auth-card animated-container" aria-label={isPT ? "Entrar" : "Sign in"}>
+          <h2>{isPT ? "Entrar" : "Sign in"}</h2>
+          <p>{isPT ? "Use seu email e senha para continuar." : "Use your email and password to continue."}</p>
 
-          <form onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }} aria-label={isPT ? "Formulário de login" : "Login form"}>
+          <form onSubmit={onSubmit} className="lume-auth-form" aria-label={isPT ? "Formulário de login" : "Login form"}>
             <div>
-              <label htmlFor="login-email" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
-              <input
-                id="login-email"
-                required type="email" autoComplete="email" placeholder="seu@email.com"
-                value={email} onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
-              />
+              <label htmlFor="login-email">Email</label>
+              <div className="lume-auth-field">
+                <Mail size={18} />
+                <input
+                  id="login-email"
+                  required
+                  type="email"
+                  autoComplete="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
+
             <div>
-              <label htmlFor="login-password" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>
-                {isPT ? "Senha" : "Password"}
-              </label>
-              <div style={{ position: "relative" }}>
+              <label htmlFor="login-password">{isPT ? "Senha" : "Password"}</label>
+              <div className="lume-auth-field">
+                <LockKeyhole size={18} />
                 <input
                   id="login-password"
-                  required type={showPassword ? "text" : "password"} autoComplete="current-password" placeholder="••••••••"
-                  value={password} onChange={(e) => setPassword(e.target.value)}
-                  style={{ width: "100%", padding: "12px 44px 12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
+                  required
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="button" onClick={() => setShowPassword(!showPassword)}
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? (isPT ? "Ocultar senha" : "Hide password") : (isPT ? "Mostrar senha" : "Show password")}
-                  style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-soft)", cursor: "pointer", padding: "4px" }}>
-                  {showPassword ? "🙈" : "👁"}
+                  className="lume-auth-eye"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
             {error && (
-              <div role="alert" style={{ padding: "10px 14px", borderRadius: "8px", background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)", color: "var(--danger)", fontSize: "13px", fontWeight: 600 }}>
+              <div role="alert" className="lume-auth-error">
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={loading}
-              style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "linear-gradient(135deg, var(--brand), var(--brand-2))", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}>
-              {loading ? "..." : isPT ? "Entrar" : "Sign in"}
+            <button type="submit" disabled={loading} className="btn-gold lume-auth-submit">
+              {loading ? "..." : isPT ? "Entrar" : "Sign in"} <ChevronRight size={18} />
             </button>
           </form>
 
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <a href="/forgot-password" style={{ fontSize: "13px", color: "var(--brand)", fontWeight: 600, textDecoration: "none" }}>
+          <div className="lume-auth-footer">
+            <a href="/forgot-password" className="hover-underline">
               {isPT ? "Esqueceu a senha?" : "Forgot password?"}
             </a>
           </div>
-        </div>
+        </section>
 
-        <p style={{ textAlign: "center", fontSize: "12px", color: "var(--text-soft)", marginTop: "20px" }}>
-          {isPT ? "Ao entrar, você concorda com nossos Termos" : "By signing in you agree to our Terms"}
+        <p className="lume-auth-terms">
+          {isPT ? "Ao entrar, você concorda com nossos Termos." : "By signing in you agree to our Terms."}
         </p>
       </div>
     </div>

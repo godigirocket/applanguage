@@ -137,7 +137,7 @@ function SetupPage() {
   const [copied, setCopied] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="lume-auth-page lume-setup-page">
       <AppHeader />
       <div
         style={{
@@ -167,7 +167,7 @@ function SetupPage() {
         </div>
 
         <div
-          className="glass-dark"
+          className="lume-sql-panel"
           style={{
             borderRadius: "16px",
             padding: "24px",
@@ -227,7 +227,7 @@ function SetupPage() {
         </div>
 
         <div
-          className="glass"
+          className="lume-auth-card"
           style={{
             borderRadius: "16px",
             padding: "20px 24px",

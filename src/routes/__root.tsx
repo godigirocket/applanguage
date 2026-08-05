@@ -172,7 +172,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" dir="ltr">
+    <html lang="pt-BR" dir="ltr" suppressHydrationWarning>
       <head>
         {/* Applies the saved theme before first paint — without this, the
             page always renders light-theme CSS first (the default with no
@@ -182,7 +182,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
             is the standard fix (same approach Next.js/Tailwind docs use). */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('lume_theme')||'dark';if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('lume_theme')||'light';if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');document.documentElement.classList.add('dark');}}catch(e){}})();`,
           }}
         />
         <HeadContent />
@@ -312,7 +312,7 @@ function RootInner() {
   }, [interfaceLanguage]);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("lume_theme") || "dark";
+    const savedTheme = localStorage.getItem("lume_theme") || "light";
     if (savedTheme === "dark") {
       document.documentElement.setAttribute("data-theme", "dark");
       document.documentElement.classList.add("dark");
@@ -510,7 +510,7 @@ function RootInner() {
           boxSizing: "border-box",
         }}
       >
-        {isAuthOrLanding || currentPath === "/guide" ? (
+        {isAuthOrLanding || isImmersive || currentPath === "/guide" ? (
           <Outlet />
         ) : (
           <ProtectedRoute>

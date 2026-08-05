@@ -73,6 +73,7 @@ function ConversationPage() {
   const [isMuted, setIsMuted] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isVoiceMode, setIsVoiceMode] = useState(false);
+  const [voiceStatus, setVoiceStatus] = useState<string | null>(null);
   const [sessionStartTime] = useState(Date.now());
   const [sessionDuration, setSessionDuration] = useState(0);
   const [sessionXP, setSessionXP] = useState(0);
@@ -98,15 +99,14 @@ function ConversationPage() {
   const timerRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false,
-  );
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -330,7 +330,10 @@ function ConversationPage() {
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      alert("Voice not supported in this browser. Try Chrome.");
+      const message =
+        "Reconhecimento de voz nao disponivel neste navegador. Use o campo de texto ou teste em um navegador com suporte.";
+      setVoiceStatus(message);
+      toast.error(message);
       return;
     }
     const recognition = new SpeechRecognition();
@@ -338,20 +341,41 @@ function ConversationPage() {
     recognition.continuous = false;
     recognition.interimResults = true;
 
-    recognition.onstart = () => setIsListening(true);
+    recognition.onstart = () => {
+      setVoiceStatus(null);
+      setIsListening(true);
+    };
     recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => setIsListening(false);
+    recognition.onerror = (event: any) => {
+      setIsListening(false);
+      const errorType = event?.error;
+      const message =
+        errorType === "not-allowed" || errorType === "service-not-allowed"
+          ? "Permissao de microfone bloqueada. Ative o microfone no navegador e tente de novo."
+          : errorType === "no-speech"
+            ? "Nao ouvi nada ainda. Tente falar mais perto do microfone."
+            : "Nao consegui iniciar a voz agora. Voce ainda pode digitar sua resposta.";
+      setVoiceStatus(message);
+      toast.error(message);
+    };
 
     recognition.onresult = (event: any) => {
       const transcript = Array.from(event.results)
         .map((r: any) => r[0].transcript)
         .join("");
       setInput(transcript);
+      setVoiceStatus(null);
       if (event.results[0].isFinal) {
         sendMessage(transcript);
       }
     };
-    recognition.start();
+    try {
+      recognition.start();
+    } catch {
+      const message = "A voz ja esta iniciando. Aguarde um instante e tente novamente.";
+      setVoiceStatus(message);
+      toast.message(message);
+    }
   }
 
   // 4. SAVE EXPRESSION on long press / button click
@@ -981,6 +1005,21 @@ function ConversationPage() {
                           : "Toque p/ Falar"}
                     </span>
                   </motion.div>
+                  {voiceStatus && (
+                    <p
+                      style={{
+                        maxWidth: "260px",
+                        color: "var(--text-secondary)",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        lineHeight: 1.45,
+                        textAlign: "center",
+                        marginTop: "12px",
+                      }}
+                    >
+                      {voiceStatus}
+                    </p>
+                  )}
                 </div>
 
                 <div style={{ display: "flex", gap: "12px" }}>
@@ -1215,6 +1254,20 @@ function ConversationPage() {
                   >
                     {isListening ? "● Recording" : isLoading ? "Thinking..." : "Tap to speak"}
                   </span>
+                  {voiceStatus && (
+                    <p
+                      style={{
+                        margin: "-4px 0 0",
+                        color: "var(--text-secondary)",
+                        fontSize: "12px",
+                        fontWeight: 700,
+                        lineHeight: 1.45,
+                        textAlign: "center",
+                      }}
+                    >
+                      {voiceStatus}
+                    </p>
+                  )}
 
                   {/* Text input */}
                   <div style={{ display: "flex", gap: "10px", width: "100%" }}>

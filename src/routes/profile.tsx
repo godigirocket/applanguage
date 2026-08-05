@@ -95,6 +95,12 @@ function ProfilePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  useEffect(() => {
+    if (!loading && !user) {
+      nav({ to: "/login" });
+    }
+  }, [loading, user, nav]);
+
   if (loading) {
     return (
       <div
@@ -123,7 +129,6 @@ function ProfilePage() {
   }
 
   if (!user) {
-    nav({ to: "/login" });
     return null;
   }
 
@@ -177,6 +182,7 @@ function ProfilePage() {
         paddingBottom: "80px",
         position: "relative",
       }}
+      className="lume-profile-page"
     >
       <TopicScenario topic={pickRotatingTopic("profile")} />
       <div style={{ position: "relative", zIndex: 1 }}>
@@ -184,6 +190,7 @@ function ProfilePage() {
 
         {/* HERO PROFILE CARD */}
         <section
+          className="lume-profile-hero"
           style={{
             background: currentLeague.gradient,
             padding: "60px 24px",
@@ -221,6 +228,7 @@ function ProfilePage() {
               {/* Avatar */}
               <div style={{ position: "relative" }}>
                 <div
+                  className="lume-profile-avatar"
                   style={{
                     width: "140px",
                     height: "140px",
@@ -258,6 +266,7 @@ function ProfilePage() {
                   <RefreshCw size={18} color="var(--brand)" />
                 </button>
                 <div
+                  className="lume-profile-league"
                   style={{
                     position: "absolute",
                     bottom: "-8px",
@@ -273,12 +282,12 @@ function ProfilePage() {
                     border: "4px solid rgba(255,255,255,0.3)",
                   }}
                 >
-                  {currentLeague.icon}
+                  <Crown size={26} color="var(--brand-yellow)" />
                 </div>
               </div>
 
               {/* Info */}
-              <div style={{ flex: 1, minWidth: "300px" }}>
+              <div style={{ flex: 1, minWidth: "260px" }}>
                 <div
                   style={{
                     display: "flex",
@@ -312,7 +321,7 @@ function ProfilePage() {
                 </div>
 
                 {/* Quick stats */}
-                <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+                <div className="lume-profile-mini-stats" style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
                   {[
                     { icon: Star, label: "XP Total", value: xp.toLocaleString() },
                     {
@@ -368,7 +377,7 @@ function ProfilePage() {
                   >
                     <span style={{ fontSize: "14px", fontWeight: 700, opacity: 0.9 }}>
                       {isPT ? "Próxima Liga:" : "Next League:"}{" "}
-                      {nextLeague.name[isPT ? "pt" : "en"]} {nextLeague.icon}
+                      {nextLeague.name[isPT ? "pt" : "en"]}
                     </span>
                     <span style={{ fontSize: "14px", fontWeight: 800 }}>
                       {xpToNext.toLocaleString()} XP
@@ -446,13 +455,14 @@ function ProfilePage() {
 
         {/* TABS — flows normally so it never fights with the header's hide/show */}
         <div
+          className="lume-profile-tabs"
           style={{
             background: "var(--surface-raised)",
             borderBottom: "2px solid var(--border)",
           }}
         >
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-            <div style={{ display: "flex", gap: "32px" }}>
+            <div className="lume-tab-scroll" style={{ display: "flex", gap: "32px" }}>
               {[
                 { id: "overview", label: isPT ? "Visão Geral" : "Overview", icon: TrendingUp },
                 { id: "achievements", label: isPT ? "Conquistas" : "Achievements", icon: Trophy },
@@ -556,6 +566,7 @@ function ProfilePage() {
                 ].map((stat, i) => (
                   <motion.div
                     key={i}
+                    className="lume-stat-card"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
@@ -609,6 +620,7 @@ function ProfilePage() {
 
               {/* Activity Heatmap placeholder */}
               <div
+                className="lume-profile-activity"
                 style={{
                   background: "var(--surface-raised)",
                   borderRadius: "20px",
@@ -706,6 +718,7 @@ function ProfilePage() {
                     return (
                       <motion.div
                         key={achievement.id}
+                        className={unlocked ? "lume-achievement-card is-unlocked" : "lume-achievement-card"}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.03 }}
@@ -727,8 +740,15 @@ function ProfilePage() {
                             <Lock size={18} color="var(--text-secondary)" />
                           </div>
                         )}
-                        <div style={{ fontSize: "48px", marginBottom: "16px" }}>
-                          {achievement.icon}
+                        <div
+                          className="lume-achievement-icon"
+                          style={{ fontSize: "48px", marginBottom: "16px" }}
+                        >
+                          {unlocked ? (
+                            <Trophy size={36} color="var(--brand-yellow)" />
+                          ) : (
+                            <Lock size={32} color="var(--text-secondary)" />
+                          )}
                         </div>
                         <h3
                           style={{
