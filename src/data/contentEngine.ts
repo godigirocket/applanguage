@@ -379,7 +379,8 @@ export async function generateLessons(
     // anything (e.g. the /home dashboard) opt out via progressiveLock=false.
     const locked =
       progressiveLock &&
-      i > startIndex &&
+      i > 0 &&
+      !isCompleted &&
       !completedLessons.includes(lessonsInLanguage[i - 1].id);
     return {
       id: lesson.id,

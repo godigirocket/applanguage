@@ -41,7 +41,7 @@ export function LessonPath({ lessons, maxVisible = 20 }: LessonPathProps) {
   };
 
   const getOffset = (index: number): number => {
-    const pattern = [-58, -28, 14, 48, 24, -18, -54, -20, 22, 58, 30, -12];
+    const pattern = [-30, -14, 8, 28, 14, -8, -28, -10, 12, 30, 16, -6];
     return pattern[index % pattern.length];
   };
 

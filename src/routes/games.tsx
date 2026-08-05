@@ -307,23 +307,24 @@ function PlayPage() {
             </Link>
           </div>
 
-          <header style={{ textAlign: "center", marginBottom: "40px" }}>
+          <header style={{ textAlign: "center", marginBottom: "32px" }}>
             <div
               style={{
-                display: "flex",
+                display: "inline-flex",
                 alignItems: "center",
-                justifyContent: "center",
                 gap: "8px",
-                color: "var(--accent-green)",
+                padding: "6px 14px",
+                borderRadius: "99px",
+                background: "rgba(88, 204, 2, 0.1)",
+                border: "1px solid rgba(88, 204, 2, 0.2)",
                 fontSize: "12px",
-                fontWeight: 800,
-                textTransform: "uppercase",
-                letterSpacing: "0.15em",
+                fontWeight: 700,
+                color: "#58CC02",
                 marginBottom: "12px",
               }}
             >
-              <Sparkles size={14} />
-              <span>{isPT ? "ARENA DE JOGOS" : "GAME ARENA"}</span>
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#58CC02", animation: "path-pulse 2s infinite" }} />
+              {Math.floor(Math.random() * 5) + 7} {isPT ? "jogando agora" : "playing now"}
             </div>
             <h1
               style={{

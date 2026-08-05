@@ -66,6 +66,16 @@ const PRO_LEARNERS = [
   { name: "Noah", level: "C2", action: "Cultura", color: "#AC5CF6" },
 ];
 
+const SEED_POSTS: FeedPost[] = [
+  { id: "seed-1", user: { id: "lume", name: "LumeLearn", avatar: "" }, content: "Parabéns a todos que completaram o Desafio Diário hoje! 12 pessoas bateram o recorde.", type: "achievement", image: null, likes: 34, comments: 8, shares: 3, timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-2", user: { id: "maya", name: "Maya S.", avatar: "" }, content: "Finalmente cheguei no nível C1 depois de 3 meses! A dica: pelo menos 2 lições por dia.", type: "achievement", image: null, likes: 47, comments: 12, shares: 5, timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-3", user: { id: "leo", name: "Leo M.", avatar: "" }, content: "Alguém mais acha o modo Sobrevivência viciante? 28 acertos seguidos hoje!", type: "question", image: null, likes: 21, comments: 6, shares: 1, timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-4", user: { id: "ana", name: "Ana R.", avatar: "" }, content: "Dica: pratiquem listening com fone. A diferença é absurda na pronúncia.", type: "tip", image: null, likes: 53, comments: 15, shares: 9, timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-5", user: { id: "lume", name: "LumeLearn", avatar: "" }, content: "710 lições disponíveis em cada idioma! Espanhol e Português completos.", type: "tip", image: null, likes: 89, comments: 23, shares: 14, timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-6", user: { id: "noah", name: "Noah P.", avatar: "" }, content: "Streak de 30 dias! O segredo é lições curtas no ônibus.", type: "achievement", image: null, likes: 38, comments: 9, shares: 4, timestamp: new Date(Date.now() - 36 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "seed-7", user: { id: "carol", name: "Carol V.", avatar: "" }, content: "O quiz de gramática me salvou na prova de inglês. Obrigada Lume!", type: "achievement", image: null, likes: 62, comments: 18, shares: 7, timestamp: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(), tags: [] },
+];
+
 function avatarInitials(name: string) {
   return (
     name
@@ -256,7 +266,7 @@ function CommunityPage() {
     tips: ["tip", "resource"],
     memes: ["meme"],
   };
-  const allPosts = realPosts;
+  const allPosts = [...SEED_POSTS, ...realPosts];
   const visiblePosts =
     activeFilter === "all"
       ? allPosts
