@@ -14,37 +14,24 @@ interface MascotProps {
   size?: number;
 }
 
-export function Mascot({ state = "idle", size = 64 }: MascotProps) {
+export function Mascot({ state = "idle", size = 96 }: MascotProps) {
   const bounce = state === "celebrating" || state === "correct";
 
   return (
     <span
+      className={`lume-companion lume-companion-${state}`}
       role="img"
-      aria-label={`Lume: ${state}`}
+      aria-label={`Lume companion: ${state}`}
       style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
         width: size,
         height: size,
-        flexShrink: 0,
         animation: bounce
           ? "mascot-bounce 0.6s ease-in-out infinite"
-          : undefined,
+          : "mascot-idle 3.2s ease-in-out infinite",
       }}
     >
-      <img
-        src="/brand/lume-companion.png"
-        alt=""
-        draggable={false}
-        style={{
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          userSelect: "none",
-          pointerEvents: "none",
-        }}
-      />
+      <img src="/brand/lume-companion.png" alt="" draggable={false} />
+      <span className="lume-companion-glow" aria-hidden="true" />
     </span>
   );
 }
