@@ -23,7 +23,7 @@ function PricingPage() {
   const { interfaceLanguage } = useStore();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+  const [billingCycle] = useState<"monthly" | "annual">("monthly");
 
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -76,13 +76,7 @@ function PricingPage() {
     window.open("https://cakto.app/AmYjYgH/", "_blank");
   };
 
-  const visiblePlans = PLANS.filter((plan) => {
-    if (billingCycle === "monthly") {
-      return plan.id === "free" || plan.id === "premium_monthly";
-    } else {
-      return plan.id === "free" || plan.id === "premium_annual" || plan.id === "premium_lifetime";
-    }
-  });
+  const visiblePlans = PLANS.filter((plan) => plan.id !== "free");
 
   return (
     <div style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: "80px" }}>
@@ -138,281 +132,128 @@ function PricingPage() {
 
           <p
             style={{
-              fontSize: "clamp(15px, 3vw, 18px)",
+              fontSize: "clamp(14px, 3vw, 16px)",
               color: "var(--text-secondary)",
-              maxWidth: "600px",
-              margin: "0 auto 40px",
-              lineHeight: 1.6,
+              maxWidth: "500px",
+              margin: "0 auto",
+              lineHeight: 1.5,
             }}
           >
             {t.subtitle}
           </p>
-
-          {/* Billing Cycle Toggle */}
-          <div
-            style={{
-              display: "inline-flex",
-              background: "var(--surface-raised)",
-              padding: "6px",
-              borderRadius: "99px",
-              border: "1.5px solid var(--border)",
-              gap: "4px",
-            }}
-          >
-            <button
-              onClick={() => setBillingCycle("monthly")}
-              style={{
-                padding: "10px 24px",
-                borderRadius: "99px",
-                border: "none",
-                background: billingCycle === "monthly" ? "var(--brand)" : "transparent",
-                color: billingCycle === "monthly" ? "white" : "var(--text-secondary)",
-                fontSize: "14px",
-                fontWeight: 700,
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-            >
-              {t.monthly}
-            </button>
-            <button
-              onClick={() => setBillingCycle("annual")}
-              style={{
-                padding: "10px 24px",
-                borderRadius: "99px",
-                border: "none",
-                background: billingCycle === "annual" ? "var(--brand)" : "transparent",
-                color: billingCycle === "annual" ? "white" : "var(--text-secondary)",
-                fontSize: "14px",
-                fontWeight: 700,
-                cursor: "pointer",
-                transition: "all 0.2s",
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              {t.annual}
-              {billingCycle === "annual" && (
-                <span
-                  style={{
-                    fontSize: "10px",
-                    padding: "2px 6px",
-                    background: "rgba(255,255,255,0.2)",
-                    borderRadius: "4px",
-                  }}
-                >
-                  -16%
-                </span>
-              )}
-            </button>
-          </div>
         </header>
 
-        {/* Pricing Cards */}
+        {/* Pricing Cards — All 4 plans stacked on mobile */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))",
-            gap: "32px",
-            marginBottom: "80px",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
+            gap: "16px",
+            marginBottom: "48px",
+            maxWidth: "800px",
+            margin: "0 auto 48px",
           }}
         >
           {visiblePlans.map((plan) => {
-            const isPremium = plan.id !== "free";
             const isPopular = plan.popular;
+            const periodLabel = plan.id === "premium_monthly" ? (isPT ? "/mês" : "/mo")
+              : plan.id === "premium_quarterly" ? (isPT ? "/tri" : "/qtr")
+              : plan.id === "premium_annual" ? (isPT ? "/ano" : "/yr")
+              : (isPT ? "único" : "once");
 
             return (
               <div
                 key={plan.id}
-                className="glass hover-lift"
                 style={{
                   position: "relative",
-                  background: isPremium
-                    ? "linear-gradient(135deg, var(--surface-raised), var(--bg))"
-                    : "var(--surface-raised)",
-                  borderRadius: "32px",
-                  padding: "40px 32px",
-                  border: isPopular ? "2px solid var(--brand)" : "1.5px solid var(--border)",
-                  boxShadow: isPopular
-                    ? "0 20px 60px rgba(255,122,69,0.15)"
-                    : "0 4px 20px rgba(0,0,0,0.02)",
-                  transition: "all 0.3s cubic-bezier(0.22, 1, 0.36, 1)",
+                  background: "var(--card-bg)",
+                  borderRadius: "16px",
+                  padding: "20px",
+                  border: isPopular ? "2.5px solid #58CC02" : "2px solid var(--border)",
+                  borderBottomWidth: isPopular ? "5px" : "4px",
+                  borderBottomColor: isPopular ? "#46a302" : "var(--border)",
                 }}
               >
-                {/* Popular Badge */}
                 {isPopular && (
                   <div
                     style={{
                       position: "absolute",
-                      top: "-12px",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      background: "var(--brand)",
+                      top: "-10px",
+                      right: "16px",
+                      background: "#58CC02",
                       color: "white",
-                      padding: "6px 20px",
+                      padding: "3px 10px",
                       borderRadius: "99px",
-                      fontSize: "11px",
+                      fontSize: "10px",
                       fontWeight: 800,
                       textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      boxShadow: "0 4px 12px rgba(255,122,69,0.3)",
                     }}
                   >
-                    <Sparkles size={14} />
                     {t.mostPopular}
                   </div>
                 )}
 
-                {/* Plan Icon */}
-                <div
-                  style={{
-                    width: "64px",
-                    height: "64px",
-                    borderRadius: "20px",
-                    background: isPremium
-                      ? "linear-gradient(135deg, var(--brand), var(--brand-2))"
-                      : "var(--bg)",
-                    border: "1px solid var(--border)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    marginBottom: "24px",
-                  }}
-                >
-                  {isPremium ? (
-                    <Zap size={32} color="white" />
-                  ) : (
-                    <Target size={32} color="var(--text-secondary)" />
-                  )}
-                </div>
-
-                {/* Plan Name */}
-                <h3
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "28px",
-                    fontWeight: 800,
-                    color: "var(--text-primary)",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {isPT ? plan.namePT : isES ? plan.nameES : plan.name}
-                </h3>
-
-                {/* Savings Badge */}
-                {plan.savings && (
-                  <div
-                    style={{
-                      display: "inline-block",
-                      padding: "4px 12px",
-                      background: "rgba(201,168,76,0.1)",
-                      color: "#C9A84C",
-                      borderRadius: "99px",
-                      fontSize: "12px",
-                      fontWeight: 700,
-                      marginBottom: "16px",
-                    }}
-                  >
-                    {isPT ? plan.savingsPT : isES ? plan.savingsES : plan.savings}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
+                  <div>
+                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
+                      {isPT ? plan.namePT : isES ? plan.nameES : plan.name}
+                    </h3>
+                    {plan.savings && (
+                      <span style={{ fontSize: "11px", fontWeight: 700, color: "#58CC02" }}>
+                        {isPT ? plan.savingsPT : isES ? plan.savingsES : plan.savings}
+                      </span>
+                    )}
                   </div>
-                )}
-
-                {/* Price */}
-                <div style={{ marginBottom: "32px" }}>
-                  <div style={{ display: "flex", alignItems: "baseline", gap: "4px" }}>
-                    <span
-                      style={{
-                        fontSize: "48px",
-                        fontWeight: 900,
-                        color: "var(--text-primary)",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {plan.priceFormatted.split(" ")[0]}
+                  <div style={{ textAlign: "right" }}>
+                    <span style={{ fontSize: "24px", fontWeight: 900, color: "var(--text-primary)" }}>
+                      {plan.priceFormatted}
                     </span>
-                    <span
-                      style={{
-                        fontSize: "32px",
-                        fontWeight: 900,
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {plan.priceFormatted.split(" ")[1]}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        color: "var(--text-secondary)",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {plan.interval === "month" ? t.perMonth : t.perYear}
+                    <span style={{ fontSize: "12px", color: "var(--text-secondary)", marginLeft: "4px" }}>
+                      {periodLabel}
                     </span>
                   </div>
                 </div>
 
-                {/* Features */}
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexWrap: "wrap", gap: "6px" }}>
                   {(isPT ? plan.featuresPT : isES ? plan.featuresES : plan.features).map(
                     (feature, idx) => (
                       <li
                         key={idx}
                         style={{
                           display: "flex",
-                          alignItems: "flex-start",
-                          gap: "12px",
-                          fontSize: "15px",
-                          color: "var(--text-primary)",
-                          fontWeight: 500,
+                          alignItems: "center",
+                          gap: "6px",
+                          fontSize: "12px",
+                          color: "var(--text-secondary)",
+                          fontWeight: 600,
+                          padding: "4px 10px",
+                          background: "var(--bg)",
+                          borderRadius: "99px",
                         }}
                       >
-                        <div
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            borderRadius: "50%",
-                            background: isPremium
-                              ? "rgba(255,122,69,0.1)"
-                              : "rgba(0,0,0,0.05)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                            marginTop: "2px",
-                          }}
-                        >
-                          <Check size={12} color={isPremium ? "var(--brand)" : "var(--text-secondary)"} />
-                        </div>
-                        <span>{feature}</span>
+                        <Check size={10} color="#58CC02" />
+                        {feature}
                       </li>
                     )
                   )}
                 </ul>
 
-                {/* CTA Button */}
                 <button
                   onClick={() => handleSelectPlan(plan.id)}
+                  className={isPopular ? "btn-3d btn-3d-green" : ""}
                   style={{
                     width: "100%",
-                    padding: "16px",
-                    borderRadius: "16px",
-                    border: "none",
-                    background: isPremium ? "var(--brand)" : "var(--bg)",
-                    color: isPremium ? "white" : "var(--text-primary)",
-                    fontSize: "16px",
+                    padding: "14px",
+                    borderRadius: isPopular ? undefined : "12px",
+                    border: isPopular ? undefined : "2px solid var(--border)",
+                    background: isPopular ? undefined : "var(--card-bg)",
+                    color: isPopular ? undefined : "var(--text-primary)",
+                    fontSize: "14px",
                     fontWeight: 800,
                     cursor: "pointer",
-                    transition: "all 0.2s",
-                    boxShadow: isPremium
-                      ? "0 4px 16px rgba(255,122,69,0.25)"
-                      : "0 2px 8px rgba(0,0,0,0.05)",
                   }}
                 >
-                  {plan.id === "free" ? t.getStarted : t.upgrade}
+                  {isPT ? "ASSINAR AGORA" : "SUBSCRIBE NOW"}
                 </button>
               </div>
             );
