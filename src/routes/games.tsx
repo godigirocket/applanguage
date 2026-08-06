@@ -524,45 +524,39 @@ function PlayPage() {
 }
 
 function GameModeCard({ mode, index }: { mode: any; index: number }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <Link to={`/quiz/${mode.slug}` as any} style={{ textDecoration: "none", color: "inherit" }}>
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.1, duration: 0.5 }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        className="glass premium-shadow lume-game-card"
+        transition={{ delay: index * 0.05 }}
         style={{
-          borderRadius: "32px",
-          padding: "32px",
+          borderRadius: "16px",
+          padding: "16px",
           cursor: "pointer",
-          border: `1px solid ${hovered ? mode.color : "var(--border)"}`,
+          border: "2px solid var(--border)",
+          borderBottomWidth: "4px",
+          background: "var(--card-bg)",
           position: "relative",
           overflow: "hidden",
-          minHeight: "260px",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          transition: "all 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
+          gap: "10px",
         }}
       >
         {mode.tag && (
           <div
             style={{
               position: "absolute",
-              top: "24px",
-              right: "24px",
-              padding: "4px 12px",
+              top: "8px",
+              right: "8px",
+              padding: "2px 8px",
               borderRadius: "99px",
               background: mode.color,
-              color: "var(--surface-raised)",
+              color: "#fff",
               fontSize: "9px",
               fontWeight: 800,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
+              letterSpacing: "0.08em",
             }}
           >
             {mode.tag}
@@ -571,71 +565,37 @@ function GameModeCard({ mode, index }: { mode: any; index: number }) {
 
         <div
           style={{
-            width: "64px",
-            height: "64px",
-            borderRadius: "20px",
-            background: `${mode.color}10`,
+            width: "40px",
+            height: "40px",
+            borderRadius: "12px",
+            background: `${mode.color}15`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             color: mode.color,
-            marginBottom: "24px",
-            transition: "all 0.4s",
           }}
         >
-          <DynamicIcon name={mode.icon} size={32} />
+          <DynamicIcon name={mode.icon} size={20} />
         </div>
 
-        <div>
-          <h3
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "24px",
-              color: "var(--text-primary)",
-              marginBottom: "8px",
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
-            {mode.title}
-            <ChevronRight
-              size={20}
-              style={{
-                opacity: hovered ? 1 : 0,
-                transform: hovered ? "translateX(0)" : "translateX(-10px)",
-                transition: "all 0.3s",
-                color: mode.color,
-              }}
-            />
-          </h3>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.5,
-              marginBottom: "20px",
-              opacity: 0.8,
-            }}
-          >
-            {mode.desc}
-          </p>
-          <div
-            style={{
-              display: "inline-block",
-              padding: "6px 14px",
-              borderRadius: "99px",
-              background: "var(--surface-raised)",
-              color: mode.color,
-              fontSize: "11px",
-              fontWeight: 800,
-              letterSpacing: "0.05em",
-              border: `1px solid ${mode.color}20`,
-            }}
-          >
-            {mode.xp}
-          </div>
+        <h3 style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
+          {mode.title}
+        </h3>
+        <p style={{ fontSize: "12px", color: "var(--text-secondary)", lineHeight: 1.4, margin: 0 }}>
+          {mode.desc}
+        </p>
+        <div
+          style={{
+            padding: "4px 10px",
+            borderRadius: "99px",
+            background: `${mode.color}12`,
+            color: mode.color,
+            fontSize: "11px",
+            fontWeight: 700,
+            alignSelf: "flex-start",
+          }}
+        >
+          {mode.xp}
         </div>
       </motion.div>
     </Link>
