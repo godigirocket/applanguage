@@ -266,7 +266,15 @@ function CommunityPage() {
     tips: ["tip", "resource"],
     memes: ["meme"],
   };
-  const allPosts = [...SEED_POSTS, ...realPosts];
+  // SEED_POSTS store a raw ISO string (computed once at module load) — unlike
+  // realPosts, which are already passed through formatRelativeTime when
+  // fetched. Left as-is, the feed rendered a raw "2026-08-14T21:14:24.399Z"
+  // for every seed post instead of "2h atrás".
+  const seedPostsFormatted = SEED_POSTS.map((post) => ({
+    ...post,
+    timestamp: formatRelativeTime(post.timestamp, isPT),
+  }));
+  const allPosts = [...seedPostsFormatted, ...realPosts];
   const visiblePosts =
     activeFilter === "all"
       ? allPosts
@@ -382,7 +390,7 @@ function CommunityPage() {
                       width: "40px",
                       height: "40px",
                       borderRadius: "50%",
-                      background: "var(--brand)15",
+                      background: "color-mix(in srgb, var(--brand) 15%, transparent)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -474,7 +482,7 @@ function CommunityPage() {
                         padding: "12px 16px",
                         borderRadius: "12px",
                         border: "none",
-                        background: activeFilter === type.id ? "var(--brand)15" : "transparent",
+                        background: activeFilter === type.id ? "color-mix(in srgb, var(--brand) 15%, transparent)" : "transparent",
                         color: activeFilter === type.id ? "var(--brand)" : "var(--text-primary)",
                         fontWeight: activeFilter === type.id ? 700 : 600,
                         fontSize: "14px",
@@ -813,7 +821,7 @@ function CommunityPage() {
                                 key={tag}
                                 style={{
                                   padding: "4px 10px",
-                                  background: "var(--brand)10",
+                                  background: "color-mix(in srgb, var(--brand) 10%, transparent)",
                                   color: "var(--brand)",
                                   borderRadius: "6px",
                                   fontSize: "12px",

@@ -654,7 +654,7 @@ function LessonsPage() {
               <p style={{ fontSize: "14px", color: "var(--text-secondary)", textAlign: "center", marginBottom: "16px" }}>
                 {isPT ? "Complete as lições em ordem para desbloquear a próxima" : "Complete lessons in order to unlock the next one"}
               </p>
-              <LessonPath lessons={filteredLessons} maxVisible={15} />
+              <LessonPath lessons={filteredLessons} maxVisible={5} />
             </section>
           )}
 
@@ -662,8 +662,8 @@ function LessonsPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 160px), 1fr))",
-              gap: "clamp(16px, 3vw, 24px)",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 260px), 1fr))",
+              gap: "clamp(16px, 3vw, 20px)",
             }}
           >
             {filteredLessons.slice(0, visibleCount).map((lesson, i) => {

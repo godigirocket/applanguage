@@ -769,7 +769,7 @@ function ProgressPage() {
                         width: "40px",
                         height: "40px",
                         borderRadius: "50%",
-                        background: "var(--accent-terra)15",
+                        background: "color-mix(in srgb, var(--accent-terra) 15%, transparent)",
                         border: "none",
                         cursor: "pointer",
                         display: "flex",

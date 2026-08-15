@@ -30,13 +30,29 @@ export async function getOrCreateProfile(userId: string, email: string) {
   return created;
 }
 
+// Just the profile row — for callers (like the home page) that don't need
+// the conversations/expressions getUserStats() also fetches. Those extra
+// queries were pure waste for them and ate into the same timeout budget.
+export async function getProfile(userId: string) {
+  const { data, error } = await db.from("profiles").select("*").eq("id", userId).maybeSingle();
+  if (error?.code === "42P01") return null;
+  return data ?? null;
+}
+
 // Get all stats for home/progress pages
 export async function getUserStats(userId: string) {
   try {
     const [convResult, exprResult, profileResult] = await Promise.all([
+      // Every caller (home, progress) only reads duration/xp/topic/date —
+      // `messages` (the full conversation transcript) was being fetched on
+      // every load and thrown away unused. For a student with a long chat
+      // history that's a lot of unnecessary JSON over the wire, and was the
+      // likely cause of "[Home] Failed to load profile: Profile load
+      // timeout" — this single query, not the profile row itself, is what
+      // blew the 8s budget.
       db
         .from("conversations")
-        .select("id, duration_seconds, xp_earned, created_at, topic_slug, topic_title, messages")
+        .select("id, duration_seconds, xp_earned, created_at, topic_slug, topic_title")
         .eq("student_id", userId)
         .order("created_at", { ascending: false }),
       db

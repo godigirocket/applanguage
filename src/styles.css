@@ -1944,33 +1944,29 @@ section:not(:first-of-type) {
   }
 }
 
-/* ── PROGRESS PATH (Duolingo lesson tree) ── */
+/* ── PROGRESS PATH (Duolingo lesson tree) ──
+   Nodes are positioned absolutely (see LessonPath.tsx) and the connecting
+   line is a single SVG curve drawn to the exact same coordinates, so this
+   wrapper just needs to size/center itself — no flex layout of its own. */
 .progress-path {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 32px 16px;
-  gap: 0;
+  padding: 16px 0 8px;
   position: relative;
 }
-.progress-path::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 80px;
-  bottom: 80px;
-  width: 4px;
-  background: var(--border);
-  border-radius: 4px;
-  transform: translateX(-50%);
-  z-index: 0;
+
+.path-curve {
+  stroke-width: 5px;
+  stroke-linecap: round;
+}
+.path-curve-locked {
+  stroke: var(--border);
+}
+.path-curve-done {
+  stroke: #FFC200;
 }
 
 .path-node {
   position: relative;
   z-index: 1;
-  width: 72px;
-  height: 72px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1978,8 +1974,8 @@ section:not(:first-of-type) {
   font-size: 28px;
   font-weight: 900;
   cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 4px solid transparent;
+  transition: transform 0.2s, box-shadow 0.2s, width 0.2s, height 0.2s;
+  border: 3px solid transparent;
 }
 .path-node:hover {
   transform: scale(1.1);
@@ -2521,14 +2517,10 @@ a:hover .lume-logo-mark {
   box-shadow: 0 14px 30px rgba(245, 183, 0, 0.22);
 }
 
-.progress-path::before {
-  background: linear-gradient(180deg, rgba(15,107,255,0.18), rgba(245,183,0,0.12));
-  width: 8px;
-  border-radius: 999px;
-}
-
 .path-node {
-  border-radius: 26px;
+  /* percentage, not a fixed px value, so the "squircle" proportion holds
+     across the active/completed/locked sizes instead of just one of them */
+  border-radius: 30%;
 }
 
 .path-node-active {
@@ -2552,6 +2544,25 @@ a:hover .lume-logo-mark {
   font-weight: 800;
   color: var(--text-secondary);
   text-align: center;
+}
+
+.path-more-pill-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, color 0.2s;
+}
+.path-more-pill-button:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-2px);
+}
+.path-more-pill-button svg {
+  transition: transform 0.2s;
+}
+.path-more-pill-button:hover svg {
+  transform: translateY(2px);
 }
 
 .lume-world-map {
@@ -3181,6 +3192,13 @@ a[href]:active,
     linear-gradient(135deg, #07101f 0%, #0c182b 52%, #101d31 100%) !important;
 }
 
+.dark body::before,
+[data-theme="dark"] body::before {
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(104, 166, 255, 0.08) 18%, transparent 36%),
+    radial-gradient(circle at 70% 82%, rgba(20, 184, 166, 0.1), transparent 24rem) !important;
+}
+
 .lume-app-header {
   color: var(--text-primary);
 }
@@ -3201,6 +3219,13 @@ a[href]:active,
     radial-gradient(circle at 86% 8%, rgba(255,215,106,0.16), transparent 24rem),
     linear-gradient(135deg, rgba(7,16,31,0.98), rgba(12,28,50,0.96) 48%, rgba(19,32,52,0.96)) !important;
   border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark .home-hero-premium::before,
+[data-theme="dark"] .home-hero-premium::before {
+  background:
+    linear-gradient(115deg, transparent 35%, rgba(104, 166, 255, 0.08) 50%, transparent 65%),
+    radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.1), transparent 36%) !important;
 }
 
 .home-hero-premium {
@@ -3294,6 +3319,13 @@ a[href]:active,
     radial-gradient(circle at 70% 82%, rgba(20,184,166,0.14), transparent 24rem);
   background-size: 180% 180%, 100% 100%;
   animation: lume-ambient-shift 14s ease-in-out infinite;
+}
+
+.dark .lume-auth-page::before,
+[data-theme="dark"] .lume-auth-page::before {
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(104, 166, 255, 0.06) 18%, transparent 38%),
+    radial-gradient(circle at 70% 82%, rgba(20, 184, 166, 0.08), transparent 24rem);
 }
 
 .lume-auth-shell {
@@ -3591,6 +3623,19 @@ a[href]:active,
   animation: lume-ambient-shift 16s ease-in-out infinite;
 }
 
+.dark .lume-community-page::before,
+.dark .lume-games-page::before,
+.dark .lume-lessons-page::before,
+.dark .lume-profile-page::before,
+[data-theme="dark"] .lume-community-page::before,
+[data-theme="dark"] .lume-games-page::before,
+[data-theme="dark"] .lume-lessons-page::before,
+[data-theme="dark"] .lume-profile-page::before {
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(104, 166, 255, 0.05) 18%, transparent 38%),
+    radial-gradient(circle at 70% 82%, rgba(20, 184, 166, 0.06), transparent 24rem) !important;
+}
+
 .lume-profile-hero,
 .lume-community-hero,
 .lume-lessons-hero {
@@ -3626,7 +3671,6 @@ a[href]:active,
     0 22px 42px rgba(7, 16, 31, 0.16);
 }
 
-.lume-profile-mini-stats > div,
 .lume-stat-card,
 .lume-profile-activity,
 .lume-achievement-card,
@@ -3641,6 +3685,23 @@ a[href]:active,
   border-color: rgba(7, 16, 31, 0.1) !important;
   box-shadow: 0 22px 64px rgba(7, 16, 31, 0.12) !important;
   backdrop-filter: blur(18px) saturate(1.15);
+}
+
+/* The mini-stats inside the profile hero sit directly on a vivid gradient
+   with forced white text (see "Legible stat pills" below) — they must NOT
+   pick up the same near-opaque white --auth-panel-strong panel the content
+   cards use below the fold. That combo produced white text ghosting on a
+   near-white blurred panel (barely legible in light mode, box-shadow blur
+   from four adjacent items visually merging into one hazy blob). A small
+   dark chip keeps each stat readable on any hero gradient color, in both
+   themes, without competing with the gradient itself. */
+.lume-profile-mini-stats > div {
+  background: rgba(0, 0, 0, 0.18) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 16px !important;
+  padding: 10px 16px !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(6px);
 }
 
 .lume-stat-card,
@@ -3903,6 +3964,21 @@ a[href]:active,
     max-height: 92px !important;
   }
 
+  /* Side by side instead of stacked — halves the actions column's height
+     so "Sair" (logout) doesn't end up sitting in the fixed bottom nav's
+     band on first load (see .lume-profile-actions in profile.tsx). */
+  .lume-profile-actions {
+    flex-direction: row !important;
+    width: 100%;
+    gap: 10px !important;
+  }
+  .lume-profile-actions button {
+    flex: 1;
+    padding: 12px !important;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
   .lume-profile-mini-stats {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3911,8 +3987,8 @@ a[href]:active,
 
   .lume-profile-mini-stats > div {
     min-width: 0;
-    padding: 12px;
-    border-radius: 18px;
+    padding: 12px !important;
+    border-radius: 18px !important;
   }
 
   .lume-tab-scroll {
@@ -4028,4 +4104,404 @@ a[href]:active,
   .lume-live-dot {
     animation: none !important;
   }
+}
+
+/* =============================================
+   LANDING PAGE — Missing utility classes
+   ============================================= */
+
+/* Gradient text for brand headings */
+.gradient-text-brand {
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 50%, var(--brand-gold, #f5b700) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-rainbow {
+  background: linear-gradient(135deg, var(--brand) 0%, #ac5cf6 33%, var(--brand-coral, #ff6b5a) 66%, var(--brand-gold, #f5b700) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass vivid — landing page hero card */
+.glass-vivid {
+  background: var(--auth-panel-strong);
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow: 0 24px 70px rgba(7, 16, 31, 0.14);
+}
+
+.dark .glass-vivid,
+[data-theme="dark"] .glass-vivid {
+  background: rgba(16, 29, 49, 0.92);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+}
+
+/* Crossover card — subtle hover glow */
+.crossover-card {
+  position: relative;
+  overflow: hidden;
+}
+.crossover-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 16% 0%, rgba(15, 107, 255, 0.1), transparent 34%),
+    radial-gradient(circle at 88% 10%, rgba(245, 183, 0, 0.1), transparent 30%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.crossover-card:hover::after {
+  opacity: 1;
+}
+
+/* Decorative floating blobs */
+.decorative-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+.blob-1 {
+  top: 10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: rgba(15, 107, 255, 0.12);
+  animation: blob-float 18s ease-in-out infinite;
+}
+.blob-2 {
+  top: 60%;
+  right: -10%;
+  width: 350px;
+  height: 350px;
+  background: rgba(245, 183, 0, 0.1);
+  animation: blob-float 22s ease-in-out infinite reverse;
+}
+.blob-3 {
+  bottom: 5%;
+  left: 30%;
+  width: 300px;
+  height: 300px;
+  background: rgba(20, 184, 166, 0.08);
+  animation: blob-float 20s ease-in-out infinite 4s;
+}
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -20px) scale(1.05); }
+  50% { transform: translate(-10px, 30px) scale(0.95); }
+  75% { transform: translate(20px, 10px) scale(1.02); }
+}
+
+/* Skeleton loader for lazy content */
+.skeleton-loader {
+  background: linear-gradient(
+    90deg,
+    var(--surface, #f0f0f0) 25%,
+    var(--surface-raised, #f8f8f8) 50%,
+    var(--surface, #f0f0f0) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerLoad 1.2s ease-in-out infinite;
+  border-radius: 12px;
+}
+
+.dark .skeleton-loader,
+[data-theme="dark"] .skeleton-loader {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Icon bounce animation */
+.icon-bounce {
+  animation: icon-bounce-anim 3s ease-in-out infinite;
+}
+@keyframes icon-bounce-anim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* Scale in entrance */
+.scale-in {
+  animation: scale-in-anim 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes scale-in-anim {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Glow brand — CTA button glow */
+.glow-brand {
+  box-shadow: 0 0 20px rgba(15, 107, 255, 0.25), 0 4px 14px rgba(15, 107, 255, 0.2);
+}
+.glow-brand:hover {
+  box-shadow: 0 0 30px rgba(15, 107, 255, 0.35), 0 8px 20px rgba(15, 107, 255, 0.3);
+}
+
+/* Hover spring — gentle spring-like hover */
+.hover-spring {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hover-spring:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* =============================================
+   DARK MODE FIX — Landing page specific
+   ============================================= */
+
+/* Ensure landing page radial gradients adapt to dark mode */
+.dark .decorative-blob {
+  opacity: 0.2;
+}
+
+/* Fix text colors in dark mode for inline-styled elements on landing */
+.dark [style*="color: var(--text-primary)"],
+[data-theme="dark"] [style*="color: var(--text-primary)"] {
+  color: var(--text-primary) !important;
+}
+
+.dark [style*="color: var(--text-secondary)"],
+[data-theme="dark"] [style*="color: var(--text-secondary)"] {
+  color: var(--text-secondary) !important;
+}
+
+/* Fix landing page footer in dark mode */
+.dark footer {
+  background: var(--surface-raised) !important;
+  border-color: var(--border) !important;
+}
+
+/* =============================================
+   DARK MODE FIX — Checkout page
+   ============================================= */
+.dark [style*="background: var(--card-bg)"],
+[data-theme="dark"] [style*="background: var(--card-bg)"] {
+  color: var(--text-primary);
+}
+
+/* =============================================
+   DARK MODE FIX — Games page cards
+   ============================================= */
+.dark .lume-games-page .glass,
+[data-theme="dark"] .lume-games-page .glass {
+  background: var(--surface-raised) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Ensure the games floating help button is visible in both modes */
+.dark .lume-games-page button[style*="background: var(--accent-terra)"] {
+  box-shadow: 0 8px 32px rgba(196, 109, 75, 0.4);
+}
+
+/* =============================================
+   DARK MODE FIX — Global elements that break
+   ============================================= */
+
+/* Fix hardcoded white backgrounds in dark mode */
+.dark [style*="background: #fff"],
+.dark [style*="background: #ffffff"],
+.dark [style*="background-color: #fff"],
+.dark [style*="background-color: #ffffff"],
+[data-theme="dark"] [style*="background: #fff"],
+[data-theme="dark"] [style*="background: #ffffff"] {
+  background: var(--surface-raised) !important;
+}
+
+/* Fix any hardcoded dark text in dark mode */
+.dark [style*="color: #1C1C1A"],
+.dark [style*="color: #1C1C1E"],
+.dark [style*="color: #172033"],
+.dark [style*="color: #070b14"],
+.dark [style*="color: #07101f"],
+[data-theme="dark"] [style*="color: #1C1C1A"],
+[data-theme="dark"] [style*="color: #1C1C1E"],
+[data-theme="dark"] [style*="color: #172033"],
+[data-theme="dark"] [style*="color: #070b14"],
+[data-theme="dark"] [style*="color: #07101f"] {
+  color: var(--text-primary) !important;
+}
+
+/* Fix border visibility in dark mode */
+.dark [style*="border: 2px solid var(--border)"],
+.dark [style*="border: 1.5px solid var(--border)"],
+.dark [style*="border: 1px solid var(--border)"],
+[data-theme="dark"] [style*="border: 2px solid var(--border)"],
+[data-theme="dark"] [style*="border: 1.5px solid var(--border)"],
+[data-theme="dark"] [style*="border: 1px solid var(--border)"] {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+/* Landing page hero sections in dark mode */
+.dark main section h1,
+.dark main section h2,
+.dark main section h3,
+[data-theme="dark"] main section h1,
+[data-theme="dark"] main section h2,
+[data-theme="dark"] main section h3 {
+  color: var(--text-primary);
+}
+
+.dark main section p,
+[data-theme="dark"] main section p {
+  color: var(--text-secondary);
+}
+
+/* Fix glass messages in the conversation preview (landing hero) */
+.dark .glass-vivid .glass,
+[data-theme="dark"] .glass-vivid .glass {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Fix landing page feature cards text in dark mode */
+.dark .lume-card h3,
+.dark .lume-card p,
+[data-theme="dark"] .lume-card h3,
+[data-theme="dark"] .lume-card p {
+  color: var(--text-primary) !important;
+}
+
+.dark .lume-card p,
+[data-theme="dark"] .lume-card p {
+  color: var(--text-secondary) !important;
+}
+
+/* Fix the search/input bar in conversation preview */
+.dark [style*="background: var(--bg)"],
+[data-theme="dark"] [style*="background: var(--bg)"] {
+  background: var(--bg) !important;
+  color: var(--text-primary) !important;
+}
+
+/* =============================================
+   DARK MODE FIX — Auth (Login) page 
+   ============================================= */
+
+/* Ensure login card auth form works correctly in dark */
+.dark .lume-auth-card,
+[data-theme="dark"] .lume-auth-card {
+  background: var(--auth-panel-strong) !important;
+  border-color: var(--border) !important;
+}
+
+.dark .lume-auth-card h2,
+.dark .lume-auth-card p,
+[data-theme="dark"] .lume-auth-card h2 {
+  color: var(--text-primary) !important;
+}
+
+.dark .lume-auth-card p,
+[data-theme="dark"] .lume-auth-card p {
+  color: var(--text-secondary) !important;
+}
+
+.dark .lume-auth-copy h1,
+[data-theme="dark"] .lume-auth-copy h1 {
+  color: var(--text-primary) !important;
+}
+
+.dark .lume-auth-copy p,
+[data-theme="dark"] .lume-auth-copy p {
+  color: var(--text-secondary) !important;
+}
+
+/* Fix btn-gold in dark mode */
+.dark .btn-gold,
+[data-theme="dark"] .btn-gold {
+  background: var(--brand) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 10px rgba(104, 166, 255, 0.3) !important;
+}
+
+.dark .btn-gold:hover,
+[data-theme="dark"] .btn-gold:hover {
+  box-shadow: 0 4px 16px rgba(104, 166, 255, 0.4) !important;
+}
+
+/* =============================================
+   DARK MODE FIX — Section heading colors
+   ============================================= */
+.dark .lume-section-heading h2,
+[data-theme="dark"] .lume-section-heading h2 {
+  color: var(--text-primary) !important;
+}
+
+.dark .lume-section-heading span,
+[data-theme="dark"] .lume-section-heading span {
+  color: var(--brand) !important;
+}
+
+/* Fix strong/bold text inside messages */
+.dark strong,
+[data-theme="dark"] strong {
+  color: inherit;
+}
+
+/* =============================================
+   DARK MODE — Landing page background fix
+   ============================================= */
+.dark .lume-launch-page,
+[data-theme="dark"] .lume-launch-page {
+  background:
+    radial-gradient(circle at 14% 8%, rgba(104, 166, 255, 0.2), transparent 30rem),
+    radial-gradient(circle at 86% 20%, rgba(255, 215, 106, 0.1), transparent 28rem),
+    linear-gradient(135deg, #07101f 0%, #0c182b 52%, #101d31 100%) !important;
+}
+
+/* =============================================
+   MOBILE — Hide floating blobs on small screens
+   ============================================= */
+@media (max-width: 767px) {
+  .decorative-blob {
+    display: none;
+  }
+  
+  /* Fix landing page grid overflow on mobile */
+  .glass-vivid {
+    max-width: 100%;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .decorative-blob,
+  .icon-bounce,
+  .scale-in {
+    animation: none !important;
+  }
+}
+
+/* Missing keyframe for loading spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* =============================================
+   PROFILE HERO — Legible stat pills
+   ============================================= */
+.lume-profile-hero .lume-profile-mini-stats > div {
+  color: white !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Ensure all profile hero text is readable on gradient */
+.lume-profile-hero h1,
+.lume-profile-hero span {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }

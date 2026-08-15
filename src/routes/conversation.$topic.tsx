@@ -35,6 +35,7 @@ import {
 } from "@/components/lume/CustomIcons";
 import { toast } from "sonner";
 import { TypingIndicator, MicPulseRing, StarBurst } from "@/components/lume/Animations";
+import { DynamicIcon } from "@/components/lume/DynamicIcon";
 // @ts-ignore
 import confetti from "canvas-confetti";
 import { checkTables } from "@/lib/supabase-safe";
@@ -63,7 +64,8 @@ function ConversationPage() {
   const chatFn = useServerFn(lumeChat);
   const ttsFn = useServerFn(getGoogleTTS);
 
-  const { messages, addMessage, clearMessages, addXP, language } = useStore();
+  const { messages, addMessage, clearMessages, addXP, language, interfaceLanguage } = useStore();
+  const isPT = interfaceLanguage === "pt";
 
   const [profile, setProfile] = useState<any>(null);
   const [activeMood, setActiveMood] = useState<any>("calm");
@@ -491,7 +493,58 @@ function ConversationPage() {
     return `${m}:${rs.toString().padStart(2, "0")}`;
   };
 
-  if (!t && topicSlug !== "free-talk") return null;
+  // An unknown/stale :topic slug (bad link, old bookmark) used to render a
+  // silent blank white page — this was the only guard standing between a
+  // typo'd URL and an empty <body>, so give it a real "not found" screen
+  // instead of `return null`.
+  if (!t && topicSlug !== "free-talk") {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "var(--bg)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "24px",
+        }}
+      >
+        <div style={{ textAlign: "center", maxWidth: "400px" }}>
+          <MessageSquare size={64} color="var(--text-secondary)" style={{ marginBottom: "16px" }} />
+          <h2
+            style={{
+              fontSize: "24px",
+              fontWeight: 800,
+              color: "var(--text-primary)",
+              marginBottom: "12px",
+            }}
+          >
+            {isPT ? "Conversa não encontrada" : "Conversation not found"}
+          </h2>
+          <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "24px" }}>
+            {isPT
+              ? "Este tópico de conversa não existe ou foi removido."
+              : "This conversation topic doesn't exist or was removed."}
+          </p>
+          <button
+            onClick={() => nav({ to: "/conversation/free-talk" as any })}
+            style={{
+              padding: "14px 28px",
+              borderRadius: "12px",
+              background: "var(--brand)",
+              color: "white",
+              border: "none",
+              fontSize: "15px",
+              fontWeight: 700,
+              cursor: "pointer",
+            }}
+          >
+            {isPT ? "← Ver tópicos de conversa" : "← See conversation topics"}
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const topicEmoji = t?.icon || "🗣️";
   const topicTitle = t?.title || "Free Talk";
@@ -617,7 +670,16 @@ function ConversationPage() {
                         : "2px solid var(--border)",
                   }}
                 >
-                  <div style={{ fontSize: "18px", marginBottom: "3px" }}>{mood.icon}</div>
+                  {/* mood.icon is a Lucide icon *name* (e.g. "Leaf"), not a glyph —
+                      rendering it directly as text showed the literal word "Leaf"
+                      instead of a leaf icon on every mood button. */}
+                  <div style={{ display: "flex", justifyContent: "center", marginBottom: "3px" }}>
+                    <DynamicIcon
+                      name={mood.icon}
+                      size={18}
+                      color={activeMood === mood.slug ? "white" : "var(--text-primary)"}
+                    />
+                  </div>
                   <div style={{ fontSize: "11px", fontWeight: 700 }}>{mood.label}</div>
                 </button>
               ))}

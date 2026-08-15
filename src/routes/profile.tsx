@@ -300,11 +300,11 @@ function ProfilePage() {
                   <div
                     style={{
                       padding: "6px 14px",
-                      background: "rgba(255,255,255,0.2)",
+                      background: "rgba(0,0,0,0.25)",
                       borderRadius: "8px",
                       fontSize: "14px",
                       fontWeight: 800,
-                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.2)",
                     }}
                   >
                     Lvl {level}
@@ -344,18 +344,17 @@ function ProfilePage() {
                           width: "40px",
                           height: "40px",
                           borderRadius: "50%",
-                          background: "rgba(255,255,255,0.2)",
+                          background: "rgba(0,0,0,0.2)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
-                          backdropFilter: "blur(10px)",
                         }}
                       >
                         <stat.icon size={20} color="white" />
                       </div>
                       <div>
-                        <div style={{ fontSize: "20px", fontWeight: 900 }}>{stat.value}</div>
-                        <div style={{ fontSize: "12px", opacity: 0.9, fontWeight: 600 }}>
+                        <div style={{ fontSize: "20px", fontWeight: 900, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>{stat.value}</div>
+                        <div style={{ fontSize: "12px", opacity: 0.95, fontWeight: 700, textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
                           {stat.label}
                         </div>
                       </div>
@@ -364,7 +363,7 @@ function ProfilePage() {
                 </div>
 
                 {/* Progress to next league */}
-                <div style={{ marginTop: "32px" }}>
+                <div style={{ marginTop: "clamp(16px, 4vw, 32px)" }}>
                   <div
                     style={{
                       display: "flex",
@@ -384,10 +383,10 @@ function ProfilePage() {
                   <div
                     style={{
                       height: "12px",
-                      background: "rgba(255,255,255,0.2)",
+                      background: "rgba(0,0,0,0.25)",
                       borderRadius: "99px",
                       overflow: "hidden",
-                      backdropFilter: "blur(10px)",
+                      border: "1px solid rgba(255,255,255,0.15)",
                     }}
                   >
                     <div
@@ -404,8 +403,10 @@ function ProfilePage() {
                 </div>
               </div>
 
-              {/* Actions */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {/* Actions — row on mobile (see CSS): stacked columns pushed the
+                  hero tall enough that "Sair" landed under the fixed bottom
+                  nav on first load, making it look missing/untappable. */}
+              <div className="lume-profile-actions" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 <button
                   onClick={() => nav({ to: "/settings" })}
                   style={{
@@ -765,7 +766,7 @@ function ProfilePage() {
                             marginBottom: "16px",
                           }}
                         >
-                          {achievement.requirement}
+                          {achievement.requirement[isPT ? "pt" : "en"]}
                         </p>
                         <div style={{ display: "flex", gap: "12px" }}>
                           <div

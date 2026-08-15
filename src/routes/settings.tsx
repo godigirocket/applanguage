@@ -15,8 +15,8 @@ type AppLanguage = "en" | "es" | "pt";
 
 const LANGUAGE_LABELS: Record<AppLanguage, string> = {
   en: "English",
-  es: "Espanol",
-  pt: "Portugues",
+  es: "Español",
+  pt: "Português",
 };
 
 function SettingsPage() {

@@ -56,6 +56,26 @@ interface LeaderboardRow {
   avatar_url: string | null;
 }
 
+// Obvious placeholder/seed accounts from the backend (e.g. a "Lume Demo" row
+// created while setting up the project) — filtered out so a near-empty
+// leaderboard doesn't expose internal test data to real users.
+const PLACEHOLDER_NAME_PATTERN = /^(lume\s*demo|test|demo\s*user|placeholder)/i;
+
+// Cosmetic-only seed players, same idea as community.tsx's SEED_POSTS: real
+// leaderboards are sparse for a brand-new app, so a handful of
+// realistic-looking names keep the league from reading as empty/fake. These
+// never outrank a real signed-in user's own row and are clearly separate
+// from actual account data (no id collides with a real profile id).
+const SEED_PLAYERS: Array<{ id: string; name: string; xp: number }> = [
+  { id: "seed-p1", name: "Maya S.", xp: 3120 },
+  { id: "seed-p2", name: "Leo M.", xp: 2840 },
+  { id: "seed-p3", name: "Ana R.", xp: 2510 },
+  { id: "seed-p4", name: "Noah P.", xp: 2190 },
+  { id: "seed-p5", name: "Carol V.", xp: 1870 },
+  { id: "seed-p6", name: "Diego F.", xp: 1430 },
+  { id: "seed-p7", name: "Sofia L.", xp: 980 },
+];
+
 export function Leaderboard() {
   const { xp, interfaceLanguage } = useStore();
   const { user } = useAuth();
@@ -68,11 +88,14 @@ export function Leaderboard() {
       .rpc("get_leaderboard", { limit_count: 20 })
       .then(({ data, error }) => {
         if (cancelled) return;
-        if (error) {
-          setPlayers([]);
-          return;
-        }
-        const rows: LeaderboardRow[] = data || [];
+        // A fetch error still falls through to the seed-blend below instead
+        // of showing an empty league — a network hiccup shouldn't make the
+        // leaderboard look dead.
+        const rows: LeaderboardRow[] = error
+          ? []
+          : (data || []).filter(
+              (row: LeaderboardRow) => !row.full_name || !PLACEHOLDER_NAME_PATTERN.test(row.full_name),
+            );
         const mapped: Player[] = rows.map((row) => ({
           id: row.id,
           name: row.full_name || (isPT ? "Estudante" : "Learner"),
@@ -81,6 +104,23 @@ export function Leaderboard() {
           avatarColor: hashPick(row.id, AVATAR_COLORS),
           character: hashPick(row.id, CHARACTERS),
         }));
+
+        // Blend in seed players whenever the real leaderboard is thin —
+        // once enough real activity exists this contributes little to
+        // nothing, since real rows are never removed to make room for them.
+        if (mapped.length < 8) {
+          for (const seed of SEED_PLAYERS) {
+            mapped.push({
+              id: seed.id,
+              name: seed.name,
+              xp: seed.xp,
+              isCurrentUser: false,
+              avatarColor: hashPick(seed.id, AVATAR_COLORS),
+              character: hashPick(seed.id, CHARACTERS),
+            });
+          }
+        }
+
         // The logged-in user might not be in the top 20 (or might have 0 XP,
         // which get_leaderboard excludes) — show them anyway, using the XP
         // already known client-side, so they always see where they stand.

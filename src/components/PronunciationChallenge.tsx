@@ -70,7 +70,10 @@ export function PronunciationChallenge({
     };
 
     rec.onerror = (e: any) => {
-      console.error(e);
+      // Logging the raw SpeechRecognitionErrorEvent just prints an opaque
+      // "SpeechRecognitionErrorEvent" with no visible detail — `e.error` is
+      // the actual reason code ("no-speech", "not-allowed", etc.).
+      console.error("[PronunciationChallenge] Speech recognition error:", e.error || e);
       setIsRecording(false);
       if (e.error === "no-speech") {
         toast.error(

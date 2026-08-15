@@ -4,7 +4,7 @@ import { AppHeader } from "@/components/lume/AppHeader";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
-import { getUserStats } from "@/lib/db";
+import { getProfile } from "@/lib/db";
 import {
   Play,
   Star,
@@ -101,8 +101,15 @@ function HomePage() {
     async function loadHomeData() {
       if (!user) return;
       try {
-        const result = await getUserStats(user.id);
-        const p = result.profile as any;
+        // Add a 8-second timeout to prevent infinite loading on slow networks
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("Profile load timeout")), 8000)
+        );
+        // Home only ever reads the profile row — it used to call
+        // getUserStats(), which also fetches every conversation (including
+        // full message transcripts) and every saved expression just to
+        // throw them away unused, sharing this same timeout budget.
+        const p = await Promise.race([getProfile(user.id), timeoutPromise]) as any;
         if (p) {
           setProfile(p);
         }
@@ -119,6 +126,16 @@ function HomePage() {
       setLoadingData(false);
     }
   }, [user, loading, nav]);
+
+  // Safety timeout: never keep the loading state for more than 5 seconds
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (loadingData) {
+        setLoadingData(false);
+      }
+    }, 5000);
+    return () => clearTimeout(timeout);
+  }, [loadingData]);
 
   if (loading || (!profile && loadingData)) {
     return (

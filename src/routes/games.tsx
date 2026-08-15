@@ -14,8 +14,6 @@ import {
   Library,
   Palette,
   Briefcase,
-  Crown,
-  Users,
 } from "@/components/lume/CustomIcons";
 import { useStore } from "@/hooks/useStore";
 import { useState } from "react";
@@ -39,8 +37,6 @@ function PlayPage() {
     bestStreak: Math.max(streak, 1),
     xpFromQuizzes: xp,
   };
-
-  const livePlayers: any[] = [];
 
   const MODES_18 = [
     {
@@ -308,24 +304,6 @@ function PlayPage() {
           </div>
 
           <header style={{ textAlign: "center", marginBottom: "32px" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                padding: "6px 14px",
-                borderRadius: "99px",
-                background: "rgba(88, 204, 2, 0.1)",
-                border: "1px solid rgba(88, 204, 2, 0.2)",
-                fontSize: "12px",
-                fontWeight: 700,
-                color: "#58CC02",
-                marginBottom: "12px",
-              }}
-            >
-              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#58CC02", animation: "path-pulse 2s infinite" }} />
-              {Math.floor(Math.random() * 5) + 7} {isPT ? "jogando agora" : "playing now"}
-            </div>
             <h1
               style={{
                 fontFamily: "var(--font-display)",
@@ -352,26 +330,6 @@ function PlayPage() {
                 : "Reinforce your knowledge with interactive games and collect tons of XP."}
             </p>
           </header>
-
-          <section className="lume-arena-live" aria-label={isPT ? "Arena ao vivo" : "Live arena"}>
-            <div className="lume-arena-live-title">
-              <span className="lume-live-dot" />
-              <Users size={18} />
-              <strong>{isPT ? "Arena Pro ao vivo" : "Live Pro arena"}</strong>
-            </div>
-            <div className="lume-arena-players">
-              {livePlayers.map((player) => (
-                <div key={player.name} className="lume-arena-player" style={{ ["--chip-color" as any]: player.color }}>
-                  <span>{player.name.slice(0, 2).toUpperCase()}</span>
-                  <div>
-                    <strong>{player.name}</strong>
-                    <small>{player.mode} - {player.score}</small>
-                  </div>
-                  <Crown size={15} />
-                </div>
-              ))}
-            </div>
-          </section>
 
           {/* Stats Grid ── 4 cols on desktop, 2x2 on mobile */}
           <div

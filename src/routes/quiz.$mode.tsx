@@ -307,7 +307,7 @@ function QuizPage() {
                 marginBottom: "8px",
               }}
             >
-              Treino Concluído!
+              {isPT ? "Treino Concluído!" : isES ? "¡Entrenamiento Completado!" : "Training Complete!"}
             </h2>
             <p
               style={{
@@ -317,8 +317,11 @@ function QuizPage() {
                 marginBottom: "28px",
               }}
             >
-              Sua pronúncia foi excelente! Você dominou a entonação nativa e completou todos os
-              desafios propostos.
+              {isPT
+                ? "Sua pronúncia foi excelente! Você dominou a entonação nativa e completou todos os desafios propostos."
+                : isES
+                  ? "¡Tu pronunciación fue excelente! Dominaste la entonación nativa y completaste todos los desafíos."
+                  : "Your pronunciation was excellent! You mastered the native intonation and completed all challenges."}
             </p>
 
             <div
@@ -334,7 +337,7 @@ function QuizPage() {
               }}
             >
               <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-secondary)" }}>
-                Recompensa:
+                {isPT ? "Recompensa:" : isES ? "Recompensa:" : "Reward:"}
               </span>
               <span
                 style={{
@@ -365,7 +368,7 @@ function QuizPage() {
                 boxShadow: "0 8px 24px rgba(255,122,69, 0.2)",
               }}
             >
-              Voltar aos Jogos
+              {isPT ? "Voltar aos Jogos" : isES ? "Volver a Juegos" : "Back to Games"}
             </button>
           </motion.div>
         </div>
@@ -439,10 +442,14 @@ function QuizPage() {
 
           <div style={{ textAlign: "center", margin: "12px 0" }}>
             <h1 style={{ fontSize: "24px", fontWeight: 800, color: "var(--text-primary)" }}>
-              Pratique a Pronúncia
+              {isPT ? "Pratique a Pronúncia" : isES ? "Practica la Pronunciación" : "Practice Pronunciation"}
             </h1>
             <p style={{ fontSize: "14.5px", color: "var(--text-secondary)", marginTop: "4px" }}>
-              Fale a frase abaixo em voz alta de forma clara para receber a avaliação.
+              {isPT
+                ? "Fale a frase abaixo em voz alta de forma clara para receber a avaliação."
+                : isES
+                  ? "Di la frase a continuación en voz alta para recibir la evaluación."
+                  : "Speak the phrase below out loud clearly to receive feedback."}
             </p>
           </div>
 
@@ -616,17 +623,28 @@ function QuizPage() {
     >
       
 
-      {/* Top bar */}
+      {/* Top bar — the bar itself is full-bleed (background/border), but its
+          contents are capped at the same width as the question card below.
+          Left unconstrained, the progress bar and hearts stretched edge to
+          edge on wide desktop screens while the actual question sat in a
+          640px island in the middle — the two rows visually disagreed about
+          how wide the page was. */}
       <div
         style={{
           flexShrink: 0,
+          background: "var(--surface-raised)",
+          borderBottom: "2px solid var(--border)",
+          position: "relative",
+        }}
+      >
+      <div
+        style={{
+          maxWidth: "640px",
+          margin: "0 auto",
           padding: "16px 24px",
           display: "flex",
           alignItems: "center",
           gap: "16px",
-          background: "var(--surface-raised)",
-          borderBottom: "2px solid var(--border)",
-          position: "relative",
         }}
       >
         <button
@@ -707,6 +725,7 @@ function QuizPage() {
             </span>
           ))}
         </div>
+      </div>
       </div>
 
       {/* Question area */}
