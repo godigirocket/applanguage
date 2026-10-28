@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "@tanstack/react-router";
+import { useRouter, useLocation } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const location = useLocation();
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
       const elapsed = Date.now() - startTime;
       const tenMinutes = 10 * 60 * 1000;
 
-      if (elapsed < tenMinutes) {
+      if (Number.isFinite(startTime) && elapsed >= 0 && elapsed < tenMinutes) {
         setIsAuthorized(true);
         return;
       }
@@ -30,7 +31,8 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
 
     // Not authorized and not valid guest
     setIsAuthorized(false);
-    router.navigate({ to: "/login" });
+    if (location.pathname === "/login") return;
+    router.navigate({ to: "/login", search: { redirect: location.href }, replace: true });
   }, [user, loading, router]);
 
   if (isAuthorized === null || loading) {

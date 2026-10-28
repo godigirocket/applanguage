@@ -30,7 +30,7 @@ export function Mascot({ state = "idle", size = 96 }: MascotProps) {
           : "mascot-idle 3.2s ease-in-out infinite",
       }}
     >
-      <img src="/brand/lume-companion.png" alt="" draggable={false} />
+      <img src="/brand/lume-companion.webp" width={size} height={size} decoding="async" alt="" draggable={false} />
       <span className="lume-companion-glow" aria-hidden="true" />
     </span>
   );

@@ -42,27 +42,27 @@ const FAQS: FAQItem[] = [
     qEN: "How does the XP system work?",
     qPT: "Como funciona o sistema de XP?",
     qES: "¿Cómo funciona el sistema de XP?",
-    aEN: "You earn XP by completing conversations, participating in the Play Arena's 18 game modes, and completing daily challenges. Earning XP advances your level: from Beginner, to Explorer, Conversationalist, Fluent, and finally Native Soul.",
-    aPT: "Você ganha XP completando conversas, participando dos 18 modos de jogo na Arena Play e concluindo desafios diários. Acumular XP avança seu nível: de Beginner a Explorer, Conversationalist, Fluent e finalmente Native Soul.",
-    aES: "Ganas XP al completar conversaciones, participar en los 18 modos de juego de la Arena Play y completar desafíos diarios. Acumular XP aumenta tu nivel: de Beginner a Explorer, Conversationalist, Fluent y finalmente Native Soul.",
+    aEN: "You earn XP by completing conversations, participating in the Play Arena's 6 featured game modes, and completing daily challenges. Earning XP advances your level: from Beginner, to Explorer, Conversationalist, Fluent, and finally Native Soul.",
+    aPT: "Você ganha XP completando conversas, participando dos 6 modos de jogo em destaque na Arena Play e concluindo desafios diários. Acumular XP avança seu nível: de Beginner a Explorer, Conversationalist, Fluent e finalmente Native Soul.",
+    aES: "Ganas XP al completar conversaciones, participar en los 6 modos de juego destacados de la Arena Play y completar desafíos diarios. Acumular XP aumenta tu nivel: de Beginner a Explorer, Conversationalist, Fluent y finalmente Native Soul.",
   },
   {
     id: "regional-tts",
     qEN: "How do regional accents and Speech Synthesis work?",
     qPT: "Como funcionam os sotaques regionais e a síntese de voz?",
     qES: "¿Cómo funcionan los acentos regionales y la síntesis de voz?",
-    aEN: "When exploring the Culture Hub, each regional slang features specialized Speech Synthesis parameters. Lume automatically adjusts local audio parameters (such as London vs. Scotland, or São Paulo vs. Rio de Janeiro) to guarantee authentic phonetics.",
-    aPT: "Ao explorar o Hub Cultural, cada gíria regional apresenta parâmetros especializados de Síntese de Voz. O Lume ajusta automaticamente os parâmetros de áudio locais (como Londres vs. Escócia, ou São Paulo vs. Rio de Janeiro) para garantir uma fonética autêntica.",
-    aES: "Al explorar el Hub Cultural, cada jerga regional presenta parámetros especializados de Síntesis de Voz. Lume ajusta automáticamente los parámetros de audio locales (como Londres frente a Escocia, o São Paulo frente a Río de Janeiro) para garantizar una fonética auténtica.",
+    aEN: "Lume uses available recordings and your device’s voices. You can choose a voice in Settings. Availability and accents depend on the recording or installed voice; regional accents are not guaranteed.",
+    aPT: "O Lume usa gravações disponíveis e as vozes do seu aparelho. Você pode escolher uma voz em Configurações. Os sotaques dependem da gravação ou voz instalada; não há garantia de sotaque de cada região.",
+    aES: "Lume usa grabaciones disponibles y las voces de tu dispositivo. Puedes elegir una voz en Configuración. Los acentos dependen de la grabación o voz instalada; no se garantiza el acento de cada región.",
   },
   {
     id: "save-expr",
     qEN: "How do I save expressions during conversations?",
     qPT: "Como salvo expressões durante as conversas?",
     qES: "¿Cómo guardo expresiones durante las conversaciones?",
-    aEN: "Inside the voice-chat dashboard, click the 'Save' button under any interesting phrase sent by the AI. This instantly saves it to your Progress page, complete with context and an active Text-to-Speech pronunciation button.",
-    aPT: "Dentro do chat de voz, clique no botão 'Salvar' abaixo de qualquer frase interessante enviada pela IA. Isso a salva instantaneamente em sua página de Progresso, completa com contexto e um botão de pronúncia ativa via voz.",
-    aES: "Dentro del chat de voz, haz clic en el botón 'Guardar' debajo de cualquier frase interesante enviada por la IA. Esto la guarda instantáneamente en tu página de Progreso, completa con contexto y un botón de pronunciación activa por voz.",
+    aEN: "Inside the voice-chat dashboard, click the 'Save' button under any interesting phrase from the guided conversation. This instantly saves it to your Progress page, complete with context and an active Text-to-Speech pronunciation button.",
+    aPT: "Dentro do chat de voz, clique no botão 'Salvar' abaixo de qualquer frase interessante da prática guiada. Isso a salva instantaneamente em sua página de Progresso, completa com contexto e um botão de pronúncia ativa via voz.",
+    aES: "Dentro del chat de voz, haz clic en el botón 'Guardar' debajo de cualquier frase interesante de la práctica guiada. Esto la guarda instantáneamente en tu página de Progreso, completa con contexto y un botón de pronunciación activa por voz.",
   },
   {
     id: "mobile-pwa",
@@ -253,10 +253,10 @@ function GuidePage() {
               }}
             >
               {isPT
-                ? "Nossa interface de conversação foi desenhada para simular diálogos e ligações reais. Use o microfone para falar livremente. O sotaque regional se ajusta para guiar sua confiança e pronúncia."
+                ? "Escolha um tema e pratique em cenários guiados, com frases de apoio e ajustes de escrita. Digite ou use o microfone, quando disponível. A comparação da fala considera o texto reconhecido, sem avaliar sotaque."
                 : isES
-                  ? "Nuestra interfaz de conversación está diseñada para simular diálogos y llamadas reales. Use el micrófono para hablar libremente. El acento regional se ajusta para guiar su confianza y pronunciación."
-                  : "Our conversation dashboard is designed to simulate natural, human dialogue. Use the microphone to speak freely. The regional accent adapts in real-time to build your speech confidence and perfect your phonetic flow."}
+                  ? "Elige un tema y practica en escenarios guiados, con frases de apoyo y ajustes de escritura. Escribe o usa el micrófono cuando esté disponible. Comparamos el texto reconocido sin evaluar el acento."
+                  : "Choose a topic and practice guided scenarios with sample phrases and writing tips. Type or use the microphone when available. Speech matching compares the recognized text without assessing your accent."}
             </p>
           </div>
 

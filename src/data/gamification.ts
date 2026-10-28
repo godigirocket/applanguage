@@ -95,91 +95,376 @@ export const LEAGUES = [
   },
 ];
 
-// ACHIEVEMENTS SYSTEM (100+ badges)
+// Trackable achievement definitions
 // `requirement` mirrors `name`'s { pt, en } shape — it used to be a bare
 // English string shown as-is even in the Portuguese UI (e.g. "7 day streak"
 // under a card titled "Semana de Fogo").
 export const ACHIEVEMENTS = [
   // STREAK ACHIEVEMENTS
-  { id: "streak_7", name: { pt: "Semana de Fogo", en: "Week of Fire" }, icon: "🔥", requirement: { pt: "Sequência de 7 dias", en: "7 day streak" }, xp: 50, coins: 25 },
-  { id: "streak_30", name: { pt: "Mês Incansável", en: "Unstoppable Month" }, icon: "💪", requirement: { pt: "Sequência de 30 dias", en: "30 day streak" }, xp: 200, coins: 100 },
-  { id: "streak_100", name: { pt: "Centenário", en: "Centurion" }, icon: "🏆", requirement: { pt: "Sequência de 100 dias", en: "100 day streak" }, xp: 500, coins: 250 },
-  { id: "streak_365", name: { pt: "Ano de Dedicação", en: "Year of Dedication" }, icon: "🌟", requirement: { pt: "Sequência de 365 dias", en: "365 day streak" }, xp: 2000, coins: 1000 },
+  {
+    id: "streak_7",
+    name: { pt: "Semana de Fogo", en: "Week of Fire", es: "Semana de fuego" },
+    icon: "🔥",
+    requirement: { pt: "Sequência de 7 dias", en: "7 day streak", es: "Racha de 7 días" },
+    xp: 50,
+    coins: 25,
+  },
+  {
+    id: "streak_30",
+    name: { pt: "Mês Incansável", en: "Unstoppable Month", es: "Mes imparable" },
+    icon: "💪",
+    requirement: { pt: "Sequência de 30 dias", en: "30 day streak", es: "Racha de 30 días" },
+    xp: 200,
+    coins: 100,
+  },
+  {
+    id: "streak_100",
+    name: { pt: "Centenário", en: "Centurion", es: "Centenario" },
+    icon: "🏆",
+    requirement: { pt: "Sequência de 100 dias", en: "100 day streak", es: "Racha de 100 días" },
+    xp: 500,
+    coins: 250,
+  },
+  {
+    id: "streak_365",
+    name: { pt: "Ano de Dedicação", en: "Year of Dedication", es: "Año de dedicación" },
+    icon: "🌟",
+    requirement: { pt: "Sequência de 365 dias", en: "365 day streak", es: "Racha de 365 días" },
+    xp: 2000,
+    coins: 1000,
+  },
 
   // XP ACHIEVEMENTS
-  { id: "xp_1000", name: { pt: "Primeiros Mil", en: "First Thousand" }, icon: "⚡", requirement: { pt: "1.000 XP", en: "1,000 XP" }, xp: 100, coins: 50 },
-  { id: "xp_5000", name: { pt: "Avançado", en: "Advanced" }, icon: "📈", requirement: { pt: "5.000 XP", en: "5,000 XP" }, xp: 250, coins: 125 },
-  { id: "xp_10000", name: { pt: "Mestre", en: "Master" }, icon: "🎓", requirement: { pt: "10.000 XP", en: "10,000 XP" }, xp: 500, coins: 250 },
-  { id: "xp_50000", name: { pt: "Lendário", en: "Legendary" }, icon: "👑", requirement: { pt: "50.000 XP", en: "50,000 XP" }, xp: 2500, coins: 1000 },
+  {
+    id: "xp_1000",
+    name: { pt: "Primeiros Mil", en: "First Thousand", es: "Los primeros mil" },
+    icon: "⚡",
+    requirement: { pt: "1.000 XP", en: "1,000 XP", es: "1,000 XP" },
+    xp: 100,
+    coins: 50,
+  },
+  {
+    id: "xp_5000",
+    name: { pt: "Avançado", en: "Advanced", es: "Avanzado" },
+    icon: "📈",
+    requirement: { pt: "5.000 XP", en: "5,000 XP", es: "5,000 XP" },
+    xp: 250,
+    coins: 125,
+  },
+  {
+    id: "xp_10000",
+    name: { pt: "Mestre", en: "Master", es: "Maestro" },
+    icon: "🎓",
+    requirement: { pt: "10.000 XP", en: "10,000 XP", es: "10,000 XP" },
+    xp: 500,
+    coins: 250,
+  },
+  {
+    id: "xp_50000",
+    name: { pt: "Lendário", en: "Legendary", es: "Legendario" },
+    icon: "👑",
+    requirement: { pt: "50.000 XP", en: "50,000 XP", es: "50,000 XP" },
+    xp: 2500,
+    coins: 1000,
+  },
 
   // LESSON ACHIEVEMENTS
-  { id: "lessons_10", name: { pt: "Iniciante Dedicado", en: "Dedicated Beginner" }, icon: "📚", requirement: { pt: "10 lições", en: "10 lessons" }, xp: 50, coins: 25 },
-  { id: "lessons_50", name: { pt: "Estudante Sério", en: "Serious Student" }, icon: "🎯", requirement: { pt: "50 lições", en: "50 lessons" }, xp: 200, coins: 100 },
-  { id: "lessons_100", name: { pt: "Centurião do Saber", en: "Knowledge Centurion" }, icon: "🏅", requirement: { pt: "100 lições", en: "100 lessons" }, xp: 500, coins: 250 },
-  { id: "lessons_500", name: { pt: "Poliglota", en: "Polyglot" }, icon: "🌍", requirement: { pt: "500 lições", en: "500 lessons" }, xp: 2500, coins: 1000 },
+  {
+    id: "lessons_10",
+    name: { pt: "Iniciante Dedicado", en: "Dedicated Beginner", es: "Principiante constante" },
+    icon: "📚",
+    requirement: { pt: "10 lições", en: "10 lessons", es: "10 lecciones" },
+    xp: 50,
+    coins: 25,
+  },
+  {
+    id: "lessons_50",
+    name: { pt: "Estudante Sério", en: "Serious Student", es: "Estudiante dedicado" },
+    icon: "🎯",
+    requirement: { pt: "50 lições", en: "50 lessons", es: "50 lecciones" },
+    xp: 200,
+    coins: 100,
+  },
+  {
+    id: "lessons_100",
+    name: { pt: "Centurião do Saber", en: "Knowledge Centurion", es: "Centurión del saber" },
+    icon: "🏅",
+    requirement: { pt: "100 lições", en: "100 lessons", es: "100 lecciones" },
+    xp: 500,
+    coins: 250,
+  },
+  {
+    id: "lessons_500",
+    name: { pt: "Poliglota", en: "Polyglot", es: "Políglota" },
+    icon: "🌍",
+    requirement: { pt: "500 lições", en: "500 lessons", es: "500 lecciones" },
+    xp: 2500,
+    coins: 1000,
+  },
 
   // PERFECT ACHIEVEMENTS
-  { id: "perfect_10", name: { pt: "Perfeccionista", en: "Perfectionist" }, icon: "💯", requirement: { pt: "10 notas perfeitas", en: "10 perfect scores" }, xp: 100, coins: 50 },
-  { id: "perfect_50", name: { pt: "Mestre da Precisão", en: "Master of Precision" }, icon: "🎯", requirement: { pt: "50 notas perfeitas", en: "50 perfect scores" }, xp: 500, coins: 250 },
+  {
+    id: "perfect_10",
+    name: { pt: "Perfeccionista", en: "Perfectionist", es: "Perfeccionista" },
+    icon: "💯",
+    requirement: {
+      pt: "10 notas perfeitas",
+      en: "10 perfect scores",
+      es: "10 resultados perfectos",
+    },
+    xp: 100,
+    coins: 50,
+  },
+  {
+    id: "perfect_50",
+    name: { pt: "Mestre da Precisão", en: "Master of Precision", es: "Maestro de la precisión" },
+    icon: "🎯",
+    requirement: {
+      pt: "50 notas perfeitas",
+      en: "50 perfect scores",
+      es: "50 resultados perfectos",
+    },
+    xp: 500,
+    coins: 250,
+  },
 
   // SOCIAL ACHIEVEMENTS
-  { id: "friends_10", name: { pt: "Social", en: "Social" }, icon: "👥", requirement: { pt: "10 amigos", en: "10 friends" }, xp: 50, coins: 25 },
-  { id: "helps_50", name: { pt: "Mentor", en: "Mentor" }, icon: "🤝", requirement: { pt: "Ajude 50 pessoas", en: "Help 50 people" }, xp: 250, coins: 125 },
+  {
+    id: "friends_10",
+    name: { pt: "Social", en: "Social", es: "Social" },
+    icon: "👥",
+    requirement: { pt: "10 amigos", en: "10 friends", es: "10 amigos" },
+    xp: 50,
+    coins: 25,
+  },
+  {
+    id: "helps_50",
+    name: { pt: "Mentor", en: "Mentor", es: "Mentor" },
+    icon: "🤝",
+    requirement: { pt: "Ajude 50 pessoas", en: "Help 50 people", es: "Ayuda a 50 personas" },
+    xp: 250,
+    coins: 125,
+  },
 
   // CULTURAL ACHIEVEMENTS
-  { id: "cities_10", name: { pt: "Viajante", en: "Traveler" }, icon: "✈️", requirement: { pt: "Visite 10 cidades", en: "Visit 10 cities" }, xp: 100, coins: 50 },
-  { id: "cities_25", name: { pt: "Explorador Global", en: "Global Explorer" }, icon: "🌎", requirement: { pt: "Visite 25 cidades", en: "Visit 25 cities" }, xp: 250, coins: 125 },
-  { id: "cities_50", name: { pt: "Cidadão do Mundo", en: "Citizen of the World" }, icon: "🗺️", requirement: { pt: "Visite 50 cidades", en: "Visit 50 cities" }, xp: 1000, coins: 500 },
+  {
+    id: "cities_10",
+    name: { pt: "Viajante", en: "Traveler", es: "Viajero" },
+    icon: "✈️",
+    requirement: { pt: "Visite 10 cidades", en: "Visit 10 cities", es: "Visita 10 ciudades" },
+    xp: 100,
+    coins: 50,
+  },
+  {
+    id: "cities_25",
+    name: { pt: "Explorador Global", en: "Global Explorer", es: "Explorador global" },
+    icon: "🌎",
+    requirement: { pt: "Visite 25 cidades", en: "Visit 25 cities", es: "Visita 25 ciudades" },
+    xp: 250,
+    coins: 125,
+  },
+  {
+    id: "cities_50",
+    name: { pt: "Cidadão do Mundo", en: "Citizen of the World", es: "Ciudadano del mundo" },
+    icon: "🗺️",
+    requirement: { pt: "Visite 50 cidades", en: "Visit 50 cities", es: "Visita 50 ciudades" },
+    xp: 1000,
+    coins: 500,
+  },
 
   // SPECIAL ACHIEVEMENTS
-  { id: "early_bird", name: { pt: "Madrugador", en: "Early Bird" }, icon: "🌅", requirement: { pt: "Estude antes das 6h", en: "Study before 6 AM" }, xp: 50, coins: 25 },
-  { id: "night_owl", name: { pt: "Coruja Noturna", en: "Night Owl" }, icon: "🦉", requirement: { pt: "Estude depois da meia-noite", en: "Study after midnight" }, xp: 50, coins: 25 },
-  { id: "weekend_warrior", name: { pt: "Guerreiro de Fim de Semana", en: "Weekend Warrior" }, icon: "⚔️", requirement: { pt: "Estude todo fim de semana por um mês", en: "Study every weekend for a month" }, xp: 200, coins: 100 },
-
-  // ... 80+ more achievements
+  {
+    id: "early_bird",
+    name: { pt: "Madrugador", en: "Early Bird", es: "Madrugador" },
+    icon: "🌅",
+    requirement: {
+      pt: "Estude antes das 6h",
+      en: "Study before 6 AM",
+      es: "Estudia antes de las 6",
+    },
+    xp: 50,
+    coins: 25,
+  },
+  {
+    id: "night_owl",
+    name: { pt: "Coruja Noturna", en: "Night Owl", es: "Búho nocturno" },
+    icon: "🦉",
+    requirement: {
+      pt: "Estude depois da meia-noite",
+      en: "Study after midnight",
+      es: "Estudia después de medianoche",
+    },
+    xp: 50,
+    coins: 25,
+  },
+  {
+    id: "weekend_warrior",
+    name: {
+      pt: "Guerreiro de Fim de Semana",
+      en: "Weekend Warrior",
+      es: "Guerrero del fin de semana",
+    },
+    icon: "⚔️",
+    requirement: {
+      pt: "Estude todo fim de semana por um mês",
+      en: "Study every weekend for a month",
+      es: "Estudia cada fin de semana durante un mes",
+    },
+    xp: 200,
+    coins: 100,
+  },
 ];
 
 // DAILY/WEEKLY CHALLENGES
 export const CHALLENGES = {
   daily: [
-    { id: "complete_3_lessons", name: { pt: "Complete 3 lições", en: "Complete 3 lessons" }, xp: 30, coins: 15, icon: "📚" },
-    { id: "earn_50_xp", name: { pt: "Ganhe 50 XP", en: "Earn 50 XP" }, xp: 20, coins: 10, icon: "⚡" },
-    { id: "practice_pronunciation", name: { pt: "Pratique pronúncia", en: "Practice pronunciation" }, xp: 25, coins: 12, icon: "🎤" },
-    { id: "watch_video", name: { pt: "Assista 1 vídeo", en: "Watch 1 video" }, xp: 15, coins: 8, icon: "📹" },
-    { id: "perfect_quiz", name: { pt: "Acerte 100% em um quiz", en: "Get 100% on a quiz" }, xp: 40, coins: 20, icon: "🎯" },
+    {
+      id: "complete_3_lessons",
+      name: { pt: "Complete 3 lições", en: "Complete 3 lessons", es: "Completa 3 lecciones" },
+      xp: 30,
+      coins: 15,
+      icon: "📚",
+    },
+    {
+      id: "earn_50_xp",
+      name: { pt: "Ganhe 50 XP", en: "Earn 50 XP", es: "Gana 50 XP" },
+      xp: 20,
+      coins: 10,
+      icon: "⚡",
+    },
+    {
+      id: "practice_pronunciation",
+      name: {
+        pt: "Pratique pronúncia",
+        en: "Practice pronunciation",
+        es: "Practica expresión oral",
+      },
+      xp: 25,
+      coins: 12,
+      icon: "🎤",
+    },
+    {
+      id: "watch_video",
+      name: { pt: "Assista 1 vídeo", en: "Watch 1 video", es: "Mira 1 vídeo" },
+      xp: 15,
+      coins: 8,
+      icon: "📹",
+    },
+    {
+      id: "perfect_quiz",
+      name: {
+        pt: "Acerte 100% em um quiz",
+        en: "Get 100% on a quiz",
+        es: "Consigue el 100 % en un quiz",
+      },
+      xp: 40,
+      coins: 20,
+      icon: "🎯",
+    },
   ],
   weekly: [
-    { id: "maintain_streak", name: { pt: "Mantenha ofensiva 7 dias", en: "Maintain 7 day streak" }, xp: 200, coins: 100, icon: "🔥" },
-    { id: "complete_20_lessons", name: { pt: "Complete 20 lições", en: "Complete 20 lessons" }, xp: 300, coins: 150, icon: "📚" },
-    { id: "earn_500_xp", name: { pt: "Ganhe 500 XP", en: "Earn 500 XP" }, xp: 150, coins: 75, icon: "⚡" },
-    { id: "explore_3_cities", name: { pt: "Explore 3 cidades", en: "Explore 3 cities" }, xp: 250, coins: 125, icon: "🌍" },
+    {
+      id: "maintain_streak",
+      name: {
+        pt: "Mantenha ofensiva 7 dias",
+        en: "Maintain 7 day streak",
+        es: "Mantén una racha de 7 días",
+      },
+      xp: 200,
+      coins: 100,
+      icon: "🔥",
+    },
+    {
+      id: "complete_20_lessons",
+      name: { pt: "Complete 20 lições", en: "Complete 20 lessons", es: "Completa 20 lecciones" },
+      xp: 300,
+      coins: 150,
+      icon: "📚",
+    },
+    {
+      id: "earn_500_xp",
+      name: { pt: "Ganhe 500 XP", en: "Earn 500 XP", es: "Gana 500 XP" },
+      xp: 150,
+      coins: 75,
+      icon: "⚡",
+    },
+    {
+      id: "explore_3_cities",
+      name: { pt: "Explore 3 cidades", en: "Explore 3 cities", es: "Explora 3 ciudades" },
+      xp: 250,
+      coins: 125,
+      icon: "🌍",
+    },
   ],
 };
 
 // REWARDS & SHOP ITEMS
 export const SHOP_ITEMS = [
   // STREAK FREEZES
-  { id: "streak_freeze_1", name: { pt: "Proteção de Ofensiva (1 dia)", en: "Streak Freeze (1 day)" }, price: 100, icon: "🧊" },
-  { id: "streak_freeze_7", name: { pt: "Proteção de Ofensiva (7 dias)", en: "Streak Freeze (7 days)" }, price: 500, icon: "❄️" },
-  
+  {
+    id: "streak_freeze_1",
+    name: {
+      pt: "Proteção de Ofensiva (1 dia)",
+      en: "Streak Freeze (1 day)",
+      es: "Protección de racha (1 día)",
+    },
+    price: 100,
+    icon: "🧊",
+  },
+  {
+    id: "streak_freeze_7",
+    name: {
+      pt: "Proteção de Ofensiva (7 dias)",
+      en: "Streak Freeze (7 days)",
+      es: "Protección de racha (7 días)",
+    },
+    price: 500,
+    icon: "❄️",
+  },
+
   // XP BOOSTS
-  { id: "xp_boost_15min", name: { pt: "XP Boost 15min (2x)", en: "XP Boost 15min (2x)" }, price: 50, icon: "⚡" },
-  { id: "xp_boost_1h", name: { pt: "XP Boost 1h (2x)", en: "XP Boost 1h (2x)" }, price: 150, icon: "💫" },
-  
+  {
+    id: "xp_boost_15min",
+    name: { pt: "XP Boost 15min (2x)", en: "XP Boost 15min (2x)", es: "Doble XP durante 15 min" },
+    price: 50,
+    icon: "⚡",
+  },
+  {
+    id: "xp_boost_1h",
+    name: { pt: "XP Boost 1h (2x)", en: "XP Boost 1h (2x)", es: "Doble XP durante 1 h" },
+    price: 150,
+    icon: "💫",
+  },
+
   // COSMETICS
-  { id: "avatar_frame_gold", name: { pt: "Moldura Dourada", en: "Gold Frame" }, price: 500, icon: "🖼️" },
-  { id: "avatar_frame_diamond", name: { pt: "Moldura Diamante", en: "Diamond Frame" }, price: 2000, icon: "💎" },
-  
+  {
+    id: "avatar_frame_gold",
+    name: { pt: "Moldura Dourada", en: "Gold Frame", es: "Marco dorado" },
+    price: 500,
+    icon: "🖼️",
+  },
+  {
+    id: "avatar_frame_diamond",
+    name: { pt: "Moldura Diamante", en: "Diamond Frame", es: "Marco diamante" },
+    price: 2000,
+    icon: "💎",
+  },
+
   // SPECIAL
-  { id: "legendary_chest", name: { pt: "Baú Lendário", en: "Legendary Chest" }, price: 1000, icon: "🎁" },
+  {
+    id: "legendary_chest",
+    name: { pt: "Baú Lendário", en: "Legendary Chest", es: "Cofre legendario" },
+    price: 1000,
+    icon: "🎁",
+  },
 ];
 
 // LEADERBOARD TYPES
 export const LEADERBOARD_TYPES = [
-  { id: "global", name: { pt: "Global", en: "Global" }, icon: "🌍" },
-  { id: "friends", name: { pt: "Amigos", en: "Friends" }, icon: "👥" },
-  { id: "country", name: { pt: "País", en: "Country" }, icon: "🚩" },
-  { id: "league", name: { pt: "Liga", en: "League" }, icon: "🏆" },
+  { id: "global", name: { pt: "Global", en: "Global", es: "Global" }, icon: "🌍" },
+  { id: "friends", name: { pt: "Amigos", en: "Friends", es: "Amigos" }, icon: "👥" },
+  { id: "country", name: { pt: "País", en: "Country", es: "País" }, icon: "🚩" },
+  { id: "league", name: { pt: "Liga", en: "League", es: "Liga" }, icon: "🏆" },
 ];
 
 // Calculate current league based on XP
@@ -193,7 +478,7 @@ export function getLeague(xp: number) {
 }
 
 // Calculate division within league
-export function getDivision(xp: number, league: typeof LEAGUES[0]) {
+export function getDivision(xp: number, league: (typeof LEAGUES)[0]) {
   const xpInLeague = xp - league.minXP;
   const leagueRange = league.maxXP - league.minXP + 1;
   const divisionSize = leagueRange / league.divisions;
@@ -202,14 +487,14 @@ export function getDivision(xp: number, league: typeof LEAGUES[0]) {
 }
 
 // Get next league
-export function getNextLeague(currentLeague: typeof LEAGUES[0]) {
-  const currentIndex = LEAGUES.findIndex(l => l.id === currentLeague.id);
+export function getNextLeague(currentLeague: (typeof LEAGUES)[0]) {
+  const currentIndex = LEAGUES.findIndex((l) => l.id === currentLeague.id);
   return LEAGUES[currentIndex + 1] || currentLeague;
 }
 
 // Calculate XP to next league
-export function getXPToNextLeague(xp: number, currentLeague: typeof LEAGUES[0]) {
-  return currentLeague.maxXP - xp + 1;
+export function getXPToNextLeague(xp: number, currentLeague: (typeof LEAGUES)[0]) {
+  return Number.isFinite(currentLeague.maxXP) ? Math.max(0, currentLeague.maxXP - xp + 1) : 0;
 }
 
 console.log("✅ Gamification system initialized: Leagues, Achievements, Challenges, Rewards");

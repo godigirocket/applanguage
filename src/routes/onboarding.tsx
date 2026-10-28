@@ -1,3 +1,5 @@
+import { uiFallback } from "@/i18n/ui-fallback";
+import { accountKey } from "@/lib/account-storage";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -138,8 +140,8 @@ function OnboardingPage() {
       chosenLevel === "advanced" ? "C1" : chosenLevel === "intermediate" ? "B1" : "A1";
     setLearningLevel(cefrAnchor);
     setUserLevel(cefrAnchor);
-    localStorage.setItem("lume_user_level", cefrAnchor);
-    localStorage.setItem("lume_level", cefrAnchor);
+    localStorage.setItem(accountKey("lume_user_level"), cefrAnchor);
+    localStorage.setItem(accountKey("lume_level"), cefrAnchor);
 
     // Kid Mode: gates Community access and simplifies the lesson catalog
     // (see community.tsx / lessons.tsx) — applied locally first, same as
@@ -172,7 +174,7 @@ function OnboardingPage() {
       toast.success(
         isPT
           ? "Perfil configurado com sucesso! Vamos começar."
-          : "Profile tailored successfully! Let's start.",
+          : uiFallback("Profile tailored successfully! Let's start."),
       );
       nav({ to: "/home" });
     } catch (e) {
@@ -180,7 +182,7 @@ function OnboardingPage() {
       toast.error(
         isPT
           ? "Erro ao salvar suas respostas. Tente novamente."
-          : "Error saving answers. Please try again.",
+          : uiFallback("Error saving answers. Please try again."),
       );
     } finally {
       setIsSaving(false);
@@ -241,7 +243,7 @@ function OnboardingPage() {
                   <line x1="19" y1="12" x2="5" y2="12" />
                   <polyline points="12 19 5 12 12 5" />
                 </svg>
-                <span>{isPT ? "Voltar" : "Back"}</span>
+                <span>{isPT ? "Voltar" : uiFallback("Back")}</span>
               </button>
             ) : (
               <div style={{ width: "60px" }} />
@@ -303,50 +305,50 @@ function OnboardingPage() {
               </h2>
 
               <div className="flex flex-col gap-2.5">
-                  {currentStepData.options?.map((opt) => (
-                    <motion.button
-                      key={opt.val}
-                      whileHover={{ scale: 1.015, x: 2 }}
-                      whileTap={{ scale: 0.985 }}
-                      onClick={() => handleSelect(opt.val)}
-                      disabled={isSaving}
-                      style={{
-                        width: "100%",
-                        padding: "14px 18px",
-                        borderRadius: "16px",
-                        background: "var(--surface-raised)",
-                        border: "1px solid var(--border)",
-                        color: "var(--text-primary)",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        cursor: "pointer",
-                        boxShadow: "0 2px 6px rgba(0,0,0,0.02)",
-                      }}
-                      className="hover:border-accent-green active:brightness-95 transition-colors duration-200"
+                {currentStepData.options?.map((opt) => (
+                  <motion.button
+                    key={opt.val}
+                    whileHover={{ scale: 1.015, x: 2 }}
+                    whileTap={{ scale: 0.985 }}
+                    onClick={() => handleSelect(opt.val)}
+                    disabled={isSaving}
+                    style={{
+                      width: "100%",
+                      padding: "14px 18px",
+                      borderRadius: "16px",
+                      background: "var(--surface-raised)",
+                      border: "1px solid var(--border)",
+                      color: "var(--text-primary)",
+                      fontWeight: 700,
+                      fontSize: "14px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      cursor: "pointer",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.02)",
+                    }}
+                    className="hover:border-accent-green active:brightness-95 transition-colors duration-200"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span style={{ color: "var(--brand)" }}>{opt.icon}</span>
+                      <span>{opt.label}</span>
+                    </div>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      style={{ color: "var(--accent-green)" }}
                     >
-                      <div className="flex items-center gap-3">
-                        <span style={{ color: "var(--brand)" }}>{opt.icon}</span>
-                        <span>{opt.label}</span>
-                      </div>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        style={{ color: "var(--accent-green)" }}
-                      >
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                        <polyline points="12 5 19 12 12 19" />
-                      </svg>
-                    </motion.button>
-                  ))}
-                </div>
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </svg>
+                  </motion.button>
+                ))}
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>

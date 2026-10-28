@@ -1,9 +1,11 @@
+import { accountKey } from "@/lib/account-storage";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useStore } from "@/hooks/useStore";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { FlagBR, FlagUS, FlagES } from "./Flags";
 import i18n from "@/i18n/config";
+import { useClientReady } from "@/hooks/useClientReady";
 
 const TARGETS = [
   { code: "en" as const, label: "EN", name: "English", Flag: FlagUS },
@@ -12,6 +14,7 @@ const TARGETS = [
 ];
 
 export function LanguageSwitcher() {
+  const ready = useClientReady();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { targetLanguage, setTargetLanguage, interfaceLanguage, setInterfaceLanguage } = useStore();
@@ -45,7 +48,7 @@ export function LanguageSwitcher() {
 
   const handleSetTarget = async (code: "pt" | "en" | "es") => {
     setTargetLanguage(code);
-    localStorage.setItem("lume_target_language", code);
+    localStorage.setItem(accountKey("lume_target_language"), code);
     setOpen(false);
     if (user) {
       supabase
@@ -81,11 +84,8 @@ export function LanguageSwitcher() {
     <div ref={ref} style={{ position: "relative", zIndex: 150 }}>
       {/* Trigger Button */}
       <button
+        disabled={!ready}
         onClick={() => setOpen((v) => !v)}
-        onTouchEnd={(e) => {
-          e.preventDefault();
-          setOpen((v) => !v);
-        }}
         style={{
           display: "flex",
           alignItems: "center",
@@ -131,6 +131,7 @@ export function LanguageSwitcher() {
       {/* Dropdown Panel */}
       {open && (
         <div
+          className="lume-language-panel"
           style={{
             position: "absolute",
             top: "calc(100% + 8px)",
@@ -141,6 +142,10 @@ export function LanguageSwitcher() {
             overflow: "hidden",
             boxShadow: "0 16px 48px rgba(0,0,0,0.18), 0 4px 12px rgba(0,0,0,0.08)",
             minWidth: "220px",
+            maxWidth: "calc(100vw - 24px)",
+            maxHeight: "calc(100dvh - 82px - env(safe-area-inset-top, 0px))",
+            overflowY: "auto",
+            overscrollBehavior: "contain",
             zIndex: 9999,
             animation: "fadeSlideDown 0.15s ease",
           }}
@@ -164,10 +169,6 @@ export function LanguageSwitcher() {
                 <button
                   key={code}
                   onClick={() => handleSetTarget(code)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault();
-                    handleSetTarget(code);
-                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -222,17 +223,17 @@ export function LanguageSwitcher() {
                 marginBottom: "8px",
               }}
             >
-              {t("Idioma do App (Interface)", "App Language (Interface)", "Idioma de la App (Interfaz)")}
+              {t(
+                "Idioma do App (Interface)",
+                "App Language (Interface)",
+                "Idioma de la App (Interfaz)",
+              )}
             </div>
             <div style={{ display: "flex", gap: "6px" }}>
               {TARGETS.map(({ code, label }) => (
                 <button
                   key={code}
                   onClick={() => handleSetInterface(code)}
-                  onTouchEnd={(e) => {
-                    e.preventDefault();
-                    handleSetInterface(code);
-                  }}
                   style={{
                     flex: 1,
                     padding: "8px 0",

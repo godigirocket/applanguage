@@ -1,3 +1,5 @@
+import { uiFallback } from "@/i18n/ui-fallback";
+import { ActivityCalendar } from "@/components/lume/ActivityCalendar";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion } from "framer-motion";
@@ -182,7 +184,6 @@ function ProfilePage() {
       }}
       className="lume-profile-page"
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
@@ -244,7 +245,7 @@ function ProfilePage() {
                 </div>
                 <button
                   onClick={() => setShowAvatarPicker(true)}
-                  aria-label={isPT ? "Trocar avatar" : "Change avatar"}
+                  aria-label={isPT ? "Trocar avatar" : uiFallback("Change avatar")}
                   style={{
                     position: "absolute",
                     top: "-4px",
@@ -292,9 +293,20 @@ function ProfilePage() {
                     alignItems: "center",
                     gap: "12px",
                     marginBottom: "12px",
+                    flexWrap: "wrap",
+                    minWidth: 0,
                   }}
                 >
-                  <h1 style={{ fontSize: "42px", fontWeight: 900, letterSpacing: "-0.02em" }}>
+                  <h1
+                    style={{
+                      fontSize: "clamp(24px, 6vw, 42px)",
+                      fontWeight: 900,
+                      letterSpacing: "-0.02em",
+                      overflowWrap: "anywhere",
+                      margin: 0,
+                      minWidth: 0,
+                    }}
+                  >
                     {user.email?.split("@")[0] || "Student"}
                   </h1>
                   <div
@@ -314,27 +326,30 @@ function ProfilePage() {
                 <div
                   style={{ fontSize: "20px", marginBottom: "24px", opacity: 0.95, fontWeight: 600 }}
                 >
-                  {currentLeague.name[isPT ? "pt" : "en"]} • {isPT ? "Divisão" : "Division"}{" "}
-                  {division}
+                  {currentLeague.name[interfaceLanguage]} •{" "}
+                  {isPT ? "Divisão" : uiFallback("Division")} {division}
                 </div>
 
                 {/* Quick stats */}
-                <div className="lume-profile-mini-stats" style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
+                <div
+                  className="lume-profile-mini-stats"
+                  style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}
+                >
                   {[
                     { icon: Star, label: "XP Total", value: xp.toLocaleString() },
                     {
                       icon: Flame,
-                      label: isPT ? "Ofensiva" : "Streak",
-                      value: `${streak} ${isPT ? "dias" : "days"}`,
+                      label: isPT ? "Ofensiva" : uiFallback("Streak"),
+                      value: `${streak} ${isPT ? "dias" : uiFallback("days")}`,
                     },
                     {
                       icon: Trophy,
-                      label: isPT ? "Liga" : "League",
-                      value: currentLeague.name[isPT ? "pt" : "en"],
+                      label: isPT ? "Liga" : uiFallback("League"),
+                      value: currentLeague.name[interfaceLanguage],
                     },
                     {
                       icon: Award,
-                      label: isPT ? "Conquistas" : "Achievements",
+                      label: isPT ? "Conquistas" : uiFallback("Achievements"),
                       value: `${unlockedAchievements.length}/${totalAchievements}`,
                     },
                   ].map((stat, i) => (
@@ -353,8 +368,23 @@ function ProfilePage() {
                         <stat.icon size={20} color="white" />
                       </div>
                       <div>
-                        <div style={{ fontSize: "20px", fontWeight: 900, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>{stat.value}</div>
-                        <div style={{ fontSize: "12px", opacity: 0.95, fontWeight: 700, textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
+                        <div
+                          style={{
+                            fontSize: "20px",
+                            fontWeight: 900,
+                            textShadow: "0 1px 4px rgba(0,0,0,0.4)",
+                          }}
+                        >
+                          {stat.value}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            opacity: 0.95,
+                            fontWeight: 700,
+                            textShadow: "0 1px 2px rgba(0,0,0,0.3)",
+                          }}
+                        >
                           {stat.label}
                         </div>
                       </div>
@@ -373,8 +403,8 @@ function ProfilePage() {
                     }}
                   >
                     <span style={{ fontSize: "14px", fontWeight: 700, opacity: 0.9 }}>
-                      {isPT ? "Próxima Liga:" : "Next League:"}{" "}
-                      {nextLeague.name[isPT ? "pt" : "en"]}
+                      {isPT ? "Próxima Liga:" : uiFallback("Next League:")}{" "}
+                      {nextLeague.name[interfaceLanguage]}
                     </span>
                     <span style={{ fontSize: "14px", fontWeight: 800 }}>
                       {xpToNext.toLocaleString()} XP
@@ -406,7 +436,10 @@ function ProfilePage() {
               {/* Actions — row on mobile (see CSS): stacked columns pushed the
                   hero tall enough that "Sair" landed under the fixed bottom
                   nav on first load, making it look missing/untappable. */}
-              <div className="lume-profile-actions" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div
+                className="lume-profile-actions"
+                style={{ display: "flex", flexDirection: "column", gap: "12px" }}
+              >
                 <button
                   onClick={() => nav({ to: "/settings" })}
                   style={{
@@ -425,7 +458,7 @@ function ProfilePage() {
                   }}
                 >
                   <Settings size={18} />
-                  {isPT ? "Configurações" : "Settings"}
+                  {isPT ? "Configurações" : uiFallback("Settings")}
                 </button>
                 <button
                   onClick={handleLogout}
@@ -445,7 +478,7 @@ function ProfilePage() {
                   }}
                 >
                   <LogOut size={18} />
-                  {isPT ? "Sair" : "Logout"}
+                  {isPT ? "Sair" : uiFallback("Logout")}
                 </button>
               </div>
             </div>
@@ -463,14 +496,27 @@ function ProfilePage() {
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
             <div className="lume-tab-scroll" style={{ display: "flex", gap: "32px" }}>
               {[
-                { id: "overview", label: isPT ? "Visão Geral" : "Overview", icon: TrendingUp },
-                { id: "achievements", label: isPT ? "Conquistas" : "Achievements", icon: Trophy },
+                {
+                  id: "overview",
+                  label: isPT ? "Visão Geral" : uiFallback("Overview"),
+                  icon: TrendingUp,
+                },
+                {
+                  id: "achievements",
+                  label: isPT ? "Conquistas" : uiFallback("Achievements"),
+                  icon: Trophy,
+                },
                 // "Estatísticas" duplicated the Overview tab's own stat
                 // cards (never had distinct content) and "Ajustes" had no
                 // content block at all — both looked like dead/blank tabs.
                 // Settings already has a full dedicated page; link there
                 // instead of trying to cram it into an already-long profile.
-                { id: "settings", label: isPT ? "Ajustes" : "Settings", icon: Settings, isLink: true },
+                {
+                  id: "settings",
+                  label: isPT ? "Ajustes" : uiFallback("Settings"),
+                  icon: Settings,
+                  isLink: true,
+                },
               ].map((tab: any) => (
                 <button
                   key={tab.id}
@@ -516,49 +562,49 @@ function ProfilePage() {
                 {[
                   {
                     icon: Book,
-                    label: isPT ? "Lições Completas" : "Lessons Completed",
+                    label: isPT ? "Lições Completas" : uiFallback("Lessons Completed"),
                     value: stats.lessonsCompleted,
                     color: "#2FBB52",
                   },
                   {
                     icon: Zap,
-                    label: isPT ? "Quizzes" : "Quizzes",
+                    label: isPT ? "Quizzes" : uiFallback("Quizzes"),
                     value: stats.quizzesTaken,
                     color: "#FFC200",
                   },
                   {
                     icon: Video,
-                    label: isPT ? "Vídeos" : "Videos",
+                    label: isPT ? "Vídeos" : uiFallback("Videos"),
                     value: stats.videosWatched,
                     color: "#FF4B4B",
                   },
                   {
                     icon: Globe,
-                    label: isPT ? "Cidades" : "Cities",
+                    label: isPT ? "Cidades" : uiFallback("Cities"),
                     value: stats.citiesExplored,
                     color: "#1CB0F6",
                   },
                   {
                     icon: Target,
-                    label: isPT ? "Notas Perfeitas" : "Perfect Scores",
+                    label: isPT ? "Notas Perfeitas" : uiFallback("Perfect Scores"),
                     value: stats.perfectScores,
                     color: "#AC5CF6",
                   },
                   {
                     icon: Calendar,
-                    label: isPT ? "Dias de Estudo" : "Study Days",
+                    label: isPT ? "Dias de Estudo" : uiFallback("Study Days"),
                     value: stats.studyDays,
                     color: "#14B8A6",
                   },
                   {
                     icon: Clock,
-                    label: isPT ? "Minutos Totais" : "Total Minutes",
+                    label: isPT ? "Minutos Totais" : uiFallback("Total Minutes"),
                     value: stats.totalMinutes,
                     color: "#FF9600",
                   },
                   {
                     icon: CheckCircle,
-                    label: isPT ? "Média" : "Average",
+                    label: isPT ? "Média" : uiFallback("Average"),
                     value: `${stats.averageScore}%`,
                     color: "#2FBB52",
                   },
@@ -617,65 +663,7 @@ function ProfilePage() {
                 ))}
               </div>
 
-              {/* Activity Heatmap placeholder */}
-              <div
-                className="lume-profile-activity"
-                style={{
-                  background: "var(--surface-raised)",
-                  borderRadius: "20px",
-                  padding: "32px",
-                  border: "2px solid var(--border)",
-                  marginBottom: "40px",
-                }}
-              >
-                <h2
-                  style={{
-                    fontSize: "24px",
-                    fontWeight: 900,
-                    color: "var(--text-primary)",
-                    marginBottom: "24px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                  }}
-                >
-                  <Calendar size={24} color="var(--brand)" />
-                  {isPT ? "Atividade nos Últimos 12 Meses" : "Activity Last 12 Months"}
-                </h2>
-                <div
-                  style={{
-                    height: "200px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "var(--bg)",
-                    borderRadius: "12px",
-                    gap: "16px",
-                  }}
-                >
-                  <TrendingUp size={48} color="var(--text-secondary)" style={{ opacity: 0.3 }} />
-                  <div style={{ textAlign: "center" }}>
-                    <p
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: 700,
-                        color: "var(--text-primary)",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      {isPT
-                        ? `${stats.currentStreak} dias de sequência!`
-                        : `${stats.currentStreak}-day streak!`}
-                    </p>
-                    <p style={{ fontSize: "14px", color: "var(--text-secondary)" }}>
-                      {isPT
-                        ? "Continue praticando para manter sua sequência"
-                        : "Keep practicing to maintain your streak"}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <ActivityCalendar userId={user?.id} />
             </div>
           )}
 
@@ -691,11 +679,11 @@ function ProfilePage() {
                     marginBottom: "8px",
                   }}
                 >
-                  {isPT ? "Conquistas Desbloqueadas" : "Unlocked Achievements"}
+                  {isPT ? "Conquistas Desbloqueadas" : uiFallback("Unlocked Achievements")}
                 </h2>
                 <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
-                  {unlockedAchievements.length} {isPT ? "de" : "of"} {totalAchievements}{" "}
-                  {isPT ? "conquistas" : "achievements"}
+                  {unlockedAchievements.length} {isPT ? "de" : uiFallback("of")} {totalAchievements}{" "}
+                  {isPT ? "conquistas" : uiFallback("achievements")}
                 </p>
               </div>
 
@@ -717,7 +705,9 @@ function ProfilePage() {
                     return (
                       <motion.div
                         key={achievement.id}
-                        className={unlocked ? "lume-achievement-card is-unlocked" : "lume-achievement-card"}
+                        className={
+                          unlocked ? "lume-achievement-card is-unlocked" : "lume-achievement-card"
+                        }
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: i * 0.03 }}
@@ -757,7 +747,7 @@ function ProfilePage() {
                             marginBottom: "8px",
                           }}
                         >
-                          {achievement.name[isPT ? "pt" : "en"]}
+                          {achievement.name[interfaceLanguage]}
                         </h3>
                         <p
                           style={{
@@ -766,7 +756,7 @@ function ProfilePage() {
                             marginBottom: "16px",
                           }}
                         >
-                          {achievement.requirement[isPT ? "pt" : "en"]}
+                          {achievement.requirement[interfaceLanguage]}
                         </p>
                         <div style={{ display: "flex", gap: "12px" }}>
                           <div

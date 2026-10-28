@@ -5,20 +5,21 @@ import { useAuth } from "@/lib/auth";
 import { getPlanDetails, type SubscriptionPlan } from "@/lib/subscription";
 import { Lock, Shield, ArrowLeft } from "@/components/lume/CustomIcons";
 import { useEffect } from "react";
+import { caktoCheckoutUrl } from "@/lib/cakto-catalog";
 
 export const Route = createFileRoute("/checkout")({
+  validateSearch: (search: Record<string, unknown>): { plan?: string } => ({
+    plan: ["premium_monthly", "premium_quarterly", "premium_annual", "premium_lifetime"].includes(
+      String(search.plan),
+    )
+      ? String(search.plan)
+      : "premium_monthly",
+  }),
   head: () => ({
     meta: [{ title: "Checkout — LumeLearn" }, { name: "robots", content: "noindex" }],
   }),
   component: CheckoutPage,
 });
-
-const CHECKOUT_URL_BY_PLAN: Partial<Record<SubscriptionPlan, string | undefined>> = {
-  premium_monthly: "https://cakto.app/AmYjYgH/",
-  premium_quarterly: "https://cakto.app/AmYjYgH/",
-  premium_annual: "https://cakto.app/AmYjYgH/",
-  premium_lifetime: "https://cakto.app/AmYjYgH/",
-};
 
 function CheckoutPage() {
   const nav = useNavigate();
@@ -30,16 +31,20 @@ function CheckoutPage() {
   const search = Route.useSearch() as { plan?: string };
   const planId = (search.plan as SubscriptionPlan) || "premium_monthly";
   const plan = getPlanDetails(planId);
-  const checkoutUrl = CHECKOUT_URL_BY_PLAN[planId];
+  const checkoutUrl = caktoCheckoutUrl(planId);
 
   useEffect(() => {
     // Wait for the auth check to resolve — on a fresh page load (deep link,
     // refresh, bookmark) `user` starts out null before the session loads,
     // which was kicking out already-logged-in users straight to /login.
     if (!authLoading && !user) {
-      nav({ to: "/login", search: { redirect: "/pricing" } });
+      nav({
+        to: "/login",
+        search: { redirect: `/checkout?plan=${encodeURIComponent(planId)}` },
+        replace: true,
+      });
     }
-  }, [user, authLoading, nav]);
+  }, [user, authLoading, nav, planId]);
 
   const planName = plan ? (isPT ? plan.namePT : isES ? plan.nameES : plan.name) : planId;
 
@@ -72,7 +77,8 @@ function CheckoutPage() {
             alignSelf: "flex-start",
           }}
         >
-          <ArrowLeft size={16} /> {isPT ? "Voltar aos planos" : isES ? "Volver a los planes" : "Back to plans"}
+          <ArrowLeft size={16} />{" "}
+          {isPT ? "Voltar aos planos" : isES ? "Volver a los planes" : "Back to plans"}
         </button>
 
         <div
@@ -99,7 +105,11 @@ function CheckoutPage() {
             }}
           >
             <Shield size={16} />
-            {isPT ? "Pagamento seguro via Cakto" : isES ? "Pago seguro vía Cakto" : "Secure payment via Cakto"}
+            {isPT
+              ? "Pagamento seguro via Cakto"
+              : isES
+                ? "Pago seguro vía Cakto"
+                : "Secure payment via Cakto"}
           </div>
 
           <h1 style={{ fontSize: "22px", fontWeight: 900, color: "var(--text-primary)" }}>
@@ -110,17 +120,21 @@ function CheckoutPage() {
             <p style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)" }}>
               {plan.priceFormatted}
               <span style={{ fontSize: "14px", fontWeight: 600, color: "var(--text-secondary)" }}>
-                {plan.interval === "year"
-                  ? isPT
-                    ? "/ano"
-                    : isES
-                      ? "/año"
-                      : "/year"
-                  : isPT
-                    ? "/mês"
-                    : isES
-                      ? "/mes"
-                      : "/month"}
+                {planId === "premium_lifetime"
+                  ? " · pagamento único"
+                  : planId === "premium_quarterly"
+                    ? " / trimestre"
+                    : plan.interval === "year"
+                      ? isPT
+                        ? "/ano"
+                        : isES
+                          ? "/año"
+                          : "/year"
+                      : isPT
+                        ? "/mês"
+                        : isES
+                          ? "/mes"
+                          : "/month"}
               </span>
             </p>
           )}
@@ -144,7 +158,11 @@ function CheckoutPage() {
               }}
             >
               <Lock size={18} />
-              {isPT ? "Continuar para pagamento" : isES ? "Continuar al pago" : "Continue to payment"}
+              {isPT
+                ? "Continuar para pagamento"
+                : isES
+                  ? "Continuar al pago"
+                  : "Continue to payment"}
             </a>
           ) : (
             <div
@@ -165,7 +183,14 @@ function CheckoutPage() {
             </div>
           )}
 
-          <p style={{ fontSize: "12px", color: "var(--text-secondary)", textAlign: "center", margin: 0 }}>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "var(--text-secondary)",
+              textAlign: "center",
+              margin: 0,
+            }}
+          >
             {isPT
               ? "Você será redirecionado para o ambiente seguro da Cakto para concluir o pagamento."
               : isES

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/shop")({
 });
 
 function ShopPage() {
-  const { interfaceLanguage, lumes, setLumes } = useStore();
+  const { interfaceLanguage, lumes, buyItem, inventory, doubleXpUntil } = useStore();
 
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -41,10 +41,10 @@ function ShopPage() {
       id: "theme-dark",
       title: isPT ? "Tema Noite Estrelada" : isES ? "Tema Noche Estrellada" : "Starry Night Theme",
       desc: isPT
-        ? "Um visual escuro exclusivo de alta sofisticação para o tutor IA."
+        ? "Um visual escuro exclusivo de alta sofisticação para o guia de idiomas."
         : isES
-          ? "Una apariencia oscura exclusiva de alta sofisticación para tu tutor de IA."
-          : "An exclusive high-end dark aesthetic for your AI language tutor.",
+          ? "Una apariencia oscura exclusiva de alta sofisticación para tu guía de idiomas."
+          : "An exclusive high-end dark aesthetic for your language practice companion.",
       price: 100,
       color: "#2f80ed",
       icon: <Moon size={32} color="#2f80ed" />,
@@ -76,8 +76,13 @@ function ShopPage() {
   ];
 
   const handleBuy = (itemId: string, price: number, name: string) => {
-    if (lumes >= price) {
-      setLumes(lumes - price);
+    if (buyItem(itemId)) {
+      if (itemId === "theme-dark") {
+        localStorage.setItem("lume_theme", "dark");
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.documentElement.classList.add("dark");
+        window.dispatchEvent(new Event("lume-theme-changed"));
+      }
       toast.success(
         isPT
           ? `Você comprou "${name}"! Aproveite!`
@@ -252,7 +257,9 @@ function ShopPage() {
           }}
         >
           {SHOP_ITEMS.map((item) => {
-            const canBuy = lumes >= item.price;
+            const owned =
+              inventory.includes(item.id) || (item.id === "bonus-xp" && doubleXpUntil > Date.now());
+            const canBuy = !owned && lumes >= item.price;
             return (
               <div
                 key={item.id}
@@ -341,7 +348,13 @@ function ShopPage() {
                     }}
                   >
                     <span>
-                      {t.buyFor} {item.price} Lumes
+                      {owned
+                        ? isPT
+                          ? "Ativo no seu perfil"
+                          : isES
+                            ? "Activo en tu perfil"
+                            : "Active on your profile"
+                        : `${t.buyFor} ${item.price} Lumes`}
                     </span>
                     <ArrowRight size={16} />
                   </button>

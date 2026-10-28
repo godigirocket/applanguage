@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -12,7 +13,8 @@ export const Route = createFileRoute("/pricing")({
       { title: "Planos e Preços — LumeLearn Premium" },
       {
         name: "description",
-        content: "Comece grátis ou assine o LumeLearn Premium por R$ 9,90/mês. 700+ lições, 3 idiomas, 5 modos de jogo, IA conversacional. Garantia de 7 dias.",
+        content:
+          "Comece grátis ou assine o LumeLearn Premium por R$ 9,90/mês. 700+ lições, 3 idiomas, 5 modos de jogo, prática de conversação. Garantia de 7 dias.",
       },
     ],
   }),
@@ -72,8 +74,7 @@ function PricingPage() {
       return;
     }
 
-    // Navigate directly to Cakto checkout (all plans on one page)
-    window.open("https://cakto.app/AmYjYgH/", "_blank");
+    navigate({ to: "/checkout", search: { plan: planId } });
   };
 
   const visiblePlans = PLANS.filter((plan) => plan.id !== "free");
@@ -156,10 +157,22 @@ function PricingPage() {
         >
           {visiblePlans.map((plan) => {
             const isPopular = plan.popular;
-            const periodLabel = plan.id === "premium_monthly" ? (isPT ? "/mês" : "/mo")
-              : plan.id === "premium_quarterly" ? (isPT ? "/tri" : "/qtr")
-              : plan.id === "premium_annual" ? (isPT ? "/ano" : "/yr")
-              : (isPT ? "único" : "once");
+            const periodLabel =
+              plan.id === "premium_monthly"
+                ? isPT
+                  ? "/mês"
+                  : uiFallback("/mo")
+                : plan.id === "premium_quarterly"
+                  ? isPT
+                    ? "/tri"
+                    : uiFallback("/qtr")
+                  : plan.id === "premium_annual"
+                    ? isPT
+                      ? "/ano"
+                      : uiFallback("/yr")
+                    : isPT
+                      ? "único"
+                      : uiFallback("once");
 
             return (
               <div
@@ -193,9 +206,24 @@ function PricingPage() {
                   </div>
                 )}
 
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-                  <div>
-                    <h3 style={{ fontSize: "18px", fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <div style={{ minWidth: 0 }}>
+                    <h3
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: 800,
+                        color: "var(--text-primary)",
+                        margin: 0,
+                      }}
+                    >
                       {isPT ? plan.namePT : isES ? plan.nameES : plan.name}
                     </h3>
                     {plan.savings && (
@@ -204,17 +232,34 @@ function PricingPage() {
                       </span>
                     )}
                   </div>
-                  <div style={{ textAlign: "right" }}>
-                    <span style={{ fontSize: "24px", fontWeight: 900, color: "var(--text-primary)" }}>
+                  <div style={{ textAlign: "right", flexShrink: 0, whiteSpace: "nowrap" }}>
+                    <span
+                      style={{ fontSize: "24px", fontWeight: 900, color: "var(--text-primary)" }}
+                    >
                       {plan.priceFormatted}
                     </span>
-                    <span style={{ fontSize: "12px", color: "var(--text-secondary)", marginLeft: "4px" }}>
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--text-secondary)",
+                        marginLeft: "4px",
+                      }}
+                    >
                       {periodLabel}
                     </span>
                   </div>
                 </div>
 
-                <ul style={{ listStyle: "none", padding: 0, margin: "0 0 16px", display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                <ul
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: "0 0 16px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "6px",
+                  }}
+                >
                   {(isPT ? plan.featuresPT : isES ? plan.featuresES : plan.features).map(
                     (feature, idx) => (
                       <li
@@ -234,7 +279,7 @@ function PricingPage() {
                         <Check size={10} color="#58CC02" />
                         {feature}
                       </li>
-                    )
+                    ),
                   )}
                 </ul>
 
@@ -253,7 +298,7 @@ function PricingPage() {
                     cursor: "pointer",
                   }}
                 >
-                  {isPT ? "ASSINAR AGORA" : "SUBSCRIBE NOW"}
+                  {isPT ? "ASSINAR AGORA" : uiFallback("SUBSCRIBE NOW")}
                 </button>
               </div>
             );

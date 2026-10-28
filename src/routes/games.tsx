@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,8 +34,8 @@ function PlayPage() {
 
   const stats = {
     quizzesCompleted: completedLessons.length,
-    accuracy: completedLessons.length > 0 ? Math.min(95, 60 + completedLessons.length * 3) : 0,
-    bestStreak: Math.max(streak, 1),
+    level: Math.floor(xp / 100) + 1,
+    bestStreak: streak,
     xpFromQuizzes: xp,
   };
 
@@ -42,66 +43,66 @@ function PlayPage() {
     {
       slug: "quick",
       icon: "Brain",
-      title: isPT ? "Quiz Rápido" : "Quick Quiz",
+      title: isPT ? "Quiz Rápido" : uiFallback("Quick Quiz"),
       desc: isPT
         ? "10 perguntas dinâmicas sobre temas variados."
-        : "10 dynamic general knowledge questions.",
-      xp: isPT ? "Até 100 XP" : "Up to 100 XP",
+        : uiFallback("10 dynamic general knowledge questions."),
+      xp: isPT ? "Até 100 XP" : uiFallback("Up to 100 XP"),
       color: "#58CC02",
       tag: null,
     },
     {
       slug: "race",
       icon: "Zap",
-      title: isPT ? "Contra o Tempo" : "Speed Round",
+      title: isPT ? "Contra o Tempo" : uiFallback("Speed Round"),
       desc: isPT
         ? "Responda rápido! Pontos diminuem com o tempo."
-        : "Answer fast! Points decay as timer runs.",
-      xp: isPT ? "Até 150 XP" : "Up to 150 XP",
+        : uiFallback("Answer fast! Points decay as timer runs."),
+      xp: isPT ? "Até 150 XP" : uiFallback("Up to 150 XP"),
       color: "#FF9600",
       tag: null,
     },
     {
       slug: "daily",
       icon: "Target",
-      title: isPT ? "Desafio Diário" : "Daily Challenge",
+      title: isPT ? "Desafio Diário" : uiFallback("Daily Challenge"),
       desc: isPT
         ? "Desafio especial disponível apenas hoje."
-        : "Special challenge available only today.",
-      xp: isPT ? "Bônus 200 XP" : "200 XP Bonus",
+        : uiFallback("Special challenge available only today."),
+      xp: isPT ? "Bônus 200 XP" : uiFallback("200 XP Bonus"),
       color: "#1CB0F6",
-      tag: isPT ? "HOJE" : "TODAY",
+      tag: isPT ? "HOJE" : uiFallback("TODAY"),
     },
     {
       slug: "survival",
       icon: "Flame",
-      title: isPT ? "Sobrevivência" : "Streak Master",
+      title: isPT ? "Sobrevivência" : uiFallback("Streak Master"),
       desc: isPT
         ? "Responda até errar. Quanto mais longe, mais XP."
-        : "Answer until you miss. The further, the more XP.",
-      xp: isPT ? "10 XP por acerto" : "10 XP per correct",
+        : uiFallback("Answer until you miss. The further, the more XP."),
+      xp: isPT ? "10 XP por acerto" : uiFallback("10 XP per correct"),
       color: "#FF4B4B",
       tag: null,
     },
     {
       slug: "flashcards",
       icon: "Library",
-      title: isPT ? "Flashcards" : "Vocab Blast",
+      title: isPT ? "Flashcards" : uiFallback("Vocab Blast"),
       desc: isPT
         ? "Associe termos a significados em alta velocidade."
-        : "Match words to meanings at high speed.",
-      xp: isPT ? "Até 100 XP" : "Up to 100 XP",
+        : uiFallback("Match words to meanings at high speed."),
+      xp: isPT ? "Até 100 XP" : uiFallback("Up to 100 XP"),
       color: "#2FBB52",
       tag: null,
     },
     {
       slug: "listening",
       icon: "Volume2",
-      title: isPT ? "Escuta Ativa" : "Listening",
+      title: isPT ? "Escuta Ativa" : uiFallback("Listening"),
       desc: isPT
         ? "Ouça e identifique palavras e frases."
-        : "Listen and identify words and phrases.",
-      xp: isPT ? "Até 130 XP" : "Up to 130 XP",
+        : uiFallback("Listen and identify words and phrases."),
+      xp: isPT ? "Até 130 XP" : uiFallback("Up to 130 XP"),
       color: "#AC5CF6",
       tag: null,
     },
@@ -116,7 +117,6 @@ function PlayPage() {
       }}
       className="lume-games-page"
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
@@ -194,7 +194,7 @@ function PlayPage() {
                       color: "var(--text-primary)",
                     }}
                   >
-                    {isPT ? "Arena de Jogos Lume" : "Lume Game Arena"}
+                    {isPT ? "Arena de Jogos Lume" : uiFallback("Lume Game Arena")}
                   </h3>
                   <button
                     onClick={() => setShowHelp(false)}
@@ -220,22 +220,30 @@ function PlayPage() {
                   }}
                 >
                   <p>
-                    <strong>1. {isPT ? "18 Modos de Jogo:" : "18 Game Modes:"}</strong>{" "}
+                    <strong>1. {isPT ? "6 Modos de Jogo:" : uiFallback("6 Game Modes:")}</strong>{" "}
                     {isPT
                       ? "Pratique desde a conjugação de verbos até a escuta imersiva e sotaques regionais."
-                      : "Practice everything from verb conjugation to immersive regional listening."}
+                      : uiFallback(
+                          "Practice everything from verb conjugation to immersive regional listening.",
+                        )}
                   </p>
                   <p>
-                    <strong>2. {isPT ? "Grave sua voz:" : "Speak to earn:"}</strong>{" "}
+                    <strong>2. {isPT ? "Grave sua voz:" : uiFallback("Speak to earn:")}</strong>{" "}
                     {isPT
-                      ? "Use modos de pronúncia como 'Accent Mimic' para receber análises phonéticas em tempo real."
-                      : "Use voice modes like 'Accent Mimic' to receive real-time phonetic analysis."}
+                      ? "Pratique pronúncia nos exercícios compatíveis. O reconhecimento de voz depende do navegador."
+                      : uiFallback(
+                          "Practice pronunciation in supported exercises. Speech recognition depends on your browser.",
+                        )}
                   </p>
                   <p>
-                    <strong>3. {isPT ? "Ganhe XP instantâneo:" : "Earn instant XP:"}</strong>{" "}
+                    <strong>
+                      3. {isPT ? "Ganhe XP instantâneo:" : uiFallback("Earn instant XP:")}
+                    </strong>{" "}
                     {isPT
                       ? "Acumule XP em alta velocidade para subir no ranking de poliglotas Lume."
-                      : "Stack XP at high speeds to climb the Lume polyglot leaderboard."}
+                      : uiFallback(
+                          "Stack XP at high speeds to climb the Lume polyglot leaderboard.",
+                        )}
                   </p>
                 </div>
                 <button
@@ -252,7 +260,7 @@ function PlayPage() {
                     cursor: "pointer",
                   }}
                 >
-                  {isPT ? "Entendi!" : "Got it!"}
+                  {isPT ? "Entendi!" : uiFallback("Got it!")}
                 </button>
               </motion.div>
             </div>
@@ -299,7 +307,7 @@ function PlayPage() {
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
               </svg>
-              {isPT ? "Voltar ao Início" : "Back to Home"}
+              {isPT ? "Voltar ao Início" : uiFallback("Back to Home")}
             </Link>
           </div>
 
@@ -313,7 +321,7 @@ function PlayPage() {
                 fontWeight: 700,
               }}
             >
-              {isPT ? "Pratique e Brilhe" : "Practice and Glow"}
+              {isPT ? "Pratique e Brilhe" : uiFallback("Practice and Glow")}
             </h1>
             <p
               style={{
@@ -327,7 +335,9 @@ function PlayPage() {
             >
               {isPT
                 ? "Reforce seu conhecimento com jogos interativos e ganhe muito XP."
-                : "Reinforce your knowledge with interactive games and collect tons of XP."}
+                : uiFallback(
+                    "Reinforce your knowledge with interactive games and collect tons of XP.",
+                  )}
             </p>
           </header>
 
@@ -343,14 +353,14 @@ function PlayPage() {
           >
             {[
               {
-                label: isPT ? "quizzes" : "quizzes",
+                label: isPT ? "lições" : uiFallback("lessons"),
                 value: stats.quizzesCompleted,
                 color: "var(--accent-green)",
                 icon: <Trophy size={18} />,
               },
               {
-                label: isPT ? "precisão" : "accuracy",
-                value: `${stats.accuracy}%`,
+                label: isPT ? "nível" : uiFallback("level"),
+                value: stats.level,
                 color: "var(--brand-yellow)",
                 icon: <Star size={18} />,
               },
@@ -414,7 +424,7 @@ function PlayPage() {
           </div>
 
           {/* Category Pick */}
-          <div style={{ marginBottom: "40px" }}>
+          <div className="game-category-picker" style={{ marginBottom: "40px" }}>
             <h2
               style={{
                 fontSize: "13px",
@@ -426,21 +436,42 @@ function PlayPage() {
                 textAlign: "center",
               }}
             >
-              {isPT ? "Escolha sua Especialidade" : "Choose your Specialty"}
+              {isPT ? "Escolha sua Especialidade" : uiFallback("Choose your Specialty")}
             </h2>
             <div
               style={{ display: "flex", gap: "10px", flexWrap: "wrap", justifyContent: "center" }}
             >
               {[
-                { cat: isPT ? "Gramática" : "Grammar", icon: "Book", prog: 0.8 },
-                { cat: isPT ? "Vocabulário" : "Vocabulary", icon: "Library", prog: 0.6 },
-                { cat: isPT ? "Expressões" : "Idioms", icon: "MessageCircle", prog: 0.3 },
-                { cat: isPT ? "Cultura" : "Culture", icon: "Palette", prog: 0.1 },
-                { cat: isPT ? "Corporativo" : "Professional", icon: "Briefcase", prog: 0.9 },
-              ].map((c, i) => (
-                <motion.div
+                {
+                  cat: isPT ? "Gramática" : uiFallback("Grammar"),
+                  icon: "Book",
+                  to: "/quiz-play/grammar",
+                },
+                {
+                  cat: isPT ? "Vocabulário" : uiFallback("Vocabulary"),
+                  icon: "Library",
+                  to: "/quiz-play/vocab",
+                },
+                {
+                  cat: isPT ? "Expressões" : uiFallback("Idioms"),
+                  icon: "MessageCircle",
+                  to: "/quiz-play/mixed",
+                },
+                {
+                  cat: isPT ? "Cultura" : uiFallback("Culture"),
+                  icon: "Palette",
+                  to: "/quiz/culturaltrivia",
+                },
+                {
+                  cat: isPT ? "Corporativo" : uiFallback("Professional"),
+                  icon: "Briefcase",
+                  to: "/quiz-play/business",
+                },
+              ].map((c) => (
+                <Link
+                  to={c.to as any}
                   key={c.cat}
-                  whileHover={{ scale: 1.05 }}
+
                   className="glass premium-shadow"
                   style={{
                     padding: "10px 18px",
@@ -458,7 +489,7 @@ function PlayPage() {
                   <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--text-primary)" }}>
                     {c.cat}
                   </span>
-                </motion.div>
+                </Link>
               ))}
             </div>
           </div>
@@ -485,6 +516,7 @@ function GameModeCard({ mode, index }: { mode: any; index: number }) {
   return (
     <Link to={`/quiz/${mode.slug}` as any} style={{ textDecoration: "none", color: "inherit" }}>
       <motion.div
+        className="lume-game-mode-card"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: index * 0.05 }}
@@ -494,7 +526,7 @@ function GameModeCard({ mode, index }: { mode: any; index: number }) {
           cursor: "pointer",
           border: "2px solid var(--border)",
           borderBottomWidth: "4px",
-          background: "var(--card-bg)",
+          background: "var(--bg-secondary)",
           position: "relative",
           overflow: "hidden",
           display: "flex",

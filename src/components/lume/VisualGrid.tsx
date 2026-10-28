@@ -153,7 +153,7 @@ export function HomeVisualGrid({ isPT = true }: { isPT?: boolean }) {
   const cards: VisualCard[] = [
     {
       title: isPT ? "Pratique Falando" : "Practice Speaking",
-      subtitle: isPT ? "Conversações com IA" : "AI conversations",
+      subtitle: isPT ? "Prática de conversação" : "Guided conversations",
       bg: "linear-gradient(135deg, #6C5CE7 0%, #4834D4 100%)",
       Character: CharacterSpeaking,
       href: "/conversation/free-talk",
@@ -196,7 +196,7 @@ export function LandingVisualGrid({ isPT = true }: { isPT?: boolean }) {
       Character: CharacterReading,
     },
     {
-      title: isPT ? "IA Empática" : "Empathetic AI",
+      title: isPT ? "Prática Guiada" : "Guided Practice",
       subtitle: isPT ? "Conversas calorosas" : "Warm conversations",
       bg: "linear-gradient(135deg, #A29BFE 0%, #6C5CE7 100%)",
       Character: CharacterSpeaking,

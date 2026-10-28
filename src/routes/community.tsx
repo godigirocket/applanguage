@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { Mascot } from "@/components/lume/Mascot";
@@ -40,40 +41,23 @@ interface FeedPost {
   tags: string[];
 }
 
-function formatRelativeTime(isoDate: string, isPT: boolean): string {
+function formatRelativeTime(isoDate: string, isPT: boolean, isES = false): string {
   const diffMs = Date.now() - new Date(isoDate).getTime();
   const mins = Math.floor(diffMs / 60000);
-  if (mins < 1) return isPT ? "agora" : "just now";
-  if (mins < 60) return isPT ? `${mins}min atrás` : `${mins}min ago`;
+  if (mins < 1) return isPT ? "agora" : uiFallback("just now");
+  if (mins < 60) return isPT ? `${mins}min atrás` : isES ? `hace ${mins} min` : `${mins}min ago`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return isPT ? `${hours}h atrás` : `${hours}h ago`;
+  if (hours < 24) return isPT ? `${hours}h atrás` : isES ? `hace ${hours} h` : `${hours}h ago`;
   const days = Math.floor(hours / 24);
-  return isPT ? `${days}d atrás` : `${days}d ago`;
+  return isPT ? `${days}d atrás` : isES ? `hace ${days} días` : `${days}d ago`;
 }
 
 const POST_TYPES = [
-  { id: "all", label: "Tudo", icon: Globe },
-  { id: "achievements", label: "Conquistas", icon: Trophy },
-  { id: "questions", label: "Perguntas", icon: MessageCircle },
-  { id: "tips", label: "Dicas", icon: Star },
-  { id: "memes", label: "Memes", icon: Sparkles },
-];
-
-const PRO_LEARNERS = [
-  { name: "Maya", level: "C1", action: "Speaking Lab", color: "#1CB0F6" },
-  { name: "Leo", level: "B2", action: "18 streak", color: "#FF4B4B" },
-  { name: "Ana", level: "A2", action: "Quiz rapido", color: "#2FBB52" },
-  { name: "Noah", level: "C2", action: "Cultura", color: "#AC5CF6" },
-];
-
-const SEED_POSTS: FeedPost[] = [
-  { id: "seed-1", user: { id: "lume", name: "LumeLearn", avatar: "" }, content: "Parabéns a todos que completaram o Desafio Diário hoje! 12 pessoas bateram o recorde.", type: "achievement", image: null, likes: 34, comments: 8, shares: 3, timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-2", user: { id: "maya", name: "Maya S.", avatar: "" }, content: "Finalmente cheguei no nível C1 depois de 3 meses! A dica: pelo menos 2 lições por dia.", type: "achievement", image: null, likes: 47, comments: 12, shares: 5, timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-3", user: { id: "leo", name: "Leo M.", avatar: "" }, content: "Alguém mais acha o modo Sobrevivência viciante? 28 acertos seguidos hoje!", type: "question", image: null, likes: 21, comments: 6, shares: 1, timestamp: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-4", user: { id: "ana", name: "Ana R.", avatar: "" }, content: "Dica: pratiquem listening com fone. A diferença é absurda na pronúncia.", type: "tip", image: null, likes: 53, comments: 15, shares: 9, timestamp: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-5", user: { id: "lume", name: "LumeLearn", avatar: "" }, content: "710 lições disponíveis em cada idioma! Espanhol e Português completos.", type: "tip", image: null, likes: 89, comments: 23, shares: 14, timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-6", user: { id: "noah", name: "Noah P.", avatar: "" }, content: "Streak de 30 dias! O segredo é lições curtas no ônibus.", type: "achievement", image: null, likes: 38, comments: 9, shares: 4, timestamp: new Date(Date.now() - 36 * 60 * 60 * 1000).toISOString(), tags: [] },
-  { id: "seed-7", user: { id: "carol", name: "Carol V.", avatar: "" }, content: "O quiz de gramática me salvou na prova de inglês. Obrigada Lume!", type: "achievement", image: null, likes: 62, comments: 18, shares: 7, timestamp: new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString(), tags: [] },
+  { id: "all", label: "Tudo", en: "All", icon: Globe },
+  { id: "achievements", label: "Conquistas", en: "Achievements", icon: Trophy },
+  { id: "questions", label: "Perguntas", en: "Questions", icon: MessageCircle },
+  { id: "tips", label: "Dicas", en: "Tips", icon: Star },
+  { id: "memes", label: "Memes", en: "Memes", icon: Sparkles },
 ];
 
 function avatarInitials(name: string) {
@@ -101,9 +85,11 @@ function CommunityPage() {
   const [commentingPostId, setCommentingPostId] = useState<string | number | null>(null);
   const [quickComment, setQuickComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [stats, setStats] = useState<{ memberCount: number; postsToday: number; lessonsCompleted: number } | null>(
-    null,
-  );
+  const [stats, setStats] = useState<{
+    memberCount: number;
+    postsToday: number;
+    lessonsCompleted: number;
+  } | null>(null);
   const isPT = interfaceLanguage === "pt";
 
   // Kid accounts don't get the unmoderated adult social feed — bounce them
@@ -141,7 +127,7 @@ function CommunityPage() {
             likes: row.likes,
             comments: row.comments,
             shares: row.shares,
-            timestamp: formatRelativeTime(row.created_at, isPT),
+            timestamp: formatRelativeTime(row.created_at, isPT, interfaceLanguage === "es"),
             tags: row.tags || [],
           })),
         );
@@ -157,18 +143,16 @@ function CommunityPage() {
   // query would only ever see the current user's own row/count.
   useEffect(() => {
     let cancelled = false;
-    supabase
-      .rpc("get_community_stats")
-      .then(({ data, error }) => {
-        if (cancelled || error || !data) return;
-        const row = Array.isArray(data) ? data[0] : data;
-        if (!row) return;
-        setStats({
-          memberCount: Number(row.member_count) || 0,
-          postsToday: Number(row.posts_today) || 0,
-          lessonsCompleted: Number(row.lessons_completed) || 0,
-        });
+    supabase.rpc("get_community_stats").then(({ data, error }) => {
+      if (cancelled || error || !data) return;
+      const row = Array.isArray(data) ? data[0] : data;
+      if (!row) return;
+      setStats({
+        memberCount: Number(row.member_count) || 0,
+        postsToday: Number(row.posts_today) || 0,
+        lessonsCompleted: Number(row.lessons_completed) || 0,
       });
+    });
     return () => {
       cancelled = true;
     };
@@ -185,13 +169,15 @@ function CommunityPage() {
     const lastPostAt = Number(localStorage.getItem(lastPostKey) || 0);
     if (Date.now() - lastPostAt < 10_000) {
       toast.info(
-        isPT ? "Aguarde alguns segundos antes de postar de novo." : "Wait a few seconds before posting again.",
+        isPT
+          ? "Aguarde alguns segundos antes de postar de novo."
+          : uiFallback("Wait a few seconds before posting again."),
       );
       return;
     }
 
     setIsSubmitting(true);
-    const authorName = user.email?.split("@")[0] || (isPT ? "Você" : "You");
+    const authorName = user.email?.split("@")[0] || (isPT ? "Você" : uiFallback("You"));
     const { data, error } = await supabase
       .from("community_posts")
       .insert({
@@ -206,7 +192,11 @@ function CommunityPage() {
     setIsSubmitting(false);
 
     if (error || !data) {
-      toast.error(isPT ? "Não foi possível publicar. Tente novamente." : "Couldn't post. Please try again.");
+      toast.error(
+        isPT
+          ? "Não foi possível publicar. Tente novamente."
+          : uiFallback("Couldn't post. Please try again."),
+      );
       return;
     }
 
@@ -221,13 +211,13 @@ function CommunityPage() {
         likes: 0,
         comments: 0,
         shares: 0,
-        timestamp: isPT ? "agora" : "just now",
+        timestamp: isPT ? "agora" : uiFallback("just now"),
         tags: [],
       },
       ...prev,
     ]);
     setPostText("");
-    toast.success(isPT ? "Publicado!" : "Posted!");
+    toast.success(isPT ? "Publicado!" : uiFallback("Posted!"));
   }
 
   const getPostIcon = (type: string) => {
@@ -266,21 +256,17 @@ function CommunityPage() {
     tips: ["tip", "resource"],
     memes: ["meme"],
   };
-  // SEED_POSTS store a raw ISO string (computed once at module load) — unlike
-  // realPosts, which are already passed through formatRelativeTime when
-  // fetched. Left as-is, the feed rendered a raw "2026-08-14T21:14:24.399Z"
-  // for every seed post instead of "2h atrás".
-  const seedPostsFormatted = SEED_POSTS.map((post) => ({
-    ...post,
-    timestamp: formatRelativeTime(post.timestamp, isPT),
-  }));
-  const allPosts = [...seedPostsFormatted, ...realPosts];
+  const allPosts = realPosts;
   const visiblePosts =
     activeFilter === "all"
       ? allPosts
       : allPosts.filter((post) => FILTER_TO_POST_TYPES[activeFilter]?.includes(post.type));
 
-  function updatePostCount(postId: string | number, field: "likes" | "comments" | "shares", delta = 1) {
+  function updatePostCount(
+    postId: string | number,
+    field: "likes" | "comments" | "shares",
+    delta = 1,
+  ) {
     setRealPosts((prev) =>
       prev.map((post) =>
         post.id === postId ? { ...post, [field]: Math.max(0, post[field] + delta) } : post,
@@ -307,17 +293,21 @@ function CommunityPage() {
     updatePostCount(postId, "comments", 1);
     setQuickComment("");
     setCommentingPostId(null);
-    toast.success(isPT ? "Comentario adicionado nesta sessao." : "Comment added for this session.");
+    toast.success(
+      isPT ? "Comentario adicionado nesta sessao." : uiFallback("Comment added for this session."),
+    );
   }
 
   async function handleSharePost(post: FeedPost) {
     updatePostCount(post.id, "shares", 1);
     const text = `${post.user.name} no Lume: ${post.content}`;
     if (navigator.share) {
-      await navigator.share({ title: "Lume", text, url: "https://langlume.vercel.app/community" }).catch(() => {});
+      await navigator
+        .share({ title: "Lume", text, url: "https://langlume.vercel.app/community" })
+        .catch(() => {});
     } else {
       await navigator.clipboard.writeText(`${text} https://langlume.vercel.app/community`);
-      toast.success(isPT ? "Link copiado." : "Link copied.");
+      toast.success(isPT ? "Link copiado." : uiFallback("Link copied."));
     }
   }
 
@@ -335,7 +325,6 @@ function CommunityPage() {
       }}
       className="lume-community-page"
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
@@ -357,12 +346,12 @@ function CommunityPage() {
                 marginBottom: "8px",
               }}
             >
-              {isPT ? "Comunidade" : "Community"}
+              {isPT ? "Comunidade" : uiFallback("Community")}
             </h1>
             <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
               {isPT
                 ? "Conecte-se com milhares de estudantes ao redor do mundo"
-                : "Connect with thousands of learners worldwide"}
+                : uiFallback("Connect with thousands of learners worldwide")}
             </p>
 
             {/* STATS BAR — real counts from get_community_stats(), not hardcoded */}
@@ -370,17 +359,17 @@ function CommunityPage() {
               {[
                 {
                   icon: Users,
-                  label: isPT ? "Membros" : "Members",
+                  label: isPT ? "Membros" : uiFallback("Members"),
                   value: stats ? stats.memberCount.toLocaleString() : "—",
                 },
                 {
                   icon: MessageCircle,
-                  label: isPT ? "Posts Hoje" : "Posts Today",
+                  label: isPT ? "Posts Hoje" : uiFallback("Posts Today"),
                   value: stats ? stats.postsToday.toLocaleString() : "—",
                 },
                 {
                   icon: Globe,
-                  label: isPT ? "Lições Concluídas" : "Lessons Completed",
+                  label: isPT ? "Lições Concluídas" : uiFallback("Lessons Completed"),
                   value: stats ? stats.lessonsCompleted.toLocaleString() : "—",
                 },
               ].map((stat, i) => (
@@ -418,28 +407,27 @@ function CommunityPage() {
 
         {/* MAIN CONTENT */}
         <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
-          <section className="lume-live-strip" aria-label={isPT ? "Usuarios Pro ativos" : "Active Pro users"}>
+          <section className="lume-live-strip">
             <div>
-              <span className="lume-live-dot" />
-              <strong>{isPT ? "Ao vivo agora" : "Live now"}</strong>
-              <p>{isPT ? "Estudantes Pro treinando em tempo real" : "Pro learners practicing right now"}</p>
+              <strong>{isPT ? "Aprenda em companhia" : uiFallback("Learn together")}</strong>
+              <p>
+                {isPT
+                  ? "Compartilhe conquistas, tire dúvidas e troque dicas com outros estudantes."
+                  : uiFallback("Share wins, ask questions and exchange tips with other learners.")}
+              </p>
             </div>
             <div className="lume-pro-row">
-              {PRO_LEARNERS.map((learner) => (
-                <div
-                  key={learner.name}
+              {POST_TYPES.filter((type) =>
+                ["achievements", "questions", "tips"].includes(type.id),
+              ).map((type) => (
+                <button
+                  key={type.id}
                   className="lume-pro-chip"
-                  style={{ ["--chip-color" as any]: learner.color }}
+                  onClick={() => setActiveFilter(type.id)}
                 >
-                  <span>{avatarInitials(learner.name)}</span>
-                  <div>
-                    <strong>{learner.name}</strong>
-                    <small>
-                      {learner.level} - {learner.action}
-                    </small>
-                  </div>
-                  <Crown size={15} />
-                </div>
+                  <type.icon size={17} />
+                  {interfaceLanguage === "pt" ? type.label : uiFallback(type.en)}
+                </button>
               ))}
             </div>
           </section>
@@ -466,7 +454,7 @@ function CommunityPage() {
                     marginBottom: "16px",
                   }}
                 >
-                  {isPT ? "Filtros" : "Filters"}
+                  {isPT ? "Filtros" : uiFallback("Filters")}
                 </h3>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
@@ -482,7 +470,10 @@ function CommunityPage() {
                         padding: "12px 16px",
                         borderRadius: "12px",
                         border: "none",
-                        background: activeFilter === type.id ? "color-mix(in srgb, var(--brand) 15%, transparent)" : "transparent",
+                        background:
+                          activeFilter === type.id
+                            ? "color-mix(in srgb, var(--brand) 15%, transparent)"
+                            : "transparent",
                         color: activeFilter === type.id ? "var(--brand)" : "var(--text-primary)",
                         fontWeight: activeFilter === type.id ? 700 : 600,
                         fontSize: "14px",
@@ -492,7 +483,7 @@ function CommunityPage() {
                       }}
                     >
                       <type.icon size={18} />
-                      {type.label}
+                      {isPT ? type.label : uiFallback(type.en)}
                     </button>
                   ))}
                 </div>
@@ -509,7 +500,7 @@ function CommunityPage() {
                       marginBottom: "16px",
                     }}
                   >
-                    {isPT ? "Trending" : "Trending"}
+                    {isPT ? "Trending" : uiFallback("Trending")}
                   </h3>
                   <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     {["#milestone", "#grammar", "#streak", "#culture"].map((tag) => (
@@ -572,7 +563,9 @@ function CommunityPage() {
                       <textarea
                         value={postText}
                         onChange={(e) => setPostText(e.target.value)}
-                        placeholder={isPT ? "Compartilhe sua jornada..." : "Share your journey..."}
+                        placeholder={
+                          isPT ? "Compartilhe sua jornada..." : uiFallback("Share your journey...")
+                        }
                         style={{
                           width: "100%",
                           minHeight: "80px",
@@ -598,7 +591,11 @@ function CommunityPage() {
                         <div style={{ display: "flex", gap: "8px" }}>
                           <button
                             onClick={() =>
-                              toast.info(isPT ? "Upload de imagem entra na proxima versao." : "Image upload is coming next.")
+                              toast.info(
+                                isPT
+                                  ? "Upload de imagem entra na proxima versao."
+                                  : uiFallback("Image upload is coming next."),
+                              )
                             }
                             style={{
                               padding: "8px 12px",
@@ -615,10 +612,12 @@ function CommunityPage() {
                             }}
                           >
                             <BookOpen size={16} />
-                            {isPT ? "Imagem" : "Image"}
+                            {isPT ? "Imagem" : uiFallback("Image")}
                           </button>
                           <button
-                            onClick={() => setPostText((current) => `${current}${current ? " " : ""}#brilho`)}
+                            onClick={() =>
+                              setPostText((current) => `${current}${current ? " " : ""}#brilho`)
+                            }
                             style={{
                               padding: "8px 12px",
                               borderRadius: "8px",
@@ -634,7 +633,7 @@ function CommunityPage() {
                             }}
                           >
                             <Sparkles size={16} />
-                            {isPT ? "Emoji" : "Emoji"}
+                            {isPT ? "Emoji" : uiFallback("Emoji")}
                           </button>
                         </div>
                         <button
@@ -644,7 +643,8 @@ function CommunityPage() {
                             padding: "10px 24px",
                             borderRadius: "12px",
                             border: "none",
-                            background: postText.trim() && !isSubmitting ? "var(--brand)" : "var(--border)",
+                            background:
+                              postText.trim() && !isSubmitting ? "var(--brand)" : "var(--border)",
                             color: "white",
                             fontSize: "14px",
                             fontWeight: 700,
@@ -655,7 +655,13 @@ function CommunityPage() {
                           }}
                         >
                           <Send size={16} />
-                          {isSubmitting ? (isPT ? "Publicando..." : "Posting...") : isPT ? "Publicar" : "Post"}
+                          {isSubmitting
+                            ? isPT
+                              ? "Publicando..."
+                              : uiFallback("Posting...")
+                            : isPT
+                              ? "Publicar"
+                              : uiFallback("Post")}
                         </button>
                       </div>
                     </div>
@@ -677,7 +683,9 @@ function CommunityPage() {
                       border: `2px dashed var(--border)`,
                     }}
                   >
-                    <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+                    <div
+                      style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}
+                    >
                       <Mascot state="happy" size={72} />
                     </div>
                     <p
@@ -691,19 +699,21 @@ function CommunityPage() {
                       {activeFilter === "all"
                         ? isPT
                           ? "Ainda ninguém postou por aqui"
-                          : "No one's posted here yet"
+                          : uiFallback("No one's posted here yet")
                         : isPT
                           ? "Nenhum post nessa categoria ainda"
-                          : "No posts in this category yet"}
+                          : uiFallback("No posts in this category yet")}
                     </p>
-                    <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: 0 }}>
+                    <p
+                      style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: 0 }}
+                    >
                       {activeFilter === "all"
                         ? isPT
                           ? "Seja o primeiro a compartilhar sua conquista ou fazer uma pergunta!"
-                          : "Be the first to share a win or ask a question!"
+                          : uiFallback("Be the first to share a win or ask a question!")
                         : isPT
                           ? "Que tal escrever o primeiro?"
-                          : "Why not write the first one?"}
+                          : uiFallback("Why not write the first one?")}
                     </p>
                   </motion.div>
                 )}
@@ -845,25 +855,36 @@ function CommunityPage() {
                         >
                           <button
                             onClick={() => handleLike(post.id)}
-                            className={likedPosts.has(String(post.id)) ? "lume-social-action is-active" : "lume-social-action"}
+                            className={
+                              likedPosts.has(String(post.id))
+                                ? "lume-social-action is-active"
+                                : "lume-social-action"
+                            }
                             style={{
                               display: "flex",
                               alignItems: "center",
                               gap: "8px",
                               background: "none",
                               border: "none",
-                              color: likedPosts.has(String(post.id)) ? "#FF4B4B" : "var(--text-secondary)",
+                              color: likedPosts.has(String(post.id))
+                                ? "#FF4B4B"
+                                : "var(--text-secondary)",
                               fontSize: "14px",
                               fontWeight: 700,
                               cursor: "pointer",
                               transition: "color 0.2s",
                             }}
                           >
-                            <Heart size={18} fill={likedPosts.has(String(post.id)) ? "#FF4B4B" : "none"} />
+                            <Heart
+                              size={18}
+                              fill={likedPosts.has(String(post.id)) ? "#FF4B4B" : "none"}
+                            />
                             {post.likes}
                           </button>
                           <button
-                            onClick={() => setCommentingPostId(commentingPostId === post.id ? null : post.id)}
+                            onClick={() =>
+                              setCommentingPostId(commentingPostId === post.id ? null : post.id)
+                            }
                             className="lume-social-action"
                             style={{
                               display: "flex",
@@ -906,11 +927,18 @@ function CommunityPage() {
                             <input
                               value={quickComment}
                               onChange={(event) => setQuickComment(event.target.value)}
-                              placeholder={isPT ? "Escreva uma resposta rapida..." : "Write a quick reply..."}
+                              placeholder={
+                                isPT
+                                  ? "Escreva uma resposta rapida..."
+                                  : uiFallback("Write a quick reply...")
+                              }
                             />
-                            <button onClick={() => handleQuickComment(post.id)} className="btn-gold">
+                            <button
+                              onClick={() => handleQuickComment(post.id)}
+                              className="btn-gold"
+                            >
                               <Send size={15} />
-                              {isPT ? "Enviar" : "Send"}
+                              {isPT ? "Enviar" : uiFallback("Send")}
                             </button>
                           </div>
                         )}

@@ -1,13 +1,14 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useProfile } from "@/hooks/useProfile";
 import { Logo } from "@/components/lume/Logo";
 import { Sun, Moon } from "@/components/lume/CustomIcons";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/lume/LanguageSwitcher";
-import { useHideOnScroll } from "@/hooks/useHideOnScroll";
+import { ViewportLayer } from "@/components/lume/ViewportLayer";
 import { UserAvatar } from "@/components/lume/UserAvatar";
+import { useClientReady } from "@/hooks/useClientReady";
 
 // Mobile bottom-tab nav icons as inline SVG for zero dependency
 function IconHome() {
@@ -116,11 +117,10 @@ function IconUser() {
 }
 
 export function AppHeader() {
+  const ready = useClientReady();
   const { user } = useAuth();
-  const [profile, setProfile] = useState<any>(null);
-  const hidden = useHideOnScroll({ threshold: 12, minScroll: 80 });
-  const routerState = useRouterState();
-  const currentPath = routerState.location.pathname;
+  const { data: profile } = useProfile(user?.id);
+  const currentPath = useRouterState({ select: (state) => state.location.pathname });
   const { t } = useTranslation(["common"]);
 
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -135,6 +135,13 @@ export function AppHeader() {
   }, []);
 
   useEffect(() => {
+    const syncTheme = () =>
+      setTheme(localStorage.getItem("lume_theme") === "dark" ? "dark" : "light");
+    window.addEventListener("lume-theme-changed", syncTheme);
+    return () => window.removeEventListener("lume-theme-changed", syncTheme);
+  }, []);
+
+  useEffect(() => {
     if (theme === "dark") {
       document.documentElement.setAttribute("data-theme", "dark");
       document.documentElement.classList.add("dark");
@@ -143,19 +150,6 @@ export function AppHeader() {
       document.documentElement.classList.remove("dark");
     }
   }, [theme]);
-
-  useEffect(() => {
-    if (user) {
-      supabase
-        .from("profiles")
-        .select("full_name, onboarding_done")
-        .eq("id", user.id)
-        .maybeSingle()
-        .then(({ data }) => {
-          if (data) setProfile(data);
-        });
-    }
-  }, [user]);
 
   const firstName = profile?.full_name?.split(" ")[0] || "";
 
@@ -167,148 +161,161 @@ export function AppHeader() {
     { href: "/profile", label: t("profile"), Icon: IconUser },
   ];
 
-  const isLoggedIn = user && profile?.onboarding_done;
+  const isLoggedIn = Boolean(user);
 
   return (
     <>
       {/* ── TOP HEADER ─────────────────────────────────────────── */}
-      {/* Fixed + slides away on scroll-down, back in on scroll-up (useHideOnScroll) — a spacer div right below reserves its height since fixed removes it from flow. */}
-      <header
-        aria-label="Site header"
-        className="lume-app-header"
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: "var(--header-bg, rgba(255,255,255,0.86))",
-          backdropFilter: "blur(18px) saturate(1.25)",
-          borderBottom: "1px solid var(--header-border, rgba(15,23,42,0.08))",
-          height: "58px",
-          boxShadow: "var(--header-shadow, 0 1px 8px rgba(0,0,0,0.04))",
-          transform: hidden ? "translateY(-100%)" : "translateY(0)",
-          transition: "transform 0.25s ease",
-        }}
-      >
-        <div
+      {/* Viewport portal keeps the menu fixed even inside animated pages. */}
+      <ViewportLayer>
+        <header
+          aria-label="Site header"
+          className="lume-app-header"
           style={{
-            maxWidth: "1120px",
-            margin: "0 auto",
-            padding: "0 16px",
-            height: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "8px",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
+            background: "var(--header-bg, rgba(255,255,255,0.86))",
+            backdropFilter: "blur(18px) saturate(1.25)",
+            borderBottom: "1px solid var(--header-border, rgba(15,23,42,0.08))",
+            height: "58px",
+            boxShadow: "var(--header-shadow, 0 1px 8px rgba(0,0,0,0.04))",
           }}
         >
-          {/* LOGO */}
-          <Link
-            to="/home"
-            style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
+          <div
+            style={{
+              maxWidth: "1120px",
+              margin: "0 auto",
+              padding: "0 16px",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: "8px",
+            }}
           >
-            <Logo size={46} />
-          </Link>
+            {/* LOGO */}
+            <Link
+              to="/home"
+              className="lume-header-brand"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                flexShrink: 0,
+              }}
+            >
+              <Logo size={46} />
+            </Link>
 
-          {/* DESKTOP NAV — hidden on mobile */}
-          {isLoggedIn && (
-            <nav className="lume-desktop-nav">
-              {NAV_ITEMS.map((item) => (
+            {/* DESKTOP NAV — hidden on mobile */}
+            {isLoggedIn && (
+              <nav className="lume-desktop-nav">
+                {NAV_ITEMS.map((item) => (
+                  <Link
+                    key={item.href}
+                    to={item.href as any}
+                    className="hover-underline"
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "7px",
+                      padding: "7px 12px",
+                      borderRadius: "10px",
+                      fontSize: "13px",
+                      fontWeight: 700,
+                      color:
+                        currentPath === item.href
+                          ? "var(--brand)"
+                          : "var(--header-link, var(--text-secondary))",
+                      background:
+                        currentPath === item.href
+                          ? "color-mix(in srgb, var(--brand) 12%, transparent)"
+                          : "transparent",
+                      textDecoration: "none",
+                      transition: "all 0.18s",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <item.Icon />
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
+
+            {/* RIGHT CONTROLS */}
+            <div
+              className="lume-header-controls"
+              style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}
+            >
+              <LanguageSwitcher />
+
+              {/* Theme Toggle */}
+              <button
+                disabled={!ready}
+                onClick={() => {
+                  const next = theme === "light" ? "dark" : "light";
+                  setTheme(next);
+                  localStorage.setItem("lume_theme", next);
+                }}
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "10px",
+                  background: "var(--surface-raised)",
+                  border: "1.5px solid var(--border)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--text-secondary)",
+                  transition: "all 0.2s",
+                  flexShrink: 0,
+                }}
+                title={t("themeToggle")}
+              >
+                {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+              </button>
+
+              {/* Avatar — desktop only */}
+              {user ? (
                 <Link
-                  key={item.href}
-                  to={item.href as any}
-                  className="hover-underline"
+                  to="/profile"
+                  className="lume-desktop-only"
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "7px",
-                    padding: "7px 12px",
-                    borderRadius: "10px",
-                    fontSize: "13px",
-                    fontWeight: 700,
-                    color: currentPath === item.href ? "var(--brand)" : "var(--header-link, var(--text-secondary))",
-                    background:
-                      currentPath === item.href
-                        ? "color-mix(in srgb, var(--brand) 12%, transparent)"
-                        : "transparent",
                     textDecoration: "none",
-                    transition: "all 0.18s",
+                    flexShrink: 0,
+                    borderRadius: "50%",
+                    border: "2px solid var(--border)",
+                    overflow: "hidden",
+                    display: "block",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <UserAvatar size={32} name={firstName} />
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="btn-gold lume-header-signin"
+                  style={{
+                    padding: "7px 16px",
+                    textDecoration: "none",
+                    fontSize: "13px",
                     whiteSpace: "nowrap",
                   }}
                 >
-                  <item.Icon />
-                  {item.label}
+                  {t("signIn")}
                 </Link>
-              ))}
-            </nav>
-          )}
-
-          {/* RIGHT CONTROLS */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}>
-            <LanguageSwitcher />
-
-            {/* Theme Toggle */}
-            <button
-              onClick={() => {
-                const next = theme === "light" ? "dark" : "light";
-                setTheme(next);
-                localStorage.setItem("lume_theme", next);
-              }}
-              style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "10px",
-                background: "var(--surface-raised)",
-                border: "1.5px solid var(--border)",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--text-secondary)",
-                transition: "all 0.2s",
-                flexShrink: 0,
-              }}
-              title={t("themeToggle")}
-            >
-              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
-            </button>
-
-            {/* Avatar — desktop only */}
-            {user ? (
-              <Link
-                to="/profile"
-                className="lume-desktop-only"
-                style={{
-                  textDecoration: "none",
-                  flexShrink: 0,
-                  borderRadius: "50%",
-                  border: "2px solid var(--border)",
-                  overflow: "hidden",
-                  display: "block",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                }}
-              >
-                <UserAvatar size={32} name={firstName} />
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className="btn-gold"
-                style={{
-                  padding: "7px 16px",
-                  textDecoration: "none",
-                  fontSize: "13px",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {t("signIn")}
-              </Link>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      </header>
-      <div style={{ height: "58px" }} aria-hidden="true" />
+        </header>
+      </ViewportLayer>
+      <div className="lume-header-spacer" aria-hidden="true" />
       {/* Bottom mobile nav lives once, globally, in __root.tsx's <BottomNav/> —
           this component used to render its own duplicate copy here too,
           stacking two overlapping nav bars on every non-immersive page. */}

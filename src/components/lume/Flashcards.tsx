@@ -9,8 +9,9 @@ import {
   ALL_TOPICS,
   type LessonTopic,
 } from "@/lib/language-content";
-import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
+import { speak, isTTSSupported, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { Volume2 } from "lucide-react";
+import { useClientReady } from "@/hooks/useClientReady";
 
 function pickTodaysTopic(): LessonTopic {
   const day = new Date().toISOString().slice(0, 10);
@@ -20,6 +21,7 @@ function pickTodaysTopic(): LessonTopic {
 }
 
 export function Flashcards() {
+  const clientReady = useClientReady();
   const { targetLanguage, interfaceLanguage, addXP } = useStore();
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -44,6 +46,7 @@ export function Flashcards() {
   }, [currentCard]);
 
   const handleNext = (difficulty: "easy" | "medium" | "hard") => {
+    stopSpeaking();
     if (currentCard) {
       if (difficulty === "hard") {
         markWordWrong(currentCard.id);
@@ -147,7 +150,7 @@ export function Flashcards() {
             }}
           >
             <h3 style={{ fontSize: "30px", fontWeight: 800, margin: 0 }}>{currentCard.term}</h3>
-            {isTTSSupported() && (
+            {clientReady && isTTSSupported() && (
               <button
                 onClick={(e) => {
                   e.stopPropagation();

@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUserStore, UserLevel } from "@/store/userStore";
@@ -45,8 +46,8 @@ export function DifficultyPopup() {
 
   const handleAccept = () => {
     setUserLevel(targetLevel);
-    localStorage.setItem("lume_user_level", targetLevel);
-    localStorage.setItem("lume_level", targetLevel);
+    localStorage.setItem(accountKey("lume_user_level"), targetLevel);
+    localStorage.setItem(accountKey("lume_level"), targetLevel);
     // Sync with useStore as well
     setLearningLevel(targetLevel);
     toast.success(`Nível atualizado para ${targetLevel}! 🚀`);

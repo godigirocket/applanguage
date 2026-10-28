@@ -49,7 +49,7 @@ const resources = {
     landing: {
       title: "Um parceiro de conversação paciente, calmo e artístico.",
       subtitle:
-        "Lume é uma sala de prática guiada por IA — projetada para ser um complemento calmo e paciente para suas aulas particulares.",
+        "Lume é uma sala de prática guiada — projetada para ser um complemento calmo e paciente para suas aulas particulares.",
       ctaStart: "Começar a praticar",
       ctaTryFree: "Experimentar grátis",
       testimonial: "Finalmente um jeito de praticar sem travar.",
@@ -57,9 +57,9 @@ const resources = {
       featureCalmTitle: "Tranquilidade e Foco",
       featureCalmDesc:
         "Sem pressões, cronômetros ansiosos ou cores irritantes. Apenas um ambiente de estudo minimalista para sua paz mental.",
-      featureAITitle: "Inteligência Empática",
+      featureAITitle: "Prática com Orientação",
       featureAIDesc:
-        "Nossa IA compreende erros comuns de pronúncia e ajuda você a se expressar naturalmente com paciência.",
+        "Pratique com cenários de conversa, frases de exemplo e ajustes de escrita em situações do dia a dia.",
       featureCultureTitle: "Imersão Cultural Real",
       featureCultureDesc:
         "Aprenda a falar de verdade descobrindo segredos, músicas e a alma dos países.",
@@ -67,8 +67,8 @@ const resources = {
       whyTitle: "Por que o Lume?",
       mktSectionTitle: "Uma plataforma completa para se comunicar com confiança.",
       mktSectionSubtitle:
-        "Combinamos IA empática, imersão cultural e desafios diários para criar a experiência de aprendizado mais calma e eficaz do mundo.",
-      mktAITitle: "IA Premium",
+        "Combinamos prática guiada, imersão cultural e desafios diários para criar a experiência de aprendizado mais calma e eficaz do mundo.",
+      mktAITitle: "Prática Guiada",
       mktAIDesc:
         "Correções inteligentes que respeitam o seu ritmo. Sem julgamentos, apenas progressos.",
       mktAICta: "Experimentar agora",
@@ -129,7 +129,7 @@ const resources = {
         "Selecione tópicos do dia a dia ou de imersão artística que façam sentido para sua rotina atual.",
       step2Title: "2. Fale sem Medo de Errar",
       step2Desc:
-        "A IA Lume não julga. Ela aguarda pacientemente o seu tempo de formular ideias e sugere refinamentos leves.",
+        "Pratique no seu ritmo com cenários, exemplos e sugestões de resposta. Você pode repetir cada etapa.",
     },
     guest: {
       title: "Modo de Demonstração",
@@ -230,7 +230,7 @@ const resources = {
     landing: {
       title: "A patient, calm, and artistic speaking companion.",
       subtitle:
-        "Lume is an AI-guided practice space — designed to be a calm, patient companion to your private language lessons.",
+        "Lume is an guided practice space — designed to be a calm, patient companion to your private language lessons.",
       ctaStart: "Start practicing",
       ctaTryFree: "Try for free",
       testimonial: "Finally, a way to practice without freezing.",
@@ -238,9 +238,9 @@ const resources = {
       featureCalmTitle: "Tranquility & Focus",
       featureCalmDesc:
         "No pressures, anxious timers, or aggressive colors. Just a minimal study space designed for your peace of mind.",
-      featureAITitle: "Empathetic Intelligence",
+      featureAITitle: "Guided Practice",
       featureAIDesc:
-        "Our AI understands common pronunciation nuances and patiently helps you express yourself naturally.",
+        "Practice everyday scenarios with example phrases, suggested replies and focused writing tips.",
       featureCultureTitle: "Real Cultural Immersion",
       featureCultureDesc:
         "Learn to speak authentically by discovering the secrets, music, and soul of other countries.",
@@ -248,8 +248,8 @@ const resources = {
       whyTitle: "Why Lume?",
       mktSectionTitle: "A complete platform to communicate with confidence.",
       mktSectionSubtitle:
-        "We combine empathetic AI, cultural immersion and daily challenges to create the world's calmest and most effective learning experience.",
-      mktAITitle: "Premium AI",
+        "We combine guided practice, cultural immersion and daily challenges to create the world's calmest and most effective learning experience.",
+      mktAITitle: "Guided Practice",
       mktAIDesc: "Smart corrections that respect your rhythm. No judgments, only progress.",
       mktAICta: "Try it now",
       mktCultureTitle: "Cultural Immersion",
@@ -306,7 +306,7 @@ const resources = {
       step1Desc: "Pick daily life or artistic topics that fit naturally into your current routine.",
       step2Title: "2. Speak Without Fear of Mistakes",
       step2Desc:
-        "Lume AI does not judge. It patiently waits for you to formulate ideas and offers gentle refinements.",
+        "Practice at your own pace with scenarios, examples and suggested replies. Repeat any step whenever you like.",
     },
     guest: {
       title: "Demo Mode",
@@ -408,7 +408,7 @@ const resources = {
     landing: {
       title: "Un compañero de conversación paciente, calmado y artístico.",
       subtitle:
-        "Lume es una sala de práctica guiada por IA, diseñada para ser un complemento pacífico y paciente para tus lecciones particulares.",
+        "Lume es una sala de práctica guiada, diseñada para acompañar tus lecciones particulares a tu ritmo.",
       ctaStart: "Comenzar a practicar",
       ctaTryFree: "Pruébalo gratis",
       testimonial: "Por fin una forma de practicar sin trabarse.",
@@ -416,9 +416,9 @@ const resources = {
       featureCalmTitle: "Tranquilidad y Enfoque",
       featureCalmDesc:
         "Sin presiones, temporizadores ansiosos o colores agresivos. Solo un espacio de estudio minimalista diseñado para tu paz mental.",
-      featureAITitle: "Inteligencia Empática",
+      featureAITitle: "Práctica Guiada",
       featureAIDesc:
-        "Nuestra IA comprende los matices de pronunciación y te ayuda pacientemente a expresarte de forma natural.",
+        "Practica situaciones cotidianas con frases de ejemplo, respuestas sugeridas y consejos de escritura.",
       featureCultureTitle: "Inmersión Cultural Real",
       featureCultureDesc:
         "Aprende a hablar de verdad descubriendo los secretos, la música y el alma de otros países.",
@@ -426,8 +426,8 @@ const resources = {
       whyTitle: "¿Por qué Lume?",
       mktSectionTitle: "Una plataforma completa para comunicarte con confianza.",
       mktSectionSubtitle:
-        "Combinamos IA empática, inmersión cultural y desafíos diarios para crear la experiencia de aprendizaje más tranquila y efectiva del mundo.",
-      mktAITitle: "IA Premium",
+        "Combinamos práctica guiada, inmersión cultural y desafíos diarios para aprender a tu ritmo.",
+      mktAITitle: "Práctica Guiada",
       mktAIDesc: "Correcciones inteligentes que respetan tu ritmo. Sin juicios, solo progresos.",
       mktAICta: "Probar ahora",
       mktCultureTitle: "Inmersión Cultural",
@@ -491,7 +491,7 @@ const resources = {
         "Selecciona temas cotidianos o de inmersión artística que tengan sentido en tu rutina actual.",
       step2Title: "2. Habla sin Miedo a Cometer Errores",
       step2Desc:
-        "Lume IA no juzga. Espera pacientemente a que formules tus ideas y ofrece refinamientos sutiles.",
+        "Practica a tu ritmo con situaciones, ejemplos y respuestas sugeridas. Puedes repetir cada paso.",
     },
     guest: {
       title: "Modo de Demostración",

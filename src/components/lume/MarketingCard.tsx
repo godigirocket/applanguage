@@ -61,7 +61,7 @@ export function MarketingCard({
           right: 0,
           width: "120px",
           height: "120px",
-          background: `radial-gradient(circle at 100% 0%, ${accentColor}18 0%, transparent 70%)`,
+          background: `radial-gradient(circle at 100% 0%, color-mix(in srgb, ${accentColor} 9%, transparent) 0%, transparent 70%)`,
           pointerEvents: "none",
         }}
       />
@@ -72,8 +72,8 @@ export function MarketingCard({
           width: "60px",
           height: "60px",
           borderRadius: "18px",
-          background: `${accentColor}15`,
-          border: `1.5px solid ${accentColor}30`,
+          background: `color-mix(in srgb, ${accentColor} 8%, transparent)`,
+          border: `1.5px solid color-mix(in srgb, ${accentColor} 19%, transparent)`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

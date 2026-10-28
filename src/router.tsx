@@ -13,7 +13,9 @@ export const getRouter = () => {
     // change — whichever won made pages open at an inconsistent scroll
     // position (sometimes still scrolled down from the previous page).
     scrollRestoration: false,
-    defaultPreloadStaleTime: 0,
+    defaultPreload: "intent",
+    defaultPreloadDelay: 80,
+    defaultPreloadStaleTime: 30_000,
   });
 
   return router;

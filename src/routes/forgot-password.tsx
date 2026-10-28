@@ -1,87 +1,182 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useClientReady } from "@/hooks/useClientReady";
+import { Mail, Send, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useStore } from "@/hooks/useStore";
+import { Logo } from "@/components/lume/Logo";
+import { withTimeout } from "@/lib/promise-timeout";
 
 export const Route = createFileRoute("/forgot-password")({
+  head: () => ({
+    meta: [
+      { title: "Recuperar senha - Lume" },
+      { name: "description", content: "Receba um link seguro para redefinir sua senha no Lume." },
+    ],
+  }),
   component: ForgotPassword,
 });
 
+function friendlyResetError(message: string, isPT: boolean) {
+  const lower = message.toLowerCase();
+  if (lower.includes("failed to fetch") || lower.includes("networkerror")) {
+    return isPT
+      ? "Nao consegui conectar ao servidor de recuperacao. Verifique sua conexão e tente novamente."
+      : uiFallback(
+          "Could not connect to the recovery server. Check your connection and try again.",
+        );
+  }
+  if (lower.includes("invalid") && lower.includes("email")) {
+    return isPT
+      ? "Use um email real e valido para receber o link."
+      : uiFallback("Use a real, valid email to receive the link.");
+  }
+  if (lower.includes("rate limit")) {
+    return isPT
+      ? "Muitas tentativas. Aguarde alguns minutos e tente de novo."
+      : uiFallback("Too many attempts. Wait a few minutes and try again.");
+  }
+  return message;
+}
+
 function ForgotPassword() {
+  const clientReady = useClientReady();
   const { interfaceLanguage } = useStore();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
   const isPT = interfaceLanguage === "pt";
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setError("");
     setLoading(true);
     const redirectTo =
-      typeof window !== "undefined" ? `${window.location.origin}/login` : undefined;
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-      redirectTo,
-    });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
+      typeof window !== "undefined" ? `${window.location.origin}/reset-password` : undefined;
+    try {
+      const { error: resetError } = await withTimeout(
+        supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+          redirectTo,
+        }),
+        8000,
+        "Auth request timeout",
+      );
+
+      if (resetError) {
+        const friendly = friendlyResetError(resetError.message, isPT);
+        setError(friendly);
+        toast.error(friendly);
+        return;
+      }
+
       setSent(true);
-      toast.success(isPT ? "Link enviado!" : "Link sent!");
+      toast.success(isPT ? "Link enviado!" : uiFallback("Link sent!"));
+    } catch (requestError) {
+      const message = requestError instanceof Error ? requestError.message : "Failed to fetch";
+      const friendly = friendlyResetError(message, isPT);
+      setError(friendly);
+      toast.error(friendly);
+    } finally {
+      setLoading(false);
     }
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "24px" }}>
-      <div style={{ width: "100%", maxWidth: "380px" }}>
-        <div style={{ textAlign: "center", marginBottom: "32px" }}>
-          <h1 style={{ fontSize: "28px", fontWeight: 900, color: "var(--brand)" }}>LangLume</h1>
-        </div>
+    <div className="lume-auth-page">
+      <div className="lume-auth-shell">
+        <section className="lume-auth-copy" aria-label="Lume">
+          <Logo size={64} />
+          <div className="lume-auth-kicker">
+            <Sparkles size={16} />
+            <span>{isPT ? "Acesso seguro" : uiFallback("Secure access")}</span>
+          </div>
+          <h1>
+            {isPT
+              ? "Recupere sua conta sem perder o ritmo."
+              : uiFallback("Recover your account without losing momentum.")}
+          </h1>
+          <p>
+            {isPT
+              ? "Enviamos um link seguro para o email cadastrado. Depois dele, voce cria uma nova senha."
+              : uiFallback(
+                  "We send a secure link to your account email. Then you create a new password.",
+                )}
+          </p>
+        </section>
 
-        <div style={{ background: "var(--card-bg)", borderRadius: "20px", padding: "32px 28px", boxShadow: "var(--shadow-soft)", border: "1px solid var(--border)" }}>
+        <section
+          className="lume-auth-card animated-container"
+          aria-label={isPT ? "Recuperar senha" : uiFallback("Reset password")}
+        >
           {!sent ? (
             <>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "4px" }}>
-                {isPT ? "Recuperar senha" : "Reset password"}
-              </h2>
-              <p style={{ fontSize: "13px", color: "var(--text-secondary)", marginBottom: "24px" }}>
-                {isPT ? "Enviaremos um link de recuperação" : "We'll send you a reset link"}
+              <h2>{isPT ? "Recuperar senha" : uiFallback("Reset password")}</h2>
+              <p>
+                {isPT
+                  ? "Digite o email da sua conta Lume."
+                  : uiFallback("Enter your Lume account email.")}
               </p>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }} aria-label={isPT ? "Recuperar senha" : "Reset password"}>
+
+              <form
+                onSubmit={handleSubmit}
+                className="lume-auth-form"
+                aria-label={isPT ? "Recuperar senha" : uiFallback("Reset password")}
+              >
                 <div>
-                  <label htmlFor="reset-email" style={{ fontSize: "12px", fontWeight: 700, color: "var(--text-secondary)", display: "block", marginBottom: "6px" }}>Email</label>
-                  <input
-                    id="reset-email"
-                    required type="email" placeholder="seu@email.com"
-                    value={email} onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: "100%", padding: "12px 14px", borderRadius: "10px", border: "1.5px solid var(--border)", background: "var(--surface-raised)", fontSize: "15px", outline: "none", color: "var(--text-primary)" }}
-                  />
+                  <label htmlFor="reset-email">Email</label>
+                  <div className="lume-auth-field">
+                    <Mail size={18} />
+                    <input
+                      id="reset-email"
+                      disabled={!clientReady}
+                      required
+                      type="email"
+                      autoComplete="email"
+                      placeholder="seu@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
                 </div>
-                <button type="submit" disabled={loading}
-                  style={{ width: "100%", padding: "13px", borderRadius: "10px", background: "linear-gradient(135deg, var(--brand), var(--brand-2))", color: "#fff", fontSize: "15px", fontWeight: 700, border: "none", cursor: "pointer", opacity: loading ? 0.7 : 1 }}>
-                  {loading ? "..." : isPT ? "Enviar link" : "Send link"}
+
+                {error && (
+                  <div role="alert" className="lume-auth-error">
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={!clientReady || loading}
+                  className="btn-gold lume-auth-submit"
+                >
+                  {loading ? "..." : isPT ? "Enviar link" : uiFallback("Send link")}{" "}
+                  {loading ? null : <Send size={18} />}
                 </button>
               </form>
             </>
           ) : (
             <div style={{ textAlign: "center", padding: "20px 0" }}>
-              <div style={{ fontSize: "48px", marginBottom: "16px" }}>✉️</div>
-              <h2 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text-primary)", marginBottom: "8px" }}>
-                {isPT ? "Verifique seu email" : "Check your email"}
-              </h2>
-              <p style={{ fontSize: "14px", color: "var(--text-secondary)" }}>
-                {isPT ? "Enviamos um link de recuperação para" : "We sent a reset link to"} <strong>{email}</strong>
+              <div className="lume-mail-success">
+                <Mail size={32} />
+              </div>
+              <h2>{isPT ? "Confira seu email" : uiFallback("Check your email")}</h2>
+              <p>
+                {isPT ? "Enviamos o link para" : uiFallback("We sent the link to")}{" "}
+                <strong>{email}</strong>
               </p>
             </div>
           )}
 
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <Link to="/login" style={{ fontSize: "13px", color: "var(--brand)", fontWeight: 600, textDecoration: "none" }}>
-              ← {isPT ? "Voltar ao login" : "Back to login"}
+          <div className="lume-auth-footer">
+            <Link to="/login" className="hover-underline">
+              {isPT ? "Voltar ao login" : uiFallback("Back to login")}
             </Link>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

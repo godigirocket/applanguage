@@ -3,6 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { useTranslation } from "react-i18next";
 import { Home, BookOpen, Play, Globe, User, MessageCircle } from "lucide-react";
 import { useStore } from "@/hooks/useStore";
+import { ViewportLayer } from "@/components/lume/ViewportLayer";
 
 export function BottomNav() {
   const router = useRouterState();
@@ -71,70 +72,72 @@ export function BottomNav() {
   if (!user) return null;
 
   return (
-    <nav
-      className="lume-mobile-tabs"
-      aria-label="Main navigation"
-      style={{
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        background: "var(--surface-raised)",
-        borderTop: "1px solid var(--border)",
-        display: "flex",
-        alignItems: "stretch",
-        height: "60px",
-        paddingBottom: "env(safe-area-inset-bottom)",
-        boxShadow: "0 -2px 20px rgba(0,0,0,0.05)",
-      }}
-    >
-      {NAV_ITEMS.map(({ href, label, Icon }) => {
-        const active = currentPath === href || (href !== "/home" && currentPath.startsWith(href));
-        return (
-          <Link
-            key={href}
-            to={href as any}
-            aria-current={active ? "page" : undefined}
-            style={{
-              flex: 1,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "3px",
-              textDecoration: "none",
-              color: active ? "var(--brand)" : "var(--text-secondary)",
-              fontSize: "10px",
-              fontWeight: active ? 800 : 600,
-              letterSpacing: "0.02em",
-              transition: "color 0.15s ease, transform 0.15s ease",
-              padding: "8px 4px 6px",
-              position: "relative",
-              WebkitTapHighlightColor: "transparent",
-              touchAction: "manipulation",
-              transform: active ? "scale(1)" : "scale(0.95)",
-            }}
-          >
-            {active && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: "25%",
-                  right: "25%",
-                  height: "3px",
-                  borderRadius: "0 0 6px 6px",
-                  background: "var(--brand)",
-                  transition: "all 0.2s ease",
-                }}
-              />
-            )}
-            <Icon />
-            <span style={{ lineHeight: 1, whiteSpace: "nowrap" }}>{label}</span>
-          </Link>
-        );
-      })}
-    </nav>
+    <ViewportLayer>
+      <nav
+        className="lume-mobile-tabs"
+        aria-label="Main navigation"
+        style={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          background: "var(--surface-raised)",
+          borderTop: "1px solid var(--border)",
+          display: "flex",
+          alignItems: "stretch",
+          height: "calc(60px + env(safe-area-inset-bottom, 0px))",
+          paddingBottom: "env(safe-area-inset-bottom)",
+          boxShadow: "0 -2px 20px rgba(0,0,0,0.05)",
+        }}
+      >
+        {NAV_ITEMS.map(({ href, label, Icon }) => {
+          const active = currentPath === href || (href !== "/home" && currentPath.startsWith(href));
+          return (
+            <Link
+              key={href}
+              to={href as any}
+              aria-current={active ? "page" : undefined}
+              style={{
+                flex: 1,
+                minWidth: 0,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "3px",
+                textDecoration: "none",
+                color: active ? "var(--brand)" : "var(--text-secondary)",
+                fontSize: "10px",
+                fontWeight: active ? 800 : 600,
+                letterSpacing: "0.02em",
+                transition: "color 0.15s ease, transform 0.15s ease",
+                padding: "8px 4px 6px",
+                position: "relative",
+                WebkitTapHighlightColor: "transparent",
+                touchAction: "manipulation",
+              }}
+            >
+              {active && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: "25%",
+                    right: "25%",
+                    height: "3px",
+                    borderRadius: "0 0 6px 6px",
+                    background: "var(--brand)",
+                    transition: "all 0.2s ease",
+                  }}
+                />
+              )}
+              <Icon />
+              <span className="lume-tab-label">{label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    </ViewportLayer>
   );
 }

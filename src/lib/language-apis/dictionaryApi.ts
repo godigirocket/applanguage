@@ -12,11 +12,16 @@ export interface DictionaryResult {
   partOfSpeech?: string;
   definition?: string;
   example?: string;
+  sourceUrl?: string;
+  licenseName?: string;
+  licenseUrl?: string;
 }
 
 interface RawDictionaryEntry {
   word: string;
   phonetic?: string;
+  sourceUrls?: string[];
+  license?: { name?: string; url?: string };
   phonetics?: Array<{ text?: string; audio?: string }>;
   meanings?: Array<{
     partOfSpeech?: string;
@@ -36,6 +41,7 @@ export async function fetchDictionaryEntry(word: string): Promise<DictionaryResu
     fetcher: async () => {
       const res = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(normalized)}`,
+        { signal: AbortSignal.timeout(3500) },
       );
       if (!res.ok) return null;
       const data = (await res.json()) as RawDictionaryEntry[];
@@ -53,6 +59,10 @@ export async function fetchDictionaryEntry(word: string): Promise<DictionaryResu
         partOfSpeech: meaning?.partOfSpeech,
         definition: definition?.definition,
         example: definition?.example,
+        sourceUrl: entry.sourceUrls?.find(url => url.startsWith("https://en.wiktionary.org/")),
+        licenseName: entry.license?.name,
+        licenseUrl: entry.license?.url?.startsWith("https://creativecommons.org/licenses/")
+          ? entry.license.url : undefined,
       };
     },
   });

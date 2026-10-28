@@ -1,6 +1,7 @@
+import { uiFallback } from "@/i18n/ui-fallback";
+import { accountKey } from "@/lib/account-storage";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { safeQuery, supabase } from "@/lib/supabase";
 import {
   saveConversation,
@@ -9,13 +10,13 @@ import {
   saveProgressSnapshot,
   addLocalXP,
   getLocalStreak,
-  safeGetProfile,
 } from "@/lib/db";
 import { useAuth } from "@/lib/auth";
+import { useProfile } from "@/hooks/useProfile";
 import { useStore } from "@/hooks/useStore";
 import { TOPIC_BY_SLUG, MOODS } from "@/lib/topics";
-import { lumeChat } from "@/lib/lume-ai.functions";
-import { getGoogleTTS } from "@/lib/tts.functions";
+import { guidedTurn } from "@/lib/guided-conversation";
+import { speak, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -38,13 +39,14 @@ import { TypingIndicator, MicPulseRing, StarBurst } from "@/components/lume/Anim
 import { DynamicIcon } from "@/components/lume/DynamicIcon";
 // @ts-ignore
 import confetti from "canvas-confetti";
-import { checkTables } from "@/lib/supabase-safe";
+import { getVocabularyForTopic } from "@/lib/language-content/vocabulary-engine";
+import type { LessonTopic } from "@/lib/language-content/types";
 
 export const Route = createFileRoute("/conversation/$topic")({
   head: ({ params }) => ({
     meta: [{ title: `${TOPIC_BY_SLUG[params.topic]?.title || "Conversation"} — Lume` }],
   }),
-  component: ConversationPage,
+  component: ConversationRoute,
 });
 
 const ENCOURAGEMENTS = [
@@ -55,19 +57,50 @@ const ENCOURAGEMENTS = [
   "You're braver than you think.",
 ];
 
+function ConversationRoute() {
+  const { topic } = Route.useParams();
+  const language = useStore((s) => s.targetLanguage);
+  const { user } = useAuth();
+  return <ConversationPage key={`${topic}:${language}:${user?.id || "guest"}`} />;
+}
+
 function ConversationPage() {
   const { topic: topicSlug } = Route.useParams();
   const { user, loading: authLoading } = useAuth();
   const nav = useNavigate();
   const t = TOPIC_BY_SLUG[topicSlug];
 
-  const chatFn = useServerFn(lumeChat);
-  const ttsFn = useServerFn(getGoogleTTS);
-
-  const { messages, addMessage, clearMessages, addXP, language, interfaceLanguage } = useStore();
+  const {
+    messages,
+    addMessage,
+    clearMessages,
+    addXP,
+    targetLanguage: language,
+    interfaceLanguage,
+  } = useStore();
   const isPT = interfaceLanguage === "pt";
+  const uiCopy = (pt: string, en: string, es: string) =>
+    interfaceLanguage === "pt" ? pt : interfaceLanguage === "es" ? es : en;
 
-  const [profile, setProfile] = useState<any>(null);
+  const { data: remoteProfile } = useProfile(user?.id);
+  const profile = useMemo<{
+    full_name?: string | null;
+    level?: string | null;
+    preferred_mood?: string | null;
+    language?: string | null;
+    xp?: number | null;
+    last_session_date?: string | null;
+  } | null>(
+    () =>
+      user
+        ? remoteProfile || {
+            full_name: user.email?.split("@")[0] || "Friend",
+            level: "beginner",
+            preferred_mood: "calm",
+          }
+        : null,
+    [remoteProfile, user?.id],
+  );
   const [activeMood, setActiveMood] = useState<any>("calm");
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,30 +109,37 @@ function ConversationPage() {
   const [isListening, setIsListening] = useState(false);
   const [isVoiceMode, setIsVoiceMode] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState<string | null>(null);
-  const [sessionStartTime] = useState(Date.now());
+  const sessionStartTime = useRef(Date.now());
+  const sessionEnded = useRef(false);
   const [sessionDuration, setSessionDuration] = useState(0);
   const [sessionXP, setSessionXP] = useState(0);
   const [sessionExpressions, setSessionExpressions] = useState(0);
   const [sessionSavedList, setSessionSavedList] = useState<string[]>([]);
   const [showEndModal, setShowEndModal] = useState(false);
   const [sessionSummary, setSessionSummary] = useState<any>(null);
-  const [showSetupBanner, setShowSetupBanner] = useState(false);
+  const [chatError, setChatError] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const rewardedAnswers = useRef(new Set<string>());
+  const savedExpressions = useRef(new Set<string>());
+  const greetingStarted = useRef(false);
+  const requestInFlight = useRef(false);
+  const recognitionRef = useRef<any>(null);
+  const activeRef = useRef(true);
   const [starBurstPos, setStarBurstPos] = useState<{ x: number; y: number } | null>(null);
 
   const [vocabulary, setVocabulary] = useState<{ word: string; translation: string }[]>([]);
   const [culturalTip, setCulturalTip] = useState("");
 
-  useEffect(() => {
-    async function verifyDatabase() {
-      const exists = await checkTables();
-      setShowSetupBanner(!exists);
-    }
-    verifyDatabase();
-  }, []);
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<any>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  useEffect(() => {
+    activeRef.current = true;
+    return () => {
+      activeRef.current = false;
+      recognitionRef.current?.abort();
+      stopSpeaking();
+    };
+  }, []);
 
   const [isMobile, setIsMobile] = useState(false);
 
@@ -114,75 +154,42 @@ function ConversationPage() {
   }, []);
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      nav({ to: "/login" });
+    if (authLoading) return;
+    if (!user) {
+      nav({ to: "/login", search: { redirect: `/conversation/${topicSlug}` }, replace: true });
       return;
     }
-    if (user) {
-      safeGetProfile(user.id).then((profileData) => {
-        const fallbackProfile = profileData || {
-          full_name: user.email?.split("@")[0] || "Friend",
-          level: "beginner",
-          preferred_mood: "calm",
-        };
-        setProfile(fallbackProfile);
-        if (fallbackProfile.preferred_mood) setActiveMood(fallbackProfile.preferred_mood);
-      });
-    }
     clearMessages();
+    greetingStarted.current = false;
+    setChatError(false);
 
-    // Fetch initial vocabulary and tip
+    // Curated topic resources are ready immediately and need no AI request.
     if (t) {
-      chatFn({
-        data: {
-          topic: t.title,
-          language: language as any,
-          level: "beginner",
-          studentName: "Student",
-          mood: "cultural",
-          messages: [
-            {
-              role: "user",
-              content: `(System: Generate 5 key vocabulary words with translations and 1 cultural tip for "${t.title}". Format JSON: { "vocab": [{"word": "word", "translation": "trad"}], "tip": "one sentence" })`,
-            },
-          ],
-        },
-      }).then((res) => {
-        try {
-          const match = res.reply.match(/\{[\s\S]*\}/);
-          const parsed = JSON.parse(match ? match[0] : res.reply);
-          setVocabulary(parsed.vocab || []);
-          setCulturalTip(parsed.tip || "");
-        } catch (e: any) {
-          console.warn("AI vocabulary parsing fell back to curated static list (non-fatal):", e.message || e);
-          const langKey = language === "pt" ? "pt" : "en";
-          const defaultVocab = (t.vocab?.[langKey as "pt" | "en"] || []).map((w, idx) => ({
-            word: w,
-            translation: langKey === "pt" ? (t.vocab?.en?.[idx] || "") : (t.vocab?.pt?.[idx] || ""),
-          }));
-          const defaultTip = t.culturalTip?.[langKey as "pt" | "en"] || "";
-          setVocabulary(defaultVocab);
-          setCulturalTip(defaultTip);
-        }
-      }).catch((err: any) => {
-        console.warn("AI vocabulary fetching fell back to curated static list (non-fatal):", err.message || err);
-        const langKey = language === "pt" ? "pt" : "en";
-        const defaultVocab = (t.vocab?.[langKey as "pt" | "en"] || []).map((w, idx) => ({
-          word: w,
-          translation: langKey === "pt" ? (t.vocab?.en?.[idx] || "") : (t.vocab?.pt?.[idx] || ""),
-        }));
-        const defaultTip = t.culturalTip?.[langKey as "pt" | "en"] || "";
-        setVocabulary(defaultVocab);
-        setCulturalTip(defaultTip);
-      });
+      const topicMap: Record<string, LessonTopic> = {
+        "daily-life": "daily",
+        "art-culture": "culture",
+        professional: "business",
+        "free-talk": "daily",
+        "speaking-confidence": "pronunciation",
+        "music-expression": "culture",
+        travel: "travel",
+        relationships: "family",
+      };
+      setVocabulary(
+        getVocabularyForTopic(topicMap[topicSlug] || "daily", language, {
+          count: 5,
+          interfaceLanguage,
+        }).map((word) => ({ word: word.term, translation: word.translation })),
+      );
+      setCulturalTip(language === "es" ? "" : t.culturalTip?.[language] || "");
     }
 
     timerRef.current = setInterval(() => {
-      setSessionDuration(Math.floor((Date.now() - sessionStartTime) / 1000));
+      setSessionDuration(Math.floor((Date.now() - sessionStartTime.current) / 1000));
     }, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, [user, authLoading, nav, topicSlug]);
+  }, [user?.id, authLoading, nav, topicSlug, language]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -190,40 +197,36 @@ function ConversationPage() {
 
   // 1. AUTO-GENERATED FIRST MESSAGE on mount
   useEffect(() => {
-    if (profile && messages.length === 0 && !isTyping) {
+    if (profile && messages.length === 0 && !greetingStarted.current) {
+      greetingStarted.current = true;
       generateFirstMessage();
     }
-  }, [profile]);
+  }, [profile, topicSlug, language, messages.length]);
 
-  async function playTTS(text: string) {
-    if (typeof window === "undefined" || isMuted) return;
-    const code = language === "pt" ? "pt-BR" : language === "es" ? "es-ES" : "en-US";
-    try {
-      const { audioContent } = await ttsFn({ data: { text, languageCode: code as any } });
-      if (audioContent) {
-        if (audioRef.current) audioRef.current.pause();
-        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-        audioRef.current = audio;
-        await audio.play();
-      } else {
-        // Fallback to browser SpeechSynthesis
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = code;
-        utter.rate = 0.9;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utter);
-      }
-    } catch (e) {
-      console.warn("Google TTS failed, falling back to native SpeechSynthesis:", e);
-      try {
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.lang = code;
-        utter.rate = 0.9;
-        window.speechSynthesis.cancel();
-        window.speechSynthesis.speak(utter);
-      } catch (err) {
-        console.error("Browser speech synthesis also failed:", err);
-      }
+  function playTTS(text: string) {
+    if (!activeRef.current || isMuted) return;
+    if (
+      !speak(text, language, {
+        rate: 0.9,
+        onError: () => {
+          if (activeRef.current)
+            setVoiceStatus(
+              isPT
+                ? "Não foi possível reproduzir a voz. Confira as vozes instaladas no aparelho e toque em Áudio novamente."
+                : uiFallback(
+                    "Voice playback is unavailable. Check your device voices and tap Audio again.",
+                  ),
+            );
+        },
+      })
+    ) {
+      setVoiceStatus(
+        isPT
+          ? "Este navegador não oferece leitura em voz alta. A prática por texto continua disponível."
+          : uiFallback(
+              "This browser does not support speech playback. You can still practice by typing.",
+            ),
+      );
     }
   }
 
@@ -232,7 +235,7 @@ function ConversationPage() {
     const studentName = (profile?.full_name || "Friend").slice(0, 80).trim() || "Friend";
 
     // 2. Normalize topic
-    const topic = (t?.title || "Free Talk").slice(0, 80).trim() || "Free Talk";
+    const topic = topicSlug;
 
     // 3. Normalize language
     const cleanLang = ["pt", "en", "es"].includes(language) ? language : "en";
@@ -245,20 +248,27 @@ function ConversationPage() {
     // 5. Normalize level (map "Beginner" -> "beginner", "Conversationalist"/"Explorer" -> "intermediate", etc.)
     const rawLevel = String(profile?.level || "beginner").toLowerCase();
     let cleanLevel: "beginner" | "intermediate" | "advanced" = "beginner";
-    if (rawLevel.includes("intermediate") || rawLevel.includes("explorer") || rawLevel.includes("conversationalist")) {
+    if (
+      rawLevel.includes("intermediate") ||
+      rawLevel.includes("explorer") ||
+      rawLevel.includes("conversationalist")
+    ) {
       cleanLevel = "intermediate";
-    } else if (rawLevel.includes("advanced") || rawLevel.includes("fluent") || rawLevel.includes("native")) {
+    } else if (
+      rawLevel.includes("advanced") ||
+      rawLevel.includes("fluent") ||
+      rawLevel.includes("native")
+    ) {
       cleanLevel = "advanced";
     }
 
-    // 6. Normalize messages: filter out empty messages, limit roles, slice to last 30, and truncate content
+    // Local progression needs the complete session, including steps before help.
     const cleanMessages = customMessages
       .filter((m) => m && m.content && String(m.content).trim())
       .map((m) => ({
         role: (m.role === "assistant" ? "assistant" : "user") as "user" | "assistant",
         content: String(m.content).slice(0, 4000),
-      }))
-      .slice(-30);
+      }));
 
     // Ensure at least one message is present
     if (cleanMessages.length === 0) {
@@ -276,32 +286,33 @@ function ConversationPage() {
   }
 
   async function generateFirstMessage() {
+    if (requestInFlight.current) return;
+    requestInFlight.current = true;
+    setChatError(false);
     setIsTyping(true);
     try {
-      const searchParams =
-        typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
-      const lessonPrompt = searchParams ? searchParams.get("prompt") : null;
-
-      const systemPrompt = lessonPrompt
-        ? `(System: This is a lesson practice session. Greet the user warmly and invite them to practice using the prompt: "${lessonPrompt}")`
-        : `(Greeting: Invite student to talk about ${t?.title || "anything"})`;
-
-      const requestData = getCleanChatData([{ role: "user", content: systemPrompt }]);
-
-      const res = await chatFn({ data: requestData });
+      const lessonPrompt = new URLSearchParams(window.location.search).get("prompt") || undefined;
+      const res = guidedTurn({ ...getCleanChatData([]), messages: [], prompt: lessonPrompt });
+      setSuggestions(res.suggestions);
+      if (!activeRef.current) return;
       setIsTyping(false);
       addMessage({ role: "assistant", content: res.reply });
       if (!isMuted) playTTS(res.reply);
     } catch (e) {
       setIsTyping(false);
-      console.error("generateFirstMessage failed:", e);
-      toast.error("Failed to start conversation.");
+      if (!activeRef.current) return;
+      console.warn("Conversation is temporarily unavailable.");
+      setChatError(true);
+    } finally {
+      requestInFlight.current = false;
     }
   }
 
   // 2. SEND MESSAGE function
   async function sendMessage(content: string) {
-    if (!content.trim() || isLoading) return;
+    if (!content.trim() || requestInFlight.current || isTyping) return;
+    requestInFlight.current = true;
+    setChatError(false);
 
     const userMsg = { role: "user" as const, content };
     addMessage(userMsg);
@@ -311,19 +322,28 @@ function ConversationPage() {
     try {
       const requestData = getCleanChatData([...messages, userMsg]);
 
-      const res = await chatFn({ data: requestData });
+      const res = guidedTurn(requestData);
+      setSuggestions(res.suggestions);
+      if (!activeRef.current) return;
       setIsLoading(false);
       addMessage({ role: "assistant", content: res.reply });
       if (!isMuted) playTTS(res.reply);
 
       // Award XP
-      const earned = 2;
-      setSessionXP((prev) => prev + earned);
-      addXP(earned);
+      const normalized = content.trim().toLocaleLowerCase();
+      if (res.earnsXP && !rewardedAnswers.current.has(normalized)) {
+        rewardedAnswers.current.add(normalized);
+        const earned = 2;
+        setSessionXP((prev) => prev + earned);
+        addXP(earned);
+      }
     } catch (e) {
       setIsLoading(false);
-      console.error("sendMessage failed:", e);
-      toast.error("Failed to get response.");
+      if (!activeRef.current) return;
+      console.warn("Conversation is temporarily unavailable.");
+      setChatError(true);
+    } finally {
+      requestInFlight.current = false;
     }
   }
 
@@ -332,13 +352,22 @@ function ConversationPage() {
     const SpeechRecognition =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     if (!SpeechRecognition) {
-      const message =
-        "Reconhecimento de voz nao disponivel neste navegador. Use o campo de texto ou teste em um navegador com suporte.";
+      const message = uiCopy(
+        "Reconhecimento de voz indisponível neste aparelho. Use o campo de texto.",
+        "Speech recognition is unavailable on this device. Use the text field.",
+        "El reconocimiento de voz no está disponible en este dispositivo. Usa el campo de texto.",
+      );
       setVoiceStatus(message);
       toast.error(message);
       return;
     }
+    if (recognitionRef.current) {
+      recognitionRef.current.abort();
+      recognitionRef.current = null;
+      return;
+    }
     const recognition = new SpeechRecognition();
+    recognitionRef.current = recognition;
     recognition.lang = language === "pt" ? "pt-BR" : language === "es" ? "es-ES" : "en-US";
     recognition.continuous = false;
     recognition.interimResults = true;
@@ -347,16 +376,31 @@ function ConversationPage() {
       setVoiceStatus(null);
       setIsListening(true);
     };
-    recognition.onend = () => setIsListening(false);
+    recognition.onend = () => {
+      recognitionRef.current = null;
+      setIsListening(false);
+    };
     recognition.onerror = (event: any) => {
       setIsListening(false);
       const errorType = event?.error;
       const message =
         errorType === "not-allowed" || errorType === "service-not-allowed"
-          ? "Permissao de microfone bloqueada. Ative o microfone no navegador e tente de novo."
+          ? uiCopy(
+              "Microfone bloqueado. Libere a permissão no navegador.",
+              "Microphone blocked. Allow access in your browser settings.",
+              "Micrófono bloqueado. Permite el acceso en los ajustes del navegador.",
+            )
           : errorType === "no-speech"
-            ? "Nao ouvi nada ainda. Tente falar mais perto do microfone."
-            : "Nao consegui iniciar a voz agora. Voce ainda pode digitar sua resposta.";
+            ? uiCopy(
+                "Não ouvi sua resposta. Fale mais perto do microfone.",
+                "I did not hear your reply. Speak closer to the microphone.",
+                "No he oído tu respuesta. Habla más cerca del micrófono.",
+              )
+            : uiCopy(
+                "Não foi possível iniciar a voz. Você pode digitar sua resposta.",
+                "Could not start speech recognition. You can type your reply.",
+                "No se pudo iniciar el reconocimiento. Puedes escribir tu respuesta.",
+              );
       setVoiceStatus(message);
       toast.error(message);
     };
@@ -374,7 +418,11 @@ function ConversationPage() {
     try {
       recognition.start();
     } catch {
-      const message = "A voz ja esta iniciando. Aguarde um instante e tente novamente.";
+      const message = uiCopy(
+        "Aguarde um instante antes de tentar novamente.",
+        "Wait a moment before trying again.",
+        "Espera un momento antes de volver a intentarlo.",
+      );
       setVoiceStatus(message);
       toast.message(message);
     }
@@ -386,10 +434,11 @@ function ConversationPage() {
       setStarBurstPos({ x, y });
     }
     const trimmed = messageContent.slice(0, 200);
+    if (savedExpressions.current.has(trimmed)) return;
+    savedExpressions.current.add(trimmed);
     const earned = 2;
     setSessionXP((prev) => prev + earned);
     addXP(earned);
-    addLocalXP(earned);
     setSessionExpressions((prev) => prev + 1);
     setSessionSavedList((prev) => [...prev, messageContent]);
 
@@ -405,7 +454,7 @@ function ConversationPage() {
         // Local storage backup
         const stored =
           typeof localStorage !== "undefined"
-            ? JSON.parse(localStorage.getItem("lume_saved_expressions") || "[]")
+            ? JSON.parse(localStorage.getItem(accountKey("lume_saved_expressions")) || "[]")
             : [];
         stored.push({
           expression: trimmed,
@@ -414,7 +463,7 @@ function ConversationPage() {
           created_at: new Date().toISOString(),
         });
         if (typeof localStorage !== "undefined") {
-          localStorage.setItem("lume_saved_expressions", JSON.stringify(stored));
+          localStorage.setItem(accountKey("lume_saved_expressions"), JSON.stringify(stored));
         }
         toast.success("Salvo localmente! +2 XP");
       } else {
@@ -423,7 +472,7 @@ function ConversationPage() {
     } else {
       const stored =
         typeof localStorage !== "undefined"
-          ? JSON.parse(localStorage.getItem("lume_saved_expressions") || "[]")
+          ? JSON.parse(localStorage.getItem(accountKey("lume_saved_expressions")) || "[]")
           : [];
       stored.push({
         expression: trimmed,
@@ -432,7 +481,7 @@ function ConversationPage() {
         created_at: new Date().toISOString(),
       });
       if (typeof localStorage !== "undefined") {
-        localStorage.setItem("lume_saved_expressions", JSON.stringify(stored));
+        localStorage.setItem(accountKey("lume_saved_expressions"), JSON.stringify(stored));
       }
       toast.success("Salvo localmente! +2 XP");
     }
@@ -440,9 +489,10 @@ function ConversationPage() {
 
   // 5. END SESSION — saves to DB, awards XP, shows modal
   async function endSession() {
-    const duration = Math.floor((Date.now() - sessionStartTime) / 1000);
-    const userMessages = messages.filter((m) => m.role === "user").length;
-    const xpEarned = Math.max(5, userMessages * 3 + sessionExpressions * 2);
+    if (sessionEnded.current) return;
+    sessionEnded.current = true;
+    const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+    const xpEarned = sessionXP;
 
     setSessionSummary({
       duration,
@@ -453,8 +503,7 @@ function ConversationPage() {
     setShowEndModal(true);
     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
 
-    // Always update local XP and streak
-    addXP(xpEarned);
+    // Replies and saved expressions already updated the visible wallet once.
     addLocalXP(xpEarned);
     getLocalStreak();
 
@@ -466,7 +515,7 @@ function ConversationPage() {
       await saveConversation(user.id, {
         topic_slug: topicSlug,
         topic_title: topicTitle,
-        language: profile?.language || language || "en",
+        language,
         mood: activeMood,
         messages: messages.map((m) => ({ role: m.role, content: m.content })),
         duration_seconds: duration,
@@ -474,10 +523,11 @@ function ConversationPage() {
       });
 
       // Award XP
-      const newXP = await awardXP(user.id, xpEarned, profile?.xp || 0);
+      const latest = await supabase.from("profiles").select("xp").eq("id", user.id).maybeSingle();
+      const newXP = await awardXP(user.id, xpEarned, latest.data?.xp ?? profile?.xp ?? 0);
 
       // Update streak
-      await updateStreak(user.id, profile?.last_session_date);
+      await updateStreak(user.id, profile?.last_session_date || null);
 
       // Save progress snapshot
       await saveProgressSnapshot(user.id, newXP);
@@ -519,12 +569,12 @@ function ConversationPage() {
               marginBottom: "12px",
             }}
           >
-            {isPT ? "Conversa não encontrada" : "Conversation not found"}
+            {isPT ? "Conversa não encontrada" : uiFallback("Conversation not found")}
           </h2>
           <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "24px" }}>
             {isPT
               ? "Este tópico de conversa não existe ou foi removido."
-              : "This conversation topic doesn't exist or was removed."}
+              : uiFallback("This conversation topic doesn't exist or was removed.")}
           </p>
           <button
             onClick={() => nav({ to: "/conversation/free-talk" as any })}
@@ -539,7 +589,7 @@ function ConversationPage() {
               cursor: "pointer",
             }}
           >
-            {isPT ? "← Ver tópicos de conversa" : "← See conversation topics"}
+            {isPT ? "← Ver tópicos de conversa" : uiFallback("← See conversation topics")}
           </button>
         </div>
       </div>
@@ -551,57 +601,44 @@ function ConversationPage() {
   const topicDescription = t?.description || "A relaxed space to talk about anything.";
 
   return (
-    <div style={{ background: "var(--bg)", minHeight: "100vh", position: "relative" }}>
+    <div className="lume-conversation-page">
       {starBurstPos && (
         <StarBurst x={starBurstPos.x} y={starBurstPos.y} onComplete={() => setStarBurstPos(null)} />
       )}
-      {showSetupBanner && (
+      {chatError && (
         <div
+          role="alert"
           style={{
-            background: "linear-gradient(135deg,#C4714A,#D4824A)",
-            padding: "12px 24px",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "16px",
-            flexWrap: "wrap",
-            boxShadow: "0 4px 14px rgba(196,113,74,0.25)",
-            position: "relative",
-            zIndex: 100,
+            padding: "16px 24px",
+            background: "var(--surface-raised)",
+            color: "var(--text-primary)",
+            borderBottom: "1px solid var(--border)",
           }}
         >
-          <div>
-            <span style={{ fontWeight: 800, fontSize: "14px", marginRight: "8px" }}>
-              Base de dados não configurada:
-            </span>
-            <span style={{ opacity: 0.85, fontSize: "13px" }}>
-              Execute o SQL no Supabase para ativar o salvamento automático das conversas.
-            </span>
-          </div>
-          <Link
-            to="/setup"
-            style={{
-              padding: "6px 14px",
-              borderRadius: "99px",
-              background: "rgba(255,255,255,0.2)",
-              color: "white",
-              textDecoration: "none",
-              fontSize: "12px",
-              fontWeight: 700,
-              border: "1px solid rgba(255,255,255,0.3)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            Configurar →
-          </Link>
+          <p>
+            {isPT
+              ? "A conversa está indisponível no momento. Tente novamente em instantes."
+              : uiFallback("Conversation is unavailable right now. Please try again shortly.")}
+          </p>
+          {messages.length === 0 && (
+            <button
+              type="button"
+              className="btn-gold"
+              disabled={isTyping}
+              onClick={generateFirstMessage}
+            >
+              {isPT ? "Tentar novamente" : uiFallback("Try again")}
+            </button>
+          )}
         </div>
       )}
       <div
+        className="lume-conversation-layout"
         style={{
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "260px 1fr 220px",
-          height: "calc(100vh - 64px)",
+          flex: 1,
+          minHeight: 0,
           gap: "0",
           overflow: "hidden",
         }}
@@ -642,7 +679,7 @@ function ConversationPage() {
                 marginBottom: "10px",
               }}
             >
-              Mood
+              {uiCopy("Estilo de prática", "Practice style", "Estilo de práctica")}
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
               {MOODS.map((mood) => (
@@ -758,6 +795,7 @@ function ConversationPage() {
 
         {/* CENTER — CHAT */}
         <div
+          className="lume-conversation-center"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -833,10 +871,15 @@ function ConversationPage() {
                   transition: "all 0.2s",
                 }}
               >
-                {isVoiceMode ? "Modo Chat" : "Voz Imersiva"}
+                {isVoiceMode
+                  ? uiCopy("Modo texto", "Text mode", "Modo texto")
+                  : uiCopy("Modo de voz", "Voice mode", "Modo de voz")}
               </button>
               <button
-                onClick={() => setIsMuted(!isMuted)}
+                onClick={() => {
+                  if (!isMuted) stopSpeaking();
+                  setIsMuted(!isMuted);
+                }}
                 style={{
                   width: "36px",
                   height: "36px",
@@ -866,7 +909,7 @@ function ConversationPage() {
                     fontWeight: 700,
                   }}
                 >
-                  End session
+                  {uiCopy("Encerrar sessão", "End session", "Terminar sesión")}
                 </button>
               )}
             </div>
@@ -920,7 +963,11 @@ function ConversationPage() {
                     marginBottom: "8px",
                   }}
                 >
-                  {isListening ? "● Listening" : isLoading ? "● Thinking" : "Hands-Free Call"}
+                  {isListening
+                    ? uiCopy("● Escutando", "● Listening", "● Escuchando")
+                    : isLoading
+                      ? uiCopy("● Preparando", "● Preparing", "● Preparando")
+                      : uiCopy("Prática por voz", "Voice practice", "Práctica por voz")}
                 </span>
 
                 <h2
@@ -934,7 +981,7 @@ function ConversationPage() {
                   {isListening
                     ? "Fale naturalmente"
                     : isLoading
-                      ? "Lume está elaborando..."
+                      ? "Preparando o próximo passo..."
                       : "Pronto para Conversar"}
                 </h2>
 
@@ -1174,7 +1221,10 @@ function ConversationPage() {
                         <Sparkles size={14} />
                       </div>
                     )}
-                    <div style={{ maxWidth: "72%" }}>
+                    <div
+                      data-testid={msg.role === "assistant" ? "practice-reply" : "practice-user"}
+                      style={{ maxWidth: "85%", minWidth: 0, overflowWrap: "anywhere" }}
+                    >
                       <div
                         style={{
                           padding: "14px 18px",
@@ -1233,7 +1283,7 @@ function ConversationPage() {
                               gap: "4px",
                             }}
                           >
-                            <Save size={12} /> Salvar
+                            <Save size={12} /> {uiCopy("Salvar", "Save", "Guardar")}
                           </button>
                         </div>
                       )}
@@ -1277,8 +1327,46 @@ function ConversationPage() {
                 <div ref={messagesEndRef} />
               </div>
 
+              <div
+                className="lume-conversation-suggestions"
+                style={{ padding: "12px 20px", borderTop: "1px solid var(--border)" }}
+              >
+                <p style={{ fontSize: 12, color: "var(--text-secondary)", marginBottom: 8 }}>
+                  {isPT
+                    ? "Prática guiada · cenários de conversa"
+                    : uiFallback("Guided practice · conversation scenarios")}
+                </p>
+                <div
+                  aria-label={isPT ? "Sugestões de resposta" : uiFallback("Suggested replies")}
+                  style={{ display: "flex", flexWrap: "wrap", gap: 8 }}
+                >
+                  {suggestions.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      onClick={() => sendMessage(suggestion)}
+                      disabled={isLoading}
+                      style={{
+                        padding: "8px 12px",
+                        maxWidth: "100%",
+                        textAlign: "left",
+                        overflowWrap: "anywhere",
+                        border: "1px solid var(--border)",
+                        borderRadius: 14,
+                        background: "var(--bg)",
+                        color: "var(--text-primary)",
+                        fontSize: 13,
+                        cursor: "pointer",
+                      }}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Input area */}
               <div
+                className="lume-conversation-composer"
                 style={{
                   padding: "16px 20px",
                   background: "var(--surface-raised)",
@@ -1295,16 +1383,22 @@ function ConversationPage() {
                   }}
                 >
                   {/* Mic button */}
-                  <div
-                    onClick={isListening || isLoading ? () => {} : startListening}
+                  <button
+                    type="button"
+                    aria-label={isPT ? "Falar resposta" : uiFallback("Speak your reply")}
+                    disabled={isLoading}
+                    onClick={startListening}
                     style={{
+                      border: "none",
+                      background: "transparent",
+                      padding: 0,
                       cursor: isLoading ? "not-allowed" : "pointer",
                       display: "flex",
                       justifyContent: "center",
                     }}
                   >
                     <MicPulseRing recording={isListening} size={72} />
-                  </div>
+                  </button>
                   <span
                     style={{
                       fontSize: "11px",
@@ -1314,7 +1408,15 @@ function ConversationPage() {
                       letterSpacing: "0.08em",
                     }}
                   >
-                    {isListening ? "● Recording" : isLoading ? "Thinking..." : "Tap to speak"}
+                    {isListening
+                      ? uiCopy("● Gravando", "● Recording", "● Grabando")
+                      : isLoading
+                        ? uiCopy(
+                            "Preparando resposta…",
+                            "Preparing a reply…",
+                            "Preparando respuesta…",
+                          )
+                        : uiCopy("Toque para falar", "Tap to speak", "Toca para hablar")}
                   </span>
                   {voiceStatus && (
                     <p
@@ -1337,10 +1439,13 @@ function ConversationPage() {
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage(input)}
-                      placeholder="Or type here..."
+                      placeholder={uiCopy("Ou digite aqui…", "Or type here…", "O escribe aquí…")}
+                      aria-label={isPT ? "Sua resposta" : uiFallback("Your reply")}
+                      maxLength={4000}
                       disabled={isLoading}
                       style={{
                         flex: 1,
+                        minWidth: 0,
                         padding: "12px 18px",
                         borderRadius: "99px",
                         border: "1.5px solid var(--border)",
@@ -1468,7 +1573,7 @@ function ConversationPage() {
                 letterSpacing: "0.05em",
               }}
             >
-              Earned so far
+              {uiCopy("Você ganhou", "Earned so far", "Has ganado")}
             </div>
           </div>
 
@@ -1485,7 +1590,7 @@ function ConversationPage() {
                 gap: "4px",
               }}
             >
-              <Save size={12} /> Salvos ({sessionExpressions})
+              <Save size={12} /> {uiCopy("Salvos", "Saved", "Guardados")} ({sessionExpressions})
             </p>
             {sessionSavedList.length === 0 ? (
               <p
@@ -1496,7 +1601,11 @@ function ConversationPage() {
                   padding: "8px",
                 }}
               >
-                Tap "Save" on any AI message
+                {uiCopy(
+                  "Toque em Salvar abaixo de uma frase.",
+                  "Tap Save below a phrase.",
+                  "Pulsa Guardar debajo de una frase.",
+                )}
               </p>
             ) : (
               sessionSavedList.slice(-3).map((exp, i) => (
@@ -1732,6 +1841,14 @@ function ConversationPage() {
                   onClick={() => {
                     setShowEndModal(false);
                     clearMessages();
+                    sessionEnded.current = false;
+                    sessionStartTime.current = Date.now();
+                    setSessionDuration(0);
+                    setSessionXP(0);
+                    setSessionExpressions(0);
+                    setSessionSavedList([]);
+                    rewardedAnswers.current.clear();
+                    savedExpressions.current.clear();
                     generateFirstMessage();
                   }}
                   style={{

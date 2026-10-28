@@ -1,10 +1,11 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
-import { getProfile } from "@/lib/db";
+import { useProfile } from "@/hooks/useProfile";
 import {
   Play,
   Star,
@@ -46,36 +47,39 @@ export const Route = createFileRoute("/home")({
 });
 
 // NO MORE STATIC GENERATION - Will use targetLanguage dynamically
-const TRENDING_CITIES = CITIES.slice(0, 8);
+const TRENDING_CITIES = CITIES.slice(0, 4);
 
 function HomePage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
   const { interfaceLanguage, xp, streak, targetLanguage, completedLessons, isKidAccount } =
     useStore();
-  const [profile, setProfile] = useState<any>(null);
-  const [loadingData, setLoadingData] = useState(true);
+  const { data: profile } = useProfile(user?.id);
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const isPT = interfaceLanguage === "pt";
+  const isES = interfaceLanguage === "es";
 
   // Generate content dynamically based on targetLanguage. generateLessons/
   // generateQuizzes are async because they dynamically import() only the
   // target language's lesson file instead of one bundle with all 3 languages.
   const [continueLearning, setContinueLearning] = useState<any[]>([]);
   const [dailyQuizzes, setDailyQuizzes] = useState<any[]>([]);
-  const CONTINUE_LEARNING = continueLearning;
-  const DAILY_QUIZZES = dailyQuizzes;
+  const CONTINUE_LEARNING = continueLearning.slice(0, 3);
+  const DAILY_QUIZZES = dailyQuizzes.slice(0, 2);
 
   useEffect(() => {
     let cancelled = false;
-    generateLessons(targetLanguage, 8, completedLessons).then((lessons) => {
-      if (!cancelled) setContinueLearning(lessons);
-    });
+    generateLessons(targetLanguage, Infinity, completedLessons, { kidMode: isKidAccount }).then(
+      (lessons) => {
+        if (!cancelled)
+          setContinueLearning(lessons.filter((lesson) => !lesson.completed).slice(0, 8));
+      },
+    );
     return () => {
       cancelled = true;
     };
-  }, [targetLanguage, completedLessons]);
+  }, [targetLanguage, completedLessons, isKidAccount]);
 
   useEffect(() => {
     let cancelled = false;
@@ -92,52 +96,7 @@ function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    if (!loading && !user) {
-      nav({ to: "/login" });
-      return;
-    }
-
-    async function loadHomeData() {
-      if (!user) return;
-      try {
-        // Add a 8-second timeout to prevent infinite loading on slow networks
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error("Profile load timeout")), 8000)
-        );
-        // Home only ever reads the profile row — it used to call
-        // getUserStats(), which also fetches every conversation (including
-        // full message transcripts) and every saved expression just to
-        // throw them away unused, sharing this same timeout budget.
-        const p = await Promise.race([getProfile(user.id), timeoutPromise]) as any;
-        if (p) {
-          setProfile(p);
-        }
-      } catch (e) {
-        console.error("[Home] Failed to load profile:", e);
-      } finally {
-        setLoadingData(false);
-      }
-    }
-
-    if (user) {
-      loadHomeData();
-    } else if (!loading) {
-      setLoadingData(false);
-    }
-  }, [user, loading, nav]);
-
-  // Safety timeout: never keep the loading state for more than 5 seconds
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (loadingData) {
-        setLoadingData(false);
-      }
-    }, 5000);
-    return () => clearTimeout(timeout);
-  }, [loadingData]);
-
-  if (loading || (!profile && loadingData)) {
+  if (loading) {
     return (
       <div
         style={{
@@ -160,13 +119,16 @@ function HomePage() {
               margin: "0 auto 16px",
             }}
           />
-          <p style={{ color: "var(--text-secondary)" }}>{isPT ? "Carregando..." : "Loading..."}</p>
+          <p style={{ color: "var(--text-secondary)" }}>
+            {isPT ? "Carregando..." : uiFallback("Loading...")}
+          </p>
         </div>
       </div>
     );
   }
 
-  const firstName = profile?.full_name?.split(" ")[0] || (isPT ? "Estudante" : "Learner");
+  const firstName =
+    profile?.full_name?.split(" ")[0] || (isPT ? "Estudante" : uiFallback("Learner"));
   const currentLevel = Math.floor(xp / 100) + 1;
   const xpToNextLevel = currentLevel * 100 - xp;
   const levelProgress = ((xp % 100) / 100) * 100;
@@ -174,9 +136,23 @@ function HomePage() {
 
   const getGreeting = () => {
     const hr = currentTime.getHours();
-    if (hr < 12) return isPT ? `Bom dia, ${firstName}!` : `Good morning, ${firstName}!`;
-    if (hr < 18) return isPT ? `Boa tarde, ${firstName}!` : `Good afternoon, ${firstName}!`;
-    return isPT ? `Boa noite, ${firstName}!` : `Good evening, ${firstName}!`;
+    if (hr < 12)
+      return isPT
+        ? `Bom dia, ${firstName}!`
+        : isES
+          ? `¡Buenos días, ${firstName}!`
+          : `Good morning, ${firstName}!`;
+    if (hr < 18)
+      return isPT
+        ? `Boa tarde, ${firstName}!`
+        : isES
+          ? `¡Buenas tardes, ${firstName}!`
+          : `Good afternoon, ${firstName}!`;
+    return isPT
+      ? `Boa noite, ${firstName}!`
+      : isES
+        ? `¡Buenas noches, ${firstName}!`
+        : `Good evening, ${firstName}!`;
   };
 
   const GreetingIcon = (() => {
@@ -188,6 +164,7 @@ function HomePage() {
 
   return (
     <div
+      className="lume-home-page"
       style={{
         minHeight: "100vh",
         background: "transparent",
@@ -195,7 +172,6 @@ function HomePage() {
         position: "relative",
       }}
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
@@ -214,6 +190,7 @@ function HomePage() {
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               <div
+                className="home-greeting-row"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -228,39 +205,57 @@ function HomePage() {
                     <GreetingIcon size={18} />
                   </span>
                 </div>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <h1
                     style={{
                       fontSize: "clamp(24px, 4vw, 36px)",
                       fontWeight: 900,
                       letterSpacing: "-0.02em",
                       margin: 0,
+                      overflowWrap: "anywhere",
                     }}
                   >
                     {getGreeting()}
                   </h1>
                   {streak > 0 && !isNewUser && (
                     <p style={{ fontSize: "15px", opacity: 0.9, marginTop: "4px", margin: 0 }}>
-                      {isPT ? "Continue assim! Voce esta arrasando." : "Keep it up! You're doing great."}
+                      {isPT
+                        ? "Continue assim! Voce esta arrasando."
+                        : uiFallback("Keep it up! You're doing great.")}
                     </p>
                   )}
                 </div>
               </div>
-              <p style={{ fontSize: "18px", opacity: 0.9, marginBottom: "32px" }}>
+              <p
+                className="home-greeting-description"
+                style={{ fontSize: "18px", opacity: 0.9, marginBottom: "32px" }}
+              >
                 {isNewUser
                   ? isPT
                     ? "Bem-vindo ao Lume! Comece sua jornada de aprendizado agora."
-                    : "Welcome to Lume! Start your learning journey now."
+                    : uiFallback("Welcome to Lume! Start your learning journey now.")
                   : isPT
                     ? "Continue sua jornada de aprendizado"
-                    : "Continue your learning journey"}
+                    : uiFallback("Continue your learning journey")}
               </p>
 
-              {/* Quick Stats — Duolingo-style bold pills */}
+              <Link
+                to={CONTINUE_LEARNING[0] ? "/lesson/$id" : "/lessons"}
+                params={{ id: CONTINUE_LEARNING[0]?.id ?? "" }}
+                className="btn-premium home-resume-action"
+              >
+                <Play size={18} />
+                {isPT ? "Continuar aprendendo" : uiFallback("Continue learning")}
+              </Link>
+
+              {/* Quick Stats — Duolingo-style bold pills. Fixed 2 cols: with exactly
+                  4 items, auto-fit leaves an orphan alone on its own row at some
+                  widths (e.g. 3 fit + 1 stranded). 2 cols always balances 2x2. */}
               <div
+                className="home-summary-stats"
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(min(100px, 100%), 1fr))",
+                  gridTemplateColumns: "repeat(2, 1fr)",
                   gap: "12px",
                   maxWidth: "500px",
                 }}
@@ -269,19 +264,19 @@ function HomePage() {
                   { icon: Star, label: "XP", value: xp.toLocaleString(), color: "#FFC200" },
                   {
                     icon: Flame,
-                    label: isPT ? "Ofensiva" : "Streak",
+                    label: isPT ? "Ofensiva" : uiFallback("Streak"),
                     value: `${streak}`,
                     color: "#FF6B35",
                   },
                   {
                     icon: Trophy,
-                    label: isPT ? "Nível" : "Level",
+                    label: isPT ? "Nível" : uiFallback("Level"),
                     value: currentLevel,
                     color: "#58CC02",
                   },
                   {
                     icon: Target,
-                    label: isPT ? "Lições" : "Lessons",
+                    label: isPT ? "Lições" : uiFallback("Lessons"),
                     value: `${completedLessons.length}`,
                     color: "#1CB0F6",
                   },
@@ -295,7 +290,9 @@ function HomePage() {
                     style={{ borderColor: `${stat.color}33`, borderBottomColor: `${stat.color}55` }}
                   >
                     <stat.icon size={22} color={stat.color} />
-                    <div className="stat-pill-value" style={{ color: stat.color }}>{stat.value}</div>
+                    <div className="stat-pill-value" style={{ color: stat.color }}>
+                      {stat.value}
+                    </div>
                     <div className="stat-pill-label">{stat.label}</div>
                   </motion.div>
                 ))}
@@ -311,7 +308,7 @@ function HomePage() {
                 >
                   <div className="streak-badge">
                     <Flame size={18} />
-                    {streak} {isPT ? "dias seguidos!" : "day streak!"}
+                    {streak} {isPT ? "dias seguidos!" : uiFallback("day streak!")}
                   </div>
                 </motion.div>
               )}
@@ -342,7 +339,9 @@ function HomePage() {
                     }}
                   >
                     <Target size={20} />
-                    {isPT ? "Comece em 3 passos simples" : "Get started in 3 simple steps"}
+                    {isPT
+                      ? "Comece em 3 passos simples"
+                      : uiFallback("Get started in 3 simple steps")}
                   </h3>
                   <ol
                     style={{
@@ -355,15 +354,17 @@ function HomePage() {
                     <li>
                       {isPT
                         ? "Escolha uma lição abaixo para praticar"
-                        : "Choose a lesson below to practice"}
+                        : uiFallback("Choose a lesson below to practice")}
                     </li>
                     <li>
-                      {isPT ? "Complete exercícios e ganhe XP" : "Complete exercises and earn XP"}
+                      {isPT
+                        ? "Complete exercícios e ganhe XP"
+                        : uiFallback("Complete exercises and earn XP")}
                     </li>
                     <li>
                       {isPT
                         ? "Explore jogos e cidades para aprender mais"
-                        : "Explore games and cities to learn more"}
+                        : uiFallback("Explore games and cities to learn more")}
                     </li>
                   </ol>
                 </motion.div>
@@ -394,10 +395,12 @@ function HomePage() {
                 </span>
                 <div>
                   <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--text-primary)" }}>
-                    {isPT ? "Trial Premium Ativo" : "Premium Trial Active"}
+                    {isPT ? "Trial Premium Ativo" : uiFallback("Premium Trial Active")}
                   </div>
                   <div style={{ fontSize: "12px", color: "var(--text-secondary)" }}>
-                    {isPT ? `Restam ${getTrialRemainingFormatted()} - acesso total!` : `${getTrialRemainingFormatted()} remaining - full access!`}
+                    {isPT
+                      ? `Restam ${getTrialRemainingFormatted()} - acesso total!`
+                      : `${getTrialRemainingFormatted()} remaining - full access!`}
                   </div>
                 </div>
               </div>
@@ -413,14 +416,17 @@ function HomePage() {
                   textDecoration: "none",
                 }}
               >
-                {isPT ? "Ver Planos" : "See Plans"}
+                {isPT ? "Ver Planos" : uiFallback("See Plans")}
               </Link>
             </div>
           </section>
         )}
 
-        {/* QUICK ACTIONS — the "what do I do now" answer, always visible above the fold */}
-        <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "24px 24px 0" }}>
+        {/* QUICK ACTIONS */}
+        <section
+          className="home-quick-actions"
+          style={{ maxWidth: "1400px", margin: "0 auto", padding: "24px 24px 0" }}
+        >
           <div
             style={{
               display: "grid",
@@ -431,20 +437,25 @@ function HomePage() {
             {[
               {
                 to: "/games",
-                label: isPT ? "Jogar" : "Play",
+                label: isPT ? "Jogar" : uiFallback("Play"),
                 Icon: Gamepad2,
                 color: "#58CC02",
               },
-              { to: "/culture", label: "Cultura", Icon: Globe, color: "#1CB0F6" },
+              {
+                to: "/culture",
+                label: isPT ? "Cultura" : isES ? "Cultura" : "Culture",
+                Icon: Globe,
+                color: "#1CB0F6",
+              },
               {
                 to: "/quiz-play/review",
-                label: isPT ? "Revisar" : "Review",
+                label: isPT ? "Revisar" : uiFallback("Review"),
                 Icon: Bookmark,
                 color: "#FFC200",
               },
               {
                 to: "/progress",
-                label: isPT ? "Progresso" : "Progress",
+                label: isPT ? "Progresso" : uiFallback("Progress"),
                 Icon: BarChart2,
                 color: "#AC5CF6",
               },
@@ -502,7 +513,7 @@ function HomePage() {
                 marginBottom: "16px",
               }}
             >
-              {isPT ? "Por onde você quer começar?" : "Where do you want to start?"}
+              {isPT ? "Por onde você quer começar?" : uiFallback("Where do you want to start?")}
             </h2>
             <div
               style={{
@@ -516,33 +527,37 @@ function HomePage() {
                   to: "/quiz-play/daily",
                   Icon: Coffee,
                   color: "var(--brand-yellow)",
-                  title: isPT ? "Palavras do dia a dia" : "Everyday words",
+                  title: isPT ? "Palavras do dia a dia" : uiFallback("Everyday words"),
                   desc: isPT
                     ? "Objetos e rotina, no seu ritmo."
-                    : "Objects and routine, at your pace.",
+                    : uiFallback("Objects and routine, at your pace."),
                 },
                 {
                   to: "/quiz/slang",
                   Icon: Sparkles,
                   color: "var(--brand-purple)",
-                  title: isPT ? "Gírias e expressões" : "Slang & expressions",
-                  desc: isPT ? "Como as pessoas falam de verdade." : "How people actually talk.",
+                  title: isPT ? "Gírias e expressões" : uiFallback("Slang & expressions"),
+                  desc: isPT
+                    ? "Como as pessoas falam de verdade."
+                    : uiFallback("How people actually talk."),
                 },
                 {
                   to: "/quiz-play/business",
                   Icon: Briefcase,
                   color: "var(--brand-blue)",
-                  title: isPT ? "Conversação formal" : "Formal conversation",
-                  desc: isPT ? "Trabalho, reuniões, e-mails." : "Work, meetings, emails.",
+                  title: isPT ? "Conversação formal" : uiFallback("Formal conversation"),
+                  desc: isPT
+                    ? "Trabalho, reuniões, e-mails."
+                    : uiFallback("Work, meetings, emails."),
                 },
                 {
                   to: "/quiz-play/travel",
                   Icon: Plane,
                   color: "var(--brand-green)",
-                  title: isPT ? "Viagem e cultura" : "Travel & culture",
+                  title: isPT ? "Viagem e cultura" : uiFallback("Travel & culture"),
                   desc: isPT
                     ? "O essencial para se virar por aí."
-                    : "The essentials to get around.",
+                    : uiFallback("The essentials to get around."),
                 },
               ].map((track) => (
                 <Link
@@ -607,7 +622,7 @@ function HomePage() {
                 }}
               >
                 <Play size={28} color="var(--brand)" fill="var(--brand)" />
-                {isPT ? "Continue Aprendendo" : "Continue Learning"}
+                {isPT ? "Continue Aprendendo" : uiFallback("Continue Learning")}
               </h2>
               <Link
                 to="/lessons"
@@ -621,12 +636,13 @@ function HomePage() {
                   fontSize: "14px",
                 }}
               >
-                {isPT ? "Ver tudo" : "See all"}
+                {isPT ? "Ver tudo" : uiFallback("See all")}
                 <ChevronRight size={18} />
               </Link>
             </div>
 
             <div
+              className="home-lesson-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(min(280px, 100%), 1fr))",
@@ -634,13 +650,15 @@ function HomePage() {
               }}
             >
               {CONTINUE_LEARNING.map((lesson, i) => (
-                <motion.div
+                <motion.a
+                  href={`/lesson/${lesson.id}`}
+                  className="home-lesson-preview"
                   key={lesson.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.05 }}
                   whileHover={{ y: -4, scale: 1.02 }}
-                  onClick={() => nav({ to: `/lesson/${lesson.id}` as any })}
+
                   style={{
                     background: "var(--surface-raised)",
                     borderRadius: "16px",
@@ -760,12 +778,12 @@ function HomePage() {
                           }}
                         >
                           <CheckCircle size={16} color="#4CAF50" />
-                          {isPT ? "Completo" : "Completed"}
+                          {isPT ? "Completo" : uiFallback("Completed")}
                         </div>
                       )}
                     </div>
                   </div>
-                </motion.div>
+                </motion.a>
               ))}
             </div>
           </section>
@@ -810,7 +828,7 @@ function HomePage() {
                 }}
               >
                 <Globe size={28} color="var(--brand-blue)" />
-                {isPT ? "Explore Cidades" : "Explore Cities"}
+                {isPT ? "Explore Cidades" : uiFallback("Explore Cities")}
               </h2>
               <Link
                 to="/culture"
@@ -824,12 +842,13 @@ function HomePage() {
                   fontSize: "14px",
                 }}
               >
-                {isPT ? "Ver todas" : "See all"}
+                {isPT ? "Ver todas" : uiFallback("See all")}
                 <ChevronRight size={18} />
               </Link>
             </div>
 
             <div
+              className="home-city-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(min(160px, 100%), 1fr))",
@@ -837,13 +856,15 @@ function HomePage() {
               }}
             >
               {TRENDING_CITIES.map((city, i) => (
-                <motion.div
+                <motion.a
+                  href={`/culture/${city.id}`}
+                  className="home-city-preview"
                   key={city.id}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: i * 0.05 }}
                   whileHover={{ scale: 1.05 }}
-                  onClick={() => nav({ to: "/culture" })}
+
                   style={{
                     background: "var(--surface-raised)",
                     borderRadius: "16px",
@@ -877,9 +898,9 @@ function HomePage() {
                     {city.country}
                   </p>
                   <div style={{ fontSize: "14px", fontWeight: 900, color: "var(--brand)" }}>
-                    {city.content.toLocaleString()} {isPT ? "itens" : "items"}
+                    {city.content.toLocaleString()} {isPT ? "itens" : uiFallback("items")}
                   </div>
-                </motion.div>
+                </motion.a>
               ))}
             </div>
           </section>
@@ -905,11 +926,12 @@ function HomePage() {
                 }}
               >
                 <Zap size={28} color="var(--brand-yellow)" />
-                {isPT ? "Quiz Rápido" : "Quick Quizzes"}
+                {isPT ? "Quiz Rápido" : uiFallback("Quick Quizzes")}
               </h2>
             </div>
 
             <div
+              className="home-quiz-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(auto-fill, minmax(min(240px, 100%), 1fr))",
@@ -973,7 +995,7 @@ function HomePage() {
                     </h3>
 
                     <p style={{ fontSize: "14px", opacity: 0.9, marginBottom: "16px" }}>
-                      {quiz.questions} {isPT ? "questões" : "questions"}
+                      {quiz.questions} {isPT ? "questões" : uiFallback("questions")}
                     </p>
 
                     {quiz.bestScore && (
@@ -987,7 +1009,7 @@ function HomePage() {
                         }}
                       >
                         <Trophy size={14} />
-                        {isPT ? "Melhor:" : "Best:"} {quiz.bestScore}%
+                        {isPT ? "Melhor:" : uiFallback("Best:")} {quiz.bestScore}%
                       </div>
                     )}
                   </div>
@@ -995,7 +1017,6 @@ function HomePage() {
               ))}
             </div>
           </section>
-
         </main>
       </div>
 

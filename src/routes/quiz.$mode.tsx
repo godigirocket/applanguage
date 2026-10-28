@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import { useStore } from "@/hooks/useStore";
@@ -20,7 +21,7 @@ import {
   type UnifiedQuestion,
   type LessonTopic,
 } from "@/lib/language-content";
-import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
+import { speak, isTTSSupported, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { Mascot } from "@/components/lume/Mascot";
 
 function scenarioTopicForMode(mode: string): LessonTopic {
@@ -113,6 +114,7 @@ function QuizPage() {
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
+  useEffect(() => () => stopSpeaking(), [currentIdx]);
   const [score, setScore] = useState(0);
   const [qStreak, setQStreak] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -307,7 +309,11 @@ function QuizPage() {
                 marginBottom: "8px",
               }}
             >
-              {isPT ? "Treino Concluído!" : isES ? "¡Entrenamiento Completado!" : "Training Complete!"}
+              {isPT
+                ? "Treino Concluído!"
+                : isES
+                  ? "¡Entrenamiento Completado!"
+                  : "Training Complete!"}
             </h2>
             <p
               style={{
@@ -442,7 +448,11 @@ function QuizPage() {
 
           <div style={{ textAlign: "center", margin: "12px 0" }}>
             <h1 style={{ fontSize: "24px", fontWeight: 800, color: "var(--text-primary)" }}>
-              {isPT ? "Pratique a Pronúncia" : isES ? "Practica la Pronunciación" : "Practice Pronunciation"}
+              {isPT
+                ? "Pratique a Pronúncia"
+                : isES
+                  ? "Practica la Pronunciación"
+                  : "Practice Pronunciation"}
             </h1>
             <p style={{ fontSize: "14.5px", color: "var(--text-secondary)", marginTop: "4px" }}>
               {isPT
@@ -579,12 +589,14 @@ function QuizPage() {
       >
         <BookX size={40} style={{ color: "var(--muted)" }} />
         <h1 style={{ fontSize: "20px", fontWeight: 800, color: "var(--text)" }}>
-          {isPT ? "Ainda não há quiz para este idioma" : "No quiz content for this language yet"}
+          {isPT
+            ? "Ainda não há quiz para este idioma"
+            : uiFallback("No quiz content for this language yet")}
         </h1>
         <p style={{ color: "var(--muted)", maxWidth: "360px" }}>
           {isPT
             ? "Tente o modo Quiz na aba de Jogos, que já cobre este idioma."
-            : "Try Quiz mode from the Games tab — it already covers this language."}
+            : uiFallback("Try Quiz mode from the Games tab — it already covers this language.")}
         </p>
         <button
           onClick={exitQuiz}
@@ -598,7 +610,7 @@ function QuizPage() {
             cursor: "pointer",
           }}
         >
-          {isPT ? "Voltar" : "Go back"}
+          {isPT ? "Voltar" : uiFallback("Go back")}
         </button>
       </div>
     );
@@ -621,8 +633,6 @@ function QuizPage() {
         position: "relative",
       }}
     >
-      
-
       {/* Top bar — the bar itself is full-bleed (background/border), but its
           contents are capped at the same width as the question card below.
           Left unconstrained, the progress bar and hearts stretched edge to
@@ -637,95 +647,95 @@ function QuizPage() {
           position: "relative",
         }}
       >
-      <div
-        style={{
-          maxWidth: "640px",
-          margin: "0 auto",
-          padding: "16px 24px",
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-        }}
-      >
-        <button
-          onClick={exitQuiz}
-          style={{
-            width: "36px",
-            height: "36px",
-            borderRadius: "50%",
-            background: "var(--surface)",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          ✕
-        </button>
-
-        {/* Progress bar — thick, colorful */}
         <div
           style={{
-            flex: 1,
-            height: "16px",
-            background: "var(--border)",
-            borderRadius: "99px",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              height: "100%",
-              background: "linear-gradient(90deg, var(--brand), var(--brand-2))",
-              borderRadius: "99px",
-              width: effectiveMode === "streak" ? "100%" : `${(currentIdx / totalQ) * 100}%`,
-              transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-              boxShadow: "0 0 8px rgba(255,122,69,0.4)",
-            }}
-          />
-        </div>
-
-        {/* Streak counter */}
-        <div
-          style={{
+            maxWidth: "640px",
+            margin: "0 auto",
+            padding: "16px 24px",
             display: "flex",
             alignItems: "center",
-            gap: "4px",
-            padding: "6px 12px",
-            borderRadius: "99px",
-            background: qStreak >= 3 ? "rgba(255,107,53,0.1)" : "var(--surface)",
-            border: qStreak >= 3 ? "1px solid rgba(255,107,53,0.3)" : "1px solid var(--border)",
+            gap: "16px",
           }}
         >
-          <span style={{ fontSize: "16px" }}>🔥</span>
-          <span
+          <button
+            onClick={exitQuiz}
             style={{
-              fontWeight: 800,
-              fontSize: "15px",
-              color: qStreak >= 3 ? "#FF6B35" : "var(--text-secondary)",
+              width: "36px",
+              height: "36px",
+              borderRadius: "50%",
+              background: "var(--surface)",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {qStreak}
-          </span>
-        </div>
+            ✕
+          </button>
 
-        {/* Hearts (lives) */}
-        <div style={{ display: "flex", gap: "2px" }}>
-          {[1, 2, 3].map((i) => (
-            <span
-              key={i}
+          {/* Progress bar — thick, colorful */}
+          <div
+            style={{
+              flex: 1,
+              height: "16px",
+              background: "var(--border)",
+              borderRadius: "99px",
+              overflow: "hidden",
+            }}
+          >
+            <div
               style={{
-                fontSize: "20px",
-                filter: i > lives ? "grayscale(100%)opacity(0.3)" : "none",
+                height: "100%",
+                background: "linear-gradient(90deg, var(--brand), var(--brand-2))",
+                borderRadius: "99px",
+                width: effectiveMode === "streak" ? "100%" : `${(currentIdx / totalQ) * 100}%`,
+                transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
+                boxShadow: "0 0 8px rgba(255,122,69,0.4)",
+              }}
+            />
+          </div>
+
+          {/* Streak counter */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              padding: "6px 12px",
+              borderRadius: "99px",
+              background: qStreak >= 3 ? "rgba(255,107,53,0.1)" : "var(--surface)",
+              border: qStreak >= 3 ? "1px solid rgba(255,107,53,0.3)" : "1px solid var(--border)",
+            }}
+          >
+            <span style={{ fontSize: "16px" }}>🔥</span>
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: "15px",
+                color: qStreak >= 3 ? "#FF6B35" : "var(--text-secondary)",
               }}
             >
-              ❤️
+              {qStreak}
             </span>
-          ))}
+          </div>
+
+          {/* Hearts (lives) */}
+          <div style={{ display: "flex", gap: "2px" }}>
+            {[1, 2, 3].map((i) => (
+              <span
+                key={i}
+                style={{
+                  fontSize: "20px",
+                  filter: i > lives ? "grayscale(100%)opacity(0.3)" : "none",
+                }}
+              >
+                ❤️
+              </span>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
 
       {/* Question area */}
@@ -765,199 +775,200 @@ function QuizPage() {
             boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
           }}
         >
-        {/* Category + level badges */}
-        <div style={{ display: "flex", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
-          <span
+          {/* Category + level badges */}
+          <div style={{ display: "flex", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
+            <span
+              style={{
+                padding: "5px 12px",
+                borderRadius: "99px",
+                background: "rgba(255,122,69,0.1)",
+                color: "var(--accent-green)",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
+              {q.category}
+            </span>
+            <span
+              style={{
+                padding: "5px 12px",
+                borderRadius: "99px",
+                background:
+                  q.level === "advanced"
+                    ? "rgba(196,113,74,0.1)"
+                    : q.level === "intermediate"
+                      ? "rgba(27,58,75,0.1)"
+                      : "rgba(74,122,90,0.1)",
+                color:
+                  q.level === "advanced"
+                    ? "var(--accent-terra)"
+                    : q.level === "intermediate"
+                      ? "#2f80ed"
+                      : "#4A7A5A",
+                fontSize: "12px",
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
+              {q.level}
+            </span>
+            <span
+              style={{
+                padding: "5px 12px",
+                borderRadius: "99px",
+                background: "rgba(201,168,76,0.1)",
+                color: "#C9A84C",
+                fontSize: "12px",
+                fontWeight: 700,
+              }}
+            >
+              +{q.xp} XP
+            </span>
+          </div>
+
+          {/* Question text — large, beautiful */}
+          <h1
             style={{
-              padding: "5px 12px",
-              borderRadius: "99px",
-              background: "rgba(255,122,69,0.1)",
-              color: "var(--accent-green)",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.05em",
-              textTransform: "uppercase",
+              fontFamily: "Nunito, sans-serif",
+              fontSize: "clamp(22px,3.5vw,32px)",
+              color: "var(--text-primary)",
+              lineHeight: 1.4,
+              marginBottom: q.audioText ? "16px" : "36px",
+              fontWeight: 600,
             }}
           >
-            {q.category}
-          </span>
-          <span
-            style={{
-              padding: "5px 12px",
-              borderRadius: "99px",
-              background:
-                q.level === "advanced"
-                  ? "rgba(196,113,74,0.1)"
-                  : q.level === "intermediate"
-                    ? "rgba(27,58,75,0.1)"
-                    : "rgba(74,122,90,0.1)",
-              color:
-                q.level === "advanced"
-                  ? "var(--accent-terra)"
-                  : q.level === "intermediate"
-                    ? "#2f80ed"
-                    : "#4A7A5A",
-              fontSize: "12px",
-              fontWeight: 700,
-              letterSpacing: "0.05em",
-              textTransform: "uppercase",
-            }}
-          >
-            {q.level}
-          </span>
-          <span
-            style={{
-              padding: "5px 12px",
-              borderRadius: "99px",
-              background: "rgba(201,168,76,0.1)",
-              color: "#C9A84C",
-              fontSize: "12px",
-              fontWeight: 700,
-            }}
-          >
-            +{q.xp} XP
-          </span>
-        </div>
+            {q.question}
+          </h1>
 
-        {/* Question text — large, beautiful */}
-        <h1
-          style={{
-            fontFamily: "Nunito, sans-serif",
-            fontSize: "clamp(22px,3.5vw,32px)",
-            color: "var(--text-primary)",
-            lineHeight: 1.4,
-            marginBottom: q.audioText ? "16px" : "36px",
-            fontWeight: 600,
-          }}
-        >
-          {q.question}
-        </h1>
+          {q.audioText && isTTSSupported() && (
+            <button
+              onClick={() => speak(q.audioText!, targetLanguage)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "14px 20px",
+                borderRadius: "16px",
+                background: "var(--surface-raised)",
+                border: "2px solid var(--brand)",
+                color: "var(--brand)",
+                fontWeight: 700,
+                fontSize: "15px",
+                cursor: "pointer",
+                marginBottom: "28px",
+              }}
+            >
+              <Volume2 size={20} />
+              {isPT ? "Ouvir novamente" : isES ? "Escuchar de nuevo" : "Play audio"}
+            </button>
+          )}
 
-        {q.audioText && isTTSSupported() && (
-          <button
-            onClick={() => speak(q.audioText!, targetLanguage)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              padding: "14px 20px",
-              borderRadius: "16px",
-              background: "var(--surface-raised)",
-              border: "2px solid var(--brand)",
-              color: "var(--brand)",
-              fontWeight: 700,
-              fontSize: "15px",
-              cursor: "pointer",
-              marginBottom: "28px",
-            }}
-          >
-            <Volume2 size={20} />
-            {isPT ? "Ouvir novamente" : isES ? "Escuchar de nuevo" : "Play audio"}
-          </button>
-        )}
+          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+            {(q.options || []).map((option, i) => {
+              const state = isAnswered
+                ? option === q.correct
+                  ? "correct"
+                  : option === selected
+                    ? "wrong"
+                    : "neutral"
+                : "default";
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-          {(q.options || []).map((option, i) => {
-            const state = isAnswered
-              ? option === q.correct
-                ? "correct"
-                : option === selected
-                  ? "wrong"
-                  : "neutral"
-              : "default";
-
-            return (
-              <motion.button
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.05 + i * 0.06 }}
-                whileHover={!isAnswered ? { scale: 1.015 } : {}}
-                whileTap={!isAnswered ? { scale: 0.98 } : {}}
-                onClick={() => !isAnswered && handleAnswer(option)}
-                style={{
-                  padding: "18px 24px",
-                  borderRadius: "16px",
-                  textAlign: "left",
-                  fontSize: "16px",
-                  cursor: isAnswered ? "default" : "pointer",
-                  fontFamily: '"DM Sans", sans-serif',
-                  fontWeight: 500,
-                  border:
-                    state === "correct"
-                      ? "2px solid #4A7A5A"
-                      : state === "wrong"
-                        ? "2px solid #C4714A"
-                        : "2px solid var(--border)",
-                  background:
-                    state === "correct"
-                      ? "rgba(74,122,90,0.1)"
-                      : state === "wrong"
-                        ? "rgba(196,113,74,0.1)"
-                        : "var(--surface-raised)",
-                  color:
-                    state === "correct"
-                      ? "var(--accent-green)"
-                      : state === "wrong"
-                        ? "var(--accent-terra)"
-                        : "var(--text-primary)",
-                  boxShadow:
-                    state === "correct"
-                      ? "0 4px 16px rgba(74,122,90,0.2)"
-                      : state === "wrong"
-                        ? "0 4px 16px rgba(196,113,74,0.2)"
-                        : "0 2px 8px rgba(0,0,0,0.05)",
-                  animation:
-                    state === "correct"
-                      ? "correctPulse 0.4s ease"
-                      : state === "wrong"
-                        ? "wrongShake 0.4s ease"
-                        : "none",
-                  transition: "all 0.2s",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <span>{option}</span>
-                {state === "correct" && <span style={{ fontSize: "20px" }}>✅</span>}
-                {state === "wrong" && <span style={{ fontSize: "20px" }}>❌</span>}
-              </motion.button>
-            );
-          })}
-        </div>
-
-        {/* Explanation card — appears after answer */}
-        {isAnswered && (
-          <div
-            style={{
-              marginTop: "20px",
-              padding: "20px",
-              borderRadius: "16px",
-              background: selected === q.correct ? "rgba(34,197,94,0.08)" : "rgba(196,113,74,0.08)",
-              border: `1px solid ${selected === q.correct ? "rgba(34,197,94,0.25)" : "rgba(196,113,74,0.2)"}`,
-              animation: "bounceIn 0.4s ease",
-            }}
-          >
-            <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-              <Mascot state={selected === q.correct ? "celebrating" : "wrong"} size={40} />
-              <div>
-                <div
+              return (
+                <motion.button
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.05 + i * 0.06 }}
+                  whileHover={!isAnswered ? { scale: 1.015 } : {}}
+                  whileTap={!isAnswered ? { scale: 0.98 } : {}}
+                  onClick={() => !isAnswered && handleAnswer(option)}
                   style={{
-                    fontWeight: 700,
-                    marginBottom: "4px",
-                    color: selected === q.correct ? "var(--accent-green)" : "var(--accent-terra)",
+                    padding: "18px 24px",
+                    borderRadius: "16px",
+                    textAlign: "left",
+                    fontSize: "16px",
+                    cursor: isAnswered ? "default" : "pointer",
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontWeight: 500,
+                    border:
+                      state === "correct"
+                        ? "2px solid #4A7A5A"
+                        : state === "wrong"
+                          ? "2px solid #C4714A"
+                          : "2px solid var(--border)",
+                    background:
+                      state === "correct"
+                        ? "rgba(74,122,90,0.1)"
+                        : state === "wrong"
+                          ? "rgba(196,113,74,0.1)"
+                          : "var(--surface-raised)",
+                    color:
+                      state === "correct"
+                        ? "var(--accent-green)"
+                        : state === "wrong"
+                          ? "var(--accent-terra)"
+                          : "var(--text-primary)",
+                    boxShadow:
+                      state === "correct"
+                        ? "0 4px 16px rgba(74,122,90,0.2)"
+                        : state === "wrong"
+                          ? "0 4px 16px rgba(196,113,74,0.2)"
+                          : "0 2px 8px rgba(0,0,0,0.05)",
+                    animation:
+                      state === "correct"
+                        ? "correctPulse 0.4s ease"
+                        : state === "wrong"
+                          ? "wrongShake 0.4s ease"
+                          : "none",
+                    transition: "all 0.2s",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
                   }}
                 >
-                  {selected === q.correct ? "Correct!" : "Not quite — here's why:"}
-                </div>
-                <div style={{ fontSize: "14px", color: "var(--text-primary)", lineHeight: 1.6 }}>
-                  {q.explanation}
+                  <span>{option}</span>
+                  {state === "correct" && <span style={{ fontSize: "20px" }}>✅</span>}
+                  {state === "wrong" && <span style={{ fontSize: "20px" }}>❌</span>}
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Explanation card — appears after answer */}
+          {isAnswered && (
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "20px",
+                borderRadius: "16px",
+                background:
+                  selected === q.correct ? "rgba(34,197,94,0.08)" : "rgba(196,113,74,0.08)",
+                border: `1px solid ${selected === q.correct ? "rgba(34,197,94,0.25)" : "rgba(196,113,74,0.2)"}`,
+                animation: "bounceIn 0.4s ease",
+              }}
+            >
+              <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+                <Mascot state={selected === q.correct ? "celebrating" : "wrong"} size={40} />
+                <div>
+                  <div
+                    style={{
+                      fontWeight: 700,
+                      marginBottom: "4px",
+                      color: selected === q.correct ? "var(--accent-green)" : "var(--accent-terra)",
+                    }}
+                  >
+                    {selected === q.correct ? "Correct!" : "Not quite — here's why:"}
+                  </div>
+                  <div style={{ fontSize: "14px", color: "var(--text-primary)", lineHeight: 1.6 }}>
+                    {q.explanation}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
 

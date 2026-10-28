@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 /**
  * 24-HOUR FREE TRIAL SYSTEM
  * 
@@ -11,14 +12,14 @@ const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 export function startTrial(): void {
   if (typeof window === "undefined") return;
-  if (!localStorage.getItem(TRIAL_KEY)) {
-    localStorage.setItem(TRIAL_KEY, Date.now().toString());
+  if (!localStorage.getItem(accountKey(TRIAL_KEY))) {
+    localStorage.setItem(accountKey(TRIAL_KEY), Date.now().toString());
   }
 }
 
 export function getTrialStartTime(): number | null {
   if (typeof window === "undefined") return null;
-  const raw = localStorage.getItem(TRIAL_KEY);
+  const raw = localStorage.getItem(accountKey(TRIAL_KEY));
   return raw ? parseInt(raw, 10) : null;
 }
 

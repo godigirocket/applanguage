@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AppHeader } from "@/components/lume/AppHeader";
@@ -69,13 +70,8 @@ const DEFAULT_CATEGORY_STYLE = { color: "var(--brand)", icon: Book };
 function LessonsPage() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
-  const {
-    interfaceLanguage,
-    targetLanguage,
-    completedLessons,
-    learningLevel,
-    isKidAccount,
-  } = useStore();
+  const { interfaceLanguage, targetLanguage, completedLessons, learningLevel, isKidAccount } =
+    useStore();
   const { userLevel } = useUserStore();
   const [initialFilters] = useState(() => {
     if (typeof window === "undefined") return null;
@@ -88,9 +84,13 @@ function LessonsPage() {
   });
   const [searchQuery, setSearchQuery] = useState(initialFilters?.searchQuery || "");
   const [selectedLevel, setSelectedLevel] = useState(initialFilters?.selectedLevel || "All");
-  const [selectedCategory, setSelectedCategory] = useState(initialFilters?.selectedCategory || "all");
+  const [selectedCategory, setSelectedCategory] = useState(
+    initialFilters?.selectedCategory || "all",
+  );
   const [showFilters, setShowFilters] = useState(false);
-  const [levelFilterExplicit, setLevelFilterExplicit] = useState(Boolean(initialFilters?.selectedLevel));
+  const [levelFilterExplicit, setLevelFilterExplicit] = useState(
+    Boolean(initialFilters?.selectedLevel),
+  );
   const PAGE_SIZE = 30;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
@@ -144,18 +144,21 @@ function LessonsPage() {
     generateLessons(targetLanguage, Infinity, completedLessons, {
       progressiveLock: true,
       startLevel,
-    }).then((lessons) => {
-      if (!cancelled) {
-        setLessonsInTargetLanguage(lessons);
-        setLessonsLoading(false);
-      }
-    }).catch(() => {
-      if (!cancelled) setLessonsLoading(false);
-    });
+      kidMode: isKidAccount,
+    })
+      .then((lessons) => {
+        if (!cancelled) {
+          setLessonsInTargetLanguage(lessons);
+          setLessonsLoading(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setLessonsLoading(false);
+      });
     return () => {
       cancelled = true;
     };
-  }, [targetLanguage, completedLessons, startLevel]);
+  }, [targetLanguage, completedLessons, startLevel, isKidAccount]);
 
   const contentCounts = {
     lessons: lessonsInTargetLanguage.length,
@@ -186,7 +189,7 @@ function LessonsPage() {
       toast.info(
         isPT
           ? "Complete a lição anterior para desbloquear esta."
-          : "Finish the previous lesson to unlock this one.",
+          : uiFallback("Finish the previous lesson to unlock this one."),
       );
       return;
     }
@@ -222,7 +225,9 @@ function LessonsPage() {
               margin: "0 auto 16px",
             }}
           />
-          <p style={{ color: "var(--text-secondary)" }}>{isPT ? "Carregando..." : "Loading..."}</p>
+          <p style={{ color: "var(--text-secondary)" }}>
+            {isPT ? "Carregando..." : uiFallback("Loading...")}
+          </p>
         </div>
       </div>
     );
@@ -243,7 +248,6 @@ function LessonsPage() {
       }}
       className="lume-lessons-page"
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
 
@@ -260,7 +264,10 @@ function LessonsPage() {
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
               {/* Language Selector */}
-              <div style={{ marginBottom: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
+              <div
+                className="lesson-language-options"
+                style={{ marginBottom: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}
+              >
                 <div
                   style={{
                     fontSize: "12px",
@@ -271,12 +278,24 @@ function LessonsPage() {
                     alignItems: "center",
                   }}
                 >
-                  {isPT ? "Estudando:" : "Studying:"}
+                  {isPT ? "Estudando:" : uiFallback("Studying:")}
                 </div>
                 {[
-                  { code: "en" as const, label: isPT ? "Inglês" : "English", Flag: FlagUS },
-                  { code: "es" as const, label: isPT ? "Espanhol" : "Spanish", Flag: FlagES },
-                  { code: "pt" as const, label: isPT ? "Português" : "Portuguese", Flag: FlagBR },
+                  {
+                    code: "en" as const,
+                    label: isPT ? "Inglês" : uiFallback("English"),
+                    Flag: FlagUS,
+                  },
+                  {
+                    code: "es" as const,
+                    label: isPT ? "Espanhol" : uiFallback("Spanish"),
+                    Flag: FlagES,
+                  },
+                  {
+                    code: "pt" as const,
+                    label: isPT ? "Português" : uiFallback("Portuguese"),
+                    Flag: FlagBR,
+                  },
                 ].map((lang) => (
                   <button
                     key={lang.code}
@@ -333,7 +352,7 @@ function LessonsPage() {
                     letterSpacing: "0.1em",
                   }}
                 >
-                  {isPT ? "CATÁLOGO COMPLETO" : "FULL CATALOG"}
+                  {isPT ? "CATÁLOGO COMPLETO" : uiFallback("FULL CATALOG")}
                 </span>
               </div>
 
@@ -361,11 +380,14 @@ function LessonsPage() {
               >
                 {isPT
                   ? "Do iniciante ao avançado. Vocabulário, gramática, listening e speaking."
-                  : "From beginner to advanced. Vocabulary, grammar, listening and speaking."}
+                  : uiFallback(
+                      "From beginner to advanced. Vocabulary, grammar, listening and speaking.",
+                    )}
               </p>
 
               {/* Quick Stats */}
               <div
+                className="lesson-summary-stats"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 120px), 1fr))",
@@ -376,25 +398,25 @@ function LessonsPage() {
                 {[
                   {
                     icon: Book,
-                    label: isPT ? "Lições" : "Lessons",
+                    label: isPT ? "Lições" : uiFallback("Lessons"),
                     value: contentCounts.lessons.toLocaleString(),
                     color: "#FFC200",
                   },
                   {
                     icon: Globe,
-                    label: isPT ? "Idiomas" : "Languages",
+                    label: isPT ? "Idiomas" : uiFallback("Languages"),
                     value: contentCounts.languages,
                     color: "#1CB0F6",
                   },
                   {
                     icon: Star,
-                    label: isPT ? "Níveis" : "Levels",
+                    label: isPT ? "Níveis" : uiFallback("Levels"),
                     value: contentCounts.levels,
                     color: "#2FBB52",
                   },
                   {
                     icon: Target,
-                    label: isPT ? "Categorias" : "Categories",
+                    label: isPT ? "Categorias" : uiFallback("Categories"),
                     value: contentCounts.categories,
                     color: "#AC5CF6",
                   },
@@ -461,7 +483,7 @@ function LessonsPage() {
                 />
                 <input
                   type="text"
-                  placeholder={isPT ? "Buscar lições..." : "Search lessons..."}
+                  placeholder={isPT ? "Buscar lições..." : uiFallback("Search lessons...")}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   style={{
@@ -502,7 +524,7 @@ function LessonsPage() {
               >
                 <Sliders size={18} />
                 <span className="lesson-filter-label">
-                  {isPT ? "Filtros" : "Filters"}
+                  {isPT ? "Filtros" : uiFallback("Filters")}
                 </span>
               </button>
             </div>
@@ -537,7 +559,7 @@ function LessonsPage() {
                           marginBottom: "8px",
                         }}
                       >
-                        {isPT ? "Nível" : "Level"}
+                        {isPT ? "Nível" : uiFallback("Level")}
                       </div>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                         {LEVELS.filter(
@@ -579,39 +601,39 @@ function LessonsPage() {
                           marginBottom: "8px",
                         }}
                       >
-                        {isPT ? "Categoria" : "Category"}
+                        {isPT ? "Categoria" : uiFallback("Category")}
                       </div>
                       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                         {CATEGORIES.filter(
                           (cat) =>
-                            !isKidAccount || cat.id === "all" || KID_SAFE_CATEGORIES.includes(cat.id),
+                            !isKidAccount ||
+                            cat.id === "all" ||
+                            KID_SAFE_CATEGORIES.includes(cat.id),
                         ).map((cat) => {
                           const catColor = CATEGORY_STYLE[cat.id]?.color || "var(--brand)";
                           const isActive = selectedCategory === cat.id;
                           return (
-                          <button
-                            key={cat.id}
-                            onClick={() => setSelectedCategory(cat.id)}
-                            style={{
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "6px",
-                              padding: "6px 14px",
-                              borderRadius: "99px",
-                              border: `1.5px solid ${isActive ? catColor : "var(--border)"}`,
-                              background: isActive
-                                ? catColor
-                                : "var(--bg)",
-                              color: isActive ? "white" : "var(--text-primary)",
-                              fontSize: "13px",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                              transition: "all 0.2s",
-                            }}
-                          >
-                            <cat.icon size={14} />
-                            {cat.label}
-                          </button>
+                            <button
+                              key={cat.id}
+                              onClick={() => setSelectedCategory(cat.id)}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "6px",
+                                padding: "6px 14px",
+                                borderRadius: "99px",
+                                border: `1.5px solid ${isActive ? catColor : "var(--border)"}`,
+                                background: isActive ? catColor : "var(--bg)",
+                                color: isActive ? "white" : "var(--text-primary)",
+                                fontSize: "13px",
+                                fontWeight: 700,
+                                cursor: "pointer",
+                                transition: "all 0.2s",
+                              }}
+                            >
+                              <cat.icon size={14} />
+                              {cat.label}
+                            </button>
                           );
                         })}
                       </div>
@@ -632,7 +654,7 @@ function LessonsPage() {
                 color: "var(--text-secondary)",
               }}
             >
-              {filteredLessons.length} {isPT ? "lições encontradas" : "lessons found"}
+              {filteredLessons.length} {isPT ? "lições encontradas" : uiFallback("lessons found")}
             </div>
           </div>
         </div>
@@ -648,11 +670,28 @@ function LessonsPage() {
           {/* PROGRESS PATH — Duolingo-style vertical lesson tree (shows when no filters active) */}
           {selectedCategory === "all" && selectedLevel !== "All" && !debouncedQuery && (
             <section style={{ marginBottom: "40px" }}>
-              <h2 style={{ fontSize: "20px", fontWeight: 900, color: "var(--text-primary)", textAlign: "center", marginBottom: "8px" }}>
-                {isPT ? "Seu Caminho" : "Your Path"}
+              <h2
+                style={{
+                  fontSize: "20px",
+                  fontWeight: 900,
+                  color: "var(--text-primary)",
+                  textAlign: "center",
+                  marginBottom: "8px",
+                }}
+              >
+                {isPT ? "Seu Caminho" : uiFallback("Your Path")}
               </h2>
-              <p style={{ fontSize: "14px", color: "var(--text-secondary)", textAlign: "center", marginBottom: "16px" }}>
-                {isPT ? "Complete as lições em ordem para desbloquear a próxima" : "Complete lessons in order to unlock the next one"}
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "var(--text-secondary)",
+                  textAlign: "center",
+                  marginBottom: "16px",
+                }}
+              >
+                {isPT
+                  ? "Complete as lições em ordem para desbloquear a próxima"
+                  : uiFallback("Complete lessons in order to unlock the next one")}
               </p>
               <LessonPath lessons={filteredLessons} maxVisible={5} />
             </section>
@@ -670,228 +709,240 @@ function LessonsPage() {
               const categoryStyle = CATEGORY_STYLE[lesson.category] || DEFAULT_CATEGORY_STYLE;
               const CategoryIcon = categoryStyle.icon;
               return (
-              <motion.div
-                key={lesson.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: Math.min(i, 20) * 0.02 }}
-                whileHover={lesson.locked ? {} : { y: -6 }}
-                onClick={() => handleLessonClick(lesson)}
-                className="card-duo lume-lesson-card"
-                style={{
-                  overflow: "hidden",
-                  borderTop: `4px solid ${lesson.locked ? "var(--border)" : categoryStyle.color}`,
-                  cursor: lesson.locked ? "not-allowed" : "pointer",
-                  opacity: lesson.locked ? 0.75 : 1,
-                  position: "relative",
-                  padding: 0,
-                }}
-              >
-                {/* Lock overlay */}
-                {lesson.locked && (
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      background: "var(--overlay-bg)",
-                      backdropFilter: "blur(1px)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      zIndex: 10,
-                    }}
-                  >
-                    <div style={{ textAlign: "center", padding: "20px" }}>
-                      <Lock size={32} color="var(--text-muted)" style={{ marginBottom: "8px" }} />
-                      <p
-                        style={{
-                          fontSize: "12px",
-                          fontWeight: 700,
-                          color: "var(--text-secondary)",
-                          margin: 0,
-                        }}
-                      >
-                        {isPT ? "Complete a lição anterior" : "Complete previous lesson"}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {/* Progress bar */}
-                {lesson.progress > 0 && !lesson.locked && (
-                  <div style={{ height: "4px", background: "var(--border)" }}>
+                <motion.div
+                  key={lesson.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: Math.min(i, 20) * 0.02 }}
+                  whileHover={lesson.locked ? {} : { y: -6 }}
+                  role="button"
+                  tabIndex={0}
+                  aria-disabled={lesson.locked}
+                  aria-label={lesson.title}
+                  onClick={() => handleLessonClick(lesson)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      handleLessonClick(lesson);
+                    }
+                  }}
+                  className="card-duo lume-lesson-card"
+                  style={{
+                    overflow: "hidden",
+                    borderTop: `4px solid ${lesson.locked ? "var(--border)" : categoryStyle.color}`,
+                    cursor: lesson.locked ? "not-allowed" : "pointer",
+                    opacity: lesson.locked ? 0.75 : 1,
+                    position: "relative",
+                    padding: 0,
+                  }}
+                >
+                  {/* Lock overlay */}
+                  {lesson.locked && (
                     <div
                       style={{
-                        height: "100%",
-                        background: lesson.completed ? "#2FBB52" : categoryStyle.color,
-                        width: `${lesson.progress}%`,
-                        transition: "width 0.3s",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "var(--overlay-bg)",
+                        backdropFilter: "blur(1px)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 10,
                       }}
-                    />
-                  </div>
-                )}
+                    >
+                      <div style={{ textAlign: "center", padding: "20px" }}>
+                        <Lock size={32} color="var(--text-muted)" style={{ marginBottom: "8px" }} />
+                        <p
+                          style={{
+                            fontSize: "12px",
+                            fontWeight: 700,
+                            color: "var(--text-secondary)",
+                            margin: 0,
+                          }}
+                        >
+                          {isPT
+                            ? "Complete a lição anterior"
+                            : uiFallback("Complete previous lesson")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                <div style={{ padding: "24px" }}>
-                  <div
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "12px",
-                      background: `color-mix(in srgb, ${categoryStyle.color} 16%, transparent)`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: "14px",
-                    }}
-                  >
-                    <CategoryIcon size={22} color={categoryStyle.color} />
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      marginBottom: "12px",
-                      flexWrap: "wrap",
-                    }}
-                  >
-                    {lesson.isPremium && (
-                      <span
+                  {/* Progress bar */}
+                  {lesson.progress > 0 && !lesson.locked && (
+                    <div style={{ height: "4px", background: "var(--border)" }}>
+                      <div
                         style={{
-                          padding: "4px 10px",
-                          background: "linear-gradient(135deg, #FFD700, #FFA500)",
-                          borderRadius: "6px",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          color: "white",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "4px",
+                          height: "100%",
+                          background: lesson.completed ? "#2FBB52" : categoryStyle.color,
+                          width: `${lesson.progress}%`,
+                          transition: "width 0.3s",
                         }}
-                      >
-                        <Star size={12} />
-                        {isPT ? "PREMIUM" : "EDITORIAL"}
-                      </span>
-                    )}
-                    <span
+                      />
+                    </div>
+                  )}
+
+                  <div style={{ padding: "24px" }}>
+                    <div
                       style={{
-                        padding: "4px 10px",
-                        background: "var(--border)",
-                        borderRadius: "6px",
-                        fontSize: "11px",
-                        fontWeight: 800,
-                        color: "var(--text-secondary)",
+                        width: "44px",
+                        height: "44px",
+                        borderRadius: "12px",
+                        background: `color-mix(in srgb, ${categoryStyle.color} 16%, transparent)`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginBottom: "14px",
                       }}
                     >
-                      {lesson.difficulty}
-                    </span>
-                    <span
-                      style={{
-                        padding: "4px 10px",
-                        background: "rgba(76,175,80,0.1)",
-                        borderRadius: "6px",
-                        fontSize: "11px",
-                        fontWeight: 800,
-                        color: "#4CAF50",
-                      }}
-                    >
-                      +{lesson.xp} XP
-                    </span>
-                    <span
-                      style={{
-                        padding: "4px 10px",
-                        background: `color-mix(in srgb, ${categoryStyle.color} 12%, transparent)`,
-                        borderRadius: "6px",
-                        fontSize: "11px",
-                        fontWeight: 800,
-                        color: categoryStyle.color,
-                      }}
-                    >
-                      {lesson.type}
-                    </span>
-                  </div>
-
-                  <h3
-                    style={{
-                      fontSize: "19px",
-                      fontWeight: 800,
-                      color: "var(--text-primary)",
-                      marginBottom: "8px",
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {lesson.title}
-                  </h3>
-
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      color: "var(--text-secondary)",
-                      marginBottom: "16px",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {lesson.description}
-                  </p>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
+                      <CategoryIcon size={22} color={categoryStyle.color} />
+                    </div>
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
-                        gap: "12px",
-                        fontSize: "13px",
-                        color: "var(--text-secondary)",
+                        gap: "8px",
+                        marginBottom: "12px",
+                        flexWrap: "wrap",
                       }}
                     >
-                      <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-                        <Clock size={14} />
-                        {lesson.duration}min
-                      </div>
+                      {lesson.isPremium && (
+                        <span
+                          style={{
+                            padding: "4px 10px",
+                            background: "linear-gradient(135deg, #FFD700, #FFA500)",
+                            borderRadius: "6px",
+                            fontSize: "11px",
+                            fontWeight: 800,
+                            color: "white",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "4px",
+                          }}
+                        >
+                          <Star size={12} />
+                          {isPT ? "PREMIUM" : uiFallback("EDITORIAL")}
+                        </span>
+                      )}
+                      <span
+                        style={{
+                          padding: "4px 10px",
+                          background: "var(--border)",
+                          borderRadius: "6px",
+                          fontSize: "11px",
+                          fontWeight: 800,
+                          color: "var(--text-secondary)",
+                        }}
+                      >
+                        {lesson.difficulty}
+                      </span>
+                      <span
+                        style={{
+                          padding: "4px 10px",
+                          background: "rgba(76,175,80,0.1)",
+                          borderRadius: "6px",
+                          fontSize: "11px",
+                          fontWeight: 800,
+                          color: "#4CAF50",
+                        }}
+                      >
+                        +{lesson.xp} XP
+                      </span>
+                      <span
+                        style={{
+                          padding: "4px 10px",
+                          background: `color-mix(in srgb, ${categoryStyle.color} 12%, transparent)`,
+                          borderRadius: "6px",
+                          fontSize: "11px",
+                          fontWeight: 800,
+                          color: categoryStyle.color,
+                        }}
+                      >
+                        {lesson.type}
+                      </span>
                     </div>
 
-                    {lesson.completed ? (
+                    <h3
+                      style={{
+                        fontSize: "19px",
+                        fontWeight: 800,
+                        color: "var(--text-primary)",
+                        marginBottom: "8px",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {lesson.title}
+                    </h3>
+
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        color: "var(--text-secondary)",
+                        marginBottom: "16px",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      {lesson.description}
+                    </p>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <div
                         style={{
                           display: "flex",
                           alignItems: "center",
-                          gap: "6px",
-                          color: "#4CAF50",
+                          gap: "12px",
                           fontSize: "13px",
-                          fontWeight: 700,
+                          color: "var(--text-secondary)",
                         }}
                       >
-                        <CheckCircle size={16} color="#4CAF50" />
-                        {isPT ? "Completo" : "Completed"}
+                        <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                          <Clock size={14} />
+                          {lesson.duration}min
+                        </div>
                       </div>
-                    ) : !lesson.locked ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "6px",
-                          color: "var(--brand)",
-                          fontSize: "13px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        <Play size={16} fill="var(--brand)" />
-                        {isPT ? "Iniciar" : "Start"}
-                        <ChevronRight size={14} />
-                      </div>
-                    ) : null}
+
+                      {lesson.completed ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            color: "#4CAF50",
+                            fontSize: "13px",
+                            fontWeight: 700,
+                          }}
+                        >
+                          <CheckCircle size={16} color="#4CAF50" />
+                          {isPT ? "Completo" : uiFallback("Completed")}
+                        </div>
+                      ) : !lesson.locked ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            color: "var(--brand)",
+                            fontSize: "13px",
+                            fontWeight: 700,
+                          }}
+                        >
+                          <Play size={16} fill="var(--brand)" />
+                          {isPT ? "Iniciar" : uiFallback("Start")}
+                          <ChevronRight size={14} />
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
               );
             })}
           </div>
@@ -930,12 +981,12 @@ function LessonsPage() {
                   marginBottom: "8px",
                 }}
               >
-                {isPT ? "Nenhuma lição encontrada" : "No lessons found"}
+                {isPT ? "Nenhuma lição encontrada" : uiFallback("No lessons found")}
               </h3>
               <p style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
                 {isPT
                   ? "Tente ajustar os filtros ou buscar por outro termo"
-                  : "Try adjusting filters or searching for another term"}
+                  : uiFallback("Try adjusting filters or searching for another term")}
               </p>
             </div>
           )}

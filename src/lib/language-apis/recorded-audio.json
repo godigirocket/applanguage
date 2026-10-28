@@ -1,0 +1,74 @@
+{
+  "en:reservation": {
+    "src": "/audio/en-reservation.mp3",
+    "word": "reservation",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-reservation.wav",
+    "author": "Speaker: Vealhurl\nRecorder: Vealhurl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "en:directions": {
+    "src": "/audio/en-directions.mp3",
+    "word": "directions",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-directions.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:water": {
+    "src": "/audio/en-water.mp3",
+    "word": "water",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-water.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:breakfast": {
+    "src": "/audio/en-breakfast.mp3",
+    "word": "breakfast",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-breakfast.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "es:recuerdo": {
+    "src": "/audio/es-recuerdo.mp3",
+    "word": "recuerdo",
+    "language": "es",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1321_(spa)-Marreromarco-recuerdo.wav",
+    "author": "Speaker: Marreromarco\nRecorder: Marreromarco",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "es:reserva": {
+    "src": "/audio/es-reserva.mp3",
+    "word": "reserva",
+    "language": "es",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1321_(spa)-Marreromarco-reserva.wav",
+    "author": "Speaker: Marreromarco\nRecorder: Marreromarco",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "pt:bagagem": {
+    "src": "/audio/pt-bagagem.mp3",
+    "word": "bagagem",
+    "language": "pt",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q5146_(por)-Jessie_Edwin_Lawrence-bagagem.wav",
+    "author": "Speaker: Jessie Edwin Lawrence\nRecorder: Jessie Edwin Lawrence",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "pt:olá": {
+    "src": "/audio/pt-ola.mp3",
+    "word": "olá",
+    "language": "pt",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q5146_(por)-Santamarcanda-ol%C3%A1.wav",
+    "author": "Speaker: Santamarcanda\nRecorder: Santamarcanda",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  }
+}

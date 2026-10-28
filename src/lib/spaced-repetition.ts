@@ -1,6 +1,8 @@
+import { accountKey } from "@/lib/account-storage";
+import { notifyLearningChanged } from "@/lib/learning-state-sync";
 /**
  * SPACED REPETITION ENGINE
- * 
+ *
  * Simple SM-2 inspired algorithm for reviewing saved vocabulary words.
  * Tracks last review time and interval per word in localStorage.
  */
@@ -17,7 +19,7 @@ interface SREntry {
 function getSRData(): Record<string, SREntry> {
   if (typeof window === "undefined") return {};
   try {
-    return JSON.parse(localStorage.getItem(SR_KEY) || "{}");
+    return JSON.parse(localStorage.getItem(accountKey(SR_KEY)) || "{}");
   } catch {
     return {};
   }
@@ -25,7 +27,12 @@ function getSRData(): Record<string, SREntry> {
 
 function saveSRData(data: Record<string, SREntry>): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(SR_KEY, JSON.stringify(data));
+  try {
+    localStorage.setItem(accountKey(SR_KEY), JSON.stringify(data));
+    notifyLearningChanged();
+  } catch {
+    /* Keep practice usable when storage is full. */
+  }
 }
 
 export function initWordForReview(wordId: string): void {

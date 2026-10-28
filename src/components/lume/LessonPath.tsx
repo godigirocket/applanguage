@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { motion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
@@ -68,12 +69,16 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
   const isPT = interfaceLanguage === "pt";
   const [shown, setShown] = useState(maxVisible);
 
-  const visibleLessons = lessons.slice(0, shown);
+  const firstPending = lessons.findIndex((lesson) => !lesson.completed && !lesson.locked);
+  const start = Math.max(0, firstPending - 1);
+  const visibleLessons = lessons.slice(start, start + shown);
   const activeIndex = visibleLessons.findIndex((lesson) => !lesson.completed && !lesson.locked);
 
   const handleClick = (lesson: any) => {
     if (lesson.locked) {
-      toast.info(isPT ? "Complete a licao anterior primeiro!" : "Complete the previous lesson first!");
+      toast.info(
+        isPT ? "Complete a licao anterior primeiro!" : uiFallback("Complete the previous lesson first!"),
+      );
       return;
     }
     nav({ to: `/lesson/${lesson.id}` as any });
@@ -102,7 +107,7 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
     return buildCurvePath(points.slice(0, cutoff));
   }, [points, activeIndex]);
 
-  const remaining = lessons.length - shown;
+  const remaining = lessons.length - start - shown;
 
   return (
     <div
@@ -113,11 +118,20 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
         width={CONTAINER_WIDTH}
         height={containerHeight}
         viewBox={`0 0 ${CONTAINER_WIDTH} ${containerHeight}`}
-        style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", zIndex: 0 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          width: "100%",
+          transform: "translateX(-50%)",
+          zIndex: 0,
+        }}
         aria-hidden="true"
       >
         <path d={fullPathD} className="path-curve path-curve-locked" fill="none" />
-        {progressPathD && <path d={progressPathD} className="path-curve path-curve-done" fill="none" />}
+        {progressPathD && (
+          <path d={progressPathD} className="path-curve path-curve-done" fill="none" />
+        )}
       </svg>
 
       <div style={{ position: "relative", height: containerHeight, zIndex: 1 }}>
@@ -136,7 +150,7 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
               transition={{ delay: i * 0.035, type: "spring", bounce: 0.36 }}
               style={{
                 position: "absolute",
-                left: x,
+                left: `${(x / CONTAINER_WIDTH) * 100}%`,
                 top: y,
                 x: "-50%",
                 y: "-50%",
@@ -148,21 +162,25 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
               <button
                 onClick={() => handleClick(lesson)}
                 className={`path-node animated-container ${
-                  isActive ? "path-node-active" : isCompleted ? "path-node-completed" : "path-node-locked"
+                  isActive
+                    ? "path-node-active"
+                    : isCompleted
+                      ? "path-node-completed"
+                      : "path-node-locked"
                 }`}
                 style={{ width: `${size}px`, height: `${size}px` }}
                 aria-label={`${lesson.title} - ${
                   isCompleted
                     ? isPT
                       ? "Completa"
-                      : "Completed"
+                      : uiFallback("Completed")
                     : isLocked
                       ? isPT
                         ? "Bloqueada"
-                        : "Locked"
+                        : uiFallback("Locked")
                       : isPT
                         ? "Disponivel"
-                        : "Available"
+                        : uiFallback("Available")
                 }`}
                 title={lesson.title}
               >
@@ -183,13 +201,15 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
                     marginTop: "8px",
                     textAlign: "center",
                     maxWidth: "150px",
-                    whiteSpace: "nowrap",
+                    whiteSpace: "normal",
                   }}
                 >
                   <div style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-primary)" }}>
                     {lesson.title?.split(" - ")[0] || lesson.title}
                   </div>
-                  <div style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}>
+                  <div
+                    style={{ fontSize: "11px", color: "var(--text-secondary)", marginTop: "2px" }}
+                  >
                     +{lesson.xp || 20} XP
                   </div>
                 </motion.div>
@@ -205,7 +225,7 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
             className="path-more-pill path-more-pill-button"
             onClick={() => setShown((s) => Math.min(lessons.length, s + maxVisible))}
           >
-            +{remaining} {isPT ? "licoes disponiveis" : "lessons available"}
+            +{remaining} {isPT ? "licoes disponiveis" : uiFallback("lessons available")}
             <ChevronDown size={14} />
           </button>
         </div>

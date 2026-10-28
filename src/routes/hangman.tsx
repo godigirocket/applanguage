@@ -1,3 +1,4 @@
+import { speak } from "@/lib/language-apis/webSpeech";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { AppHeader } from "@/components/lume/AppHeader";
@@ -86,13 +87,7 @@ function HangmanGamePage() {
   }, [isWinner, isLoser]);
 
   const handleSpeak = (w: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(w);
-      utterance.lang =
-        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
-      window.speechSynthesis.speak(utterance);
-    }
+    speak(w, targetLanguage);
   };
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");

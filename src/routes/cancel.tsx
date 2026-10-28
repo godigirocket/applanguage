@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -48,7 +49,7 @@ function CancelPage() {
             marginBottom: "16px",
           }}
         >
-          {isPT ? "Pagamento Cancelado" : "Payment Cancelled"}
+          {isPT ? "Pagamento Cancelado" : uiFallback("Payment Cancelled")}
         </h1>
 
         <p
@@ -61,7 +62,7 @@ function CancelPage() {
         >
           {isPT
             ? "Seu pagamento não foi concluído. Nenhuma cobrança foi realizada."
-            : "Your payment was not completed. No charges were made."}
+            : uiFallback("Your payment was not completed. No charges were made.")}
         </p>
 
         <div
@@ -82,30 +83,47 @@ function CancelPage() {
               marginBottom: "20px",
             }}
           >
-            {isPT ? "O que aconteceu?" : "What happened?"}
+            {isPT ? "O que aconteceu?" : uiFallback("What happened?")}
           </h2>
 
-          <p style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "20px" }}>
+          <p
+            style={{
+              fontSize: "15px",
+              color: "var(--text-secondary)",
+              lineHeight: 1.7,
+              marginBottom: "20px",
+            }}
+          >
             {isPT
               ? "O processo de pagamento foi cancelado antes da conclusão. Isso pode acontecer se você:"
-              : "The payment process was cancelled before completion. This can happen if you:"}
+              : uiFallback(
+                  "The payment process was cancelled before completion. This can happen if you:",
+                )}
           </p>
 
-          <ul style={{ paddingLeft: "24px", margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+          <ul
+            style={{
+              paddingLeft: "24px",
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Clicou no botão 'Voltar' durante o checkout"
-                : "Clicked the 'Back' button during checkout"}
+                : uiFallback("Clicked the 'Back' button during checkout")}
             </li>
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Fechou a janela de pagamento antes de finalizar"
-                : "Closed the payment window before completing"}
+                : uiFallback("Closed the payment window before completing")}
             </li>
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Optou por não concluir a compra no momento"
-                : "Chose not to complete the purchase at this time"}
+                : uiFallback("Chose not to complete the purchase at this time")}
             </li>
           </ul>
         </div>
@@ -119,13 +137,22 @@ function CancelPage() {
             marginBottom: "40px",
           }}
         >
-          <p style={{ fontSize: "15px", color: "var(--text-primary)", fontWeight: 700, marginBottom: "8px" }}>
-            {isPT ? "Nenhuma cobrança foi realizada" : "No charges were made"}
+          <p
+            style={{
+              fontSize: "15px",
+              color: "var(--text-primary)",
+              fontWeight: 700,
+              marginBottom: "8px",
+            }}
+          >
+            {isPT ? "Nenhuma cobrança foi realizada" : uiFallback("No charges were made")}
           </p>
           <p style={{ fontSize: "14px", color: "var(--text-secondary)", margin: 0 }}>
             {isPT
               ? "Sua forma de pagamento não foi cobrada. Você pode tentar novamente quando quiser."
-              : "Your payment method was not charged. You can try again whenever you want."}
+              : uiFallback(
+                  "Your payment method was not charged. You can try again whenever you want.",
+                )}
           </p>
         </div>
 
@@ -148,7 +175,7 @@ function CancelPage() {
             }}
           >
             <RefreshCw size={20} />
-            {isPT ? "Tentar Novamente" : "Try Again"}
+            {isPT ? "Tentar Novamente" : uiFallback("Try Again")}
           </button>
 
           <button
@@ -164,7 +191,7 @@ function CancelPage() {
               cursor: "pointer",
             }}
           >
-            {isPT ? "Voltar ao Início" : "Back to Home"}
+            {isPT ? "Voltar ao Início" : uiFallback("Back to Home")}
           </button>
         </div>
 
@@ -178,7 +205,9 @@ function CancelPage() {
               textDecoration: "none",
             }}
           >
-            {isPT ? "Precisa de ajuda? Fale com o suporte →" : "Need help? Contact support →"}
+            {isPT
+              ? "Precisa de ajuda? Fale com o suporte →"
+              : uiFallback("Need help? Contact support →")}
           </Link>
         </div>
       </main>

@@ -20,12 +20,7 @@ export type LessonTopic =
   | "work";
 
 export type VocabularySource =
-  | "local"
-  | "dictionaryapi"
-  | "datamuse"
-  | "tatoeba"
-  | "libretranslate"
-  | "manual";
+  "local" | "dictionaryapi" | "datamuse" | "tatoeba" | "libretranslate" | "manual";
 
 export interface VocabularyItem {
   id: string;
@@ -90,6 +85,7 @@ export interface LessonContent {
 }
 
 export interface SavedWord {
+  updatedAt?: string;
   id: string;
   term: string;
   translation: string;

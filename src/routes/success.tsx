@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -104,7 +105,7 @@ function SuccessPage() {
             marginBottom: "16px",
           }}
         >
-          {isPT ? "Pagamento Recebido!" : "Payment Received!"}
+          {isPT ? "Pagamento Recebido!" : uiFallback("Payment Received!")}
         </h1>
 
         <p
@@ -117,7 +118,7 @@ function SuccessPage() {
         >
           {isPT
             ? "Obrigado por escolher o Lume! Seu pagamento foi confirmado com sucesso."
-            : "Thank you for choosing Lume! Your payment has been confirmed successfully."}
+            : uiFallback("Thank you for choosing Lume! Your payment has been confirmed successfully.")}
         </p>
 
         <div style={{ marginBottom: "40px", display: "flex", justifyContent: "center" }}>
@@ -160,7 +161,7 @@ function SuccessPage() {
               <>
                 <RefreshCw size={20} color="var(--brand)" />
                 <span style={{ fontSize: "14px", color: "var(--text-primary)", fontWeight: 600 }}>
-                  {isPT ? "Verificando status..." : "Checking status..."}
+                  {isPT ? "Verificando status..." : uiFallback("Checking status...")}
                 </span>
               </>
             )}
@@ -168,7 +169,7 @@ function SuccessPage() {
               <>
                 <CheckCircle size={20} color="#4CAF50" />
                 <span style={{ fontSize: "14px", color: "#4CAF50", fontWeight: 700 }}>
-                  {isPT ? "✅ Premium Ativado!" : "✅ Premium Activated!"}
+                  {isPT ? "✅ Premium Ativado!" : uiFallback("✅ Premium Activated!")}
                 </span>
               </>
             )}
@@ -176,7 +177,7 @@ function SuccessPage() {
               <>
                 <span style={{ fontSize: "20px" }}>⏳</span>
                 <span style={{ fontSize: "14px", color: "var(--text-primary)", fontWeight: 600 }}>
-                  {isPT ? "Processando pagamento..." : "Processing payment..."}
+                  {isPT ? "Processando pagamento..." : uiFallback("Processing payment...")}
                 </span>
               </>
             )}
@@ -194,24 +195,24 @@ function SuccessPage() {
             }}
           >
             <Sparkles size={24} color="var(--brand)" />
-            {isPT ? "Próximos Passos" : "Next Steps"}
+            {isPT ? "Próximos Passos" : uiFallback("Next Steps")}
           </h2>
 
           <ol style={{ paddingLeft: "24px", margin: 0, display: "flex", flexDirection: "column", gap: "16px" }}>
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Sua conta Premium será ativada automaticamente nos próximos minutos."
-                : "Your Premium account will be activated automatically in the next few minutes."}
+                : uiFallback("Your Premium account will be activated automatically in the next few minutes.")}
             </li>
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Você receberá um email de confirmação com os detalhes da sua assinatura."
-                : "You will receive a confirmation email with your subscription details."}
+                : uiFallback("You will receive a confirmation email with your subscription details.")}
             </li>
             <li style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.6 }}>
               {isPT
                 ? "Acesse todas as lições, jogos e conteúdo premium imediatamente."
-                : "Access all lessons, games and premium content immediately."}
+                : uiFallback("Access all lessons, games and premium content immediately.")}
             </li>
           </ol>
         </div>
@@ -228,7 +229,7 @@ function SuccessPage() {
           <p style={{ fontSize: "14px", color: "var(--text-primary)", margin: 0 }}>
             {isPT
               ? "Caso sua conta não seja atualizada automaticamente em até 10 minutos, entre em contato com o suporte."
-              : "If your account is not updated automatically within 10 minutes, please contact support."}
+              : uiFallback("If your account is not updated automatically within 10 minutes, please contact support.")}
           </p>
         </div>
 
@@ -250,7 +251,7 @@ function SuccessPage() {
               transition: "all 0.2s",
             }}
           >
-            {isPT ? "Começar Agora" : "Start Now"}
+            {isPT ? "Começar Agora" : uiFallback("Start Now")}
             <ArrowRight size={20} />
           </button>
 
@@ -268,7 +269,7 @@ function SuccessPage() {
               display: "inline-block",
             }}
           >
-            {isPT ? "Falar com Suporte" : "Contact Support"}
+            {isPT ? "Falar com Suporte" : uiFallback("Contact Support")}
           </Link>
         </div>
       </main>

@@ -255,89 +255,89 @@ function CulturePage() {
                   </div>
                 </div>
 
-              {/* City name */}
-              <h3
-                style={{
-                  fontSize: "20px",
-                  fontWeight: 800,
-                  color: "var(--text-primary)",
-                  marginBottom: "4px",
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {city.name}
-              </h3>
-
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "var(--text-secondary)",
-                  marginBottom: "16px",
-                  fontWeight: 500,
-                }}
-              >
-                {city.country}
-              </p>
-
-              {/* Description */}
-              <p
-                style={{
-                  fontSize: "14px",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.5,
-                  marginBottom: "20px",
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {city.shortDescription}
-              </p>
-
-              {/* Footer: stats + arrow */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  paddingTop: "16px",
-                  borderTop: "1px solid var(--border)",
-                }}
-              >
-                <div
+                {/* City name */}
+                <h3
                   style={{
-                    display: "flex",
-                    gap: "12px",
-                    fontSize: "12px",
-                    color: "var(--text-secondary)",
-                    fontWeight: 600,
+                    fontSize: "20px",
+                    fontWeight: 800,
+                    color: "var(--text-primary)",
+                    marginBottom: "4px",
+                    letterSpacing: "-0.01em",
                   }}
                 >
-                  <span>
-                    {city.curiosities.length} {t.curiosities}
-                  </span>
-                  <span>•</span>
-                  <span>
-                    {city.usefulPhrases.length} {t.phrases}
-                  </span>
-                </div>
+                  {city.name}
+                </h3>
+
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--text-secondary)",
+                    marginBottom: "16px",
+                    fontWeight: 500,
+                  }}
+                >
+                  {city.country}
+                </p>
+
+                {/* Description */}
+                <p
+                  style={{
+                    fontSize: "14px",
+                    color: "var(--text-secondary)",
+                    lineHeight: 1.5,
+                    marginBottom: "20px",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
+                >
+                  {city.shortDescription}
+                </p>
+
+                {/* Footer: stats + arrow */}
                 <div
                   style={{
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "8px",
-                    background: "var(--bg)",
-                    border: "1px solid var(--border)",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
-                    transition: "background 0.2s ease",
+                    justifyContent: "space-between",
+                    paddingTop: "16px",
+                    borderTop: "1px solid var(--border)",
                   }}
                 >
-                  <ArrowRight size={14} color="var(--text-secondary)" />
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "12px",
+                      fontSize: "12px",
+                      color: "var(--text-secondary)",
+                      fontWeight: 600,
+                    }}
+                  >
+                    <span>
+                      {city.curiosities.length} {t.curiosities}
+                    </span>
+                    <span>•</span>
+                    <span>
+                      {city.usefulPhrases.length} {t.phrases}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "8px",
+                      background: "var(--bg)",
+                      border: "1px solid var(--border)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "background 0.2s ease",
+                    }}
+                  >
+                    <ArrowRight size={14} color="var(--text-secondary)" />
+                  </div>
                 </div>
-              </div>
               </div>
             </motion.div>
           ))}

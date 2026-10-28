@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -32,7 +33,7 @@ function SupportPage() {
           }}
         >
           <ArrowLeft size={16} />
-          {isPT ? "Voltar ao início" : "Back to home"}
+          {isPT ? "Voltar ao início" : uiFallback("Back to home")}
         </Link>
 
         <div
@@ -45,20 +46,20 @@ function SupportPage() {
         >
           <MessageCircle size={32} color="var(--brand)" />
           <h1 style={{ fontSize: "36px", fontWeight: 900, color: "var(--text-primary)" }}>
-            {isPT ? "Suporte" : "Support"}
+            {isPT ? "Suporte" : uiFallback("Support")}
           </h1>
         </div>
 
         <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "40px", lineHeight: 1.6 }}>
           {isPT
             ? "Estamos aqui para ajudar! Entre em contato e responderemos o mais rápido possível."
-            : "We're here to help! Get in touch and we'll respond as soon as possible."}
+            : uiFallback("We're here to help! Get in touch and we'll respond as soon as possible.")}
         </p>
 
         <div style={{ display: "grid", gap: "24px", marginBottom: "40px" }}>
           <ContactCard
             icon={<Send size={24} color="var(--brand)" />}
-            title={isPT ? "Email de Suporte" : "Support Email"}
+            title={isPT ? "Email de Suporte" : uiFallback("Support Email")}
             description={supportEmail}
             action={
               <a
@@ -74,18 +75,18 @@ function SupportPage() {
                   display: "inline-block",
                 }}
               >
-                {isPT ? "Enviar Email" : "Send Email"}
+                {isPT ? "Enviar Email" : uiFallback("Send Email")}
               </a>
             }
           />
 
           <ContactCard
             icon={<Clock size={24} color="var(--brand)" />}
-            title={isPT ? "Tempo de Resposta" : "Response Time"}
+            title={isPT ? "Tempo de Resposta" : uiFallback("Response Time")}
             description={
               isPT
                 ? "Respondemos em até 24 horas úteis. Para questões urgentes, mencione 'URGENTE' no assunto."
-                : "We respond within 24 business hours. For urgent matters, mention 'URGENT' in the subject."
+                : uiFallback("We respond within 24 business hours. For urgent matters, mention 'URGENT' in the subject.")
             }
           />
         </div>
@@ -106,47 +107,47 @@ function SupportPage() {
               marginBottom: "20px",
             }}
           >
-            {isPT ? "Dúvidas Frequentes" : "Frequently Asked Questions"}
+            {isPT ? "Dúvidas Frequentes" : uiFallback("Frequently Asked Questions")}
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
             <FAQ
-              question={isPT ? "Como faço para atualizar meu plano?" : "How do I upgrade my plan?"}
+              question={isPT ? "Como faço para atualizar meu plano?" : uiFallback("How do I upgrade my plan?")}
               answer={
                 isPT
                   ? "Acesse a página de Planos e selecione o plano Premium. Você será redirecionado para o checkout seguro."
-                  : "Go to the Plans page and select the Premium plan. You'll be redirected to the secure checkout."
+                  : uiFallback("Go to the Plans page and select the Premium plan. You'll be redirected to the secure checkout.")
               }
             />
 
             <FAQ
-              question={isPT ? "Posso cancelar a qualquer momento?" : "Can I cancel anytime?"}
+              question={isPT ? "Posso cancelar a qualquer momento?" : uiFallback("Can I cancel anytime?")}
               answer={
                 isPT
                   ? "Sim! Você pode cancelar sua assinatura a qualquer momento sem taxas adicionais."
-                  : "Yes! You can cancel your subscription at any time without additional fees."
+                  : uiFallback("Yes! You can cancel your subscription at any time without additional fees.")
               }
             />
 
             <FAQ
               question={
-                isPT ? "Como funciona a garantia de reembolso?" : "How does the refund guarantee work?"
+                isPT ? "Como funciona a garantia de reembolso?" : uiFallback("How does the refund guarantee work?")
               }
               answer={
                 isPT
                   ? "Oferecemos garantia de 7 dias para novas assinaturas. Solicite o reembolso através do suporte."
-                  : "We offer a 7-day guarantee for new subscriptions. Request a refund through support."
+                  : uiFallback("We offer a 7-day guarantee for new subscriptions. Request a refund through support.")
               }
             />
 
             <FAQ
               question={
-                isPT ? "Meu progresso é salvo automaticamente?" : "Is my progress saved automatically?"
+                isPT ? "Meu progresso é salvo automaticamente?" : uiFallback("Is my progress saved automatically?")
               }
               answer={
                 isPT
                   ? "Sim! Todo seu progresso é salvo automaticamente na nuvem. Você pode acessar de qualquer dispositivo."
-                  : "Yes! All your progress is automatically saved to the cloud. You can access it from any device."
+                  : uiFallback("Yes! All your progress is automatically saved to the cloud. You can access it from any device.")
               }
             />
 
@@ -154,12 +155,12 @@ function SupportPage() {
               question={
                 isPT
                   ? "Posso usar em múltiplos dispositivos?"
-                  : "Can I use it on multiple devices?"
+                  : uiFallback("Can I use it on multiple devices?")
               }
               answer={
                 isPT
                   ? "Sim! Você pode acessar sua conta em até 3 dispositivos simultaneamente."
-                  : "Yes! You can access your account on up to 3 devices simultaneously."
+                  : uiFallback("Yes! You can access your account on up to 3 devices simultaneously.")
               }
             />
           </div>
@@ -176,12 +177,12 @@ function SupportPage() {
           }}
         >
           <p style={{ fontSize: "15px", color: "var(--text-primary)", fontWeight: 700 }}>
-            {isPT ? "Não encontrou o que procura?" : "Didn't find what you're looking for?"}
+            {isPT ? "Não encontrou o que procura?" : uiFallback("Didn't find what you're looking for?")}
           </p>
           <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "8px" }}>
             {isPT
               ? "Envie um email para suporte@lume.app com sua dúvida."
-              : "Send an email to support@lume.app with your question."}
+              : uiFallback("Send an email to support@lume.app with your question.")}
           </p>
         </div>
 
@@ -195,7 +196,7 @@ function SupportPage() {
               textDecoration: "none",
             }}
           >
-            {isPT ? "Ver Guia Completo →" : "View Complete Guide →"}
+            {isPT ? "Ver Guia Completo →" : uiFallback("View Complete Guide →")}
           </Link>
         </div>
       </main>

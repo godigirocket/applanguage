@@ -89,9 +89,7 @@ export async function decryptFromStorage(cipherText: string, keyPhrase: string):
     return decoder.decode(decrypted);
   } catch (error) {
     console.error("Decryption failed, clearing corrupted storage:", error);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("lume-storage");
-    }
+
     return ""; // Return empty string so JSON.parse or calling function fails safely or receives empty data
   }
 }

@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { useStore } from "@/hooks/useStore";
@@ -67,7 +68,7 @@ export function LevelPicker({ onClose, forced = false }: LevelPickerProps) {
   const handleConfirm = () => {
     if (!selected) return;
     setLearningLevel(selected as any);
-    localStorage.setItem("lume_level", selected);
+    localStorage.setItem(accountKey("lume_level"), selected);
     setConfirmed(true);
     setTimeout(() => onClose?.(), 1200);
   };

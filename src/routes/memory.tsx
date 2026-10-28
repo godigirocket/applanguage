@@ -1,3 +1,4 @@
+import { speak } from "@/lib/language-apis/webSpeech";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { AppHeader } from "@/components/lume/AppHeader";
@@ -128,13 +129,7 @@ function MemoryGamePage() {
   };
 
   const handleSpeak = (w: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(w);
-      utterance.lang =
-        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
-      window.speechSynthesis.speak(utterance);
-    }
+    speak(w, targetLanguage);
   };
 
   // Trilingual UI strings
@@ -324,6 +319,7 @@ function MemoryGamePage() {
 
         {/* 3D Cards Grid board */}
         <div
+          className="lume-memory-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -335,6 +331,7 @@ function MemoryGamePage() {
             const showFace = card.isFlipped || card.isMatched;
             return (
               <div
+                className="lume-memory-card"
                 key={card.id}
                 onClick={() => handleCardClick(idx)}
                 style={{

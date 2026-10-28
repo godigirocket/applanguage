@@ -1,3 +1,5 @@
+import { uiFallback } from "@/i18n/ui-fallback";
+import { speak } from "@/lib/language-apis/webSpeech";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
@@ -58,7 +60,8 @@ export function SpeedTranslator() {
   const [showHelp, setShowHelp] = useState(false);
   const [shakeTrigger, setShakeTrigger] = useState(false);
 
-  const timerRef = useRef<any>(null);
+  const scoreRef = useRef(0);
+  const finishedRef = useRef(false);
 
   // Trilingual UI strings
   const t = {
@@ -80,10 +83,10 @@ export function SpeedTranslator() {
     playAgain: isPT ? "Jogar Novamente" : isES ? "Jugar de Nuevo" : "Play Again",
     helpTitle: isPT ? "Como Jogar" : isES ? "Cómo Jugar" : "How to Play",
     helpText: isPT
-      ? "Toque nos blocos de palavras para formar a tradução da frase exibida no topo. Se errar, você perde 3 segundos! Se acertar, ganha +5 segundos. Complete o máximo que puder antes do tempo acabar!"
+      ? "Toque nos blocos de palavras para formar a tradução da frase exibida no topo. Se errar, você perde 4 segundos! Se acertar, ganha +6 segundos. Complete o máximo que puder antes do tempo acabar!"
       : isES
-        ? "Toca los bloques de palabras para formar la traducción correcta. Si te equivocas, ¡pierdes 3 segundos! Si aciertas, ganas 5 segundos extra."
-        : "Tap word pills in order to construct the translation of the phrase. Correct answers add +5 seconds, while incorrect submissions subtract -3 seconds. Translate as many as you can before the clock runs out!",
+        ? "Toca los bloques de palabras para formar la traducción correcta. Si te equivocas, ¡pierdes 4 segundos! Si aciertas, ganas 6 segundos extra."
+        : "Tap word pills in order to construct the translation of the phrase. Correct answers add +6 seconds, while incorrect submissions subtract -4 seconds. Translate as many as you can before the clock runs out!",
     backPlay: isPT ? "Voltar ao Hub" : isES ? "Volver al Hub" : "Back to Play",
     check: isPT ? "Verificar" : isES ? "Comprobar" : "Check",
     clear: isPT ? "Limpar" : isES ? "Limpiar" : "Clear",
@@ -91,10 +94,19 @@ export function SpeedTranslator() {
 
   useEffect(() => {
     startNewGame();
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
   }, [targetLanguage]);
+
+  // Keep rewards outside state updaters; they may be replayed by React.
+  // The score ref also includes the final answer when the bank is exhausted.
+  useEffect(() => {
+    if (isGameOver || !sentences.length || showHelp) return;
+    if (timeLeft <= 0) {
+      handleGameOver();
+      return;
+    }
+    const timer = setTimeout(() => setTimeLeft((left) => Math.max(0, left - 1)), 1000);
+    return () => clearTimeout(timer);
+  }, [timeLeft, isGameOver, sentences, showHelp]);
 
   const startNewGame = () => {
     // Collect all sentences from BANK
@@ -103,41 +115,31 @@ export function SpeedTranslator() {
 
     setSentences(shuffled);
     setCurrentIdx(0);
+    scoreRef.current = 0;
+    finishedRef.current = false;
     setScore(0);
     setStreak(0);
     setTimeLeft(20); // start with 20 seconds
     setIsGameOver(false);
+    setShowHelp(false);
 
     loadSentence(shuffled[0]);
-    startTimer();
-  };
-
-  const startTimer = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timerRef.current);
-          handleGameOver();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
   };
 
   const handleGameOver = () => {
+    if (finishedRef.current) return;
+    finishedRef.current = true;
     setIsGameOver(true);
     // Award XP proportional to score
-    const earnedXP = Math.min(100, score * 15);
-    const earnedLumes = Math.min(15, Math.floor(score * 2.5));
+    const earnedXP = Math.min(100, scoreRef.current * 15);
+    const earnedLumes = Math.min(15, Math.floor(scoreRef.current * 2.5));
     if (earnedXP > 0) {
       addXP(earnedXP);
     }
     if (earnedLumes > 0) {
       addLumes(earnedLumes);
     }
-    if (score >= 3) {
+    if (scoreRef.current >= 3) {
       confetti({
         particleCount: 100,
         spread: 60,
@@ -177,13 +179,7 @@ export function SpeedTranslator() {
   };
 
   const handleSpeak = (text: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang =
-        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
-      window.speechSynthesis.speak(utterance);
-    }
+    speak(text, targetLanguage);
   };
 
   const handlePillClick = (word: string, index: number) => {
@@ -212,7 +208,7 @@ export function SpeedTranslator() {
 
   const checkAnswer = () => {
     const currentItem = sentences[currentIdx];
-    if (!currentItem) return;
+    if (!currentItem || finishedRef.current || timeLeft <= 0) return;
 
     const targetPhrase = currentItem[targetLanguage as Lang];
     const targetNorm = targetPhrase
@@ -228,7 +224,8 @@ export function SpeedTranslator() {
       // CORRECT
       sounds.playClick(); // play success
       handleSpeak(targetPhrase);
-      setScore((s) => s + 1);
+      scoreRef.current += 1;
+      setScore(scoreRef.current);
       setStreak((st) => st + 1);
       setTimeLeft((prev) => Math.min(30, prev + 6)); // Add 6 seconds max 30s
 
@@ -246,7 +243,7 @@ export function SpeedTranslator() {
       setShakeTrigger(true);
       setTimeLeft((prev) => Math.max(0, prev - 4)); // subtract 4 seconds
       setTimeout(() => setShakeTrigger(false), 500);
-      toast.error(isPT ? "Tradução incorreta! -4s" : "Incorrect translation! -4s");
+      toast.error(isPT ? "Tradução incorreta! -4s" : uiFallback("Incorrect translation! -4s"));
     }
   };
 
@@ -319,6 +316,7 @@ export function SpeedTranslator() {
           <div style={{ display: "flex", gap: "8px" }}>
             <button
               onClick={() => setShowHelp(true)}
+              aria-label={t.helpTitle}
               style={{
                 width: "40px",
                 height: "40px",
@@ -337,6 +335,7 @@ export function SpeedTranslator() {
             </button>
             <button
               onClick={startNewGame}
+              aria-label={t.playAgain}
               style={{
                 width: "40px",
                 height: "40px",
@@ -359,17 +358,19 @@ export function SpeedTranslator() {
         {/* Dashboard: Timer and Streaks */}
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
+            display: "grid",
+            gridTemplateColumns: "minmax(0, 1fr) 70px minmax(0, 1fr)",
             alignItems: "center",
-            gap: "16px",
+            gap: "clamp(6px, 2vw, 16px)",
           }}
         >
           {/* Streak indicator */}
           <div
             className="glass"
             style={{
-              padding: "10px 18px",
+              padding: "10px clamp(6px, 2vw, 18px)",
+              minWidth: 0,
+              justifyContent: "center",
               borderRadius: "16px",
               border: "1px solid var(--border)",
               background: "var(--surface-raised)",
@@ -434,6 +435,7 @@ export function SpeedTranslator() {
               />
             </svg>
             <span
+              role="timer"
               style={{
                 position: "absolute",
                 top: "50%",
@@ -452,7 +454,9 @@ export function SpeedTranslator() {
           <div
             className="glass"
             style={{
-              padding: "10px 18px",
+              padding: "10px clamp(6px, 2vw, 18px)",
+              minWidth: 0,
+              justifyContent: "center",
               borderRadius: "16px",
               border: "1px solid var(--border)",
               background: "var(--surface-raised)",
@@ -473,7 +477,10 @@ export function SpeedTranslator() {
               >
                 {t.score}
               </div>
-              <div style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)" }}>
+              <div
+                data-testid="translator-score"
+                style={{ fontSize: "15px", fontWeight: 800, color: "var(--text-primary)" }}
+              >
                 {score}
               </div>
             </div>
@@ -510,6 +517,7 @@ export function SpeedTranslator() {
                 Frase original
               </span>
               <p
+                data-testid="translator-source"
                 style={{
                   fontSize: "18px",
                   fontWeight: 700,
@@ -552,7 +560,7 @@ export function SpeedTranslator() {
                     margin: "auto",
                   }}
                 >
-                  {isPT ? "Toque nas palavras abaixo..." : "Tap words below..."}
+                  {isPT ? "Toque nas palavras abaixo..." : uiFallback("Tap words below...")}
                 </span>
               ) : (
                 assembled.map((word, idx) => (
@@ -581,6 +589,7 @@ export function SpeedTranslator() {
 
             {/* Pills Pool Area */}
             <div
+              data-testid="translator-pool"
               style={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -879,7 +888,7 @@ export function SpeedTranslator() {
                         color: "var(--text-secondary)",
                       }}
                     >
-                      XP {isPT ? "Ganho" : "Earned"}
+                      XP {isPT ? "Ganho" : uiFallback("Earned")}
                     </div>
                     <div
                       style={{

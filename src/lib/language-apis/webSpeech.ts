@@ -4,6 +4,13 @@
  * detects support first and never throws when the browser lacks it.
  */
 import type { TargetLanguage } from "@/lib/language-content/types";
+import { selectVoice } from "./voice-selection";
+import recordings from "./recorded-audio.json";
+let activeAudio: HTMLAudioElement | null = null;
+let playbackId = 0;
+export function hasRecordedAudio(text: string, language: TargetLanguage) {
+  return Object.hasOwn(recordings, `${language}:${text.trim().toLocaleLowerCase()}`);
+}
 
 const SPEECH_LOCALE: Record<TargetLanguage, string> = {
   en: "en-US",
@@ -12,16 +19,74 @@ const SPEECH_LOCALE: Record<TargetLanguage, string> = {
 };
 
 export function isTTSSupported(): boolean {
-  return typeof window !== "undefined" && "speechSynthesis" in window;
+  return (
+    typeof window !== "undefined" &&
+    typeof window.speechSynthesis?.speak === "function" &&
+    typeof SpeechSynthesisUtterance === "function"
+  );
 }
 
-export function speak(text: string, targetLanguage: TargetLanguage, opts: { rate?: number } = {}): boolean {
+export function speak(
+  text: string,
+  targetLanguage: TargetLanguage,
+  opts: { rate?: number; onError?: () => void; recorded?: boolean } = {},
+): boolean {
+  if (typeof window === "undefined") return false;
+  stopSpeaking();
+  const id = playbackId;
+  const recording = (recordings as Record<string, { src: string }>)[
+    `${targetLanguage}:${text.trim().toLocaleLowerCase()}`
+  ];
+  if (recording && opts.recorded !== false && typeof Audio !== "undefined") {
+    let selected: string | null = null;
+    try {
+      selected = localStorage.getItem(`lume_voice_${targetLanguage}`);
+    } catch {
+      /* Browser storage unavailable. */
+    }
+    if (!selected) {
+      const audio = new Audio(recording.src);
+      activeAudio = audio;
+      audio.playbackRate = opts.rate ?? 1;
+      let failed = false;
+      const fallback = () => {
+        if (failed || id !== playbackId) return;
+        failed = true;
+        activeAudio = null;
+        audio.pause();
+        speak(text, targetLanguage, { ...opts, recorded: false });
+      };
+      audio.onerror = fallback;
+      audio.onended = () => {
+        if (activeAudio === audio) activeAudio = null;
+      };
+      void audio.play().catch(fallback);
+      return true;
+    }
+  }
   if (!isTTSSupported()) return false;
   try {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = SPEECH_LOCALE[targetLanguage];
-    utterance.rate = opts.rate ?? 0.95;
+    const voices = window.speechSynthesis.getVoices();
+    let preferred: string | null = null;
+    try {
+      preferred = localStorage.getItem(`lume_voice_${targetLanguage}`);
+    } catch {
+      /* Private browser storage may be blocked. */
+    }
+    utterance.voice =
+      voices.find(
+        (voice) =>
+          voice.voiceURI === preferred && voice.lang.toLowerCase().startsWith(targetLanguage),
+      ) ?? selectVoice(voices, utterance.lang);
+    // Normal cadence preserves the prosody of enhanced system/browser voices.
+    utterance.rate = opts.rate ?? 1;
+    utterance.pitch = 1;
+    utterance.onerror = (event) => {
+      if (event.error !== "canceled" && event.error !== "interrupted") opts.onError?.();
+    };
     window.speechSynthesis.speak(utterance);
     return true;
   } catch {
@@ -29,8 +94,27 @@ export function speak(text: string, targetLanguage: TargetLanguage, opts: { rate
   }
 }
 
+/** Populate lazy voice lists before the first user-initiated playback. */
+export function warmSpeechVoices(): void {
+  try {
+    if (isTTSSupported()) window.speechSynthesis.getVoices();
+  } catch {
+    /* Voice availability must not block the page. */
+  }
+}
+
 export function stopSpeaking(): void {
-  if (isTTSSupported()) window.speechSynthesis.cancel();
+  playbackId++;
+  if (activeAudio) {
+    activeAudio.onerror = null;
+    activeAudio.pause();
+    activeAudio = null;
+  }
+  try {
+    if (isTTSSupported()) window.speechSynthesis.cancel();
+  } catch {
+    /* Optional browser service. */
+  }
 }
 
 type SpeechRecognitionCtor = new () => SpeechRecognition;
@@ -54,7 +138,10 @@ export function isSTTSupported(): boolean {
  * recognition errored. Never rejects — pronunciation practice is optional
  * and must never crash the lesson.
  */
-export function listenOnce(targetLanguage: TargetLanguage, timeoutMs = 8000): Promise<string | null> {
+export function listenOnce(
+  targetLanguage: TargetLanguage,
+  timeoutMs = 8000,
+): Promise<string | null> {
   const Ctor = getSpeechRecognitionCtor();
   if (!Ctor) return Promise.resolve(null);
 

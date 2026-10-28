@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUserStore, UserLevel } from "@/store/userStore";
@@ -182,8 +183,8 @@ export function LevelSelectionModal() {
     setTimeout(() => {
       setUserLevel(selected);
       setLearningLevel(selected);
-      localStorage.setItem("lume_user_level", selected);
-      localStorage.setItem("lume_level", selected);
+      localStorage.setItem(accountKey("lume_user_level"), selected);
+      localStorage.setItem(accountKey("lume_level"), selected);
       setLoading(false);
     }, 1000);
   };

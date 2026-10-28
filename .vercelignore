@@ -8,5 +8,6 @@ dist-ssr
 .nitro
 .wrangler
 scratchpad
+supabase/.temp
 *.log
 .DS_Store

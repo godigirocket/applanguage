@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, Award } from "@/components/lume/CustomIcons";
@@ -61,21 +62,6 @@ interface LeaderboardRow {
 // leaderboard doesn't expose internal test data to real users.
 const PLACEHOLDER_NAME_PATTERN = /^(lume\s*demo|test|demo\s*user|placeholder)/i;
 
-// Cosmetic-only seed players, same idea as community.tsx's SEED_POSTS: real
-// leaderboards are sparse for a brand-new app, so a handful of
-// realistic-looking names keep the league from reading as empty/fake. These
-// never outrank a real signed-in user's own row and are clearly separate
-// from actual account data (no id collides with a real profile id).
-const SEED_PLAYERS: Array<{ id: string; name: string; xp: number }> = [
-  { id: "seed-p1", name: "Maya S.", xp: 3120 },
-  { id: "seed-p2", name: "Leo M.", xp: 2840 },
-  { id: "seed-p3", name: "Ana R.", xp: 2510 },
-  { id: "seed-p4", name: "Noah P.", xp: 2190 },
-  { id: "seed-p5", name: "Carol V.", xp: 1870 },
-  { id: "seed-p6", name: "Diego F.", xp: 1430 },
-  { id: "seed-p7", name: "Sofia L.", xp: 980 },
-];
-
 export function Leaderboard() {
   const { xp, interfaceLanguage } = useStore();
   const { user } = useAuth();
@@ -84,58 +70,41 @@ export function Leaderboard() {
 
   useEffect(() => {
     let cancelled = false;
-    supabase
-      .rpc("get_leaderboard", { limit_count: 20 })
-      .then(({ data, error }) => {
-        if (cancelled) return;
-        // A fetch error still falls through to the seed-blend below instead
-        // of showing an empty league — a network hiccup shouldn't make the
-        // leaderboard look dead.
-        const rows: LeaderboardRow[] = error
-          ? []
-          : (data || []).filter(
-              (row: LeaderboardRow) => !row.full_name || !PLACEHOLDER_NAME_PATTERN.test(row.full_name),
-            );
-        const mapped: Player[] = rows.map((row) => ({
-          id: row.id,
-          name: row.full_name || (isPT ? "Estudante" : "Learner"),
-          xp: row.xp,
-          isCurrentUser: user?.id === row.id,
-          avatarColor: hashPick(row.id, AVATAR_COLORS),
-          character: hashPick(row.id, CHARACTERS),
-        }));
+    supabase.rpc("get_leaderboard", { limit_count: 20 }).then(({ data, error }) => {
+      if (cancelled) return;
+      // A fetch error still falls through to the seed-blend below instead
+      // of showing an empty league — a network hiccup shouldn't make the
+      // leaderboard look dead.
+      const rows: LeaderboardRow[] = error
+        ? []
+        : (data || []).filter(
+            (row: LeaderboardRow) =>
+              !row.full_name || !PLACEHOLDER_NAME_PATTERN.test(row.full_name),
+          );
+      const mapped: Player[] = rows.map((row) => ({
+        id: row.id,
+        name: row.full_name || (isPT ? "Estudante" : uiFallback("Learner")),
+        xp: row.xp,
+        isCurrentUser: user?.id === row.id,
+        avatarColor: hashPick(row.id, AVATAR_COLORS),
+        character: hashPick(row.id, CHARACTERS),
+      }));
 
-        // Blend in seed players whenever the real leaderboard is thin —
-        // once enough real activity exists this contributes little to
-        // nothing, since real rows are never removed to make room for them.
-        if (mapped.length < 8) {
-          for (const seed of SEED_PLAYERS) {
-            mapped.push({
-              id: seed.id,
-              name: seed.name,
-              xp: seed.xp,
-              isCurrentUser: false,
-              avatarColor: hashPick(seed.id, AVATAR_COLORS),
-              character: hashPick(seed.id, CHARACTERS),
-            });
-          }
-        }
-
-        // The logged-in user might not be in the top 20 (or might have 0 XP,
-        // which get_leaderboard excludes) — show them anyway, using the XP
-        // already known client-side, so they always see where they stand.
-        if (user && !mapped.some((p) => p.isCurrentUser)) {
-          mapped.push({
-            id: user.id,
-            name: isPT ? "Você" : "You",
-            xp,
-            isCurrentUser: true,
-            avatarColor: hashPick(user.id, AVATAR_COLORS),
-            character: hashPick(user.id, CHARACTERS),
-          });
-        }
-        setPlayers(mapped.sort((a, b) => b.xp - a.xp));
-      });
+      // The logged-in user might not be in the top 20 (or might have 0 XP,
+      // which get_leaderboard excludes) — show them anyway, using the XP
+      // already known client-side, so they always see where they stand.
+      if (user && !mapped.some((p) => p.isCurrentUser)) {
+        mapped.push({
+          id: user.id,
+          name: isPT ? "Você" : uiFallback("You"),
+          xp,
+          isCurrentUser: true,
+          avatarColor: hashPick(user.id, AVATAR_COLORS),
+          character: hashPick(user.id, CHARACTERS),
+        });
+      }
+      setPlayers(mapped.sort((a, b) => b.xp - a.xp));
+    });
     return () => {
       cancelled = true;
     };
@@ -146,28 +115,75 @@ export function Leaderboard() {
   // without waiting for a re-fetch of the whole leaderboard.
   useEffect(() => {
     setPlayers((prev) =>
-      prev ? prev.map((p) => (p.isCurrentUser ? { ...p, xp } : p)).sort((a, b) => b.xp - a.xp) : prev,
+      prev
+        ? prev.map((p) => (p.isCurrentUser ? { ...p, xp } : p)).sort((a, b) => b.xp - a.xp)
+        : prev,
     );
   }, [xp]);
 
   const getRankBadge = (rank: number) => {
     const badges: Record<number, { bg: string; icon: React.ReactNode; glow: string }> = {
-      1: { bg: "linear-gradient(135deg,#FFD700,#FFA500)", icon: <Trophy size={16} color="#FFF" fill="#FFF" />, glow: "0 4px 16px rgba(255,215,0,0.4)" },
-      2: { bg: "linear-gradient(135deg,#C0C0C0,#A8A8A8)", icon: <Trophy size={14} color="#FFF" />, glow: "0 4px 16px rgba(192,192,192,0.3)" },
-      3: { bg: "linear-gradient(135deg,#CD7F32,#B87333)", icon: <Award size={14} color="#FFF" />, glow: "0 4px 16px rgba(205,127,50,0.3)" },
+      1: {
+        bg: "linear-gradient(135deg,#FFD700,#FFA500)",
+        icon: <Trophy size={16} color="#FFF" fill="#FFF" />,
+        glow: "0 4px 16px rgba(255,215,0,0.4)",
+      },
+      2: {
+        bg: "linear-gradient(135deg,#C0C0C0,#A8A8A8)",
+        icon: <Trophy size={14} color="#FFF" />,
+        glow: "0 4px 16px rgba(192,192,192,0.3)",
+      },
+      3: {
+        bg: "linear-gradient(135deg,#CD7F32,#B87333)",
+        icon: <Award size={14} color="#FFF" />,
+        glow: "0 4px 16px rgba(205,127,50,0.3)",
+      },
     };
     if (badges[rank]) {
       return (
-        <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: badges[rank].bg, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: badges[rank].glow, border: "2px solid rgba(255,255,255,0.3)" }}>
+        <div
+          style={{
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            background: badges[rank].bg,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+            boxShadow: badges[rank].glow,
+            border: "2px solid rgba(255,255,255,0.3)",
+          }}
+        >
           {badges[rank].icon}
         </div>
       );
     }
-    return <span style={{ fontSize: "13px", fontWeight: 800, color: "var(--text-secondary)", width: "28px", textAlign: "center", flexShrink: 0 }}>{rank}</span>;
+    return (
+      <span
+        style={{
+          fontSize: "13px",
+          fontWeight: 800,
+          color: "var(--text-secondary)",
+          width: "28px",
+          textAlign: "center",
+          flexShrink: 0,
+        }}
+      >
+        {rank}
+      </span>
+    );
   };
 
   const getCharacterComponent = (character: Player["character"], size = 48) => {
-    const components = { celebrating: CharacterCelebrating, runner: CharacterRunner, thinking: CharacterThinking, reading: CharacterReading, speaking: CharacterSpeaking, waving: CharacterWaving };
+    const components = {
+      celebrating: CharacterCelebrating,
+      runner: CharacterRunner,
+      thinking: CharacterThinking,
+      reading: CharacterReading,
+      speaking: CharacterSpeaking,
+      waving: CharacterWaving,
+    };
     const Component = components[character];
     return <Component size={size} />;
   };
@@ -175,50 +191,150 @@ export function Leaderboard() {
   const daysLeft = 7 - new Date().getDay();
 
   return (
-    <div style={{ background: "var(--surface-raised)", borderRadius: "28px", border: "1.5px solid var(--border)", padding: "28px", width: "100%", boxShadow: "0 8px 32px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div
+      style={{
+        background: "var(--surface-raised)",
+        borderRadius: "28px",
+        border: "1.5px solid var(--border)",
+        padding: "28px",
+        width: "100%",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "24px",
+      }}
+    >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h3 style={{ fontSize: "22px", fontWeight: 900, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: "10px", margin: 0 }}>
+        <h3
+          style={{
+            fontSize: "22px",
+            fontWeight: 900,
+            color: "var(--text-primary)",
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            margin: 0,
+          }}
+        >
           <Trophy size={24} color="#D4A23B" />
-          <span>{isPT ? "Liga Ouro" : "Gold League"}</span>
+          <span>{isPT ? "Liga Ouro" : uiFallback("Gold League")}</span>
         </h3>
-        <span style={{ fontSize: "11px", fontWeight: 800, color: "#FF6B35", display: "flex", alignItems: "center", gap: "6px" }}>
-          <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF6B35", animation: "pulse 2s infinite" }} />
+        <span
+          style={{
+            fontSize: "11px",
+            fontWeight: 800,
+            color: "#FF6B35",
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              borderRadius: "50%",
+              background: "#FF6B35",
+              animation: "pulse 2s infinite",
+            }}
+          />
           {isPT ? `${daysLeft}d restantes` : `${daysLeft}d left`}
         </span>
       </div>
 
       {players === null && (
-        <p style={{ fontSize: "13px", color: "var(--text-secondary)", textAlign: "center", padding: "24px 0" }}>
-          {isPT ? "Carregando ranking..." : "Loading leaderboard..."}
+        <p
+          style={{
+            fontSize: "13px",
+            color: "var(--text-secondary)",
+            textAlign: "center",
+            padding: "24px 0",
+          }}
+        >
+          {isPT ? "Carregando ranking..." : uiFallback("Loading leaderboard...")}
         </p>
       )}
 
       {players !== null && players.length === 0 && (
-        <p style={{ fontSize: "13px", color: "var(--text-secondary)", textAlign: "center", padding: "24px 0" }}>
+        <p
+          style={{
+            fontSize: "13px",
+            color: "var(--text-secondary)",
+            textAlign: "center",
+            padding: "24px 0",
+          }}
+        >
           {isPT
             ? "Ninguém pontuou ainda esta semana. Seja o primeiro!"
-            : "No one has scored yet this week. Be the first!"}
+            : uiFallback("No one has scored yet this week. Be the first!")}
         </p>
       )}
 
       {players !== null && players.length > 0 && (
-        <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxHeight: "480px", overflowY: "auto" }} className="no-scrollbar">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+            maxHeight: "480px",
+            overflowY: "auto",
+          }}
+          className="no-scrollbar"
+        >
           <AnimatePresence mode="popLayout">
             {players.map((player, index) => {
               const rank = index + 1;
               const isTop3 = rank <= 3;
               return (
-                <motion.div key={player.id} layout initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 14px", borderRadius: "16px", background: player.isCurrentUser ? "rgba(255,122,69,0.09)" : "var(--bg)", border: "2px solid", borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)" }}>
+                <motion.div
+                  key={player.id}
+                  layout
+                  initial={{ opacity: 0, y: -12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "12px 14px",
+                    borderRadius: "16px",
+                    background: player.isCurrentUser ? "rgba(255,122,69,0.09)" : "var(--bg)",
+                    border: "2px solid",
+                    borderColor: player.isCurrentUser ? "var(--brand)" : "var(--border)",
+                  }}
+                >
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                     {getRankBadge(rank)}
-                    <div style={{ width: "46px", height: "46px", borderRadius: "50%", background: player.avatarColor, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid rgba(255,255,255,0.15)" }}>
+                    <div
+                      style={{
+                        width: "46px",
+                        height: "46px",
+                        borderRadius: "50%",
+                        background: player.avatarColor,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "2px solid rgba(255,255,255,0.15)",
+                      }}
+                    >
                       {getCharacterComponent(player.character, 28)}
                     </div>
-                    <span style={{ fontSize: "14.5px", fontWeight: 800, color: player.isCurrentUser ? "var(--brand)" : "var(--text-primary)" }}>
+                    <span
+                      style={{
+                        fontSize: "14.5px",
+                        fontWeight: 800,
+                        color: player.isCurrentUser ? "var(--brand)" : "var(--text-primary)",
+                      }}
+                    >
                       {player.name}
                     </span>
                   </div>
-                  <span style={{ fontSize: "15px", fontWeight: 900, color: isTop3 ? "#D4A23B" : "var(--text-primary)" }}>
+                  <span
+                    style={{
+                      fontSize: "15px",
+                      fontWeight: 900,
+                      color: isTop3 ? "#D4A23B" : "var(--text-primary)",
+                    }}
+                  >
                     {player.xp.toLocaleString()}
                   </span>
                 </motion.div>

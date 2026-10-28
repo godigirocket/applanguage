@@ -76,7 +76,7 @@ export function AchievementCard({ name, stats, onClose }: AchievementCardProps) 
         {/* Footer info */}
         <div className="bg-[#EFEFEA] py-3 text-center border-t border-[var(--border)]">
           <p className="text-[10px] text-[#6B6B63] uppercase tracking-[0.2em]">
-            Lume — AI Speaking Companion
+            Lume — Guided Speaking Practice
           </p>
         </div>
       </div>

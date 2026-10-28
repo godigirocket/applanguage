@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion } from "framer-motion";
@@ -32,12 +33,12 @@ function CityDetailPage() {
     return (
       <div style={{ minHeight: "100vh", background: "var(--bg)" }}>
         <AppHeader />
-        <div style={{ maxWidth: "800px", margin: "0 auto", padding: "80px 24px", textAlign: "center" }}>
-          <h1 style={{ fontSize: "48px", fontWeight: 900, marginBottom: "16px" }}>
-            404
-          </h1>
+        <div
+          style={{ maxWidth: "800px", margin: "0 auto", padding: "80px 24px", textAlign: "center" }}
+        >
+          <h1 style={{ fontSize: "48px", fontWeight: 900, marginBottom: "16px" }}>404</h1>
           <p style={{ fontSize: "18px", color: "var(--text-secondary)", marginBottom: "32px" }}>
-            {isPT ? "Cidade não encontrada" : "City not found"}
+            {isPT ? "Cidade não encontrada" : uiFallback("City not found")}
           </p>
           <button
             onClick={() => nav({ to: "/culture" })}
@@ -52,7 +53,7 @@ function CityDetailPage() {
               cursor: "pointer",
             }}
           >
-            {isPT ? "Voltar para Cultura" : "Back to Culture"}
+            {isPT ? "Voltar para Cultura" : uiFallback("Back to Culture")}
           </button>
         </div>
       </div>
@@ -85,18 +86,33 @@ function CityDetailPage() {
             }}
           >
             <ArrowLeft size={16} />
-            {isPT ? "Voltar" : "Back"}
+            {isPT ? "Voltar" : uiFallback("Back")}
           </button>
 
           <div style={{ marginBottom: "16px" }}>
             <FlagByEmoji emoji={city.flag} size={64} />
           </div>
 
-          <h1 style={{ fontSize: "clamp(32px, 6vw, 56px)", fontWeight: 900, marginBottom: "12px", letterSpacing: "-0.02em" }}>
+          <h1
+            style={{
+              fontSize: "clamp(32px, 6vw, 56px)",
+              fontWeight: 900,
+              marginBottom: "12px",
+              letterSpacing: "-0.02em",
+            }}
+          >
             {city.name}
           </h1>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px", flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "16px",
+              marginBottom: "16px",
+              flexWrap: "wrap",
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <MapPin size={20} />
               <span style={{ fontSize: "18px", fontWeight: 600 }}>{city.country}</span>
@@ -107,7 +123,14 @@ function CityDetailPage() {
             </div>
           </div>
 
-          <p style={{ fontSize: "clamp(16px, 3vw, 20px)", opacity: 0.95, maxWidth: "800px", lineHeight: 1.6 }}>
+          <p
+            style={{
+              fontSize: "clamp(16px, 3vw, 20px)",
+              opacity: 0.95,
+              maxWidth: "800px",
+              lineHeight: 1.6,
+            }}
+          >
             {city.fullDescription}
           </p>
         </div>
@@ -115,13 +138,12 @@ function CityDetailPage() {
 
       {/* CONTENT */}
       <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "40px 24px" }}>
-        
         {/* CURIOSITIES */}
         <section style={{ marginBottom: "48px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
             <Sparkles size={28} color="var(--brand)" />
             <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)" }}>
-              {isPT ? "Curiosidades" : "Curiosities"}
+              {isPT ? "Curiosidades" : uiFallback("Curiosities")}
             </h2>
           </div>
 
@@ -140,22 +162,31 @@ function CityDetailPage() {
                 }}
               >
                 <div style={{ display: "flex", gap: "16px" }}>
-                  <div style={{
-                    background: "var(--brand)",
-                    color: "white",
-                    borderRadius: "50%",
-                    width: "32px",
-                    height: "32px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontWeight: 900,
-                    fontSize: "14px",
-                    flexShrink: 0,
-                  }}>
+                  <div
+                    style={{
+                      background: "var(--brand)",
+                      color: "white",
+                      borderRadius: "50%",
+                      width: "32px",
+                      height: "32px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontWeight: 900,
+                      fontSize: "14px",
+                      flexShrink: 0,
+                    }}
+                  >
                     {i + 1}
                   </div>
-                  <p style={{ fontSize: "16px", color: "var(--text-primary)", lineHeight: 1.6, margin: 0 }}>
+                  <p
+                    style={{
+                      fontSize: "16px",
+                      color: "var(--text-primary)",
+                      lineHeight: 1.6,
+                      margin: 0,
+                    }}
+                  >
                     {curiosity}
                   </p>
                 </div>
@@ -169,7 +200,7 @@ function CityDetailPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
             <MessageCircle size={28} color="#E67E22" />
             <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)" }}>
-              {isPT ? "Frases Úteis" : "Useful Phrases"}
+              {isPT ? "Frases Úteis" : uiFallback("Useful Phrases")}
             </h2>
           </div>
 
@@ -187,7 +218,14 @@ function CityDetailPage() {
                   border: "2px solid var(--border)",
                 }}
               >
-                <div style={{ fontSize: "16px", fontWeight: 800, color: "var(--brand)", marginBottom: "8px" }}>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 800,
+                    color: "var(--brand)",
+                    marginBottom: "8px",
+                  }}
+                >
                   "{item.phrase}"
                 </div>
                 <div style={{ fontSize: "14px", color: "var(--text-secondary)" }}>
@@ -203,11 +241,17 @@ function CityDetailPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
             <Book size={28} color="#3498DB" />
             <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)" }}>
-              {isPT ? "Vocabulário" : "Vocabulary"}
+              {isPT ? "Vocabulário" : uiFallback("Vocabulary")}
             </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", gap: "16px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))",
+              gap: "16px",
+            }}
+          >
             {city.vocabulary.map((item, i) => (
               <motion.div
                 key={i}
@@ -221,13 +265,29 @@ function CityDetailPage() {
                   border: "2px solid var(--border)",
                 }}
               >
-                <div style={{ fontSize: "20px", fontWeight: 900, color: "var(--brand)", marginBottom: "8px" }}>
+                <div
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: 900,
+                    color: "var(--brand)",
+                    marginBottom: "8px",
+                  }}
+                >
                   {item.word}
                 </div>
-                <div style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "12px" }}>
+                <div
+                  style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "12px" }}
+                >
                   {item.meaning}
                 </div>
-                <div style={{ fontSize: "13px", color: "var(--text-primary)", fontStyle: "italic", lineHeight: 1.5 }}>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--text-primary)",
+                    fontStyle: "italic",
+                    lineHeight: 1.5,
+                  }}
+                >
                   "{item.example}"
                 </div>
               </motion.div>
@@ -240,16 +300,18 @@ function CityDetailPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
             <Lightbulb size={28} color="#F39C12" />
             <h2 style={{ fontSize: "28px", fontWeight: 900, color: "var(--text-primary)" }}>
-              {isPT ? "Dica Cultural" : "Cultural Tip"}
+              {isPT ? "Dica Cultural" : uiFallback("Cultural Tip")}
             </h2>
           </div>
 
-          <div style={{
-            background: "linear-gradient(135deg, #FFF4E6 0%, #FFE5B4 100%)",
-            borderRadius: "16px",
-            padding: "24px",
-            border: "2px solid #F39C12",
-          }}>
+          <div
+            style={{
+              background: "linear-gradient(135deg, #FFF4E6 0%, #FFE5B4 100%)",
+              borderRadius: "16px",
+              padding: "24px",
+              border: "2px solid #F39C12",
+            }}
+          >
             <p style={{ fontSize: "16px", color: "#8B4513", lineHeight: 1.6, margin: 0 }}>
               💡 {city.culturalTip}
             </p>
@@ -259,19 +321,21 @@ function CityDetailPage() {
         {/* RELATED LESSONS CTA */}
         {city.relatedLessonIds.length > 0 && (
           <section>
-            <div style={{
-              background: "var(--brand)",
-              borderRadius: "20px",
-              padding: "32px",
-              textAlign: "center",
-              color: "white",
-            }}>
+            <div
+              style={{
+                background: "var(--brand)",
+                borderRadius: "20px",
+                padding: "32px",
+                textAlign: "center",
+                color: "white",
+              }}
+            >
               <h3 style={{ fontSize: "24px", fontWeight: 900, marginBottom: "12px" }}>
                 {isPT ? `Quer praticar ${city.language}?` : `Want to practice ${city.language}?`}
               </h3>
               <p style={{ fontSize: "16px", marginBottom: "24px", opacity: 0.95 }}>
-                {isPT 
-                  ? `Temos ${city.relatedLessonIds.length} lições relacionadas a ${city.name}` 
+                {isPT
+                  ? `Temos ${city.relatedLessonIds.length} lições relacionadas a ${city.name}`
                   : `We have ${city.relatedLessonIds.length} lessons related to ${city.name}`}
               </p>
               <button
@@ -291,7 +355,7 @@ function CityDetailPage() {
                 }}
               >
                 <Play size={18} fill="var(--brand)" />
-                {isPT ? "Ver Lições" : "View Lessons"}
+                {isPT ? "Ver Lições" : uiFallback("View Lessons")}
               </button>
             </div>
           </section>

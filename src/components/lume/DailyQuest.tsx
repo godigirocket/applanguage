@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { dailyQuests } from "@/data/content";
-import { useGameStore } from "@/store/gameStore";
+import { useStore } from "@/hooks/useStore";
 import { Book, Mic, Bookmark, Trophy } from "@/components/lume/CustomIcons";
 
 function GiftIcon({ size = 12, color = "currentColor" }: { size?: number; color?: string }) {
@@ -25,12 +25,31 @@ function GiftIcon({ size = 12, color = "currentColor" }: { size?: number; color?
 }
 
 export function DailyQuest() {
-  const { dailyQuestsProgress, completedQuests, completeQuest, addXp, addLumes } = useGameStore();
+  const {
+    questProgress: dailyQuestsProgress,
+    claimedQuests: completedQuests,
+    claimQuest,
+    resetDailyQuests,
+    interfaceLanguage,
+  } = useStore();
+  const t = (pt: string, en: string, es: string) =>
+    interfaceLanguage === "pt" ? pt : interfaceLanguage === "es" ? es : en;
+  const [hours, setHours] = useState(0);
+  useEffect(() => {
+    const refresh = () => {
+      resetDailyQuests();
+      const now = new Date();
+      const end = new Date(now);
+      end.setHours(24, 0, 0, 0);
+      setHours(Math.ceil((end.getTime() - now.getTime()) / 3600000));
+    };
+    refresh();
+    const timer = setInterval(refresh, 60000);
+    return () => clearInterval(timer);
+  }, [resetDailyQuests]);
 
   const handleClaim = (questId: string, xp: number, lumes: number) => {
-    addXp(xp);
-    addLumes(lumes);
-    completeQuest(questId);
+    claimQuest(questId);
   };
 
   const getQuestDetails = (questId: string) => {
@@ -87,7 +106,7 @@ export function DailyQuest() {
           }}
         >
           <Trophy size={20} color="var(--brand)" />
-          <span>Missões Diárias</span>
+          <span>{t("Missões diárias", "Daily quests", "Misiones diarias")}</span>
         </h3>
         <span
           style={{
@@ -100,7 +119,7 @@ export function DailyQuest() {
             borderRadius: "99px",
           }}
         >
-          Reseta em 14h
+          {t("Renova em", "Resets in", "Se renueva en")} {hours}h
         </span>
       </div>
 
@@ -144,12 +163,30 @@ export function DailyQuest() {
               </div>
 
               {/* Quest details */}
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "6px" }}>
+              <div
+                style={{
+                  flex: 1,
+                  minWidth: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "6px",
+                }}
+              >
                 <div
-                  style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "8px",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
                   <span style={{ fontSize: "14px", fontWeight: 700, color: "var(--text-primary)" }}>
-                    {quest.title}
+                    {quest.id === "dq-1"
+                      ? t("Complete 2 lições", "Complete 2 lessons", "Completa 2 lecciones")
+                      : quest.id === "dq-2"
+                        ? t("Ganhe 150 XP", "Earn 150 XP", "Gana 150 XP")
+                        : t("Salve 5 palavras", "Save 5 words", "Guarda 5 palabras")}
                   </span>
                   <span
                     style={{ fontSize: "12px", fontWeight: 800, color: "var(--text-secondary)" }}
@@ -204,7 +241,7 @@ export function DailyQuest() {
                     <span
                       style={{ fontSize: "11px", fontWeight: 800, color: "var(--text-secondary)" }}
                     >
-                      ✓ Resgatado
+                      ✓ {t("Resgatado", "Claimed", "Reclamado")}
                     </span>
                   ) : isCompleted ? (
                     <button
@@ -221,7 +258,7 @@ export function DailyQuest() {
                         boxShadow: "0 2px 6px rgba(255,122,69, 0.2)",
                       }}
                     >
-                      Resgatar
+                      {t("Resgatar", "Claim", "Reclamar")}
                     </button>
                   ) : null}
                 </div>

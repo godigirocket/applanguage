@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 import { supabase } from "./supabase";
 
 const db = supabase as any;
@@ -259,10 +260,10 @@ export async function safeUpsertProfile(userId: string, updates: Record<string, 
       // Table doesn't exist — store in localStorage as fallback
       const existing =
         typeof localStorage !== "undefined"
-          ? JSON.parse(localStorage.getItem("lume_profile") || "{}")
+          ? JSON.parse(localStorage.getItem(accountKey("lume_profile")) || "{}")
           : {};
       if (typeof localStorage !== "undefined") {
-        localStorage.setItem("lume_profile", JSON.stringify({ ...existing, ...updates }));
+        localStorage.setItem(accountKey("lume_profile"), JSON.stringify({ ...existing, ...updates }));
       }
       return { success: true, fallback: true };
     }
@@ -272,10 +273,10 @@ export async function safeUpsertProfile(userId: string, updates: Record<string, 
     // Fallback to localStorage
     const existing =
       typeof localStorage !== "undefined"
-        ? JSON.parse(localStorage.getItem("lume_profile") || "{}")
+        ? JSON.parse(localStorage.getItem(accountKey("lume_profile")) || "{}")
         : {};
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem("lume_profile", JSON.stringify({ ...existing, ...updates }));
+      localStorage.setItem(accountKey("lume_profile"), JSON.stringify({ ...existing, ...updates }));
     }
     return { success: true, fallback: true };
   }
@@ -288,14 +289,14 @@ export async function safeGetProfile(userId: string) {
     if (error?.code === "42P01" || error?.message?.includes("404")) {
       // Use localStorage fallback
       const stored =
-        typeof localStorage !== "undefined" ? localStorage.getItem("lume_profile") : null;
+        typeof localStorage !== "undefined" ? localStorage.getItem(accountKey("lume_profile")) : null;
       return stored ? JSON.parse(stored) : null;
     }
 
     return data;
   } catch {
     const stored =
-      typeof localStorage !== "undefined" ? localStorage.getItem("lume_profile") : null;
+      typeof localStorage !== "undefined" ? localStorage.getItem(accountKey("lume_profile")) : null;
     return stored ? JSON.parse(stored) : null;
   }
 }
@@ -303,32 +304,32 @@ export async function safeGetProfile(userId: string) {
 // XP stored locally when DB unavailable
 export function getLocalXP(): number {
   if (typeof localStorage === "undefined") return 0;
-  return parseInt(localStorage.getItem("lume_xp") || "0");
+  return parseInt(localStorage.getItem(accountKey("lume_xp")) || "0");
 }
 
 export function addLocalXP(amount: number): number {
   if (typeof localStorage === "undefined") return amount;
   const current = getLocalXP();
   const newVal = current + amount;
-  localStorage.setItem("lume_xp", String(newVal));
+  localStorage.setItem(accountKey("lume_xp"), String(newVal));
   return newVal;
 }
 
 export function getLocalStreak(): number {
   if (typeof localStorage === "undefined") return 0;
   const today = new Date().toISOString().split("T")[0];
-  const lastDay = localStorage.getItem("lume_last_day");
-  const streak = parseInt(localStorage.getItem("lume_streak") || "0");
+  const lastDay = localStorage.getItem(accountKey("lume_last_day"));
+  const streak = parseInt(localStorage.getItem(accountKey("lume_streak")) || "0");
 
   if (lastDay === today) return streak;
   const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
   if (lastDay === yesterday) {
     const newStreak = streak + 1;
-    localStorage.setItem("lume_streak", String(newStreak));
-    localStorage.setItem("lume_last_day", today);
+    localStorage.setItem(accountKey("lume_streak"), String(newStreak));
+    localStorage.setItem(accountKey("lume_last_day"), today);
     return newStreak;
   }
-  localStorage.setItem("lume_streak", "1");
-  localStorage.setItem("lume_last_day", today);
+  localStorage.setItem(accountKey("lume_streak"), "1");
+  localStorage.setItem(accountKey("lume_last_day"), today);
   return 1;
 }

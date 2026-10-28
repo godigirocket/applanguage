@@ -1,12 +1,10 @@
 /**
- * In-memory sliding-window rate limiter for server functions that call paid,
- * third-party APIs (Gemini, Google Cloud TTS). Keyed by client IP.
+ * In-memory sliding-window rate limiter for optional public API lookups.
  *
  * Limitation: this state lives in the serverless instance's memory, so it
  * resets on cold start and is not shared across concurrent instances. It
- * stops rapid abuse within a warm instance, but is not a substitute for
- * restricting the underlying API key itself (API restrictions + quota in
- * Google Cloud Console / AI Studio).
+ * stops rapid abuse within a warm instance; public providers may impose
+ * their own independent usage limits.
  */
 
 interface Bucket {

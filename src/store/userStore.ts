@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { accountWritesPaused } from "@/lib/account-storage";
 
 export type UserLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
@@ -153,15 +154,20 @@ export const useUserStore = create<UserStoreState>()(
       setTargetLanguage: (targetLanguage) => set({ targetLanguage }),
     }),
     {
-      name: "lume-user-settings",
+      name: "lume-user-settings:guest",
+      skipHydration: true,
       storage: {
         getItem: (name) => {
           if (typeof window === "undefined") return null;
-          const item = localStorage.getItem(name);
-          return item ? JSON.parse(item) : null;
+          try {
+            const item = localStorage.getItem(name);
+            return item ? JSON.parse(item) : null;
+          } catch {
+            return null;
+          }
         },
         setItem: (name, value) => {
-          if (typeof window !== "undefined") {
+          if (typeof window !== "undefined" && !accountWritesPaused()) {
             localStorage.setItem(name, JSON.stringify(value));
           }
         },

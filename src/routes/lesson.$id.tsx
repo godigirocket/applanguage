@@ -1,1633 +1,864 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight,
+  Bookmark,
+  Check,
+  CheckCircle2,
+  Clock,
+  RotateCcw,
+  Sparkles,
+  Trophy,
+  Volume2,
+  X,
+  Zap,
+} from "lucide-react";
+import { getAllMasterLessons, getMasterLessonById } from "@/data/contentEngine";
 import { useStore } from "@/hooks/useStore";
 import { useAuth } from "@/lib/auth";
 import {
-  ArrowLeft,
-  Book,
-  Mic,
-  Volume2,
-  BookOpen,
-  Sparkles,
-  Target,
-  CheckCircle,
-  Clock,
-  Brain,
-  Zap,
-  Check,
-  Trophy,
-  Award,
-  Lock,
-  Bookmark,
-} from "@/components/lume/CustomIcons";
-import {
   completeLesson as completeLessonDB,
-  upsertLessonProgress,
   getLessonProgress,
+  upsertLessonProgress,
 } from "@/lib/lesson-progress";
-import { getMasterLessonById, getAllMasterLessons } from "@/data/contentEngine";
-import { toast } from "sonner";
-import { PremiumGate } from "@/components/PremiumGate";
-import { PronunciationChallenge } from "@/components/PronunciationChallenge";
-import { supabase } from "@/integrations/supabase/client";
-import { isTTSSupported, speak } from "@/lib/language-apis/webSpeech";
-import { saveWord, isWordSaved } from "@/lib/language-content/saved-words";
-import { isTrialActive } from "@/lib/trial";
+import {
+  advanceSession,
+  buildActivities,
+  freshSession,
+  normalizeAnswer,
+  restoreSession,
+  sessionAccuracy,
+  type LessonActivity,
+  type LessonSession,
+} from "@/lib/lesson-session";
+import { isTTSSupported, speak, stopSpeaking } from "@/lib/language-apis/webSpeech";
+import { isWordSaved, saveWord } from "@/lib/language-content/saved-words";
 import { resolveGlossLanguage } from "@/lib/language-content/vocabulary-engine";
-import type { VocabularyItem } from "@/lib/language-content/types";
+import { PronunciationChallenge } from "@/components/PronunciationChallenge";
 import { Mascot } from "@/components/lume/Mascot";
-
-function getLegacyLessonRequest(id: string) {
-  const match = id.match(/^lesson-(en|es|pt)-(\d+)$/);
-  if (!match) return null;
-  return {
-    language: match[1] as "en" | "es" | "pt",
-    index: Math.max(0, Number(match[2]) - 1),
-  };
-}
+import { PremiumGate } from "@/components/PremiumGate";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { isTrialActive } from "@/lib/trial";
+import { supabase } from "@/lib/supabase";
+import { withTimeout } from "@/lib/promise-timeout";
+import { sounds } from "@/lib/soundEffects";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/lesson/$id")({
+  loader: async ({ params }) => {
+    const language = params.id.match(/^lesson-(en|es|pt)-/)?.[1] as Language | undefined;
+    if (!language) return { lesson: null, all: [] as CourseEntry[] };
+    const [lesson, metadata] = await Promise.all([
+      getMasterLessonById(params.id, language),
+      getAllMasterLessons(language),
+    ]);
+    return {
+      lesson: (lesson || null) as Lesson | null,
+      all: metadata.map((l) => ({
+        id: l.id,
+        category: l.category,
+        level: l.level,
+      })) as CourseEntry[],
+    };
+  },
   component: LessonPage,
 });
-
-const CATEGORY_ICONS: Record<string, any> = {
-  grammar: Book,
-  vocabulary: Sparkles,
-  pronunciation: Mic,
-  listening: Volume2,
-  speaking: Mic,
-  idioms: BookOpen,
-  reading: BookOpen,
-  writing: Target,
+type CourseEntry = { id: string; level: string; category?: string };
+type Language = "pt" | "en" | "es";
+type Lesson = {
+  id: string;
+  title: string;
+  level: string;
+  language: Language;
+  xp: number;
+  duration: string;
+  steps: any[];
+  topic?: string;
+  category?: string;
 };
-
-// Same category palette as /lessons, so a lesson's color identity is
-// consistent whether you're browsing the catalog or inside the lesson.
-const CATEGORY_COLORS: Record<string, string> = {
-  vocabulary: "#0F6BFF",
-  grammar: "#1CB0F6",
-  listening: "#14B8A6",
-  speaking: "#FF4B4B",
-  idioms: "#2FBB52",
-};
-
-const LEVEL_TO_DIFFICULTY: Record<string, string> = {
-  A1: "Beginner",
-  A2: "Beginner",
-  B1: "Intermediate",
-  B2: "Intermediate",
-  C1: "Advanced",
-  C2: "Advanced",
-};
-
-interface QuizItem {
-  q: string;
-  options: string[];
-  correct: string;
-  explanation: string;
-  audioText?: string;
-}
 
 function LessonPage() {
-  const { id } = Route.useParams();
-  const nav = useNavigate();
+  const { lesson, all } = Route.useLoaderData();
   const { user } = useAuth();
-  const { interfaceLanguage, targetLanguage, completedLessons, completeLesson, addXP } = useStore();
-  const isPT = interfaceLanguage === "pt";
-  const isES = interfaceLanguage === "es";
-  // Chrome text used to be a binary pt/en switch, so an es-interface user
-  // saw English UI copy around correctly-Spanish lesson content — this
-  // picks a real 3-way translation instead.
-  const t = (pt: string, en: string, es: string) => (isPT ? pt : isES ? es : en);
-
-  // Real lesson content, loaded from the same masterContent source that
-  // generates the /home and /lessons cards — previously this route read from
-  // an entirely different, disconnected legacy catalog (lessonCatalog.ts),
-  // so clicking a card like "At the Airport" could open a completely
-  // unrelated generic lesson ("Vocabulary: Business English").
-  const [lesson, setLesson] = useState<any | null | undefined>(null); // null = loading, undefined = not found
-  const [allLessons, setAllLessons] = useState<any[]>([]);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLesson(null);
-    const legacy = getLegacyLessonRequest(id);
-    const lookupLanguage = legacy?.language || targetLanguage;
-    Promise.all([
-      getAllMasterLessons(lookupLanguage),
-      getMasterLessonById(id, lookupLanguage),
-    ]).then(([all, found]) => {
-      if (cancelled) return;
-      setAllLessons(all);
-      const canonicalLegacyLesson = legacy ? all[legacy.index] : null;
-      if (!found && canonicalLegacyLesson?.id) {
-        nav({ to: `/lesson/${canonicalLegacyLesson.id}` as any, replace: true });
-        return;
-      }
-      setLesson(found);
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [id, targetLanguage, nav]);
-
-  const lessonType = lesson?.category
-    ? lesson.category.charAt(0).toUpperCase() + lesson.category.slice(1)
-    : "Vocabulary";
-  const topic = lesson?.title || "";
-  const difficulty = LEVEL_TO_DIFFICULTY[lesson?.level] || "Beginner";
-  const xpReward = lesson?.xp || 20;
-  const duration = parseInt(lesson?.duration) || 6;
-  const color = CATEGORY_COLORS[lesson?.category] || lesson?.color || "#1CB0F6";
-  const TypeIcon = CATEGORY_ICONS[lesson?.category] || Book;
-
-  const steps: any[] = lesson?.steps || [];
-  const vocabStep = steps.find((s) => s.type === "vocab");
-  const translationQuizStep = steps.find((s) => s.type === "quiz");
-  const listeningStep = steps.find((s) => s.type === "listening");
-  const grammarQuizStep = steps.filter((s) => s.type === "quiz")[1];
-  const speakingStep = steps.find((s) => s.type === "speaking");
-
-  // Vocab meaning is stored per-gloss-language (e.g. { en, es, pt }) rather
-  // than a single hardcoded string, so it can be shown in whichever language
-  // the learner actually reads, not just Portuguese/English regardless of
-  // their interfaceLanguage setting.
-  const glossLanguage = resolveGlossLanguage(targetLanguage, interfaceLanguage);
-  const COGNATE_NOTE: Record<string, string> = {
-    en: " (same word)",
-    es: " (misma palabra)",
-    pt: " (mesma palavra)",
-  };
-  const vocab: Array<{ word: string; meaning: string; example: string }> = (vocabStep?.words || []).map(
-    (w: { word: string; meaning: string | Partial<Record<"en" | "es" | "pt", string>>; example: string }) => {
-      const rawMeaning =
-        typeof w.meaning === "string"
-          ? w.meaning
-          : w.meaning[glossLanguage] ?? w.meaning.pt ?? w.meaning.en ?? w.meaning.es ?? "";
-      const isCognate = rawMeaning.trim().toLowerCase() === w.word.trim().toLowerCase();
-      return {
-        word: w.word,
-        example: w.example,
-        meaning: isCognate ? `${rawMeaning}${COGNATE_NOTE[interfaceLanguage] || ""}` : rawMeaning,
-      };
-    },
+  const nav = useNavigate();
+  if (!lesson)
+    return (
+      <div className="lesson-loading">
+        <Mascot state="thinking" size={100} />
+        <h1>Não foi possível abrir esta lição</h1>
+        <button className="lesson-secondary" onClick={() => nav({ to: "/lessons" })}>
+          Voltar às lições
+        </button>
+      </div>
+    );
+  return (
+    <LessonPlayer key={`${lesson.id}:${user?.id || "guest"}`} lesson={lesson} allLessons={all} />
   );
+}
 
-  const quiz: QuizItem[] = [];
-  if (translationQuizStep?.options?.length) {
-    const correct = translationQuizStep.options[translationQuizStep.correct ?? 0];
-    // The question wording always quotes the term being translated (e.g. `Qual é a
-    // tradução correta para "reservation"?`) — pull it out so the explanation can
-    // spell out the actual term -> translation pairing instead of just repeating
-    // the option the learner already saw.
-    const term = translationQuizStep.question?.match(/"([^"]+)"/)?.[1];
-    quiz.push({
-      q: translationQuizStep.question || "",
-      options: translationQuizStep.options,
-      correct,
-      explanation: term
-        ? t(`"${term}" significa "${correct}".`, `"${term}" means "${correct}".`, `"${term}" significa "${correct}".`)
-        : t(`A resposta correta é "${correct}".`, `The correct answer is "${correct}".`, `La respuesta correcta es "${correct}".`),
-    });
-  }
-  if (listeningStep?.options?.length) {
-    const correct = listeningStep.options[listeningStep.correct ?? 0];
-    const meaning = vocab.find((v) => v.word.toLowerCase() === correct.toLowerCase())?.meaning;
-    quiz.push({
-      q:
-        listeningStep.question ||
-        t("Ouça e escolha a palavra correta:", "Listen and choose the correct word:", "Escucha y elige la palabra correcta:"),
-      options: listeningStep.options,
-      correct,
-      explanation: meaning
-        ? t(`"${correct}" significa "${meaning}".`, `"${correct}" means "${meaning}".`, `"${correct}" significa "${meaning}".`)
-        : t(`A palavra correta é "${correct}".`, `The correct word is "${correct}".`, `La palabra correcta es "${correct}".`),
-      audioText: listeningStep.audioText,
-    });
-  }
-  if (grammarQuizStep?.options?.length) {
-    const correct = grammarQuizStep.options[grammarQuizStep.correct ?? 0];
-    quiz.push({
-      q: grammarQuizStep.question || "",
-      options: grammarQuizStep.options,
-      correct,
-      explanation: t(`A resposta correta é "${correct}".`, `The correct answer is "${correct}".`, `La respuesta correcta es "${correct}".`),
-    });
-  }
+function LessonPlayer({ lesson, allLessons }: { lesson: Lesson; allLessons: CourseEntry[] }) {
+  const { user, loading: authLoading } = useAuth();
+  const nav = useNavigate();
+  const ui = useStore((s) => s.interfaceLanguage);
+  const completed = useStore((s) => s.completedLessons.includes(lesson.id));
+  const isKid = useStore((s) => s.isKidAccount);
+  const t = (pt: string, en: string, es: string) => (ui === "pt" ? pt : ui === "es" ? es : en);
+  const activities = useMemo(
+    () => buildActivities(lesson.steps).filter((a) => !isKid || a.type !== "speaking"),
+    [lesson.steps, isKid],
+  );
+  const [session, setSession] = useState<LessonSession>(freshSession);
+  const [resume, setResume] = useState<LessonSession | null>(null);
+  const [screen, setScreen] = useState<"intro" | "play" | "done">("intro");
+  const [ready, setReady] = useState(false);
+  const [exitOpen, setExitOpen] = useState(false);
+  const [plan, setPlan] = useState<"loading" | "free" | "premium">("loading");
+  const [gateOpen, setGateOpen] = useState(false);
+  const [earned, setEarned] = useState(0);
+  const [syncing, setSyncing] = useState(false);
+  const [pendingSync, setPendingSync] = useState(false);
+  const finished = useRef(false);
+  const advancing = useRef(false);
+  const reduceMotion = useReducedMotion();
+  const storageKey = `lume-session-v1:${user?.id || "guest"}:${lesson.id}`;
+  const courseIndex = allLessons.findIndex((l) => l.id === lesson.id);
+  const premium = courseIndex >= 10 && !isTrialActive();
+  const activity = activities[session.cursor];
+  const progress =
+    screen === "done" ? 100 : Math.round((session.cursor / Math.max(1, activities.length)) * 100);
 
-  const isCompleted = completedLessons.includes(id);
-
-  const [step, setStep] = useState<"intro" | "vocab" | "speaking" | "quiz" | "done">("intro");
-  const [vocabIdx, setVocabIdx] = useState(0);
-  const [quizIdx, setQuizIdx] = useState(0);
-  const [speakingResolved, setSpeakingResolved] = useState<boolean | null>(null);
-
-  // Only offer the speaking step when there's an actual phrase to practice —
-  // it must be fully skippable, never a blocker for lessons without one.
-  const speakingPhrase = speakingStep?.targetPhrase || vocab[0]?.example;
-  const [selected, setSelected] = useState<string | null>(null);
-  const [answered, setAnswered] = useState(false);
-  const [quizScore, setQuizScore] = useState(0);
-  const [saving, setSaving] = useState(false);
-  const quizAccuracy = quiz.length > 0 ? Math.round((quizScore / quiz.length) * 100) : 100;
-
-  // Track completion - only once
-  const [hasCompletedThisSession, setHasCompletedThisSession] = useState(false);
-
-  // Saved-word bookmarks for the vocab step (spaced-repetition review pool)
-  const [savedWordIds, setSavedWordIds] = useState<Set<string>>(new Set());
-
-  function getNextLearningStep() {
-    if (vocab.length > 0) return "vocab";
-    if (speakingPhrase) return "speaking";
-    if (quiz.length > 0) return "quiz";
-    return "done";
-  }
-
-  function startLesson() {
-    const nextStep = getNextLearningStep();
-    setStep(nextStep);
-    if (nextStep === "done") {
-      handleLessonComplete();
-    }
-  }
-
-  function vocabAsVocabularyItem(
-    v: { word: string; meaning: string; example: string },
-    idx: number,
-  ): VocabularyItem {
-    return {
-      id: `${id}-vocab-${idx}`,
-      term: v.word,
-      translation: v.meaning,
-      example: v.example,
-      difficulty: "beginner",
-      topic: "daily",
-      targetLanguage: (lesson?.language as VocabularyItem["targetLanguage"]) || "en",
-      source: "manual",
-    };
-  }
-
-  function handleToggleSaveWord(idx: number) {
-    const item = vocabAsVocabularyItem(vocab[idx], idx);
-    if (isWordSaved(item.id)) return; // saveWord/unsave isn't reversible here yet — keep it simple
-    saveWord(item);
-    setSavedWordIds((prev) => new Set(prev).add(item.id));
-  }
-
-  function handleSpeakWord(text: string) {
-    if (!isTTSSupported()) return;
-    speak(text, (lesson?.language as "en" | "es" | "pt") || "en");
-  }
-
-  // Premium gate state
-  const [showPremiumGate, setShowPremiumGate] = useState(false);
-  const [userPlan, setUserPlan] = useState<"free" | "premium" | "loading">("loading");
-
-  // Check if user has premium (for lessons 11+)
   useEffect(() => {
-    if (!user) {
-      setUserPlan("free");
-      return;
+    if (authLoading) return;
+    let active = true;
+    let local: LessonSession | null = null;
+    try {
+      local = restoreSession(
+        JSON.parse(localStorage.getItem(storageKey) || "null"),
+        activities.length,
+      );
+    } catch {
+      /* unavailable storage */
     }
-
-    async function checkPremium() {
-      try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("plan")
-          .eq("id", user!.id)
-          .single();
-
-        if (error) {
-          console.error("[Lesson] Failed to check premium:", error);
-          setUserPlan("free");
+    setResume(local && local.cursor < activities.length ? local : null);
+    setReady(true);
+    if (user)
+      getLessonProgress(user.id, lesson.id).then((saved) => {
+        if (!active || !saved) return;
+        if (saved.status === "completed") {
+          useStore.getState().completeLesson(lesson.id);
           return;
         }
+        // Old players stored only 3 vocab/quiz items per phase. Only resume
+        // checkpoints that match the full sequence to avoid a wrong stage.
+        if (
+          !local &&
+          activities.length > 3 &&
+          saved.total_steps === activities.length &&
+          saved.current_step &&
+          saved.current_step < activities.length
+        )
+          setResume({
+            ...freshSession(),
+            cursor: saved.current_step,
+            results: Array(saved.current_step).fill(null),
+          });
+      });
+    return () => {
+      active = false;
+    };
+  }, [authLoading, storageKey, activities.length, user?.id, lesson.id]);
 
-        setUserPlan(data?.plan === "premium" ? "premium" : "free");
-      } catch (err) {
-        console.error("[Lesson] Premium check error:", err);
-        setUserPlan("free");
-      }
+  useEffect(() => {
+    let active = true;
+    if (authLoading) return;
+    if (!user) {
+      setPlan("free");
+      return;
     }
-
-    checkPremium();
-  }, [user]);
-
-  // Block premium lessons for free users (but allow during 24h trial)
-  const lessonNumber = parseInt(id.replace(/\D/g, "")) || 1;
-  const isPremiumLesson = lessonNumber > 10;
+    withTimeout(
+      supabase.from("profiles").select("plan, premium_until").eq("id", user.id).maybeSingle(),
+      6000,
+    )
+      .then(({ data }) => {
+        if (active)
+          setPlan(
+            data?.plan === "premium" &&
+              (!data.premium_until || new Date(data.premium_until) > new Date())
+              ? "premium"
+              : "free",
+          );
+      })
+      .catch(() => {
+        if (active) setPlan("free");
+      });
+    return () => {
+      active = false;
+    };
+  }, [authLoading, user?.id]);
 
   useEffect(() => {
-    // If premium lesson and user is free AND trial is not active, show gate
-    if (isPremiumLesson && userPlan === "free" && !isTrialActive()) {
-      setShowPremiumGate(true);
+    advancing.current = false;
+    if (screen === "play") window.scrollTo({ top: 0, behavior: "instant" });
+    return () => stopSpeaking();
+  }, [session.cursor, screen]);
+
+  function persist(next: LessonSession) {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(next));
+    } catch {
+      /* memory still works */
     }
-  }, [isPremiumLesson, userPlan]);
-
-  // Reflect words already saved in a previous session (localStorage) on load.
-  useEffect(() => {
-    const saved = new Set<string>();
-    vocab.forEach((_, idx) => {
-      const wordId = `${id}-vocab-${idx}`;
-      if (isWordSaved(wordId)) saved.add(wordId);
-    });
-    setSavedWordIds(saved);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
-  useEffect(() => {
-    setStep("intro");
-    setVocabIdx(0);
-    setQuizIdx(0);
-    setSelected(null);
-    setAnswered(false);
-    setQuizScore(0);
-    setSpeakingResolved(null);
-    setHasCompletedThisSession(false);
-  }, [id, targetLanguage]);
-
-  // Load progress on mount
-  useEffect(() => {
-    if (user) {
-      getLessonProgress(user.id, id)
-        .then((progress) => {
-          if (progress && progress.status === "in_progress") {
-            const savedStep = progress.current_step;
-            if (savedStep !== undefined && savedStep !== null) {
-              if (progress.progress >= 60 && quiz.length > 0) {
-                setStep("quiz");
-                setQuizIdx(Math.min(savedStep, quiz.length - 1));
-              } else if (progress.progress >= 30 && vocab.length > 0) {
-                setStep("vocab");
-                setVocabIdx(Math.min(savedStep, vocab.length - 1));
-              }
-              // If quiz is empty but progress was >=60, stay on intro
-              // so the user can redo vocab and complete naturally.
-            }
-          }
-        })
-        .catch((err) => console.warn("Could not load progress:", err));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user, id]);
-
-  // Update progress when step changes
-  useEffect(() => {
-    if (user && step !== "intro" && step !== "done") {
-      const progress = step === "quiz" ? 60 : step === "vocab" ? 30 : 0;
-      upsertLessonProgress(user.id, id, {
+    if (user && next.cursor < activities.length && !completed)
+      void upsertLessonProgress(user.id, lesson.id, {
         status: "in_progress",
-        progress,
-        current_step: step === "vocab" ? vocabIdx : quizIdx,
-        total_steps: step === "vocab" ? vocab.length : quiz.length,
-      }).catch((err) => console.warn("Progress save failed:", err));
-    }
-  }, [step, vocabIdx, quizIdx, user, id]);
-
-  // Auto-play the audio once when a listening question first appears.
-  useEffect(() => {
-    // Safety: if we're on the quiz step but there are no questions, complete the lesson
-    if (step === "quiz" && quiz.length === 0) {
-      setStep("done");
-      handleLessonComplete();
-      return;
-    }
-    const current = quiz[quizIdx];
-    if (step === "quiz" && current?.audioText && isTTSSupported()) {
-      speak(current.audioText, (lesson?.language as "en" | "es" | "pt") || "en");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step, quizIdx]);
-
-  async function handleLessonComplete() {
-    if (hasCompletedThisSession || saving) return;
-
-    setSaving(true);
-    setHasCompletedThisSession(true);
-
-    // A lesson can be replayed after it was already completed (e.g. from the
-    // catalog's "Completed" card); XP must only ever be awarded for the first
-    // completion, not every time this handler runs.
-    const alreadyCompletedLocally = completedLessons.includes(id);
-    completeLesson(id);
-
-    if (user) {
-      try {
-        const result = await completeLessonDB(user.id, id, xpReward, duration * 60);
-        if (!result.alreadyCompleted && !alreadyCompletedLocally) {
-          addXP(xpReward);
-          toast.success(t(`+${xpReward} XP ganhos!`, `+${xpReward} XP earned!`, `¡+${xpReward} XP ganados!`));
-        } else {
-          toast.info(t("Lição já concluída anteriormente", "Lesson already completed", "Lección ya completada anteriormente"));
-        }
-      } catch (error) {
-        console.error("Failed to save lesson completion:", error);
-        if (!alreadyCompletedLocally) addXP(xpReward);
-        toast.warning(t("Progresso salvo localmente", "Progress saved locally", "Progreso guardado localmente"));
-      }
-    } else if (!alreadyCompletedLocally) {
-      addXP(xpReward);
-      toast.success(t(`+${xpReward} XP ganhos!`, `+${xpReward} XP earned!`, `¡+${xpReward} XP ganados!`));
-    } else {
-      toast.info(t("Lição já concluída anteriormente", "Lesson already completed", "Lección ya completada anteriormente"));
-    }
-
-    setSaving(false);
+        progress: Math.round((next.cursor / activities.length) * 100),
+        current_step: next.cursor,
+        total_steps: activities.length,
+        score: sessionAccuracy(next),
+      });
   }
 
-  function handleAnswer(opt: string) {
-    if (answered || !quiz[quizIdx]) return;
-    setSelected(opt);
-    setAnswered(true);
-    if (opt === quiz[quizIdx].correct) setQuizScore((s) => s + 1);
-  }
-
-  async function nextQuiz() {
-    if (quiz.length === 0) {
-      // No quiz questions available — complete the lesson directly
-      setStep("done");
-      await handleLessonComplete();
-      return;
+  async function finish(next: LessonSession) {
+    if (finished.current) return;
+    finished.current = true;
+    setScreen("done");
+    const state = useStore.getState();
+    const first = !state.completedLessons.includes(lesson.id);
+    state.completeLesson(lesson.id);
+    let reward = 0;
+    state.recordStudy();
+    if (first) {
+      const before = state.xp;
+      state.addXP(lesson.xp);
+      reward = useStore.getState().xp - before;
+      setEarned(reward);
     }
-    if (quizIdx + 1 < quiz.length) {
-      setQuizIdx((q) => q + 1);
-      setSelected(null);
-      setAnswered(false);
-    } else {
-      setStep("done");
-      await handleLessonComplete();
-    }
-  }
-
-  function handleNextLesson() {
-    const currentIndex = allLessons.findIndex((l) => l.id === id);
-    if (currentIndex >= 0 && currentIndex < allLessons.length - 1) {
-      const nextLesson = allLessons[currentIndex + 1];
-      nav({ to: `/lesson/${nextLesson.id}` as any });
-    } else {
-      toast.info(
-        t(
-          "Você completou todas as lições disponíveis!",
-          "You've completed all available lessons!",
-          "¡Completaste todas las lecciones disponibles!",
-        ),
+    sounds.playLessonComplete();
+    if (!reduceMotion)
+      void import("canvas-confetti").then(({ default: confetti }) =>
+        confetti({
+          particleCount: 80,
+          spread: 75,
+          origin: { y: 0.65 },
+          colors: ["#2fbb52", "#1cb0f6", "#ffc200"],
+          disableForReducedMotion: true,
+        }),
       );
-      nav({ to: "/lessons" });
+    if (user) {
+      setSyncing(true);
+      try {
+        const result = await completeLessonDB(
+          user.id,
+          lesson.id,
+          first ? reward : lesson.xp,
+          Math.round((Date.now() - next.startedAt) / 1000),
+        );
+        setPendingSync(result.pending);
+      } catch {
+        toast.info(
+          t(
+            "Progresso salvo neste dispositivo",
+            "Progress saved on this device",
+            "Progreso guardado en este dispositivo",
+          ),
+        );
+      } finally {
+        setSyncing(false);
+      }
     }
   }
 
-  // Protect against locked lessons
-  if (lesson === null) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "var(--bg)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "48px",
-            height: "48px",
-            border: "4px solid var(--border)",
-            borderTopColor: "var(--brand)",
-            borderRadius: "50%",
-            animation: "spin 0.8s linear infinite",
-          }}
-        />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
+  function advance(result: boolean | null = null) {
+    if (advancing.current || finished.current) return;
+    advancing.current = true;
+    const next = advanceSession(session, activities.length, result);
+    persist(next);
+    setSession(next);
+    if (next.cursor >= activities.length) void finish(next);
   }
 
-  if (lesson === undefined) {
-    return (
-      <div
-        style={{
-          minHeight: "100vh",
-          background: "var(--bg)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "24px",
-        }}
-      >
-        <div style={{ textAlign: "center", maxWidth: "400px" }}>
-          <Lock size={64} color="var(--text-secondary)" style={{ marginBottom: "16px" }} />
-          <h2
-            style={{
-              fontSize: "24px",
-              fontWeight: 800,
-              color: "var(--text-primary)",
-              marginBottom: "12px",
-            }}
-          >
-            {t("Lição não encontrada", "Lesson not found", "Lección no encontrada")}
-          </h2>
-          <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "24px" }}>
-            {t(
-              "Esta lição não está disponível no idioma atual.",
-              "This lesson isn't available in the current language.",
-              "Esta lección no está disponible en el idioma actual.",
-            )}
-          </p>
-          <button
-            onClick={() => nav({ to: "/lessons" })}
-            style={{
-              padding: "14px 28px",
-              borderRadius: "12px",
-              background: "var(--brand)",
-              color: "white",
-              border: "none",
-              fontSize: "15px",
-              fontWeight: 700,
-              cursor: "pointer",
-            }}
-          >
-            {t("← Voltar ao Catálogo", "← Back to Catalog", "← Volver al Catálogo")}
-          </button>
-        </div>
-      </div>
-    );
+  function start(restart = false) {
+    if (authLoading || !ready) return;
+    if (premium && plan !== "premium") {
+      setGateOpen(true);
+      return;
+    }
+    const next = !restart && resume ? resume : freshSession();
+    finished.current = false;
+    setEarned(0);
+    setSession(next);
+    setScreen("play");
+    persist(next);
   }
 
+  const nextLesson = allLessons
+    .slice(courseIndex + 1)
+    .find(
+      (l) =>
+        !useStore.getState().completedLessons.includes(l.id) &&
+        (!isKid ||
+          (["vocabulary", "listening"].includes(l.category || "") && l.level.startsWith("A"))),
+    );
   return (
-    <div
-      style={{
-        minHeight: "100dvh",
-        background: "var(--bg)",
-        position: "relative",
-      }}
-      className="lume-lesson-play-page"
-    >
-      
-
-      {/* Fullscreen immersive lesson: no AppHeader/BottomNav — the per-step
-          progress bar + back button below is the only chrome, so nothing
-          fights for attention while actually doing the lesson. */}
-      <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Premium Gate Modal */}
-        <PremiumGate
-          isOpen={showPremiumGate}
-          onClose={() => {
-            setShowPremiumGate(false);
-            nav({ to: "/lessons" });
-          }}
-          onContinueFree={() => {
-            setShowPremiumGate(false);
-            nav({ to: "/lessons" });
-          }}
-        />
-
-        {/* ── INTRO ── */}
-        {step === "intro" && (
-          <main className="lesson-stage lesson-intro-stage" style={{ maxWidth: "720px", margin: "0 auto", padding: "40px 24px" }}>
-            <button
-              onClick={() => nav({ to: "/lessons" })}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                background: "none",
-                border: "none",
-                color: "var(--text-secondary)",
-                fontSize: "14px",
-                fontWeight: 700,
-                cursor: "pointer",
-                marginBottom: "28px",
-                padding: 0,
-              }}
-            >
-              <ArrowLeft size={16} /> {t("Voltar", "Back", "Volver")}
-            </button>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <div
-                style={{
-                  background: `linear-gradient(135deg, ${color}22, ${color}11)`,
-                  border: `2px solid ${color}44`,
-                  borderRadius: "24px",
-                  padding: "36px",
-                  marginBottom: "24px",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "16px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "56px",
-                      height: "56px",
-                      borderRadius: "16px",
-                      background: `${color}22`,
-                      border: `2px solid ${color}44`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <TypeIcon size={28} color={color} />
-                  </div>
-                  <div>
-                    <div
-                      style={{ display: "flex", gap: "8px", marginBottom: "8px", flexWrap: "wrap" }}
-                    >
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          background: `${color}20`,
-                          borderRadius: "99px",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          color,
-                        }}
-                      >
-                        {lessonType}
-                      </span>
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          background: "var(--border)",
-                          borderRadius: "99px",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          color: "var(--text-secondary)",
-                        }}
-                      >
-                        {difficulty}
-                      </span>
-                      <span
-                        style={{
-                          padding: "3px 10px",
-                          background: "rgba(76,175,80,0.1)",
-                          borderRadius: "99px",
-                          fontSize: "11px",
-                          fontWeight: 800,
-                          color: "#4CAF50",
-                        }}
-                      >
-                        +{xpReward} XP
-                      </span>
-                      {isCompleted && (
-                        <span
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "4px",
-                            padding: "3px 10px",
-                            background: "rgba(76,175,80,0.15)",
-                            borderRadius: "99px",
-                            fontSize: "11px",
-                            fontWeight: 800,
-                            color: "#4CAF50",
-                          }}
-                        >
-                          <CheckCircle size={12} /> {t("Completo", "Done", "Completo")}
-                        </span>
-                      )}
-                    </div>
-                    <h1
-                      style={{
-                        fontSize: "clamp(20px, 4vw, 28px)",
-                        fontWeight: 900,
-                        color: "var(--text-primary)",
-                        lineHeight: 1.2,
-                      }}
-                    >
-                      {lessonType}: {topic}
-                    </h1>
-                  </div>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    fontSize: "14px",
-                    color: "var(--text-secondary)",
-                    flexWrap: "wrap",
-                    alignItems: "center",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <Clock size={16} color="var(--text-secondary)" />
-                    <span>{duration} min</span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <BookOpen size={16} color="var(--text-secondary)" />
-                    <span>
-                      {vocab.length} {t("conceitos", "concepts", "conceptos")}
-                    </span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                    <Brain size={16} color="var(--text-secondary)" />
-                    <span>
-                      {quiz.length} {t("questões", "questions", "preguntas")}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  background: "var(--card-bg)",
-                  border: "2px solid var(--border)",
-                  borderRadius: "20px",
-                  padding: "28px",
-                  marginBottom: "20px",
-                }}
-              >
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    fontWeight: 800,
-                    color: "var(--text-primary)",
-                    marginBottom: "16px",
-                  }}
-                >
-                  {t("O que você vai aprender", "What you will learn", "Lo que vas a aprender")}
-                </h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {vocab.map((v, i) => (
-                    <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                      <div
-                        style={{
-                          width: "24px",
-                          height: "24px",
-                          borderRadius: "50%",
-                          background: `${color}15`,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          flexShrink: 0,
-                          fontSize: "12px",
-                          fontWeight: 900,
-                          color,
-                        }}
-                      >
-                        {i + 1}
-                      </div>
-                      <div>
-                        <span
-                          style={{
-                            fontWeight: 700,
-                            color: "var(--text-primary)",
-                            fontSize: "14px",
-                          }}
-                        >
-                          {v.word}
-                        </span>
-                        <span style={{ color: "var(--text-secondary)", fontSize: "13px" }}>
-                          {" "}
-                          — {v.meaning}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <button
-                onClick={startLesson}
-                className="btn-gold animated-container"
-                style={{
-                  width: "100%",
-                  padding: "18px",
-                  fontSize: "16px",
-                }}
-              >
-                {t("INICIAR LIÇÃO", "START LESSON", "INICIAR LECCIÓN")}
-              </button>
-            </motion.div>
-          </main>
-        )}
-
-        {/* ── VOCAB FLASHCARDS ── */}
-        {step === "vocab" && vocab.length > 0 && vocab[vocabIdx] && (
-          <main className="lesson-stage" style={{ maxWidth: "720px", margin: "0 auto" }}>
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
-            >
-              <button
-                onClick={() => setStep("intro")}
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: "var(--surface-raised)",
-                  border: "1px solid var(--border)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ArrowLeft size={16} color="var(--text-secondary)" />
-              </button>
-              <div
-                style={{
-                  flex: 1,
-                  height: "8px",
-                  background: "var(--border)",
-                  borderRadius: "99px",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    height: "100%",
-                    background: color,
-                    width: `${vocab.length > 0 ? ((vocabIdx + 1) / vocab.length) * 100 : 100}%`,
-                    transition: "width 0.3s",
-                    borderRadius: "99px",
-                  }}
-                />
-              </div>
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: 800,
-                  color: "var(--text-secondary)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {vocabIdx + 1}/{vocab.length}
-              </span>
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={vocabIdx}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.2 }}
-              >
-                <div
-                  style={{
-                    background: "var(--card-bg)",
-                    border: `2px solid ${color}33`,
-                    borderRadius: "24px",
-                    padding: "40px 32px",
-                    textAlign: "center",
-                    marginBottom: "20px",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "14px",
-                      background: `${color}15`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      margin: "0 auto 16px",
-                    }}
-                  >
-                    <TypeIcon size={24} color={color} />
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      fontWeight: 800,
-                      color,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.1em",
-                      marginBottom: "10px",
-                    }}
-                  >
-                    {t("Conceito", "Concept", "Concepto")} {vocabIdx + 1}
-                  </div>
-                  <h2
-                    style={{
-                      fontSize: "clamp(24px, 5vw, 36px)",
-                      fontWeight: 900,
-                      color: "var(--text-primary)",
-                      marginBottom: "4px",
-                    }}
-                  >
-                    {vocab[vocabIdx].word}
-                  </h2>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: "8px",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    {isTTSSupported() && (
-                      <button
-                        onClick={() => handleSpeakWord(vocab[vocabIdx].word)}
-                        aria-label={t("Ouvir", "Listen", "Escuchar")}
-                        style={{
-                          width: "32px",
-                          height: "32px",
-                          borderRadius: "50%",
-                          border: `1px solid ${color}44`,
-                          background: `${color}10`,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                        }}
-                      >
-                        <Volume2 size={16} color={color} />
-                      </button>
-                    )}
-                    <button
-                      onClick={() => handleToggleSaveWord(vocabIdx)}
-                      aria-label={t("Salvar palavra", "Save word", "Guardar palabra")}
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "50%",
-                        border: `1px solid ${color}44`,
-                        background: savedWordIds.has(`${id}-vocab-${vocabIdx}`)
-                          ? color
-                          : `${color}10`,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <Bookmark
-                        size={16}
-                        color={savedWordIds.has(`${id}-vocab-${vocabIdx}`) ? "white" : color}
-                      />
-                    </button>
-                  </div>
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      color: "var(--text-secondary)",
-                      marginBottom: "24px",
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {vocab[vocabIdx].meaning}
-                  </p>
-                  <div
-                    style={{
-                      background: "var(--bg)",
-                      border: `1px solid ${color}33`,
-                      borderLeft: `4px solid ${color}`,
-                      borderRadius: "10px",
-                      padding: "14px 18px",
-                      textAlign: "left",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 800,
-                        color,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        marginBottom: "4px",
-                      }}
-                    >
-                      {t("Exemplo", "Example", "Ejemplo")}
-                    </div>
-                    <p
-                      style={{
-                        fontSize: "14px",
-                        color: "var(--text-primary)",
-                        fontStyle: "italic",
-                        lineHeight: 1.5,
-                        margin: 0,
-                      }}
-                    >
-                      {vocab[vocabIdx].example}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <div style={{ display: "flex", gap: "10px" }}>
-              <button
-                onClick={() => {
-                  if (vocabIdx > 0) setVocabIdx((i) => i - 1);
-                }}
-                disabled={vocabIdx === 0}
-                style={{
-                  flex: 1,
-                  padding: "14px",
-                  borderRadius: "12px",
-                  border: "2px solid var(--border)",
-                  background: "var(--card-bg)",
-                  color: "var(--text-secondary)",
-                  fontSize: "14px",
-                  fontWeight: 700,
-                  cursor: vocabIdx === 0 ? "not-allowed" : "pointer",
-                  opacity: vocabIdx === 0 ? 0.4 : 1,
-                }}
-              >
-                ← {t("Anterior", "Back", "Anterior")}
-              </button>
-              {vocabIdx < vocab.length - 1 ? (
-                <button
-                  onClick={() => setVocabIdx((i) => i + 1)}
-                  style={{
-                    flex: 2,
-                    padding: "14px",
-                    borderRadius: "12px",
-                    border: "none",
-                    background: color,
-                    color: "white",
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  {t("Próximo →", "Next →", "Siguiente →")}
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    if (quiz.length === 0 && !speakingPhrase) {
-                      // No quiz and no speaking — complete lesson directly
-                      setStep("done");
-                      handleLessonComplete();
-                    } else {
-                      setStep(speakingPhrase ? "speaking" : "quiz");
-                    }
-                  }}
-                  style={{
-                    width: "100%",
-                    padding: "14px",
-                    borderRadius: "12px",
-                    border: "none",
-                    background: `linear-gradient(135deg, ${color}, ${color}cc)`,
-                    color: "white",
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "8px",
-                  }}
-                >
-                  <Brain size={18} aria-hidden="true" />
-                  {speakingPhrase
-                    ? t("Praticar Pronúncia →", "Practice Speaking →", "Practicar Pronunciación →")
-                    : quiz.length > 0
-                      ? t("Fazer Quiz →", "Take Quiz →", "Hacer Quiz →")
-                      : t("Concluir Lição →", "Complete Lesson →", "Completar Lección →")}
-                </button>
-              )}
-            </div>
-          </main>
-        )}
-
-        {/* ── SPEAKING ── */}
-        {step === "speaking" && speakingPhrase && (
-          <main
-            className="lesson-stage"
-            style={{
-              maxWidth: "720px",
-              margin: "0 auto",
-              minHeight: "calc(100dvh - 64px)",
-              display: "flex",
-              flexDirection: "column",
-            }}
+    <div className="lesson-player">
+      <header className="lesson-topbar">
+        <button
+          className="lesson-icon"
+          aria-label={t("Sair da lição", "Exit lesson", "Salir de la lección")}
+          onClick={() => (screen === "play" ? setExitOpen(true) : nav({ to: "/lessons" }))}
+        >
+          <X size={22} />
+        </button>
+        <div className="lesson-topbar-center">
+          <span className="lesson-course-title">{lesson.title}</span>
+          <div
+            className="lesson-track"
+            role="progressbar"
+            aria-label={t("Progresso da lição", "Lesson progress", "Progreso de la lección")}
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
           >
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
-            >
-              <button
-                onClick={() => setStep("vocab")}
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: "var(--surface-raised)",
-                  border: "1px solid var(--border)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ArrowLeft size={16} color="var(--text-secondary)" />
-              </button>
-              <h2 style={{ fontSize: "16px", fontWeight: 800, color: "var(--text-primary)" }}>
-                {t("Praticar Pronúncia", "Practice Speaking", "Practicar Pronunciación")}
-              </h2>
-            </div>
-
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}
-            >
-              <Mascot state={speakingResolved === true ? "correct" : speakingResolved === false ? "wrong" : "speaking"} size={72} />
-            </motion.div>
-
-            <PronunciationChallenge
-              targetPhrase={speakingPhrase}
-              targetLanguage={(lesson?.language as "en" | "es" | "pt") || "en"}
-              onSuccess={() => setSpeakingResolved(true)}
-              onFailure={() => setSpeakingResolved(false)}
+              animate={{ width: `${progress}%` }}
+              transition={{ type: "spring", stiffness: 240, damping: 30 }}
             />
-
-            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-              <button
-                onClick={() => {
-                  if (quiz.length === 0) {
-                    setStep("done");
-                    handleLessonComplete();
-                  } else {
-                    setStep("quiz");
-                  }
-                }}
-                style={{
-                  flex: 1,
-                  padding: "14px",
-                  borderRadius: "12px",
-                  border: "2px solid var(--border)",
-                  background: "var(--card-bg)",
-                  color: "var(--text-secondary)",
-                  fontSize: "14px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                }}
-              >
-                {t("Pular", "Skip", "Saltar")}
-              </button>
-              {speakingResolved !== null && (
-                <button
-                  onClick={() => {
-                    if (quiz.length === 0) {
-                      setStep("done");
-                      handleLessonComplete();
-                    } else {
-                      setStep("quiz");
-                    }
-                  }}
-                  style={{
-                    flex: 2,
-                    padding: "14px",
-                    borderRadius: "12px",
-                    border: "none",
-                    background: color,
-                    color: "white",
-                    fontSize: "14px",
-                    fontWeight: 800,
-                    cursor: "pointer",
-                  }}
-                >
-                  {t("Continuar →", "Continue →", "Continuar →")}
-                </button>
-              )}
-            </div>
-            </div>
-          </main>
-        )}
-
-        {/* ── QUIZ ── */}
-        {step === "quiz" && quiz.length > 0 && quiz[quizIdx] && (
-          <main
-            className="lesson-stage"
-            style={{
-              maxWidth: "720px",
-              margin: "0 auto",
-              minHeight: "calc(100dvh - 64px)",
-              display: "flex",
-              flexDirection: "column",
-            }}
+          </div>
+        </div>
+        <span className="lesson-counter">
+          {screen === "intro"
+            ? lesson.level
+            : `${Math.min(session.cursor, activities.length)}/${activities.length}`}
+        </span>
+      </header>
+      <AnimatePresence mode="wait" initial={false}>
+        {screen === "intro" && (
+          <motion.div
+            key="intro"
+            className="lesson-welcome"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
           >
-            <div
-              style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}
-            >
-              <button
-                onClick={() => setStep(speakingPhrase ? "speaking" : "vocab")}
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: "var(--surface-raised)",
-                  border: "1px solid var(--border)",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ArrowLeft size={16} color="var(--text-secondary)" />
-              </button>
-              <div
-                style={{
-                  flex: 1,
-                  height: "8px",
-                  background: "var(--border)",
-                  borderRadius: "99px",
-                  overflow: "hidden",
-                }}
-              >
-                <div
-                  style={{
-                    height: "100%",
-                    background: color,
-                    width: `${((quizIdx + 1) / quiz.length) * 100}%`,
-                    transition: "width 0.3s",
-                    borderRadius: "99px",
-                  }}
-                />
-              </div>
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontWeight: 800,
-                  color: "var(--text-secondary)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {quizIdx + 1}/{quiz.length}
+            <div className="lesson-welcome-art">
+              <Mascot state="happy" size={140} />
+              <span className="lesson-level">{lesson.level}</span>
+            </div>
+            <span className="lesson-eyebrow">
+              {completed
+                ? t("Hora de revisar", "Time to practice", "Hora de repasar")
+                : t(
+                    "Um passo para falar com confiança",
+                    "One step closer to speaking confidently",
+                    "Un paso para hablar con confianza",
+                  )}
+            </span>
+            <h1>{lesson.title}</h1>
+            <p>
+              {t(
+                "Aprenda palavras, ouça, fale e construa frases. Um desafio de cada vez.",
+                "Learn words, listen, speak and build sentences. One challenge at a time.",
+                "Aprende palabras, escucha, habla y construye frases. Un reto a la vez.",
+              )}
+            </p>
+            <div className="lesson-facts">
+              <span>
+                <Clock size={18} />
+                {lesson.duration}
+              </span>
+              <span>
+                <Zap size={18} />
+                {completed ? t("Revisão", "Practice", "Repaso") : `+${lesson.xp} XP`}
+              </span>
+              <span>
+                <Sparkles size={18} />
+                {activities.length} {t("etapas", "activities", "actividades")}
               </span>
             </div>
-
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={quizIdx}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -16 }}
-              >
-                {!answered && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}
-                  >
-                    <Mascot state="thinking" size={72} />
-                  </motion.div>
-                )}
-                <div
-                  style={{
-                    background: "var(--card-bg)",
-                    borderRadius: "24px",
-                    padding: "clamp(20px, 4vw, 32px)",
-                    border: `1.5px solid color-mix(in srgb, ${color} 25%, var(--border))`,
-                    borderTop: `5px solid ${color}`,
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                  }}
-                >
-                <div
-                  style={{
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    color,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {t("Questão", "Question", "Pregunta")} {quizIdx + 1}
-                </div>
-                <h2
-                  style={{
-                    fontSize: "clamp(17px, 3vw, 24px)",
-                    fontWeight: 800,
-                    color: "var(--text-primary)",
-                    marginBottom: quiz[quizIdx].audioText ? "14px" : "28px",
-                    lineHeight: 1.4,
-                  }}
-                >
-                  {quiz[quizIdx].q}
-                </h2>
-
-                {quiz[quizIdx].audioText && isTTSSupported() && (
-                  <button
-                    onClick={() => handleSpeakWord(quiz[quizIdx].audioText!)}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "12px 18px",
-                      borderRadius: "12px",
-                      background: "var(--card-bg)",
-                      border: `2px solid ${color}44`,
-                      color,
-                      fontWeight: 700,
-                      fontSize: "14px",
-                      cursor: "pointer",
-                      marginBottom: "24px",
-                    }}
-                  >
-                    <Volume2 size={18} />
-                    {t("Ouvir novamente", "Play audio", "Reproducir audio")}
-                  </button>
-                )}
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    marginBottom: "20px",
-                  }}
-                >
-                  {quiz[quizIdx].options.map((opt, i) => {
-                    const state = answered
-                      ? opt === quiz[quizIdx].correct
-                        ? "correct"
-                        : opt === selected
-                          ? "wrong"
-                          : "neutral"
-                      : "default";
-                    return (
-                      <motion.button
-                        key={i}
-                        initial={{ opacity: 0, x: -12 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.05 + i * 0.06 }}
-                        onClick={() => handleAnswer(opt)}
-                        className={`quiz-option ${state === "correct" ? "quiz-option-correct animate-celebrate" : state === "wrong" ? "quiz-option-wrong animate-shake" : ""}`}
-                        style={{
-                          cursor: answered ? "default" : "pointer",
-                          pointerEvents: answered ? "none" : "auto",
-                        }}
-                      >
-                        <span className="quiz-option-number">{i + 1}</span>
-                        <span style={{ flex: 1 }}>{opt}</span>
-                        {state === "correct" && (
-                          <CheckCircle
-                            size={20}
-                            color="#58CC02"
-                            aria-label={t("Correto", "Correct", "Correcto")}
-                          />
-                        )}
-                        {state === "wrong" && (
-                          <span style={{ fontSize: "20px", color: "#FF4B4B", fontWeight: 900 }}>✕</span>
-                        )}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-
-                {answered && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    style={{
-                      padding: "16px 20px",
-                      borderRadius: "12px",
-                      background:
-                        selected === quiz[quizIdx].correct
-                          ? "rgba(76,175,80,0.08)"
-                          : "rgba(231,76,60,0.08)",
-                      border: `1px solid ${selected === quiz[quizIdx].correct ? "rgba(76,175,80,0.3)" : "rgba(231,76,60,0.3)"}`,
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <Mascot state={selected === quiz[quizIdx].correct ? "correct" : "wrong"} size={44} />
-                      <div style={{ flex: 1 }}>
-                        <div
-                          style={{
-                            fontWeight: 700,
-                            color: selected === quiz[quizIdx].correct ? "#4CAF50" : "#E74C3C",
-                            marginBottom: "4px",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "6px",
-                          }}
-                        >
-                          {selected === quiz[quizIdx].correct ? (
-                            <>
-                              <CheckCircle size={16} /> {t("Correto!", "Correct!", "¡Correcto!")}
-                            </>
-                          ) : (
-                            <>
-                              <span style={{ fontSize: "16px" }}>✕</span>{" "}
-                              {t("Incorreto", "Incorrect", "Incorrecto")}
-                            </>
-                          )}
-                        </div>
-                        <p
-                          style={{
-                            fontSize: "13px",
-                            color: "var(--text-primary)",
-                            lineHeight: 1.6,
-                            margin: 0,
-                          }}
-                        >
-                          {quiz[quizIdx].explanation}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-
-                {answered && (
-                  <button
-                    onClick={nextQuiz}
-                    className="btn-3d btn-3d-green"
-                    style={{
-                      width: "100%",
-                      padding: "16px",
-                    }}
-                  >
-                    {quizIdx + 1 < quiz.length ? (
-                      <>{t("CONTINUAR", "CONTINUE", "CONTINUAR")}</>
-                    ) : (
-                      <>
-                        <Trophy size={18} aria-hidden="true" />{" "}
-                        {t("VER RESULTADO", "SEE RESULTS", "VER RESULTADO")}
-                      </>
-                    )}
-                  </button>
-                )}
-                </div>
-              </motion.div>
-            </AnimatePresence>
-            </div>
-          </main>
-        )}
-
-        {/* ── DONE ── */}
-        {step === "done" && (
-          <main
-            style={{
-              maxWidth: "560px",
-              margin: "0 auto",
-              padding: "60px 24px",
-              textAlign: "center",
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", bounce: 0.45 }}
+            {resume && (
+              <div className="lesson-resume">
+                <CheckCircle2 size={19} />
+                <span>
+                  {t(
+                    `Seu progresso está salvo: etapa ${resume.cursor + 1} de ${activities.length}.`,
+                    `Progress saved: activity ${resume.cursor + 1} of ${activities.length}.`,
+                    `Progreso guardado: actividad ${resume.cursor + 1} de ${activities.length}.`,
+                  )}
+                </span>
+              </div>
+            )}
+            <button
+              className="lesson-primary"
+              disabled={
+                authLoading || !ready || !activities.length || (premium && plan === "loading")
+              }
+              onClick={() => start()}
             >
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "8px" }}>
-                <Mascot state={quizScore >= quiz.length * 0.6 ? "celebrating" : "happy"} size={88} />
-              </div>
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
-                {quizScore === quiz.length ? (
-                  <Trophy
-                    size={80}
-                    color="#FFD700"
-                    strokeWidth={1.5}
-                    aria-label={t("Troféu", "Trophy", "Trofeo")}
-                  />
-                ) : quizScore >= 2 ? (
-                  <Award
-                    size={80}
-                    color="#FFD700"
-                    strokeWidth={1.5}
-                    aria-label={t("Medalha de ouro", "Gold medal", "Medalla de oro")}
-                  />
-                ) : (
-                  <Award
-                    size={80}
-                    color="#C0C0C0"
-                    strokeWidth={1.5}
-                    aria-label={t("Medalha de prata", "Silver medal", "Medalla de plata")}
-                  />
+              {resume
+                ? t("Continuar de onde parei", "Resume lesson", "Continuar donde lo dejé")
+                : completed
+                  ? t("Revisar lição", "Practice lesson", "Repasar lección")
+                  : t("Vamos começar", "Let's begin", "Empezar")}
+              <ArrowRight size={20} />
+            </button>
+            {resume && (
+              <button className="lesson-secondary" onClick={() => start(true)}>
+                <RotateCcw size={16} />
+                {t("Recomeçar esta lição", "Restart this lesson", "Reiniciar esta lección")}
+              </button>
+            )}
+            {!activities.length && (
+              <p role="alert">
+                {t(
+                  "Esta lição ainda não tem exercícios. Escolha outra no catálogo.",
+                  "This lesson has no exercises yet. Choose another from the catalog.",
+                  "Esta lección aún no tiene ejercicios. Elige otra del catálogo.",
                 )}
-              </div>
-              <h1
-                style={{
-                  fontSize: "28px",
-                  fontWeight: 900,
-                  color: "var(--text-primary)",
-                  marginBottom: "6px",
-                }}
-              >
-                {quizScore === quiz.length
-                  ? t("Perfeito!", "Perfect!", "¡Perfecto!")
-                  : quizScore >= 2
-                    ? t("Muito bem!", "Well done!", "¡Muy bien!")
-                    : t("Continue praticando!", "Keep practicing!", "¡Sigue practicando!")}
-              </h1>
-              <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "36px" }}>
-                {quizScore}/{quiz.length} {t("questões corretas", "correct answers", "respuestas correctas")}
               </p>
+            )}
+          </motion.div>
+        )}
+        {screen === "play" && activity && (
+          <motion.div
+            key={`activity-${session.cursor}`}
+            className="lesson-exercise"
+            initial={{ opacity: 0, x: 18 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Exercise
+              key={session.cursor}
+              activity={activity}
+              lesson={lesson}
+              index={session.cursor}
+              ui={ui}
+              onContinue={advance}
+            />
+          </motion.div>
+        )}
+        {screen === "done" && (
+          <motion.div
+            key="done"
+            className="lesson-welcome lesson-results"
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{ opacity: 1, scale: 1 }}
+          >
+            <Mascot state="celebrating" size={150} />
+            <span className="lesson-eyebrow">
+              {t("Você chegou lá!", "You made it!", "¡Lo lograste!")}
+            </span>
+            <h1>{t("Lição concluída", "Lesson complete", "Lección completada")}</h1>
+            <p>
+              {t(
+                "Cada prática deixa o próximo passo mais fácil.",
+                "Every practice makes the next step easier.",
+                "Cada práctica hace más fácil el siguiente paso.",
+              )}
+            </p>
+            <div className="lesson-result-grid">
+              <div>
+                <Zap />
+                <strong>+{earned}</strong>
+                <span>XP</span>
+              </div>
+              <div>
+                <Trophy />
+                <strong>{sessionAccuracy(session)}%</strong>
+                <span>{t("acertos", "accuracy", "aciertos")}</span>
+              </div>
+              <div>
+                <CheckCircle2 />
+                <strong>{session.cursor}</strong>
+                <span>{t("etapas", "activities", "actividades")}</span>
+              </div>
+            </div>
+            <p className="lesson-sync" role="status">
+              {syncing
+                ? t("Sincronizando progresso…", "Syncing progress…", "Sincronizando progreso…")
+                : pendingSync
+                  ? t(
+                      "Salvo neste dispositivo · sincronização pendente",
+                      "Saved on this device · sync pending",
+                      "Guardado en este dispositivo · sincronización pendiente",
+                    )
+                  : t("Progresso salvo", "Progress saved", "Progreso guardado")}
+            </p>
+            <button
+              className="lesson-primary"
+              onClick={() =>
+                nextLesson
+                  ? nav({ to: "/lesson/$id", params: { id: nextLesson.id } })
+                  : nav({ to: "/lessons" })
+              }
+            >
+              {nextLesson
+                ? t("Próxima lição", "Next lesson", "Siguiente lección")
+                : t("Voltar às lições", "Back to lessons", "Volver a las lecciones")}
+              <ArrowRight size={20} />
+            </button>
+            <button className="lesson-secondary" onClick={() => nav({ to: "/lessons" })}>
+              {t("Ver meu caminho", "See my learning path", "Ver mi camino")}
+            </button>
+            {lesson.topic && !isKid && (
+              <button
+                className="lesson-secondary"
+                onClick={() =>
+                  nav({ to: "/conversation/$topic", params: { topic: lesson.topic! } })
+                }
+              >
+                {t("Praticar conversação", "Practice conversation", "Practicar conversación")}
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AlertDialog open={exitOpen} onOpenChange={setExitOpen}>
+        <AlertDialogContent className="lesson-exit-dialog">
+          <AlertDialogTitle>
+            {t("Continuar depois?", "Continue later?", "¿Continuar después?")}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {t(
+              "As etapas concluídas estão salvas. Você pode retomar esta lição de onde parou.",
+              "Completed activities are saved. You can resume this lesson where you left off.",
+              "Las actividades completadas están guardadas. Puedes retomar esta lección donde la dejaste.",
+            )}
+          </AlertDialogDescription>
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              {t("Ficar na lição", "Keep learning", "Seguir aprendiendo")}
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => nav({ to: "/lessons" })}>
+              {t("Salvar e sair", "Save and exit", "Guardar y salir")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <PremiumGate
+        isOpen={gateOpen}
+        onClose={() => setGateOpen(false)}
+        onContinueFree={() => nav({ to: "/lessons" })}
+      />
+    </div>
+  );
+}
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: "12px",
-                  marginBottom: "36px",
+function Exercise({
+  activity: a,
+  lesson,
+  index,
+  ui,
+  onContinue,
+}: {
+  activity: LessonActivity;
+  lesson: Lesson;
+  index: number;
+  ui: Language;
+  onContinue: (result?: boolean | null) => void;
+}) {
+  const t = (pt: string, en: string, es: string) => (ui === "pt" ? pt : ui === "es" ? es : en);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [text, setText] = useState("");
+  const [tokens, setTokens] = useState<number[]>([]);
+  const [result, setResult] = useState<boolean | null>(null);
+  const [speakingOK, setSpeakingOK] = useState(false);
+  const wordId = `${lesson.id}-word-${normalizeAnswer(a.word || "")}`;
+  const [saved, setSaved] = useState(() => isWordSaved(wordId));
+  const heading = useRef<HTMLHeadingElement>(null);
+  const checked = useRef(false);
+  const continued = useRef(false);
+  function continueOnce(value: boolean | null = null) {
+    if (continued.current) return;
+    continued.current = true;
+    onContinue(value);
+  }
+  const isQuestion = ["quiz", "listening", "translation", "dragdrop"].includes(a.type);
+  const gloss = resolveGlossLanguage(lesson.language, ui);
+  const meaning =
+    typeof a.meaning === "string"
+      ? a.meaning
+      : a.meaning?.[gloss] || a.meaning?.pt || a.meaning?.en || a.meaning?.es || "";
+  const answer =
+    a.type === "dragdrop"
+      ? a.answerTokens?.join(" ") || ""
+      : a.type === "translation"
+        ? a.correctTranslation || ""
+        : a.options?.[a.correct ?? 0] || "";
+  const canCheck =
+    a.type === "translation"
+      ? !!text.trim()
+      : a.type === "dragdrop"
+        ? tokens.length > 0
+        : selected !== null;
+  const title =
+    a.type === "vocab"
+      ? t(
+          "Uma palavra para levar com você",
+          "A word to take with you",
+          "Una palabra para llevar contigo",
+        )
+      : a.type === "speaking"
+        ? t("Sua vez de falar", "Your turn to speak", "Tu turno de hablar")
+        : a.type === "translation"
+          ? t("Escreva a tradução", "Write the translation", "Escribe la traducción")
+          : a.type === "dragdrop"
+            ? t("Construa a frase", "Build the sentence", "Construye la frase")
+            : a.type === "listening"
+              ? t("Ouça com atenção", "Listen carefully", "Escucha con atención")
+              : t("Escolha a resposta", "Choose the answer", "Elige la respuesta");
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+  }, []);
+  function check() {
+    if (checked.current || !canCheck) return;
+    checked.current = true;
+    const correct =
+      a.type === "translation"
+        ? normalizeAnswer(text) === normalizeAnswer(answer)
+        : a.type === "dragdrop"
+          ? normalizeAnswer(tokens.map((i) => a.tokens![i]).join(" ")) === normalizeAnswer(answer)
+          : selected === a.correct;
+    setResult(correct);
+    if (correct) sounds.playQuizCorrect();
+    else sounds.playQuizWrong();
+  }
+  return (
+    <>
+      <div className="lesson-question-area">
+        <span className="lesson-eyebrow">
+          {t("Prática", "Practice", "Práctica")} · {String(index + 1).padStart(2, "0")}
+        </span>
+        <h1 ref={heading} tabIndex={-1}>
+          {title}
+        </h1>
+        {a.type !== "vocab" && a.type !== "speaking" && (
+          <p className="lesson-prompt">{a.question}</p>
+        )}
+        {a.type === "vocab" && (
+          <div className="lesson-word-card">
+            <div className="lesson-word-actions">
+              <button
+                className="lesson-icon"
+                aria-label={t("Salvar palavra", "Save word", "Guardar palabra")}
+                aria-pressed={saved}
+                onClick={() => {
+                  if (saved) return;
+                  saveWord({
+                    id: wordId,
+                    term: a.word!,
+                    translation: meaning,
+                    example: a.example || "",
+                    difficulty: "beginner",
+                    topic: "daily",
+                    targetLanguage: lesson.language,
+                    source: "manual",
+                  });
+                  setSaved(true);
                 }}
               >
-                {[
-                  { label: "XP", value: `+${xpReward}`, color: "#F39C12", Icon: Zap },
-                  {
-                    label: t("Precisão", "Accuracy", "Precisión"),
-                    value: `${quizAccuracy}%`,
-                    color: "#4CAF50",
-                    Icon: Target,
-                  },
-                  {
-                    label: t("Completo", "Complete", "Completo"),
-                    value: "✓",
-                    color: "#38BDF8",
-                    Icon: Check,
-                  },
-                ].map((s, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      background: "var(--card-bg)",
-                      border: "2px solid var(--border)",
-                      borderRadius: "14px",
-                      padding: "16px 8px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <div style={{ marginBottom: "6px", display: "flex", justifyContent: "center" }}>
-                      <s.Icon size={20} color={s.color} />
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "20px",
-                        fontWeight: 900,
-                        color: s.color,
-                        marginBottom: "2px",
-                      }}
-                    >
-                      {s.value}
-                    </div>
-                    <div
-                      style={{ fontSize: "10px", color: "var(--text-secondary)", fontWeight: 700 }}
-                    >
-                      {s.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <Bookmark size={22} fill={saved ? "currentColor" : "none"} />
+              </button>
+            </div>
+            <Mascot state="thinking" size={85} />
+            <h2>{a.word}</h2>
+            <p className="lesson-meaning">{meaning}</p>
+            {a.example && <blockquote>{a.example}</blockquote>}
+            {isTTSSupported() && (
+              <button className="lesson-audio" onClick={() => speak(a.word!, lesson.language)}>
+                <Volume2 size={22} />
+                {t("Ouvir pronúncia", "Hear pronunciation", "Escuchar pronunciación")}
+              </button>
+            )}
+          </div>
+        )}
+        {a.type === "listening" &&
+          (isTTSSupported() ? (
+            <button
+              className="lesson-audio lesson-listen"
+              onClick={() => speak(a.audioText || "", lesson.language)}
+            >
+              <Volume2 size={30} />
+              {t("Ouvir frase", "Listen to the sentence", "Escuchar frase")}
+            </button>
+          ) : (
+            <blockquote className="lesson-audio-fallback">
+              {a.audioText}
+              <small>
+                {t(
+                  "Áudio indisponível: leia a frase para continuar.",
+                  "Audio unavailable: read the sentence to continue.",
+                  "Audio no disponible: lee la frase para continuar.",
+                )}
+              </small>
+            </blockquote>
+          ))}
+        {(a.type === "quiz" || a.type === "listening") && (
+          <div
+            className="lesson-options"
+            role="group"
+            aria-label={t("Alternativas", "Answers", "Respuestas")}
+          >
+            {a.options!.map((option, i) => (
+              <button
+                key={i}
+                className={`lesson-option ${selected === i ? "is-selected" : ""} ${result !== null && i === a.correct ? "is-correct" : result === false && selected === i ? "is-wrong" : ""}`}
+                aria-pressed={selected === i}
+                disabled={result !== null}
+                onClick={() => setSelected(i)}
+              >
+                <span className="lesson-option-number">{i + 1}</span>
+                <span>{option}</span>
+                {result !== null && i === a.correct && <Check size={20} />}
+              </button>
+            ))}
+          </div>
+        )}
+        {a.type === "translation" && (
+          <>
+            <blockquote className="lesson-source">{a.targetPhrase}</blockquote>
+            <label className="lesson-input-label" htmlFor="lesson-translation">
+              {t("Sua tradução", "Your translation", "Tu traducción")}
+            </label>
+            <textarea
+              id="lesson-translation"
+              className="lesson-textarea"
+              rows={3}
+              value={text}
+              readOnly={result !== null}
+              onChange={(e) => setText(e.target.value)}
+              placeholder={t("Escreva aqui…", "Write here…", "Escribe aquí…")}
+              autoComplete="off"
+            />
+          </>
+        )}
+        {a.type === "dragdrop" && (
+          <>
+            <div
+              className="lesson-sentence"
+              aria-label={t("Sua frase", "Your sentence", "Tu frase")}
+              aria-live="polite"
+            >
+              {tokens.length === 0 && (
+                <span>
+                  {t(
+                    "Toque nas palavras abaixo para ordenar",
+                    "Tap the words below to arrange them",
+                    "Toca las palabras para ordenarlas",
+                  )}
+                </span>
+              )}
+              {tokens.map((token, pos) => (
                 <button
-                  onClick={handleNextLesson}
-                  className="btn-3d btn-3d-green"
-                  style={{
-                    width: "100%",
-                    padding: "18px",
-                  }}
+                  key={token}
+                  className="lesson-token"
+                  disabled={result !== null}
+                  onClick={() => setTokens((prev) => prev.filter((_, j) => j !== pos))}
                 >
-                  {t("PRÓXIMA LIÇÃO", "NEXT LESSON", "PRÓXIMA LECCIÓN")}
+                  {a.tokens![token]}
+                  <X size={13} />
                 </button>
+              ))}
+            </div>
+            <div className="lesson-token-bank">
+              {a.tokens!.map((token, i) => (
                 <button
-                  onClick={() => {
-                    const text = t(
-                      `Completei a lição "${topic}" no LumeLearn! ${quizScore}/${quiz.length} corretas, +${xpReward} XP 🎉`,
-                      `Completed "${topic}" on LumeLearn! ${quizScore}/${quiz.length} correct, +${xpReward} XP 🎉`,
-                      `¡Completé la lección "${topic}" en LumeLearn! ${quizScore}/${quiz.length} correctas, +${xpReward} XP 🎉`,
-                    );
-                    if (navigator.share) {
-                      navigator.share({ title: "LumeLearn", text, url: "https://langlume.vercel.app" }).catch(() => {});
-                    } else {
-                      navigator.clipboard.writeText(text + " https://langlume.vercel.app");
-                      toast.success(t("Copiado!", "Copied!", "¡Copiado!"));
-                    }
-                  }}
-                  className="btn-3d btn-3d-blue"
-                  style={{
-                    width: "100%",
-                    padding: "14px",
-                    fontSize: "13px",
-                  }}
+                  key={i}
+                  className="lesson-token"
+                  aria-pressed={tokens.includes(i)}
+                  disabled={result !== null || tokens.includes(i)}
+                  onClick={() => setTokens((prev) => [...prev, i])}
                 >
-                  🏆 {t("COMPARTILHAR", "SHARE RESULT", "COMPARTIR")}
+                  {token}
                 </button>
-                <button
-                  onClick={() => nav({ to: "/lessons" })}
-                  className="btn-3d btn-3d-white"
-                  style={{
-                    width: "100%",
-                    padding: "14px",
-                    fontSize: "13px",
-                  }}
-                >
-                  {t("← CATÁLOGO", "← CATALOG", "← CATÁLOGO")}
-                </button>
-              </div>
-            </motion.div>
-          </main>
+              ))}
+            </div>
+            <button
+              className="lesson-secondary"
+              disabled={result !== null || !tokens.length}
+              onClick={() => setTokens([])}
+            >
+              <RotateCcw size={16} />
+              {t("Limpar frase", "Clear sentence", "Borrar frase")}
+            </button>
+          </>
+        )}
+        {a.type === "speaking" && (
+          <PronunciationChallenge
+            targetPhrase={a.targetPhrase!}
+            targetLanguage={lesson.language}
+            onSuccess={() => setSpeakingOK(true)}
+          />
         )}
       </div>
-    </div>
+      <footer
+        className={`lesson-footer ${result === true ? "is-correct" : result === false ? "is-wrong" : ""}`}
+      >
+        <div className="lesson-footer-inner">
+          <div className="lesson-feedback" role="status" aria-live="polite">
+            {result !== null ? (
+              <>
+                <Mascot state={result ? "correct" : "wrong"} size={50} />
+                <div>
+                  <strong>
+                    {result
+                      ? t("Muito bem!", "Well done!", "¡Muy bien!")
+                      : t("Vamos aprender com essa", "Let's learn from this", "Aprendamos de esta")}
+                  </strong>
+                  {!result && (
+                    <p>
+                      {t("Resposta", "Answer", "Respuesta")}: {answer}
+                    </p>
+                  )}
+                  {a.explanation && <small>{a.explanation}</small>}
+                </div>
+              </>
+            ) : (
+              <span>
+                {a.type === "speaking"
+                  ? t(
+                      "Sem microfone? Você pode pular.",
+                      "No microphone? You can skip this.",
+                      "¿Sin micrófono? Puedes saltar este paso.",
+                    )
+                  : t(
+                      "No seu ritmo. Um passo de cada vez.",
+                      "At your pace. One step at a time.",
+                      "A tu ritmo. Un paso a la vez.",
+                    )}
+              </span>
+            )}
+          </div>
+          {isQuestion ? (
+            <button
+              className="lesson-primary"
+              disabled={result === null && !canCheck}
+              onClick={() => (result === null ? check() : continueOnce(result))}
+            >
+              {result === null
+                ? t("Verificar", "Check", "Comprobar")
+                : t("Continuar", "Continue", "Continuar")}
+              <ArrowRight size={19} />
+            </button>
+          ) : (
+            <button className="lesson-primary" onClick={() => continueOnce(null)}>
+              {a.type === "speaking" && !speakingOK
+                ? t("Pular por enquanto", "Skip for now", "Saltar por ahora")
+                : t("Continuar", "Continue", "Continuar")}
+              <ArrowRight size={19} />
+            </button>
+          )}
+        </div>
+      </footer>
+    </>
   );
 }

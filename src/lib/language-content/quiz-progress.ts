@@ -1,3 +1,5 @@
+import { accountKey } from "@/lib/account-storage";
+import { notifyLearningChanged } from "@/lib/learning-state-sync";
 /**
  * Real, localStorage-backed quiz completion tracking — feeds /progress and
  * badge checks instead of the hardcoded `quizzesCompleted: 0` that was there
@@ -11,6 +13,7 @@ const MAX_TRACKED_IDS = 300;
 const MAX_HISTORY = 100;
 
 interface QuizAttempt {
+  id?: string;
   date: string;
   score: number;
   total: number;
@@ -25,7 +28,7 @@ interface QuizStats {
 function readStats(): QuizStats {
   if (typeof window === "undefined") return { history: [], currentStreak: 0, bestStreak: 0 };
   try {
-    const raw = localStorage.getItem(STATS_KEY);
+    const raw = localStorage.getItem(accountKey(STATS_KEY));
     return raw ? (JSON.parse(raw) as QuizStats) : { history: [], currentStreak: 0, bestStreak: 0 };
   } catch {
     return { history: [], currentStreak: 0, bestStreak: 0 };
@@ -35,7 +38,8 @@ function readStats(): QuizStats {
 function writeStats(stats: QuizStats): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(STATS_KEY, JSON.stringify(stats));
+    localStorage.setItem(accountKey(STATS_KEY), JSON.stringify(stats));
+    notifyLearningChanged();
   } catch {
     // storage full/disabled — stats just won't persist this session
   }
@@ -46,7 +50,15 @@ export function recordQuizCompletion(score: number, total: number): void {
   const stats = readStats();
   const passed = total > 0 && score / total >= 0.7;
 
-  stats.history.push({ date: new Date().toISOString(), score, total });
+  if (
+    !Number.isInteger(total) ||
+    total <= 0 ||
+    !Number.isInteger(score) ||
+    score < 0 ||
+    score > total
+  )
+    return;
+  stats.history.push({ id: crypto.randomUUID(), date: new Date().toISOString(), score, total });
   if (stats.history.length > MAX_HISTORY) stats.history = stats.history.slice(-MAX_HISTORY);
 
   stats.currentStreak = passed ? stats.currentStreak + 1 : 0;
@@ -72,7 +84,7 @@ export function getQuizStats(): {
 function readRecentIds(): string[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(RECENT_IDS_KEY);
+    const raw = localStorage.getItem(accountKey(RECENT_IDS_KEY));
     return raw ? (JSON.parse(raw) as string[]) : [];
   } catch {
     return [];
@@ -90,7 +102,8 @@ export function recordSeenQuestionIds(ids: string[]): void {
     const existing = readRecentIds();
     const merged = [...existing, ...ids];
     const capped = merged.slice(Math.max(0, merged.length - MAX_TRACKED_IDS));
-    localStorage.setItem(RECENT_IDS_KEY, JSON.stringify(capped));
+    localStorage.setItem(accountKey(RECENT_IDS_KEY), JSON.stringify(capped));
+    notifyLearningChanged();
   } catch {
     // storage full/disabled — repetition avoidance just resets this session
   }

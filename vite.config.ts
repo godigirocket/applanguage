@@ -10,7 +10,7 @@ import { VitePWA } from "vite-plugin-pwa";
 // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
 // @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
 export default defineConfig({
-  cloudflare: false,
+  nitro: false,
   vite: {
     plugins: [
       VitePWA({
@@ -19,11 +19,11 @@ export default defineConfig({
         manifest: {
           name: "LumeLearn — Aprenda Idiomas",
           short_name: "LumeLearn",
-          description: "Aprenda idiomas com IA, gamificação e 630+ lições interativas",
+          description: "Aprenda idiomas com lições interativas, prática guiada e jogos",
           theme_color: "#2D4A3E",
           background_color: "#F7F4EF",
           display: "standalone",
-          orientation: "portrait",
+          orientation: "any",
           start_url: "/home",
           scope: "/",
           categories: ["education", "productivity"],
@@ -47,8 +47,25 @@ export default defineConfig({
           ],
         },
         workbox: {
-          globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+          // Cache features when used instead of downloading every lesson,
+          // game and chart in the background on a student's first visit.
+          globPatterns: ["**/*.{css,ico,svg,woff2,webp}"],
+          globIgnores: ["client/**", "server/**"],
           runtimeCaching: [
+            {
+              urlPattern: ({ url, sameOrigin }) =>
+                sameOrigin && url.pathname.startsWith("/assets/") && url.pathname.endsWith(".js"),
+              handler: "CacheFirst",
+              options: {
+                cacheName: "lume-feature-assets-v1",
+                expiration: {
+                  maxEntries: 100,
+                  maxAgeSeconds: 60 * 60 * 24 * 30,
+                  purgeOnQuotaError: true,
+                },
+                cacheableResponse: { statuses: [200] },
+              },
+            },
             {
               urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
               handler: "CacheFirst",

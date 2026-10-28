@@ -1,9 +1,12 @@
+import { accountKey } from "@/lib/account-storage";
+import { createClient } from "@supabase/supabase-js";
 /**
  * LESSON PROGRESS TRACKING
  * Manages individual lesson completion and progress with Supabase + localStorage fallback
  */
 
 import { supabase } from "./supabase";
+import { withTimeout } from "./promise-timeout";
 
 export interface LessonProgress {
   id?: string;
@@ -22,11 +25,40 @@ export interface LessonProgress {
 }
 
 // Upsert progress (create or update)
-export async function upsertLessonProgress(
+const pendingWrites = new Map<string, Promise<LessonProgress | null>>();
+export function upsertLessonProgress(
   userId: string,
   lessonId: string,
-  updates: Partial<LessonProgress>
+  updates: Partial<LessonProgress>,
 ): Promise<LessonProgress | null> {
+  const key = `${userId}:${lessonId}`;
+  const previous = pendingWrites.get(key) || Promise.resolve(null);
+  const next = previous
+    .catch(() => null)
+    .then(() => writeLessonProgress(userId, lessonId, updates));
+  pendingWrites.set(key, next);
+  void next.finally(() => {
+    if (pendingWrites.get(key) === next) pendingWrites.delete(key);
+  });
+  return next;
+}
+
+async function writeLessonProgress(
+  userId: string,
+  lessonId: string,
+  updates: Partial<LessonProgress>,
+): Promise<LessonProgress | null> {
+  const previous = getProgressLocally(userId, lessonId);
+  // Replaying or a late autosave must never undo a completed lesson.
+  if (previous?.status === "completed" && updates.status !== "completed") return previous;
+  const snapshot = {
+    ...previous,
+    ...updates,
+    user_id: userId,
+    lesson_id: lessonId,
+    updated_at: new Date().toISOString(),
+  };
+  saveProgressLocally(userId, lessonId, snapshot);
   try {
     const now = new Date().toISOString();
     const data: any = {
@@ -46,22 +78,38 @@ export async function upsertLessonProgress(
       data.started_at = now;
     }
 
-    const { data: result, error } = await supabase
+    // First create a missing row without replacing an existing completion.
+    const insert = await withTimeout(
+      supabase
+        .from("lesson_progress")
+        .upsert(data, { onConflict: "user_id,lesson_id", ignoreDuplicates: true }),
+      6000,
+    );
+    if (insert.error) throw insert.error;
+    let query = supabase
       .from("lesson_progress")
-      .upsert(data, { onConflict: "user_id,lesson_id" })
-      .select()
-      .single();
+      .update(data)
+      .eq("user_id", userId)
+      .eq("lesson_id", lessonId);
+    if (updates.status !== "completed") query = query.neq("status", "completed");
+    const { data: result, error } = await withTimeout(query.select().maybeSingle(), 6000);
 
     if (error) {
       console.warn("Supabase progress save failed, using localStorage:", error.message);
-      saveProgressLocally(userId, lessonId, data);
+      saveProgressLocally(userId, lessonId, { ...snapshot, ...data });
       return data as LessonProgress;
     }
 
-    return result;
+    if (result) saveProgressLocally(userId, lessonId, result);
+    return result || getProgressLocally(userId, lessonId);
   } catch (error) {
     console.warn("Progress save error, using localStorage:", error);
-    const data: any = { user_id: userId, lesson_id: lessonId, updated_at: new Date().toISOString(), ...updates };
+    const data: any = {
+      user_id: userId,
+      lesson_id: lessonId,
+      updated_at: new Date().toISOString(),
+      ...updates,
+    };
     saveProgressLocally(userId, lessonId, data);
     return data as LessonProgress;
   }
@@ -70,21 +118,27 @@ export async function upsertLessonProgress(
 // Get progress for a specific lesson
 export async function getLessonProgress(
   userId: string,
-  lessonId: string
+  lessonId: string,
 ): Promise<LessonProgress | null> {
   try {
-    const { data, error } = await supabase
-      .from("lesson_progress")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("lesson_id", lessonId)
-      .maybeSingle();
+    const { data, error } = await withTimeout(
+      supabase
+        .from("lesson_progress")
+        .select("*")
+        .eq("user_id", userId)
+        .eq("lesson_id", lessonId)
+        .maybeSingle(),
+      6000,
+    );
 
     if (error) {
       return getProgressLocally(userId, lessonId);
     }
 
-    return data;
+    const local = getProgressLocally(userId, lessonId);
+    const merged = preferProgress(local, data);
+    if (merged) saveProgressLocally(userId, lessonId, merged);
+    return merged;
   } catch {
     return getProgressLocally(userId, lessonId);
   }
@@ -93,93 +147,142 @@ export async function getLessonProgress(
 // Get all progress for user
 export async function getAllLessonProgress(userId: string): Promise<LessonProgress[]> {
   try {
-    const { data, error } = await supabase
-      .from("lesson_progress")
-      .select("*")
-      .eq("user_id", userId)
-      .order("updated_at", { ascending: false });
+    const { data, error } = await withTimeout(
+      supabase
+        .from("lesson_progress")
+        .select("*")
+        .eq("user_id", userId)
+        .order("updated_at", { ascending: false }),
+      6000,
+    );
 
     if (error) {
       return getAllProgressLocally(userId);
     }
 
-    return data || [];
+    const merged = new Map(getAllProgressLocally(userId).map((p) => [p.lesson_id, p]));
+    for (const remote of data || []) {
+      const progress = preferProgress(merged.get(remote.lesson_id) || null, remote)!;
+      merged.set(remote.lesson_id, progress);
+      saveProgressLocally(userId, remote.lesson_id, progress);
+    }
+    return [...merged.values()];
   } catch {
     return getAllProgressLocally(userId);
   }
 }
 
-// Complete a lesson (awards XP, prevents duplicate awards)
+// Durable per-account outbox. Failed writes stay pending for a later retry.
+interface PendingCompletion {
+  lessonId: string;
+  xp: number;
+  completedAt?: string;
+}
+function pendingKey(userId: string, lessonId = "") {
+  return `lume-completion-outbox:${userId}:${lessonId}`;
+}
+function readPending(userId: string): Record<string, PendingCompletion> {
+  try {
+    const result: Record<string, PendingCompletion> = {};
+    for (let index = 0; index < localStorage.length; index++) {
+      const key = localStorage.key(index);
+      if (key?.startsWith(pendingKey(userId))) {
+        const item = JSON.parse(localStorage.getItem(key) || "null");
+        if (item?.lessonId && Number.isFinite(item.xp)) result[item.lessonId] = item;
+      }
+    }
+    return result;
+  } catch {
+    return {};
+  }
+}
 export async function completeLesson(
   userId: string,
   lessonId: string,
   xpReward: number,
-  durationSeconds: number
-): Promise<{ success: boolean; alreadyCompleted: boolean; xpEarned: number }> {
+  _durationSeconds: number,
+) {
+  let completedAt = new Date().toISOString();
   try {
-    // Check if already completed
-    const existing = await getLessonProgress(userId, lessonId);
-    
-    if (existing?.status === "completed") {
-      return { success: true, alreadyCompleted: true, xpEarned: 0 };
+    completedAt =
+      JSON.parse(localStorage.getItem(pendingKey(userId, lessonId)) || "null")?.completedAt ||
+      completedAt;
+  } catch {
+    /* No prior pending write */
+  }
+  try {
+    localStorage.setItem(
+      pendingKey(userId, lessonId),
+      JSON.stringify({ lessonId, xp: xpReward, completedAt }),
+    );
+  } catch {
+    /* Storage unavailable */
+  }
+  try {
+    // Bind this write to the initiating session: a token refresh/account
+    // switch must never submit account A's outbox as account B.
+    const { data: sessionData } = await withTimeout(supabase.auth.getSession(), 6000);
+    if (sessionData.session?.user.id !== userId) throw new Error("Account changed");
+    const client = createClient(
+      import.meta.env.VITE_SUPABASE_URL,
+      import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+      {
+        auth: { persistSession: false, autoRefreshToken: false },
+        global: { headers: { Authorization: `Bearer ${sessionData.session.access_token}` } },
+      },
+    );
+    const { data, error } = await withTimeout<{ data: any; error: unknown }>(
+      client.rpc("complete_lesson_atomic", {
+        p_lesson_id: lessonId,
+        p_completed_at: completedAt,
+      }),
+      8000,
+    );
+    if (error || !data?.success) throw error || new Error("Completion not confirmed");
+    try {
+      localStorage.removeItem(pendingKey(userId, lessonId));
+    } catch {
+      /* Storage unavailable */
     }
-
-    // Mark as completed
-    await upsertLessonProgress(userId, lessonId, {
-      status: "completed",
-      progress: 100,
-      xp_earned: xpReward,
-      completed_at: new Date().toISOString(),
-    });
-
-    // Update user profile XP
-    await updateUserXP(userId, xpReward);
-
-    return { success: true, alreadyCompleted: false, xpEarned: xpReward };
-  } catch (error) {
-    console.error("Complete lesson error:", error);
-    // Fallback: save to localStorage
-    const existing = getProgressLocally(userId, lessonId);
-    if (existing?.status === "completed") {
-      return { success: true, alreadyCompleted: true, xpEarned: 0 };
-    }
-
     saveProgressLocally(userId, lessonId, {
       user_id: userId,
       lesson_id: lessonId,
       status: "completed",
+      completed_at: completedAt,
       progress: 100,
-      xp_earned: xpReward,
-      completed_at: new Date().toISOString(),
+      xp_earned: data.alreadyCompleted
+        ? getProgressLocally(userId, lessonId)?.xp_earned || xpReward
+        : data.xpEarned || 0,
       updated_at: new Date().toISOString(),
     });
-
-    addLocalXP(xpReward);
-
-    return { success: true, alreadyCompleted: false, xpEarned: xpReward };
+    return { ...data, pending: false } as {
+      success: boolean;
+      alreadyCompleted: boolean;
+      xpEarned: number;
+      totalXP: number;
+      pending: boolean;
+    };
+  } catch {
+    saveProgressLocally(userId, lessonId, {
+      user_id: userId,
+      lesson_id: lessonId,
+      status: "completed",
+      completed_at: completedAt,
+      progress: 100,
+      xp_earned: xpReward,
+      updated_at: new Date().toISOString(),
+    });
+    return { success: false, alreadyCompleted: false, xpEarned: xpReward, pending: true };
   }
 }
-
-// Update user XP in profiles table
-async function updateUserXP(userId: string, xpToAdd: number) {
-  try {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("xp")
-      .eq("id", userId)
-      .single();
-
-    const currentXP = profile?.xp || 0;
-    const newXP = currentXP + xpToAdd;
-
-    await supabase
-      .from("profiles")
-      .update({ xp: newXP, updated_at: new Date().toISOString() })
-      .eq("id", userId);
-  } catch (error) {
-    console.warn("XP update failed, using localStorage");
-    addLocalXP(xpToAdd);
+export async function flushPendingCompletions(userId: string) {
+  let flushed = false;
+  for (const item of Object.values(readPending(userId))) {
+    const result = await completeLesson(userId, item.lessonId, item.xp, 0);
+    if (!result.success) break;
+    flushed = true;
   }
+  return flushed;
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -192,20 +295,31 @@ function getProgressKey(userId: string): string {
 
 function saveProgressLocally(userId: string, lessonId: string, progress: any) {
   if (typeof localStorage === "undefined") return;
-  
+
   try {
     const key = getProgressKey(userId);
     const existing = JSON.parse(localStorage.getItem(key) || "{}");
-    existing[lessonId] = progress;
+    existing[lessonId] = preferProgress(existing[lessonId] || null, progress);
     localStorage.setItem(key, JSON.stringify(existing));
   } catch (error) {
     console.error("localStorage save error:", error);
   }
 }
 
+function preferProgress(
+  local: LessonProgress | null,
+  remote: LessonProgress | null,
+): LessonProgress | null {
+  if (!local) return remote;
+  if (!remote) return local;
+  if (local.status === "completed" && remote.status !== "completed") return local;
+  if (remote.status === "completed" && local.status !== "completed") return remote;
+  return local.updated_at > remote.updated_at ? local : remote;
+}
+
 function getProgressLocally(userId: string, lessonId: string): LessonProgress | null {
   if (typeof localStorage === "undefined") return null;
-  
+
   try {
     const key = getProgressKey(userId);
     const all = JSON.parse(localStorage.getItem(key) || "{}");
@@ -217,7 +331,7 @@ function getProgressLocally(userId: string, lessonId: string): LessonProgress | 
 
 function getAllProgressLocally(userId: string): LessonProgress[] {
   if (typeof localStorage === "undefined") return [];
-  
+
   try {
     const key = getProgressKey(userId);
     const all = JSON.parse(localStorage.getItem(key) || "{}");
@@ -229,10 +343,10 @@ function getAllProgressLocally(userId: string): LessonProgress[] {
 
 function addLocalXP(amount: number) {
   if (typeof localStorage === "undefined") return;
-  
+
   try {
-    const current = parseInt(localStorage.getItem("lume_xp") || "0");
-    localStorage.setItem("lume_xp", String(current + amount));
+    const current = parseInt(localStorage.getItem(accountKey("lume_xp")) || "0");
+    localStorage.setItem(accountKey("lume_xp"), String(current + amount));
   } catch (error) {
     console.error("localStorage XP error:", error);
   }
@@ -242,11 +356,11 @@ function addLocalXP(amount: number) {
 export async function getLessonStats(userId: string) {
   try {
     const progress = await getAllLessonProgress(userId);
-    
-    const completed = progress.filter(p => p.status === "completed");
-    const inProgress = progress.filter(p => p.status === "in_progress");
+
+    const completed = progress.filter((p) => p.status === "completed");
+    const inProgress = progress.filter((p) => p.status === "in_progress");
     const totalXP = completed.reduce((sum, p) => sum + (p.xp_earned || 0), 0);
-    
+
     return {
       total: progress.length,
       completed: completed.length,

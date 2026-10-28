@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import {
-  getUserSubscription,
-  isPremiumUser,
-  getDailyLessonLimit,
-  type Subscription,
-} from "@/lib/subscription";
+import { getUserSubscription, type Subscription } from "@/lib/subscription";
 
 export function useSubscription() {
   const { user } = useAuth();
@@ -22,17 +17,24 @@ export function useSubscription() {
     }
 
     if (!user) {
+      setSubscription(null);
+      setIsPremium(false);
+      setDailyLimit(5);
       setLoading(false);
       return;
     }
 
+    let active = true;
+    setSubscription(null);
+    setIsPremium(false);
+    setDailyLimit(5);
+    setLoading(true);
     async function loadSubscription() {
       try {
-        const [sub, premium, limit] = await Promise.all([
-          getUserSubscription(user!.id),
-          isPremiumUser(user!.id),
-          getDailyLessonLimit(user!.id),
-        ]);
+        const sub = await getUserSubscription(user!.id);
+        if (!active) return;
+        const premium = Boolean(sub);
+        const limit = premium ? Infinity : 5;
 
         setSubscription(sub);
         setIsPremium(premium);
@@ -40,12 +42,15 @@ export function useSubscription() {
       } catch (error) {
         console.error("Error loading subscription:", error);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
     }
 
     loadSubscription();
-  }, [user]);
+    return () => {
+      active = false;
+    };
+  }, [user?.id]);
 
   return {
     subscription,

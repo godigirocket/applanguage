@@ -35,7 +35,7 @@ export function Paywall({ onClose, reason = "premium_content" }: PaywallProps) {
         ? [
             "✨ Lições ilimitadas todos os dias",
             "🎮 Todos os jogos desbloqueados",
-            "🤖 Conversação com IA ilimitada",
+            "🤖 Prática de conversação ilimitada",
             "📱 Modo offline completo",
             "🎯 Suporte prioritário",
           ]
@@ -43,14 +43,14 @@ export function Paywall({ onClose, reason = "premium_content" }: PaywallProps) {
           ? [
               "✨ Lecciones ilimitadas todos los días",
               "🎮 Todos los juegos desbloqueados",
-              "🤖 Conversación con IA ilimitada",
+              "🤖 Práctica de conversación ilimitada",
               "📱 Modo sin conexión completo",
               "🎯 Soporte prioritario",
             ]
           : [
               "✨ Unlimited lessons every day",
               "🎮 All games unlocked",
-              "🤖 Unlimited AI conversation",
+              "🤖 Unlimited Guided conversation",
               "📱 Full offline mode",
               "🎯 Priority support",
             ],

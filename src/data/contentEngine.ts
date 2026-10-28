@@ -45,7 +45,8 @@ async function loadLessonDetail(targetLanguage: TargetLang, id: string): Promise
   const index = await getIndex(targetLanguage);
   const entry = index.find((l) => l.id === id);
   if (!entry) return undefined;
-  const loader = lessonChunkLoaders[`./lessons/detail/${targetLanguage}/chunk-${entry.chunkIndex}.json`];
+  const loader =
+    lessonChunkLoaders[`./lessons/detail/${targetLanguage}/chunk-${entry.chunkIndex}.json`];
   if (!loader) return undefined;
   const chunk = await loader();
   return chunk.find((l) => l.id === id);
@@ -346,10 +347,16 @@ export async function generateLessons(
   targetLanguage: TargetLang,
   count: number,
   completedLessons: string[] = [],
-  options: { progressiveLock?: boolean; startLevel?: string } = {},
+  options: { progressiveLock?: boolean; startLevel?: string; kidMode?: boolean } = {},
 ) {
   const { progressiveLock = false, startLevel } = options;
-  const lessonsInLanguage = await getIndex(targetLanguage);
+  const index = await getIndex(targetLanguage);
+  const lessonsInLanguage = options.kidMode
+    ? index.filter(
+        (lesson) =>
+          ["vocabulary", "listening"].includes(lesson.category) && lesson.level.startsWith("A"),
+      )
+    : index;
 
   const difficultyMap: Record<string, string> = {
     A1: "Beginner",
@@ -379,7 +386,7 @@ export async function generateLessons(
     // anything (e.g. the /home dashboard) opt out via progressiveLock=false.
     const locked =
       progressiveLock &&
-      i > 0 &&
+      i > startIndex &&
       !isCompleted &&
       !completedLessons.includes(lessonsInLanguage[i - 1].id);
     return {
@@ -391,7 +398,7 @@ export async function generateLessons(
       type: lesson.category
         ? lesson.category.charAt(0).toUpperCase() + lesson.category.slice(1)
         : "Lesson",
-      topic: lesson.category || "General",
+      topic: lesson.topic || lesson.category || "General",
       duration: parseInt(lesson.duration) || 6,
       xp: lesson.xp || 20,
       completed: isCompleted,

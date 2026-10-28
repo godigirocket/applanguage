@@ -1,3 +1,4 @@
+import { speak } from "@/lib/language-apis/webSpeech";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
@@ -120,13 +121,7 @@ export function LumeMatch() {
   };
 
   const handleSpeak = (text: string) => {
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang =
-        targetLanguage === "en" ? "en-US" : targetLanguage === "es" ? "es-ES" : "pt-BR";
-      window.speechSynthesis.speak(utterance);
-    }
+    speak(text, targetLanguage);
   };
 
   // Perform match checks

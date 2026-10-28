@@ -1,8 +1,9 @@
+import { matchTranscript } from "@/lib/speech-match";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Volume2, CheckCircle, AlertTriangle, RefreshCw } from "@/components/lume/CustomIcons";
 import { toast } from "sonner";
-import { isSTTSupported } from "@/lib/language-apis/webSpeech";
+import { isSTTSupported, speak, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { useStore } from "@/hooks/useStore";
 
 const SPEECH_LOCALE: Record<"en" | "es" | "pt", string> = {
@@ -34,14 +35,15 @@ export function PronunciationChallenge({
   const [score, setScore] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const recognitionRef = useRef<any>(null);
+  const scoreRef = useRef<(spoken: string) => void>(() => {});
+  const handledRef = useRef(false);
+  const busyRef = useRef(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const callbacksRef = useRef({ onSuccess, onFailure });
+  callbacksRef.current = { onSuccess, onFailure };
 
   useEffect(() => {
     if (!isSTTSupported()) {
-      // Not just a Chrome-vs-Safari thing — iOS (all browsers, WebKit
-      // engine-wide) has no speech recognition API at all, so "try Chrome"
-      // is actively wrong advice there. Point at a device switch instead of
-      // a specific browser, and don't frame it as scary/broken — this step
-      // already has a Skip button.
       setError(
         t(
           "Reconhecimento de voz não disponível neste navegador/dispositivo. Você pode pular esta etapa.",
@@ -60,16 +62,28 @@ export function PronunciationChallenge({
     rec.lang = SPEECH_LOCALE[targetLanguage];
 
     rec.onstart = () => {
+      busyRef.current = true;
+      handledRef.current = false;
+      timeoutRef.current = setTimeout(() => {
+        rec.abort();
+        setIsRecording(false);
+        busyRef.current = false;
+      }, 15000);
       setIsRecording(true);
       setSpokenText("");
       setScore(null);
     };
 
     rec.onend = () => {
+      clearTimeout(timeoutRef.current);
+      busyRef.current = false;
       setIsRecording(false);
     };
 
     rec.onerror = (e: any) => {
+      clearTimeout(timeoutRef.current);
+      busyRef.current = false;
+      if (e.error === "aborted") return;
       // Logging the raw SpeechRecognitionErrorEvent just prints an opaque
       // "SpeechRecognitionErrorEvent" with no visible detail — `e.error` is
       // the actual reason code ("no-speech", "not-allowed", etc.).
@@ -92,68 +106,72 @@ export function PronunciationChallenge({
           ),
         );
       } else {
-        toast.error(t("Erro no reconhecimento de voz.", "Speech recognition error.", "Error de reconocimiento de voz."));
+        toast.error(
+          t(
+            "Erro no reconhecimento de voz.",
+            "Speech recognition error.",
+            "Error de reconocimiento de voz.",
+          ),
+        );
       }
     };
 
     rec.onresult = (event: any) => {
-      const resultText = event.results[0][0].transcript;
+      const resultText = event.results?.[0]?.[0]?.transcript;
+      if (handledRef.current || typeof resultText !== "string" || !resultText.trim()) return;
+      handledRef.current = true;
       setSpokenText(resultText);
-      calculateScore(resultText);
+      scoreRef.current(resultText);
     };
 
     recognitionRef.current = rec;
-  }, [targetLanguage]);
+    return () => {
+      clearTimeout(timeoutRef.current);
+      busyRef.current = false;
+      rec.onresult = null;
+      rec.onerror = null;
+      rec.onend = null;
+      rec.onstart = null;
+      rec.abort();
+      recognitionRef.current = null;
+      stopSpeaking();
+    };
+  }, [targetLanguage, targetPhrase, interfaceLanguage]);
 
   const calculateScore = (spoken: string) => {
-    const cleanTarget = targetPhrase
-      .toLowerCase()
-      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
-      .trim();
-    const cleanSpoken = spoken
-      .toLowerCase()
-      .replace(/[.,/#!$%^&*;:{}=\-_`~()?]/g, "")
-      .trim();
-
-    const targetWords = cleanTarget.split(/\s+/);
-    const spokenWords = cleanSpoken.split(/\s+/);
-
-    let matchCount = 0;
-    targetWords.forEach((w) => {
-      if (spokenWords.includes(w)) {
-        matchCount++;
-      }
-    });
-
-    const calculatedScore = Math.round((matchCount / targetWords.length) * 100);
+    const calculatedScore = matchTranscript(targetPhrase, spoken);
     setScore(calculatedScore);
 
     if (calculatedScore >= 70) {
       toast.success(
         t(
-          `Excelente pronúncia! Nota: ${calculatedScore}% 🎉`,
-          `Excellent pronunciation! Score: ${calculatedScore}% 🎉`,
-          `¡Excelente pronunciación! Nota: ${calculatedScore}% 🎉`,
+          `Frase reconhecida: ${calculatedScore}% de correspondência.`,
+          `Recognized phrase: ${calculatedScore}% match.`,
+          `Frase reconocida: ${calculatedScore}% de coincidencia.`,
         ),
       );
-      if (onSuccess) onSuccess(calculatedScore);
+      callbacksRef.current.onSuccess?.(calculatedScore);
     } else {
       toast.warning(
         t(
-          `Sua pronúncia teve ${calculatedScore}% de precisão. Tente novamente!`,
-          `Your pronunciation was ${calculatedScore}% accurate. Try again!`,
-          `Tu pronunciación tuvo ${calculatedScore}% de precisión. ¡Inténtalo de nuevo!`,
+          `A frase reconhecida correspondeu ${calculatedScore}%. Ouça e tente novamente.`,
+          `The recognized phrase matched ${calculatedScore}%. Listen and try again.`,
+          `La frase reconocida coincidió un ${calculatedScore}%. Escucha e inténtalo de nuevo.`,
         ),
       );
-      if (onFailure) onFailure();
+      callbacksRef.current.onFailure?.();
     }
   };
+  scoreRef.current = calculateScore;
 
   const startRecording = () => {
-    if (!recognitionRef.current) return;
+    if (!recognitionRef.current || busyRef.current) return;
+    stopSpeaking();
+    busyRef.current = true;
     try {
       recognitionRef.current.start();
     } catch (e) {
+      busyRef.current = false;
       console.error(e);
     }
   };
@@ -164,11 +182,7 @@ export function PronunciationChallenge({
   };
 
   const speakTarget = () => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(targetPhrase);
-    utter.lang = SPEECH_LOCALE[targetLanguage];
-    window.speechSynthesis.speak(utter);
+    speak(targetPhrase, targetLanguage);
   };
 
   return (
@@ -237,6 +251,13 @@ export function PronunciationChallenge({
         </h3>
       </div>
 
+      <p style={{ fontSize: 12, lineHeight: 1.6, color: "var(--text-secondary)" }}>
+        {t(
+          "Comparamos o texto reconhecido com a frase. Este resultado não avalia sotaque ou qualidade da pronúncia.",
+          "We compare the recognized text with the phrase. This result does not assess accent or pronunciation quality.",
+          "Comparamos el texto reconocido con la frase. El resultado no evalúa el acento ni la calidad de pronunciación.",
+        )}
+      </p>
       {error ? (
         <div
           style={{
@@ -284,10 +305,13 @@ export function PronunciationChallenge({
             </AnimatePresence>
 
             <button
-              onMouseDown={startRecording}
-              onMouseUp={stopRecording}
-              onTouchStart={startRecording}
-              onTouchEnd={stopRecording}
+              onClick={() => (isRecording ? stopRecording() : startRecording())}
+              aria-label={
+                isRecording
+                  ? t("Parar gravação", "Stop recording", "Detener grabación")
+                  : t("Iniciar gravação", "Start recording", "Iniciar grabación")
+              }
+              aria-pressed={isRecording}
               style={{
                 width: "64px",
                 height: "64px",
@@ -311,8 +335,12 @@ export function PronunciationChallenge({
 
           <span style={{ fontSize: "13px", color: "var(--text-secondary)", fontWeight: 600 }}>
             {isRecording
-              ? t("Gravando... Solte para finalizar", "Recording... Release to finish", "Grabando... Suelta para terminar")
-              : t("Segure para falar", "Hold to speak", "Mantén presionado para hablar")}
+              ? t(
+                  "Gravando… Toque para finalizar",
+                  "Recording… Tap to finish",
+                  "Grabando… Toca para terminar",
+                )
+              : t("Toque para falar", "Tap to speak", "Toca para hablar")}
           </span>
 
           {spokenText && (
@@ -371,7 +399,8 @@ export function PronunciationChallenge({
                   color: score >= 70 ? "#4A7A5B" : "var(--accent)",
                 }}
               >
-                {t("Precisão", "Accuracy", "Precisión")}: {score}%
+                {t("Correspondência da frase", "Phrase match", "Coincidencia de la frase")}: {score}
+                %
               </span>
             </motion.div>
           )}

@@ -1,6 +1,9 @@
+import { hasPremiumEntitlement } from "./entitlements";
+import { withTimeout } from "./promise-timeout";
 import { supabase } from "./supabase";
 
-export type SubscriptionPlan = "free" | "premium_monthly" | "premium_quarterly" | "premium_annual" | "premium_lifetime";
+export type SubscriptionPlan =
+  "free" | "premium_monthly" | "premium_quarterly" | "premium_annual" | "premium_lifetime";
 export type SubscriptionStatus = "active" | "canceled" | "expired" | "trialing";
 
 export interface Subscription {
@@ -46,21 +49,9 @@ export const PLANS: PlanDetails[] = [
     price: 0,
     priceFormatted: "R$ 0",
     interval: "month",
-    features: [
-      "10 lessons",
-      "Basic games",
-      "Community access",
-    ],
-    featuresPT: [
-      "10 lições",
-      "Jogos básicos",
-      "Acesso à comunidade",
-    ],
-    featuresES: [
-      "10 lecciones",
-      "Juegos básicos",
-      "Acceso a la comunidad",
-    ],
+    features: ["10 lessons", "Basic games", "Community access"],
+    featuresPT: ["10 lições", "Jogos básicos", "Acesso à comunidade"],
+    featuresES: ["10 lecciones", "Juegos básicos", "Acceso a la comunidad"],
   },
   {
     id: "premium_monthly",
@@ -73,21 +64,21 @@ export const PLANS: PlanDetails[] = [
     features: [
       "Unlimited lessons",
       "All 6 game modes",
-      "AI conversation",
+      "Guided conversation",
       "Offline mode",
       "No ads",
     ],
     featuresPT: [
       "Lições ilimitadas",
       "Todos os 6 modos de jogo",
-      "Conversação com IA",
+      "Prática de conversação",
       "Modo offline",
       "Sem anúncios",
     ],
     featuresES: [
       "Lecciones ilimitadas",
       "Los 6 modos de juego",
-      "Conversación con IA",
+      "Práctica de conversación",
       "Modo sin conexión",
       "Sin anuncios",
     ],
@@ -104,21 +95,9 @@ export const PLANS: PlanDetails[] = [
     savings: "Save 13%",
     savingsPT: "Economize 13%",
     savingsES: "Ahorra 13%",
-    features: [
-      "Everything in Monthly",
-      "Priority support",
-      "Exclusive content",
-    ],
-    featuresPT: [
-      "Tudo do Mensal",
-      "Suporte prioritário",
-      "Conteúdo exclusivo",
-    ],
-    featuresES: [
-      "Todo lo del Mensual",
-      "Soporte prioritario",
-      "Contenido exclusivo",
-    ],
+    features: ["Everything in Monthly", "Priority support", "Exclusive content"],
+    featuresPT: ["Tudo do Mensal", "Suporte prioritário", "Conteúdo exclusivo"],
+    featuresES: ["Todo lo del Mensual", "Soporte prioritario", "Contenido exclusivo"],
   },
   {
     id: "premium_annual",
@@ -131,16 +110,8 @@ export const PLANS: PlanDetails[] = [
     savings: "Save 44%",
     savingsPT: "Economize 44%",
     savingsES: "Ahorra 44%",
-    features: [
-      "Everything in Quarterly",
-      "Certificate of completion",
-      "Early access to features",
-    ],
-    featuresPT: [
-      "Tudo do Trimestral",
-      "Certificado de conclusão",
-      "Acesso antecipado a novidades",
-    ],
+    features: ["Everything in Quarterly", "Certificate of completion", "Early access to features"],
+    featuresPT: ["Tudo do Trimestral", "Certificado de conclusão", "Acesso antecipado a novidades"],
     featuresES: [
       "Todo lo del Trimestral",
       "Certificado de finalización",
@@ -182,26 +153,28 @@ export const PLANS: PlanDetails[] = [
 /**
  * Get user's current subscription
  */
-export async function getUserSubscription(
-  userId: string
-): Promise<Subscription | null> {
+export async function getUserSubscription(userId: string): Promise<Subscription | null> {
   try {
-    const { data, error } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("user_id", userId)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    if (error) {
-      console.error("Error fetching subscription:", error);
-      return null;
-    }
-
-    return data as Subscription;
-  } catch (error) {
-    console.error("Error in getUserSubscription:", error);
+    const { data, error } = await withTimeout(
+      supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+      6000,
+    );
+    if (error || !hasPremiumEntitlement(data)) return null;
+    const profile = data as any;
+    return {
+      id: profile.id,
+      user_id: userId,
+      plan: profile.subscription_plan || "premium_monthly",
+      status: "active",
+      payment_provider: "cakto",
+      current_period_start: profile.upgraded_at || profile.created_at,
+      current_period_end: profile.premium_until || undefined,
+      cancel_at_period_end: Boolean(profile.cancel_at_period_end),
+      metadata: { source: "profiles" },
+      created_at: profile.created_at,
+      updated_at: profile.updated_at,
+    };
+  } catch {
     return null;
   }
 }
@@ -234,184 +207,7 @@ export async function isPremiumUser(userId: string): Promise<boolean> {
   return true;
 }
 
-/**
- * Create or update subscription
- */
-export async function upsertSubscription(
-  userId: string,
-  plan: SubscriptionPlan,
-  status: SubscriptionStatus = "active",
-  metadata?: {
-    external_customer_id?: string;
-    external_subscription_id?: string;
-    current_period_end?: string;
-    trial_end?: string;
-  }
-): Promise<{ success: boolean; subscription?: Subscription; error?: string }> {
-  try {
-    // Calculate period end based on plan
-    const now = new Date();
-    let periodEnd = new Date(now);
-
-    if (plan === "premium_monthly") {
-      periodEnd.setMonth(periodEnd.getMonth() + 1);
-    } else if (plan === "premium_annual") {
-      periodEnd.setFullYear(periodEnd.getFullYear() + 1);
-    }
-
-    const subscriptionData = {
-      user_id: userId,
-      plan,
-      status,
-      payment_provider: "cakto",
-      external_customer_id: metadata?.external_customer_id,
-      external_subscription_id: metadata?.external_subscription_id,
-      current_period_start: now.toISOString(),
-      current_period_end: metadata?.current_period_end || periodEnd.toISOString(),
-      trial_end: metadata?.trial_end,
-      updated_at: now.toISOString(),
-    };
-
-    // Check if subscription exists
-    const existing = await getUserSubscription(userId);
-
-    let result;
-    if (existing) {
-      // Update existing subscription
-      result = await supabase
-        .from("subscriptions")
-        .update(subscriptionData)
-        .eq("id", existing.id)
-        .select()
-        .single();
-    } else {
-      // Create new subscription
-      result = await supabase
-        .from("subscriptions")
-        .insert(subscriptionData)
-        .select()
-        .single();
-    }
-
-    if (result.error) {
-      console.error("Error upserting subscription:", result.error);
-      return { success: false, error: result.error.message };
-    }
-
-    return { success: true, subscription: result.data as Subscription };
-  } catch (error: any) {
-    console.error("Error in upsertSubscription:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Cancel subscription (mark for cancellation at period end)
- */
-export async function cancelSubscription(
-  userId: string
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const subscription = await getUserSubscription(userId);
-
-    if (!subscription) {
-      return { success: false, error: "No subscription found" };
-    }
-
-    const { error } = await supabase
-      .from("subscriptions")
-      .update({
-        cancel_at_period_end: true,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", subscription.id);
-
-    if (error) {
-      console.error("Error canceling subscription:", error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (error: any) {
-    console.error("Error in cancelSubscription:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Reactivate canceled subscription
- */
-export async function reactivateSubscription(
-  userId: string
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const subscription = await getUserSubscription(userId);
-
-    if (!subscription) {
-      return { success: false, error: "No subscription found" };
-    }
-
-    const { error } = await supabase
-      .from("subscriptions")
-      .update({
-        cancel_at_period_end: false,
-        updated_at: new Date().toISOString(),
-      })
-      .eq("id", subscription.id);
-
-    if (error) {
-      console.error("Error reactivating subscription:", error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (error: any) {
-    console.error("Error in reactivateSubscription:", error);
-    return { success: false, error: error.message };
-  }
-}
-
-/**
- * Record payment transaction
- */
-export async function recordPaymentTransaction(
-  userId: string,
-  amount: number,
-  status: "pending" | "completed" | "failed" | "refunded",
-  metadata?: {
-    subscription_id?: string;
-    external_transaction_id?: string;
-    payment_method?: string;
-    currency?: string;
-  }
-): Promise<{ success: boolean; error?: string }> {
-  try {
-    const { error } = await supabase.from("payment_transactions").insert({
-      user_id: userId,
-      subscription_id: metadata?.subscription_id,
-      amount,
-      currency: metadata?.currency || "BRL",
-      status,
-      payment_provider: "cakto",
-      external_transaction_id: metadata?.external_transaction_id,
-      payment_method: metadata?.payment_method,
-      metadata: metadata || {},
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    });
-
-    if (error) {
-      console.error("Error recording transaction:", error);
-      return { success: false, error: error.message };
-    }
-
-    return { success: true };
-  } catch (error: any) {
-    console.error("Error in recordPaymentTransaction:", error);
-    return { success: false, error: error.message };
-  }
-}
-
+// Entitlements are modified only by the verified backend payment transaction.
 /**
  * Get plan details by ID
  */
@@ -439,7 +235,7 @@ export async function getDailyLessonLimit(userId: string): Promise<number> {
  */
 export async function hasReachedDailyLimit(
   userId: string,
-  completedToday: number
+  completedToday: number,
 ): Promise<boolean> {
   const limit = await getDailyLessonLimit(userId);
   return completedToday >= limit;

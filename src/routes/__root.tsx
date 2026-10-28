@@ -9,29 +9,39 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import { AuthProvider, useAuth } from "@/lib/auth";
-import { safeGetProfile, safeUpsertProfile } from "@/lib/db";
+import { safeUpsertProfile } from "@/lib/db";
+import { useProfile } from "@/hooks/useProfile";
+import { useLearningSync } from "@/hooks/useLearningSync";
 import { Toaster, toast } from "sonner";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { sounds } from "@/lib/soundEffects";
 import { useStore } from "@/hooks/useStore";
 import { useUserStore } from "@/store/userStore";
 import "@/i18n/config";
-import { Sentry } from "@/lib/sentry-client";
+import { captureClientException, initializeMonitoring } from "@/lib/sentry-client";
+import { useShallow } from "zustand/react/shallow";
 import i18n from "i18next";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { BottomNav } from "@/components/lume/BottomNav";
 import { Logo } from "@/components/lume/Logo";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { startTutorial } from "@/components/lume/Tutorial";
-import { LevelSelectionModal } from "@/components/LevelSelectionModal";
-import { DifficultyPopup } from "@/components/DifficultyPopup";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
-import { requestNotificationPermission, scheduleStreakReminder, trackActivity } from "@/lib/notifications";
+import { trackActivity } from "@/lib/notifications";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
+import { warmSpeechVoices, stopSpeaking } from "@/lib/language-apis/webSpeech";
 
 import appCss from "../styles.css?url";
+const LevelSelectionModal = lazy(() =>
+  import("@/components/LevelSelectionModal").then((module) => ({
+    default: module.LevelSelectionModal,
+  })),
+);
+const DifficultyPopup = lazy(() =>
+  import("@/components/DifficultyPopup").then((module) => ({ default: module.DifficultyPopup })),
+);
 
 function NotFoundComponent() {
   return (
@@ -50,24 +60,27 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: () => void }) {
+  const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
   console.error(error);
-  Sentry.captureException(error);
   const router = useRouter();
+
+  useEffect(() => {
+    captureClientException(error);
+  }, [caughtError]);
 
   useEffect(() => {
     const message = error?.message || "";
     const isChunkError =
       message.includes("Failed to fetch dynamically imported module") ||
       message.includes("dynamically imported module") ||
-      message.includes("Failed to fetch") ||
       error?.name === "ChunkLoadError";
 
-    if (isChunkError) {
+    if (isChunkError && navigator.onLine) {
       const lastReload = sessionStorage.getItem("last_chunk_error_reload");
       const now = Date.now();
-      // Throttle reloads to once per 15 seconds
-      if (!lastReload || now - parseInt(lastReload, 10) > 15000) {
+      // A broken deployment or offline connection must not cause reload loops.
+      if (!lastReload || now - parseInt(lastReload, 10) > 300000) {
         sessionStorage.setItem("last_chunk_error_reload", now.toString());
         console.warn("Chunk load error detected! Reloading page to fetch latest assets...", error);
         window.location.reload();
@@ -105,19 +118,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       {
         name: "viewport",
-        content: "width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no",
+        content: "width=device-width, initial-scale=1, viewport-fit=cover",
       },
-      { title: "LumeLearn — Aprenda Inglês, Espanhol e Português com IA" },
+      { title: "LumeLearn — Aprenda Inglês, Espanhol e Português" },
       {
         name: "description",
         content:
-          "Aprenda idiomas de forma inteligente com 700+ lições interativas, prática de conversação com IA e gamificação. Inglês, Espanhol e Português. Comece grátis.",
+          "Aprenda idiomas com 700+ lições interativas, prática guiada de conversação e gamificação. Inglês, Espanhol e Português. Comece grátis.",
       },
-      { property: "og:title", content: "LumeLearn — Aprenda Idiomas com IA e Gamificação" },
+      { property: "og:title", content: "LumeLearn — Aprenda Idiomas com Prática e Gamificação" },
       {
         property: "og:description",
         content:
-          "700+ lições interativas, 5 modos de jogo, 3 idiomas. Prática de conversação com IA que complementa suas aulas. Comece grátis.",
+          "700+ lições interativas, 5 modos de jogo, 3 idiomas. Prática guiada de conversação para complementar suas aulas. Comece grátis.",
       },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "pt_BR" },
@@ -125,7 +138,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale:alternate", content: "es_ES" },
       { property: "og:site_name", content: "LumeLearn" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "LumeLearn — Aprenda Idiomas com IA" },
+      { name: "twitter:title", content: "LumeLearn — Aprenda Idiomas com Prática Guiada" },
       {
         name: "twitter:description",
         content: "700+ lições, 3 idiomas, 5 modos de jogo. Comece grátis.",
@@ -143,13 +156,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "keywords",
         content:
-          "aprender inglês, aprender espanhol, aprender português, IA, gamificação, lições interativas, conversação",
+          "aprender inglês, aprender espanhol, aprender português, prática guiada, gamificação, lições interativas, conversação",
       },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
-      { rel: "manifest", href: "/manifest.json" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -196,26 +209,43 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  useEffect(() => {
+    warmSpeechVoices();
+  }, []);
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RootInner />
+        <MotionConfig reducedMotion="user">
+          <RootInner />
+        </MotionConfig>
       </AuthProvider>
     </QueryClientProvider>
   );
 }
 
 function RootInner() {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  useLearningSync(user?.id);
   const interfaceLanguage = useStore((state) => state.interfaceLanguage);
-  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } =
-    useStore();
-  const { userLevel, setUserLevel } = useUserStore();
+  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } = useStore(
+    useShallow((s) => ({
+      isLocked: s.isLocked,
+      setIsLocked: s.setIsLocked,
+      pinCode: s.pinCode,
+      pinEnabled: s.pinEnabled,
+      learningLevel: s.learningLevel,
+      setLearningLevel: s.setLearningLevel,
+    })),
+  );
+  const { userLevel, setUserLevel } = useUserStore(
+    useShallow((s) => ({ userLevel: s.userLevel, setUserLevel: s.setUserLevel })),
+  );
 
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [storeHydrated, setStoreHydrated] = useState(false);
+  const { data: remoteProfile } = useProfile(storeHydrated ? user?.id : undefined);
 
   // Monitor async store hydration
   useEffect(() => {
@@ -235,8 +265,15 @@ function RootInner() {
     };
   }, []);
 
-  const routerState = useRouterState();
-  const currentPath = routerState.location.pathname;
+  const currentPath = useRouterState({
+    select: (state) => (state.resolvedLocation ?? state.location).pathname,
+  });
+  useEffect(() => () => stopSpeaking(), [currentPath]);
+
+  useEffect(() => {
+    const timer = window.setTimeout(initializeMonitoring, 2500);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const isAuthOrLanding =
     currentPath === "/" ||
@@ -257,6 +294,7 @@ function RootInner() {
     currentPath === "/support" ||
     currentPath === "/refund" ||
     currentPath === "/forgot-password" ||
+    currentPath === "/reset-password" ||
     currentPath === "/success" ||
     currentPath === "/cancel";
   const isImmersive =
@@ -271,12 +309,12 @@ function RootInner() {
 
   // Synchronize user level from Supabase DB on auth load
   useEffect(() => {
-    if (!user || !storeHydrated) return;
+    if (!user || !storeHydrated || remoteProfile === undefined) return;
     (async () => {
       try {
-        const data = await safeGetProfile(user.id);
+        const data = remoteProfile;
         if (data && data.level) {
-          let matched = data.level;
+          let matched: string = data.level;
           if (matched === "beginner") matched = "A1";
           else if (matched === "intermediate") matched = "B1";
           else if (matched === "advanced") matched = "C1";
@@ -293,7 +331,7 @@ function RootInner() {
         console.error("Error loading level:", e);
       }
     })();
-  }, [user, storeHydrated, userLevel, setUserLevel, setLearningLevel]);
+  }, [user?.id, storeHydrated, remoteProfile, setUserLevel, setLearningLevel]);
 
   // Synchronize stores if they deviate
   useEffect(() => {
@@ -332,21 +370,33 @@ function RootInner() {
     }
   }, [user]);
 
-  // Track user activity and schedule streak reminders
+  // Push is opt-in in Settings; activity prevents reminders after a visit.
   useEffect(() => {
     if (!user) return;
     trackActivity();
-    // Request notification permission after user has completed at least 1 lesson
-    const completed = localStorage.getItem("lume-storage");
-    if (completed && completed.includes("completedLessons")) {
-      requestNotificationPermission().then(() => {
-        scheduleStreakReminder();
-      });
-    }
-  }, [user]);
+    window.addEventListener("online", trackActivity);
+    window.addEventListener("focus", trackActivity);
+    return () => {
+      window.removeEventListener("online", trackActivity);
+      window.removeEventListener("focus", trackActivity);
+    };
+  }, [user, currentPath]);
 
-  // PWA Service Worker — handled by vite-plugin-pwa with registerType: "autoUpdate"
-  // No manual registration needed; the plugin injects its own register script.
+  useEffect(() => {
+    if (!import.meta.env.PROD || !("serviceWorker" in navigator)) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const register = () => {
+      timer = setTimeout(() => {
+        void navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }, 3000);
+    };
+    if (document.readyState === "complete") register();
+    else window.addEventListener("load", register, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("load", register);
+    };
+  }, []);
 
   useEffect(() => {
     const handleGlobalClick = (e: MouseEvent) => {
@@ -452,7 +502,17 @@ function RootInner() {
           boxSizing: "border-box",
         }}
       >
-        {isAuthOrLanding || isImmersive || currentPath === "/guide" ? (
+        {isImmersive && authLoading ? (
+          <div className="lesson-loading" role="status">
+            <span>
+              {interfaceLanguage === "es"
+                ? "Preparando tu sesión…"
+                : interfaceLanguage === "en"
+                  ? "Preparing your session…"
+                  : "Preparando sua sessão…"}
+            </span>
+          </div>
+        ) : isAuthOrLanding || isImmersive || currentPath === "/guide" ? (
           <Outlet />
         ) : (
           <ProtectedRoute>
@@ -468,8 +528,22 @@ function RootInner() {
       )}
 
       {/* Level Selection Modal — only show if user is logged in AND has no level set */}
-      {!isAuthOrLanding && user && !userLevel && !learningLevel && <LevelSelectionModal />}
-      {!isAuthOrLanding && user && <DifficultyPopup />}
+      {!isAuthOrLanding &&
+        !isImmersive &&
+        user &&
+        storeHydrated &&
+        remoteProfile !== undefined &&
+        !userLevel &&
+        !learningLevel && (
+          <Suspense fallback={null}>
+            <LevelSelectionModal />
+          </Suspense>
+        )}
+      {!isAuthOrLanding && !isImmersive && user && (
+        <Suspense fallback={null}>
+          <DifficultyPopup />
+        </Suspense>
+      )}
 
       {/* Global Toaster */}
       <Toaster position="bottom-right" richColors />

@@ -1,3 +1,4 @@
+import { accountKey } from "@/lib/account-storage";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -6,6 +7,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ArrowLeft, LogOut } from "@/components/lume/CustomIcons";
 import i18n from "@/i18n/config";
+import { VoiceSettings } from "@/components/lume/VoiceSettings";
+import { SyncSettings } from "@/components/lume/SyncSettings";
+import { ReminderSettings } from "@/components/lume/ReminderSettings";
 
 export const Route = createFileRoute("/settings")({
   component: SettingsPage,
@@ -49,7 +53,7 @@ function SettingsPage() {
 
   const handleTargetLanguage = (lang: AppLanguage) => {
     setTargetLanguage(lang);
-    localStorage.setItem("lume_target_language", lang);
+    localStorage.setItem(accountKey("lume_target_language"), lang);
     if (user) {
       supabase
         .from("profiles")
@@ -77,7 +81,10 @@ function SettingsPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: "88px" }}>
+    <div
+      className="lume-settings-page"
+      style={{ minHeight: "100vh", background: "var(--bg)", paddingBottom: "88px" }}
+    >
       <AppHeader />
       <main style={{ maxWidth: "600px", margin: "0 auto", padding: "32px 24px" }}>
         <button
@@ -194,7 +201,7 @@ function SettingsPage() {
               >
                 {copy.target}
               </div>
-              <div style={{ display: "flex", gap: "8px" }}>
+              <div className="lume-settings-language-options">
                 {(["en", "es", "pt"] as const).map((lang) => (
                   <button
                     key={lang}
@@ -253,6 +260,10 @@ function SettingsPage() {
           </div>
         </section>
 
+        <VoiceSettings language={targetLanguage} ui={interfaceLanguage} />
+        <SyncSettings ui={interfaceLanguage} />
+        <ReminderSettings ui={interfaceLanguage} />
+
         <section>
           <div
             style={{
@@ -262,7 +273,7 @@ function SettingsPage() {
               marginTop: "40px",
             }}
           >
-            LangLume v1.0 - 2026
+            Lume · Learn. Play. Grow.
           </div>
         </section>
       </main>

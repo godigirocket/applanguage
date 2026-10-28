@@ -1,3 +1,5 @@
+import { uiFallback } from "@/i18n/ui-fallback";
+import { speak } from "@/lib/language-apis/webSpeech";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { safeQuery, supabase } from "@/lib/supabase";
@@ -79,13 +81,7 @@ function ProgressPage() {
   const isPT = interfaceLanguage === "pt";
 
   const speakExpression = (text: string) => {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    if (targetLanguage === "en") utter.lang = "en-US";
-    else if (targetLanguage === "es") utter.lang = "es-ES";
-    else utter.lang = "pt-BR";
-    window.speechSynthesis.speak(utter);
+    speak(text, targetLanguage);
   };
 
   useEffect(() => {
@@ -154,7 +150,10 @@ function ProgressPage() {
 
   const getTopicIcon = (slug: string) => TOPIC_BY_SLUG[slug]?.icon || "MessageSquare";
   const formatDate = (d: string) =>
-    new Date(d).toLocaleDateString(isPT ? "pt-BR" : "en-US", { month: "short", day: "numeric" });
+    new Date(d).toLocaleDateString(isPT ? "pt-BR" : uiFallback("en-US"), {
+      month: "short",
+      day: "numeric",
+    });
 
   return (
     <div
@@ -164,7 +163,6 @@ function ProgressPage() {
         position: "relative",
       }}
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
         <main
@@ -261,7 +259,7 @@ function ProgressPage() {
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
               </svg>
-              {isPT ? "Voltar ao Início" : "Back to Home"}
+              {isPT ? "Voltar ao Início" : uiFallback("Back to Home")}
             </Link>
           </div>
 
@@ -276,7 +274,7 @@ function ProgressPage() {
                 fontWeight: 800,
               }}
             >
-              {isPT ? "Sua Evolução" : "Your Evolution"}
+              {isPT ? "Sua Evolução" : uiFallback("Your Evolution")}
             </h1>
             <p
               style={{
@@ -289,7 +287,7 @@ function ProgressPage() {
             >
               {isPT
                 ? "Cada palavra falada é um passo em direção à maestria."
-                : "Every word spoken is a step toward mastery."}
+                : uiFallback("Every word spoken is a step toward mastery.")}
             </p>
           </div>
 
@@ -305,26 +303,26 @@ function ProgressPage() {
             {[
               {
                 icon: "MessageSquare",
-                label: isPT ? "Conversas" : "Conversations",
+                label: isPT ? "Conversas" : uiFallback("Conversations"),
                 value: sess.length,
                 color: "var(--accent-green)",
               },
               {
                 icon: "Clock",
-                label: isPT ? "Minutos Praticados" : "Minutes Practiced",
+                label: isPT ? "Minutos Praticados" : uiFallback("Minutes Practiced"),
                 value: totalMin,
                 color: "#2f80ed",
               },
               {
                 icon: "BookOpen",
-                label: isPT ? "Expressões Salvas" : "Expressions Saved",
+                label: isPT ? "Expressões Salvas" : uiFallback("Expressions Saved"),
                 value: exprs.length,
                 color: "var(--accent-terra)",
               },
               {
                 icon: "Flame",
                 label: "Streak",
-                value: `${streak} ${isPT ? "dias" : "days"}`,
+                value: `${streak} ${isPT ? "dias" : uiFallback("days")}`,
                 color: streak >= 3 ? "#FF6B35" : "var(--text-secondary)",
               },
             ].map((stat, i) => (
@@ -354,7 +352,7 @@ function ProgressPage() {
                       width: "56px",
                       height: "56px",
                       borderRadius: "16px",
-                      background: `${stat.color}10`,
+                      background: `color-mix(in srgb, ${stat.color} 10%, transparent)`,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -426,7 +424,7 @@ function ProgressPage() {
                       letterSpacing: "0.1em",
                     }}
                   >
-                    {isPT ? "Metas de Fluência" : "Fluency Tracking"}
+                    {isPT ? "Sua prática" : uiFallback("Practice tracking")}
                   </span>
                 </div>
                 <h2
@@ -437,9 +435,21 @@ function ProgressPage() {
                     color: "var(--text-primary)",
                   }}
                 >
-                  {isPT ? "Confiança ao Falar" : "Speaking Confidence"}
+                  {isPT ? "Índice de prática" : uiFallback("Practice index")}
                 </h2>
               </div>
+              <p
+                style={{
+                  fontSize: 12,
+                  lineHeight: 1.6,
+                  color: "var(--text-secondary)",
+                  marginBottom: 12,
+                }}
+              >
+                {isPT
+                  ? "Indicador calculado a partir do XP. Não é uma avaliação de fluência."
+                  : uiFallback("An activity indicator based on XP, not a fluency assessment.")}
+              </p>
               {confidencePercent > 0 && (
                 <div
                   style={{
@@ -452,7 +462,7 @@ function ProgressPage() {
                     border: "1px solid rgba(255,122,69,0.1)",
                   }}
                 >
-                  {confidencePercent}% {isPT ? "fluente" : "fluent"}
+                  {confidencePercent}% {isPT ? "de prática" : uiFallback("practice")}
                 </div>
               )}
             </div>
@@ -512,11 +522,11 @@ function ProgressPage() {
             ) : (
               <EmptyState
                 icon="BarChart2"
-                title={isPT ? "Seu gráfico começa aqui" : "Your chart begins here"}
+                title={isPT ? "Seu gráfico começa aqui" : uiFallback("Your chart begins here")}
                 sub={
                   isPT
                     ? "Complete conversas para ver seu progresso."
-                    : "Complete conversations to see your progress."
+                    : uiFallback("Complete conversations to see your progress.")
                 }
               />
             )}
@@ -552,15 +562,15 @@ function ProgressPage() {
                   <Calendar size={20} />
                 </div>
                 <h2 style={{ fontFamily: "var(--font-sans)", fontSize: "24px", fontWeight: 800 }}>
-                  {isPT ? "Sessões Recentes" : "Recent Sessions"}
+                  {isPT ? "Sessões Recentes" : uiFallback("Recent Sessions")}
                 </h2>
               </div>
 
               {sess.length === 0 ? (
                 <EmptyState
                   icon="MessageSquare"
-                  title={isPT ? "Nenhuma sessão" : "No sessions yet"}
-                  sub={isPT ? "Comece sua jornada." : "Start your journey."}
+                  title={isPT ? "Nenhuma sessão" : uiFallback("No sessions yet")}
+                  sub={isPT ? "Comece sua jornada." : uiFallback("Start your journey.")}
                 />
               ) : (
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
@@ -646,7 +656,7 @@ function ProgressPage() {
                   <Trophy size={20} />
                 </div>
                 <h2 style={{ fontFamily: "var(--font-sans)", fontSize: "24px", fontWeight: 800 }}>
-                  {isPT ? "Conquistas" : "Milestones"}
+                  {isPT ? "Conquistas" : uiFallback("Milestones")}
                 </h2>
               </div>
               <BadgeGrid unlockedIds={unlockedIds} />
@@ -681,15 +691,19 @@ function ProgressPage() {
                 <BookOpen size={24} />
               </div>
               <h2 style={{ fontFamily: "var(--font-sans)", fontSize: "28px", fontWeight: 800 }}>
-                {isPT ? "Expressões Salvas" : "Saved Expressions"}
+                {isPT ? "Expressões Salvas" : uiFallback("Saved Expressions")}
               </h2>
             </div>
 
             {exprs.length === 0 ? (
               <EmptyState
                 icon="Lightbulb"
-                title={isPT ? "Nada salvo" : "Nothing saved"}
-                sub={isPT ? "Toque na IA para salvar." : "Tap AI to save."}
+                title={isPT ? "Nada salvo" : uiFallback("Nothing saved")}
+                sub={
+                  isPT
+                    ? "Salve uma frase na conversa."
+                    : uiFallback("Save a phrase in your conversation.")
+                }
               />
             ) : (
               <div

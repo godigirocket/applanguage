@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
@@ -279,7 +280,7 @@ export function CulturalTrivia() {
               maxWidth: "260px",
             }}
           >
-            {isCorrect ? (isPT ? "Brilhante! Você acertou." : "Brilliant! You got it.") : (isPT ? "Sem pressa! Aprenda com o erro." : "No worries! Keep learning.")}
+            {isCorrect ? (isPT ? "Brilhante! Você acertou." : uiFallback("Brilliant! You got it.")) : (isPT ? "Sem pressa! Aprenda com o erro." : uiFallback("No worries! Keep learning."))}
           </div>
         )}
       </div>
@@ -516,7 +517,7 @@ export function CulturalTrivia() {
                   lineHeight: 1.5,
                 }}
               >
-                <strong>{isPT ? "Curiosidade:" : "Did you know?"}</strong> {currentQuestion.explanation}
+                <strong>{isPT ? "Curiosidade:" : uiFallback("Did you know?")}</strong> {currentQuestion.explanation}
               </div>
             )}
 
@@ -724,7 +725,7 @@ export function CulturalTrivia() {
                     }}
                   >
                     <div style={{ fontSize: "9px", fontWeight: 900, textTransform: "uppercase", color: "var(--text-secondary)" }}>
-                      XP {isPT ? "Ganho" : "Earned"}
+                      XP {isPT ? "Ganho" : uiFallback("Earned")}
                     </div>
                     <div style={{ fontSize: "20px", fontWeight: 800, color: "var(--brand)", marginTop: "4px" }}>
                       +30 XP

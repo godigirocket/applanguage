@@ -1,3 +1,5 @@
+import { accountKey } from "@/lib/account-storage";
+import { notifyLearningChanged } from "@/lib/learning-state-sync";
 import type {
   InterfaceLanguage,
   LessonTopic,
@@ -8,6 +10,7 @@ import type {
 } from "./types";
 import { generateQuizFromVocabulary } from "./quiz-engine";
 import { resolveGlossLanguage } from "./vocabulary-engine";
+import { useStore } from "@/hooks/useStore";
 
 const STORAGE_KEY = "lume-saved-words";
 
@@ -17,8 +20,13 @@ const INTERVAL_DAYS = [1, 2, 4, 7, 14, 30, 60];
 function readAll(): SavedWord[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? (JSON.parse(raw) as SavedWord[]) : [];
+    const raw = localStorage.getItem(accountKey(STORAGE_KEY));
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed)
+      ? parsed.filter(
+          (word) => word && typeof word.id === "string" && typeof word.term === "string",
+        )
+      : [];
   } catch {
     return [];
   }
@@ -27,7 +35,8 @@ function readAll(): SavedWord[] {
 function writeAll(words: SavedWord[]): void {
   if (typeof window === "undefined") return;
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+    localStorage.setItem(accountKey(STORAGE_KEY), JSON.stringify(words));
+    notifyLearningChanged();
   } catch {
     // storage full/disabled — saved words just won't persist this session
   }
@@ -51,6 +60,7 @@ export function saveWord(item: VocabularyItem): SavedWord {
   if (existing) return existing;
 
   const saved: SavedWord = {
+    updatedAt: new Date().toISOString(),
     id,
     term: item.term,
     translation: item.translation,
@@ -62,6 +72,7 @@ export function saveWord(item: VocabularyItem): SavedWord {
     correctAnswers: 0,
   };
   writeAll([...words, saved]);
+  useStore.getState().trackQuest("dq-3");
   return saved;
 }
 
@@ -78,6 +89,7 @@ export function markWordCorrect(wordId: string): void {
           strength: w.strength + 1,
           correctAnswers: w.correctAnswers + 1,
           lastReviewedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           nextReviewAt: nextReviewDate(w.strength + 1),
         }
       : w,
@@ -94,6 +106,7 @@ export function markWordWrong(wordId: string): void {
           strength: Math.max(0, w.strength - 1),
           mistakes: w.mistakes + 1,
           lastReviewedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
           nextReviewAt: nextReviewDate(Math.max(0, w.strength - 1)),
         }
       : w,

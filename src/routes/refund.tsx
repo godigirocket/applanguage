@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { useStore } from "@/hooks/useStore";
@@ -30,7 +31,7 @@ function RefundPage() {
           }}
         >
           <ArrowLeft size={16} />
-          {isPT ? "Voltar ao início" : "Back to home"}
+          {isPT ? "Voltar ao início" : uiFallback("Back to home")}
         </Link>
 
         <div
@@ -43,12 +44,14 @@ function RefundPage() {
         >
           <RefreshCw size={32} color="var(--brand)" />
           <h1 style={{ fontSize: "36px", fontWeight: 900, color: "var(--text-primary)" }}>
-            {isPT ? "Política de Reembolso" : "Refund Policy"}
+            {isPT ? "Política de Reembolso" : uiFallback("Refund Policy")}
           </h1>
         </div>
 
         <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginBottom: "40px" }}>
-          {isPT ? "Última atualização: 25 de junho de 2026" : "Last updated: June 25, 2026"}
+          {isPT
+            ? "Última atualização: 25 de junho de 2026"
+            : uiFallback("Last updated: June 25, 2026")}
         </p>
 
         <div
@@ -68,7 +71,7 @@ function RefundPage() {
               marginBottom: "20px",
             }}
           >
-            {isPT ? "Garantia de 7 Dias" : "7-Day Guarantee"}
+            {isPT ? "Garantia de 7 Dias" : uiFallback("7-Day Guarantee")}
           </h2>
           <p
             style={{
@@ -80,7 +83,9 @@ function RefundPage() {
           >
             {isPT
               ? "Oferecemos uma garantia de reembolso total de 7 dias para todas as novas assinaturas. Se você não estiver satisfeito com a plataforma, devolveremos 100% do valor pago, sem perguntas."
-              : "We offer a full refund guarantee of 7 days for all new subscriptions. If you are not satisfied with the platform, we will refund 100% of the amount paid, no questions asked."}
+              : uiFallback(
+                  "We offer a full refund guarantee of 7 days for all new subscriptions. If you are not satisfied with the platform, we will refund 100% of the amount paid, no questions asked.",
+                )}
           </p>
 
           <div
@@ -97,12 +102,14 @@ function RefundPage() {
             <CheckCircle size={24} color="#4CAF50" style={{ flexShrink: 0, marginTop: "2px" }} />
             <div>
               <p style={{ fontSize: "15px", color: "var(--text-primary)", fontWeight: 700 }}>
-                {isPT ? "Reembolso rápido e sem burocracia" : "Fast refund without bureaucracy"}
+                {isPT
+                  ? "Reembolso rápido e sem burocracia"
+                  : uiFallback("Fast refund without bureaucracy")}
               </p>
               <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "4px" }}>
                 {isPT
                   ? "Processamos reembolsos em até 5 dias úteis após a solicitação."
-                  : "We process refunds within 5 business days after the request."}
+                  : uiFallback("We process refunds within 5 business days after the request.")}
               </p>
             </div>
           </div>
@@ -124,44 +131,48 @@ function RefundPage() {
               marginBottom: "16px",
             }}
           >
-            {isPT ? "Como Solicitar Reembolso" : "How to Request a Refund"}
+            {isPT ? "Como Solicitar Reembolso" : uiFallback("How to Request a Refund")}
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <Step
               number="1"
-              title={isPT ? "Acesse o Suporte" : "Access Support"}
+              title={isPT ? "Acesse o Suporte" : uiFallback("Access Support")}
               description={
                 isPT
                   ? "Entre em contato através da página de Suporte ou envie um email para suporte@lume.app"
-                  : "Contact us through the Support page or send an email to support@lume.app"
+                  : uiFallback(
+                      "Contact us through the Support page or send an email to support@lume.app",
+                    )
               }
             />
             <Step
               number="2"
-              title={isPT ? "Informe seus Dados" : "Provide Your Information"}
+              title={isPT ? "Informe seus Dados" : uiFallback("Provide Your Information")}
               description={
                 isPT
                   ? "Inclua seu email de cadastro e número do pedido (se disponível)"
-                  : "Include your registration email and order number (if available)"
+                  : uiFallback("Include your registration email and order number (if available)")
               }
             />
             <Step
               number="3"
-              title={isPT ? "Aguarde Confirmação" : "Wait for Confirmation"}
+              title={isPT ? "Aguarde Confirmação" : uiFallback("Wait for Confirmation")}
               description={
                 isPT
                   ? "Nossa equipe processará sua solicitação em até 24 horas úteis"
-                  : "Our team will process your request within 24 business hours"
+                  : uiFallback("Our team will process your request within 24 business hours")
               }
             />
             <Step
               number="4"
-              title={isPT ? "Receba o Reembolso" : "Receive the Refund"}
+              title={isPT ? "Receba o Reembolso" : uiFallback("Receive the Refund")}
               description={
                 isPT
                   ? "O valor será estornado para o mesmo método de pagamento usado na compra"
-                  : "The amount will be refunded to the same payment method used in the purchase"
+                  : uiFallback(
+                      "The amount will be refunded to the same payment method used in the purchase",
+                    )
               }
             />
           </div>
@@ -177,12 +188,14 @@ function RefundPage() {
           }}
         >
           <p style={{ fontSize: "14px", color: "var(--text-primary)", fontWeight: 600 }}>
-            {isPT ? "Importante:" : "Important:"}
+            {isPT ? "Importante:" : uiFallback("Important:")}
           </p>
           <p style={{ fontSize: "14px", color: "var(--text-secondary)", marginTop: "8px" }}>
             {isPT
               ? "A garantia de reembolso é válida apenas para a primeira compra. Renovações automáticas não são elegíveis para reembolso após o período de garantia."
-              : "The refund guarantee is valid only for the first purchase. Automatic renewals are not eligible for refund after the guarantee period."}
+              : uiFallback(
+                  "The refund guarantee is valid only for the first purchase. Automatic renewals are not eligible for refund after the guarantee period.",
+                )}
           </p>
         </div>
 
@@ -203,7 +216,7 @@ function RefundPage() {
               transition: "all 0.2s",
             }}
           >
-            {isPT ? "Falar com Suporte" : "Contact Support"}
+            {isPT ? "Falar com Suporte" : uiFallback("Contact Support")}
           </Link>
         </div>
       </main>
@@ -240,7 +253,14 @@ function Step({
         {number}
       </div>
       <div>
-        <h3 style={{ fontSize: "16px", fontWeight: 700, color: "var(--text-primary)", marginBottom: "4px" }}>
+        <h3
+          style={{
+            fontSize: "16px",
+            fontWeight: 700,
+            color: "var(--text-primary)",
+            marginBottom: "4px",
+          }}
+        >
           {title}
         </h3>
         <p style={{ fontSize: "14px", color: "var(--text-secondary)", lineHeight: 1.6 }}>

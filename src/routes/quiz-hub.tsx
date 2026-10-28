@@ -96,7 +96,6 @@ function QuizHubPage() {
         position: "relative",
       }}
     >
-      
       <div style={{ position: "relative", zIndex: 1 }}>
         <AppHeader />
         <main style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 24px 40px" }}>

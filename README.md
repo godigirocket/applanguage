@@ -2,6 +2,9 @@
 
 Lume é uma plataforma moderna e gamificada para aprender idiomas através de lições interativas, jogos, quizzes e exploração cultural.
 
+Conversação com prática guiada local e áudio do navegador, sem chave de IA.
+Implementação, fontes públicas e testes: [KEYLESS_PRACTICE.md](KEYLESS_PRACTICE.md).
+
 ## 🚀 Stack Tecnológica
 
 - **Frontend**: React + TypeScript + TanStack Router

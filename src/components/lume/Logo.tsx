@@ -11,7 +11,10 @@ export function Logo({ size = 40, className = "", withText = true }: LogoProps) 
       style={{ textDecoration: "none", flexShrink: 0 }}
     >
       <img
-        src="/brand/lume-logo-mark.png"
+        src="/brand/lume-logo-mark.webp"
+        width={size}
+        height={size}
+        decoding="async"
         alt="Lume"
         className="lume-logo-mark"
         style={{

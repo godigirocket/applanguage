@@ -1,3 +1,4 @@
+import { uiFallback } from "@/i18n/ui-fallback";
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, useEffect, useMemo } from "react";
 import { MultipleChoice } from "@/components/quiz/MultipleChoice";
@@ -13,7 +14,7 @@ import {
   type UnifiedQuestion,
   type LessonTopic,
 } from "@/lib/language-content";
-import { speak, isTTSSupported } from "@/lib/language-apis/webSpeech";
+import { speak, isTTSSupported, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { useStore } from "@/hooks/useStore";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trophy, ChevronRight, Volume2 } from "@/components/lume/CustomIcons";
@@ -46,6 +47,7 @@ function QuizPlayPage() {
 
   const [questions, setQuestions] = useState<UnifiedQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => () => stopSpeaking(), [currentIndex]);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const [pronunciationResolved, setPronunciationResolved] = useState<boolean | null>(null);
@@ -65,7 +67,7 @@ function QuizPlayPage() {
     hasCompletedRef.current = false;
     if (q.length > 0) recordSeenQuestionIds(q.map((item) => item.id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type, targetLanguage]);
+  }, [type, targetLanguage, interfaceLanguage]);
 
   const handleAnswer = (isCorrect: boolean) => {
     const nextScore = isCorrect ? score + 1 : score;
@@ -146,7 +148,7 @@ function QuizPlayPage() {
               cursor: "pointer",
             }}
           >
-            {isPT ? "Voltar" : "Go back"}
+            {isPT ? "Voltar" : uiFallback("Go back")}
           </button>
         </Link>
       </div>
@@ -166,8 +168,6 @@ function QuizPlayPage() {
         position: "relative",
       }}
     >
-      
-
       {/* Top Bar */}
       <div
         style={{
@@ -252,7 +252,7 @@ function QuizPlayPage() {
                   options={currentQ.options}
                   correctAnswer={currentQ.correctAnswer}
                   explanation={currentQ.explanation}
-                  explanationLabel={isPT ? "Explicação:" : "Explanation:"}
+                  explanationLabel={isPT ? "Explicação:" : uiFallback("Explanation:")}
                   onAnswer={handleAnswer}
                   accentColor={accentColor}
                 />
@@ -264,7 +264,7 @@ function QuizPlayPage() {
                   options={currentQ.options}
                   correctAnswer={currentQ.correctAnswer}
                   explanation={currentQ.explanation}
-                  explanationLabel={isPT ? "Explicação:" : "Explanation:"}
+                  explanationLabel={isPT ? "Explicação:" : uiFallback("Explanation:")}
                   onAnswer={handleAnswer}
                   accentColor={accentColor}
                 />
@@ -306,7 +306,7 @@ function QuizPlayPage() {
                         cursor: "pointer",
                       }}
                     >
-                      {isPT ? "Continuar →" : "Continue →"}
+                      {isPT ? "Continuar →" : uiFallback("Continue →")}
                     </button>
                   )}
                 </div>
@@ -342,7 +342,7 @@ function QuizPlayPage() {
                   color: "var(--text-primary)",
                 }}
               >
-                {isPT ? "Quiz Concluído!" : "Quiz Complete!"}
+                {isPT ? "Quiz Concluído!" : uiFallback("Quiz Complete!")}
               </h2>
               <p style={{ fontSize: "16px", color: "var(--text-secondary)", marginBottom: "32px" }}>
                 {isPT
@@ -366,7 +366,7 @@ function QuizPlayPage() {
                     margin: "0 auto",
                   }}
                 >
-                  {isPT ? "Continuar" : "Continue"} <ChevronRight size={20} />
+                  {isPT ? "Continuar" : uiFallback("Continue")} <ChevronRight size={20} />
                 </button>
               </Link>
             </motion.div>
@@ -429,18 +429,18 @@ function ListeningQuestion({
           {ttsSupported
             ? isPT
               ? "Ouça a palavra e escolha a opção certa"
-              : "Listen to the word and choose the right option"
+              : uiFallback("Listen to the word and choose the right option")
             : isPT
               ? "Seu navegador não suporta áudio — escolha pela leitura"
-              : "Your browser doesn't support audio — choose from reading"}
+              : uiFallback("Your browser doesn't support audio — choose from reading")}
         </span>
       </div>
       <MultipleChoice
-        question={isPT ? "O que você ouviu?" : "What did you hear?"}
+        question={isPT ? "O que você ouviu?" : uiFallback("What did you hear?")}
         options={options}
         correctAnswer={correctAnswer}
         explanation={explanation}
-        explanationLabel={isPT ? "Explicação:" : "Explanation:"}
+        explanationLabel={isPT ? "Explicação:" : uiFallback("Explanation:")}
         onAnswer={onAnswer}
         accentColor={accentColor}
       />

@@ -15,12 +15,15 @@ interface UserAvatarProps {
  */
 export function UserAvatar({ size = 40, name, avatarId }: UserAvatarProps) {
   const storeAvatarId = useStore((s) => s.avatarId);
+  const inventory = useStore((s) => s.inventory);
+  const crowned = avatarId === undefined && inventory.includes("avatar-crown");
   const id = avatarId !== undefined ? avatarId : storeAvatarId;
 
   if (!id) {
     const initial = name?.trim()?.[0]?.toUpperCase() || "L";
     return (
       <div
+        className={crowned ? "lume-avatar-crowned" : undefined}
         style={{
           width: size,
           height: size,
@@ -43,6 +46,7 @@ export function UserAvatar({ size = 40, name, avatarId }: UserAvatarProps) {
 
   return (
     <div
+      className={crowned ? "lume-avatar-crowned" : undefined}
       style={{ width: size, height: size, flexShrink: 0, borderRadius: "50%", overflow: "hidden" }}
     >
       <AvatarSvg def={getAvatarDef(id)} size={size} />
