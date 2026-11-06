@@ -14,6 +14,7 @@ import {
 } from "@/components/lume/CustomIcons";
 import { useStore } from "@/hooks/useStore";
 import { toast } from "sonner";
+import { sounds } from "@/lib/soundEffects";
 
 const CATEGORY_ICONS: Record<string, typeof Book> = {
   vocabulary: Sparkles,
@@ -75,9 +76,10 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
   const activeIndex = visibleLessons.findIndex((lesson) => !lesson.completed && !lesson.locked);
 
   const handleClick = (lesson: any) => {
+    sounds.playClick();
     if (lesson.locked) {
       toast.info(
-        isPT ? "Complete a licao anterior primeiro!" : uiFallback("Complete the previous lesson first!"),
+        isPT ? "Complete a lição anterior primeiro!" : uiFallback("Complete the previous lesson first!"),
       );
       return;
     }
@@ -159,6 +161,46 @@ export function LessonPath({ lessons, maxVisible = 5 }: LessonPathProps) {
                 alignItems: "center",
               }}
             >
+              {isActive && (
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: `${size / 2 + 18}px`,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    pointerEvents: "none",
+                    zIndex: 10,
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "#246b45",
+                      color: "#FFFFFF",
+                      padding: "5px 12px",
+                      borderRadius: "10px",
+                      fontSize: "11px",
+                      fontWeight: 900,
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                      boxShadow: "0 3px 0 #164936, 0 4px 12px rgba(36,107,69,0.24)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {isPT ? "Começar" : interfaceLanguage === "es" ? "Empezar" : "Start"}
+                  </div>
+                  <div
+                    style={{
+                      width: 0,
+                      height: 0,
+                      borderLeft: "5px solid transparent",
+                      borderRight: "5px solid transparent",
+                      borderTop: "6px solid #246b45",
+                    }}
+                  />
+                </div>
+              )}
+
               <button
                 onClick={() => handleClick(lesson)}
                 className={`path-node animated-container ${

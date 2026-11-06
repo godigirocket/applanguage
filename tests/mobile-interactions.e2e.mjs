@@ -24,7 +24,7 @@ try{
     await page.waitForTimeout(350);assert.ok(await page.locator('.lume-app-header').evaluate(el=>el.getBoundingClientRect().top>=-1),'Header returns during slow upward scroll');
     await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
     await page.screenshot({path:`${out}/landing-${width}.png`,fullPage:true});
-    await page.locator('.lume-landing-actions a[href="/login"]').tap();await page.waitForURL(/\/login/);
+    await page.locator('footer.lp-footer a[href="/login"]').tap();await page.waitForURL(/\/login/);
     await page.locator('input[type=email]').fill(qa.email);await page.locator('input[type=password]').fill(qa.password);await page.locator('button[type=submit]').tap();await page.waitForURL(/\/home/);
     await page.locator('.home-resume-action').waitFor();await page.waitForLoadState('networkidle');
     for(const route of ['/home','/lessons','/games','/profile','/settings','/dictionary']){

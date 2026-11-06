@@ -24,7 +24,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npx --yes npm@10.9.4 ci
 
       - name: TypeScript check
         run: npx tsc --noEmit
@@ -33,7 +33,27 @@ jobs:
         run: npm test
 
       - name: Build
+        env:
+          VITE_SUPABASE_URL: https://qa-example.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: browser-test-fixture
         run: npm run build
+
+      - name: Install browser for regression checks
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser regression checks
+        env:
+          VITE_SUPABASE_URL: https://qa-example.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: browser-test-fixture
+        run: |
+          npm run dev -- --host 127.0.0.1 --port 5173 --strictPort > /tmp/langlume-vite.log 2>&1 &
+          node scripts/preview-production.mjs > /tmp/langlume-preview.log 2>&1 &
+          curl --fail --silent --retry 20 --retry-connrefused http://127.0.0.1:5173/ > /dev/null
+          curl --fail --silent --retry 10 --retry-connrefused http://127.0.0.1:5174/ > /dev/null
+          npm run test:e2e
+          node tests/demo-signup.e2e.mjs
+          E2E_BASE_URL=http://127.0.0.1:5174 node tests/landing-theme.e2e.mjs
+          node tests/offline-lessons.e2e.mjs
 
       - name: npm audit (non-blocking)
         run: npm audit --audit-level=critical || true

@@ -8,8 +8,11 @@ import { Logo } from "@/components/lume/Logo";
 import { useStore } from "@/hooks/useStore";
 import { supabase } from "@/integrations/supabase/client";
 import { withTimeout } from "@/lib/promise-timeout";
+import { courseEntrySearch } from "@/lib/course-entry";
+import { productEvent } from "@/lib/product-metrics";
 
 export const Route = createFileRoute("/signup")({
+  validateSearch: courseEntrySearch,
   head: () => ({
     meta: [
       { title: "Criar conta - Lume" },
@@ -46,6 +49,7 @@ function friendlyAuthError(message: string, isPT: boolean) {
 }
 
 function Signup() {
+  const { course } = Route.useSearch();
   const clientReady = useClientReady();
   const nav = useNavigate();
   const { interfaceLanguage } = useStore();
@@ -84,6 +88,7 @@ function Signup() {
           password,
           options: {
             emailRedirectTo: `${window.location.origin}/onboarding`,
+            ...(course && { data: { requested_course: course } }),
           },
         }),
         8000,
@@ -95,16 +100,19 @@ function Signup() {
         return;
       }
 
+      if (data.session || data.user?.identities?.length) {
+        productEvent("signup_accepted", { course: course ?? "none" });
+      }
       if (data.session) {
         toast.success(isPT ? "Conta criada!" : uiFallback("Account created!"));
-        nav({ to: "/onboarding" });
+        nav({ to: "/onboarding", search: { course } });
       } else {
         toast.success(
           isPT
             ? "Conta criada. Confira seu email para confirmar."
             : uiFallback("Account created. Check your email to confirm."),
         );
-        nav({ to: "/login" });
+        nav({ to: "/login", search: { redirect: course ? `/onboarding?course=${course}` : "/onboarding" } });
       }
     } catch {
       setError(

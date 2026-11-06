@@ -11,3 +11,5 @@ Optional online dictionary definitions use [Free Dictionary API](https://diction
 ## Human pronunciation recordings (27 October 2026)
 
 Files in `public/audio/` are recordings by Wikimedia Commons / Lingua Libre contributors, converted to MP3. Their individual CC BY-SA 3.0, CC BY-SA 4.0 or CC0 licenses and attribution are listed in `public/audio/credits.html` and `src/lib/language-apis/recorded-audio.json`. These media licenses do not license the application code. Original metadata is retained in the ignored audit folder.
+
+The landing release adds 12 recordings; the same manifest and public credits list each source and its applicable license, including any CC BY entries.

@@ -29,6 +29,7 @@ import { startTutorial } from "@/components/lume/Tutorial";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/react";
+import { observeContentPaint } from "@/lib/product-metrics";
 import { trackActivity } from "@/lib/notifications";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
 import { warmSpeechVoices, stopSpeaking } from "@/lib/language-apis/webSpeech";
@@ -44,16 +45,25 @@ const DifficultyPopup = lazy(() =>
 );
 
 function NotFoundComponent() {
+  const lang = useStore.getState().interfaceLanguage;
+  const isPT = lang === "pt";
+  const isES = lang === "es";
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center page-enter">
         <h1 className="font-display text-7xl">404</h1>
-        <p className="mt-3 text-muted-foreground">This page drifted away.</p>
+        <p className="mt-3 text-muted-foreground">
+          {isPT
+            ? "Essa página foi levada pelo vento."
+            : isES
+              ? "Esta página se fue con el viento."
+              : "This page drifted away."}
+        </p>
         <Link
           to="/"
           className="mt-6 inline-block px-5 py-2 rounded-full bg-primary text-primary-foreground"
         >
-          Back home
+          {isPT ? "Voltar ao início" : isES ? "Volver al inicio" : "Back home"}
         </Link>
       </div>
     </div>
@@ -64,6 +74,9 @@ function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: 
   const error = caughtError instanceof Error ? caughtError : new Error(String(caughtError));
   console.error(error);
   const router = useRouter();
+  const lang = useStore.getState().interfaceLanguage;
+  const isPT = lang === "pt";
+  const isES = lang === "es";
 
   useEffect(() => {
     captureClientException(error);
@@ -91,7 +104,13 @@ function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-2xl">Something paused mid-sentence.</h1>
+        <h1 className="font-display text-2xl">
+          {isPT
+            ? "Algo parou no meio da frase."
+            : isES
+              ? "Algo se detuvo a mitad de frase."
+              : "Something paused mid-sentence."}
+        </h1>
         <p className="mt-2 text-sm text-muted-foreground">{error.message}</p>
         <div className="mt-6 flex justify-center gap-2">
           <button
@@ -101,10 +120,10 @@ function ErrorComponent({ error: caughtError, reset }: { error: unknown; reset: 
             }}
             className="px-5 py-2 rounded-full bg-primary text-primary-foreground"
           >
-            Try again
+            {isPT ? "Tentar novamente" : isES ? "Intentar de nuevo" : "Try again"}
           </button>
           <Link to="/" className="px-5 py-2 rounded-full border border-border">
-            Go home
+            {isPT ? "Voltar ao início" : isES ? "Volver al inicio" : "Go home"}
           </Link>
         </div>
       </div>
@@ -226,6 +245,7 @@ function RootComponent() {
 
 function RootInner() {
   const { user, loading: authLoading } = useAuth();
+  useEffect(observeContentPaint, []);
   useLearningSync(user?.id);
   const interfaceLanguage = useStore((state) => state.interfaceLanguage);
   const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } = useStore(
@@ -297,6 +317,7 @@ function RootInner() {
     currentPath === "/reset-password" ||
     currentPath === "/success" ||
     currentPath === "/cancel";
+  const isLesson = currentPath.startsWith("/lesson/");
   const isImmersive =
     currentPath.startsWith("/quiz") ||
     currentPath === "/hangman" ||
@@ -305,7 +326,7 @@ function RootInner() {
     currentPath === "/setup" ||
     currentPath.startsWith("/quiz-play") ||
     currentPath.startsWith("/play/") ||
-    currentPath.startsWith("/lesson/");
+      isLesson;
 
   // Synchronize user level from Supabase DB on auth load
   useEffect(() => {
@@ -502,7 +523,8 @@ function RootInner() {
           boxSizing: "border-box",
         }}
       >
-        {isImmersive && authLoading ? (
+        {/* Lessons render their intro on the server and guard progress inside the player. */}
+        {isImmersive && !isLesson && authLoading ? (
           <div className="lesson-loading" role="status">
             <span>
               {interfaceLanguage === "es"

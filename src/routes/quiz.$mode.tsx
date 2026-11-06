@@ -23,6 +23,7 @@ import {
 } from "@/lib/language-content";
 import { speak, isTTSSupported, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { Mascot } from "@/components/lume/Mascot";
+import { sounds } from "@/lib/soundEffects";
 
 function scenarioTopicForMode(mode: string): LessonTopic {
   return (ALL_TOPICS as string[]).includes(mode) ? (mode as LessonTopic) : pickRotatingTopic(mode);
@@ -524,9 +525,11 @@ function QuizPage() {
     const isCorrect = option === q.correct;
 
     if (isCorrect) {
+      sounds.playQuizCorrect();
       setScore((s) => s + 1);
       setQStreak((s) => s + 1);
     } else {
+      sounds.playQuizWrong();
       setQStreak(0);
       setLives((l) => Math.max(0, l - 1));
       setMissedQuestions((prev) => [...prev, q]);
@@ -1039,6 +1042,7 @@ function QuizResults({
 
   useEffect(() => {
     recordQuizCompletion(score, total);
+    sounds.playLessonComplete();
     if (score > 0) {
       addXP(earnedXP);
       confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });

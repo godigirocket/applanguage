@@ -1,5 +1,5 @@
 import { uiFallback } from "@/i18n/ui-fallback";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { motion, AnimatePresence } from "framer-motion";
@@ -667,33 +667,93 @@ function LessonsPage() {
             padding: "clamp(24px, 5vw, 40px) clamp(16px, 3vw, 24px)",
           }}
         >
-          {/* PROGRESS PATH — Duolingo-style vertical lesson tree (shows when no filters active) */}
-          {selectedCategory === "all" && selectedLevel !== "All" && !debouncedQuery && (
-            <section style={{ marginBottom: "40px" }}>
-              <h2
+          {/* PROGRESS PATH — Duolingo-style vertical lesson tree (shows when no search active) */}
+          {selectedCategory === "all" && !debouncedQuery && (
+            <section
+              style={{
+                marginBottom: "48px",
+                maxWidth: "680px",
+                margin: "0 auto 48px",
+              }}
+            >
+              {/* Duolingo Unit Header Banner */}
+              <div
                 style={{
-                  fontSize: "20px",
-                  fontWeight: 900,
-                  color: "var(--text-primary)",
-                  textAlign: "center",
-                  marginBottom: "8px",
+                  background: "linear-gradient(135deg, #216849 0%, #16493f 100%)",
+                  borderRadius: "24px",
+                  padding: "clamp(16px, 5vw, 28px)",
+                  color: "#FFFFFF",
+                  boxShadow: "0 6px 0 #103b32",
+                  marginBottom: "32px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  flexWrap: "wrap",
+                  gap: "16px",
                 }}
               >
-                {isPT ? "Seu Caminho" : uiFallback("Your Path")}
-              </h2>
-              <p
-                style={{
-                  fontSize: "14px",
-                  color: "var(--text-secondary)",
-                  textAlign: "center",
-                  marginBottom: "16px",
-                }}
-              >
-                {isPT
-                  ? "Complete as lições em ordem para desbloquear a próxima"
-                  : uiFallback("Complete lessons in order to unlock the next one")}
-              </p>
-              <LessonPath lessons={filteredLessons} maxVisible={5} />
+                <div style={{ flex: "1 1 220px", minWidth: 0 }}>
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 900,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      opacity: 0.9,
+                      marginBottom: "6px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                    }}
+                  >
+                    <Sparkles size={14} />
+                    {selectedLevel !== "All"
+                      ? `${isPT ? "Nível" : uiFallback("Level")} ${selectedLevel}`
+                      : isPT ? "Trilha Principal" : uiFallback("Main Path")}
+                  </div>
+                  <h2
+                    style={{
+                      fontSize: "clamp(20px, 3.5vw, 24px)",
+                      fontWeight: 900,
+                      margin: "0 0 6px",
+                      color: "#FFFFFF",
+                    }}
+                  >
+                    {isPT ? "Seu Caminho de Aprendizado" : uiFallback("Your Learning Path")}
+                  </h2>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      opacity: 0.92,
+                      margin: 0,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {isPT
+                      ? "Avance nó por nó para desbloquear novos desafios e XP!"
+                      : uiFallback("Progress node by node to unlock new challenges and XP!")}
+                  </p>
+                </div>
+
+                <Link
+                  to="/guide"
+                  className="btn-duo"
+                  style={{
+                    background: "rgba(255, 255, 255, 0.2)",
+                    border: "2px solid rgba(255, 255, 255, 0.4)",
+                    color: "#FFFFFF",
+                    width: "auto",
+                    padding: "10px 18px",
+                    boxShadow: "0 4px 0 rgba(0, 0, 0, 0.15)",
+                    fontSize: "13px",
+                  }}
+                >
+                  <BookOpen size={16} />
+                  {isPT ? "Guia" : uiFallback("Guidebook")}
+                </Link>
+              </div>
+
+              <LessonPath lessons={filteredLessons} maxVisible={7} />
             </section>
           )}
 
