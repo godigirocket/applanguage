@@ -57,12 +57,10 @@ try {
           await footer.getByText("Muito bem!", { exact: true }).waitFor();
         }
       }
-      const action = page
-        .locator(".lesson-footer")
-        .getByRole("button", {
-          name: activity.type === "speaking" ? "Pular por enquanto" : "Continuar",
-          exact: true,
-        });
+      const action = page.locator(".lesson-footer").getByRole("button", {
+        name: activity.type === "speaking" ? "Pular por enquanto" : "Continuar",
+        exact: true,
+      });
       assert.ok(
         await action.evaluate((el) => {
           const box = el.getBoundingClientRect();

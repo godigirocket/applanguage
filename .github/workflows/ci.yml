@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build-and-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -39,7 +39,9 @@ jobs:
         run: npm run build
 
       - name: Install browser for regression checks
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 3
+        # The runner image already includes Chrome/Chromium system libraries.
+        run: npx playwright install chromium
 
       - name: Browser regression checks
         env:
