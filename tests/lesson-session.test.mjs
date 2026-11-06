@@ -8,7 +8,61 @@ import {
   restoreSession,
   sessionAccuracy,
   normalizeAnswer,
+  matchesTranslation,
 } from "../src/lib/lesson-session.ts";
+
+test("the curated airport unit ships in every course and keeps resumable activity positions", () => {
+  const curated = JSON.parse(
+    fs.readFileSync(new URL("../src/data/lessons/airport-a1.json", import.meta.url)),
+  );
+  for (const [language, answer] of [
+    ["en", "a / an"],
+    ["es", "el / la"],
+    ["pt", "o / a"],
+  ]) {
+    const id = `lesson-${language}-1`;
+    const chunk = JSON.parse(
+      fs.readFileSync(
+        new URL(`../src/data/lessons/detail/${language}/chunk-0.json`, import.meta.url),
+      ),
+    );
+    const lesson = chunk.find((entry) => entry.id === id);
+    assert.deepEqual(lesson.steps, curated[id]);
+    const activities = buildActivities(lesson.steps);
+    assert.deepEqual(
+      activities.map(({ type }) => type),
+      [
+        "vocab",
+        "vocab",
+        "vocab",
+        "quiz",
+        "listening",
+        "speaking",
+        "translation",
+        "dragdrop",
+        "quiz",
+        "speaking",
+      ],
+    );
+    const grammar = activities[8];
+    assert.equal(grammar.options[grammar.correct], answer);
+    for (const locale of ["en", "es", "pt"]) assert.ok(grammar.explanation[locale]);
+  }
+});
+
+test("a curated translation accepts natural variants without accepting a different sentence", () => {
+  assert.ok(
+    matchesTranslation("WHERE is the passport control?", "Where is passport control?", [
+      "Where is the passport control?",
+    ]),
+  );
+  assert.equal(
+    matchesTranslation("Where is the boarding gate?", "Where is passport control?", [
+      "Where is the passport control?",
+    ]),
+    false,
+  );
+});
 
 test("each of the 2,130 lessons terminates and has solvable word banks", () => {
   let count = 0;

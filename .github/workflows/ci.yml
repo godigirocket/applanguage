@@ -54,6 +54,7 @@ jobs:
           node tests/demo-signup.e2e.mjs
           E2E_BASE_URL=http://127.0.0.1:5174 node tests/landing-theme.e2e.mjs
           node tests/offline-lessons.e2e.mjs
+          node tests/airport-unit.e2e.mjs
 
       - name: npm audit (non-blocking)
         run: npm audit --audit-level=critical || true

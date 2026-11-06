@@ -26,7 +26,9 @@ import {
   advanceSession,
   buildActivities,
   freshSession,
+  matchesTranslation,
   normalizeAnswer,
+  resolveLessonText,
   restoreSession,
   sessionAccuracy,
   type LessonActivity,
@@ -627,7 +629,7 @@ function Exercise({
     checked.current = true;
     const correct =
       a.type === "translation"
-        ? normalizeAnswer(text) === normalizeAnswer(answer)
+        ? matchesTranslation(text, answer, a.acceptedTranslations)
         : a.type === "dragdrop"
           ? normalizeAnswer(tokens.map((i) => a.tokens![i]).join(" ")) === normalizeAnswer(answer)
           : selected === a.correct;
@@ -645,7 +647,7 @@ function Exercise({
           {title}
         </h1>
         {a.type !== "vocab" && a.type !== "speaking" && (
-          <p className="lesson-prompt">{a.question}</p>
+          <p className="lesson-prompt">{resolveLessonText(a.question, ui)}</p>
         )}
         {a.type === "vocab" && (
           <div className="lesson-word-card">
@@ -822,7 +824,7 @@ function Exercise({
                       {t("Resposta", "Answer", "Respuesta")}: {answer}
                     </p>
                   )}
-                  {a.explanation && <small>{a.explanation}</small>}
+                  {a.explanation && <small>{resolveLessonText(a.explanation, ui)}</small>}
                 </div>
               </>
             ) : (
