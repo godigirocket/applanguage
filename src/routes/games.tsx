@@ -20,6 +20,7 @@ import { useStore } from "@/hooks/useStore";
 import { useState } from "react";
 import { DynamicIcon } from "@/components/lume/CustomIcons";
 import { useTranslation } from "react-i18next";
+import { sounds } from "@/lib/soundEffects";
 
 export const Route = createFileRoute("/games")({
   component: PlayPage,
@@ -39,7 +40,7 @@ function PlayPage() {
     xpFromQuizzes: xp,
   };
 
-  const MODES_18 = [
+  const GAME_MODES = [
     {
       slug: "quick",
       icon: "Brain",
@@ -502,7 +503,7 @@ function PlayPage() {
               gap: "12px",
             }}
           >
-            {MODES_18.map((mode, i) => (
+            {GAME_MODES.map((mode, i) => (
               <GameModeCard key={mode.slug} mode={mode} index={i} />
             ))}
           </div>
@@ -514,7 +515,11 @@ function PlayPage() {
 
 function GameModeCard({ mode, index }: { mode: any; index: number }) {
   return (
-    <Link to={`/quiz/${mode.slug}` as any} style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to={`/quiz/${mode.slug}` as any}
+      onClick={() => sounds.playClick()}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <motion.div
         className="lume-game-mode-card"
         initial={{ opacity: 0, y: 10 }}

@@ -41,3 +41,23 @@ Chromium e WebKit foram executados com tamanhos móveis e eventos de toque simul
 Não foi feita cobrança real, troca de senha ou publicação de mensagens na comunidade. Checkout foi verificado como destino autenticado; os cenários do webhook de cobrança foram verificados pelos testes de domínio.
 
 Esta validação cobre os fluxos e estados descritos. Não constitui garantia de ausência de bugs em todos os aparelhos e condições de rede.
+
+## Atualização publicada em 06/11/2026
+
+Deployment `dpl_BsUSsukaN3fXmsrpKfppQqAYscZU`, publicado em `langlume.vercel.app`. A abertura da lição voltou a ser renderizada no servidor. O botão de início e o carregamento do progresso continuam aguardando a inicialização da conta dentro do jogador. As demais telas imersivas preservam a proteção que evita gravar progresso de usuário como visitante. A publicação foi isolada a partir de `3c9d690` e não inclui as mudanças locais de outras telas.
+
+Com cache frio, rede simulada de 1,6 Mbps/80 ms e CPU 4× mais lenta, o conteúdo principal da primeira lição (LCP) apareceu em 1,74 s após a correção, ante 3,21–3,29 s nas duas medições anteriores. A medição após a publicação registrou 2,00 s na página inicial e 1,38 s no login. São medições de laboratório, não de aparelhos de usuários.
+
+Validação no domínio público: título visível antes do JavaScript com início desabilitado, lição visitada funcionando offline, login com conta de teste, conclusão e gravação da lição, abertura da seguinte, 13 páginas autenticadas e persistência da sessão após recarregar. Zero erros JavaScript ou falhas da API Supabase nesse fluxo. Configuração de lembretes confirmada e acesso ao cron sem autenticação rejeitado. Evidências locais: `scratchpad/completion-27/lesson-ssr-public-*.log` e `scratchpad/performance/lesson-ssr-2026-11-06.json`.
+
+## Validação da versão completa em 06/11/2026
+
+Versão final em produção: `dpl_3XgnVP77z6Sa9KAjNijj3cg8LnUL` em `langlume.vercel.app`.
+
+- As mudanças locais de início, trilha, habilidades, loja, jogos e fala passaram pela revisão e entraram na publicação completa. O cabeçalho preserva espaço para idioma e tema em telas menores. A trilha ganhou contraste e os novos textos em espanhol. A dica do mascote funciona por teclado. As missões só exibem celebração quando a recompensa é efetivamente concedida.
+- O feedback por palavra compara a transcrição, distingue troca de palavra de omissão e usa o mesmo cálculo de correspondência da frase. O teste de navegador passou com tentativa fora de ordem, nova tentativa, correspondência correta e resultado duplicado. Os oito áudios foram verificados, incluindo reprodução, fallback e cancelamento.
+- Build, TypeScript e 30 testes de domínio passaram. Chromium: 56 combinações de tela/rota, busca e recuperação sem resultados em Habilidades, cabeçalho em cinco larguras e destino da próxima lição. WebKit: 28 estados de navegação e menus fixos. Sincronização: quiz, palavras e revisão restaurados em outra sessão; alteração offline incorporada ao reconectar.
+- A varredura pública da versão completa, antes do último ajuste de cor e tradução, passou nas 130 combinações de rota/largura sem erros JavaScript, falhas de API Supabase ou textos fora dos controles. A última revisão foi conferida separadamente no domínio público.
+- Na publicação final, os 17 destinos em espanhol passaram, incluindo o novo título e o link do guia na trilha. A lição visitada abriu offline. Na mesma simulação de rede móvel com cache frio, o LCP foi 1,60 s na página inicial, 1,31 s no login e 1,70 s na primeira lição. Resultados locais em `scratchpad/completion-27/final-polish-*.log` e `scratchpad/performance/completion-final-2026-11-06.json`.
+- PWA e lembrete em segundo plano verificados no domínio publicado. O teste injeta um evento push no worker do Chromium com a página do app fechada e confirma que o navegador exibe a notificação. Não registra assinatura nem envia notificações a usuários.
+- Para a homologação física, testar em Chrome no Android e no Langlume instalado pela tela inicial do Safari no iPhone: abrir a lição, conceder e negar acesso ao microfone, gravar uma frase, ativar lembretes nas Configurações e confirmar a entrega e abertura da notificação após o próximo agendamento elegível com o aparelho bloqueado. Nenhum aparelho físico estava conectado ao ambiente desta execução.

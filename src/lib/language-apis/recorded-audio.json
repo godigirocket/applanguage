@@ -70,5 +70,113 @@
     "author": "Speaker: Santamarcanda\nRecorder: Santamarcanda",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "en:coffee": {
+    "src": "/audio/en-coffee.mp3",
+    "word": "coffee",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-coffee.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:ticket": {
+    "src": "/audio/en-ticket.mp3",
+    "word": "ticket",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-ticket.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:passport": {
+    "src": "/audio/en-passport.mp3",
+    "word": "passport",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-passport.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:hotel": {
+    "src": "/audio/en-hotel.mp3",
+    "word": "hotel",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-hotel.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:station": {
+    "src": "/audio/en-station.mp3",
+    "word": "station",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-station.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:airport": {
+    "src": "/audio/en-airport.mp3",
+    "word": "airport",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-airport.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "en:please": {
+    "src": "/audio/en-please.mp3",
+    "word": "please",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:En-us-please.ogg",
+    "author": "Dvortygirl",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "pt:água": {
+    "src": "/audio/pt-agua.mp3",
+    "word": "água",
+    "language": "pt",
+    "source": "https://commons.wikimedia.org/wiki/File:Pt-br-%C3%A1gua.ogg",
+    "author": "Leandro Maranghetti Lourenço",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "es:hola": {
+    "src": "/audio/es-hola.mp3",
+    "word": "hola",
+    "language": "es",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1321_(spa)-Nicolas_Lopez_de_Silanes_WMFr-hola.wav",
+    "author": "Speaker: Nicolas Lopez de Silanes WMFr\nRecorder: Nicolas Lopez de Silanes WMFr",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "es:gracias": {
+    "src": "/audio/es-gracias.mp3",
+    "word": "gracias",
+    "language": "es",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1321_(spa)-AdrianAbdulBaha-gracias.wav",
+    "author": "Speaker: AdrianAbdulBaha\nRecorder: AdrianAbdulBaha",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "es:agua": {
+    "src": "/audio/es-agua.mp3",
+    "word": "agua",
+    "language": "es",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1321_(spa)-Rodelar-agua.wav",
+    "author": "Speaker: Rodelar\nRecorder: Rodelar",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "en:souvenir": {
+    "src": "/audio/en-souvenir.mp3",
+    "word": "souvenir",
+    "language": "en",
+    "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-souvenir.wav",
+    "author": "Speaker: Vealhurl\nRecorder: Vealhurl",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 }

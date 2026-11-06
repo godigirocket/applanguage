@@ -3,12 +3,13 @@ import { useAuth } from "@/lib/auth";
 import { useEffect, useState } from "react";
 import { useProfile } from "@/hooks/useProfile";
 import { Logo } from "@/components/lume/Logo";
-import { Sun, Moon } from "@/components/lume/CustomIcons";
+import { Sun, Moon, Flame, Coins } from "@/components/lume/CustomIcons";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/lume/LanguageSwitcher";
 import { ViewportLayer } from "@/components/lume/ViewportLayer";
 import { UserAvatar } from "@/components/lume/UserAvatar";
 import { useClientReady } from "@/hooks/useClientReady";
+import { useStore } from "@/hooks/useStore";
 
 // Mobile bottom-tab nav icons as inline SVG for zero dependency
 function IconHome() {
@@ -119,6 +120,9 @@ function IconUser() {
 export function AppHeader() {
   const ready = useClientReady();
   const { user } = useAuth();
+  const streak = useStore((state) => state.streak);
+  const lumes = useStore((state) => state.lumes);
+  const interfaceLanguage = useStore((state) => state.interfaceLanguage);
   const { data: profile } = useProfile(user?.id);
   const currentPath = useRouterState({ select: (state) => state.location.pathname });
   const { t } = useTranslation(["common"]);
@@ -251,6 +255,72 @@ export function AppHeader() {
               className="lume-header-controls"
               style={{ display: "flex", alignItems: "center", gap: "8px", flexShrink: 0 }}
             >
+              {/* Streak Counter Pill */}
+              {isLoggedIn && (
+                <Link
+                  to="/home"
+                  className="lume-header-counter"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    padding: "5px 10px",
+                    borderRadius: "99px",
+                    background: streak > 0 ? "rgba(255, 107, 53, 0.12)" : "var(--surface-raised)",
+                    border: `1.5px solid ${streak > 0 ? "rgba(255, 107, 53, 0.35)" : "var(--border)"}`,
+                    color: streak > 0 ? "#FF6B35" : "var(--text-secondary)",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    textDecoration: "none",
+                    transition: "transform 0.15s ease",
+                    flexShrink: 0,
+                  }}
+                  title={
+                    interfaceLanguage === "pt"
+                      ? `Ofensiva de ${streak} dias`
+                      : interfaceLanguage === "es"
+                        ? `Racha de ${streak} días`
+                        : `${streak}-day streak`
+                  }
+                >
+                  <Flame size={15} color="#FF6B35" />
+                  <span>{streak}</span>
+                </Link>
+              )}
+
+              {/* Lumes / Currency Counter Pill */}
+              {isLoggedIn && (
+                <Link
+                  to="/shop"
+                  className="lume-header-counter"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    padding: "5px 10px",
+                    borderRadius: "99px",
+                    background: "rgba(255, 194, 0, 0.12)",
+                    border: "1.5px solid rgba(255, 194, 0, 0.35)",
+                    color: "#D97706",
+                    fontSize: "12px",
+                    fontWeight: 800,
+                    textDecoration: "none",
+                    transition: "transform 0.15s ease",
+                    flexShrink: 0,
+                  }}
+                  title={
+                    interfaceLanguage === "pt"
+                      ? `${lumes} Lumes (Loja)`
+                      : interfaceLanguage === "es"
+                        ? `${lumes} Lumes (Tienda)`
+                        : `${lumes} Lumes (Shop)`
+                  }
+                >
+                  <Coins size={15} color="#D97706" />
+                  <span>{lumes}</span>
+                </Link>
+              )}
+
               <LanguageSwitcher />
 
               {/* Theme Toggle */}

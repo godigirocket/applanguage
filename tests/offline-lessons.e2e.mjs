@@ -3,6 +3,12 @@ import assert from "node:assert/strict";
 const base=process.env.PRODUCTION_BASE_URL||"http://127.0.0.1:5174";
 const browser=await chromium.launch();
 try {
+  const htmlOnly = await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});
+  const intro = await htmlOnly.newPage();
+  await intro.goto(`${base}/lesson/lesson-en-1`);
+  await intro.getByRole("heading",{name:"At the Airport - Volume 1",exact:true}).waitFor();
+  assert.ok(await intro.getByRole("button",{name:"Vamos começar"}).isDisabled(),"Preview the lesson before JS; only enable practice after account initialization");
+  await htmlOnly.close();
   const context=await browser.newContext({viewport:{width:390,height:844}});
   const page=await context.newPage();
   const errors=[];page.on("pageerror",e=>errors.push(e.message));

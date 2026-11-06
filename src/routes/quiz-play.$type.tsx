@@ -22,6 +22,7 @@ import { BookX } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toast } from "sonner";
 import { Mascot } from "@/components/lume/Mascot";
+import { sounds } from "@/lib/soundEffects";
 
 function scenarioTopicForType(type: string): LessonTopic {
   return (ALL_TOPICS as string[]).includes(type) ? (type as LessonTopic) : pickRotatingTopic(type);
@@ -70,6 +71,11 @@ function QuizPlayPage() {
   }, [type, targetLanguage, interfaceLanguage]);
 
   const handleAnswer = (isCorrect: boolean) => {
+    if (isCorrect) {
+      sounds.playQuizCorrect();
+    } else {
+      sounds.playQuizWrong();
+    }
     const nextScore = isCorrect ? score + 1 : score;
     if (isCorrect) setScore(nextScore);
 
@@ -88,6 +94,7 @@ function QuizPlayPage() {
     if (hasCompletedRef.current) return;
     hasCompletedRef.current = true;
 
+    sounds.playLessonComplete();
     recordQuizCompletion(finalScore, questions.length);
 
     const xpEarned = finalScore * 5;

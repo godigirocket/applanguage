@@ -269,7 +269,7 @@ try {
     .filter(fs.existsSync)
     .map((f) => fs.readFileSync(f, "utf8"))
     .join("\n");
-  const url = env.match(/VITE_SUPABASE_URL\s*=\s*["']?(https:\/\/[^\s"']+)/)?.[1];
+  const url = process.env.VITE_SUPABASE_URL || env.match(/VITE_SUPABASE_URL\s*=\s*["']?(https:\/\/[^\s"']+)/)?.[1];
   assert.ok(url, "Supabase URL is needed for isolated auth fixture");
   const account = {
     id: "11111111-1111-4111-8111-111111111111",
@@ -346,6 +346,8 @@ try {
         };
         const data = path.includes("/auth/")
           ? account
+          : path.endsWith("/rpc/sync_learning_state")
+            ? route.request().postDataJSON().p_state
           : path.includes("/rpc/")
             ? 0
             : path.includes("/profiles")

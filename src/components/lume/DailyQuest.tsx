@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { dailyQuests } from "@/data/content";
 import { useStore } from "@/hooks/useStore";
 import { Book, Mic, Bookmark, Trophy } from "@/components/lume/CustomIcons";
+import { sounds } from "@/lib/soundEffects";
+import { toast } from "sonner";
 
 function GiftIcon({ size = 12, color = "currentColor" }: { size?: number; color?: string }) {
   return (
@@ -49,7 +51,22 @@ export function DailyQuest() {
   }, [resetDailyQuests]);
 
   const handleClaim = (questId: string, xp: number, lumes: number) => {
-    claimQuest(questId);
+    if (!claimQuest(questId)) return;
+    sounds.playUnlock();
+    void import("canvas-confetti").then(({ default: confetti }) => confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.7 },
+      colors: ["#58CC02", "#FFC200", "#1CB0F6"],
+      disableForReducedMotion: true,
+    }));
+    toast.success(
+      t(
+        `Missão resgatada! +${xp} XP e +${lumes} Lumes!`,
+        `Quest claimed! +${xp} XP and +${lumes} Lumes!`,
+        `¡Misión reclamada! +${xp} XP y +${lumes} Lumes!`,
+      ),
+    );
   };
 
   const getQuestDetails = (questId: string) => {

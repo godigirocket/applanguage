@@ -5172,6 +5172,30 @@ a[href]:active,
     gap: 4px !important;
   }
 }
+@media (max-width: 1099px) {
+  .lume-header-counter {
+    display: none !important;
+  }
+}
+@media (min-width: 1000px) {
+  .home-hero-layout {
+    display: grid;
+    max-width: 1120px;
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
+    column-gap: clamp(24px, 5vw, 72px);
+    align-items: center;
+  }
+  .home-hero-layout > :not(.home-summary-stats) { grid-column: 1; }
+  .home-hero-layout > .home-summary-stats {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  .home-hero-layout > .home-resume-action { justify-self: start; }
+}
 .btn-premium,
 .btn-secondary-premium,
 .lume-auth-submit {

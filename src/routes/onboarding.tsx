@@ -9,6 +9,8 @@ import { useStore } from "@/hooks/useStore";
 import { useUserStore, UserLevel } from "@/store/userStore";
 import { toast } from "sonner";
 import { LumeIllustration } from "@/components/lume/LumeIllustration";
+import { courseEntrySearch, parseCourse } from "@/lib/course-entry";
+import { productEvent } from "@/lib/product-metrics";
 import {
   Flame,
   Briefcase,
@@ -23,6 +25,7 @@ import {
 } from "@/components/lume/CustomIcons";
 
 export const Route = createFileRoute("/onboarding")({
+  validateSearch: courseEntrySearch,
   head: () => ({ meta: [{ title: "Lume — Onboarding" }] }),
   component: OnboardingPage,
 });
@@ -80,6 +83,7 @@ function getSteps(answers: Record<string, string>) {
 
 function OnboardingPage() {
   const { user, loading } = useAuth();
+  const { course } = Route.useSearch();
   const nav = useNavigate();
   const { interfaceLanguage, setTargetLanguage, setLearningLevel, setKidAccount } = useStore();
   const { setUserLevel } = useUserStore();
@@ -89,12 +93,13 @@ function OnboardingPage() {
 
   const isPT = interfaceLanguage === "pt";
   const steps = getSteps(answers);
+  const demoCourse = course ?? parseCourse(user?.user_metadata.requested_course);
 
   useEffect(() => {
     if (!loading && !user) {
-      nav({ to: "/login" });
+      nav({ to: "/login", search: { redirect: course ? `/onboarding?course=${course}` : "/onboarding" } });
     }
-  }, [user, loading, nav]);
+  }, [user, loading, nav, course]);
 
   const handleSelect = async (val: string) => {
     const currentField = steps[step].field;
@@ -121,8 +126,7 @@ function OnboardingPage() {
     // the interface language everywhere else) and was never applied to the
     // local store, so the app kept using whatever targetLanguage it already
     // had (default "en") regardless of what was picked here.
-    const chosenTargetLanguage =
-      (finalAnswers.target_language as "pt" | "en" | "es" | undefined) || "en";
+    const chosenTargetLanguage = parseCourse(finalAnswers.target_language) ?? "en";
 
     // Apply locally first — this is what actually drives which lessons/quizzes/
     // content the app shows, and it must not depend on the Supabase write
@@ -176,7 +180,12 @@ function OnboardingPage() {
           ? "Perfil configurado com sucesso! Vamos começar."
           : uiFallback("Profile tailored successfully! Let's start."),
       );
-      nav({ to: "/home" });
+      productEvent("onboarding_completed", { course: chosenTargetLanguage, source: demoCourse ? "demo" : "direct" });
+      if (demoCourse && chosenLevel === "beginner") {
+        nav({ to: "/lesson/$id", params: { id: `lesson-${chosenTargetLanguage}-1` }, replace: true });
+      } else {
+        nav({ to: demoCourse ? "/lessons" : "/home", replace: true });
+      }
     } catch (e) {
       console.error(e);
       toast.error(
@@ -317,7 +326,7 @@ function OnboardingPage() {
                       padding: "14px 18px",
                       borderRadius: "16px",
                       background: "var(--surface-raised)",
-                      border: "1px solid var(--border)",
+                      border: `1px solid ${step === 0 && opt.val === demoCourse ? "var(--brand)" : "var(--border)"}`,
                       color: "var(--text-primary)",
                       fontWeight: 700,
                       fontSize: "14px",
@@ -332,6 +341,11 @@ function OnboardingPage() {
                     <div className="flex items-center gap-3">
                       <span style={{ color: "var(--brand)" }}>{opt.icon}</span>
                       <span>{opt.label}</span>
+                      {step === 0 && opt.val === demoCourse && (
+                        <small style={{ color: "var(--text-secondary)" }}>
+                          {isPT ? "Sua escolha na demo" : interfaceLanguage === "es" ? "Tu elección en la demo" : "Your demo choice"}
+                        </small>
+                      )}
                     </div>
                     <svg
                       width="16"

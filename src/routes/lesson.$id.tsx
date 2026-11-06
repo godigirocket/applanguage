@@ -52,6 +52,7 @@ import { supabase } from "@/lib/supabase";
 import { withTimeout } from "@/lib/promise-timeout";
 import { sounds } from "@/lib/soundEffects";
 import { toast } from "sonner";
+import { deviceClass, productEvent } from "@/lib/product-metrics";
 
 export const Route = createFileRoute("/lesson/$id")({
   loader: async ({ params }) => {
@@ -230,6 +231,7 @@ function LessonPlayer({ lesson, allLessons }: { lesson: Lesson; allLessons: Cour
   async function finish(next: LessonSession) {
     if (finished.current) return;
     finished.current = true;
+    productEvent("lesson_complete", { device: deviceClass() });
     setScreen("done");
     const state = useStore.getState();
     const first = !state.completedLessons.includes(lesson.id);
@@ -293,6 +295,7 @@ function LessonPlayer({ lesson, allLessons }: { lesson: Lesson; allLessons: Cour
       return;
     }
     const next = !restart && resume ? resume : freshSession();
+    productEvent("lesson_start", { device: deviceClass() });
     finished.current = false;
     setEarned(0);
     setSession(next);

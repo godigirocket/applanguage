@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useStore } from "@/hooks/useStore";
 import { AppHeader } from "@/components/lume/AppHeader";
 import { toast } from "sonner";
+import { sounds } from "@/lib/soundEffects";
 import {
   ShieldAlert,
   Moon,
@@ -77,6 +78,7 @@ function ShopPage() {
 
   const handleBuy = (itemId: string, price: number, name: string) => {
     if (buyItem(itemId)) {
+      sounds.playUnlock();
       if (itemId === "theme-dark") {
         localStorage.setItem("lume_theme", "dark");
         document.documentElement.setAttribute("data-theme", "dark");
@@ -91,6 +93,7 @@ function ShopPage() {
             : `Successfully purchased "${name}"! Enjoy!`,
       );
     } else {
+      sounds.playError();
       toast.error(
         isPT
           ? "Lumes insuficientes para esta transação."

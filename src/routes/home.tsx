@@ -38,6 +38,7 @@ import { generateLessons, generateQuizzes, CITIES } from "@/data/contentEngine";
 import { DailyQuest } from "@/components/lume/DailyQuest";
 import { Leaderboard } from "@/components/lume/Leaderboard";
 import { Mascot } from "@/components/lume/Mascot";
+import { sounds } from "@/lib/soundEffects";
 import { getReviewCount } from "@/lib/spaced-repetition";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
 import { FlagByEmoji } from "@/components/lume/Flags";
@@ -59,6 +60,40 @@ function HomePage() {
 
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
+
+  const [mascotMood, setMascotMood] = useState<"happy" | "celebrating" | "speaking" | "thinking">("happy");
+  const [tipIndex, setTipIndex] = useState(0);
+
+  const tips = [
+    isPT
+      ? "Dica: Praticar 5 minutos todo dia consolida muito mais o aprendizado!"
+      : isES
+        ? "¡Consejo: Practicar 5 minutos cada día consolida mucho mejor el aprendizaje!"
+        : "Tip: Practicing 5 minutes every day builds much stronger fluency!",
+    isPT
+      ? "Ouça uma frase e repita em voz alta no seu ritmo."
+      : isES
+        ? "Escucha una frase y repítela en voz alta a tu ritmo."
+        : "Listen to a phrase and repeat it out loud at your own pace.",
+    isPT
+      ? "Sua ofensiva é seu superpoder. Mantenha a chama acesa hoje!"
+      : isES
+        ? "Tu racha es tu superpoder. ¡Mantén la llama encendida hoy!"
+        : "Your streak is your superpower. Keep the flame burning today!",
+    isPT
+      ? "Você já acumulou XP incrível! Rumo ao próximo nível!"
+      : isES
+        ? "¡Has acumulado XP increíble! ¡Rumbo al siguiente nivel!"
+        : "You've earned incredible XP! Onward to the next level!",
+  ];
+
+  const handleMascotClick = () => {
+    sounds.playVocabFlip();
+    setMascotMood((m) =>
+      m === "happy" ? "celebrating" : m === "celebrating" ? "speaking" : m === "speaking" ? "thinking" : "happy",
+    );
+    setTipIndex((i) => (i + 1) % tips.length);
+  };
 
   // Generate content dynamically based on targetLanguage. generateLessons/
   // generateQuizzes are async because they dynamically import() only the
@@ -188,7 +223,7 @@ function HomePage() {
           }}
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <motion.div className="home-hero-layout" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
               <div
                 className="home-greeting-row"
                 style={{
@@ -199,13 +234,27 @@ function HomePage() {
                   marginBottom: "12px",
                 }}
               >
-                <div style={{ position: "relative", flexShrink: 0 }}>
-                  <Mascot state={isNewUser ? "happy" : "idle"} size={96} />
+                <button
+                  type="button"
+                  onClick={handleMascotClick}
+                  style={{
+                    position: "relative",
+                    flexShrink: 0,
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    padding: 0,
+                    border: 0,
+                    background: "transparent",
+                  }}
+                  aria-label={isPT ? "Mostrar próxima dica" : isES ? "Mostrar el siguiente consejo" : "Show next tip"}
+                >
+                  <Mascot state={mascotMood} size={96} />
                   <span className="home-greeting-orb" aria-hidden="true">
                     <GreetingIcon size={18} />
                   </span>
-                </div>
-                <div style={{ minWidth: 0 }}>
+                </button>
+                <div style={{ minWidth: 0, flex: 1 }}>
                   <h1
                     style={{
                       fontSize: "clamp(24px, 4vw, 36px)",
@@ -220,10 +269,29 @@ function HomePage() {
                   {streak > 0 && !isNewUser && (
                     <p style={{ fontSize: "15px", opacity: 0.9, marginTop: "4px", margin: 0 }}>
                       {isPT
-                        ? "Continue assim! Voce esta arrasando."
+                        ? "Continue assim! Você está arrasando."
                         : uiFallback("Keep it up! You're doing great.")}
                     </p>
                   )}
+                  {/* Interactive Mascot Speech Bubble */}
+                  <motion.div
+                    key={tipIndex}
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    aria-live="polite"
+                    className="duo-speech-bubble"
+                    style={{
+                      marginTop: "12px",
+                      maxWidth: "480px",
+                      fontSize: "13px",
+                      padding: "10px 16px",
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>
+                      {tips[tipIndex]}
+                    </p>
+                  </motion.div>
                 </div>
               </div>
               <p
