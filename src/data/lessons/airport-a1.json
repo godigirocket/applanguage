@@ -1,0 +1,370 @@
+{
+  "lesson-en-1": [
+    {
+      "type": "vocab",
+      "words": [
+        {
+          "word": "reservation",
+          "meaning": {
+            "pt": "reserva",
+            "es": "reserva"
+          },
+          "example": "I have a reservation for this flight."
+        },
+        {
+          "word": "passport",
+          "meaning": {
+            "pt": "passaporte",
+            "es": "pasaporte"
+          },
+          "example": "Here is my passport."
+        },
+        {
+          "word": "boarding pass",
+          "meaning": {
+            "pt": "cartão de embarque",
+            "es": "tarjeta de embarque"
+          },
+          "example": "I have a boarding pass."
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "O que você apresenta no portão para embarcar?",
+        "en": "What do you show at the gate to board?",
+        "es": "¿Qué presentas en la puerta para embarcar?"
+      },
+      "options": ["Suitcase", "Boarding pass", "Departure screen", "Gate number"],
+      "correct": 1,
+      "explanation": {
+        "pt": "O cartão de embarque é o documento que você apresenta no portão.",
+        "en": "A boarding pass is the document you show at the gate.",
+        "es": "La tarjeta de embarque es el documento que presentas en la puerta."
+      }
+    },
+    {
+      "type": "listening",
+      "question": {
+        "pt": "Qual palavra você ouviu?",
+        "en": "Which word did you hear?",
+        "es": "¿Qué palabra escuchaste?"
+      },
+      "audioText": "Here is my passport.",
+      "options": ["reservation", "passport", "boarding pass", "suitcase"],
+      "correct": 1,
+      "explanation": {
+        "pt": "Você ouviu: “Here is my passport.”",
+        "en": "You heard: “Here is my passport.”",
+        "es": "Escuchaste: “Here is my passport.”"
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "Here is my passport."
+    },
+    {
+      "type": "translation",
+      "question": {
+        "pt": "Traduza para o português.",
+        "en": "Translate into Portuguese.",
+        "es": "Traduce al portugués."
+      },
+      "targetPhrase": "Where is passport control?",
+      "correctTranslation": "Onde fica o controle de passaportes?",
+      "explanation": {
+        "pt": "Use essa pergunta para pedir a localização do controle de passaportes.",
+        "en": "Use this question to ask where passport control is.",
+        "es": "Usa esta pregunta para saber dónde está el control de pasaportes."
+      },
+      "acceptedTranslations": ["Onde é o controle de passaportes?"]
+    },
+    {
+      "type": "dragdrop",
+      "question": {
+        "pt": "Monte em inglês: “Tenho um cartão de embarque.”",
+        "en": "Arrange the words to say you have a boarding pass.",
+        "es": "Forma la frase en inglés: «Tengo una tarjeta de embarque»."
+      },
+      "sentence": {
+        "pt": "Monte em inglês: “Tenho um cartão de embarque.”",
+        "en": "Build the sentence: “I have a boarding pass.”",
+        "es": "Forma la frase en inglés: «Tengo una tarjeta de embarque»."
+      },
+      "tokens": ["boarding", "a", "reservation", "pass", "passport", "have", "I"],
+      "answerTokens": ["I", "have", "a", "boarding", "pass"],
+      "explanation": {
+        "pt": "Em inglês, o artigo a vem antes de boarding pass.",
+        "en": "In English, a goes before boarding pass.",
+        "es": "En inglés, a va antes de boarding pass."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "Complete: “I have ___ boarding pass and ___ ID.”",
+        "en": "Complete: “I have ___ boarding pass and ___ ID.”",
+        "es": "Completa: «I have ___ boarding pass and ___ ID»."
+      },
+      "options": ["an / a", "a / a", "a / an", "an / an"],
+      "correct": 2,
+      "explanation": {
+        "pt": "Use a antes do som de consoante de boarding e an antes do som de vogal de ID.",
+        "en": "Use a before the consonant sound in boarding and an before the vowel sound in ID.",
+        "es": "Usa a antes del sonido consonántico de boarding y an antes del sonido vocálico de ID."
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "Where is the boarding gate?"
+    }
+  ],
+  "lesson-es-1": [
+    {
+      "type": "vocab",
+      "words": [
+        {
+          "word": "reserva",
+          "meaning": {
+            "pt": "reserva",
+            "en": "reservation"
+          },
+          "example": "Tengo una reserva para este vuelo."
+        },
+        {
+          "word": "pasaporte",
+          "meaning": {
+            "pt": "passaporte",
+            "en": "passport"
+          },
+          "example": "Aquí está mi pasaporte."
+        },
+        {
+          "word": "tarjeta de embarque",
+          "meaning": {
+            "pt": "cartão de embarque",
+            "en": "boarding pass"
+          },
+          "example": "Aquí está mi tarjeta de embarque."
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "O que você apresenta no portão para embarcar?",
+        "en": "What do you show at the gate to board?",
+        "es": "¿Qué presentas en la puerta para embarcar?"
+      },
+      "options": [
+        "La maleta",
+        "La pantalla de salidas",
+        "La tarjeta de embarque",
+        "El número de puerta"
+      ],
+      "correct": 2,
+      "explanation": {
+        "pt": "O cartão de embarque é o documento que você apresenta no portão.",
+        "en": "A boarding pass is the document you show at the gate.",
+        "es": "La tarjeta de embarque es el documento que presentas en la puerta."
+      }
+    },
+    {
+      "type": "listening",
+      "question": {
+        "pt": "Qual palavra você ouviu?",
+        "en": "Which word did you hear?",
+        "es": "¿Qué palabra escuchaste?"
+      },
+      "audioText": "Aquí está mi pasaporte.",
+      "options": ["reserva", "tarjeta", "pasaporte", "maleta"],
+      "correct": 2,
+      "explanation": {
+        "pt": "Você ouviu: “Aquí está mi pasaporte.”",
+        "en": "You heard: “Aquí está mi pasaporte.”",
+        "es": "Escuchaste: “Aquí está mi pasaporte.”"
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "Aquí está mi pasaporte."
+    },
+    {
+      "type": "translation",
+      "question": {
+        "pt": "Traduza para o português.",
+        "en": "Translate into Portuguese.",
+        "es": "Traduce al portugués."
+      },
+      "targetPhrase": "¿Dónde está el control de pasaportes?",
+      "correctTranslation": "Onde fica o controle de passaportes?",
+      "explanation": {
+        "pt": "Use essa pergunta para pedir a localização do controle de passaportes.",
+        "en": "Use this question to ask where passport control is.",
+        "es": "Usa esta pregunta para saber dónde está el control de pasaportes."
+      },
+      "acceptedTranslations": ["Onde é o controle de passaportes?"]
+    },
+    {
+      "type": "dragdrop",
+      "question": {
+        "pt": "Monte em espanhol: “Tenho meu cartão de embarque.”",
+        "en": "Build in Spanish: “I have my boarding pass.”",
+        "es": "Ordena las palabras para decir que tienes tu tarjeta de embarque."
+      },
+      "sentence": {
+        "pt": "Monte em espanhol: “Tenho meu cartão de embarque.”",
+        "en": "Build in Spanish: “I have my boarding pass.”",
+        "es": "Forma la frase: «Tengo mi tarjeta de embarque»."
+      },
+      "tokens": ["mi", "embarque", "Tengo", "pasaporte", "reserva", "de", "tarjeta"],
+      "answerTokens": ["Tengo", "mi", "tarjeta", "de", "embarque"],
+      "explanation": {
+        "pt": "Tarjeta de embarque é a expressão completa em espanhol.",
+        "en": "Tarjeta de embarque is the full expression in Spanish.",
+        "es": "Tarjeta de embarque es la expresión completa."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "Complete: “Aquí están ___ pasaporte y ___ tarjeta de embarque.”",
+        "en": "Complete: “Aquí están ___ pasaporte y ___ tarjeta de embarque.”",
+        "es": "Completa: «Aquí están ___ pasaporte y ___ tarjeta de embarque»."
+      },
+      "options": ["el / la", "la / el", "el / el", "la / la"],
+      "correct": 0,
+      "explanation": {
+        "pt": "Pasaporte é masculino: el pasaporte. Tarjeta é feminino: la tarjeta.",
+        "en": "Pasaporte is masculine: el pasaporte. Tarjeta is feminine: la tarjeta.",
+        "es": "Pasaporte es masculino: el pasaporte. Tarjeta es femenino: la tarjeta."
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "¿Dónde está la puerta de embarque?"
+    }
+  ],
+  "lesson-pt-1": [
+    {
+      "type": "vocab",
+      "words": [
+        {
+          "word": "bagagem",
+          "meaning": {
+            "en": "luggage",
+            "es": "equipaje"
+          },
+          "example": "Aqui está a minha bagagem."
+        },
+        {
+          "word": "passaporte",
+          "meaning": {
+            "en": "passport",
+            "es": "pasaporte"
+          },
+          "example": "Aqui está o meu passaporte."
+        },
+        {
+          "word": "cartão de embarque",
+          "meaning": {
+            "en": "boarding pass",
+            "es": "tarjeta de embarque"
+          },
+          "example": "Aqui está o meu cartão de embarque."
+        }
+      ]
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "O que você apresenta no portão para embarcar?",
+        "en": "What do you show at the gate to board?",
+        "es": "¿Qué presentas en la puerta para embarcar?"
+      },
+      "options": ["A mala", "A tela de partidas", "O número do portão", "O cartão de embarque"],
+      "correct": 3,
+      "explanation": {
+        "pt": "O cartão de embarque é o documento que você apresenta no portão.",
+        "en": "A boarding pass is the document you show at the gate.",
+        "es": "La tarjeta de embarque es el documento que presentas en la puerta."
+      }
+    },
+    {
+      "type": "listening",
+      "question": {
+        "pt": "Qual palavra você ouviu?",
+        "en": "Which word did you hear?",
+        "es": "¿Qué palabra escuchaste?"
+      },
+      "audioText": "Aqui está o meu passaporte.",
+      "options": ["passaporte", "bagagem", "cartão", "mala"],
+      "correct": 0,
+      "explanation": {
+        "pt": "Você ouviu: “Aqui está o meu passaporte.”",
+        "en": "You heard: “Aqui está o meu passaporte.”",
+        "es": "Escuchaste: “Aqui está o meu passaporte.”"
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "Aqui está o meu passaporte."
+    },
+    {
+      "type": "translation",
+      "question": {
+        "pt": "Traduza para o inglês.",
+        "en": "Translate into English.",
+        "es": "Traduce al inglés."
+      },
+      "targetPhrase": "Onde fica o controle de passaportes?",
+      "correctTranslation": "Where is passport control?",
+      "explanation": {
+        "pt": "Use essa pergunta para pedir a localização do controle de passaportes.",
+        "en": "Use this question to ask where passport control is.",
+        "es": "Usa esta pregunta para saber dónde está el control de pasaportes."
+      },
+      "acceptedTranslations": ["Where is the passport control?"]
+    },
+    {
+      "type": "dragdrop",
+      "question": {
+        "pt": "Monte em português: “I have my boarding pass.”",
+        "en": "Build in Portuguese: “I have my boarding pass.”",
+        "es": "Forma la frase en portugués: «Tengo mi tarjeta de embarque»."
+      },
+      "sentence": {
+        "pt": "Monte em português: “I have my boarding pass.”",
+        "en": "Build in Portuguese: “I have my boarding pass.”",
+        "es": "Forma la frase en portugués: «Tengo mi tarjeta de embarque»."
+      },
+      "tokens": ["controle", "Eu", "cartão", "o", "meu", "tenho", "de", "embarque"],
+      "answerTokens": ["Eu", "tenho", "o", "meu", "cartão", "de", "embarque"],
+      "explanation": {
+        "pt": "Em português, cartão de embarque é a expressão completa.",
+        "en": "Cartão de embarque is the full expression in Portuguese.",
+        "es": "Cartão de embarque es la expresión completa en portugués."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": {
+        "pt": "Complete: “Aqui estão ___ passaporte e ___ bagagem.”",
+        "en": "Complete: “Aqui estão ___ passaporte e ___ bagagem.”",
+        "es": "Completa: «Aqui estão ___ passaporte e ___ bagagem»."
+      },
+      "options": ["a / o", "a / a", "o / o", "o / a"],
+      "correct": 3,
+      "explanation": {
+        "pt": "Passaporte é masculino: o passaporte. Bagagem é feminino: a bagagem.",
+        "en": "Passaporte is masculine: o passaporte. Bagagem is feminine: a bagagem.",
+        "es": "Passaporte es masculino: o passaporte. Bagagem es femenino: a bagagem."
+      }
+    },
+    {
+      "type": "speaking",
+      "targetPhrase": "Onde fica o portão de embarque?"
+    }
+  ]
+}

@@ -1,8 +1,24 @@
+export type LessonText = string | Partial<Record<"en" | "es" | "pt", string>>;
+
+export function resolveLessonText(value: LessonText | undefined, locale: "en" | "es" | "pt") {
+  return typeof value === "string"
+    ? value
+    : (value?.[locale] ?? value?.pt ?? value?.en ?? value?.es);
+}
+
+export function matchesTranslation(input: string, answer: string, variants: string[] = []) {
+  const normalized = normalizeAnswer(input);
+  return (
+    Boolean(normalized) &&
+    [answer, ...variants].some((value) => normalizeAnswer(value) === normalized)
+  );
+}
+
 /** A finite sequence: each activity is visited once, including on resume. */
 export type LessonActivity = {
   type: "vocab" | "quiz" | "listening" | "speaking" | "translation" | "dragdrop";
   title?: string;
-  question?: string;
+  question?: LessonText;
   word?: string;
   meaning?: string | Partial<Record<"en" | "es" | "pt", string>>;
   example?: string;
@@ -11,8 +27,9 @@ export type LessonActivity = {
   audioText?: string;
   targetPhrase?: string;
   correctTranslation?: string;
-  explanation?: string;
-  sentence?: string;
+  acceptedTranslations?: string[];
+  explanation?: LessonText;
+  sentence?: LessonText;
   tokens?: string[];
   answerTokens?: string[];
 };

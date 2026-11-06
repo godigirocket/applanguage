@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build-and-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
 
     steps:
@@ -39,7 +39,9 @@ jobs:
         run: npm run build
 
       - name: Install browser for regression checks
-        run: npx playwright install --with-deps chromium
+        timeout-minutes: 3
+        # The runner image already includes Chrome/Chromium system libraries.
+        run: npx playwright install chromium
 
       - name: Browser regression checks
         env:
@@ -54,6 +56,7 @@ jobs:
           node tests/demo-signup.e2e.mjs
           E2E_BASE_URL=http://127.0.0.1:5174 node tests/landing-theme.e2e.mjs
           node tests/offline-lessons.e2e.mjs
+          node tests/airport-unit.e2e.mjs
 
       - name: npm audit (non-blocking)
         run: npm audit --audit-level=critical || true

@@ -25,6 +25,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { applyCuratedLesson } from "./curated-lessons.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
@@ -37,7 +38,7 @@ const LANGS = ["en", "es", "pt"];
 for (const lang of LANGS) {
   const lessons = JSON.parse(
     fs.readFileSync(path.join(DATA_DIR, `masterContent.${lang}.json`), "utf8"),
-  );
+  ).map(applyCuratedLesson);
 
   const detailDir = path.join(OUT_DIR, "detail", lang);
   fs.rmSync(detailDir, { recursive: true, force: true });
