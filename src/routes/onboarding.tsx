@@ -1,4 +1,3 @@
-import { uiFallback } from "@/i18n/ui-fallback";
 import { accountKey } from "@/lib/account-storage";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
@@ -30,10 +29,17 @@ export const Route = createFileRoute("/onboarding")({
   component: OnboardingPage,
 });
 
-const BASE_STEPS = [
+type InterfaceLanguage = "pt" | "en" | "es";
+
+const copyFor = (language: InterfaceLanguage, pt: string, en: string, es: string) =>
+  language === "pt" ? pt : language === "es" ? es : en;
+
+function baseSteps(language: InterfaceLanguage) {
+  const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
+  return [
   {
     id: 1,
-    question: "Qual idioma você quer aprender?",
+    question: t("Qual idioma você quer aprender?", "Which language do you want to learn?", "¿Qué idioma quieres aprender?"),
     field: "target_language",
     type: "options",
     options: [
@@ -44,30 +50,33 @@ const BASE_STEPS = [
   },
   {
     id: 2,
-    question: "Qual é o seu nível?",
+    question: t("Qual é o seu nível?", "What is your current level?", "¿Cuál es tu nivel actual?"),
     field: "level",
     type: "options",
     options: [
-      { label: "Iniciante", val: "beginner", icon: <Sprout size={20} /> },
-      { label: "Intermediário", val: "intermediate", icon: <Star size={20} /> },
-      { label: "Avançado", val: "advanced", icon: <Flame size={20} /> },
+      { label: t("Iniciante", "Beginner", "Principiante"), val: "beginner", icon: <Sprout size={20} /> },
+      { label: t("Intermediário", "Intermediate", "Intermedio"), val: "intermediate", icon: <Star size={20} /> },
+      { label: t("Avançado", "Advanced", "Advanced"), val: "advanced", icon: <Flame size={20} /> },
     ],
   },
   {
     id: 3,
-    question: "Para quem é essa conta?",
+    question: t("Para quem é essa conta?", "Who is this account for?", "¿Para quién es esta cuenta?"),
     field: "account_type",
     type: "options",
     options: [
-      { label: "Para mim", val: "adult", icon: <Star size={20} /> },
-      { label: "Para uma criança (4-10 anos)", val: "kid", icon: <Heart size={20} /> },
+      { label: t("Para mim", "For me", "Para mí"), val: "adult", icon: <Star size={20} /> },
+      { label: t("Para uma criança (4-10 anos)", "For a child (ages 4–10)", "Para una niña o niño (4–10 años)"), val: "kid", icon: <Heart size={20} /> },
     ],
   },
-];
+  ];
+}
 
-const KID_AGE_STEP = {
+function kidAgeStep(language: InterfaceLanguage) {
+  const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
+  return {
   id: 4,
-  question: "Qual a idade da criança?",
+  question: t("Qual a idade da criança?", "How old is the child?", "¿Qué edad tiene la niña o el niño?"),
   field: "kid_age",
   type: "options",
   options: [
@@ -75,10 +84,12 @@ const KID_AGE_STEP = {
     { label: "7-8 anos", val: "7", icon: <Star size={20} /> },
     { label: "9-10 anos", val: "9", icon: <Flame size={20} /> },
   ],
-};
+  };
+}
 
-function getSteps(answers: Record<string, string>) {
-  return answers.account_type === "kid" ? [...BASE_STEPS, KID_AGE_STEP] : BASE_STEPS;
+function getSteps(answers: Record<string, string>, language: InterfaceLanguage) {
+  const steps = baseSteps(language);
+  return answers.account_type === "kid" ? [...steps, kidAgeStep(language)] : steps;
 }
 
 function OnboardingPage() {
@@ -91,8 +102,9 @@ function OnboardingPage() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSaving, setIsSaving] = useState(false);
 
-  const isPT = interfaceLanguage === "pt";
-  const steps = getSteps(answers);
+  const language: InterfaceLanguage = interfaceLanguage === "es" ? "es" : interfaceLanguage === "pt" ? "pt" : "en";
+  const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
+  const steps = getSteps(answers, language);
   const demoCourse = course ?? parseCourse(user?.user_metadata.requested_course);
 
   useEffect(() => {
@@ -108,7 +120,7 @@ function OnboardingPage() {
 
     // Recompute against the *new* answers — selecting "kid" for account_type
     // inserts an extra age step that doesn't exist in the step list yet.
-    const nextSteps = getSteps(newAnswers);
+    const nextSteps = getSteps(newAnswers, language);
     if (step < nextSteps.length - 1) {
       setStep(step + 1);
     } else {
@@ -159,7 +171,7 @@ function OnboardingPage() {
       const { error } = await supabase
         .from("profiles")
         .update({
-          full_name: finalAnswers.full_name || "Estudante",
+          full_name: finalAnswers.full_name || t("Estudante", "Learner", "Estudiante"),
           target_language: chosenTargetLanguage,
           level: chosenLevel,
           onboarding_done: true,
@@ -176,9 +188,11 @@ function OnboardingPage() {
       }
 
       toast.success(
-        isPT
-          ? "Perfil configurado com sucesso! Vamos começar."
-          : uiFallback("Profile tailored successfully! Let's start."),
+        t(
+          "Perfil configurado com sucesso! Vamos começar.",
+          "Profile tailored successfully! Let's start.",
+          "¡Perfil configurado! Empecemos.",
+        ),
       );
       productEvent("onboarding_completed", { course: chosenTargetLanguage, source: demoCourse ? "demo" : "direct" });
       if (demoCourse && chosenLevel === "beginner") {
@@ -189,9 +203,11 @@ function OnboardingPage() {
     } catch (e) {
       console.error(e);
       toast.error(
-        isPT
-          ? "Erro ao salvar suas respostas. Tente novamente."
-          : uiFallback("Error saving answers. Please try again."),
+        t(
+          "Erro ao salvar suas respostas. Tente novamente.",
+          "Error saving answers. Please try again.",
+          "No pudimos guardar tus respuestas. Inténtalo de nuevo.",
+        ),
       );
     } finally {
       setIsSaving(false);
@@ -252,7 +268,7 @@ function OnboardingPage() {
                   <line x1="19" y1="12" x2="5" y2="12" />
                   <polyline points="12 19 5 12 12 5" />
                 </svg>
-                <span>{isPT ? "Voltar" : uiFallback("Back")}</span>
+                <span>{t("Voltar", "Back", "Volver")}</span>
               </button>
             ) : (
               <div style={{ width: "60px" }} />
@@ -268,9 +284,7 @@ function OnboardingPage() {
                   textTransform: "uppercase",
                 }}
               >
-                {isPT
-                  ? `Passo ${step + 1} de ${steps.length}`
-                  : `Step ${step + 1} of ${steps.length}`}
+                {t(`Passo ${step + 1} de ${steps.length}`, `Step ${step + 1} of ${steps.length}`, `Paso ${step + 1} de ${steps.length}`)}
               </span>
             </div>
 
@@ -343,7 +357,7 @@ function OnboardingPage() {
                       <span>{opt.label}</span>
                       {step === 0 && opt.val === demoCourse && (
                         <small style={{ color: "var(--text-secondary)" }}>
-                          {isPT ? "Sua escolha na demo" : interfaceLanguage === "es" ? "Tu elección en la demo" : "Your demo choice"}
+                          {t("Sua escolha na demo", "Your demo choice", "Tu elección en la demo")}
                         </small>
                       )}
                     </div>
@@ -376,7 +390,7 @@ function OnboardingPage() {
             fontWeight: 600,
           }}
         >
-          LangLume — Aprenda praticando
+          {t("LangLume — Aprenda praticando", "LangLume — Learn by practicing", "LangLume — Aprende practicando")}
         </p>
       </main>
     </div>
