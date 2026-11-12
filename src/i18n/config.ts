@@ -132,7 +132,7 @@ const resources = {
         "Pratique no seu ritmo com cenários, exemplos e sugestões de resposta. Você pode repetir cada etapa.",
     },
     guest: {
-      title: "Modo de Demonstração",
+      title: "Explorar sem conta",
       subtitle: "Experimente os recursos essenciais do Lume antes de criar uma conta.",
       lockTitle: "Recurso Exclusivo para Membros",
       lockDesc:
@@ -309,7 +309,7 @@ const resources = {
         "Practice at your own pace with scenarios, examples and suggested replies. Repeat any step whenever you like.",
     },
     guest: {
-      title: "Demo Mode",
+      title: "Explore without an account",
       subtitle: "Try out Lume's core features before creating an account.",
       lockTitle: "Exclusive Member Feature",
       lockDesc:
@@ -494,7 +494,7 @@ const resources = {
         "Practica a tu ritmo con situaciones, ejemplos y respuestas sugeridas. Puedes repetir cada paso.",
     },
     guest: {
-      title: "Modo de Demostración",
+      title: "Explora sin cuenta",
       subtitle: "Prueba las características esenciales de Lume antes de crear una cuenta.",
       lockTitle: "Característica Exclusiva para Miembros",
       lockDesc:

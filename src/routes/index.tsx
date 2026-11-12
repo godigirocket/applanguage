@@ -97,7 +97,7 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
         <div
           className="lp-demo-languages"
           role="group"
-          aria-label={t("Idioma da demonstração", "Demo language", "Idioma de la demostración")}
+          aria-label={t("Idioma da prática", "Practice language", "Idioma de práctica")}
         >
           {(Object.keys(examples) as Course[]).map((key) => (
             <button
@@ -209,9 +209,9 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
                     "¡Casi! Elige otra respuesta.",
                   )
                 : t(
-                    "Demonstração sem cadastro",
-                    "Try it without signing up",
-                    "Prueba sin registrarte",
+                    "Prática rápida, sem cadastro",
+                    "A quick practice, no sign-up needed",
+                    "Práctica rápida, sin registro",
                   )}
           </p>
         </div>
@@ -311,9 +311,9 @@ function Landing() {
     [
       t("Posso praticar sem pagar?", "Can I practise for free?", "¿Puedo practicar gratis?"),
       t(
-        "Sim. A demonstração funciona sem cadastro. Com uma conta gratuita você começa as lições iniciais. Consulte os planos para ver o que o Premium inclui.",
-        "Yes. The demo needs no account. A free account lets you start the introductory lessons. See plans for what Premium includes.",
-        "Sí. La demo funciona sin registro. Una cuenta gratuita te permite empezar las primeras lecciones. Consulta los planes para ver qué incluye Premium.",
+        "Sim. Você pode testar uma prática curta sem cadastro. Com uma conta gratuita, começa as lições iniciais e salva seu progresso.",
+        "Yes. You can try a short practice without an account. A free account starts the introductory lessons and saves your progress.",
+        "Sí. Puedes probar una práctica corta sin cuenta. Una cuenta gratuita inicia las primeras lecciones y guarda tu progreso.",
       ),
     ],
     [

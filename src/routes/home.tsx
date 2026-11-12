@@ -168,10 +168,8 @@ function HomePage() {
   const xpToNextLevel = currentLevel * 100 - xp;
   const levelProgress = ((xp % 100) / 100) * 100;
   const isNewUser = xp === 0;
-  const hasPracticedToday = completedLessons.length > 0;
-  const routeTitle = hasPracticedToday
-    ? isPT ? "Rota em movimento" : isES ? "Ruta en marcha" : "Your route is moving"
-    : isPT ? "Sua primeira parada" : isES ? "Tu primera parada" : "Your first stop";
+  const nextLesson = CONTINUE_LEARNING[0];
+  const hasRouteProgress = completedLessons.length > 0;
 
   const getGreeting = () => {
     const hr = currentTime.getHours();
@@ -228,6 +226,7 @@ function HomePage() {
         >
           <div style={{ maxWidth: "1400px", margin: "0 auto" }}>
             <motion.div className="home-hero-layout" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
+              <div className="home-hero-copy">
               <div
                 className="home-greeting-row"
                 style={{
@@ -319,23 +318,24 @@ function HomePage() {
                 <Play size={18} />
                 {isPT ? "Continuar aprendendo" : uiFallback("Continue learning")}
               </Link>
+              </div>
 
               <aside className="home-journey-card" aria-label={isPT ? "Sua rota de aprendizagem" : isES ? "Tu ruta de aprendizaje" : "Your learning route"}>
                 <div className="home-journey-heading">
-                  <span><Globe size={15} /> {isPT ? "PASSAPORTE DE HOJE" : isES ? "PASAPORTE DE HOY" : "TODAY'S PASSPORT"}</span>
-                  <span className={hasPracticedToday ? "is-complete" : ""}>{hasPracticedToday ? "✓" : "01"}</span>
+                  <span><Globe size={15} /> {isPT ? "SEU PRÓXIMO PASSO" : isES ? "TU PRÓXIMO PASO" : "YOUR NEXT STEP"}</span>
+                  <span className={hasRouteProgress ? "is-complete" : ""}>{hasRouteProgress ? "✓" : "01"}</span>
                 </div>
                 <div className="home-journey-main">
                   <div className="home-journey-seal" aria-hidden="true"><Plane size={26} /></div>
                   <div>
-                    <strong>{routeTitle}</strong>
-                    <p>{hasPracticedToday
-                      ? (isPT ? "Você já abriu caminho hoje. Faça mais uma atividade quando quiser." : isES ? "Ya abriste camino hoy. Haz otra actividad cuando quieras." : "You opened your route today. Take another activity whenever you want.")
-                      : (isPT ? "Uma lição curta já deixa sua rota marcada." : isES ? "Una lección breve ya deja marcada tu ruta." : "One short lesson puts a stamp on your route.")}</p>
+                    <strong>{nextLesson?.title ?? (isPT ? "Aeroporto: primeiros passos" : isES ? "Aeropuerto: primeros pasos" : "Airport: first steps")}</strong>
+                    <p>{nextLesson
+                      ? `${nextLesson.duration} · ${nextLesson.xp} XP`
+                      : (isPT ? "Sua primeira lição está pronta para começar." : isES ? "Tu primera lección está lista para empezar." : "Your first lesson is ready to begin.")}</p>
                   </div>
                 </div>
                 <div className="home-route-line" aria-hidden="true">
-                  <span className="is-start"><Book size={13} /></span><i className={hasPracticedToday ? "is-complete" : ""} /><span className={hasPracticedToday ? "is-complete" : ""}><Star size={13} /></span><i /><span><Plane size={13} /></span>
+                  <span className="is-start"><Book size={13} /></span><i className={hasRouteProgress ? "is-complete" : ""} /><span className={hasRouteProgress ? "is-complete" : ""}><Star size={13} /></span><i /><span><Plane size={13} /></span>
                 </div>
                 <div className="home-summary-stats">
                 {[
@@ -381,77 +381,6 @@ function HomePage() {
                 </div>
               </aside>
 
-              {/* Streak badge — prominent when streak > 0 */}
-              {streak > 0 && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.4, type: "spring", bounce: 0.5 }}
-                  style={{ marginTop: "20px" }}
-                >
-                  <div className="streak-badge">
-                    <Flame size={18} />
-                    {streak} {isPT ? "dias seguidos!" : uiFallback("day streak!")}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Welcome message for new users */}
-              {isNewUser && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                  style={{
-                    marginTop: "32px",
-                    padding: "24px",
-                    background: "rgba(255,255,255,0.15)",
-                    borderRadius: "16px",
-                    backdropFilter: "blur(10px)",
-                    border: "1px solid rgba(255,255,255,0.2)",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontSize: "20px",
-                      fontWeight: 800,
-                      marginBottom: "12px",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                    }}
-                  >
-                    <Target size={20} />
-                    {isPT
-                      ? "Comece em 3 passos simples"
-                      : uiFallback("Get started in 3 simple steps")}
-                  </h3>
-                  <ol
-                    style={{
-                      paddingLeft: "20px",
-                      fontSize: "15px",
-                      lineHeight: 1.8,
-                      opacity: 0.95,
-                    }}
-                  >
-                    <li>
-                      {isPT
-                        ? "Escolha uma lição abaixo para praticar"
-                        : uiFallback("Choose a lesson below to practice")}
-                    </li>
-                    <li>
-                      {isPT
-                        ? "Complete exercícios e ganhe XP"
-                        : uiFallback("Complete exercises and earn XP")}
-                    </li>
-                    <li>
-                      {isPT
-                        ? "Explore jogos e cidades para aprender mais"
-                        : uiFallback("Explore games and cities to learn more")}
-                    </li>
-                  </ol>
-                </motion.div>
-              )}
             </motion.div>
           </div>
         </section>

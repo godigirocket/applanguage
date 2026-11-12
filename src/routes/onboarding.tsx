@@ -357,7 +357,7 @@ function OnboardingPage() {
                       <span>{opt.label}</span>
                       {step === 0 && opt.val === demoCourse && (
                         <small style={{ color: "var(--text-secondary)" }}>
-                          {t("Sua escolha na demo", "Your demo choice", "Tu elección en la demo")}
+                          {t("Sua escolha inicial", "Your initial choice", "Tu elección inicial")}
                         </small>
                       )}
                     </div>

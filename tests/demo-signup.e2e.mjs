@@ -68,7 +68,7 @@ try {
       }).toString();
       await page.goto(callback.href);
     }
-    await page.getByRole("button", { name: /Español.*Sua escolha na demo/ }).click();
+    await page.getByRole("button", { name: /Español.*Sua escolha inicial/ }).click();
     await page.getByRole("button", { name: "Iniciante", exact: true }).click();
     await page.getByRole("button", { name: "Para mim", exact: true }).click();
     await page.waitForURL("**/lesson/lesson-es-1");
