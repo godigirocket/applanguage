@@ -5975,3 +5975,36 @@ img {
   }
   .lume-games-page .play-stats-grid > div { padding: 17px 10px !important; }
 }
+
+/* Home hero layout: one copy column plus one real next-lesson panel. */
+.home-hero-copy { min-width: 0; }
+.home-greeting-row > div:last-child { min-width: 0; }
+.duo-speech-bubble {
+  width: fit-content;
+  max-width: min(100%, 32rem) !important;
+  overflow: hidden;
+}
+.duo-speech-bubble p { overflow-wrap: anywhere; }
+@media (min-width: 860px) {
+  .home-hero-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, .72fr) !important;
+    align-items: center !important;
+    column-gap: clamp(28px, 5vw, 72px) !important;
+  }
+  .home-hero-layout > .home-hero-copy {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+  .home-hero-layout > .home-journey-card {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+  }
+  .home-hero-copy .home-resume-action { width: fit-content; margin-bottom: 0; }
+}
+@media (max-width: 859px) {
+  .home-hero-layout { display: block !important; }
+  .home-hero-copy { margin-bottom: 18px; }
+  .home-greeting-row { align-items: flex-start !important; }
+  .duo-speech-bubble { max-width: 100% !important; }
+}
