@@ -3051,6 +3051,134 @@ a:hover .lume-logo-mark {
   }
 }
 
+/* Logged-in studio: the landing's passport language continues into practice. */
+.home-journey-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  border: 1px solid #1d625133;
+  border-radius: 26px;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 17px, #1d625108 17px 18px),
+    #f8f5e9;
+  box-shadow: 0 7px 0 #1b46391a;
+  color: #183831;
+}
+.home-journey-heading,
+.home-journey-main,
+.home-journey-progress > span {
+  display: flex;
+  align-items: center;
+}
+.home-journey-heading {
+  justify-content: space-between;
+  gap: 12px;
+  color: #206452;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+.home-journey-heading > span:first-child { display: inline-flex; align-items: center; gap: 6px; }
+.home-journey-heading > span:last-child {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid #1d625144;
+  border-radius: 50%;
+  background: #fffdf6;
+  color: #a94027;
+  font-size: 10px;
+}
+.home-journey-heading > span.is-complete { color: #fff; background: #1d785a; border-color: #1d785a; }
+.home-journey-main { gap: 13px; margin: 17px 0 12px; }
+.home-journey-seal {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  place-items: center;
+  border: 2px dashed #b84c35;
+  border-radius: 50%;
+  background: #fff7e8;
+  color: #b84c35;
+  transform: rotate(-8deg);
+}
+.home-journey-main strong { display: block; font-size: 17px; line-height: 1.1; letter-spacing: -.03em; }
+.home-journey-main p { margin: 5px 0 0; color: #46625a !important; font-size: 12px; line-height: 1.45; }
+.home-route-line { display: flex; align-items: center; gap: 5px; margin: 14px 3px 18px; }
+.home-route-line span {
+  display: grid;
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  place-items: center;
+  border: 1px solid #7da896;
+  border-radius: 50%;
+  background: #fffdf6;
+  color: #31765f;
+}
+.home-route-line span.is-start,
+.home-route-line span.is-complete { background: #28755e; color: #fff; border-color: #28755e; }
+.home-route-line i { height: 2px; flex: 1; border-radius: 99px; background: #b9d2c1; }
+.home-route-line i.is-complete { background: #28755e; }
+.home-journey-card .home-summary-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; max-width: none !important; }
+.home-journey-card .stat-pill {
+  display: grid;
+  min-width: 0;
+  min-height: 72px;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  padding: 7px 3px;
+  border-radius: 13px !important;
+  background: #fffdf6 !important;
+  box-shadow: none !important;
+}
+.home-journey-card .stat-pill-value { font-size: 17px !important; line-height: 1; }
+.home-journey-card .stat-pill-label { font-size: 8px !important; letter-spacing: .04em !important; }
+.home-journey-card .stat-pill svg { width: 16px; height: 16px; }
+.home-journey-progress { margin-top: 16px; }
+.home-journey-progress > span { color: #46625a; font-size: 10px; font-weight: 750; }
+.home-journey-progress > div { height: 6px; overflow: hidden; margin-top: 7px; border-radius: 99px; background: #dbe9db; }
+.home-journey-progress i { display: block; height: 100%; border-radius: inherit; background: #28755e; transition: width .35s ease; }
+
+.games-arena-header { position: relative; padding: 27px 24px 25px; border: 1px solid #235a4c33; border-radius: 25px; background: linear-gradient(120deg, #e9f4eb, #f9f3e5); overflow: hidden; }
+.games-arena-header::after { content: "✦"; position: absolute; right: 20px; bottom: -30px; color: #2a755d14; font-size: 160px; line-height: 1; }
+.games-arena-header > * { position: relative; z-index: 1; }
+.games-arena-kicker { display: inline-flex; align-items: center; gap: 6px; color: #28755e; font-size: 10px; font-weight: 900; letter-spacing: .1em; }
+.games-arena-header h1 { margin-top: 10px !important; }
+.games-mode-grid > a:first-child .lume-game-mode-card { background: linear-gradient(135deg, #1c6652, #28775e) !important; border-color: #15513f !important; }
+.games-mode-grid > a:first-child .lume-game-mode-card :is(h3, p) { color: #fff !important; }
+.games-mode-grid > a:first-child .lume-game-mode-card > div:first-child { background: #ffffff26 !important; color: #ffda91 !important; }
+.games-mode-grid > a:first-child .lume-game-mode-card > div:last-child { background: #ffffff1f !important; color: #ffda91 !important; }
+.games-mode-grid > a .lume-game-mode-card { min-height: 194px; transition: transform .18s ease, box-shadow .18s ease; }
+.games-mode-grid > a:hover .lume-game-mode-card { transform: translateY(-3px); box-shadow: 0 9px 22px #193d3215; }
+
+@media (min-width: 1000px) {
+  .home-hero-layout > .home-journey-card { grid-column: 2; grid-row: 1 / span 4; max-width: none; }
+  .games-mode-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  .games-mode-grid > a:first-child { grid-column: span 2; }
+  .games-mode-grid > a:first-child .lume-game-mode-card { min-height: 220px; }
+}
+html[data-theme="dark"] .home-journey-card { background: repeating-linear-gradient(135deg, transparent 0 17px, #c2e8d40a 17px 18px), #1a3029; border-color: #91ddbc33; color: #edf5f3; box-shadow: none; }
+html[data-theme="dark"] .home-journey-heading { color: #a8e4c5; }
+html[data-theme="dark"] .home-journey-heading > span:last-child,
+html[data-theme="dark"] .home-route-line span,
+html[data-theme="dark"] .home-journey-card .stat-pill { background: #203b33 !important; border-color: #91ddbc33; }
+html[data-theme="dark"] .home-journey-main p,
+html[data-theme="dark"] .home-journey-progress > span { color: #b6cfc4 !important; }
+html[data-theme="dark"] .home-journey-seal { background: #3b2b29; }
+@media (max-width: 767px) {
+  .home-journey-card { max-width: none; padding: 16px; border-radius: 20px; }
+  .home-journey-main { margin: 13px 0 9px; }
+  .home-journey-seal { width: 47px; height: 47px; flex-basis: 47px; }
+  .home-journey-main strong { font-size: 16px; }
+  .home-journey-card .stat-pill { min-height: 64px; }
+  .games-arena-header { padding: 20px 16px; border-radius: 20px; }
+  .games-mode-grid > a .lume-game-mode-card { min-height: 182px; padding: 18px !important; }
+}
+
 /* Preferences share the same surfaces and spacing as the study views. */
 .lume-preferences-card {
   margin-top: 24px;
@@ -5830,4 +5958,20 @@ img {
   *::after {
     scroll-behavior: auto !important;
   }
+}
+
+/* The journey card is the desktop right rail; this comes after legacy grids. */
+@media (min-width: 1000px) {
+  .home-hero-layout > .home-journey-card {
+    grid-column: 2 !important;
+    grid-row: 1 / span 4 !important;
+    align-self: center;
+    max-width: none !important;
+  }
+  .lume-games-page .play-stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-bottom: 34px !important;
+  }
+  .lume-games-page .play-stats-grid > div { padding: 17px 10px !important; }
 }

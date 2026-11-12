@@ -312,7 +312,8 @@ function PlayPage() {
             </Link>
           </div>
 
-          <header style={{ textAlign: "center", marginBottom: "32px" }}>
+          <header className="games-arena-header" style={{ textAlign: "center", marginBottom: "32px" }}>
+            <span className="games-arena-kicker"><Sparkles size={15} /> {isPT ? "ARENA DE PRÁTICA" : uiFallback("PRACTICE ARENA")}</span>
             <h1
               style={{
                 fontFamily: "var(--font-display)",
@@ -497,6 +498,7 @@ function PlayPage() {
 
           {/* Game Mode Cards ── 3 cols on desktop, 1 col on mobile */}
           <div
+            className="games-mode-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(2, 1fr)",
