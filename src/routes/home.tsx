@@ -168,6 +168,10 @@ function HomePage() {
   const xpToNextLevel = currentLevel * 100 - xp;
   const levelProgress = ((xp % 100) / 100) * 100;
   const isNewUser = xp === 0;
+  const hasPracticedToday = completedLessons.length > 0;
+  const routeTitle = hasPracticedToday
+    ? isPT ? "Rota em movimento" : isES ? "Ruta en marcha" : "Your route is moving"
+    : isPT ? "Sua primeira parada" : isES ? "Tu primera parada" : "Your first stop";
 
   const getGreeting = () => {
     const hr = currentTime.getHours();
@@ -316,18 +320,24 @@ function HomePage() {
                 {isPT ? "Continuar aprendendo" : uiFallback("Continue learning")}
               </Link>
 
-              {/* Quick Stats — Duolingo-style bold pills. Fixed 2 cols: with exactly
-                  4 items, auto-fit leaves an orphan alone on its own row at some
-                  widths (e.g. 3 fit + 1 stranded). 2 cols always balances 2x2. */}
-              <div
-                className="home-summary-stats"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(2, 1fr)",
-                  gap: "12px",
-                  maxWidth: "500px",
-                }}
-              >
+              <aside className="home-journey-card" aria-label={isPT ? "Sua rota de aprendizagem" : isES ? "Tu ruta de aprendizaje" : "Your learning route"}>
+                <div className="home-journey-heading">
+                  <span><Globe size={15} /> {isPT ? "PASSAPORTE DE HOJE" : isES ? "PASAPORTE DE HOY" : "TODAY'S PASSPORT"}</span>
+                  <span className={hasPracticedToday ? "is-complete" : ""}>{hasPracticedToday ? "✓" : "01"}</span>
+                </div>
+                <div className="home-journey-main">
+                  <div className="home-journey-seal" aria-hidden="true"><Plane size={26} /></div>
+                  <div>
+                    <strong>{routeTitle}</strong>
+                    <p>{hasPracticedToday
+                      ? (isPT ? "Você já abriu caminho hoje. Faça mais uma atividade quando quiser." : isES ? "Ya abriste camino hoy. Haz otra actividad cuando quieras." : "You opened your route today. Take another activity whenever you want.")
+                      : (isPT ? "Uma lição curta já deixa sua rota marcada." : isES ? "Una lección breve ya deja marcada tu ruta." : "One short lesson puts a stamp on your route.")}</p>
+                  </div>
+                </div>
+                <div className="home-route-line" aria-hidden="true">
+                  <span className="is-start"><Book size={13} /></span><i className={hasPracticedToday ? "is-complete" : ""} /><span className={hasPracticedToday ? "is-complete" : ""}><Star size={13} /></span><i /><span><Plane size={13} /></span>
+                </div>
+                <div className="home-summary-stats">
                 {[
                   { icon: Star, label: "XP", value: xp.toLocaleString(), color: "#FFC200" },
                   {
@@ -364,7 +374,12 @@ function HomePage() {
                     <div className="stat-pill-label">{stat.label}</div>
                   </motion.div>
                 ))}
-              </div>
+                </div>
+                <div className="home-journey-progress" aria-label={isPT ? `${xpToNextLevel} XP até o próximo nível` : `${xpToNextLevel} XP to the next level`}>
+                  <span>{isPT ? `Faltam ${xpToNextLevel} XP para o nível ${currentLevel + 1}` : isES ? `Faltan ${xpToNextLevel} XP para el nivel ${currentLevel + 1}` : `${xpToNextLevel} XP to level ${currentLevel + 1}`}</span>
+                  <div><i style={{ width: `${Math.max(7, levelProgress)}%` }} /></div>
+                </div>
+              </aside>
 
               {/* Streak badge — prominent when streak > 0 */}
               {streak > 0 && (
