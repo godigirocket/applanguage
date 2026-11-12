@@ -35,6 +35,7 @@ import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
 import { warmSpeechVoices, stopSpeaking } from "@/lib/language-apis/webSpeech";
 
 import appCss from "../styles.css?url";
+import layoutContractCss from "../styles/layout-contract.css?url";
 const LevelSelectionModal = lazy(() =>
   import("@/components/LevelSelectionModal").then((module) => ({
     default: module.LevelSelectionModal,
@@ -183,6 +184,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: layoutContractCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
