@@ -157,6 +157,7 @@ function ProgressPage() {
 
   return (
     <div
+      className="lume-progress-page"
       style={{
         minHeight: "100vh",
         background: "transparent",

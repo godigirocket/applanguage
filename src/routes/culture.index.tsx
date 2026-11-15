@@ -60,6 +60,7 @@ function CulturePage() {
 
   return (
     <div
+      className="lume-culture-page"
       style={{
         minHeight: "100vh",
         background: "var(--bg)",

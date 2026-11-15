@@ -1,0 +1,95 @@
+/*
+ * Layout contract
+ * This stylesheet deliberately loads after the legacy bundle. It supplies one
+ * predictable frame for product pages while individual features retain their
+ * own content and interactions.
+ */
+:root {
+  --app-page-max: 1180px;
+  --app-gutter: clamp(16px, 3vw, 32px);
+  --app-section: clamp(24px, 5vw, 56px);
+  --app-card-radius: 20px;
+  --app-copy-measure: 68ch;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { max-width: 100%; overflow-x: clip; }
+
+:is(
+  .lume-home-page,
+  .lume-lessons-page,
+  .lume-games-page,
+  .lume-profile-page,
+  .lume-community-page,
+  .lume-progress-page,
+  .lume-culture-page,
+  .lume-settings-page
+) {
+  min-width: 0;
+  overflow-x: clip;
+}
+
+:is(
+  .lume-games-page,
+  .lume-profile-page,
+  .lume-community-page,
+  .lume-progress-page,
+  .lume-culture-page,
+  .lume-settings-page
+) main {
+  width: min(calc(100% - (var(--app-gutter) * 2)), var(--app-page-max));
+  max-width: var(--app-page-max) !important;
+  min-width: 0;
+  margin-inline: auto !important;
+  padding-inline: 0 !important;
+}
+
+:is(
+  .lume-games-page,
+  .lume-profile-page,
+  .lume-community-page,
+  .lume-progress-page,
+  .lume-culture-page,
+  .lume-settings-page
+) :is(h1, h2, h3, p, span, a, button) {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+:is(.lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page) h1 {
+  max-width: 18ch;
+  font-size: clamp(2rem, 4vw, 3.25rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.045em !important;
+  text-wrap: balance;
+}
+
+:is(.lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page) h1 + p {
+  max-width: var(--app-copy-measure);
+  line-height: 1.6 !important;
+}
+
+:is(.lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page) :is(button, a) {
+  max-width: 100%;
+}
+
+:is(.lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page) :is([style*="grid"], .grid) {
+  min-width: 0;
+}
+
+@media (max-width: 767px) {
+  :is(
+    .lume-games-page,
+    .lume-profile-page,
+    .lume-community-page,
+    .lume-progress-page,
+    .lume-culture-page,
+    .lume-settings-page
+  ) main {
+    width: min(calc(100% - 32px), var(--app-page-max));
+  }
+
+  :is(.lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page) h1 {
+    font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
+  }
+}
