@@ -93,3 +93,76 @@ html, body { max-width: 100%; overflow-x: clip; }
     font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
   }
 }
+
+/* Profile identity: one composed unit rather than a collection of floating
+   circles. These rules come last so profile-specific inline legacy styling
+   keeps its data but not its accidental visual collisions. */
+.lume-user-avatar {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.lume-user-avatar--monogram {
+  background: linear-gradient(145deg, #1687ed 5%, #1267dc 55%, #10a99a 100%) !important;
+  box-shadow: inset 0 1px 1px rgb(255 255 255 / 28%);
+}
+
+.lume-user-avatar--monogram::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 78%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 16%);
+  top: -27%;
+  right: -18%;
+}
+
+.lume-user-avatar--monogram i {
+  position: absolute;
+  width: 13%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff7bf;
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 12%);
+  bottom: 17%;
+  right: 20%;
+}
+
+.lume-user-avatar--monogram span { transform: translateY(-2%); }
+
+.lume-profile-avatar {
+  padding: 4px !important;
+  border: 1px solid rgb(255 255 255 / 48%) !important;
+  background: rgb(255 255 255 / 18%) !important;
+  box-shadow: 0 12px 30px rgb(7 25 38 / 25%) !important;
+}
+
+.lume-profile-avatar .lume-user-avatar {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.lume-profile-avatar .lume-user-avatar svg {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.lume-profile-title-row { align-items: center !important; }
+.lume-profile-name { max-inline-size: 16ch; text-wrap: balance; }
+.lume-profile-level { flex: 0 0 auto; }
+
+@media (max-width: 860px) {
+  .lume-profile-hero-content { width: 100%; }
+  .lume-profile-identity { gap: 18px !important; }
+  .lume-profile-details { min-width: min(100%, 210px) !important; }
+  .lume-profile-name { max-inline-size: 13ch; }
+  .lume-profile-title-row { gap: 8px !important; margin-bottom: 8px !important; }
+  .lume-profile-league-name { font-size: 17px !important; margin-bottom: 18px !important; }
+  .lume-profile-avatar + button { width: 34px !important; height: 34px !important; top: 0 !important; right: -5px !important; }
+  .lume-profile-league { width: 46px !important; height: 46px !important; right: -7px !important; bottom: -7px !important; }
+}

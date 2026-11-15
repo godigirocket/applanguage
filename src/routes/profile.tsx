@@ -222,8 +222,8 @@ function ProfilePage() {
             }}
           />
 
-          <div style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
-            <div style={{ display: "flex", alignItems: "start", gap: "32px", flexWrap: "wrap" }}>
+          <div className="lume-profile-hero-content" style={{ maxWidth: "1200px", margin: "0 auto", position: "relative", zIndex: 1 }}>
+            <div className="lume-profile-identity" style={{ display: "flex", alignItems: "start", gap: "32px", flexWrap: "wrap" }}>
               {/* Avatar */}
               <div style={{ position: "relative" }}>
                 <div
@@ -286,8 +286,9 @@ function ProfilePage() {
               </div>
 
               {/* Info */}
-              <div style={{ flex: 1, minWidth: "260px" }}>
+              <div className="lume-profile-details" style={{ flex: 1, minWidth: "260px" }}>
                 <div
+                  className="lume-profile-title-row"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -298,6 +299,7 @@ function ProfilePage() {
                   }}
                 >
                   <h1
+                    className="lume-profile-name"
                     style={{
                       fontSize: "clamp(24px, 6vw, 42px)",
                       fontWeight: 900,
@@ -310,6 +312,7 @@ function ProfilePage() {
                     {user.email?.split("@")[0] || "Student"}
                   </h1>
                   <div
+                    className="lume-profile-level"
                     style={{
                       padding: "6px 14px",
                       background: "rgba(0,0,0,0.25)",
@@ -324,6 +327,7 @@ function ProfilePage() {
                 </div>
 
                 <div
+                  className="lume-profile-league-name"
                   style={{ fontSize: "20px", marginBottom: "24px", opacity: 0.95, fontWeight: 600 }}
                 >
                   {currentLeague.name[interfaceLanguage]} •{" "}

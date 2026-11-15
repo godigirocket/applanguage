@@ -23,7 +23,9 @@ export function UserAvatar({ size = 40, name, avatarId }: UserAvatarProps) {
     const initial = name?.trim()?.[0]?.toUpperCase() || "L";
     return (
       <div
-        className={crowned ? "lume-avatar-crowned" : undefined}
+        className={`lume-user-avatar lume-user-avatar--monogram${crowned ? " lume-avatar-crowned" : ""}`}
+        role="img"
+        aria-label={name ? `Avatar de ${name}` : "Avatar"}
         style={{
           width: size,
           height: size,
@@ -39,14 +41,15 @@ export function UserAvatar({ size = 40, name, avatarId }: UserAvatarProps) {
           flexShrink: 0,
         }}
       >
-        {initial}
+        <span>{initial}</span>
+        <i aria-hidden="true" />
       </div>
     );
   }
 
   return (
     <div
-      className={crowned ? "lume-avatar-crowned" : undefined}
+      className={`lume-user-avatar lume-user-avatar--illustrated${crowned ? " lume-avatar-crowned" : ""}`}
       style={{ width: size, height: size, flexShrink: 0, borderRadius: "50%", overflow: "hidden" }}
     >
       <AvatarSvg def={getAvatarDef(id)} size={size} />
