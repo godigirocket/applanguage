@@ -5,8 +5,8 @@ export interface AvatarDef {
   accessory: "ears" | "cat-ears" | "antenna" | "leaf" | "star" | "none";
 }
 
-// 10 lightweight, friendly SVG avatars — flat colors + simple shapes, no
-// external images/fonts, so this never adds real weight to the bundle.
+// 10 lightweight, friendly SVG avatars. They use only vector shapes so the
+// profile stays crisp on large displays without adding image requests.
 export const AVATARS: AvatarDef[] = [
   { id: "fox", bgFrom: "#FF9466", bgTo: "#FF7A45", accessory: "ears" },
   { id: "sky", bgFrom: "#67C9F5", bgTo: "#38BDF8", accessory: "none" },
@@ -73,23 +73,35 @@ export function AvatarSvg({ def, size = 64 }: { def: AvatarDef; size?: number })
       viewBox="0 0 100 100"
       role="img"
       aria-label={`Avatar ${def.id}`}
+      style={{ display: "block" }}
     >
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor={def.bgFrom} />
           <stop offset="100%" stopColor={def.bgTo} />
         </linearGradient>
+        <radialGradient id={`${gradId}-glow`} cx="30%" cy="20%" r="80%">
+          <stop offset="0%" stopColor="#fff" stopOpacity="0.34" />
+          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+        </radialGradient>
       </defs>
-      <g style={{ color: def.bgTo }}>
+      <circle cx="50" cy="50" r="50" fill={`url(#${gradId})`} />
+      <circle cx="50" cy="50" r="50" fill={`url(#${gradId}-glow)`} />
+      <g style={{ color: def.bgTo }} opacity="0.8">
         <Accessory kind={def.accessory} />
       </g>
-      <circle cx="50" cy="54" r="38" fill={`url(#${gradId})`} />
-      <circle cx="37" cy="50" r="5" fill="#1c1c1a" />
-      <circle cx="63" cy="50" r="5" fill="#1c1c1a" />
+      <ellipse cx="50" cy="61" rx="31" ry="33" fill="#FFF9EF" />
+      <ellipse cx="50" cy="61" rx="27" ry="29" fill="#FFF1D9" opacity="0.55" />
+      <circle cx="37" cy="56" r="4.5" fill="#243240" />
+      <circle cx="63" cy="56" r="4.5" fill="#243240" />
+      <circle cx="35.5" cy="54.5" r="1.25" fill="#fff" opacity="0.9" />
+      <circle cx="61.5" cy="54.5" r="1.25" fill="#fff" opacity="0.9" />
+      <ellipse cx="31" cy="66" rx="5" ry="2.5" fill="#F5A8AB" opacity="0.42" />
+      <ellipse cx="69" cy="66" rx="5" ry="2.5" fill="#F5A8AB" opacity="0.42" />
       <path
-        d="M38 64 Q50 74 62 64"
-        stroke="#1c1c1a"
-        strokeWidth="4"
+        d="M40 69 Q50 78 60 69"
+        stroke="#243240"
+        strokeWidth="3.5"
         strokeLinecap="round"
         fill="none"
       />
