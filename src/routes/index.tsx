@@ -8,6 +8,7 @@ import {
   Gamepad2,
   Globe2,
   Headphones,
+  MapPin,
   MessageCircle,
   Sparkles,
   Volume2,
@@ -220,6 +221,54 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
   );
 }
 
+function ProductPreviews({ t }: { t: Copy }) {
+  return (
+    <section className="lp-product" aria-labelledby="lp-product-title">
+      <div className="lp-section-heading">
+        <span className="lp-kicker">
+          {t("O APP POR DENTRO", "INSIDE THE APP", "DENTRO DE LA APP")}
+        </span>
+        <h2 id="lp-product-title">
+          {t("Uma rotina que cabe no seu dia.", "A routine that fits your day.", "Una rutina que cabe en tu día.")}
+        </h2>
+        <p>
+          {t(
+            "Você alterna entre lições, conversa e revisão sem perder o fio da trilha.",
+            "Move between lessons, conversation and review without losing your place.",
+            "Alterna entre lecciones, conversación y repaso sin perder el hilo.",
+          )}
+        </p>
+      </div>
+      <div className="lp-product-grid">
+        <article className="lp-product-screen lp-screen-lesson">
+          <div className="lp-screen-bar"><span>{t("LIÇÃO 04", "LESSON 04", "LECCIÓN 04")}</span><strong>4 / 8</strong></div>
+          <div className="lp-screen-progress"><i /></div>
+          <p className="lp-screen-caption">{t("Monte a frase", "Build the sentence", "Forma la frase")}</p>
+          <strong className="lp-screen-question">{t("Onde fica a estação?", "Where is the station?", "¿Dónde está la estación?")}</strong>
+          <div className="lp-screen-words"><span>Where</span><span>is</span><span>the station?</span></div>
+          <div className="lp-screen-check"><Check size={17} /> {t("Continuar", "Continue", "Continuar")}</div>
+          <footer><BookOpen size={16} /> {t("Lições guiadas", "Guided lessons", "Lecciones guiadas")}</footer>
+        </article>
+        <article className="lp-product-screen lp-screen-chat">
+          <div className="lp-screen-bar"><span>{t("CONVERSA GUIADA", "GUIDED CONVERSATION", "CONVERSACIÓN GUIADA")}</span><MessageCircle size={17} /></div>
+          <div className="lp-chat-person"><img src="/brand/lume-companion.webp" width="40" height="40" alt="" /> <span>Lume</span></div>
+          <p className="lp-bubble lp-bubble-in">{t("Qual é seu destino hoje?", "What is your destination today?", "¿Cuál es tu destino hoy?")}</p>
+          <p className="lp-bubble lp-bubble-out">{t("Quero ir ao centro.", "I want to go downtown.", "Quiero ir al centro.")}</p>
+          <div className="lp-chat-input">{t("Diga ou escreva sua resposta", "Say or write your answer", "Di o escribe tu respuesta")} <ArrowRight size={16} /></div>
+          <footer><Headphones size={16} /> {t("Fala no contexto", "Speech in context", "Habla en contexto")}</footer>
+        </article>
+        <article className="lp-product-screen lp-screen-review">
+          <div className="lp-screen-bar"><span>{t("REVISÃO DE HOJE", "TODAY'S REVIEW", "REPASO DE HOY")}</span><span>06:40</span></div>
+          <div className="lp-review-word"><span>boarding pass</span><small>{t("cartão de embarque", "boarding pass", "tarjeta de embarque")}</small></div>
+          <div className="lp-review-meter"><i /><i /><i /><i /><i /></div>
+          <div className="lp-review-actions"><span>{t("Ainda aprendendo", "Still learning", "Aún aprendiendo")}</span><strong>{t("Já sei", "I know it", "Ya lo sé")}</strong></div>
+          <footer><MapPin size={16} /> {t("Vocabulário útil", "Useful vocabulary", "Vocabulario útil")}</footer>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 function Landing() {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -393,6 +442,7 @@ function Landing() {
             </span>
           ))}
         </div>
+        <ProductPreviews t={t} />
         <section className="lp-section" aria-labelledby="lp-method">
           <div className="lp-section-heading">
             <span className="lp-kicker">
