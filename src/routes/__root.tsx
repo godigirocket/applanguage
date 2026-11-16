@@ -410,7 +410,17 @@ function RootInner() {
     let timer: ReturnType<typeof setTimeout>;
     const register = () => {
       timer = setTimeout(() => {
-        void navigator.serviceWorker.register("/sw.js").catch(() => {});
+        void navigator.serviceWorker.register("/sw.js").then(async () => {
+          // Very old builds registered a different worker that cached the
+          // document shell forever. Remove only that retired worker; keep the
+          // current offline lesson worker intact.
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(
+            registrations
+              .filter((registration) => registration.active?.scriptURL.endsWith("/service-worker.js"))
+              .map((registration) => registration.unregister()),
+          );
+        }).catch(() => {});
       }, 3000);
     };
     if (document.readyState === "complete") register();
