@@ -10,10 +10,113 @@
   --app-section: clamp(24px, 5vw, 56px);
   --app-card-radius: 20px;
   --app-copy-measure: 68ch;
+  --app-canvas: #f7f6f0;
+  --app-surface: #ffffff;
+  --app-surface-muted: #eef3ed;
+  --app-ink: #17302b;
+  --app-muted: #59716a;
+  --app-line: #d6e0d8;
+  --app-action: #176c51;
+}
+
+html[data-theme="dark"] {
+  --app-canvas: #10231f;
+  --app-surface: #17312b;
+  --app-surface-muted: #1d3c34;
+  --app-ink: #eef6ef;
+  --app-muted: #b6ccc0;
+  --app-line: #36574b;
+  --app-action: #62c99b;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { max-width: 100%; overflow-x: clip; }
+
+/* Product surface contract. The legacy app accumulated route-specific blues,
+   purples and translucent cards. A language practice tool benefits from one
+   quiet canvas: paper-and-ink in light mode, evergreen-and-ink at night. */
+:is(
+  .lume-home-page,
+  .lume-lessons-page,
+  .lume-games-page,
+  .lume-profile-page,
+  .lume-community-page,
+  .lume-progress-page,
+  .lume-culture-page,
+  .lume-settings-page,
+  .lume-conversation-page,
+  .lume-auth-page
+) {
+  color: var(--app-ink) !important;
+  background: var(--app-canvas) !important;
+}
+
+:is(.lume-auth-page, .lume-home-page, .lume-lessons-page, .lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page, .lume-settings-page)::before {
+  display: none !important;
+}
+
+body .lume-app-header {
+  background: var(--app-surface) !important;
+  border-bottom-color: var(--app-line) !important;
+  color: var(--app-ink) !important;
+}
+
+:is(.lume-home-page, .lume-lessons-page, .lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page, .lume-settings-page, .lume-auth-page)
+  :is(.lume-card, .card-duo, .card-modern, .lesson-card, .level-card, .lume-auth-card) {
+  background: var(--app-surface) !important;
+  border-color: var(--app-line) !important;
+  box-shadow: 0 3px 0 var(--app-line) !important;
+  backdrop-filter: none !important;
+}
+
+:is(.lume-home-page, .lume-lessons-page, .lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page, .lume-settings-page, .lume-auth-page)
+  :is(h1, h2, h3) {
+  color: var(--app-ink) !important;
+}
+
+:is(.lume-home-page, .lume-lessons-page, .lume-games-page, .lume-profile-page, .lume-community-page, .lume-progress-page, .lume-culture-page, .lume-settings-page, .lume-auth-page)
+  :is(p, .text-muted, .text-secondary) {
+  color: var(--app-muted) !important;
+}
+
+/* Keep the established hierarchy, but make every app hero part of the same
+   product material instead of assigning a new coloured universe per route. */
+body :is(.home-hero-premium, .lume-lessons-hero, .lume-profile-hero, .lume-community-hero) {
+  background: var(--app-surface-muted) !important;
+  border: 1px solid var(--app-line) !important;
+  box-shadow: 0 4px 0 var(--app-line) !important;
+}
+body :is(.home-hero-premium, .lume-lessons-hero, .lume-profile-hero, .lume-community-hero)::before,
+body :is(.home-hero-premium, .lume-lessons-hero, .lume-profile-hero, .lume-community-hero)::after {
+  display: none !important;
+}
+body :is(.home-hero-premium, .lume-lessons-hero, .lume-profile-hero, .lume-community-hero) :is(h1, h2, h3, p, span, li) {
+  color: var(--app-ink) !important;
+  text-shadow: none !important;
+}
+.lume-auth-submit:not(:disabled) {
+  color: #fff !important;
+  background: var(--app-action) !important;
+  border: 1px solid color-mix(in srgb, var(--app-action) 84%, #000) !important;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--app-action) 70%, #000) !important;
+}
+
+/* The authentication screen starts at the real viewport edge. Its first
+   label can never hide under an old fixed-header spacer or device notch. */
+.lume-auth-shell {
+  padding-top: max(clamp(32px, 6vw, 64px), calc(env(safe-area-inset-top, 0px) + 32px)) !important;
+}
+
+@media (max-width: 760px) {
+  .lume-auth-shell {
+    min-height: 100svh !important;
+    padding: max(32px, calc(env(safe-area-inset-top, 0px) + 32px)) 24px 40px !important;
+    align-content: start !important;
+  }
+  .lume-auth-copy { gap: 14px !important; }
+  .lume-auth-copy h1 { font-size: clamp(2rem, 9vw, 2.65rem) !important; line-height: 1.02 !important; }
+  .lume-auth-kicker { max-width: 100%; font-size: 11px !important; }
+}
 
 :is(
   .lume-home-page,

@@ -17,7 +17,10 @@ if (fs.existsSync(clientSrc)) {
     globPatterns: ["assets/*.css", "brand/*.webp", "favicon.svg", "pwa-*.png"],
     cleanupOutdatedCaches: true,
     clientsClaim: true,
-    skipWaiting: false,
+    // A learning session is not an editor with unsaved documents. Activating
+    // immediately prevents installed PWAs from being stuck on a stale shell
+    // after a visual or accessibility fix ships.
+    skipWaiting: true,
     navigateFallback: undefined,
     runtimeCaching: [
       {

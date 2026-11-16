@@ -1,4 +1,6 @@
-const CACHE_NAME = "lume-cache-v2";
+// Bump the legacy worker cache so installations made before /sw.js existed
+// fetch the current document shell instead of indefinitely reopening v2.
+const CACHE_NAME = "lume-cache-v3";
 const STATIC_ASSETS = [
   "/",
   "/favicon.svg",
