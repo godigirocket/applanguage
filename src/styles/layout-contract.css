@@ -166,3 +166,16 @@ html, body { max-width: 100%; overflow-x: clip; }
   .lume-profile-avatar + button { width: 34px !important; height: 34px !important; top: 0 !important; right: -5px !important; }
   .lume-profile-league { width: 46px !important; height: 46px !important; right: -7px !important; bottom: -7px !important; }
 }
+
+/* The primary action remains a deliberate, readable control on a narrow home
+   screen instead of inheriting the oversized desktop CTA treatment. */
+@media (max-width: 767px) {
+  .home-hero-copy .home-resume-action {
+    width: min(100%, 320px) !important;
+    min-height: 48px !important;
+    padding-inline: 14px !important;
+    font-size: clamp(.82rem, 3.8vw, .96rem) !important;
+    letter-spacing: .01em !important;
+    line-height: 1.15 !important;
+  }
+}

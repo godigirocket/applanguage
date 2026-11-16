@@ -174,7 +174,7 @@ export function AppHeader() {
       <ViewportLayer>
         <header
           aria-label="Site header"
-          className="lume-app-header"
+          className={`lume-app-header${currentPath === "/" ? " lume-landing-header" : ""}`}
           style={{
             position: "fixed",
             top: 0,

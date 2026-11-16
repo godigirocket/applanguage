@@ -13,6 +13,24 @@
   background: var(--lp-bg);
   color: var(--lp-ink);
 }
+.lume-landing-header {
+  --header-bg: #fffdf7;
+  --header-border: #d8ddcf;
+  --header-link: #27423c;
+  --header-shadow: none;
+}
+html[data-theme="dark"] .lume-landing-header {
+  --header-bg: #10201e;
+  --header-border: #29423b;
+  --header-link: #d7e7dd;
+  --header-shadow: none;
+}
+/* The app shell has a late global header rule. Keep the landing's mode
+   intentional instead of allowing the shell's navy surface to bleed in. */
+body .lume-app-header.lume-landing-header {
+  background: var(--header-bg) !important;
+  border-bottom-color: var(--header-border) !important;
+}
 html[data-theme="dark"] .lp {
   --lp-bg: #10201e;
   --lp-card: #192d29;
@@ -29,6 +47,18 @@ html[data-theme="dark"] .lp {
 .lp-footer {
   width: min(100% - clamp(28px, 7vw, 104px), 1160px);
   margin-inline: auto;
+}
+/* The legacy dark-mode repair targets every footer. Product preview footers
+   are component labels, so they must not become unrelated navy bars. */
+html[data-theme="dark"] .lp-product-screen footer {
+  background: transparent !important;
+  border-color: currentColor !important;
+  border-top-color: currentColor !important;
+  opacity: .8;
+}
+html[data-theme="dark"] .lp-footer {
+  background: var(--lp-bg) !important;
+  border-color: var(--lp-line) !important;
 }
 .lp .lp-main {
   padding: 0 !important;
@@ -342,9 +372,68 @@ html[data-theme="dark"] .lp {
 }
 
 .lp-section,
+.lp-product,
 .lp-faq {
   padding-block: clamp(35px, 7vw, 92px);
 }
+.lp-product {
+  border-bottom: 1px solid var(--lp-line);
+}
+.lp-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.lp-product-screen {
+  min-width: 0;
+  min-height: 308px;
+  display: flex;
+  flex-direction: column;
+  padding: 18px;
+  color: #183631;
+  border: 1px solid #b7cfc2;
+  border-radius: 18px;
+  background: #fdfcf5;
+  box-shadow: 0 5px 0 #b7cfc2;
+}
+.lp-product-screen footer {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 14px;
+  color: #527168;
+  font-size: .76rem;
+  font-weight: 800;
+  border-top: 1px solid #d9e4dc;
+}
+.lp-screen-bar { display:flex; align-items:center; justify-content:space-between; gap:8px; color:#54776d; font-size:.67rem; font-weight:900; letter-spacing:.07em; }
+.lp-screen-progress { height: 7px; overflow: hidden; margin: 13px 0 24px; border-radius: 99px; background: #dfebe4; }
+.lp-screen-progress i { display:block; width:50%; height:100%; border-radius:inherit; background:#22835f; }
+.lp-screen-caption { margin: 0 0 5px; color:#527168 !important; font-size:.8rem; font-weight:750; }
+.lp-screen-question { font-size:clamp(1.15rem,2vw,1.5rem); line-height:1.12; letter-spacing:-.035em; }
+.lp-screen-words { display:flex; flex-wrap:wrap; gap:6px; margin:20px 0 13px; }
+.lp-screen-words span { padding:7px 9px; border:1px solid #9dbdb0; border-radius:8px; background:#fff; font-size:.78rem; font-weight:800; box-shadow:0 2px 0 #c9d9d0; }
+.lp-screen-check { display:flex; align-items:center; justify-content:center; gap:6px; min-height:38px; border-radius:9px; background:#187152; color:#fff; font-size:.8rem; font-weight:850; }
+.lp-screen-chat { background:#f5f2ff; border-color:#c9bce7; box-shadow:0 5px 0 #c9bce7; }
+.lp-chat-person { display:flex; align-items:center; gap:8px; margin:22px 0 10px; font-size:.8rem; font-weight:850; }
+.lp-chat-person img { width:40px; height:40px; object-fit:contain; }
+.lp-bubble { max-width:88%; margin:0 0 9px; padding:10px 11px; border-radius:12px; font-size:.81rem; font-weight:700; line-height:1.35; }
+.lp-bubble-in { background:#fff; color:#31465d !important; border:1px solid #ded8ec; border-top-left-radius:4px; }
+.lp-bubble-out { align-self:flex-end; background:#564188; color:#fff !important; border-top-right-radius:4px; }
+.lp-chat-input { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:5px; padding:9px 10px; color:#6d6690; background:#fff; border:1px solid #d8d0e9; border-radius:10px; font-size:.7rem; font-weight:700; }
+.lp-screen-chat footer { color:#6d6690; border-color:#ddd6ec; }
+.lp-screen-review { background:#fff9e9; border-color:#e8cf91; box-shadow:0 5px 0 #e8cf91; }
+.lp-review-word { display:grid; gap:4px; margin:32px 0 18px; padding:16px; border-radius:12px; background:#fffdf6; border:1px solid #eddfbb; }
+.lp-review-word span { font-size:1.35rem; font-weight:900; letter-spacing:-.04em; }
+.lp-review-word small { color:#786742; font-size:.77rem; font-weight:700; }
+.lp-review-meter { display:flex; gap:5px; margin-bottom:23px; }
+.lp-review-meter i { display:block; flex:1; height:7px; border-radius:99px; background:#e8d8aa; }
+.lp-review-meter i:nth-child(-n+3) { background:#d49c24; }
+.lp-review-actions { display:grid; grid-template-columns:1fr 1fr; gap:7px; color:#766743; font-size:.68rem; text-align:center; }
+.lp-review-actions > * { padding:9px 4px; border:1px solid #e1cb91; border-radius:9px; font-weight:800; }
+.lp-review-actions strong { color:#314432; background:#dce7bf; border-color:#aac481; }
+.lp-screen-review footer { color:#786742; border-color:#eddfbb; }
 .lp-section-heading {
   max-width: 56ch;
   margin-bottom: clamp(18px, 3vw, 35px);
@@ -362,7 +451,7 @@ html[data-theme="dark"] .lp {
   padding: clamp(14px, 2vw, 23px);
   border: 1px solid var(--lp-line);
   background: var(--lp-card);
-  border-radius: 23px;
+  border-radius: 16px;
   box-shadow: 0 4px 0 var(--lp-line);
 }
 .lp-feature h3 {
@@ -492,6 +581,8 @@ html[data-theme="dark"] .lp {
   gap: 12px;
   padding-block: 20px 30px;
   border-top: 1px solid var(--lp-line);
+  background: var(--lp-bg) !important;
+  color: var(--lp-ink) !important;
 }
 .lp-footer nav {
   display: flex;
@@ -520,10 +611,20 @@ html[data-theme="dark"] .lp {
   .lp-features {
     grid-template-columns: minmax(0, 1fr);
   }
+  .lp-product-grid { grid-template-columns: minmax(0, 1fr); }
   .lp-language-bar > span:first-child {
     flex-basis: 100%;
     justify-content: center;
   }
+}
+@media (max-width: 520px) {
+  .lp-main, .lp-footer { width: min(100% - 32px, 1160px); }
+  .lp .lp-hero { padding-top: 28px; gap: 28px; }
+  .lp h1 { font-size: clamp(2.35rem, 12vw, 3.5rem); letter-spacing: -.06em; }
+  .lp-actions > * { flex: 1 1 100%; }
+  .lp-button, .lp-secondary { min-height: 50px; padding-inline: 14px; }
+  .lp-stage { border-radius: 20px; padding: 12px; }
+  .lp-product-screen { min-height: 278px; }
 }
 @media (max-width: 360px) {
   .lp-demo-languages {
