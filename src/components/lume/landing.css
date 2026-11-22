@@ -349,6 +349,22 @@ html[data-theme="dark"] .lp-footer {
   margin: 4px 0 0;
   min-height: 2.5em;
 }
+.lp-result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: .78rem;
+  font-weight: 850;
+  animation: lp-feedback-in .22s ease-out;
+}
+.lp-result--correct { color: #155e41; background: #dcf5df; border: 1px solid #8dca98; }
+.lp-result--retry { color: #9a3526; background: #ffebe6; border: 1px solid #f0aa9a; }
+.lp-free-rule { display:flex; align-items:flex-start; gap:8px; max-width:48ch; margin-top:18px; color:var(--lp-muted); font-size:.82rem; font-weight:750; line-height:1.45; }
+@keyframes lp-feedback-in { from { opacity:0; transform:translateY(5px) } to { opacity:1; transform:translateY(0) } }
 .lp-language-bar {
   display: flex;
   justify-content: center;

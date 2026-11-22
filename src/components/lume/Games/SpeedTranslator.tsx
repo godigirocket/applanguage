@@ -222,7 +222,7 @@ export function SpeedTranslator() {
 
     if (assembledNorm === targetNorm) {
       // CORRECT
-      sounds.playClick(); // play success
+      sounds.playQuizCorrect();
       handleSpeak(targetPhrase);
       scoreRef.current += 1;
       setScore(scoreRef.current);
@@ -238,7 +238,7 @@ export function SpeedTranslator() {
       }
     } else {
       // INCORRECT
-      sounds.playClick(); // play fail feedback
+      sounds.playQuizWrong();
       setStreak(0);
       setShakeTrigger(true);
       setTimeLeft((prev) => Math.max(0, prev - 4)); // subtract 4 seconds
