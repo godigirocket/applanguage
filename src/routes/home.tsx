@@ -178,6 +178,7 @@ function HomePage() {
   const levelProgress = ((xp % 100) / 100) * 100;
   const isNewUser = xp === 0;
   const nextLesson = CONTINUE_LEARNING[0];
+  const routeLessons = CONTINUE_LEARNING.slice(0, 3);
   const hasRouteProgress = completedLessons.length > 0;
 
   const getGreeting = () => {
@@ -459,6 +460,27 @@ function HomePage() {
             </div>
           </section>
         )}
+
+        <section className="home-route-section" aria-labelledby="home-route-title">
+          <div className="home-route-section-heading">
+            <div>
+              <span>{isPT ? "SUA TRILHA AGORA" : isES ? "TU RUTA AHORA" : "YOUR PATH NOW"}</span>
+              <h2 id="home-route-title">{isPT ? "Um destino de cada vez." : isES ? "Un destino a la vez." : "One destination at a time."}</h2>
+            </div>
+            <Link to="/lessons">{isPT ? "Ver trilha" : isES ? "Ver ruta" : "View path"} <ChevronRight size={17} /></Link>
+          </div>
+          <ol className="home-route-map">
+            {(routeLessons.length ? routeLessons : [nextLesson]).filter(Boolean).map((lesson: any, index) => (
+              <li key={lesson.id} className={index === 0 ? "is-current" : ""}>
+                <span className="home-route-stop" aria-hidden="true">{index === 0 ? <Play size={15} fill="currentColor" /> : <span>{String(index + 1).padStart(2, "0")}</span>}</span>
+                <Link to="/lesson/$id" params={{ id: lesson.id }}>
+                  <strong>{lesson.title}</strong>
+                  <small>{lesson.duration} · +{lesson.xp} XP</small>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         {/* QUICK ACTIONS */}
         <section

@@ -240,25 +240,25 @@ html[data-theme="dark"] .lp-footer {
   flex: none;
   font-variant-numeric: tabular-nums;
 }
-.lp-demo {
+.lp-lesson {
   border: 1px solid var(--lp-line);
   background: var(--lp-card);
   padding: clamp(11px, 2vw, 22px);
   border-radius: 19px;
   box-shadow: 0 9px 24px #10271c13;
 }
-.lp-stage[data-result="correct"] .lp-demo {
+.lp-stage[data-result="correct"] .lp-lesson {
   border-color: #59875e;
 }
-.lp-stage[data-result="retry"] .lp-demo {
+.lp-stage[data-result="retry"] .lp-lesson {
   border-color: var(--lp-accent);
 }
-.lp-demo-languages {
+.lp-lesson-languages {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
-.lp-demo-languages button,
+.lp-lesson-languages button,
 .lp-options button {
   display: inline-flex;
   justify-content: center;
@@ -277,7 +277,7 @@ html[data-theme="dark"] .lp-footer {
   overflow-wrap: anywhere;
   text-align: center;
 }
-.lp-demo-languages button[aria-pressed="true"],
+.lp-lesson-languages button[aria-pressed="true"],
 .lp-options button[aria-pressed="true"] {
   background: var(--lp-mint);
   border-color: var(--lp-forest);
@@ -338,7 +338,7 @@ html[data-theme="dark"] .lp-footer {
 .lp-options button:disabled {
   cursor: default;
 }
-.lp-demo-action {
+.lp-lesson-action {
   display: grid;
   gap: 6px;
   margin-top: 13px;
@@ -389,9 +389,22 @@ html[data-theme="dark"] .lp-footer {
 
 .lp-section,
 .lp-product,
+.lp-rhythm,
 .lp-faq {
   padding-block: clamp(35px, 7vw, 92px);
 }
+.lp-rhythm {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
+  gap: clamp(24px, 7vw, 94px);
+  align-items: center;
+  border-bottom: 1px solid var(--lp-line);
+}
+.lp-rhythm ol { display:grid; gap: 0; padding:0; margin:0; list-style:none; border-top:1px solid var(--lp-line); }
+.lp-rhythm li { display:grid; grid-template-columns:48px minmax(0,1fr); gap:14px; padding:17px 0; border-bottom:1px solid var(--lp-line); }
+.lp-rhythm-icon { display:grid; width:42px; height:42px; place-items:center; color:var(--lp-forest); background:var(--lp-mint); border:1px solid var(--lp-line); border-radius:13px; }
+.lp-rhythm li strong { color:var(--lp-ink); font-size:1rem; letter-spacing:-.025em; }
+.lp-rhythm li p { margin:4px 0 0; font-size:.88rem; max-width:50ch; }
 .lp-product {
   border-bottom: 1px solid var(--lp-line);
 }
@@ -613,6 +626,7 @@ html[data-theme="dark"] .lp-footer {
 @media (max-width: 780px) {
   .lp .lp-hero,
   .lp-offer,
+  .lp-rhythm,
   .lp-faq {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -643,10 +657,10 @@ html[data-theme="dark"] .lp-footer {
   .lp-product-screen { min-height: 278px; }
 }
 @media (max-width: 360px) {
-  .lp-demo-languages {
+  .lp-lesson-languages {
     gap: 4px;
   }
-  .lp-demo-languages button {
+  .lp-lesson-languages button {
     font-size: 0.7rem;
     padding-inline: 5px;
   }
