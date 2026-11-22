@@ -5,7 +5,7 @@ type Events = {
   landing_pricing: { placement: "offer" };
   landing_lesson_answer: { course: "en" | "es" | "pt"; result: "correct" | "retry" };
   signup_accepted: { course: "en" | "es" | "pt" | "none" };
-  onboarding_completed: { course: "en" | "es" | "pt"; source: "demo" | "direct" };
+  onboarding_completed: { course: "en" | "es" | "pt"; source: "first_lesson" | "direct" };
   lesson_start: { device: "mobile" | "desktop" };
   lesson_complete: { device: "mobile" | "desktop" };
   content_paint: { screen: "landing" | "lesson"; device: "mobile" | "desktop"; ms: number };

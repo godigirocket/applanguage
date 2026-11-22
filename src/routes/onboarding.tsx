@@ -105,7 +105,7 @@ function OnboardingPage() {
   const language: InterfaceLanguage = interfaceLanguage === "es" ? "es" : interfaceLanguage === "pt" ? "pt" : "en";
   const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
   const steps = getSteps(answers, language);
-  const demoCourse = course ?? parseCourse(user?.user_metadata.requested_course);
+  const requestedCourse = course ?? parseCourse(user?.user_metadata.requested_course);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -194,11 +194,11 @@ function OnboardingPage() {
           "¡Perfil configurado! Empecemos.",
         ),
       );
-      productEvent("onboarding_completed", { course: chosenTargetLanguage, source: demoCourse ? "demo" : "direct" });
-      if (demoCourse && chosenLevel === "beginner") {
+      productEvent("onboarding_completed", { course: chosenTargetLanguage, source: requestedCourse ? "first_lesson" : "direct" });
+      if (requestedCourse && chosenLevel === "beginner") {
         nav({ to: "/lesson/$id", params: { id: `lesson-${chosenTargetLanguage}-1` }, replace: true });
       } else {
-        nav({ to: demoCourse ? "/lessons" : "/home", replace: true });
+        nav({ to: requestedCourse ? "/lessons" : "/home", replace: true });
       }
     } catch (e) {
       console.error(e);
@@ -340,7 +340,7 @@ function OnboardingPage() {
                       padding: "14px 18px",
                       borderRadius: "16px",
                       background: "var(--surface-raised)",
-                      border: `1px solid ${step === 0 && opt.val === demoCourse ? "var(--brand)" : "var(--border)"}`,
+                      border: `1px solid ${step === 0 && opt.val === requestedCourse ? "var(--brand)" : "var(--border)"}`,
                       color: "var(--text-primary)",
                       fontWeight: 700,
                       fontSize: "14px",
@@ -355,7 +355,7 @@ function OnboardingPage() {
                     <div className="flex items-center gap-3">
                       <span style={{ color: "var(--brand)" }}>{opt.icon}</span>
                       <span>{opt.label}</span>
-                      {step === 0 && opt.val === demoCourse && (
+                      {step === 0 && opt.val === requestedCourse && (
                         <small style={{ color: "var(--text-secondary)" }}>
                           {t("Sua escolha inicial", "Your initial choice", "Tu elección inicial")}
                         </small>
