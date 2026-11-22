@@ -51,30 +51,30 @@ try {
         path: `${output}/${engine.name()}-${width}-${theme}.png`,
         fullPage: true,
       });
-      const demo = page.locator(".lp-demo");
-      const verify = demo.getByRole("button", { name: "Verificar", exact: true });
+      const firstLesson = page.locator(".lp-lesson");
+      const verify = firstLesson.getByRole("button", { name: "Verificar", exact: true });
       assert.ok(await verify.isDisabled());
-      await demo.getByRole("button", { name: "Café", exact: true }).click();
+      await firstLesson.getByRole("button", { name: "Café", exact: true }).click();
       await verify.click();
-      await demo
+      await firstLesson
         .getByRole("status")
         .getByText(/Quase!/)
         .waitFor();
-      await demo.getByRole("button", { name: "Água", exact: true }).click();
+      await firstLesson.getByRole("button", { name: "Água", exact: true }).click();
       await verify.click();
-      await demo
+      await firstLesson
         .getByRole("status")
         .getByText(/Acertou!/)
         .waitFor();
       assert.equal(
-        await demo.getByRole("link", { name: "Quero continuar" }).getAttribute("href"),
+        await firstLesson.getByRole("link", { name: "Quero continuar" }).getAttribute("href"),
         "/signup?course=en",
       );
-      await demo.getByRole("button", { name: "Español", exact: true }).click();
+      await firstLesson.getByRole("button", { name: "Español", exact: true }).click();
       assert.ok(await verify.isDisabled());
-      await demo.getByRole("button", { name: "Reserva", exact: true }).click();
+      await firstLesson.getByRole("button", { name: "Reserva", exact: true }).click();
       await verify.click();
-      await demo.getByRole("link", { name: "Quero continuar" }).waitFor();
+      await firstLesson.getByRole("link", { name: "Quero continuar" }).waitFor();
       for (const summary of await page.locator(".landing-faq summary").all()) await summary.click();
       assert.equal(await page.locator(".landing-faq details[open]").count(), 3);
       if (width === 390 && theme === "light") {
@@ -96,7 +96,7 @@ try {
         await page.waitForURL(/\/signup$/);
       }
       assert.deepEqual(errors, []);
-      console.log("PASS", engine.name(), width, theme, "contrast, fit, demo feedback and FAQ");
+      console.log("PASS", engine.name(), width, theme, "contrast, fit, lesson feedback and FAQ");
       await context.close();
     }
 } finally {

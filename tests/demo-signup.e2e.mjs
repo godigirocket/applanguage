@@ -48,11 +48,11 @@ try {
     const errors = [];
     page.on("pageerror", error => errors.push(error.message));
     await page.goto(origin.href);
-    const demo = page.locator(".lp-demo");
-    await demo.getByRole("button", { name: "Español", exact: true }).click();
-    await demo.getByRole("button", { name: "Reserva", exact: true }).click();
-    await demo.getByRole("button", { name: "Verificar", exact: true }).click();
-    await demo.getByRole("link", { name: "Quero continuar", exact: true }).click();
+    const firstLesson = page.locator(".lp-lesson");
+    await firstLesson.getByRole("button", { name: "Español", exact: true }).click();
+    await firstLesson.getByRole("button", { name: "Reserva", exact: true }).click();
+    await firstLesson.getByRole("button", { name: "Verificar", exact: true }).click();
+    await firstLesson.getByRole("link", { name: "Quero continuar", exact: true }).click();
     await page.waitForURL(url => url.pathname === "/signup" && url.searchParams.get("course") === "es");
     await page.locator("input[type=email]").fill(account.email);
     for (const field of await page.locator("input[type=password]").all()) await field.fill("test-password-only");
@@ -77,7 +77,7 @@ try {
     assert.equal(profile.target_language, "es");
     assert.equal(profile.onboarding_done, true);
     assert.deepEqual(errors, []);
-    console.log("PASS demo to first Spanish lesson", confirmEmail ? "email confirmation" : "immediate session");
+    console.log("PASS first Spanish lesson to signup", confirmEmail ? "email confirmation" : "immediate session");
     await context.close();
   }
 } finally {
