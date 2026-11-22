@@ -3052,6 +3052,20 @@ a:hover .lume-logo-mark {
 }
 
 /* Logged-in studio: the landing's passport language continues into practice. */
+.home-route-section { max-width: 1400px; margin: 0 auto; padding: 28px 24px 0; }
+.home-route-section-heading { display:flex; align-items:end; justify-content:space-between; gap:16px; margin-bottom:14px; }
+.home-route-section-heading > div > span { display:block; color:var(--brand); font-size:.68rem; font-weight:900; letter-spacing:.09em; }
+.home-route-section-heading h2 { margin:4px 0 0; color:var(--text-primary); font-size:clamp(1.28rem, 3vw, 1.7rem); letter-spacing:-.045em; }
+.home-route-section-heading > a { display:inline-flex; align-items:center; gap:3px; color:var(--brand); font-size:.83rem; font-weight:850; text-decoration:none; white-space:nowrap; }
+.home-route-map { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:10px; padding:0; margin:0; list-style:none; }
+.home-route-map li { min-width:0; display:grid; grid-template-columns:42px minmax(0,1fr); align-items:center; gap:11px; padding:13px; border:1px solid var(--border); border-radius:16px; background:var(--surface-raised); box-shadow:0 3px 0 color-mix(in srgb, var(--border) 70%, transparent); }
+.home-route-map li.is-current { border-color:color-mix(in srgb, var(--brand) 55%, var(--border)); background:color-mix(in srgb, var(--surface-raised) 89%, var(--brand) 11%); }
+.home-route-stop { display:grid; width:40px; height:40px; place-items:center; border-radius:13px; color:var(--text-secondary); background:var(--border); font-size:.72rem; font-weight:900; }
+.home-route-map .is-current .home-route-stop { color:#fff; background:var(--brand); }
+.home-route-map a { min-width:0; color:var(--text-primary); text-decoration:none; }
+.home-route-map strong,.home-route-map small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.home-route-map strong { font-size:.88rem; letter-spacing:-.02em; }.home-route-map small { margin-top:3px; color:var(--text-secondary); font-size:.72rem; font-weight:700; }
+@media (max-width: 650px) { .home-route-section { padding-inline:16px; } .home-route-map { grid-template-columns:1fr; } .home-route-section-heading h2 { font-size:1.35rem; } }
 .home-journey-card {
   width: 100%;
   max-width: 500px;

@@ -76,7 +76,7 @@ const examples = {
 } as const;
 type Course = keyof typeof examples;
 
-function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
+function LandingLesson({ t, locale }: { t: Copy; locale: string }) {
   const ready = useClientReady();
   const [course, setCourse] = useState<Course>("en");
   const [selected, setSelected] = useState<number | null>(null);
@@ -92,13 +92,13 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
     <div className="lp-stage" id="experimentar" tabIndex={-1} data-result={result || undefined}>
       <div className="lp-stage-top">
         <span>
-          <Sparkles size={15} /> {t("PRÁTICA EXPRESSA", "QUICK PRACTICE", "PRÁCTICA RÁPIDA")}
+          <Sparkles size={15} /> {t("SUA PRIMEIRA LIÇÃO", "YOUR FIRST LESSON", "TU PRIMERA LECCIÓN")}
         </span>
         <span>01 / 01</span>
       </div>
-      <div className="lp-demo">
+      <div className="lp-lesson">
         <div
-          className="lp-demo-languages"
+          className="lp-lesson-languages"
           role="group"
           aria-label={t("Idioma da prática", "Practice language", "Idioma de práctica")}
         >
@@ -171,13 +171,13 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
             </button>
           ))}
         </div>
-        <div className="lp-demo-action">
+        <div className="lp-lesson-action">
           {result === "correct" ? (
             <Link
               to="/signup"
               search={{ course }}
               className="lp-button"
-              onClick={() => productEvent("landing_signup", { placement: "demo" })}
+              onClick={() => productEvent("landing_signup", { placement: "first_lesson" })}
             >
               {t("Quero continuar", "Keep learning", "Quiero continuar")} <ArrowRight size={17} />
             </Link>
@@ -192,7 +192,7 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
                 setResult(correct ? "correct" : "retry");
                 if (correct) sounds.playQuizCorrect();
                 else sounds.playQuizWrong();
-                productEvent("landing_demo_answer", {
+                productEvent("landing_lesson_answer", {
                   course,
                   result: correct ? "correct" : "retry",
                 });
@@ -215,9 +215,9 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
                     "¡Casi! Elige otra respuesta.",
                   )
                 : t(
-                    "Prática rápida, sem cadastro",
-                    "A quick practice, no sign-up needed",
-                    "Práctica rápida, sin registro",
+                    "Escolha uma resposta para seguir.",
+                    "Choose an answer to continue.",
+                    "Elige una respuesta para continuar.",
                   )}
           </p>
           {result && (
@@ -277,6 +277,42 @@ function ProductPreviews({ t }: { t: Copy }) {
           <footer><MapPin size={16} /> {t("Vocabulário útil", "Useful vocabulary", "Vocabulario útil")}</footer>
         </article>
       </div>
+    </section>
+  );
+}
+
+function PracticeRhythm({ t }: { t: Copy }) {
+  const steps = [
+    {
+      icon: BookOpen,
+      title: t("Escolha uma situação", "Choose a situation", "Elige una situación"),
+      body: t("Viagem, trabalho ou dia a dia — comece pelo que você quer usar.", "Travel, work or everyday life — start with what you want to use.", "Viajes, trabajo o día a día: empieza por lo que quieras usar."),
+    },
+    {
+      icon: Headphones,
+      title: t("Pratique com contexto", "Practice in context", "Practica con contexto"),
+      body: t("Leia, ouça, responda e fale dentro de uma mesma sequência.", "Read, listen, answer and speak in one focused sequence.", "Lee, escucha, responde y habla en una misma secuencia."),
+    },
+    {
+      icon: Sparkles,
+      title: t("Volte no momento certo", "Return at the right time", "Vuelve en el momento adecuado"),
+      body: t("As palavras que pedem revisão reaparecem na sua rotina.", "Words that need review return to your routine.", "Las palabras que necesitan repaso vuelven a tu rutina."),
+    },
+  ];
+  return (
+    <section className="lp-rhythm" aria-labelledby="lp-rhythm-title">
+      <div className="lp-section-heading">
+        <span className="lp-kicker">{t("UMA ROTINA QUE SE SUSTENTA", "A ROUTINE THAT LASTS", "UNA RUTINA QUE PERDURA")}</span>
+        <h2 id="lp-rhythm-title">{t("Cinco minutos. Um passo que fica.", "Five minutes. Progress that stays.", "Cinco minutos. Un avance que se queda.")}</h2>
+      </div>
+      <ol>
+        {steps.map(({ icon: Icon, title, body }) => (
+          <li key={title}>
+            <span className="lp-rhythm-icon"><Icon size={20} /></span>
+            <div><strong>{title}</strong><p>{body}</p></div>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
@@ -446,7 +482,7 @@ function Landing() {
               )}
             </div>
           </div>
-          <LandingDemo t={t} locale={lang} />
+          <LandingLesson t={t} locale={lang} />
         </section>
         <div className="lp-language-bar">
           <span>
@@ -463,6 +499,7 @@ function Landing() {
           ))}
         </div>
         <ProductPreviews t={t} />
+        <PracticeRhythm t={t} />
         <section className="lp-section" aria-labelledby="lp-method">
           <div className="lp-section-heading">
             <span className="lp-kicker">

@@ -1,9 +1,9 @@
 import { track } from "@vercel/analytics";
 
 type Events = {
-  landing_signup: { placement: "hero" | "demo" | "offer" };
+  landing_signup: { placement: "hero" | "first_lesson" | "offer" };
   landing_pricing: { placement: "offer" };
-  landing_demo_answer: { course: "en" | "es" | "pt"; result: "correct" | "retry" };
+  landing_lesson_answer: { course: "en" | "es" | "pt"; result: "correct" | "retry" };
   signup_accepted: { course: "en" | "es" | "pt" | "none" };
   onboarding_completed: { course: "en" | "es" | "pt"; source: "demo" | "direct" };
   lesson_start: { device: "mobile" | "desktop" };
