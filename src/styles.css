@@ -6022,3 +6022,37 @@ img {
   .home-greeting-row { align-items: flex-start !important; }
   .duo-speech-bubble { max-width: 100% !important; }
 }
+
+/* Final home polish: a single compact mobile hero and actions that never
+   allow copy to outrun their edge. These rules intentionally live after the
+   older button families above. */
+body .btn-premium,
+body .btn-secondary-premium,
+body .lume-auth-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 0;
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  padding: 13px 18px;
+  line-height: 1.2;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+body .btn-premium svg,
+body .btn-secondary-premium svg,
+body .lume-auth-submit svg { flex: 0 0 auto; }
+body .home-resume-action { width: fit-content; max-width: 100%; }
+@media (max-width: 767px) {
+  body .home-hero-premium { padding: 22px 20px 24px !important; overflow: clip; }
+  body .home-greeting-row { align-items: flex-start !important; gap: 11px !important; margin-bottom: 8px !important; }
+  body .home-greeting-row > button { width: 66px; height: 66px; flex: 0 0 66px; }
+  body .home-greeting-row .lume-companion { width: 66px !important; height: 66px !important; }
+  body .home-greeting-row .home-greeting-orb { width: 27px; height: 27px; right: -5px; bottom: -2px; }
+  body .home-greeting-row h1 { font-size: clamp(1.55rem, 7.3vw, 2rem) !important; line-height: 1.08 !important; }
+  body .duo-speech-bubble { width: 100%; margin-top: 9px !important; padding: 9px 11px !important; font-size: 12px !important; }
+  body .home-greeting-description { margin: 12px 0 17px !important; font-size: 15px !important; line-height: 1.45 !important; }
+  body .home-resume-action { width: 100%; min-height: 50px; margin-bottom: 18px; font-size: clamp(.8rem, 3.5vw, .94rem); }
+}

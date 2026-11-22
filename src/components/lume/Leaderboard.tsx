@@ -110,7 +110,7 @@ export function Leaderboard() {
           xp,
           isCurrentUser: true,
           avatarColor: hashPick(user.id, AVATAR_COLORS),
-          avatarUrl: null,
+          avatarUrl: visibleAvatar(typeof user.user_metadata?.avatar_url === "string" ? user.user_metadata.avatar_url : null),
           character: hashPick(user.id, CHARACTERS),
         });
       }
@@ -238,7 +238,9 @@ export function Leaderboard() {
             gap: "6px",
           }}
         >
-          {isPT ? "XP acumulado" : uiFallback("Total XP")}
+          {players && players.length > 1
+            ? (isPT ? `${players.length} pessoas no ranking` : uiFallback(`${players.length} people ranked`))
+            : (isPT ? "XP acumulado" : uiFallback("Total XP"))}
         </span>
       </div>
 
