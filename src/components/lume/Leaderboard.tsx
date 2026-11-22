@@ -20,6 +20,7 @@ interface Player {
   xp: number;
   isCurrentUser: boolean;
   avatarColor: string;
+  avatarUrl?: string | null;
   character: "celebrating" | "runner" | "thinking" | "reading" | "speaking" | "waving";
 }
 
@@ -57,10 +58,20 @@ interface LeaderboardRow {
   avatar_url: string | null;
 }
 
-// Obvious placeholder/seed accounts from the backend (e.g. a "Lume Demo" row
-// created while setting up the project) — filtered out so a near-empty
-// leaderboard doesn't expose internal test data to real users.
-const PLACEHOLDER_NAME_PATTERN = /^(lume\s*demo|test|demo\s*user|placeholder)/i;
+// Never present fixture accounts as members of the community. This remains a
+// client guard for existing databases; the matching database function is also
+// updated in the accompanying migration.
+const SEED_NAME_PATTERN = /(?:^|\s)(?:lume|langlume)\s*(?:demo|test)|^(?:demo|test|placeholder)(?:\s|$)/i;
+
+function visibleAvatar(url: string | null) {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === "https:" || parsed.protocol === "http:" ? parsed.href : null;
+  } catch {
+    return null;
+  }
+}
 
 export function Leaderboard() {
   const { xp, interfaceLanguage } = useStore();
@@ -72,14 +83,12 @@ export function Leaderboard() {
     let cancelled = false;
     supabase.rpc("get_leaderboard", { limit_count: 20 }).then(({ data, error }) => {
       if (cancelled) return;
-      // A fetch error still falls through to the seed-blend below instead
-      // of showing an empty league — a network hiccup shouldn't make the
-      // leaderboard look dead.
+      // A fetch error is represented honestly as an empty community list.
       const rows: LeaderboardRow[] = error
         ? []
         : (data || []).filter(
             (row: LeaderboardRow) =>
-              !row.full_name || !PLACEHOLDER_NAME_PATTERN.test(row.full_name),
+              !row.full_name || !SEED_NAME_PATTERN.test(row.full_name),
           );
       const mapped: Player[] = rows.map((row) => ({
         id: row.id,
@@ -87,6 +96,7 @@ export function Leaderboard() {
         xp: row.xp,
         isCurrentUser: user?.id === row.id,
         avatarColor: hashPick(row.id, AVATAR_COLORS),
+        avatarUrl: visibleAvatar(row.avatar_url),
         character: hashPick(row.id, CHARACTERS),
       }));
 
@@ -100,6 +110,7 @@ export function Leaderboard() {
           xp,
           isCurrentUser: true,
           avatarColor: hashPick(user.id, AVATAR_COLORS),
+          avatarUrl: null,
           character: hashPick(user.id, CHARACTERS),
         });
       }
@@ -188,8 +199,6 @@ export function Leaderboard() {
     return <Component size={size} />;
   };
 
-  const daysLeft = 7 - new Date().getDay();
-
   return (
     <div
       style={{
@@ -217,28 +226,19 @@ export function Leaderboard() {
           }}
         >
           <Trophy size={24} color="#D4A23B" />
-          <span>{isPT ? "Liga Ouro" : uiFallback("Gold League")}</span>
+          <span>{isPT ? "Ranking da comunidade" : uiFallback("Community ranking")}</span>
         </h3>
         <span
           style={{
             fontSize: "11px",
             fontWeight: 800,
-            color: "#FF6B35",
+            color: "var(--text-secondary)",
             display: "flex",
             alignItems: "center",
             gap: "6px",
           }}
         >
-          <span
-            style={{
-              width: "8px",
-              height: "8px",
-              borderRadius: "50%",
-              background: "#FF6B35",
-              animation: "pulse 2s infinite",
-            }}
-          />
-          {isPT ? `${daysLeft}d restantes` : `${daysLeft}d left`}
+          {isPT ? "XP acumulado" : uiFallback("Total XP")}
         </span>
       </div>
 
@@ -316,7 +316,9 @@ export function Leaderboard() {
                         border: "2px solid rgba(255,255,255,0.15)",
                       }}
                     >
-                      {getCharacterComponent(player.character, 28)}
+                      {player.avatarUrl ? (
+                        <img src={player.avatarUrl} alt="" width="42" height="42" style={{ width: "42px", height: "42px", borderRadius: "50%", objectFit: "cover" }} />
+                      ) : getCharacterComponent(player.character, 28)}
                     </div>
                     <span
                       style={{

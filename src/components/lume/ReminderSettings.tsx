@@ -90,11 +90,11 @@ export function ReminderSettings({ ui }: { ui: "pt" | "en" | "es" }) {
                   )
                 : state.enabled
                   ? t(
-                      "Lembrete ativado neste aparelho",
-                      "Reminder enabled on this device",
-                      "Recordatorio activado en este dispositivo",
+                      "Serviço online · lembrete ativado neste aparelho",
+                      "Service online · reminder enabled on this device",
+                      "Servicio en línea · recordatorio activado en este dispositivo",
                     )
-                  : t("Lembrete desativado", "Reminder off", "Recordatorio desactivado")}
+                  : t("Serviço online · lembrete desativado", "Service online · reminder off", "Servicio en línea · recordatorio desactivado")}
           </p>
           <button
             className="voice-preview"
