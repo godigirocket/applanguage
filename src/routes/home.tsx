@@ -41,6 +41,7 @@ import { Mascot } from "@/components/lume/Mascot";
 import { sounds } from "@/lib/soundEffects";
 import { getReviewCount } from "@/lib/spaced-repetition";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
+import { formatFreeAccess, getFreeAccessState } from "@/lib/free-access";
 import { FlagByEmoji } from "@/components/lume/Flags";
 
 export const Route = createFileRoute("/home")({
@@ -57,6 +58,7 @@ function HomePage() {
     useStore();
   const { data: profile } = useProfile(user?.id);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [dailyFreeAccess, setDailyFreeAccess] = useState(() => getFreeAccessState());
 
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
@@ -129,6 +131,13 @@ function HomePage() {
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const update = () => setDailyFreeAccess(getFreeAccessState());
+    update();
+    const timer = window.setInterval(update, 15_000);
+    return () => window.clearInterval(timer);
   }, []);
 
   if (loading) {
@@ -430,6 +439,23 @@ function HomePage() {
               >
                 {isPT ? "Ver Planos" : uiFallback("See Plans")}
               </Link>
+            </div>
+          </section>
+        )}
+
+        {!isTrialActive() && (
+          <section style={{ maxWidth: "1400px", margin: "0 auto", padding: "16px 24px 0" }}>
+            <div className="lume-free-time-banner">
+              <span className="lume-icon-orb" style={{ width: 44, height: 44 }}><Clock size={20} /></span>
+              <div>
+                <strong>{isPT ? "Prática gratuita de hoje" : isES ? "Práctica gratuita de hoy" : "Today's free practice"}</strong>
+                <p>
+                  {dailyFreeAccess.exhausted
+                    ? (isPT ? "Seu tempo gratuito volta amanhã." : isES ? "Tu tiempo gratuito vuelve mañana." : "Your free time returns tomorrow.")
+                    : (isPT ? `Você ainda tem ${formatFreeAccess(dailyFreeAccess.remainingSeconds)} para praticar hoje.` : isES ? `Aún tienes ${formatFreeAccess(dailyFreeAccess.remainingSeconds)} para practicar hoy.` : `You still have ${formatFreeAccess(dailyFreeAccess.remainingSeconds)} to practice today.`)}
+                </p>
+              </div>
+              <Link to="/pricing" className="lume-free-time-link">{isPT ? "Ver planos" : isES ? "Ver planes" : "See plans"}</Link>
             </div>
           </section>
         )}

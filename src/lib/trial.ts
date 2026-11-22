@@ -10,10 +10,22 @@ import { accountKey } from "@/lib/account-storage";
 const TRIAL_KEY = "lume_trial_started";
 const TRIAL_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-export function startTrial(): void {
+export function startTrial(createdAt?: string | number | null): void {
   if (typeof window === "undefined") return;
   if (!localStorage.getItem(accountKey(TRIAL_KEY))) {
-    localStorage.setItem(accountKey(TRIAL_KEY), Date.now().toString());
+    const accountCreatedAt =
+      typeof createdAt === "number"
+        ? createdAt
+        : typeof createdAt === "string"
+          ? Date.parse(createdAt)
+          : Number.NaN;
+    // The benefit belongs to a newly created account, not to the first device
+    // that happens to sign in later. Invalid/missing dates safely fall back to
+    // the current time for older auth providers.
+    localStorage.setItem(
+      accountKey(TRIAL_KEY),
+      String(Number.isFinite(accountCreatedAt) ? accountCreatedAt : Date.now()),
+    );
   }
 }
 

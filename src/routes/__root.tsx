@@ -32,6 +32,9 @@ import { Analytics } from "@vercel/analytics/react";
 import { observeContentPaint } from "@/lib/product-metrics";
 import { trackActivity } from "@/lib/notifications";
 import { isTrialActive, getTrialRemainingFormatted } from "@/lib/trial";
+import { getFreeAccessState, pauseFreeAccess, recordFreeAccess } from "@/lib/free-access";
+import { hasPremiumEntitlement } from "@/lib/entitlements";
+import { FreeAccessGate } from "@/components/FreeAccessGate";
 import { warmSpeechVoices, stopSpeaking } from "@/lib/language-apis/webSpeech";
 
 import appCss from "../styles.css?url";
@@ -267,6 +270,7 @@ function RootInner() {
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
   const [storeHydrated, setStoreHydrated] = useState(false);
+  const [freeAccess, setFreeAccess] = useState(() => getFreeAccessState());
   const { data: remoteProfile } = useProfile(storeHydrated ? user?.id : undefined);
 
   // Monitor async store hydration
@@ -329,6 +333,32 @@ function RootInner() {
     currentPath.startsWith("/quiz-play") ||
     currentPath.startsWith("/play/") ||
       isLesson;
+
+  const isPaid = hasPremiumEntitlement(remoteProfile);
+  const freeAccessRoute = !isAuthOrLanding && currentPath !== "/pricing" && currentPath !== "/checkout";
+  const shouldMeterFreeAccess = Boolean(
+    user && remoteProfile !== undefined && freeAccessRoute && !isPaid && !isTrialActive(),
+  );
+
+  useEffect(() => {
+    if (!shouldMeterFreeAccess) {
+      pauseFreeAccess();
+      setFreeAccess(getFreeAccessState());
+      return;
+    }
+    const tick = () => {
+      if (document.visibilityState === "visible") setFreeAccess(recordFreeAccess());
+      else pauseFreeAccess();
+    };
+    tick();
+    const timer = window.setInterval(tick, 15_000);
+    document.addEventListener("visibilitychange", tick);
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", tick);
+      pauseFreeAccess();
+    };
+  }, [shouldMeterFreeAccess, currentPath]);
 
   // Synchronize user level from Supabase DB on auth load
   useEffect(() => {
@@ -435,6 +465,8 @@ function RootInner() {
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
+      // Answer controls play their own distinct correct/incorrect cue.
+      if (target.closest("[data-feedback-sound]")) return;
 
       if (
         target.tagName === "BUTTON" ||
@@ -577,6 +609,9 @@ function RootInner() {
         <Suspense fallback={null}>
           <DifficultyPopup />
         </Suspense>
+      )}
+      {shouldMeterFreeAccess && freeAccess.exhausted && (
+        <FreeAccessGate language={interfaceLanguage} />
       )}
 
       {/* Global Toaster */}

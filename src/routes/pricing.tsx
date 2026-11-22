@@ -33,10 +33,10 @@ function PricingPage() {
   const t = {
     title: isPT ? "Escolha Seu Plano" : isES ? "Elige Tu Plan" : "Choose Your Plan",
     subtitle: isPT
-      ? "Comece grátis e faça upgrade quando estiver pronto para desbloquear todo o potencial"
+      ? "Conta nova recebe 24h completas. Depois, você pratica 20 minutos por dia sem pagar."
       : isES
-        ? "Comienza gratis y actualiza cuando estés listo para desbloquear todo el potencial"
-        : "Start free and upgrade when you're ready to unlock full potential",
+        ? "Una cuenta nueva recibe 24 horas completas. Después, practica 20 minutos al día gratis."
+        : "A new account gets 24 full hours. Then you can practise 20 minutes free each day.",
     monthly: isPT ? "Mensal" : isES ? "Mensual" : "Monthly",
     annual: isPT ? "Anual" : isES ? "Anual" : "Annual",
     perMonth: isPT ? "/mês" : isES ? "/mes" : "/month",

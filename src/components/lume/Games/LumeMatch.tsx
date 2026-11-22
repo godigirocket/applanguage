@@ -133,7 +133,7 @@ export function LumeMatch() {
         newMatched.add(selectedLeft.id);
         setMatchedIds(newMatched);
 
-        sounds.playClick();
+        sounds.playQuizCorrect();
         handleSpeak(selectedLeft.word);
 
         setSelectedLeft(null);
@@ -165,7 +165,7 @@ export function LumeMatch() {
         setIncorrectIds(newIncorrect);
 
         setAttempts((a) => a + 1);
-        sounds.playClick(); // play generic feedback
+        sounds.playQuizWrong();
 
         setTimeout(() => {
           setSelectedLeft(null);

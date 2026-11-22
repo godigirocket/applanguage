@@ -182,9 +182,9 @@ export function CulturalTrivia() {
     const q = questions[currentIdx];
     if (selected === q.correct) {
       setScore((s) => s + 1);
-      sounds.playClick(); // play correct
+      sounds.playQuizCorrect();
     } else {
-      sounds.playClick(); // play wrong
+      sounds.playQuizWrong();
     }
   };
 

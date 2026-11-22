@@ -5,6 +5,7 @@ import {
   ArrowRight,
   BookOpen,
   Check,
+  Clock,
   Gamepad2,
   Globe2,
   Headphones,
@@ -20,6 +21,7 @@ import { useStore } from "@/hooks/useStore";
 import { useClientReady } from "@/hooks/useClientReady";
 import { speak, stopSpeaking } from "@/lib/language-apis/webSpeech";
 import { productEvent } from "@/lib/product-metrics";
+import { sounds } from "@/lib/soundEffects";
 import "@/components/lume/landing.css";
 
 export const Route = createFileRoute("/")({
@@ -183,10 +185,13 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
             <button
               type="button"
               className="lp-button"
+              data-feedback-sound
               disabled={selected === null || result === "retry"}
               onClick={() => {
                 const correct = selected === item.correct;
                 setResult(correct ? "correct" : "retry");
+                if (correct) sounds.playQuizCorrect();
+                else sounds.playQuizWrong();
                 productEvent("landing_demo_answer", {
                   course,
                   result: correct ? "correct" : "retry",
@@ -215,6 +220,13 @@ function LandingDemo({ t, locale }: { t: Copy; locale: string }) {
                     "Práctica rápida, sin registro",
                   )}
           </p>
+          {result && (
+            <div className={`lp-result lp-result--${result}`} role="status">
+              {result === "correct"
+                ? t("Resposta certa — você acertou de primeira.", "Correct answer — you got it on the first try.", "Respuesta correcta: acertaste a la primera.")
+                : t("Quase — tente outra opção.", "Almost — try another option.", "Casi — prueba otra opción.")}
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -404,6 +416,14 @@ function Landing() {
                 "Aprende inglés, español o portugués con lecciones cortas, juegos y conversaciones para situaciones reales.",
               )}
             </p>
+            <div className="lp-free-rule">
+              <Clock size={17} />
+              {t(
+                "Conta nova: 24h completas. Depois, 20 min grátis por dia.",
+                "New account: 24 full hours. Then 20 free minutes each day.",
+                "Cuenta nueva: 24 horas completas. Después, 20 min gratis al día.",
+              )}
+            </div>
             <div className="lp-actions">
               <Link
                 to="/signup"

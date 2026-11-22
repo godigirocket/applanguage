@@ -43,7 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           publishedOwner = s?.user.id || null;
           setSession(s);
           setLoading(false);
-          if (s) startTrial();
+          if (s) startTrial(s.user.created_at);
         } catch {
           if (active && current === generation) {
             setSession(null);
