@@ -6056,3 +6056,146 @@ body .home-resume-action { width: fit-content; max-width: 100%; }
   body .home-greeting-description { margin: 12px 0 17px !important; font-size: 15px !important; line-height: 1.45 !important; }
   body .home-resume-action { width: 100%; min-height: 50px; margin-bottom: 18px; font-size: clamp(.8rem, 3.5vw, .94rem); }
 }
+
+/* --------------------------------------------------------------------------
+   Light theme reconciliation
+
+   The app used to paint the app heroes dark and then force every descendant
+   white. A later surface layer made those same heroes mint in light mode,
+   leaving white labels, borders and statistics floating on a pale canvas.
+   Keep the calm paper-and-ink light palette explicit here; dark mode retains
+   its night surface below. This deliberately comes last, after the legacy
+   hero families, so one semantic contract wins instead of competing rules.
+   -------------------------------------------------------------------------- */
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero,
+:root:not(.dark):not([data-theme="dark"]) .lume-community-hero,
+:root:not(.dark):not([data-theme="dark"]) .lume-profile-hero {
+  background: linear-gradient(135deg, #eff8f2 0%, #e4f2ea 100%) !important;
+  border-bottom: 1px solid #cfe1d7 !important;
+  box-shadow: none !important;
+  color: #173b33 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero :is(h1, h2, h3, p, span, div),
+:root:not(.dark):not([data-theme="dark"]) .lume-community-hero :is(h1, h2, h3, p, span, div),
+:root:not(.dark):not([data-theme="dark"]) .lume-profile-hero :is(h1, h2, h3, p, span, div) {
+  color: inherit !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero h1,
+:root:not(.dark):not([data-theme="dark"]) .lume-community-hero h1,
+:root:not(.dark):not([data-theme="dark"]) .lume-profile-hero h1 {
+  color: #143a31 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero p,
+:root:not(.dark):not([data-theme="dark"]) .lume-community-hero p,
+:root:not(.dark):not([data-theme="dark"]) .lume-profile-hero p {
+  color: #527168 !important;
+  opacity: 1 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-language-options > div {
+  color: #527168 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-language-options button {
+  background: #ffffff !important;
+  border-color: #bfd5c9 !important;
+  color: #1c463b !important;
+  box-shadow: 0 2px 0 rgba(23, 59, 51, 0.08);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-language-options button[aria-pressed="true"] {
+  background: #176b55 !important;
+  border-color: #176b55 !important;
+  color: #ffffff !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-summary-stats > div {
+  background: #ffffff !important;
+  border-color: #cfe1d7 !important;
+  box-shadow: 0 4px 12px rgba(23, 59, 51, 0.06);
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-summary-stats > div > div:first-of-type {
+  color: #173b33 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-lessons-hero .lesson-summary-stats > div > div:last-child {
+  color: #527168 !important;
+  opacity: 1 !important;
+}
+
+/* The progress card remains a deep waypoint in either theme. Its own copy
+   must never inherit the dark ink token used by the surrounding page. */
+.lume-learning-path-header,
+.lume-learning-path-header h2,
+.lume-learning-path-header > div,
+.lume-learning-path-header > div > div {
+  color: #ffffff !important;
+}
+
+.lume-learning-path-header p {
+  color: #d7efe2 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .path-node-locked {
+  background: #e4ece8 !important;
+  border-color: #d1ddd7 !important;
+  color: #758a82 !important;
+  opacity: 1;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .path-connector-locked {
+  background: #d9e3de !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-community-stats > div > div:last-child > div:first-child {
+  color: #173b33 !important;
+}
+
+:root:not(.dark):not([data-theme="dark"]) .lume-community-stats > div > div:last-child > div:last-child {
+  color: #527168 !important;
+}
+
+@media (max-width: 767px) {
+  .lume-community-content { padding: 20px 16px 104px !important; }
+  .lume-community-hero { padding: 28px 20px !important; }
+  .lume-community-hero h1 { font-size: clamp(2rem, 10vw, 2.55rem) !important; line-height: 1.03 !important; }
+  .lume-community-hero p { font-size: 16px !important; line-height: 1.45 !important; }
+  .lume-community-stats { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px !important; }
+  .lume-community-stats > div { min-width: 0; gap: 9px !important; }
+  .lume-community-stats > div:last-child { grid-column: 1 / -1; }
+  .lume-community-stats > div > div:first-child { width: 38px !important; height: 38px !important; flex: 0 0 38px; }
+  .lume-community-stats > div > div:last-child > div:first-child { font-size: 18px !important; }
+  .lume-community-stats > div > div:last-child > div:last-child { font-size: 11px !important; line-height: 1.25; }
+
+  .lume-live-strip { gap: 14px; }
+  .lume-pro-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; overflow: visible; padding: 0; }
+  .lume-pro-chip { display: inline-flex; min-width: 0; min-height: 42px; justify-content: center; gap: 5px; padding: 8px 6px; border-radius: 13px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+  .lume-pro-chip svg { width: 15px; height: 15px; flex: 0 0 auto; }
+
+  /* On a phone, filters are a compact chooser, not a desktop sidebar. */
+  .community-sidebar .lume-community-panel { padding: 16px !important; border-radius: 18px !important; }
+  .lume-community-filter-list,
+  .lume-community-tag-list { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px !important; }
+  .lume-filter-button { min-width: 0; min-height: 50px; padding: 10px 11px !important; gap: 8px !important; font-size: 13px !important; overflow: hidden; }
+  .lume-filter-button svg { width: 17px; height: 17px; flex: 0 0 auto; }
+  .lume-community-tag-list > div { min-width: 0; padding: 10px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .community-sidebar .lume-community-panel > div[style*="margin-top"] { margin-top: 20px !important; }
+
+  .lume-lessons-hero { padding: 24px 16px !important; }
+  .lume-lessons-hero h1 { font-size: clamp(2rem, 9.2vw, 2.5rem) !important; line-height: 1.06 !important; }
+  .lume-lessons-hero > div > div > p { margin-bottom: 22px !important; }
+  .lesson-summary-stats > div { min-height: 94px; display: flex; flex-direction: column; justify-content: center; }
+}
+
+.dark .lume-lessons-hero,
+[data-theme="dark"] .lume-lessons-hero,
+.dark .lume-community-hero,
+[data-theme="dark"] .lume-community-hero,
+.dark .lume-profile-hero,
+[data-theme="dark"] .lume-profile-hero {
+  background: linear-gradient(135deg, #102d31, #173b33) !important;
+}
