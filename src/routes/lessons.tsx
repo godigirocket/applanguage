@@ -299,6 +299,7 @@ function LessonsPage() {
                 ].map((lang) => (
                   <button
                     key={lang.code}
+                    aria-pressed={targetLanguage === lang.code}
                     onClick={() => {
                       useStore.getState().setTargetLanguage(lang.code);
                       // Clear filters when changing language
@@ -678,6 +679,7 @@ function LessonsPage() {
             >
               {/* Duolingo Unit Header Banner */}
               <div
+                className="lume-learning-path-header"
                 style={{
                   background: "linear-gradient(135deg, #216849 0%, #16493f 100%)",
                   borderRadius: "24px",
@@ -709,7 +711,9 @@ function LessonsPage() {
                     <Sparkles size={14} />
                     {selectedLevel !== "All"
                       ? `${isPT ? "Nível" : uiFallback("Level")} ${selectedLevel}`
-                      : isPT ? "Trilha Principal" : uiFallback("Main Path")}
+                      : isPT
+                        ? "Trilha Principal"
+                        : uiFallback("Main Path")}
                   </div>
                   <h2
                     style={{

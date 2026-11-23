@@ -355,7 +355,10 @@ function CommunityPage() {
             </p>
 
             {/* STATS BAR — real counts from get_community_stats(), not hardcoded */}
-            <div style={{ display: "flex", gap: "32px", marginTop: "20px", flexWrap: "wrap" }}>
+            <div
+              className="lume-community-stats"
+              style={{ display: "flex", gap: "32px", marginTop: "20px", flexWrap: "wrap" }}
+            >
               {[
                 {
                   icon: Users,
@@ -406,7 +409,10 @@ function CommunityPage() {
         </div>
 
         {/* MAIN CONTENT */}
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}>
+        <div
+          className="lume-community-content"
+          style={{ maxWidth: "1200px", margin: "0 auto", padding: "32px 24px" }}
+        >
           <section className="lume-live-strip">
             <div>
               <strong>{isPT ? "Aprenda em companhia" : uiFallback("Learn together")}</strong>
@@ -457,7 +463,10 @@ function CommunityPage() {
                   {isPT ? "Filtros" : uiFallback("Filters")}
                 </h3>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <div
+                  className="lume-community-filter-list"
+                  style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+                >
                   {POST_TYPES.map((type) => (
                     <button
                       key={type.id}
@@ -502,7 +511,10 @@ function CommunityPage() {
                   >
                     {isPT ? "Trending" : uiFallback("Trending")}
                   </h3>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  <div
+                    className="lume-community-tag-list"
+                    style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+                  >
                     {["#milestone", "#grammar", "#streak", "#culture"].map((tag) => (
                       <div
                         key={tag}
