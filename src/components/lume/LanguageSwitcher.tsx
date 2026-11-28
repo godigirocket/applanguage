@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth";
 import { FlagBR, FlagUS, FlagES } from "./Flags";
 import i18n from "@/i18n/config";
 import { useClientReady } from "@/hooks/useClientReady";
+import { toast } from "sonner";
 
 const TARGETS = [
   { code: "en" as const, label: "EN", name: "English", Flag: FlagUS },
@@ -27,6 +28,7 @@ export function LanguageSwitcher() {
   // only meant "you're learning X" while the UI stayed in whatever
   // interfaceLanguage was actually set.
   const currentInterface = TARGETS.find((l) => l.code === interfaceLanguage) || TARGETS[0];
+  const currentTarget = TARGETS.find((l) => l.code === targetLanguage) || TARGETS[0];
   const isPT = interfaceLanguage === "pt";
   const isES = interfaceLanguage === "es";
   const t = (pt: string, en: string, es: string) => (isPT ? pt : isES ? es : en);
@@ -47,6 +49,7 @@ export function LanguageSwitcher() {
   }, [handleOutside]);
 
   const handleSetTarget = async (code: "pt" | "en" | "es") => {
+    const selected = TARGETS.find((language) => language.code === code)!;
     setTargetLanguage(code);
     localStorage.setItem(accountKey("lume_target_language"), code);
     setOpen(false);
@@ -60,7 +63,23 @@ export function LanguageSwitcher() {
             console.warn("[LanguageSwitcher] Could not save target language:", error.message);
         });
     }
-    window.dispatchEvent(new Event("language-changed"));
+    window.dispatchEvent(
+      new CustomEvent("language-changed", { detail: { kind: "target", language: code } }),
+    );
+    toast.success(
+      t(
+        "Idioma de estudo atualizado",
+        "Learning language updated",
+        "Idioma de estudio actualizado",
+      ),
+      {
+        description: t(
+          `Agora você está aprendendo ${selected.name}.`,
+          `You are now learning ${selected.name}.`,
+          `Ahora estás aprendiendo ${selected.name}.`,
+        ),
+      },
+    );
   };
 
   const handleSetInterface = async (code: "pt" | "en" | "es") => {
@@ -102,12 +121,27 @@ export function LanguageSwitcher() {
           touchAction: "manipulation",
         }}
         aria-label="Language settings"
+        title={t(
+          `App em ${currentInterface.name}. Você está aprendendo ${currentTarget.name}.`,
+          `App in ${currentInterface.name}. You are learning ${currentTarget.name}.`,
+          `App en ${currentInterface.name}. Estás aprendiendo ${currentTarget.name}.`,
+        )}
         aria-expanded={open}
       >
         <currentInterface.Flag size={20} />
         <span style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.06em" }}>
           {currentInterface.label}
         </span>
+        <span
+          aria-hidden="true"
+          style={{
+            width: "1px",
+            height: "14px",
+            background: "currentColor",
+            opacity: 0.22,
+          }}
+        />
+        <currentTarget.Flag size={16} />
         <svg
           width="10"
           height="10"
@@ -162,7 +196,7 @@ export function LanguageSwitcher() {
                 marginBottom: "8px",
               }}
             >
-              {t("Quero Aprender (Alvo)", "I Want to Learn (Target)", "Quiero Aprender (Objetivo)")}
+              {t("Estou aprendendo", "I'm learning", "Estoy aprendiendo")}
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
               {TARGETS.map(({ code, label, name, Flag }) => (

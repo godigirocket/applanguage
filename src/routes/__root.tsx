@@ -13,7 +13,7 @@ import { safeUpsertProfile } from "@/lib/db";
 import { useProfile } from "@/hooks/useProfile";
 import { useLearningSync } from "@/hooks/useLearningSync";
 import { Toaster, toast } from "sonner";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { sounds } from "@/lib/soundEffects";
 import { useStore } from "@/hooks/useStore";
 import { useUserStore } from "@/store/userStore";
@@ -36,6 +36,7 @@ import { getFreeAccessState, pauseFreeAccess, recordFreeAccess } from "@/lib/fre
 import { hasPremiumEntitlement } from "@/lib/entitlements";
 import { FreeAccessGate } from "@/components/FreeAccessGate";
 import { warmSpeechVoices, stopSpeaking } from "@/lib/language-apis/webSpeech";
+import { accountKey } from "@/lib/account-storage";
 
 import appCss from "../styles.css?url";
 import layoutContractCss from "../styles/layout-contract.css?url";
@@ -252,9 +253,23 @@ function RootInner() {
   const { user, loading: authLoading } = useAuth();
   useEffect(observeContentPaint, []);
   useLearningSync(user?.id);
-  const interfaceLanguage = useStore((state) => state.interfaceLanguage);
-  const { isLocked, setIsLocked, pinCode, pinEnabled, learningLevel, setLearningLevel } = useStore(
+  const {
+    interfaceLanguage,
+    targetLanguage,
+    setTargetLanguage,
+    setInterfaceLanguage,
+    isLocked,
+    setIsLocked,
+    pinCode,
+    pinEnabled,
+    learningLevel,
+    setLearningLevel,
+  } = useStore(
     useShallow((s) => ({
+      interfaceLanguage: s.interfaceLanguage,
+      targetLanguage: s.targetLanguage,
+      setTargetLanguage: s.setTargetLanguage,
+      setInterfaceLanguage: s.setInterfaceLanguage,
       isLocked: s.isLocked,
       setIsLocked: s.setIsLocked,
       pinCode: s.pinCode,
@@ -272,6 +287,16 @@ function RootInner() {
   const [storeHydrated, setStoreHydrated] = useState(false);
   const [freeAccess, setFreeAccess] = useState(() => getFreeAccessState());
   const { data: remoteProfile } = useProfile(storeHydrated ? user?.id : undefined);
+  const hydratedLanguageUser = useRef<string | null>(null);
+  const changedLanguageLocally = useRef<string | null>(null);
+
+  useEffect(() => {
+    const rememberLocalLanguageChange = () => {
+      changedLanguageLocally.current = user?.id || "guest";
+    };
+    window.addEventListener("language-changed", rememberLocalLanguageChange);
+    return () => window.removeEventListener("language-changed", rememberLocalLanguageChange);
+  }, [user?.id]);
 
   // Monitor async store hydration
   useEffect(() => {
@@ -332,10 +357,11 @@ function RootInner() {
     currentPath === "/setup" ||
     currentPath.startsWith("/quiz-play") ||
     currentPath.startsWith("/play/") ||
-      isLesson;
+    isLesson;
 
   const isPaid = hasPremiumEntitlement(remoteProfile);
-  const freeAccessRoute = !isAuthOrLanding && currentPath !== "/pricing" && currentPath !== "/checkout";
+  const freeAccessRoute =
+    !isAuthOrLanding && currentPath !== "/pricing" && currentPath !== "/checkout";
   const shouldMeterFreeAccess = Boolean(
     user && remoteProfile !== undefined && freeAccessRoute && !isPaid && !isTrialActive(),
   );
@@ -385,6 +411,41 @@ function RootInner() {
       }
     })();
   }, [user?.id, storeHydrated, remoteProfile, setUserLevel, setLearningLevel]);
+
+  // A course selection belongs to the account, not the browser. Without this
+  // initial hydration a learner who opens a second device starts in the store
+  // default (English), even if their profile is set to study Portuguese.
+  // A deliberate selection made while the profile request is in flight wins
+  // over that older response, preventing a "snap back" after the click.
+  useEffect(() => {
+    if (!user || !storeHydrated || remoteProfile === undefined) return;
+    if (hydratedLanguageUser.current === user.id) return;
+    hydratedLanguageUser.current = user.id;
+    if (changedLanguageLocally.current === user.id) return;
+
+    const locallyChosenTarget = localStorage.getItem(accountKey("lume_target_language"));
+    const target =
+      locallyChosenTarget === "en" || locallyChosenTarget === "es" || locallyChosenTarget === "pt"
+        ? locallyChosenTarget
+        : (remoteProfile as any)?.target_language;
+    const ui = remoteProfile?.language;
+    if (target === "en" || target === "es" || target === "pt") {
+      setTargetLanguage(target);
+      localStorage.setItem(accountKey("lume_target_language"), target);
+    }
+    if (ui === "en" || ui === "es" || ui === "pt") {
+      setInterfaceLanguage(ui);
+      localStorage.setItem("lume_interface_language", ui);
+    }
+  }, [
+    user?.id,
+    storeHydrated,
+    remoteProfile,
+    targetLanguage,
+    interfaceLanguage,
+    setTargetLanguage,
+    setInterfaceLanguage,
+  ]);
 
   // Synchronize stores if they deviate
   useEffect(() => {
@@ -440,17 +501,22 @@ function RootInner() {
     let timer: ReturnType<typeof setTimeout>;
     const register = () => {
       timer = setTimeout(() => {
-        void navigator.serviceWorker.register("/sw.js").then(async () => {
-          // Very old builds registered a different worker that cached the
-          // document shell forever. Remove only that retired worker; keep the
-          // current offline lesson worker intact.
-          const registrations = await navigator.serviceWorker.getRegistrations();
-          await Promise.all(
-            registrations
-              .filter((registration) => registration.active?.scriptURL.endsWith("/service-worker.js"))
-              .map((registration) => registration.unregister()),
-          );
-        }).catch(() => {});
+        void navigator.serviceWorker
+          .register("/sw.js")
+          .then(async () => {
+            // Very old builds registered a different worker that cached the
+            // document shell forever. Remove only that retired worker; keep the
+            // current offline lesson worker intact.
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(
+              registrations
+                .filter((registration) =>
+                  registration.active?.scriptURL.endsWith("/service-worker.js"),
+                )
+                .map((registration) => registration.unregister()),
+            );
+          })
+          .catch(() => {});
       }, 3000);
     };
     if (document.readyState === "complete") register();

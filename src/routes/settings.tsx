@@ -54,6 +54,9 @@ function SettingsPage() {
   const handleTargetLanguage = (lang: AppLanguage) => {
     setTargetLanguage(lang);
     localStorage.setItem(accountKey("lume_target_language"), lang);
+    window.dispatchEvent(
+      new CustomEvent("language-changed", { detail: { kind: "target", language: lang } }),
+    );
     if (user) {
       supabase
         .from("profiles")
