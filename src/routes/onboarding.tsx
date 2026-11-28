@@ -1,10 +1,10 @@
-import { accountKey } from "@/lib/account-storage";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { safeQuery, supabase } from "@/lib/supabase";
 import { useAuth } from "@/lib/auth";
 import { useStore } from "@/hooks/useStore";
+import { accountKey } from "@/lib/account-storage";
 import { useUserStore, UserLevel } from "@/store/userStore";
 import { toast } from "sonner";
 import { LumeIllustration } from "@/components/lume/LumeIllustration";
@@ -37,53 +37,89 @@ const copyFor = (language: InterfaceLanguage, pt: string, en: string, es: string
 function baseSteps(language: InterfaceLanguage) {
   const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
   return [
-  {
-    id: 1,
-    question: t("Qual idioma você quer aprender?", "Which language do you want to learn?", "¿Qué idioma quieres aprender?"),
-    field: "target_language",
-    type: "options",
-    options: [
-      { label: "English", val: "en", icon: <MessageCircle size={20} /> },
-      { label: "Español", val: "es", icon: <MessageCircle size={20} /> },
-      { label: "Português", val: "pt", icon: <MessageCircle size={20} /> },
-    ],
-  },
-  {
-    id: 2,
-    question: t("Qual é o seu nível?", "What is your current level?", "¿Cuál es tu nivel actual?"),
-    field: "level",
-    type: "options",
-    options: [
-      { label: t("Iniciante", "Beginner", "Principiante"), val: "beginner", icon: <Sprout size={20} /> },
-      { label: t("Intermediário", "Intermediate", "Intermedio"), val: "intermediate", icon: <Star size={20} /> },
-      { label: t("Avançado", "Advanced", "Advanced"), val: "advanced", icon: <Flame size={20} /> },
-    ],
-  },
-  {
-    id: 3,
-    question: t("Para quem é essa conta?", "Who is this account for?", "¿Para quién es esta cuenta?"),
-    field: "account_type",
-    type: "options",
-    options: [
-      { label: t("Para mim", "For me", "Para mí"), val: "adult", icon: <Star size={20} /> },
-      { label: t("Para uma criança (4-10 anos)", "For a child (ages 4–10)", "Para una niña o niño (4–10 años)"), val: "kid", icon: <Heart size={20} /> },
-    ],
-  },
+    {
+      id: 1,
+      question: t(
+        "Qual idioma você quer aprender?",
+        "Which language do you want to learn?",
+        "¿Qué idioma quieres aprender?",
+      ),
+      field: "target_language",
+      type: "options",
+      options: [
+        { label: "English", val: "en", icon: <MessageCircle size={20} /> },
+        { label: "Español", val: "es", icon: <MessageCircle size={20} /> },
+        { label: "Português", val: "pt", icon: <MessageCircle size={20} /> },
+      ],
+    },
+    {
+      id: 2,
+      question: t(
+        "Qual é o seu nível?",
+        "What is your current level?",
+        "¿Cuál es tu nivel actual?",
+      ),
+      field: "level",
+      type: "options",
+      options: [
+        {
+          label: t("Iniciante", "Beginner", "Principiante"),
+          val: "beginner",
+          icon: <Sprout size={20} />,
+        },
+        {
+          label: t("Intermediário", "Intermediate", "Intermedio"),
+          val: "intermediate",
+          icon: <Star size={20} />,
+        },
+        {
+          label: t("Avançado", "Advanced", "Advanced"),
+          val: "advanced",
+          icon: <Flame size={20} />,
+        },
+      ],
+    },
+    {
+      id: 3,
+      question: t(
+        "Para quem é essa conta?",
+        "Who is this account for?",
+        "¿Para quién es esta cuenta?",
+      ),
+      field: "account_type",
+      type: "options",
+      options: [
+        { label: t("Para mim", "For me", "Para mí"), val: "adult", icon: <Star size={20} /> },
+        {
+          label: t(
+            "Para uma criança (4-10 anos)",
+            "For a child (ages 4–10)",
+            "Para una niña o niño (4–10 años)",
+          ),
+          val: "kid",
+          icon: <Heart size={20} />,
+        },
+      ],
+    },
   ];
 }
 
 function kidAgeStep(language: InterfaceLanguage) {
   const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
   return {
-  id: 4,
-  question: t("Qual a idade da criança?", "How old is the child?", "¿Qué edad tiene la niña o el niño?"),
-  field: "kid_age",
-  type: "options",
-  options: [
-    { label: "4-6 anos", val: "5", icon: <Sprout size={20} /> },
-    { label: "7-8 anos", val: "7", icon: <Star size={20} /> },
-    { label: "9-10 anos", val: "9", icon: <Flame size={20} /> },
-  ],
+    id: 4,
+    question: t(
+      "Qual a idade da criança?",
+      "How old is the child?",
+      "¿Qué edad tiene la niña o el niño?",
+    ),
+    field: "kid_age",
+    type: "options",
+    options: [
+      { label: "4-6 anos", val: "5", icon: <Sprout size={20} /> },
+      { label: "7-8 anos", val: "7", icon: <Star size={20} /> },
+      { label: "9-10 anos", val: "9", icon: <Flame size={20} /> },
+    ],
   };
 }
 
@@ -102,14 +138,18 @@ function OnboardingPage() {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [isSaving, setIsSaving] = useState(false);
 
-  const language: InterfaceLanguage = interfaceLanguage === "es" ? "es" : interfaceLanguage === "pt" ? "pt" : "en";
+  const language: InterfaceLanguage =
+    interfaceLanguage === "es" ? "es" : interfaceLanguage === "pt" ? "pt" : "en";
   const t = (pt: string, en: string, es: string) => copyFor(language, pt, en, es);
   const steps = getSteps(answers, language);
   const requestedCourse = course ?? parseCourse(user?.user_metadata.requested_course);
 
   useEffect(() => {
     if (!loading && !user) {
-      nav({ to: "/login", search: { redirect: course ? `/onboarding?course=${course}` : "/onboarding" } });
+      nav({
+        to: "/login",
+        search: { redirect: course ? `/onboarding?course=${course}` : "/onboarding" },
+      });
     }
   }, [user, loading, nav, course]);
 
@@ -145,6 +185,12 @@ function OnboardingPage() {
     // succeeding (the same way LanguageSwitcher.tsx and settings.tsx already
     // update local state before attempting to persist it remotely).
     setTargetLanguage(chosenTargetLanguage);
+    localStorage.setItem(accountKey("lume_target_language"), chosenTargetLanguage);
+    window.dispatchEvent(
+      new CustomEvent("language-changed", {
+        detail: { kind: "target", language: chosenTargetLanguage },
+      }),
+    );
 
     // The "level" step is a 3-tier self-assessment (Iniciante/Intermediário/
     // Avançado) — map it to a CEFR anchor and apply it to both level stores
@@ -194,9 +240,16 @@ function OnboardingPage() {
           "¡Perfil configurado! Empecemos.",
         ),
       );
-      productEvent("onboarding_completed", { course: chosenTargetLanguage, source: requestedCourse ? "first_lesson" : "direct" });
+      productEvent("onboarding_completed", {
+        course: chosenTargetLanguage,
+        source: requestedCourse ? "first_lesson" : "direct",
+      });
       if (requestedCourse && chosenLevel === "beginner") {
-        nav({ to: "/lesson/$id", params: { id: `lesson-${chosenTargetLanguage}-1` }, replace: true });
+        nav({
+          to: "/lesson/$id",
+          params: { id: `lesson-${chosenTargetLanguage}-1` },
+          replace: true,
+        });
       } else {
         nav({ to: requestedCourse ? "/lessons" : "/home", replace: true });
       }
@@ -284,7 +337,11 @@ function OnboardingPage() {
                   textTransform: "uppercase",
                 }}
               >
-                {t(`Passo ${step + 1} de ${steps.length}`, `Step ${step + 1} of ${steps.length}`, `Paso ${step + 1} de ${steps.length}`)}
+                {t(
+                  `Passo ${step + 1} de ${steps.length}`,
+                  `Step ${step + 1} of ${steps.length}`,
+                  `Paso ${step + 1} de ${steps.length}`,
+                )}
               </span>
             </div>
 
@@ -390,7 +447,11 @@ function OnboardingPage() {
             fontWeight: 600,
           }}
         >
-          {t("LangLume — Aprenda praticando", "LangLume — Learn by practicing", "LangLume — Aprende practicando")}
+          {t(
+            "LangLume — Aprenda praticando",
+            "LangLume — Learn by practicing",
+            "LangLume — Aprende practicando",
+          )}
         </p>
       </main>
     </div>

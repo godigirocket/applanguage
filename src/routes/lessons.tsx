@@ -28,6 +28,8 @@ import { generateLessons, normalizeStartLevel, cefrToTier } from "@/data/content
 import { useUserStore } from "@/store/userStore";
 import { FlagBR, FlagUS, FlagES } from "@/components/lume/Flags";
 import { LessonPath } from "@/components/lume/LessonPath";
+import { accountKey } from "@/lib/account-storage";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/lessons")({
   head: () => ({
@@ -196,6 +198,23 @@ function LessonsPage() {
     nav({ to: `/lesson/${lesson.id}` as any });
   };
 
+  const changeTargetLanguage = (language: "en" | "es" | "pt") => {
+    useStore.getState().setTargetLanguage(language);
+    localStorage.setItem(accountKey("lume_target_language"), language);
+    window.dispatchEvent(
+      new CustomEvent("language-changed", { detail: { kind: "target", language } }),
+    );
+    if (user) {
+      void supabase
+        .from("profiles")
+        .update({ target_language: language } as any)
+        .eq("id", user.id)
+        .then(({ error }) => {
+          if (error) console.warn("[Lessons] Could not save target language:", error.message);
+        });
+    }
+  };
+
   useEffect(() => {
     if (!loading && !user) {
       nav({ to: "/login" });
@@ -301,7 +320,7 @@ function LessonsPage() {
                     key={lang.code}
                     aria-pressed={targetLanguage === lang.code}
                     onClick={() => {
-                      useStore.getState().setTargetLanguage(lang.code);
+                      changeTargetLanguage(lang.code);
                       // Clear filters when changing language
                       setSearchQuery("");
                       setSelectedLevel("All");
